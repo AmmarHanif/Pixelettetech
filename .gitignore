@@ -1,0 +1,48 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Next.js build output
+/.next/
+/out/
+/build
+next-env.d.ts
+
+# Production
+/dist
+
+# Environment — NEVER commit these.
+# The only environment variable this app reads is CONTACT_WEBHOOK_URL, and it is
+# referenced by NAME in src/app/contact/actions.ts, never by value.
+.env
+.env.*
+!.env.example
+
+# Testing / coverage
+/coverage
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Editor and OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.pem
+Thumbs.db
+
+# Vercel / deployment
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+
+# Local audit scratch
+/audit-output

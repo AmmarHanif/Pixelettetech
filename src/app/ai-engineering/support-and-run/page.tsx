@@ -1,0 +1,231 @@
+import { ClosingCta } from '@/components/sections';
+import {
+  Cta,
+  Eyebrow,
+  JsonLd,
+  PillRow,
+  Placeholder,
+  Section,
+  SectionHead,
+  SourceNote,
+} from '@/components/ui';
+import { certified } from '@/content/company';
+import { runStats } from '@/content/sources';
+import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
+import { pageMetadata } from '@/lib/seo';
+
+import { OperatingDashboard } from './OperatingDashboard';
+
+export const metadata = pageMetadata({
+  title: 'AI Support & Run, from £1,500/mo',
+  description:
+    'A monthly contract that owns whether your AI is still accurate, safe and affordable. Evaluation, drift detection, cost control and defined severities.',
+  path: '/ai-engineering/support-and-run',
+});
+
+const commitments = [
+  {
+    title: 'Continuous evaluation',
+    body: 'Every release and a sampled share of live traffic scored against agreed acceptance thresholds, with the judge itself calibrated against human labels.',
+  },
+  {
+    title: 'Drift, including judge drift',
+    body: 'Input distribution drift, silent model version changes by your supplier, and movement in the evaluator’s own behaviour. The third is the one most people never watch.',
+  },
+  {
+    title: 'Cost control',
+    body: 'Token spend per unit of work, budget alerts, caching and batching, and a recommendation each quarter on whether a cheaper model would hold quality.',
+  },
+  {
+    title: 'Incident response',
+    body: 'Defined severities, a named responder, rollback procedure, and a written post-incident note that goes in your audit trail.',
+  },
+  {
+    title: 'Quarterly improvement',
+    body: 'One release a quarter aimed at the metric in your baseline, with the change in that metric reported rather than the work delivered.',
+  },
+];
+
+const tiers = [
+  {
+    name: 'Watch',
+    price: '£1,500',
+    unit: '/mo',
+    body: 'One production system. Monitoring, evaluation, monthly report, SEV-2 response.',
+  },
+  {
+    name: 'Operate',
+    price: '£3,000',
+    unit: '/mo',
+    body: 'Up to three systems. Adds SEV-1 response, cost optimisation and a quarterly improvement release.',
+  },
+  {
+    name: 'Estate',
+    price: null,
+    unit: '',
+    body: `Four or more systems, or a regulated environment needing named oversight. Audit and certification support is scoped separately with ${certified.name}.`,
+  },
+];
+
+const faqs = [
+  {
+    q: 'How much does an AI support and run contract cost?',
+    a: 'Watch is £1,500 a month for one production system, covering monitoring, evaluation, a monthly report and SEV-2 response. Operate is £3,000 a month for up to three systems, adding SEV-1 response, cost optimisation and a quarterly improvement release. Estate, for four or more systems or a regulated environment, is priced on application.',
+  },
+  {
+    q: 'What are the response times?',
+    a: 'SEV-1 within 1 hour, SEV-2 within 4 hours, SEV-3 by the next working day. Each incident gets a named responder, a rollback procedure and a written post-incident note for your audit trail.',
+  },
+  {
+    q: 'Will Pixelette support an AI system it did not build?',
+    a: 'Yes, once a baseline establishes what is being inherited. Running what somebody else wrote is the clearest proof that this is a capability rather than a warranty on our own work.',
+  },
+  {
+    q: 'What is judge drift?',
+    a: 'Movement in the behaviour of the model doing the grading, as distinct from drift in the input data or a silent model version change by a supplier. Almost nobody watches it, and it quietly invalidates your quality measurements when it happens.',
+  },
+];
+
+export default function SupportAndRunPage() {
+  return (
+    <>
+      <JsonLd
+        data={serviceSchema({
+          name: 'AI Support & Run',
+          description:
+            'A monthly contract covering continuous evaluation, drift detection, inference cost control, incident response against defined severities, and a quarterly improvement release.',
+          path: '/ai-engineering/support-and-run',
+          price: { low: 1500, currency: 'GBP', unit: 'MON' },
+          serviceType: 'Managed AI operations',
+        })}
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'AI engineering', path: '/ai-engineering' },
+          { name: 'Support & Run', path: '/ai-engineering/support-and-run' },
+        ])}
+      />
+      <JsonLd data={faqSchema(faqs)} />
+
+      <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
+        <div className="wrap">
+          <Eyebrow>Support & Run</Eyebrow>
+          <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
+            Somebody has to own whether it still works.
+          </h1>
+          <p className="lead" style={{ marginTop: 24 }}>
+            You built it, or you bought it, or a platform vendor deployed it. Six months on, nobody
+            can tell you whether it is still accurate, still safe, still affordable or still being
+            used. We take that contract.
+          </p>
+          <div className="btn-row" style={{ marginTop: 34 }}>
+            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="#dashboard" variant="secondary">
+              See a sample report
+            </Cta>
+          </div>
+
+          <div className="grid grid-3" style={{ marginTop: 48 }}>
+            {runStats.map(stat => (
+              <div className="tile" key={stat.value}>
+                <b>{stat.value}</b>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </div>
+          <SourceNote>{runStats[0]!.source}</SourceNote>
+        </div>
+      </div>
+
+      {/* ------------------------------------------------------- dashboard */}
+      <Section labelledBy="dash-heading" id="dashboard" style={{ background: '#F7FAFA' }}>
+        <SectionHead
+          eyebrow="The dashboard"
+          id="dash-heading"
+          title="What you see, every day, without asking."
+        />
+        <div style={{ marginTop: 36 }}>
+          <OperatingDashboard />
+        </div>
+        <p className="small" style={{ marginTop: 16, fontStyle: 'italic' }}>
+          Interface mock. Figures are illustrative sample data, not a client system.
+        </p>
+      </Section>
+
+      {/* ----------------------------------------------------- commitments */}
+      <Section labelledBy="commit-heading">
+        <SectionHead
+          title="What the contract actually commits us to."
+          id="commit-heading"
+          lead="No vague retainer. A severity model, response times, and a metric we report against whether it flatters us or not."
+        />
+        <PillRow
+          items={['SEV-1 · 1 hr', 'SEV-2 · 4 hrs', 'SEV-3 · next working day']}
+          style={{ marginTop: 26 }}
+        />
+        <div className="grid grid-3" style={{ marginTop: 36 }}>
+          {commitments.map(c => (
+            <div className="card" key={c.title}>
+              <h3 className="h4">{c.title}</h3>
+              <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
+                {c.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* --------------------------------------------------------- pricing */}
+      <Section labelledBy="pricing-heading" style={{ background: '#F7FAFA' }}>
+        <SectionHead
+          title="Pricing"
+          id="pricing-heading"
+          lead="Priced against the cost of the incidents and the wasted spend, not against a headcount."
+        />
+        <div className="grid grid-3" style={{ marginTop: 36 }}>
+          {tiers.map(tier => (
+            <div className="card" key={tier.name}>
+              <span className="step__n">{tier.name}</span>
+              <p style={{ marginTop: 4 }}>
+                {tier.price ? (
+                  <>
+                    <b
+                      className="mono"
+                      style={{
+                        fontSize: 34,
+                        color: 'var(--brand)',
+                        fontWeight: 500,
+                        letterSpacing: '-0.02em',
+                      }}
+                    >
+                      {tier.price}
+                    </b>
+                    <span className="small" style={{ marginLeft: 6 }}>
+                      {tier.unit}
+                    </span>
+                  </>
+                ) : (
+                  <Placeholder>ON APPLICATION</Placeholder>
+                )}
+              </p>
+              <p className="body" style={{ marginTop: 16, fontSize: 15 }}>
+                {tier.body}
+              </p>
+            </div>
+          ))}
+        </div>
+        <p className="body" style={{ marginTop: 30, maxWidth: '76ch' }}>
+          We will take on systems we did not build, once a baseline tells us what we are inheriting.
+          Running what somebody else wrote is the clearest proof that this is a capability rather than
+          a warranty on our own work.
+        </p>
+      </Section>
+
+      <ClosingCta title="Already have something in production?">
+        The baseline works just as well on a system that exists as on one that does not. We measure
+        what it is doing now and tell you what it would cost to keep it honest.
+      </ClosingCta>
+    </>
+  );
+}

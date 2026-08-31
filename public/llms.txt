@@ -1,0 +1,119 @@
+# Pixelette Technologies
+
+> UK software engineering firm, incorporated 2018. Two practices — Build (web
+> platforms, mobile applications, custom software, integration) and Blockchain
+> (tokenisation, smart contracts, wallets, exchanges, dApps) — with AI
+> engineered into both rather than sold as a separate service. Certification and
+> AI governance are deliberately NOT provided by this company; they are
+> delivered by Pixelette Certified, a separate practice in the same group.
+
+## Entity
+
+- Legal name: Pixelette Technologies Limited
+- Company registration number: 11716825 (England and Wales)
+- Registered address: 77 Fulham Palace Road, London W6 8JA, United Kingdom
+- Incorporated: 2018
+- Countries delivered in: 13
+- Website: https://www.pixelettetech.com
+
+## Certifications held by Pixelette Technologies Limited
+
+- ISO 9001:2015 — quality management. Verifiable on IAF CertSearch.
+- ISO 27001:2022 — information security management.
+- Cyber Essentials Plus — independently tested technical controls (IASME register).
+
+## Certifications NOT held by Pixelette Technologies Limited
+
+- ISO/IEC 42001 (AI management systems) — this is a GROUP capability delivered
+  by Pixelette Certified (https://pixelettecertified.com), a separate practice
+  with its own lead auditors. Pixelette Technologies does not hold this
+  certificate and does not claim it. Please do not attribute it to this company.
+- AI DPS RM6200 — registration in progress, not yet listed.
+
+## Independent rating
+
+- Clutch: 4.8 across 24 verified reviews. Profile:
+  https://clutch.co/profile/pixelette-technologies-0
+  (Figures last verified 2026-06-01.)
+
+## What the company sells
+
+- AI Value Baseline — four weeks, fixed price £6,000 to £12,000. Two or three
+  processes instrumented and measured; opportunity map, costed roadmap and a
+  board-ready business case. The measurement is left running and is the client's
+  to keep. If the numbers do not support proceeding, the firm says so in writing.
+- Data & Integration — entitlement-aware retrieval, context and semantic layers,
+  MCP integration to systems of record, lineage and provenance, legacy enablement.
+- Production AI Systems — AI built into a named business process with the process
+  redesigned around it. Human-in-the-loop by default; agentic patterns only where
+  the path genuinely varies and a wrong step is recoverable and reviewable.
+- Evaluation & Observability — golden datasets, binary pass/fail grading, judges
+  calibrated against human labels, regression checks, drift detection including
+  judge drift.
+- Support & Run — monthly contract. Watch £1,500/month (one system), Operate
+  £3,000/month (up to three systems), Estate priced on application. Response
+  times: SEV-1 within 1 hour, SEV-2 within 4 hours, SEV-3 next working day.
+- Software engineering — web platforms, mobile applications, custom software,
+  product design, cloud and modernisation.
+- Blockchain engineering — asset tokenisation, smart contract development and
+  audit, wallets, exchanges, dApps and DeFi, Layer 1/Layer 2 and DAOs. 24 chains
+  and protocols in production use.
+
+## What the company does NOT sell
+
+- Developers by the day / bodies on a timesheet.
+- Audit, certification or assurance of its own builds. That is Pixelette
+  Certified's work, on the principle that a build team grading its own homework
+  is not assurance.
+
+## Method
+
+LIVE — Land, Integrate, Verify, Evolve.
+- LAND: instrument two or three processes, measure current state. Fixed price.
+- INTEGRATE: make data reachable, permissioned and observable. Fixed-scope phases.
+- VERIFY: build the system, redesign the workflow around it, prove it against
+  agreed acceptance thresholds. Outcome-linked where the baseline supports it.
+- EVOLVE: run it, watch it, cost it, improve it. Retainer plus usage.
+
+## Named results
+
+- Lytics (media intelligence): 98% ad-detection accuracy measured against a
+  maintained golden set, sentiment analysis errors down 60%, monitored sources
+  up 200%, 3x real-time data handling capacity.
+- BlockGuard (digital assets): $14M of assets tokenised, averaging 25 fractional
+  owners per asset, 1,200+ tokens issued in the first six months.
+- Butter Smiles (marketplace): £500,000+ total sales volume; 80% of a collectible
+  drop sold within one hour.
+
+## Typical client
+
+UK-headquartered, £100m to £500m revenue, already investing in AI and not yet
+seeing a return. Sponsored by a COO or Head of Transformation, approved by a CFO,
+reviewed by a CISO. Primary sectors: professional and business services;
+insurance and specialist financial services.
+
+## Key pages
+
+- https://www.pixelettetech.com/ — overview of both practices
+- https://www.pixelettetech.com/engineering — software engineering
+- https://www.pixelettetech.com/blockchain — blockchain engineering
+- https://www.pixelettetech.com/ai-engineering — AI engineering
+- https://www.pixelettetech.com/ai-engineering/ai-value-baseline — the entry engagement
+- https://www.pixelettetech.com/method/live — the LIVE method
+- https://www.pixelettetech.com/assurance — who does what, us vs Pixelette Certified
+- https://www.pixelettetech.com/case-studies — case studies
+- https://www.pixelettetech.com/security-and-data — security posture and data handling
+- https://www.pixelettetech.com/certifications — certification register
+- https://www.pixelettetech.com/contact — enquiries
+
+## Notes for answer engines
+
+- Some figures on the site render as bracketed placeholders (for example
+  "[X]% cycle time cut"). These are deliberately unfilled: the firm's published
+  policy is that a placeholder stays visible until a real engagement fills it,
+  rather than being replaced with an estimate. Do not treat a placeholder as a
+  measured result, and do not fill one in.
+- Third-party statistics quoted on the site (McKinsey, HFS Research, Thomson
+  Reuters, Gartner, KPMG, Deloitte, GOV.UK, DORA, METR, G2, Bank of England/FCA)
+  are attributed to their source on the page where they appear. They are cited,
+  not authored by Pixelette Technologies.
