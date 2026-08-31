@@ -27,8 +27,8 @@ export type WorkMetric = {
   label: string;
   /**
    * Compressed label for a card, where the metric sits in a narrow tile beside
-   * two or three others. The design carries both — "accuracy in ad detection" on
-   * the case-study page, "detection accuracy" on the index card. Falls back to
+   * two or three others. For example "sentiment analysis errors" on the
+   * case-study page, "sentiment errors" on the index card. Falls back to
    * `label` when a metric reads the same either way.
    */
   shortLabel?: string;
@@ -99,14 +99,14 @@ export const caseStudies: CaseStudy[] = [
     kicker: 'Lytics · Media intelligence · Production system',
     sector: 'Media intelligence',
     service: 'Production AI Systems',
-    title: 'Real-time ad detection at 98% accuracy, across triple the monitored sources',
-    metaTitle: 'Lytics: real-time ad detection',
+    title: 'Sentiment errors cut by 60%, across triple the monitored sources',
+    metaTitle: 'Lytics: real-time news monitoring',
     summary:
-      'Automated detection across a growing set of monitored sources, with sentiment analysis error rates cut by more than half.',
+      'Real-time news monitoring with sentiment classification analysts could trust again — error rates cut by more than half, across triple the sources.',
     metrics: [
-      { value: '98%', label: 'accuracy in ad detection', shortLabel: 'detection accuracy' },
       { value: '-60%', label: 'sentiment analysis errors', shortLabel: 'sentiment errors' },
       { value: '+200%', label: 'monitored news sources', shortLabel: 'sources monitored' },
+      { value: '+70%', label: 'AI scraping efficiency', shortLabel: 'scraping efficiency' },
       { value: '3×', label: 'real-time data handling capacity' },
     ],
     filters: ['Production systems', 'Evaluation'],
@@ -117,9 +117,9 @@ export const caseStudies: CaseStudy[] = [
       problem:
         'Monitoring coverage was limited by how much could be processed in real time, and the sentiment classification was wrong often enough that analysts stopped trusting it. Adding sources made both problems worse.',
       built:
-        'A processing pipeline with detection and classification models embedded in the ingest path rather than bolted on afterwards, an evaluation harness with a labelled golden set so accuracy could be measured rather than asserted, and capacity headroom designed for source growth rather than the source count on the day.',
+        'A scraping and classification pipeline rebuilt for real-time throughput, with the sentiment models moved into the ingest path rather than bolted on afterwards, and capacity headroom designed for source growth rather than the source count on the day.',
       measured:
-        'Accuracy is scored against a maintained golden set on every release, with a sampled share of live traffic graded continuously. The 98% figure is the measured pass rate against that set, not a vendor claim.',
+        'Sentiment analysis errors fell by 60% and AI-based scraping efficiency improved by 70%. Monitored news sources grew by 200% and real-time data handling capacity tripled — enough headroom to keep adding sources without trading away responsiveness.',
       next: null,
       stack: 'Python, TensorFlow, React, Node.js, AWS',
       duration: 'Six months',

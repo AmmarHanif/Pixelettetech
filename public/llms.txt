@@ -77,13 +77,14 @@ LIVE — Land, Integrate, Verify, Evolve.
 
 ## Named results
 
-- Lytics (media intelligence): 98% ad-detection accuracy measured against a
-  maintained golden set, sentiment analysis errors down 60%, monitored sources
-  up 200%, 3x real-time data handling capacity.
+- Lytics (media intelligence): sentiment analysis errors down 60%, AI scraping
+  efficiency up 70%, monitored news sources up 200%, 3x real-time data handling
+  capacity.
 - BlockGuard (digital assets): $14M of assets tokenised, averaging 25 fractional
   owners per asset, 1,200+ tokens issued in the first six months.
-- Butter Smiles (marketplace): £500,000+ total sales volume; 80% of a collectible
-  drop sold within one hour.
+- Stay Sane (NFT collection): £500,000+ total sales volume; 80% of a collectible
+  drop sold within one hour. These figures belong to the 'Stay Sane' collection,
+  not to Butter Smiles, which is a separate engagement.
 
 ## Typical client
 
