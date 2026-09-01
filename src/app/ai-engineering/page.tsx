@@ -149,7 +149,8 @@ export default function AiEngineeringPage() {
 
           <div className="grid grid-4" style={{ marginTop: 48 }}>
             <StatTile value="ISO 9001" label="Certified · verify on the IAF registry" />
-            <StatTile value="ISO 27001" label="Certified · certificate published" />
+            {/* See ADR-0012: certificates are not published on the site. */}
+            <StatTile value="ISO 27001" label="Certified · verifiable on the register" />
             <StatTile
               value={String(clutch.ratingValue)}
               label={`Clutch rating across ${clutch.reviewCount} verified reviews`}

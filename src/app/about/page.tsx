@@ -76,7 +76,10 @@ export default function AboutPage() {
             <StatTile value={String(company.incorporated)} label={`Incorporated. CRN ${company.crn}`} />
             <StatTile value={String(company.countriesDelivered)} label="Countries delivered in" />
             <StatTile value="ISO 9001" label="Verifiable on the IAF registry" />
-            <StatTile value="ISO 27001" label="Certificate published" />
+            {/* Not "certificate published" — certificate documents are held
+                internally by founder decision (ADR-0012); the register is the
+                published route to verification. */}
+            <StatTile value="ISO 27001" label="Information security management" />
             <StatTile
               value={String(clutch.ratingValue)}
               label={`Clutch, ${clutch.reviewCount} verified reviews`}
