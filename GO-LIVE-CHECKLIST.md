@@ -36,7 +36,7 @@ per-field errors, and a valid submission with no endpoint configured fails
 honestly rather than showing a false success, keeping what the visitor typed.
 
 
-**54 placeholders across 13 pages.**
+**53 placeholders across 12 pages.**
 
 To find them in a browser, on any page:
 
@@ -82,10 +82,6 @@ Read by procurement and security reviewers. A visible gap is safer than a guess,
 ## Content — case studies awaiting client sign-off
 
 Each needs the client's written approval before the outstanding figures and quotes go up.
-
-**`/case-studies`**
-
-- [ ] `[YOUR ENGAGEMENT HERE]`
 
 **`/case-studies/anonymised-professional-services`**
 

@@ -60,9 +60,26 @@ export function Eyebrow({ children, id }: { children: ReactNode; id?: string }) 
  * Rendering it in amber monospace makes it obvious to a reviewer and trivial
  * to grep for before go-live.
  */
-export function Placeholder({ children }: { children: ReactNode }) {
+export function Placeholder({
+  children,
+  /**
+   * True for copy that deliberately *wears* the placeholder styling but is not
+   * an unfilled gap — currently only the "your engagement here" invitation on
+   * the work index, which borrows the site's own not-yet-filled idiom on
+   * purpose and will never be filled in.
+   *
+   * It keeps the amber treatment but drops `data-placeholder`, so the audit
+   * stops counting it as outstanding content. Without this it inflates the
+   * blocking count permanently — the checklist read 13 client sign-off items
+   * when one of them could never be signed off by anyone.
+   */
+  intentional = false,
+}: {
+  children: ReactNode;
+  intentional?: boolean;
+}) {
   return (
-    <span className="ph" data-placeholder="true">
+    <span className="ph" {...(intentional ? {} : { 'data-placeholder': 'true' })}>
       [{children}]
     </span>
   );

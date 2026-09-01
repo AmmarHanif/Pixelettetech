@@ -137,7 +137,7 @@ export default async function WorkPage({
             <div className="work-card work-card--empty">
               <MediaSlot label="Next case study" />
               <span className="mono work-card__kicker">
-                <Placeholder>YOUR ENGAGEMENT HERE</Placeholder>
+                <Placeholder intentional>YOUR ENGAGEMENT HERE</Placeholder>
               </span>
               <h3 className="h3" style={{ marginTop: 12 }}>
                 Your engagement here
