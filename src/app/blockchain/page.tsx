@@ -79,7 +79,7 @@ const faqs = [
 
 export default function BlockchainPage() {
   const featured = caseStudies.filter(c =>
-    ['blockguard-asset-tokenisation', 'stay-sane-nft-collection', 'diamond-nxt-provenance'].includes(
+    ['blockguard', 'chysler', 'diamond-nxt'].includes(
       c.slug,
     ),
   );

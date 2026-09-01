@@ -103,8 +103,8 @@ const faqs = [
 export default function AiEngineeringPage() {
   const proof = caseStudies.filter(c =>
     [
-      'lytics-real-time-ad-detection',
-      'blockguard-asset-tokenisation',
+      'lytics',
+      'blockguard',
       'pixelette-group-bid-cycle',
     ].includes(c.slug),
   );

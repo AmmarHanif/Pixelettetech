@@ -101,7 +101,7 @@ export default function EngineeringPage() {
     // is the platform, exactly as designed. Stay Sane fills the marketplace
     // slot the board labelled Butter Smiles — those figures are Stay Sane's
     // (ADR-0006). LawLedger fills the board's third, empty card with real work.
-    ['blockguard-asset-tokenisation', 'stay-sane-nft-collection', 'law-ledger-transactions'].includes(
+    ['blockguard', 'chysler', 'law-ledger'].includes(
       c.slug,
     ),
   );
