@@ -17,6 +17,7 @@ Requires only the Python standard library.
 import argparse
 import collections
 import json
+import pathlib
 import re
 import sys
 from urllib.error import HTTPError, URLError
@@ -164,6 +165,45 @@ def check_placeholders(pages):
     return found
 
 
+def check_slug_references():
+    """Every hardcoded case-study slug in source must name a real case study.
+
+    Guards a defect that shipped and survived four commits: renaming the slugs
+    (ADR-0011) left the practice pages' hardcoded `featured` lists pointing at
+    names that no longer existed, so `.filter()` matched nothing and
+    /engineering and /blockchain rendered a heading and an "All work" link
+    above empty space.
+
+    Nothing else catches this. TypeScript cannot check a string literal against
+    the data; the build succeeds because an empty array is valid; and the link
+    and SEO checks pass because an empty section still has resolving links and
+    well-formed metadata. It is only visible by looking at the page — so it is
+    checked here instead.
+    """
+    root = pathlib.Path(__file__).resolve().parent.parent
+    work = (root / "src" / "content" / "work.ts").read_text(encoding="utf-8")
+    real = set(re.findall(r"^\s*slug: '([^']+)'", work, re.M))
+    if not real:
+        return [("src/content/work.ts", "could not read any slugs — check the file")]
+
+    bad = []
+    for path in sorted((root / "src").rglob("*.tsx")) + sorted((root / "src").rglob("*.ts")):
+        if path.name == "work.ts":
+            continue
+        text = path.read_text(encoding="utf-8")
+        # Slug references appear inside .includes([...]) lists and getCaseStudy('...').
+        for chunk in re.findall(r"\.includes\(|getCaseStudy\(", text):
+            pass
+        for m in re.finditer(r"\[([^\]]*?)\]\.includes\(", text, re.S):
+            for slug in re.findall(r"'([a-z0-9][a-z0-9-]{3,})'", m.group(1)):
+                if slug not in real:
+                    bad.append((str(path.relative_to(root)).replace("\\", "/"), slug))
+        for slug in re.findall(r"getCaseStudy\('([^']+)'\)", text):
+            if slug not in real:
+                bad.append((str(path.relative_to(root)).replace("\\", "/"), slug))
+    return bad
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--port", type=int, default=3000, help="port the site is served on (default 3000)")
@@ -189,6 +229,7 @@ def main():
     broken += [(("<crawl>"), p, "HTTP %s" % s) for p, s in unreachable]
     problems, rows, faq_total = check_seo(pages)
     placeholders = check_placeholders(pages)
+    stale_slugs = check_slug_references()
 
     print("Pages reached : %d" % len(pages))
     print("Assets checked: %d" % asset_count)
@@ -208,6 +249,14 @@ def main():
     else:
         print("LINKS: ok — every internal link, anchor and asset resolves")
 
+    if stale_slugs:
+        print("\nSLUG REFERENCES: %d stale — a hardcoded slug names no case study" % len(stale_slugs))
+        print("  (this empties a section silently: the build and the link/SEO checks all pass)")
+        for path, slug in sorted(set(stale_slugs)):
+            print("  %-46s '%s'" % (path, slug))
+    else:
+        print("SLUG REFERENCES: ok — every hardcoded slug resolves to a real case study")
+
     if problems:
         print("\nSEO: %d problems" % len(problems))
         for path, why in problems:
@@ -224,7 +273,7 @@ def main():
         path = write_checklist(placeholders, total)
         print("\nwrote %s" % path)
 
-    failed = bool(broken or problems)
+    failed = bool(broken or problems or stale_slugs)
     print("\n%s" % ("FAIL" if failed else "PASS"))
     return 1 if failed else 0
 
