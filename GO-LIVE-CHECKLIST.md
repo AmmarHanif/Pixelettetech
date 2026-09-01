@@ -223,7 +223,7 @@ Pricing detail to confirm.
       the contact form tells visitors it is not connected rather than silently
       dropping enquiries — but it is still not collecting them.
 - [ ] Confirm the production domain matches `SITE_URL` in `src/content/company.ts`
-      (currently `https://www.pixelettetech.com`). Canonicals, the sitemap and the
+      (currently `https://pixelettetech.com`). Canonicals, the sitemap and the
       OpenGraph URLs are all derived from it.
 - [ ] Re-verify the Clutch rating and review count in `src/content/company.ts`;
       the committed figures were last checked 2026-06-01.

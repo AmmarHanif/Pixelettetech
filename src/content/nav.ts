@@ -107,7 +107,7 @@ export const groupEntities: GroupEntity[] = [
   {
     name: 'Pixelette Technologies',
     what: 'Software engineering, blockchain systems, and the AI built into both.',
-    href: 'https://www.pixelettetech.com',
+    href: 'https://pixelettetech.com',
     isThisEntity: true,
   },
   {

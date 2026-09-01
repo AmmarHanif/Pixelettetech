@@ -14,7 +14,7 @@
 - Registered address: 77 Fulham Palace Road, London W6 8JA, United Kingdom
 - Incorporated: 2018
 - Countries delivered in: 13
-- Website: https://www.pixelettetech.com
+- Website: https://pixelettetech.com
 
 ## Certifications held by Pixelette Technologies Limited
 
@@ -95,17 +95,17 @@ insurance and specialist financial services.
 
 ## Key pages
 
-- https://www.pixelettetech.com/ — overview of both practices
-- https://www.pixelettetech.com/engineering — software engineering
-- https://www.pixelettetech.com/blockchain — blockchain engineering
-- https://www.pixelettetech.com/ai-engineering — AI engineering
-- https://www.pixelettetech.com/ai-engineering/ai-value-baseline — the entry engagement
-- https://www.pixelettetech.com/method/live — the LIVE method
-- https://www.pixelettetech.com/assurance — who does what, us vs Pixelette Certified
-- https://www.pixelettetech.com/case-studies — case studies
-- https://www.pixelettetech.com/security-and-data — security posture and data handling
-- https://www.pixelettetech.com/certifications — certification register
-- https://www.pixelettetech.com/contact — enquiries
+- https://pixelettetech.com/ — overview of both practices
+- https://pixelettetech.com/engineering — software engineering
+- https://pixelettetech.com/blockchain — blockchain engineering
+- https://pixelettetech.com/ai-engineering — AI engineering
+- https://pixelettetech.com/ai-engineering/ai-value-baseline — the entry engagement
+- https://pixelettetech.com/method/live — the LIVE method
+- https://pixelettetech.com/assurance — who does what, us vs Pixelette Certified
+- https://pixelettetech.com/case-studies — case studies
+- https://pixelettetech.com/security-and-data — security posture and data handling
+- https://pixelettetech.com/certifications — certification register
+- https://pixelettetech.com/contact — enquiries
 
 ## Notes for answer engines
 

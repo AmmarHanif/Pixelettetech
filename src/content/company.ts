@@ -7,7 +7,14 @@
  * verifiable it belongs in `PLACEHOLDERS`, not here.
  */
 
-export const SITE_URL = 'https://www.pixelettetech.com';
+/**
+ * Apex, no `www` — deliberately. The live site's canonicals declare
+ * `https://pixelettetech.com/...`, so that host is the indexed identity of every
+ * preserved URL (ADR-0011). Keeping it makes the preservation complete at the
+ * host level; `www` would have silently changed every "byte-identical" URL.
+ * Verified against the live site's own metadata 2026-08-31.
+ */
+export const SITE_URL = 'https://pixelettetech.com';
 
 export const company = {
   legalName: 'Pixelette Technologies Limited',
