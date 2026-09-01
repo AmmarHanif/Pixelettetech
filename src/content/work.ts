@@ -431,6 +431,173 @@ export const caseStudies: CaseStudy[] = [
       architectureLabel: 'Custody architecture',
     },
   },
+  /*
+   * The five below were reinstated by founder decision on 2026-09-01 ("new site
+   * have these case studies"), which closed the redirect question outright:
+   * all 16 live URLs now exist here, zero redirects needed. Content was carried
+   * from the live records with the known copy-paste defects stripped, not
+   * repeated: Life Optimizer's "92% among legal professionals" box (LawLedger's),
+   * Beyorch's impact description (Lytics'), Smart Contractor's banner
+   * (law-ledger's — it has no artwork of its own, so it ships without an image),
+   * and the identical ML stack pasted across three unrelated projects (kept only
+   * at its natural home, Life Optimizer; Smart Contractor uses the stack its own
+   * live page publishes; Ragnar keeps only what its narrative grounds). Beyorch's
+   * metrics were commented out in the source — withdrawn deliberately — so none
+   * are shown rather than revived.
+   */
+  {
+    slug: 'accessible-intelligence-assessment',
+    client: 'AIA',
+    kicker: 'AIA · Inclusive hiring · Production AI system',
+    sector: 'HR technology',
+    service: 'Production AI Systems',
+    title: 'Gamified cognitive assessment for inclusive hiring',
+    metaTitle: 'AIA: inclusive hiring assessment',
+    summary:
+      'A science-backed assessment tool for candidates with auditory, visual or dual impairments — meeting diversity hiring quotas with evidence.',
+    metrics: [
+      { value: '$20k', label: 'average recruitment cost saving per organisation', shortLabel: 'saved per organisation' },
+      { value: '98%', label: 'successful integration with existing ATS tooling', shortLabel: 'ATS integration' },
+      { value: '4.7/5', label: 'post-assessment satisfaction rating' },
+    ],
+    filters: ['Production systems'],
+    image: '/work/aia.png',
+    imageLabel: 'Product screenshot',
+    detail: {
+      problem:
+        'Organisations struggle to meet mandated hiring quotas for people with disabilities: assessing candidates with sensory, physical or intellectual impairments fairly is hard, and the compliance requirement makes getting it wrong expensive in both directions.',
+      built:
+        'AIA, a gamified cognitive mapping tool for DiverSCInnova that assesses up to ten cognitive skills — focus, attention, logical reasoning among them — and produces detailed reports for inclusive hiring, role alignment and vocational guidance.',
+      measured:
+        'An estimated $20,000 saved per organisation in recruitment costs through better candidate matching, 98% successful integration with existing recruitment tools, and a 4.7/5 satisfaction rating on post-assessment surveys.',
+      next: null,
+      stack: 'React, Node.js, MongoDB, Stripe, OpenAI',
+      duration: 'Seven months',
+      architectureLabel: 'Assessment pipeline',
+    },
+  },
+  {
+    slug: 'beyorch',
+    client: 'Beyorch',
+    kicker: 'Beyorch · Digital assets · Blockchain',
+    sector: 'Digital assets',
+    service: 'Blockchain engineering',
+    title: 'A decentralised investment platform built for transparency',
+    metaTitle: 'Beyorch: DeFi investment platform',
+    summary:
+      'Smart contracts, automated financial processes and secure tokenomics for an investment ecosystem that reduces reliance on intermediaries.',
+    // Beyorch's outcome figures were withdrawn in the source record (commented
+    // out, deliberately). None are shown here rather than revived — a withdrawn
+    // figure is not a pending one.
+    metrics: [],
+    filters: ['Blockchain', 'Financial services'],
+    image: '/work/beyorch.png',
+    imageLabel: 'Platform screenshot',
+    detail: {
+      problem:
+        'Traditional financial systems make it hard for investors to track assets and act quickly: manual processes, intermediaries and limited transparency all raise risk exposure and erode confidence.',
+      built:
+        'A blockchain-powered investment platform integrating smart contracts, automated financial processes and secure tokenomics — real-time asset tracking, instant transactions, and security designed in rather than added on.',
+      measured:
+        'The engagement’s outcome figures were withdrawn from publication and are not repeated here.',
+      next: null,
+      stack: 'Polkadot, Hyperledger, Go, C++, React',
+      duration: null,
+      architectureLabel: 'Platform architecture',
+    },
+  },
+  {
+    slug: 'life-optimizer-ai',
+    client: 'LifeOptimizer AI',
+    kicker: 'LifeOptimizer AI · HealthTech · Production AI system',
+    sector: 'HealthTech',
+    service: 'Production AI Systems',
+    title: 'Wellness plans people still follow six months later',
+    metaTitle: 'LifeOptimizer: AI wellness platform',
+    summary:
+      'Personalised fitness, nutrition and stress management driven by behavioural analysis — measured on whether people keep using it, not whether they sign up.',
+    metrics: [
+      { value: '+75%', label: 'user engagement', shortLabel: 'engagement' },
+      { value: '60%', label: 'of users maintained routines beyond six months', shortLabel: 'six-month retention' },
+      { value: '-40%', label: 'reported anxiety levels', shortLabel: 'anxiety levels' },
+    ],
+    filters: ['Production systems', 'Healthcare'],
+    image: '/work/life-optimizer-ai.png',
+    imageLabel: 'Product screenshot',
+    detail: {
+      problem:
+        'Generic wellness programmes fail because they do not adapt: without personalised guidance, motivation fades and progress tracking becomes a chore rather than a habit.',
+      built:
+        'An AI-powered wellness platform that adapts to each user’s health goals and daily routines — machine learning over health data with real-time feedback, delivering customised fitness, nutrition and mental wellbeing plans with AI-driven coaching.',
+      measured:
+        'Engagement up 75%, driven by interactive tracking and personalised recommendations. 60% of users maintained their wellness routines beyond six months, and stress-management features cut reported anxiety levels by 40%.',
+      next: null,
+      stack: 'Python, TensorFlow, PyTorch, AWS, PostgreSQL, React',
+      duration: null,
+      architectureLabel: 'Platform architecture',
+    },
+  },
+  {
+    slug: 'ragnar-token',
+    client: 'Ragnar Token',
+    kicker: 'Ragnar Token · Digital assets · Blockchain',
+    sector: 'Digital assets',
+    service: 'Blockchain engineering',
+    title: 'A token and platform connecting banking with crypto',
+    metaTitle: 'Ragnar Token: banking meets crypto',
+    summary:
+      'An ERC-20 token and its platform built end to end for Ragnar Trading Limited — buying, swapping and managing tokens as familiar as online banking.',
+    metrics: [
+      { value: '12%', label: 'of visitors became token holders', shortLabel: 'visitor conversion' },
+      { value: '<1 min', label: 'to buy or swap a token' },
+    ],
+    filters: ['Blockchain', 'Financial services'],
+    image: '/work/ragnar-token.png',
+    imageLabel: 'Platform screenshot',
+    detail: {
+      problem:
+        'Ragnar Trading Limited needed an entire ecosystem from scratch: a token transaction system that worked efficiently, and a platform intuitive enough that people new to digital assets could adopt it without a learning curve.',
+      built:
+        'Ragnar Token ($RAG), an ERC-20 token on Ethereum designed for transactions and capital raising, alongside a web platform with real-time price tracking and transaction history — the familiarity of traditional banking with the flexibility of crypto.',
+      measured:
+        '12% of platform visitors became token holders, and buying or swapping the token takes under a minute end to end.',
+      next: null,
+      stack: 'Ethereum (ERC-20), web platform',
+      duration: null,
+      architectureLabel: 'Token and platform architecture',
+    },
+  },
+  {
+    slug: 'smart-contractor',
+    client: 'SmartContractor',
+    kicker: 'SmartContractor · LegalTech · Blockchain',
+    sector: 'LegalTech',
+    service: 'Blockchain engineering',
+    title: 'Contract execution time cut by 60%',
+    metaTitle: 'SmartContractor: automated contracts',
+    summary:
+      'Blockchain-backed contract management that automates execution and validation — with the audit trail built in rather than reconstructed afterwards.',
+    metrics: [
+      { value: '-60%', label: 'contract execution time', shortLabel: 'execution time' },
+      { value: '95%', label: 'of manual processing errors eliminated', shortLabel: 'errors eliminated' },
+      { value: '-40%', label: 'contract management costs', shortLabel: 'management costs' },
+      { value: '94%', label: 'adoption among legal professionals', shortLabel: 'adoption' },
+    ],
+    filters: ['Blockchain', 'Legal'],
+    imageLabel: 'Case study image',
+    detail: {
+      problem:
+        'Manual contract processes meant delays, human error and compliance risk: contracts needed continuous oversight, costs rose with every intermediary, and enforcement depended on records that could be disputed.',
+      built:
+        'A blockchain-integrated smart contract management system that automates execution with real-time tracking and tamper-proof records — contracts created, executed and monitored with complete transparency, and automated validation replacing manual checking.',
+      measured:
+        'Contract execution time down 60%, 95% of manual processing errors eliminated through automated validation, management costs down 40%, and a 94% adoption rate among legal professionals — with automated audit trails supporting regulatory compliance.',
+      next: null,
+      stack: 'Solidity, Hyperledger Fabric, Web3.js, IPFS, PostgreSQL, AWS',
+      duration: null,
+      architectureLabel: 'Contract lifecycle architecture',
+    },
+  },
   {
     slug: 'pixelette-group-bid-cycle',
     client: 'Pixelette Group',

@@ -355,7 +355,20 @@ rediscovered as new. All of them disappear when the new site launches.
       replacement if ever wanted, from AdWatch's own milestone: "Achieved up to
       98% accuracy in automated ad detection across live media streams."
 - [ ] `chain-legal` displays ragnar-token's banner image; `smart-contractor`
-      displays law-ledger's. Both have their own artwork in their own folders.
+      displays law-ledger's. chain-legal has its own artwork in its own folder;
+      smart-contractor has NO image folder at all (checked 2026-09-01 — an
+      earlier version of this row wrongly said both had their own artwork).
+- [ ] Beyorch's impact description is Lytics' text — "AI-driven news monitoring
+      and sentiment analysis" on a DeFi investment platform (`caseStudiesData.ts`,
+      beyorch impactStats.description; renders live). Found 2026-09-01.
+- [ ] Life Optimizer's third impact box is LawLedger's text — "92% satisfaction
+      rate among legal professionals ... managing transactions" on a wellness
+      platform. Found 2026-09-01. Neither defect was carried to the new site's
+      reinstated entries.
+- [ ] life-optimizer-ai, ragnar-token and smart-contractor share one identical
+      pasted techStack (python/TensorFlow/PyTorch/aws/postgresql/reactjs) — an
+      ML stack on two blockchain builds. The new site keeps it only at its
+      plausible home (Life Optimizer) and grounds the other two differently.
 - [ ] AdWatch's entire "Testing and deployment" milestone — text naming "the
       AdWatch Engine into live media streams" — is live verbatim on **Fusio**
       (crypto portfolio management) and **Lytics** (news monitoring). Neither
