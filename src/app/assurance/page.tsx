@@ -41,7 +41,7 @@ const comparison = [
   },
   {
     row: 'Entity',
-    tech: 'Pixelette Technologies Limited',
+    tech: 'Pixelette Technologies Ltd',
     cert: 'Pixelette Certified',
   },
 ];

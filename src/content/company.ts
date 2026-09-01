@@ -17,7 +17,8 @@
 export const SITE_URL = 'https://pixelettetech.com';
 
 export const company = {
-  legalName: 'Pixelette Technologies Limited',
+  /** Exactly as registered at Companies House (checked 2026-09-01): LTD, not Limited. */
+  legalName: 'Pixelette Technologies Ltd',
   name: 'Pixelette Technologies',
   shortName: 'Pixelette',
   crn: '11716825',

@@ -14,7 +14,7 @@ export const metadata = pageMetadata({
 const faqs = [
   {
     q: 'Does Pixelette Technologies hold ISO/IEC 42001?',
-    a: 'No. ISO/IEC 42001 for AI management systems is a group capability delivered by Pixelette Certified, a separate practice with its own lead auditors. Pixelette Technologies Limited does not hold that certificate and does not claim it.',
+    a: 'No. ISO/IEC 42001 for AI management systems is a group capability delivered by Pixelette Certified, a separate practice with its own lead auditors. Pixelette Technologies Ltd does not hold that certificate and does not claim it.',
   },
   {
     q: 'Is Pixelette Technologies on the AI DPS RM6200 framework?',

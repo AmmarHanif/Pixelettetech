@@ -14,7 +14,7 @@ export const metadata = pageMetadata({
 const faqs = [
   {
     q: 'When was Pixelette Technologies founded?',
-    a: 'Pixelette Technologies Limited was incorporated in 2018 under company registration number 11716825, and is headquartered at 77 Fulham Palace Road, London W6 8JA. It has delivered production software across thirteen countries.',
+    a: 'Pixelette Technologies Ltd was incorporated in 2018 under company registration number 11716825, and is headquartered at 77 Fulham Palace Road, London W6 8JA. It has delivered production software across thirteen countries.',
   },
   {
     q: 'What is Pixelette Technologies’ connection to UK AI policy?',

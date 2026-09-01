@@ -9,20 +9,20 @@
 
 ## Entity
 
-- Legal name: Pixelette Technologies Limited
+- Legal name: Pixelette Technologies Ltd
 - Company registration number: 11716825 (England and Wales)
 - Registered address: 77 Fulham Palace Road, London W6 8JA, United Kingdom
 - Incorporated: 2018
 - Countries delivered in: 13
 - Website: https://pixelettetech.com
 
-## Certifications held by Pixelette Technologies Limited
+## Certifications held by Pixelette Technologies Ltd
 
 - ISO 9001:2015 — quality management. Verifiable on IAF CertSearch.
 - ISO 27001:2022 — information security management.
 - Cyber Essentials Plus — independently tested technical controls (IASME register).
 
-## Certifications NOT held by Pixelette Technologies Limited
+## Certifications NOT held by Pixelette Technologies Ltd
 
 - ISO/IEC 42001 (AI management systems) — this is a GROUP capability delivered
   by Pixelette Certified (https://pixelettecertified.com), a separate practice
