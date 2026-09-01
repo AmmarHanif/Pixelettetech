@@ -77,8 +77,15 @@ export const certifications: Certification[] = [
     standard: 'ISO 27001:2022',
     status: 'Certified',
     note: 'Information security management system',
-    verifyLabel: 'Certificate',
-    verifyUrl: '/security-and-data',
+    /*
+     * Founder decision 2026-09-01: certificate documents are held internally
+     * and are NOT published on the site. This link was previously labelled
+     * "Certificate" and pointed at /security-and-data, which hosts none — a
+     * promise the page could not keep (audit finding C8). It now points at the
+     * public register, labelled as what it is.
+     */
+    verifyLabel: 'IAF CertSearch',
+    verifyUrl: 'https://www.iafcertsearch.org/',
   },
   {
     standard: 'Cyber Essentials Plus',

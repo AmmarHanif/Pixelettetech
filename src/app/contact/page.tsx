@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: 'Where do I find answers for a security questionnaire?',
-    a: 'Most answers are already published on our security and data page: certificates, subprocessors, data residency and our AI governance policy. We publish them rather than sending them on request.',
+    a: 'Most answers are already published on our security and data page: our certification status, subprocessors, data residency and our AI governance policy. We publish the answers rather than sending them on request; certificate documents themselves are held internally and verifiable on the public registers.',
   },
 ];
 
@@ -120,8 +120,8 @@ export default function ContactPage() {
           <div className="card">
             <h3 className="h4">Procurement and security</h3>
             <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-              Certificates, subprocessors, data residency and our AI governance policy are published
-              rather than sent on request.
+              Our certification status, subprocessors, data residency and AI governance policy are
+              published rather than sent on request.
             </p>
             <p style={{ marginTop: 16 }}>
               <FLink href="/security-and-data">Security & data page</FLink>

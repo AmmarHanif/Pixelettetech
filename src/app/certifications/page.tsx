@@ -50,6 +50,29 @@ export default function CertificationsPage() {
         <h2 className="visually-hidden-heading" id="cert-table-heading">
           Certification register
         </h2>
+
+        {/* Founder decision 2026-09-01: certificate documents stay internal.
+            The site shows the accreditation marks and a plain statement, and
+            verification goes through the public registers — never a link
+            labelled as a certificate that does not show one. */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 28,
+            flexWrap: 'wrap',
+            marginBottom: 36,
+          }}
+        >
+          <img src="/certifications/iso-9001.svg" alt="ISO 9001:2015 certified" width={96} height={96} />
+          <img src="/certifications/iso-27001.svg" alt="ISO 27001:2022 certified" width={96} height={96} />
+          <p className="body" style={{ maxWidth: '52ch', margin: 0 }}>
+            We hold these accreditations and stand behind what they certify. The certificate
+            documents themselves are held internally rather than published here; each row below
+            names the public register where our certification status can be checked.
+          </p>
+        </div>
+
         <VerificationTable withHeading={false} />
       </Section>
 

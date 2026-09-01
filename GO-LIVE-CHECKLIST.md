@@ -36,7 +36,7 @@ per-field errors, and a valid submission with no endpoint configured fails
 honestly rather than showing a false success, keeping what the visitor typed.
 
 
-**77 placeholders across 27 pages.**
+**72 placeholders across 26 pages.**
 
 To find them in a browser, on any page:
 
@@ -64,14 +64,6 @@ These carry legal exposure. None should be published in its current state.
 - [ ] `[DATE — set at legal sign-off]`
 - [ ] `[LIABILITY WORDING — requires legal review before publication]`
 - [ ] `[GOVERNING LAW AND JURISDICTION CLAUSE — confirm with legal]`
-
-**`/modern-slavery`**
-
-- [ ] `[DATE — set at legal sign-off]`
-- [ ] `[POLICY SET AND SUPPLIER DUE-DILIGENCE PROCESS — confirm before publication]`
-- [ ] `[RISK ASSESSMENT AND THE CONTROLS THAT FOLLOW FROM IT]`
-- [ ] `[STAFF TRAINING POSITION]`
-- [ ] `[BOARD APPROVAL, SIGNATORY AND FINANCIAL YEAR COVERED]`
 
 **`/assurance`**
 
