@@ -177,8 +177,18 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               <dd>{cs.sector}</dd>
               <dt>Service</dt>
               <dd>{cs.service}</dd>
-              <dt>Duration</dt>
-              <dd>{cs.detail?.duration ?? <Placeholder>MONTHS</Placeholder>}</dd>
+              {/* Founder decision 2026-09-01: where the duration is not on
+                  record, the row is omitted rather than shown as a placeholder.
+                  Duration is not a selling point — the metrics above it are —
+                  and an absent row reads as deliberate where an amber [MONTHS]
+                  reads as unfinished. Only five engagements state a duration in
+                  the source record; the rest are simply not published. */}
+              {cs.detail?.duration ? (
+                <>
+                  <dt>Duration</dt>
+                  <dd>{cs.detail.duration}</dd>
+                </>
+              ) : null}
               <dt>Stack</dt>
               <dd>{cs.detail?.stack ?? <Placeholder>STACK</Placeholder>}</dd>
             </dl>

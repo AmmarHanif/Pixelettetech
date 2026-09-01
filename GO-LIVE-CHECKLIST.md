@@ -36,7 +36,7 @@ per-field errors, and a valid submission with no endpoint configured fails
 honestly rather than showing a false success, keeping what the visitor typed.
 
 
-**67 placeholders across 23 pages.**
+**54 placeholders across 13 pages.**
 
 To find them in a browser, on any page:
 
@@ -90,12 +90,7 @@ Each needs the client's written approval before the outstanding figures and quot
 **`/case-studies/anonymised-professional-services`**
 
 - [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
-- [ ] `[MONTHS]`
 - [ ] `[STACK]`
-
-**`/case-studies/beyorch`**
-
-- [ ] `[MONTHS]`
 
 **`/case-studies/blockguard`**
 
@@ -103,31 +98,6 @@ Each needs the client's written approval before the outstanding figures and quot
 - [ ] `[CLIENT QUOTE, WITH SIGN-OFF]`
 - [ ] `[NAME]`
 - [ ] `[ROLE]`
-- [ ] `[MONTHS]`
-
-**`/case-studies/chain-legal`**
-
-- [ ] `[MONTHS]`
-
-**`/case-studies/chysler`**
-
-- [ ] `[MONTHS]`
-
-**`/case-studies/diamond-nxt`**
-
-- [ ] `[MONTHS]`
-
-**`/case-studies/digital-asset-vault`**
-
-- [ ] `[MONTHS]`
-
-**`/case-studies/law-ledger`**
-
-- [ ] `[MONTHS]`
-
-**`/case-studies/life-optimizer-ai`**
-
-- [ ] `[MONTHS]`
 
 **`/case-studies/lytics`**
 
@@ -136,23 +106,10 @@ Each needs the client's written approval before the outstanding figures and quot
 - [ ] `[NAME]`
 - [ ] `[ROLE]`
 
-**`/case-studies/mind-coach-ai`**
-
-- [ ] `[MONTHS]`
-
 **`/case-studies/pixelette-group-bid-cycle`**
 
 - [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
-- [ ] `[MONTHS]`
 - [ ] `[STACK]`
-
-**`/case-studies/ragnar-token`**
-
-- [ ] `[MONTHS]`
-
-**`/case-studies/smart-contractor`**
-
-- [ ] `[MONTHS]`
 
 ## Content — sector proof
 
