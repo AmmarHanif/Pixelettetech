@@ -427,6 +427,9 @@ export const caseStudies: CaseStudy[] = [
         '60% cold storage adoption — the migration figure, which is the one that tells you whether a custody product actually works in practice.',
       next: null,
       stack: 'React, Go, Hyperledger',
+      /* Stays null. The live record's only "6 months" here is "100+ businesses
+         onboarded within the first 6 months" — an adoption window, not how long
+         the build took. Founder-supplied duration only. */
       duration: null,
       architectureLabel: 'Custody architecture',
     },
@@ -533,6 +536,9 @@ export const caseStudies: CaseStudy[] = [
         'Engagement up 75%, driven by interactive tracking and personalised recommendations. 60% of users maintained their wellness routines beyond six months, and stress-management features cut reported anxiety levels by 40%.',
       next: null,
       stack: 'Python, TensorFlow, PyTorch, AWS, PostgreSQL, React',
+      /* Stays null. The live record's only "six months" here is "60% of users
+         maintained their wellness routines for over six months" — a retention
+         window, not a build duration. Founder-supplied duration only. */
       duration: null,
       architectureLabel: 'Platform architecture',
     },
