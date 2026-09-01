@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 import { SITE_URL } from '@/content/company';
+import { SITE_IN_DEVELOPMENT } from '@/content/launch';
 
 /**
  * robots.txt.
@@ -12,6 +13,17 @@ import { SITE_URL } from '@/content/company';
  * conversation it is trying to win.
  */
 export default function robots(): MetadataRoute.Robots {
+  // While in development, disallow everything. The per-page noindex tag tells a
+  // crawler not to KEEP a page; this tells it not to FETCH one. Both are needed:
+  // a meta tag only works on pages the crawler has already downloaded.
+  if (SITE_IN_DEVELOPMENT) {
+    return {
+      rules: [{ userAgent: '*', disallow: '/' }],
+      // No sitemap while hidden — advertising a sitemap invites the crawl this
+      // is meant to prevent.
+    };
+  }
+
   return {
     rules: [
       {

@@ -165,6 +165,24 @@ def check_placeholders(pages):
     return found
 
 
+def check_noindex(pages):
+    """Is the site currently hidden from search engines?
+
+    A forgotten `noindex` is the one defect that ships silently and costs
+    everything: the site launches, every page works, and it ranks for nothing.
+    Nothing else catches it — the build succeeds, links resolve, metadata is
+    well-formed, and the tag is invisible to a human reading the page.
+
+    So the audit refuses to pass while it is on. That converts the failure mode
+    from silent to unmissable, which is the whole reason the flag is safe to use.
+    """
+    hidden = []
+    for path, html in sorted(pages.items()):
+        if re.search(r'<meta name="robots"[^>]*content="[^"]*noindex', html, re.I):
+            hidden.append(path)
+    return hidden
+
+
 def check_slug_references():
     """Every hardcoded case-study slug in source must name a real case study.
 
@@ -230,6 +248,7 @@ def main():
     problems, rows, faq_total = check_seo(pages)
     placeholders = check_placeholders(pages)
     stale_slugs = check_slug_references()
+    hidden = check_noindex(pages)
 
     print("Pages reached : %d" % len(pages))
     print("Assets checked: %d" % asset_count)
@@ -273,7 +292,15 @@ def main():
         path = write_checklist(placeholders, total)
         print("\nwrote %s" % path)
 
-    failed = bool(broken or problems or stale_slugs)
+    if hidden:
+        print("\n" + "!" * 74)
+        print("NOINDEX IS ON — %d of %d pages are hidden from search engines." % (len(hidden), len(pages)))
+        print("This is correct DURING DEVELOPMENT and catastrophic AT LAUNCH.")
+        print("To go live: set SITE_IN_DEVELOPMENT = false in src/content/launch.ts,")
+        print("rebuild, and run this audit again. It cannot pass until you do.")
+        print("!" * 74)
+
+    failed = bool(broken or problems or stale_slugs or hidden)
     print("\n%s" % ("FAIL" if failed else "PASS"))
     return 1 if failed else 0
 

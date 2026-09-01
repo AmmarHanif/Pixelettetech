@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { SITE_URL, company } from '@/content/company';
+import { SITE_IN_DEVELOPMENT } from '@/content/launch';
 
 /**
  * Per-page metadata builder.
@@ -30,7 +31,9 @@ export function pageMetadata(input: {
     title: input.title,
     description: input.description,
     alternates: { canonical: url },
-    robots: input.noIndex
+    // SITE_IN_DEVELOPMENT forces noindex across every page that uses this
+    // helper — which is every page. See src/content/launch.ts before launch.
+    robots: SITE_IN_DEVELOPMENT || input.noIndex
       ? { index: false, follow: false }
       : {
           index: true,
