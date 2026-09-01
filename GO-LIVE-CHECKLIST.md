@@ -36,7 +36,7 @@ per-field errors, and a valid submission with no endpoint configured fails
 honestly rather than showing a false success, keeping what the visitor typed.
 
 
-**72 placeholders across 26 pages.**
+**67 placeholders across 23 pages.**
 
 To find them in a browser, on any page:
 
@@ -69,33 +69,15 @@ These carry legal exposure. None should be published in its current state.
 
 - [ ] `[VERIFY: ISO/IEC 42006 accreditation wording before publication]`
 
-## Blocking — contact routes
-
-An invented address loses enquiries silently. These must be real before launch.
-
-**`/contact`**
-
-- [ ] `[AI DPS RM6200 REGISTRATION IN PROGRESS]`
-
 ## Blocking — security review answers
 
 Read by procurement and security reviewers. A visible gap is safer than a guess, but neither wins a deal.
 
 **`/security-and-data`**
 
-- [ ] `[REGISTRATION IN PROGRESS]`
 - [ ] `[DATA RESIDENCY AND HOSTING REGIONS — confirm per environment before publication]`
 - [ ] `[SUBPROCESSOR REGISTER — publish the current list and the notification period]`
 - [ ] `[RETENTION SCHEDULE BY DATA CLASS — confirm with the DPO before publication]`
-
-**`/certifications`**
-
-- [ ] `[REGISTRATION IN PROGRESS]`
-- [ ] `[REGISTRATION IN PROGRESS]`
-
-**`/ai-engineering`**
-
-- [ ] `[REGISTRATION IN PROGRESS]`
 
 ## Content — case studies awaiting client sign-off
 

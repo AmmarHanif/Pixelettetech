@@ -131,8 +131,8 @@ export default function ContactPage() {
           <div className="card">
             <h3 className="h4">Public sector</h3>
             <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-              <Placeholder>AI DPS RM6200 REGISTRATION IN PROGRESS</Placeholder> Direct award and
-              further competition both available once listed.
+              <b>AI DPS RM6200 registration in progress.</b> Direct award and further competition
+              both available once listed.
             </p>
             <p style={{ marginTop: 16 }}>
               <FLink href="/certifications">Framework details</FLink>

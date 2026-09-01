@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 import { ArrowUpRight, Shield, Star } from '@/components/Icons';
-import { Cta, Eyebrow, FLink, PillRow, Placeholder, Section, SourceNote } from '@/components/ui';
+import { Cta, Eyebrow, FLink, PillRow, Section, SourceNote } from '@/components/ui';
 import { certifications, certified, clutch, company } from '@/content/company';
 import { clients } from '@/content/clients';
 import { featuredTestimonials, type Testimonial } from '@/content/testimonials';
@@ -295,13 +295,11 @@ export function VerificationTable({ withHeading = true }: { withHeading?: boolea
                     </span>
                   ) : null}
                 </th>
-                <td>
-                  {cert.status === 'In progress' ? (
-                    <Placeholder>REGISTRATION IN PROGRESS</Placeholder>
-                  ) : (
-                    cert.status
-                  )}
-                </td>
+                {/* "In progress" is a true, current status, not unfilled
+                    content — so it renders as ordinary copy. Placeholder
+                    styling (ADR-0003) is reserved for a genuine gap, and
+                    dressing a real answer as a gap understates what we know. */}
+                <td>{cert.status}</td>
                 <td>
                   {cert.verifyUrl ? (
                     cert.verifyUrl.startsWith('/') ? (

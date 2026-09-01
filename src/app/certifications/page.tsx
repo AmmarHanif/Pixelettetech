@@ -81,10 +81,9 @@ export default function CertificationsPage() {
         <div className="card" style={{ marginTop: 32, maxWidth: '72ch' }}>
           <h3 className="h4">AI DPS RM6200</h3>
           <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-            <Placeholder>REGISTRATION IN PROGRESS</Placeholder> Once listed, direct award and further
-            competition are both available. We say registration is in progress rather than implying a
-            listing that does not yet exist, because a buyer who checks and finds nothing does not come
-            back.
+            <b>Registration in progress.</b> Once listed, direct award and further competition are
+            both available. We say registration is in progress rather than implying a listing that
+            does not yet exist, because a buyer who checks and finds nothing does not come back.
           </p>
         </div>
       </Section>
