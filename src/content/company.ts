@@ -47,7 +47,11 @@ export const clutch = {
   ratingValue: 4.8,
   reviewCount: 24,
   profileUrl: 'https://clutch.co/profile/pixelette-technologies-0',
-  lastVerified: '2026-06-01',
+  /* Re-read off the Clutch profile 2026-09-03: still 4.8 from 24 reviews, so the
+     figures are unchanged and only this date moved. Worth re-checking before
+     launch — the site prints this date beside the rating, and a months-old
+     "last verified" undercuts the point of publishing one at all. */
+  lastVerified: '2026-09-03',
 } as const;
 
 export type Certification = {
