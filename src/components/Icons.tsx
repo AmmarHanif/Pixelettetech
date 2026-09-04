@@ -144,6 +144,43 @@ export function Layers({ size = 24, className }: IconProps) {
   );
 }
 
+/** Ruler. The AI Value Baseline is the measuring engagement. */
+export function Measure({ size = 24, className }: IconProps) {
+  return (
+    <svg {...base(size)} viewBox="0 0 24 24" className={className}>
+      <rect x="2" y="8" width="20" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M7 8v3.2M12 8v4.4M17 8v3.2"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+/** Plotted trend against axes — evaluation is a measurement read over time. */
+export function TrendChart({ size = 24, className }: IconProps) {
+  return (
+    <svg {...base(size)} viewBox="0 0 24 24" className={className}>
+      <path
+        d="M4 3.5v15a2 2 0 002 2h15"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M7.5 15.5l3.5-4.2 3 2.4 5-6.2"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="19" cy="7.5" r="1.5" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
 export function Cpu({ size = 24, className }: IconProps) {
   return (
     <svg {...base(size)} viewBox="0 0 24 24" className={className}>

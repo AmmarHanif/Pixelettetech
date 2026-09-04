@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { BuildMark, Cpu, Database, Gauge, Layers } from '@/components/Icons';
+import { BuildMark, Cpu, Database, Gauge, Measure, TrendChart } from '@/components/Icons';
 import {
   CertifiedHandoff,
   ClientLogos,
@@ -57,7 +57,7 @@ const services = [
   },
   {
     tag: 'Measure',
-    icon: <Layers size={22} />,
+    icon: <Measure size={22} />,
     title: 'AI Value Baseline',
     href: '/ai-engineering/ai-value-baseline',
     linkLabel: 'Four weeks, fixed price',
@@ -73,7 +73,7 @@ const services = [
   },
   {
     tag: 'Prove',
-    icon: <Gauge size={22} />,
+    icon: <TrendChart size={22} />,
     title: 'Evaluation & Observability',
     href: '/ai-engineering/evaluation-and-observability',
     linkLabel: 'How we measure',

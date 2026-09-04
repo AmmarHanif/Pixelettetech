@@ -1,6 +1,14 @@
 import Link from 'next/link';
 
-import { ArrowRight, BuildMark, ChainMark, Cpu, Database, Gauge, Layers } from '@/components/Icons';
+import {
+  ArrowRight,
+  BuildMark,
+  ChainMark,
+  Cpu,
+  Database,
+  Measure,
+  TrendChart,
+} from '@/components/Icons';
 import { CertifiedHandoff, ClientLogos, TrustStrip } from '@/components/sections';
 import {
   CheckList,
@@ -218,13 +226,13 @@ export default function HomePage() {
                 body: 'Entitlement-aware access, context layers and integration into your systems of record, so a model can reach what it needs and nothing it should not.',
               },
               {
-                icon: <Gauge size={22} />,
+                icon: <TrendChart size={22} />,
                 title: 'Evaluation & observability',
                 href: '/ai-engineering/evaluation-and-observability',
                 body: 'Measurement that tells you when output quality moves, before your users do. Built in at the start, not bolted on after an incident.',
               },
               {
-                icon: <Layers size={22} />,
+                icon: <Measure size={22} />,
                 title: 'AI Value Baseline',
                 href: '/ai-engineering/ai-value-baseline',
                 body: 'Four weeks, fixed price. What two or three processes cost you today, and the business case for changing them. The one packaged way in.',
