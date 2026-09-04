@@ -91,11 +91,14 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           Case study detail
         </h2>
 
+        {/* No ratio override. The slot's own 16/10 matches the source mockups
+            (675x419, 1.61:1) almost exactly, so nothing is cropped. Forcing
+            16/9 here clipped the bottom of every laptop mockup on the site —
+            the only MediaSlot in the build that did. */}
         <MediaSlot
           label={cs.imageLabel}
           src={cs.image}
           alt={`${cs.client} — ${cs.title}`}
-          ratio="16 / 9"
         />
 
         <div className="split split--wide-left" style={{ marginTop: 56 }}>
