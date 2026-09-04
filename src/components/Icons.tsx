@@ -250,11 +250,16 @@ export function Window({ size = 24, className }: IconProps) {
 
 export function Pen({ size = 24, className }: IconProps) {
   return (
-    <svg {...base(size)} viewBox="0 0 24 24" className={className}>
+    // The other icons in this set are drawn to an 18-unit key line centred in
+    // the 24 box; this one was drawn to 14.6 and sat off-centre, so it read as
+    // smaller beside them. The viewBox scales and re-centres it rather than
+    // redrawing the path, and the stroke is thinned by the same factor so the
+    // line weight still matches.
+    <svg {...base(size)} viewBox="1.56 2.94 19.49 19.49" className={className}>
       <path
         d="M4 20l4-1 10-10a2.1 2.1 0 10-3-3L5 16l-1 4z"
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="1.30"
         strokeLinejoin="round"
       />
     </svg>

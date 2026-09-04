@@ -1,11 +1,10 @@
 import Link from 'next/link';
 
 import {
+  AiMark,
   ArrowRight,
   BuildMark,
   ChainMark,
-  AiMark,
-  Cpu,
   Database,
   Measure,
   TrendChart,

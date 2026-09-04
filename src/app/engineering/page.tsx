@@ -28,38 +28,38 @@ export const metadata = pageMetadata({
 const capabilities = [
   {
     id: 'web-platforms',
-    icon: <Window size={24} />,
+    icon: <Window size={32} />,
     title: 'Web platforms',
     body: 'Customer portals, marketplaces, booking and workflow systems, internal tools, and the APIs and infrastructure behind them.',
   },
   {
     id: 'mobile-applications',
-    icon: <Mobile size={24} />,
+    icon: <Mobile size={32} />,
     title: 'Mobile applications',
     body: 'Native iOS and Android and cross-platform builds, taken through store submission and kept maintained afterwards.',
   },
   {
     id: 'custom-software',
-    icon: <Cpu size={24} />,
+    icon: <Cpu size={32} />,
     title: 'Custom software',
     body: 'The system that does not come off the shelf, and the integration work that connects it to the systems that do.',
   },
   {
     id: 'product-design',
-    icon: <Pen size={24} />,
+    icon: <Pen size={32} />,
     title: 'Product design',
     body: 'Interface and experience design as part of a build rather than sold as a separate line. Research, prototypes, design system, handover.',
   },
   {
     id: 'distributed-systems',
-    icon: <Shield size={24} />,
+    icon: <Shield size={32} />,
     title: 'Distributed & cryptographic systems',
     body: 'High-assurance distributed systems and cryptographic engineering. Tokenisation, smart contracts and chain work have their own practice.',
     link: { href: '/blockchain', label: 'Go to Blockchain' },
   },
   {
     id: 'cloud-modernisation',
-    icon: <Cloud size={24} />,
+    icon: <Cloud size={32} />,
     title: 'Cloud & modernisation',
     body: 'Migration, re-platforming and the unglamorous legacy work that most of the market quietly avoids.',
   },
@@ -159,7 +159,7 @@ export default function EngineeringPage() {
         <div className="grid grid-3" style={{ marginTop: 36 }}>
           {capabilities.map(cap => (
             <div key={cap.id} id={cap.id} className="card" style={{ scrollMarginTop: 100 }}>
-              <span style={{ color: 'var(--brand)', display: 'inline-flex' }} aria-hidden>
+              <span className="icon-slot" aria-hidden>
                 {cap.icon}
               </span>
               <h3 className="h3" style={{ marginTop: 18 }}>
