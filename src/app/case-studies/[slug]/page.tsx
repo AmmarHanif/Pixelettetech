@@ -163,8 +163,14 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   {cs.summary}
                 </p>
                 <p className="body" style={{ marginTop: 24 }}>
+                  {/* Internal case studies have no client, so claiming to wait on
+                      a client sign-off would be untrue — and it read oddly on our
+                      own work, which is the one write-up nobody outside the firm
+                      is blocking. */}
                   <Placeholder>
-                    FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured
+                    {cs.internal
+                      ? 'FULL WRITE-UP PENDING — problem, what we built, how it is measured'
+                      : 'FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured'}
                   </Placeholder>
                 </p>
               </>
