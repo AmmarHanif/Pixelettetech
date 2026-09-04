@@ -221,19 +221,19 @@ export default function HomePage() {
                 body: 'AI embedded in a named workflow, with the workflow redesigned around it. Human in the loop by default, agentic only where it earns it.',
               },
               {
-                icon: <Database size={22} />,
+                icon: <Database size={32} />,
                 title: 'Data & integration',
                 href: '/ai-engineering/data-and-integration',
                 body: 'Entitlement-aware access, context layers and integration into your systems of record, so a model can reach what it needs and nothing it should not.',
               },
               {
-                icon: <TrendChart size={22} />,
+                icon: <TrendChart size={32} />,
                 title: 'Evaluation & observability',
                 href: '/ai-engineering/evaluation-and-observability',
                 body: 'Measurement that tells you when output quality moves, before your users do. Built in at the start, not bolted on after an incident.',
               },
               {
-                icon: <Measure size={22} />,
+                icon: <Measure size={32} />,
                 title: 'AI Value Baseline',
                 href: '/ai-engineering/ai-value-baseline',
                 body: 'Four weeks, fixed price. What two or three processes cost you today, and the business case for changing them. The one packaged way in.',

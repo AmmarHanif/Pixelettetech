@@ -39,7 +39,7 @@ export const metadata = pageMetadata({
 const services = [
   {
     tag: 'Run',
-    icon: <Gauge size={24} />,
+    icon: <Gauge size={32} />,
     title: 'Support & Run',
     href: '/ai-engineering/support-and-run',
     linkLabel: 'From £1,500 / month',
@@ -57,7 +57,7 @@ const services = [
   },
   {
     tag: 'Measure',
-    icon: <Measure size={22} />,
+    icon: <Measure size={32} />,
     title: 'AI Value Baseline',
     href: '/ai-engineering/ai-value-baseline',
     linkLabel: 'Four weeks, fixed price',
@@ -65,7 +65,7 @@ const services = [
   },
   {
     tag: 'Ready',
-    icon: <Database size={22} />,
+    icon: <Database size={32} />,
     title: 'Data & Integration',
     href: '/ai-engineering/data-and-integration',
     linkLabel: 'What we build',
@@ -73,7 +73,7 @@ const services = [
   },
   {
     tag: 'Prove',
-    icon: <TrendChart size={22} />,
+    icon: <TrendChart size={32} />,
     title: 'Evaluation & Observability',
     href: '/ai-engineering/evaluation-and-observability',
     linkLabel: 'How we measure',
