@@ -875,6 +875,26 @@ td {
 }
 
 /* Compact linked card used in the AI band. */
+/* Fixed 32px icon slot. Icons in these cards are not all the same size — the
+   AI mark carries more detail and is drawn larger — and without a fixed slot
+   the bigger one pushes its own card's text out of line with its siblings. */
+.icon-slot {
+  color: var(--brand);
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  justify-content: center;
+}
+
+/* Same slot, left-aligned: these icons sit above the heading, so only the
+   height has to match for the headings to line up across a row. */
+.icon-slot--stacked {
+  justify-content: flex-start;
+  margin: 4px 0 14px;
+}
+
 .mini-card {
   display: flex;
   gap: 16px;

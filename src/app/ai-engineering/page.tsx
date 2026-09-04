@@ -48,7 +48,7 @@ const services = [
   },
   {
     tag: 'Build',
-    icon: <AiMark size={24} />,
+    icon: <AiMark size={32} />,
     title: 'Production AI Systems',
     href: '/ai-engineering/production-ai-systems',
     linkLabel: 'See how we build',
@@ -236,7 +236,7 @@ export default function AiEngineeringPage() {
             .map(s => (
               <Link key={s.href} href={s.href} className="card service-card">
                 <span className="step__n">{s.tag}</span>
-                <span style={{ color: 'var(--brand)', display: 'inline-flex', margin: '4px 0 14px' }} aria-hidden>
+                <span className="icon-slot icon-slot--stacked" aria-hidden>
                   {s.icon}
                 </span>
                 <h3 className="h3">{s.title}</h3>

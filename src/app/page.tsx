@@ -215,7 +215,7 @@ export default function HomePage() {
           <div className="grid" style={{ gap: 14 }}>
             {[
               {
-                icon: <AiMark size={22} />,
+                icon: <AiMark size={32} />,
                 title: 'Production AI systems',
                 href: '/ai-engineering/production-ai-systems',
                 body: 'AI embedded in a named workflow, with the workflow redesigned around it. Human in the loop by default, agentic only where it earns it.',
@@ -240,7 +240,7 @@ export default function HomePage() {
               },
             ].map(item => (
               <Link key={item.href} href={item.href} className="mini-card">
-                <span style={{ color: 'var(--brand)', display: 'inline-flex' }} aria-hidden>
+                <span className="icon-slot" aria-hidden>
                   {item.icon}
                 </span>
                 <span>
