@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
-import { ArrowUpRight, Logomark } from '@/components/Icons';
+import { BrandLogo } from '@/components/BrandLogo';
+import { ArrowUpRight } from '@/components/Icons';
 import { company } from '@/content/company';
 import { primaryCta, primaryNav } from '@/content/nav';
 
@@ -29,8 +30,7 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="wrap site-header__inner">
         <Link href="/" className="brandmark" aria-label={`${company.name} — home`}>
-          <Logomark size={24} />
-          <span>{company.name}</span>
+          <BrandLogo height={32} />
         </Link>
 
         <nav className="nav" aria-label="Primary">

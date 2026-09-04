@@ -540,19 +540,11 @@ td {
   height: 80px;
 }
 
+/* Wraps the colour lockup only; the wordmark is part of the artwork. */
 .brandmark {
   display: inline-flex;
   align-items: center;
-  gap: 11px;
-  color: var(--ink);
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-}
-
-.brandmark:hover {
-  color: var(--ink);
+  flex: 0 0 auto;
 }
 
 .nav {
@@ -701,12 +693,10 @@ td {
   gap: 40px 28px;
 }
 
-.site-footer__brand b {
-  display: block;
-  color: var(--dark-head);
-  font-size: 17px;
-  font-weight: 600;
-  margin-bottom: 12px;
+/* Reversed lockup on the dark ground. Carries the company name, so no
+   repeated name sits under it. */
+.site-footer__logo {
+  margin-bottom: 20px;
 }
 
 .site-footer__brand p {

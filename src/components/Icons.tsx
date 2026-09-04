@@ -15,17 +15,6 @@ const base = (size: number) => ({
   focusable: 'false' as const,
 });
 
-export function Logomark({ size = 24, className }: IconProps) {
-  return (
-    <svg {...base(size)} viewBox="0 0 22 22" className={className}>
-      <rect x="1" y="1" width="9" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.6" />
-      <rect x="12" y="1" width="9" height="9" rx="1.5" stroke="#C3D1DE" strokeWidth="1.6" />
-      <rect x="1" y="12" width="9" height="9" rx="1.5" stroke="#C3D1DE" strokeWidth="1.6" />
-      <rect x="12" y="12" width="9" height="9" rx="1.5" fill="currentColor" />
-    </svg>
-  );
-}
-
 export function Check({ size = 15, className }: IconProps) {
   return (
     <svg {...base(size)} viewBox="0 0 15 15" className={className}>

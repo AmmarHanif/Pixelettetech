@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
-import { ArrowUpRight, Logomark } from '@/components/Icons';
+import { BrandLogo } from '@/components/BrandLogo';
+import { ArrowUpRight } from '@/components/Icons';
 import { company, trustBadges } from '@/content/company';
 import { footerColumns, groupBlurb, groupEntities, legalNav } from '@/content/nav';
 
@@ -16,13 +17,7 @@ export function SiteFooter() {
       <div className="wrap">
         <div className="site-footer__grid">
           <div className="site-footer__brand">
-            <span
-              style={{ color: '#ffffff', display: 'inline-flex', marginBottom: 14 }}
-              aria-hidden
-            >
-              <Logomark size={26} />
-            </span>
-            <b>{company.name}</b>
+            <BrandLogo variant="white" height={34} className="site-footer__logo" />
             <p>{company.description}</p>
             <div className="pill-row" style={{ marginTop: 20 }}>
               {trustBadges.map(badge => (
