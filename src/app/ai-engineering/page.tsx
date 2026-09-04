@@ -395,7 +395,7 @@ export default function AiEngineeringPage() {
             </p>
           </div>
 
-          <div className="card" style={{ background: '#FBF8F4', borderColor: '#E7DCC6' }}>
+          <div className="card" style={{ background: '#FBF8F4', borderColor: '#edd8de' }}>
             <h3 className="h4">Who this is not for</h3>
             <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
               Organisations looking for developers by the day, a first AI experiment with no budget

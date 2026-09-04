@@ -12,12 +12,13 @@
   --muted: #5d6b7d;
   --muted-2: #62707f;
 
-  /* Practice colours. Teal is the firm + Build; amber is Blockchain. */
-  --brand: #056f62;
-  --brand-hover: #045a4f;
-  --brand-tint: #c7ebdf;
-  --amber: #b4530a;
-  --amber-ink: #b45309;
+  /* Practice colours. Purple is the firm + Build; crimson is Blockchain.
+     Swapped from teal/amber 2026-09-03 on the founder's instruction. */
+  --brand: #661a8f;
+  --brand-hover: #511372;
+  --brand-tint: #eadcf2;
+  --amber: #b3063c;
+  --amber-ink: #b3063c;
 
   /* Surfaces and lines */
   --paper: #ffffff;
@@ -27,12 +28,12 @@
   --line-4: #c3d1de;
 
   /* Dark band (footer, group hand-off, dashboard mock) */
-  --dark: #06222b;
-  --dark-2: #0b2c36;
-  --dark-line: #123240;
-  --mint: #6fe3cb;
-  --dark-text: #9db2bc;
-  --dark-head: #f2f5f4;
+  --dark: #27033b;
+  --dark-2: #33064b;
+  --dark-line: #451060;
+  --mint: #d9b8f0;
+  --dark-text: #ffffff;
+  --dark-head: #ffffff;
 
   /* Type. The --font-* variables are supplied by next/font in the root layout;
      the stacks after them are real fallbacks, not decoration. */
@@ -496,11 +497,11 @@ td {
 /* The Blockchain practice keeps the same layout and swaps the accent, exactly
    as the design does on page 06. */
 .theme-amber {
-  --brand: #b4530a;
-  --brand-hover: #93430a;
-  --brand-tint: #f6e6d2;
-  --line-3: #e2d2b4;
-  --line-2: #e7dcc6;
+  --brand: #b3063c;
+  --brand-hover: #8e052f;
+  --brand-tint: #f7d6e0;
+  --line-3: #e8cdd6;
+  --line-2: #edd8de;
 }
 
 /* ------------------------------------------------------------- dark panels */
@@ -517,7 +518,7 @@ td {
 }
 
 .dark-panel p {
-  color: #9baeab;
+  color: #ffffff;
 }
 
 /* ------------------------------------------------------------------ header */
@@ -774,7 +775,7 @@ td {
 }
 
 .groupband__name:hover {
-  color: #a8f0e0;
+  color: #e8d4f5;
 }
 
 .groupband__name--current {
@@ -1027,7 +1028,7 @@ td {
 }
 
 .dash__legend-key--threshold {
-  border-top-color: #b4530a;
+  border-top-color: #b3063c;
   border-top-style: dashed;
 }
 
@@ -1050,7 +1051,7 @@ td {
 }
 
 .dash__event {
-  color: #d9a066;
+  color: #e8a0b4;
   text-align: center;
 }
 
@@ -1131,7 +1132,7 @@ td {
 
 .arch__col--ours .arch__items li {
   background: #fff;
-  border-color: #cfe6e0;
+  border-color: #dcc9e8;
 }
 
 /* Flow marker between columns. Decorative. */
@@ -1310,7 +1311,7 @@ td {
   margin-top: 10px;
   font-size: 13.5px;
   line-height: 1.55;
-  color: #9baeab;
+  color: #ffffff;
 }
 
 .live__evidence--measure p {
@@ -1773,14 +1774,14 @@ td {
 
 .field input[aria-invalid='true'],
 .field textarea[aria-invalid='true'] {
-  border-color: #b4530a;
+  border-color: #b3063c;
 }
 
 .field__error {
   display: block;
   margin-top: 8px;
   font-size: 13px;
-  color: #b4530a;
+  color: #b3063c;
 }
 
 .formnote {
@@ -1791,9 +1792,9 @@ td {
 }
 
 .formnote--ok {
-  background: #eef8f4;
-  border: 1px solid #b9e3d5;
-  color: #045a4f;
+  background: #f4ecf8;
+  border: 1px solid #d9c2e8;
+  color: #511372;
 }
 
 .formnote--bad {

@@ -71,11 +71,11 @@ export function OperatingDashboard() {
             y1={thresholdY}
             x2={w}
             y2={thresholdY}
-            stroke="#B4530A"
+            stroke="#b3063c"
             strokeWidth="1.5"
             strokeDasharray="5 5"
           />
-          <path d={path} fill="none" stroke="#6FE3CB" strokeWidth="2.5" vectorEffect="non-scaling-stroke" />
+          <path d={path} fill="none" stroke="#d9b8f0" strokeWidth="2.5" vectorEffect="non-scaling-stroke" />
         </svg>
         <div className="dash__axis mono">
           <span>1 Aug</span>

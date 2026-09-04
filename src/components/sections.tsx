@@ -198,7 +198,7 @@ export function CertifiedHandoff({
             <span
               className="pill"
               key={s}
-              style={{ borderColor: '#1C4744', color: '#9BAEAB' }}
+              style={{ borderColor: '#1C4744', color: '#ffffff' }}
             >
               {s}
             </span>
@@ -222,7 +222,7 @@ export function CertifiedHandoff({
           </a>
           <Link
             href="/assurance"
-            style={{ color: '#9BAEAB', display: 'inline-flex', alignItems: 'center', gap: 7 }}
+            style={{ color: '#ffffff', display: 'inline-flex', alignItems: 'center', gap: 7 }}
           >
             Who does what →
           </Link>

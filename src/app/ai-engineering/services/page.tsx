@@ -146,7 +146,7 @@ export default function AiServicesPage() {
             <div style={{ flexGrow: 1 }} />
             <div className="pill-row" style={{ marginTop: 22 }}>
               {['ISO 42001', 'AI governance', 'Separate engagement'].map(m => (
-                <span className="pill" key={m} style={{ borderColor: '#1C4744', color: '#9BAEAB' }}>
+                <span className="pill" key={m} style={{ borderColor: '#1C4744', color: '#ffffff' }}>
                   {m}
                 </span>
               ))}

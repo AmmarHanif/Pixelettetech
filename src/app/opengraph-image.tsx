@@ -24,14 +24,14 @@ export default function OpengraphImage() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(150deg, #FFFFFF 0%, #C7EBDF 100%)',
+          background: 'linear-gradient(150deg, #FFFFFF 0%, #eadcf2 100%)',
           padding: '72px 80px',
           fontFamily: 'sans-serif',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', width: 44, height: 44 }}>
-            <div style={{ width: 20, height: 20, border: '3px solid #056F62', borderRadius: 4 }} />
+            <div style={{ width: 20, height: 20, border: '3px solid #661a8f', borderRadius: 4 }} />
             <div
               style={{ width: 20, height: 20, border: '3px solid #C3D1DE', borderRadius: 4, marginLeft: 4 }}
             />
@@ -42,7 +42,7 @@ export default function OpengraphImage() {
               style={{
                 width: 20,
                 height: 20,
-                background: '#056F62',
+                background: '#661a8f',
                 borderRadius: 4,
                 marginTop: 4,
                 marginLeft: 4,
@@ -59,7 +59,7 @@ export default function OpengraphImage() {
           <div style={{ fontSize: 62, lineHeight: 1.1, color: '#0A0A0A', letterSpacing: '-0.02em' }}>
             Chains that hold.
           </div>
-          <div style={{ fontSize: 62, lineHeight: 1.1, color: '#056F62', letterSpacing: '-0.02em' }}>
+          <div style={{ fontSize: 62, lineHeight: 1.1, color: '#661a8f', letterSpacing: '-0.02em' }}>
             AI built into both.
           </div>
         </div>

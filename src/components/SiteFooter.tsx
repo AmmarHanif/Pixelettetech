@@ -17,7 +17,7 @@ export function SiteFooter() {
         <div className="site-footer__grid">
           <div className="site-footer__brand">
             <span
-              style={{ color: '#6FE3CB', display: 'inline-flex', marginBottom: 14 }}
+              style={{ color: '#ffffff', display: 'inline-flex', marginBottom: 14 }}
               aria-hidden
             >
               <Logomark size={26} />

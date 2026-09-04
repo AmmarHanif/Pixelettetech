@@ -143,7 +143,7 @@ export default function ProductionAiPage() {
                 step is recoverable and reviewable.
               </p>
             </div>
-            <div className="card" style={{ background: '#FBF8F4', borderColor: '#E7DCC6' }}>
+            <div className="card" style={{ background: '#FBF8F4', borderColor: '#edd8de' }}>
               <span className="step__n" style={{ color: 'var(--amber-ink)' }}>
                 Do not when
               </span>
