@@ -4,6 +4,7 @@ import {
   ArrowRight,
   BuildMark,
   ChainMark,
+  AiMark,
   Cpu,
   Database,
   Measure,
@@ -214,7 +215,7 @@ export default function HomePage() {
           <div className="grid" style={{ gap: 14 }}>
             {[
               {
-                icon: <Cpu size={22} />,
+                icon: <AiMark size={22} />,
                 title: 'Production AI systems',
                 href: '/ai-engineering/production-ai-systems',
                 body: 'AI embedded in a named workflow, with the workflow redesigned around it. Human in the loop by default, agentic only where it earns it.',

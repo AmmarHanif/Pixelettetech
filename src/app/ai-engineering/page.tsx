@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { BuildMark, Cpu, Database, Gauge, Measure, TrendChart } from '@/components/Icons';
+import { AiMark, BuildMark, Database, Gauge, Measure, TrendChart } from '@/components/Icons';
 import {
   CertifiedHandoff,
   ClientLogos,
@@ -48,7 +48,7 @@ const services = [
   },
   {
     tag: 'Build',
-    icon: <Cpu size={24} />,
+    icon: <AiMark size={24} />,
     title: 'Production AI Systems',
     href: '/ai-engineering/production-ai-systems',
     linkLabel: 'See how we build',
