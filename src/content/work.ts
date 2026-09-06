@@ -609,11 +609,11 @@ export const caseStudies: CaseStudy[] = [
    * board ("Case Studies (moved to dev)"), which held sixteen studies against
    * the eighteen already here. Every claim below is that board's own copy.
    *
-   * Neither carries `image`. The design's hero artwork for both is a device
-   * mockup that exists only inside the Figma frame, and no export of it was
-   * supplied, so the slot renders as a visible placeholder rather than
-   * borrowing another study's banner — the defect this file's header records
-   * having found in the previous site's `chain-legal` and `smart-contractor`.
+   * Hero artwork for both was exported from those Figma frames. The exports
+   * are 512x287 (1.78:1) against the media slot's 16/10, so each is padded to
+   * 512x320 on the transparent ground the mockups already carry — `cover`
+   * would otherwise clip the laptop's edges, the same class of framing fault
+   * fixed in "Stop cropping every case-study mockup".
    *
    * Neither carries a quote. The design shows a client testimonial on both,
    * but it is the same Anthony Bevan / BlockGuard block pasted onto every
@@ -636,6 +636,7 @@ export const caseStudies: CaseStudy[] = [
       { value: '+20%', label: 'revenue in the pharmaceutical market', shortLabel: 'revenue' },
     ],
     filters: ['Data & integration', 'Production systems', 'Healthcare'],
+    image: '/work/sandoz.png',
     imageLabel: 'Analytics dashboard screenshot',
     detail: {
       problem:
@@ -665,6 +666,7 @@ export const caseStudies: CaseStudy[] = [
       { value: '-75%', label: 'time required for ad analytics reporting', shortLabel: 'reporting time' },
     ],
     filters: ['Data & integration', 'Production systems'],
+    image: '/work/neom.png',
     imageLabel: 'Data pipeline screenshot',
     detail: {
       problem:
