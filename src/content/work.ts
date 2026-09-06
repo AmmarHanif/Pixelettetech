@@ -604,6 +604,81 @@ export const caseStudies: CaseStudy[] = [
       architectureLabel: 'Contract lifecycle architecture',
     },
   },
+  /*
+   * Sandoz and NEOM are carried across from the 2026 design file's case-study
+   * board ("Case Studies (moved to dev)"), which held sixteen studies against
+   * the eighteen already here. Every claim below is that board's own copy.
+   *
+   * Neither carries `image`. The design's hero artwork for both is a device
+   * mockup that exists only inside the Figma frame, and no export of it was
+   * supplied, so the slot renders as a visible placeholder rather than
+   * borrowing another study's banner — the defect this file's header records
+   * having found in the previous site's `chain-legal` and `smart-contractor`.
+   *
+   * Neither carries a quote. The design shows a client testimonial on both,
+   * but it is the same Anthony Bevan / BlockGuard block pasted onto every
+   * board, and the Figma layer is still named after a third client's quote
+   * about Ehya. Attributing one client's praise to another is not a gap to
+   * fill, it is a claim not to make.
+   */
+  {
+    slug: 'sandoz',
+    client: 'Sandoz',
+    kicker: 'Sandoz · Pharmaceuticals · Production system',
+    sector: 'Pharmaceuticals',
+    service: 'Production AI Systems',
+    title: 'Decision-making 40% faster on one dashboard instead of silos',
+    metaTitle: 'Sandoz: centralised analytics dashboard',
+    summary:
+      'Campaign data spread across systems that did not talk to each other, consolidated into one real-time dashboard — decisions 40% faster, revenue up 20%.',
+    metrics: [
+      { value: '+40%', label: 'decision-making speed', shortLabel: 'decision speed' },
+      { value: '+20%', label: 'revenue in the pharmaceutical market', shortLabel: 'revenue' },
+    ],
+    filters: ['Data & integration', 'Production systems', 'Healthcare'],
+    imageLabel: 'Analytics dashboard screenshot',
+    detail: {
+      problem:
+        'Sandoz had no integrated way to compile and analyse real-time business data. The existing platforms ran in silos, which made campaign performance hard to track and insight hard to extract, and it held back operational efficiency and scalability in the South African market.',
+      built:
+        'A real-time analytics dashboard built to Sandoz’s operational needs, consolidating campaign data into a single interface with visualisation tools over the top, so the reporting and the decisions came off the same source rather than off whichever system was asked.',
+      measured:
+        'A 40% improvement in decision-making speed and a 20% increase in revenue, both attributed to the move to real-time analytics.',
+      next: null,
+      stack: 'Datorama, Moqups',
+      duration: 'Four months',
+      architectureLabel: 'Analytics pipeline',
+    },
+  },
+  {
+    slug: 'neom',
+    client: 'NEOM',
+    kicker: 'NEOM · Marketing technology · Data & integration',
+    sector: 'Marketing technology',
+    service: 'Production AI Systems',
+    title: 'Ad analytics reporting cut by 75% by removing the manual step',
+    metaTitle: 'NEOM: automated ad analytics pipeline',
+    summary:
+      'Ad data from TikTok, Snapchat and Facebook aggregated by hand, replaced with an automated pipeline — 70% less time compiling it, 75% less reporting on it.',
+    metrics: [
+      { value: '-70%', label: 'time spent manually aggregating ad analytics data', shortLabel: 'manual aggregation' },
+      { value: '-75%', label: 'time required for ad analytics reporting', shortLabel: 'reporting time' },
+    ],
+    filters: ['Data & integration', 'Production systems'],
+    imageLabel: 'Data pipeline screenshot',
+    detail: {
+      problem:
+        'Collecting, processing and visualising ad analytics across TikTok, Snapchat and Facebook was inefficient. Compiling the data by hand consumed the time that should have gone into acting on it, delayed insight and cost reporting accuracy, and left the workflow fragmented.',
+      built:
+        'An automated data processing system on Azure Databricks and Azure Blobs, with Datorama over the top for visualisation. Data retrieval and compilation run without a person in the loop, so analytics are centralised and the repetitive step is gone rather than reassigned.',
+      measured:
+        'A 70% decrease in time spent manually aggregating ad analytics data, and a 75% reduction in the time required to report on it.',
+      next: null,
+      stack: 'Azure Databricks, Azure Blob Storage, Datorama',
+      duration: 'Three months',
+      architectureLabel: 'Data processing pipeline',
+    },
+  },
   {
     slug: 'pixelette-group-bid-cycle',
     client: 'Pixelette Group',
