@@ -729,6 +729,29 @@ export const caseStudies: CaseStudy[] = [
     filters: ['Blockchain', 'Financial services'],
     image: '/work/ayni.png',
     imageLabel: 'Platform screenshot',
+    /*
+     * Source: the blockchain portfolio record in the Marketing Vault
+     * (Topics/01-Foundations-Strategy/Blockchain Portfolio - New Content
+     * 2025.md, Case Study 1). Problem, build and the on-chain components are
+     * taken from it.
+     *
+     * `measured` stays a visible placeholder. That record describes the system
+     * and its design intent; it states no throughput, holder or reward figure,
+     * and those are the client's numbers to give rather than ones to
+     * characterise from a description.
+     */
+    detail: {
+      problem:
+        'Gold mining throughput is hard for an outside holder to participate in and harder still to check. The licence, the geology, what was actually extracted and what a holder is owed each sit in different places, most of them private, so participation rests on trust in the operator rather than on anything verifiable.',
+      built:
+        'A real-world-asset platform tokenising licensed gold mining throughput from a Peruvian concession and connecting it to on-chain participation for global holders. The AYNI ERC-20 token with staking and PAXG-denominated reward logic, vesting, investor dashboards, treasury views, and admin panels for the mining and finance teams. Reward calculation is transparent by construction and mining data is verifiable rather than asserted.',
+      measured:
+        '[MEASURED RESULT — throughput and holder figures sit with the client]',
+      next: null,
+      stack: 'Solidity, ERC-20, PAXG',
+      duration: null,
+      architectureLabel: 'Tokenisation and reward flow',
+    },
   },
   {
     slug: '2connect',
@@ -744,6 +767,30 @@ export const caseStudies: CaseStudy[] = [
     filters: ['Production systems', 'Data & integration'],
     image: '/work/2connect.png',
     imageLabel: 'Product screenshot',
+    /*
+     * Unlike the nine below, this one has a written source: the AI portfolio
+     * record in the Marketing Vault (Topics/01-Foundations-Strategy/AI
+     * Portfolio - New Content 2025.md, entry 1). Problem, build and audience
+     * are taken from it.
+     *
+     * `measured` stays null and the metric stays pending on purpose. That
+     * source describes what was built and who it serves; it states no figure,
+     * and a matching engine's result is exactly the kind of number that must
+     * come from the client rather than be characterised from a capability
+     * description.
+     */
+    detail: {
+      problem:
+        'Professional introductions are made on surface signals — a job title, a shared contact, who happens to be in the room — so the wrong pairs meet and the right ones never do. Event organisers, communities and networks all carry the same cost: relevance decided after first contact rather than before it.',
+      built:
+        'An AI engine that reads goals, intent, interests and values on both sides, and a multi-agent layer over it that verifies profiles, judges relevance and recommends an introduction only where engagement is likely. The match is scored in both directions before either party spends time on it. Taken from concept to live on the web and both app stores.',
+      measured:
+        '[MEASURED RESULT — the client holds the matching and engagement figures]',
+      next: null,
+      stack: '[STACK]',
+      duration: null,
+      architectureLabel: 'Matching pipeline',
+    },
   },
   /*
    * The nine below come from the Portfolio UI Designs Figma file, which
