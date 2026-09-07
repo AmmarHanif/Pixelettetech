@@ -25,7 +25,12 @@ from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
 # Assets are fetched to confirm they exist, but are not parsed for links.
-ASSET_SUFFIXES = (".xml", ".txt", ".ico", ".png", ".jpg", ".jpeg", ".svg", ".webp", ".css", ".js")
+ASSET_SUFFIXES = (
+    ".xml", ".txt", ".ico", ".png", ".jpg", ".jpeg", ".svg", ".webp", ".css", ".js",
+    # Fonts reach the crawler through <link rel="preload" as="font"> hrefs.
+    ".woff", ".woff2", ".ttf", ".otf", ".eot",
+    ".pdf", ".json", ".map", ".mp4", ".webm",
+)
 
 # What a search engine actually renders before truncating.
 MAX_TITLE = 65
@@ -54,6 +59,16 @@ def crawl(base):
         status, html = fetch(base, path)
         if status != 200:
             unreachable.append((path, status))
+            continue
+        # Only HTML documents enter the SEO pass. A font, JSON or source map
+        # reached through a preload link is not a page, and grading it for
+        # <title>, canonical or <h1> produces failures that are always false.
+        # The suffix list above is the first defence and will keep going stale
+        # as new asset types appear; this content check is the one that holds,
+        # because it asserts what the response actually IS rather than what its
+        # extension suggests. A gate that cries wolf at launch cannot be used to
+        # tell a real defect from noise.
+        if "<html" not in html[:2000].lower():
             continue
         pages[path] = html
         for href in re.findall(r'href="([^"]+)"', html):
