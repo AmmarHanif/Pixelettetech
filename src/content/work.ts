@@ -682,6 +682,171 @@ export const caseStudies: CaseStudy[] = [
       architectureLabel: 'Data processing pipeline',
     },
   },
+  /*
+   * The ten below come from the Portfolio UI Designs Figma file, which holds
+   * fifteen product landing pages. Five of those products already had case
+   * studies here; these ten did not.
+   *
+   * Read what is and is not claimed. Client, sector and what the product does
+   * are taken from each product's own landing page. Nothing else is: those
+   * frames are product marketing, not case-study boards, so unlike Sandoz and
+   * NEOM they carry no problem, no process, no duration and no measured figure.
+   *
+   * So none of them sets `detail`, which makes the page render its "FULL
+   * WRITE-UP PENDING CLIENT SIGN-OFF" placeholder, and every metric is
+   * `pending`. The gaps are deliberate and visible, and the audit lists them.
+   * Filling them needs the engagement detail, not more design files.
+   */
+  {
+    slug: 'health-chain',
+    client: 'Health Chain',
+    kicker: 'Health Chain · Healthcare · Blockchain',
+    sector: 'Healthcare',
+    service: 'Blockchain engineering',
+    title: 'Healthcare records secured on a chain',
+    metaTitle: 'Health Chain: health data on-chain',
+    summary:
+      'Patient and clinical data exchanged over blockchain infrastructure, so records move between parties without the custody of each transfer being taken on trust.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Blockchain', 'Healthcare'],
+    image: '/work/health-chain.png',
+    imageLabel: 'Product screenshot',
+  },
+  {
+    slug: 'finchain',
+    client: 'FinChain',
+    kicker: 'FinChain · Financial services · Blockchain',
+    sector: 'Cross-border payments',
+    service: 'Blockchain engineering',
+    title: 'Cross-border transactions settled on-chain',
+    metaTitle: 'FinChain: cross-border settlement',
+    summary:
+      'Cross-border payment infrastructure built on blockchain rails, with the transfer, the settlement and the reporting of each transaction handled in one system.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Blockchain', 'Financial services'],
+    image: '/work/finchain.png',
+    imageLabel: 'Product screenshot',
+  },
+  {
+    slug: 'crypto-audit',
+    client: 'CryptoAudit',
+    kicker: 'CryptoAudit · Financial services · Blockchain',
+    sector: 'Digital asset audit',
+    service: 'Blockchain engineering',
+    title: 'Auditing digital assets against a compliance standard',
+    metaTitle: 'CryptoAudit: digital asset auditing',
+    summary:
+      'Financial auditing for digital assets, built so that what a holding is worth and where it came from can both be evidenced rather than asserted.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Blockchain', 'Financial services'],
+    image: '/work/crypto-audit.png',
+    imageLabel: 'Product screenshot',
+  },
+  {
+    slug: 'legal-mind-ai',
+    client: 'Legal Mind AI',
+    kicker: 'Legal Mind AI · LegalTech · Production AI system',
+    sector: 'LegalTech',
+    service: 'Production AI Systems',
+    title: 'AI brought into legal decision-making',
+    metaTitle: 'Legal Mind AI: legal decision support',
+    summary:
+      'Decision support for legal teams, with the model set inside the work of reaching a position rather than bolted on as a search box beside it.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Production systems', 'Legal'],
+    image: '/work/legal-mind-ai.png',
+    imageLabel: 'Product screenshot',
+  },
+  {
+    slug: 'juris-predict',
+    client: 'JurisPredict',
+    kicker: 'JurisPredict · LegalTech · Production AI system',
+    sector: 'LegalTech',
+    service: 'Production AI Systems',
+    title: 'Predicting the outcome of a legal matter',
+    metaTitle: 'JurisPredict: legal outcomes',
+    summary:
+      'Outcome prediction for legal matters, so a case can be weighed against what comparable ones actually did rather than against instinct alone.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Production systems', 'Legal'],
+    image: '/work/juris-predict.png',
+    imageLabel: 'Product screenshot',
+  },
+  {
+    slug: 'medi-analyze-ai',
+    client: 'Medi Analyze AI',
+    kicker: 'Medi Analyze AI · Healthcare · Production AI system',
+    sector: 'Medical diagnostics',
+    service: 'Production AI Systems',
+    title: 'Diagnostic imaging read with a model in the loop',
+    metaTitle: 'Medi Analyze AI: diagnostic imaging',
+    summary:
+      'Medical diagnostics with AI in the reading path, built for the setting where a clinician stays accountable for what the model proposes.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Production systems', 'Healthcare'],
+    image: '/work/medi-analyze-ai.png',
+    imageLabel: 'Product screenshot',
+  },
+  {
+    slug: 'health-predictor',
+    client: 'Health Predictor',
+    kicker: 'Health Predictor · Healthcare · Production AI system',
+    sector: 'Healthcare',
+    service: 'Production AI Systems',
+    title: 'Patient care planned on predicted risk',
+    metaTitle: 'Health Predictor: predictive care',
+    summary:
+      'Predictive analytics over patient data, so care can be planned against where a patient is heading rather than only where they are today.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Production systems', 'Healthcare'],
+    image: '/work/health-predictor.png',
+    imageLabel: 'Product screenshot',
+  },
+  {
+    slug: 'credit-smart-ai',
+    client: 'Credit Smart AI',
+    kicker: 'Credit Smart AI · Financial services · Production AI system',
+    sector: 'Credit risk',
+    service: 'Production AI Systems',
+    title: 'Credit scored by model rather than by rulebook',
+    metaTitle: 'Credit Smart AI: AI credit scoring',
+    summary:
+      'Credit scoring driven by a model, in a domain where the reason for a decision has to be defensible to the applicant and to a regulator.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Production systems', 'Financial services'],
+    image: '/work/credit-smart-ai.png',
+    imageLabel: 'Product screenshot',
+  },
+  {
+    slug: 'transact-secure',
+    client: 'Transact Secure',
+    kicker: 'Transact Secure · Financial services · Production AI system',
+    sector: 'Payments security',
+    service: 'Production AI Systems',
+    title: 'Transaction fraud caught while the payment is live',
+    metaTitle: 'Transact Secure: AI payment security',
+    summary:
+      'Transaction security with AI in the authorisation path, where a decision has to be reached inside the window a payment stays open.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Production systems', 'Financial services'],
+    image: '/work/transact-secure.png',
+    imageLabel: 'Product screenshot',
+  },
+  {
+    slug: 'success-path',
+    client: 'SuccessPath',
+    kicker: 'SuccessPath · Personal development · Production AI system',
+    sector: 'Personal development',
+    service: 'Production AI Systems',
+    title: 'Personal goals coached by a model',
+    metaTitle: 'SuccessPath: AI goal coaching',
+    summary:
+      'AI-guided goal setting and personal development, with a plan that adapts to what somebody actually did rather than what they intended to do.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Production systems'],
+    image: '/work/success-path.png',
+    imageLabel: 'Product screenshot',
+  },
   {
     slug: 'pixelette-group-bid-cycle',
     client: 'Pixelette Group',

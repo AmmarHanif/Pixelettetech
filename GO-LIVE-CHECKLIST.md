@@ -36,7 +36,7 @@ per-field errors, and a valid submission with no endpoint configured fails
 honestly rather than showing a false success, keeping what the visitor typed.
 
 
-**53 placeholders across 12 pages.**
+**73 placeholders across 22 pages.**
 
 To find them in a browser, on any page:
 
@@ -95,6 +95,41 @@ Each needs the client's written approval before the outstanding figures and quot
 - [ ] `[NAME]`
 - [ ] `[ROLE]`
 
+**`/case-studies/credit-smart-ai`**
+
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
+
+**`/case-studies/crypto-audit`**
+
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
+
+**`/case-studies/finchain`**
+
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
+
+**`/case-studies/health-chain`**
+
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
+
+**`/case-studies/health-predictor`**
+
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
+
+**`/case-studies/juris-predict`**
+
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
+
+**`/case-studies/legal-mind-ai`**
+
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
+
 **`/case-studies/lytics`**
 
 - [ ] `[RUN CONTRACT STATUS, OR WHAT THE CLIENT DID AFTERWARDS]`
@@ -102,7 +137,22 @@ Each needs the client's written approval before the outstanding figures and quot
 - [ ] `[NAME]`
 - [ ] `[ROLE]`
 
+**`/case-studies/medi-analyze-ai`**
+
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
+
 **`/case-studies/pixelette-group-bid-cycle`**
+
+- [ ] `[FULL WRITE-UP PENDING — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
+
+**`/case-studies/success-path`**
+
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
+
+**`/case-studies/transact-secure`**
 
 - [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
 - [ ] `[STACK]`
