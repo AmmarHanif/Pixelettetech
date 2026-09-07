@@ -36,7 +36,7 @@ per-field errors, and a valid submission with no endpoint configured fails
 honestly rather than showing a false success, keeping what the visitor typed.
 
 
-**67 placeholders across 19 pages.**
+**69 placeholders across 19 pages.**
 
 To find them in a browser, on any page:
 
@@ -83,17 +83,17 @@ Read by procurement and security reviewers. A visible gap is safer than a guess,
 
 Each needs the client's written approval before the outstanding figures and quotes go up.
 
-**`/case-studies/anonymised-professional-services`**
-
-- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
-- [ ] `[STACK]`
-
 **`/case-studies/blockguard`**
 
 - [ ] `[RUN CONTRACT STATUS, OR WHAT THE CLIENT DID AFTERWARDS]`
 - [ ] `[CLIENT QUOTE, WITH SIGN-OFF]`
 - [ ] `[NAME]`
 - [ ] `[ROLE]`
+
+**`/case-studies/credit-smart-ai`**
+
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
 
 **`/case-studies/crypto-audit`**
 
@@ -137,9 +137,9 @@ Each needs the client's written approval before the outstanding figures and quot
 - [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
 - [ ] `[STACK]`
 
-**`/case-studies/pixelette-group-bid-cycle`**
+**`/case-studies/transact-secure`**
 
-- [ ] `[FULL WRITE-UP PENDING — problem, what we built, how it is measured]`
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
 - [ ] `[STACK]`
 
 ## Content — sector proof
@@ -148,7 +148,9 @@ Placeholder cards are deliberate. They stay until a real engagement fills them.
 
 **`/industries/professional-services`**
 
-- [ ] `[X]`
+- [ ] `[CLIENT]`
+- [ ] `[NAMED PROCESS AND RESULT]`
+- [ ] `[MEASURED FIGURE]`
 - [ ] `[CLIENT]`
 - [ ] `[NAMED PROCESS AND RESULT]`
 - [ ] `[MEASURED FIGURE]`

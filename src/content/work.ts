@@ -683,11 +683,10 @@ export const caseStudies: CaseStudy[] = [
     },
   },
   /*
-   * The seven below come from the Portfolio UI Designs Figma file, which
+   * The nine below come from the Portfolio UI Designs Figma file, which
    * holds fifteen product landing pages. Five of those products already had
-   * case studies here. Credit Smart AI, Transact Secure and SuccessPath were
-   * added alongside these and then withdrawn; their mockups are kept in
-   * design/mockups/ rather than deleted.
+   * case studies here. SuccessPath was added alongside these and then
+   * withdrawn; its mockup is kept in design/mockups/ rather than deleted.
    *
    * Read what is and is not claimed. Client, sector and what the product does
    * are taken from each product's own landing page. Nothing else is: those
@@ -805,37 +804,35 @@ export const caseStudies: CaseStudy[] = [
     imageLabel: 'Product screenshot',
   },
   {
-    slug: 'pixelette-group-bid-cycle',
-    client: 'Pixelette Group',
-    kicker: 'Pixelette Group · Internal',
-    sector: 'Professional services',
-    service: 'AI Value Baseline · LIVE',
-    title: 'We ran LIVE on ourselves before we sold it',
-    metaTitle: 'Running LIVE on ourselves',
-    summary:
-      'The bid process, instrumented and measured. Our first case study, and we say plainly that it is internal rather than dressing it up as client work.',
-    metrics: [
-      { value: '[X]%', label: 'cycle time cut', pending: true },
-      { value: '[X] hrs', label: 'saved per bid', pending: true },
-    ],
-    filters: ['Professional services', 'Evaluation'],
-    imageLabel: 'Operating report',
-    internal: true,
-  },
-  {
-    slug: 'anonymised-professional-services',
-    client: 'Anonymised',
-    kicker: 'Anonymised · Professional services',
-    sector: 'Professional services',
+    slug: 'credit-smart-ai',
+    client: 'Credit Smart AI',
+    kicker: 'Credit Smart AI · Financial services · Production AI system',
+    sector: 'Credit risk',
     service: 'Production AI Systems',
-    title: 'Client under NDA',
-    metaTitle: 'Anonymised: professional services',
+    title: 'Credit scored by model rather than by rulebook',
+    metaTitle: 'Credit Smart AI: AI credit scoring',
     summary:
-      'Where we cannot name a client, we publish the sector and the number rather than nothing.',
-    metrics: [{ value: '[SECTOR METRIC]', label: 'measured result', pending: true }],
-    filters: ['Professional services'],
-    imageLabel: 'Case study image',
-    anonymised: true,
+      'Credit scoring driven by a model, in a domain where the reason for a decision has to be defensible to the applicant and to a regulator.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Production systems', 'Financial services'],
+    image: '/work/credit-smart-ai.png',
+    imageLabel: 'Product screenshot',
+  },
+
+  {
+    slug: 'transact-secure',
+    client: 'Transact Secure',
+    kicker: 'Transact Secure · Financial services · Production AI system',
+    sector: 'Payments security',
+    service: 'Production AI Systems',
+    title: 'Transaction fraud caught while the payment is live',
+    metaTitle: 'Transact Secure: AI payment security',
+    summary:
+      'Transaction security with AI in the authorisation path, where a decision has to be reached inside the window a payment stays open.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Production systems', 'Financial services'],
+    image: '/work/transact-secure.png',
+    imageLabel: 'Product screenshot',
   },
 ];
 

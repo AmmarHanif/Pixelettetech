@@ -21,8 +21,8 @@
     '/case-studies', '/insights', '/about', '/contact', '/security-and-data', '/certifications',
     '/privacy', '/terms', '/modern-slavery',
     '/case-studies/lytics', '/case-studies/blockguard',
-    '/case-studies/chysler', '/case-studies/pixelette-group-bid-cycle',
-    '/case-studies/anonymised-professional-services',
+    '/case-studies/chysler', '/case-studies/sandoz',
+    '/case-studies/health-predictor',
   ];
   const WIDTHS = [360, 390, 768, 1024, 1440];
   const NAV_BREAKPOINT = 860; // must match the media query in globals.css

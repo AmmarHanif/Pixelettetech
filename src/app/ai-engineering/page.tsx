@@ -101,13 +101,7 @@ const faqs = [
 ];
 
 export default function AiEngineeringPage() {
-  const proof = caseStudies.filter(c =>
-    [
-      'lytics',
-      'blockguard',
-      'pixelette-group-bid-cycle',
-    ].includes(c.slug),
-  );
+  const proof = caseStudies.filter(c => ['lytics', 'blockguard'].includes(c.slug));
 
   return (
     <>

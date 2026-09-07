@@ -54,8 +54,6 @@ const faqs = [
 ];
 
 export default function ProfessionalServicesPage() {
-  const internal = caseStudies.find(c => c.slug === 'pixelette-group-bid-cycle')!;
-
   return (
     <>
       <JsonLd
@@ -136,18 +134,7 @@ export default function ProfessionalServicesPage() {
       <Section labelledBy="ps-work-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead eyebrow="Sector work" id="ps-work-heading" title="Published as it is measured." />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
-          <Link href={`/case-studies/${internal.slug}`} className="work-card">
-            <MediaSlot label={internal.imageLabel} />
-            <span className="mono work-card__kicker">{internal.client}</span>
-            <h3 className="h4" style={{ marginTop: 10 }}>
-              Bid cycle, measured before and after
-            </h3>
-            <p className="small" style={{ marginTop: 10 }}>
-              <Placeholder>X</Placeholder>% faster
-            </p>
-          </Link>
-
-          {[0, 1].map(i => (
+          {[0, 1, 2].map(i => (
             <div className="work-card work-card--empty" key={i}>
               <MediaSlot label="Case study image" />
               <span className="mono work-card__kicker">
