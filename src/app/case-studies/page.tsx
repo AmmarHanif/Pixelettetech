@@ -6,7 +6,6 @@ import {
   Eyebrow,
   JsonLd,
   MediaSlot,
-  Placeholder,
   Section,
 } from '@/components/ui';
 import { caseStudies, workFilters, type WorkFilter } from '@/content/work';
@@ -132,21 +131,6 @@ export default async function WorkPage({
                 </div>
               </Link>
             ))}
-
-            {/* The next engagement's slot, stated rather than hidden. */}
-            <div className="work-card work-card--empty">
-              <MediaSlot label="Next case study" />
-              <span className="mono work-card__kicker">
-                <Placeholder intentional>YOUR ENGAGEMENT HERE</Placeholder>
-              </span>
-              <h3 className="h3" style={{ marginTop: 12 }}>
-                Your engagement here
-              </h3>
-              <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-                Every baseline produces a measured before and after. Publishing it is optional, and
-                yours to approve.
-              </p>
-            </div>
           </div>
         )}
       </Section>
