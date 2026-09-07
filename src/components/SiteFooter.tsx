@@ -81,9 +81,19 @@ export function SiteFooter() {
           </ul>
         </section>
 
+        {/* Statutory trading disclosure.
+            S.I. 2015/17 reg. 25(2) requires a company to disclose on its websites
+            (a) the part of the UK in which it is registered, (b) its registered
+            number and (c) the address of its registered office. The previous line
+            gave (b) and an unlabelled address, and omitted (a) entirely.
+            E-Commerce Regs 2002 reg. 6(1)(d) and PoSR 2009 reg. 8(1)(d) also want
+            the NAME of the register, and reg. 6(1)(g) / 8(1)(g) require the VAT
+            number where the trader is VAT registered. All four are now here. */}
         <div className="site-footer__legal">
           <p>
-            {company.legalName} · {company.addressLine} · CRN {company.crn}
+            {company.legalName}, registered in England and Wales at Companies House,
+            company number {company.crn}. Registered office: {company.addressLine}.
+            VAT registration number {company.vat}.
           </p>
           <p style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
             {legalNav.map(item => (

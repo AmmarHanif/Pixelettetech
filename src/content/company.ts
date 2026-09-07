@@ -31,6 +31,23 @@ export const company = {
     countryName: 'United Kingdom',
   },
   addressLine: '77 Fulham Palace Road, London W6 8JA',
+  /**
+   * VAT registration number.
+   *
+   * Verified at HMRC's "Check a UK VAT number" service on 2026-09-07: 432237717
+   * returns "Valid UK VAT number" for PIXELETTE TECHNOLOGIES LTD.
+   *
+   * Publishing this is NOT optional. The Electronic Commerce (EC Directive)
+   * Regulations 2002 reg. 6(1)(g) and the Provision of Services Regulations 2009
+   * reg. 8(1)(g) both require the VAT identification number to be given where the
+   * provider undertakes an activity subject to VAT.
+   *
+   * NOTE for whoever reads this next: HMRC's VAT record still shows the OLD
+   * registered address (71-75 Shelton Street, WC2H 9JQ). Companies House was
+   * updated to Fulham Palace Road on 15 January 2026. HMRC has not been. That is
+   * a separate matter from the website and is flagged to the founder.
+   */
+  vat: 'GB 432 2377 17',
   countriesDelivered: 13,
   tagline: 'Engineering that ships. Chains that hold. AI built into both.',
   description:

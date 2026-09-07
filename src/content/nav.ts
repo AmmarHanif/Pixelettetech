@@ -134,6 +134,7 @@ export const legalNav: NavItem[] = [
   { href: '/privacy', label: 'Privacy' },
   { href: '/terms', label: 'Terms' },
   { href: '/modern-slavery', label: 'Modern slavery' },
+  { href: '/accessibility', label: 'Accessibility' },
 ];
 
 /**
@@ -164,4 +165,5 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
   { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/terms', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/modern-slavery', priority: 0.3, changeFrequency: 'yearly' },
+  { path: '/accessibility', priority: 0.3, changeFrequency: 'yearly' },
 ];
