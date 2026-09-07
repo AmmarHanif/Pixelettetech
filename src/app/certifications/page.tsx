@@ -66,10 +66,30 @@ export default function CertificationsPage() {
         >
           <img src="/certifications/iso-9001.svg" alt="ISO 9001:2015 certified" width={96} height={96} />
           <img src="/certifications/iso-27001.svg" alt="ISO 27001:2022 certified" width={96} height={96} />
+          {/*
+            Amended 2026-09-07. The previous wording promised more than the page
+            delivers: the linked registers are search interfaces, not deep links
+            to our entry, and IAF CertSearch requires the reader to create a free
+            account before it will search at all. A buyer who clicks, cannot find
+            us, and is not told why, reasonably concludes the claim is empty.
+
+            Under DMCCA 2024 s.226 an overall presentation can mislead EVEN WHERE
+            every statement in it is true (s.226(2) and (3)), and BPR 2008
+            reg. 3(5) expressly reaches an advertiser's own qualifications and
+            distinctions. So the fix is to state exactly what the reader will
+            find, and to give a route that always works.
+
+            The certification claims themselves are unchanged and are not doubted.
+            They were simply not independently verifiable from here, and saying so
+            costs nothing while pretending otherwise costs a great deal.
+          */}
           <p className="body" style={{ maxWidth: '52ch', margin: 0 }}>
             We hold these accreditations and stand behind what they certify. The certificate
             documents themselves are held internally rather than published here; each row below
-            names the public register where our certification status can be checked.
+            names the public register that records our status. Those registers are search tools
+            rather than direct links, and IAF CertSearch asks you to create a free account before it
+            will search, so if you would rather not, ask us and we will send you the certificate
+            number, the issuing body and the expiry date for any row here.
           </p>
         </div>
 

@@ -47,7 +47,8 @@ export function LegalPage({
             {intro}
           </p>
           <p className="small" style={{ marginTop: 22 }}>
-            {company.legalName} · CRN {company.crn} · {company.addressLine}
+            {company.legalName} · Registered in England and Wales, company number {company.crn} ·
+            Registered office {company.addressLine} · VAT {company.vat}
           </p>
           <p className="small" style={{ marginTop: 8 }}>
             Last reviewed: {lastReviewed ?? <Placeholder>DATE — set at legal sign-off</Placeholder>}
