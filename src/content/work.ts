@@ -590,7 +590,8 @@ export const caseStudies: CaseStudy[] = [
       { value: '94%', label: 'adoption among legal professionals', shortLabel: 'adoption' },
     ],
     filters: ['Blockchain', 'Legal'],
-    imageLabel: 'Case study image',
+    image: '/work/smart-contractor.png',
+    imageLabel: 'Product screenshot',
     detail: {
       problem:
         'Manual contract processes meant delays, human error and compliance risk: contracts needed continuous oversight, costs rose with every intermediary, and enforcement depended on records that could be disputed.',
