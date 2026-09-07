@@ -246,7 +246,11 @@ export const caseStudies: CaseStudy[] = [
       measured:
         'An 80% improvement in speech clarity, a threefold increase in content automation, 65% improvement in decision-making and a 40% reduction in data discrepancies.',
       next: null,
-      stack: 'React, Go, Hyperledger',
+      /* Corrected against the design board's tech stack row, which shows PHP,
+         Laravel, CodeIgniter, Go and C++. The previous value named React and
+         Hyperledger, neither of which appears on the board, and omitted four
+         that do. Go was the only overlap. */
+      stack: 'PHP, Laravel, CodeIgniter, Go, C++',
       duration: 'Six months',
       architectureLabel: 'Processing pipeline architecture',
     },
@@ -414,7 +418,13 @@ export const caseStudies: CaseStudy[] = [
     metaTitle: 'Digital Asset Vault: custody',
     summary:
       'Cold storage and custody engineering, with the migration path designed as carefully as the vault itself.',
-    metrics: [{ value: '60%', label: 'cold storage adoption' }],
+    /* All three come from the design board's own "Our impact" section. Only the
+       adoption figure had been carried across; the other two were dropped. */
+    metrics: [
+      { value: '0', label: 'reported security incidents in the first year', shortLabel: 'security incidents' },
+      { value: '60%', label: 'of active users moved to cold storage', shortLabel: 'cold storage adoption' },
+      { value: '100+', label: 'businesses onboarded in the first six months', shortLabel: 'businesses onboarded' },
+    ],
     filters: ['Blockchain', 'Financial services'],
     image: '/work/digital-asset-vault.png',
     imageLabel: 'Platform screenshot',
@@ -424,9 +434,13 @@ export const caseStudies: CaseStudy[] = [
       built:
         'Cold-storage wallets, private key certificates and multi-signature control, so that assets are protected from compromise while ownership stays verifiable and control can be shared where an organisation needs it.',
       measured:
-        '60% cold storage adoption — the migration figure, which is the one that tells you whether a custody product actually works in practice.',
+        'Zero reported security incidents in the first year, 60% of active users moved to cold storage, and over 100 businesses onboarded in the first six months. The adoption figure is the one that tells you whether a custody product works in practice: a vault nobody migrates to protects nothing.',
       next: null,
-      stack: 'React, Go, Hyperledger',
+      /* Corrected against the design board's tech stack row, which shows PHP,
+         Laravel, CodeIgniter, Go and C++. The previous value named React and
+         Hyperledger, neither of which appears on the board, and omitted four
+         that do. Go was the only overlap. */
+      stack: 'PHP, Laravel, CodeIgniter, Go, C++',
       /* Stays null. The live record's only "6 months" here is "100+ businesses
          onboarded within the first 6 months" — an adoption window, not how long
          the build took. Founder-supplied duration only. */
