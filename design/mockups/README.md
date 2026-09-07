@@ -1,9 +1,15 @@
 # Product mockups
 
-All fifteen products in the **Portfolio UI Designs** Figma file now have a
+Twelve of the fifteen products in the **Portfolio UI Designs** Figma file have a
 mockup in `public/work/`, referenced by a case study in `src/content/work.ts`.
-Nothing is staged here any more; this directory keeps the build script and the
-record of how the images were made.
+
+Three are staged here instead: `credit-smart-ai.png`, `transact-secure.png` and
+`success-path.png`. Those case studies were added and then withdrawn, so the
+artwork is kept rather than deleted — nothing references it, and unreferenced
+binaries in `public/` ship in every deploy for no reason.
+
+This directory also keeps the build script and the record of how the images were
+made.
 
 ## How the crop is chosen
 

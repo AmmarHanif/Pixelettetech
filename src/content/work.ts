@@ -683,9 +683,11 @@ export const caseStudies: CaseStudy[] = [
     },
   },
   /*
-   * The ten below come from the Portfolio UI Designs Figma file, which holds
-   * fifteen product landing pages. Five of those products already had case
-   * studies here; these ten did not.
+   * The seven below come from the Portfolio UI Designs Figma file, which
+   * holds fifteen product landing pages. Five of those products already had
+   * case studies here. Credit Smart AI, Transact Secure and SuccessPath were
+   * added alongside these and then withdrawn; their mockups are kept in
+   * design/mockups/ rather than deleted.
    *
    * Read what is and is not claimed. Client, sector and what the product does
    * are taken from each product's own landing page. Nothing else is: those
@@ -800,51 +802,6 @@ export const caseStudies: CaseStudy[] = [
     metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
     filters: ['Production systems', 'Healthcare'],
     image: '/work/health-predictor.png',
-    imageLabel: 'Product screenshot',
-  },
-  {
-    slug: 'credit-smart-ai',
-    client: 'Credit Smart AI',
-    kicker: 'Credit Smart AI · Financial services · Production AI system',
-    sector: 'Credit risk',
-    service: 'Production AI Systems',
-    title: 'Credit scored by model rather than by rulebook',
-    metaTitle: 'Credit Smart AI: AI credit scoring',
-    summary:
-      'Credit scoring driven by a model, in a domain where the reason for a decision has to be defensible to the applicant and to a regulator.',
-    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
-    filters: ['Production systems', 'Financial services'],
-    image: '/work/credit-smart-ai.png',
-    imageLabel: 'Product screenshot',
-  },
-  {
-    slug: 'transact-secure',
-    client: 'Transact Secure',
-    kicker: 'Transact Secure · Financial services · Production AI system',
-    sector: 'Payments security',
-    service: 'Production AI Systems',
-    title: 'Transaction fraud caught while the payment is live',
-    metaTitle: 'Transact Secure: AI payment security',
-    summary:
-      'Transaction security with AI in the authorisation path, where a decision has to be reached inside the window a payment stays open.',
-    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
-    filters: ['Production systems', 'Financial services'],
-    image: '/work/transact-secure.png',
-    imageLabel: 'Product screenshot',
-  },
-  {
-    slug: 'success-path',
-    client: 'SuccessPath',
-    kicker: 'SuccessPath · Personal development · Production AI system',
-    sector: 'Personal development',
-    service: 'Production AI Systems',
-    title: 'Personal goals coached by a model',
-    metaTitle: 'SuccessPath: AI goal coaching',
-    summary:
-      'AI-guided goal setting and personal development, with a plan that adapts to what somebody actually did rather than what they intended to do.',
-    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
-    filters: ['Production systems'],
-    image: '/work/success-path.png',
     imageLabel: 'Product screenshot',
   },
   {

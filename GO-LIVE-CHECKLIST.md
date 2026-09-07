@@ -36,7 +36,7 @@ per-field errors, and a valid submission with no endpoint configured fails
 honestly rather than showing a false success, keeping what the visitor typed.
 
 
-**73 placeholders across 22 pages.**
+**67 placeholders across 19 pages.**
 
 To find them in a browser, on any page:
 
@@ -95,11 +95,6 @@ Each needs the client's written approval before the outstanding figures and quot
 - [ ] `[NAME]`
 - [ ] `[ROLE]`
 
-**`/case-studies/credit-smart-ai`**
-
-- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
-- [ ] `[STACK]`
-
 **`/case-studies/crypto-audit`**
 
 - [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
@@ -145,16 +140,6 @@ Each needs the client's written approval before the outstanding figures and quot
 **`/case-studies/pixelette-group-bid-cycle`**
 
 - [ ] `[FULL WRITE-UP PENDING — problem, what we built, how it is measured]`
-- [ ] `[STACK]`
-
-**`/case-studies/success-path`**
-
-- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
-- [ ] `[STACK]`
-
-**`/case-studies/transact-secure`**
-
-- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
 - [ ] `[STACK]`
 
 ## Content — sector proof
