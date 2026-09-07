@@ -43,10 +43,23 @@ could be written. Nothing here should be turned into a case study until the
 underlying engagement detail exists — inventing it is what this repo's content
 rules exist to prevent.
 
-## Known characteristic
+## How the crop is chosen
 
-Four pages have a hero shorter than the screen's 1.58:1, so the mockup shows the
-first line or two of the following section: `health-chain`, `juris-predict`,
-`medi-analyze-ai` and `success-path`. That reads as a normal browser screenshot
-rather than a fault, and the alternative — cropping tighter to end at the hero —
-would have trimmed the navigation bar's edges. Retune if you disagree.
+`build.py` does the compositing. Two things it gets right that a naive crop does
+not:
+
+**The screen rectangle is derived, not eyeballed.** Two live mockups share one
+chassis, so the pixels where they differ *are* the screen: (79,44)-(592,377).
+An earlier pass used a rectangle 6px too wide on the left and 10px on the right,
+which spilled page content over the bezel and squared off the corners.
+
+**The cut avoids slicing text.** Cropping at the screen's aspect often lands
+mid-sentence in the section below the hero. So the crop is pulled up to the hero
+boundary where one exists, or to a gap between text lines, and the width is then
+trimmed symmetrically to hold the aspect. The trim is capped at 55px per side,
+measured against each page's own navigation margins, so it can never eat a logo
+or a right-hand button. Where a hero is too short for even that, the crop goes
+as tight as the nav allows, leaving a thin band rather than half a section.
+
+Regenerate with `python design/mockups/build.py` driven from the page render, or
+call `build(page, x0, x1, out_path)` directly.
