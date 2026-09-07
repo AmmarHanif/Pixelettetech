@@ -36,7 +36,7 @@ per-field errors, and a valid submission with no endpoint configured fails
 honestly rather than showing a false success, keeping what the visitor typed.
 
 
-**69 placeholders across 19 pages.**
+**73 placeholders across 21 pages.**
 
 To find them in a browser, on any page:
 
@@ -82,6 +82,16 @@ Read by procurement and security reviewers. A visible gap is safer than a guess,
 ## Content — case studies awaiting client sign-off
 
 Each needs the client's written approval before the outstanding figures and quotes go up.
+
+**`/case-studies/2connect`**
+
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
+
+**`/case-studies/ayni-gold`**
+
+- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
+- [ ] `[STACK]`
 
 **`/case-studies/blockguard`**
 

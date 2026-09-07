@@ -683,6 +683,55 @@ export const caseStudies: CaseStudy[] = [
     },
   },
   /*
+   * Ayni Gold and 2Connect are written from published sources only, not from
+   * the engagement paperwork sitting alongside them. Ayni Gold's description
+   * comes from ayni.gold; 2Connect's comes from 2connect.ai and from Pixelette
+   * Holdings' own portfolio page for the venture. The invoices, SLAs, internal
+   * estimates and change requests for both were deliberately left unread:
+   * commercial terms are not case-study copy.
+   *
+   * Neither sets `detail`. The Holdings page says what was delivered for
+   * 2Connect, but neither source publishes a measured before and after, and
+   * this file's rule is that a figure is shown when it is measured and marked
+   * pending when it is not. Ayni Gold's own headline numbers — grams extracted,
+   * dollars distributed — are the client's production results, not the result
+   * of the engineering, and putting them in a metric tile would claim credit
+   * for a gold mine.
+   *
+   * Screenshots were taken from the live sites, so the artwork is current
+   * rather than a design-file render.
+   */
+  {
+    slug: 'ayni-gold',
+    client: 'Ayni Gold',
+    kicker: 'Ayni Gold · Commodities · Blockchain',
+    sector: 'Gold and commodities',
+    service: 'Blockchain engineering',
+    title: 'Gold production, tokenised and made checkable',
+    metaTitle: 'Ayni Gold: tokenised gold production',
+    summary:
+      'A participation platform tied to a licensed Peruvian gold concession, where the licence, the geology, the extraction and the on-chain trail can each be checked.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Blockchain', 'Financial services'],
+    image: '/work/ayni.png',
+    imageLabel: 'Platform screenshot',
+  },
+  {
+    slug: '2connect',
+    client: '2Connect',
+    kicker: '2Connect · Agentic AI · Production AI system',
+    sector: 'Professional networking',
+    service: 'Production AI Systems',
+    title: 'An agent that surfaces a match only when both sides say yes',
+    metaTitle: '2Connect: agentic AI matching',
+    summary:
+      'You brief the agent once. It retrieves candidates, scores the fit in both directions and explains why — taken from concept to live on the web and both app stores.',
+    metrics: [{ value: '[MEASURED RESULT]', label: 'pending write-up', pending: true }],
+    filters: ['Production systems', 'Data & integration'],
+    image: '/work/2connect.png',
+    imageLabel: 'Product screenshot',
+  },
+  /*
    * The nine below come from the Portfolio UI Designs Figma file, which
    * holds fifteen product landing pages. Five of those products already had
    * case studies here. SuccessPath was added alongside these and then
