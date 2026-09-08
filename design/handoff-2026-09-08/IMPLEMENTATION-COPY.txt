@@ -1,0 +1,568 @@
+PIXELETTE TECHNOLOGIES  |  10/10 WEBSITE REPLACEMENT
+PIXELETTETECHNOLOGIES
+Website Replacement Architecture& Implementation-Ready Copy
+Developer handoff rebuilt around software engineering, AI & automation, specialist blockchain capability, verified proof and clear buying routes — while retaining the strongest existing Pixelette brand language.
+CORE POSITIONINGBUILD. AUTOMATE. DECENTRALISE. RUN.Engineering that ships. Chains that hold. AI built into both.
+
+Prepared as a direct copy-and-build handoff for the software partner. Case-study narratives are drawn from Pixelette’s internal case-study and portfolio material and carry explicit evidence gates before public metrics are used.
+
+PURPOSE & PUBLICATION DISCIPLINE
+Keep the confidence. Make the commercial story unmistakable.
+The current site has a premium visual identity and distinctive voice. The rewrite does not flatten that personality. It changes the hierarchy so a buyer understands, within seconds, what Pixelette Technologies can build, how AI and automation fit, when blockchain is relevant, what evidence exists, and how to start an engagement.
+Non-negotiable publication rule
+SELL CAPABILITY. PROVE CLAIMS. DO NOT BORROW CREDENTIALS.
+No award, accreditation, certification, review score, client logo, project count, country count, performance statistic or case-study result should be published unless Pixelette has evidence for the exact claim and the right to attribute it publicly. Where a governance or certification route sits with Pixelette Certified or an independent body, describe the route openly rather than implying Pixelette Technologies holds that accreditation.
+
+Executive decisions
+Keep the current editorial/serif-led visual character, white space and restrained purple/pink palette.
+Retain the full existing hero line: “Engineering that ships. Chains that hold. AI built into both.” Use it as the brand manifesto, not as a 50/50 service taxonomy.
+Reweight the proposition: Software Engineering and AI & Automation are the primary commercial engines; Blockchain remains a deep specialist practice rather than half of the first screen.
+Give AI & Automation a visible buying route while preserving the principle that AI is engineered into real products and workflows rather than sold as a decorative add-on.
+Organise the homepage around customer problems before internal service categories.
+Use three clear mental models: BUILD, AUTOMATE, DECENTRALISE, with RUN & IMPROVE beneath all three.
+Move selected work and evidence materially higher. Three case-study narratives are supplied later in this document.
+Rewrite the Pixelette Certified cross-sell in accreditation-safe language: Technologies engineers; Certified helps clients govern, evidence and prepare for independent assurance where required.
+Hold all unverified trust badges and statistics behind an internal claims register.
+
+RECOMMENDED HOMEPAGE ARCHITECTURE
+The 10/10 commercial journey
+No.
+Section
+Commercial job
+01
+Hero
+What Pixelette is and why it matters.
+02
+Verified proof
+Trust signals that have passed an evidence gate.
+03
+What are you trying to change?
+Route the buyer by problem, not org chart.
+04
+Build • Automate • Decentralise • Run
+Make the service model memorable.
+05
+Why Pixelette
+Explain the engineering advantage.
+06
+AI engineered in
+Make agentic AI and automation commercially visible.
+07
+Selected work
+Show challenge → build → result.
+08
+How we deliver
+From discovery to production and improvement.
+09
+Ways to work with us
+Make the commercial product buyable.
+10
+Who we work with
+Broad sectors and growth stages.
+11
+Blockchain specialist practice
+Heritage and capability without dominating the proposition.
+12
+Governance when required
+Accreditation-safe route to Certified.
+13
+Part of Pixelette Group
+Clarify the four-company architecture.
+14
+Final CTA
+Start with the problem or brief.
+
+HOMEPAGE COPY
+01  Hero
+EYEBROW
+SOFTWARE ENGINEERING  •  AI & AUTOMATION  •  BLOCKCHAIN
+Engineering that ships.Chains that hold.AI built into both.
+Pixelette Technologies designs, builds, integrates and operates software products, AI systems and intelligent workflows. Software engineering is our foundation. AI and automation are both a major capability in their own right and engineered into the products we build. Our blockchain practice brings specialist depth where decentralisation, tokenisation or distributed infrastructure genuinely creates value.
+Primary CTA
+Build a Product
+Secondary CTA
+Automate a Workflow
+Specialist route
+Explore Blockchain Engineering
+Low-friction route
+Not sure which route fits? Tell us what needs to change.
+
+DESIGN NOTEDo not put Blockchain and Software in two equal hero boxes. Keep the three-line hero as the visual centre, then use three concise route chips beneath it: Build Software • AI & Automation • Blockchain. Give Build and AI the strongest commercial prominence; keep Blockchain clearly visible as specialist depth.
+
+Why the existing hero stays
+The line stays because it is distinctive. We fix the hierarchy underneath it: Build and AI lead commercially; Blockchain remains specialist depth.
+
+
+TRUST WITHOUT OVERCLAIMING
+02  Verified proof
+Built for real operating environments.
+The first proof section should be short. Use selected client/venture logos and only those facts that have passed the claims register. Avoid a badge wall that asks the visitor to work out what each certification or award actually means.
+Selected work
+Show 5–8 approved logos or anonymised client categories. Never use a logo purely because it appears in an old deck.
+Evidence that matters
+Prefer production launches, measurable efficiency, deployed platforms, retained support and validated reviews over vanity awards.
+Claims gate
+Every number, badge and accreditation is either VERIFIED, HELD FOR EVIDENCE, or NOT PUBLISHED.
+
+Hold until verified
+ISO 9001 / ISO 27001 / Cyber Essentials Plus badges for the exact Technologies legal entity
+Clutch rating and review count
+13 countries or any other geography count
+200+ AI/emerging-tech projects
+“Top AI company in the UK” or similar award/ranking claims
+APPG / Parliamentary wording beyond the exact, legally safe relationship
+Blockchain production counts, value tokenised, transaction volumes or smart-contract audit claims
+DEVELOPER RULE
+Build the proof component so cards/badges can be switched on individually. The absence of a badge must not leave a broken layout. The first public release can be strong with client work + case studies alone.
+
+
+BUYER ROUTE
+03  What are you trying to change?
+Start with the problem, not the technology.
+Most clients do not arrive with a perfect technical specification. Let them identify the business change they need, then route them to the relevant capability.
+Buyer trigger
+Route
+What it means
+CTA
+We need a new platform, product or app
+Build Software
+SaaS, web, mobile, internal platforms and customer-facing products.
+Scope a build
+A manual process needs automating
+AI & Automation
+Agents, workflow automation, decision support and system integration.
+Map the workflow
+We want AI inside an existing product
+AI Engineering
+LLM/model integration, RAG, prediction, personalisation and agentic features.
+Add AI to a product
+Our existing system needs modernising
+Modernise & Integrate
+Architecture, APIs, cloud, data migration and legacy replacement.
+Modernise a system
+We need tokenisation, smart contracts or a dApp
+Blockchain
+Specialist decentralised architecture where blockchain genuinely creates value.
+Scope blockchain
+We need someone to keep improving what exists
+Run & Improve
+Managed engineering, monitoring, support, optimisation and roadmap delivery.
+Discuss ongoing engineering
+
+CORE OFFER
+04  Build • Automate • Decentralise • Run
+One engineering company. Four ways we create value.
+BUILD
+Custom software, SaaS, web and mobile products, APIs, integrations, cloud architecture and modernisation.
+AUTOMATE
+AI agents, workflow orchestration, model/LLM integration, RAG, predictive systems and intelligent automation.
+DECENTRALISE
+Tokenisation, smart contracts, dApps, wallets and blockchain infrastructure where decentralisation solves a real problem.
+RUN
+Operate, monitor, support and continually improve products and workflows after launch.
+
+Build
+From a blank sheet or an inherited codebase, we design and engineer products that can move from specification to production without handing the client a prototype and walking away.
+Automate
+We apply AI where it can reduce work, improve decisions, personalise a product or coordinate complex workflows — with human oversight and measurable success criteria where the use case requires it.
+Decentralise
+Blockchain is a specialist tool, not a default answer. We use it where ownership, programmability, verification, tokenisation or distributed trust creates a genuine advantage.
+Run
+Production is a starting point, not a handover ceremony. Ongoing support can include monitoring, incident response, optimisation, releases, backlog delivery and product evolution.
+
+DIFFERENTIATION
+05  Why Pixelette Technologies
+AI is stronger when there is engineering underneath it.
+Pixelette Technologies began with difficult engineering problems. That matters now: clients do not need another AI presentation. They need systems that integrate with data, survive production, can be measured, and can be improved when the model or business changes.
+Engineering before theatre
+Architecture, integration, testing and production readiness come before the demo.
+Product thinking, not ticket delivery
+We challenge the brief where a different product, workflow or architecture will create a better outcome.
+Built to keep operating
+Deployment, monitoring, observability, support and iterative improvement can remain inside the same engineering relationship.
+
+AI-native where useful
+AI can be part of the product, the workflow and the delivery process — but only where it earns its place.
+Blockchain depth
+The practice grew from blockchain engineering rather than adding Web3 language after the market moved.
+Governance route available
+Where formal governance, certification readiness or assurance is needed, Pixelette Certified provides a separate specialist route.
+
+KEEP THIS IDEA FROM THE CURRENT SITE
+“An AI practice with no engineering underneath it is essentially a slide deck.”The exact sentence can be softened for enterprise tone, but the underlying idea should remain central to the brand.
+
+
+AI & AUTOMATION PROPOSITION
+06  AI engineered in
+AI should do useful work, not decorate the roadmap.
+We design AI systems around a measurable job: remove repetitive work, accelerate a decision, create a new product capability, improve customer experience, or coordinate a workflow that would otherwise require multiple people and systems.
+Capability
+Implementation-ready wording
+Agentic AI & orchestration
+Single- and multi-agent systems that plan, call tools, coordinate steps and operate within defined controls.
+Workflow automation
+Automate repetitive or high-friction business processes across systems, data and human approvals.
+LLM integration & RAG
+Add model intelligence to existing products and knowledge environments with retrieval, permissions and grounded context.
+Predictive intelligence
+Forecasting, scoring, recommendation and decision-support systems built around business data.
+Language, speech & vision
+NLP, sentiment, extraction, classification, speech and image/video intelligence where the use case supports it.
+Data & integration
+Pipelines, APIs, model-serving layers and integrations into existing systems of record.
+Evaluation & observability
+Measure output quality, reliability, latency, cost, drift and human escalation rather than trusting a demo.
+AI Value Baseline
+Define the current manual cost, cycle time, error rate or conversion baseline before automating so value can be measured afterwards.
+
+AI operating principle
+Human oversight is the default where decisions are material. More autonomous operation is introduced where the workflow, risk level and evidence justify it. Pixelette should sell autonomy as an engineered control decision, not as a slogan.
+
+CHALLENGE → BUILD → RESULT
+07  Selected work
+Three case studies to show agentic AI, product engineering and specialist blockchain depth.
+The following narratives were pulled from Pixelette’s internal project records, portfolio material and delivery documentation. They are deliberately written in two layers: a publication-safe narrative for the website, plus an internal evidence note for any stronger claim that still needs approval.
+PUBLICATION RULE
+Client name/logo, quotes and numerical results require approval. If permission or evidence is not available, anonymise the client while keeping the challenge, engineering work and non-quantified result.
+
+CASE STUDY 01  |  2Connect by FindReciprocity — agentic AI relationship intelligence
+RECOMMENDED HOMEPAGE/CARD TITLE
+Engineering an AI matchmaking platform that understands intent before making an introduction
+Client / product
+2Connect by FindReciprocity
+Business type
+AI / SaaS / professional networking & relationship intelligence
+Challenge
+Professional networks can create high volumes of connections without enough relevance. The product needed to understand what users want, what they can offer and whether two professionals are likely to create value for one another — while keeping matching scalable, privacy-aware and commercially usable.
+What Pixelette built
+Pixelette designed and developed the AI architecture and MVP route around structured onboarding, professional-profile intelligence, persona/vector creation, compatibility scoring, AI-assisted matchmaking, controlled agent-to-agent interaction, feedback-led refinement, dashboards and B2B event/API integration routes.
+Delivery approach
+Discovery workshops → onboarding/persona design → matchmaking architecture → LLM/NLP and compatibility logic → agent interaction controls → dashboard/integration design → iterative MVP development and Phase 2 planning.
+Publication-safe result
+The engagement moved 2Connect from concept and discovery into a structured AI product architecture and MVP development programme, with defined matching flows, a working development environment and later-phase product planning recorded in the project trail.
+CTA
+Read the 2Connect case study
+
+INTERNAL EVIDENCE / PUBLICATION NOTE
+Internal project records include repeated discovery and development meetings, defined onboarding/persona flows, vector and compatibility matching, controlled AI-agent interaction, feedback loops, dashboard requirements, event-platform integration routes and a working development environment. Publish the client name/logo only where the public-use basis is confirmed; do not invent match-accuracy or adoption percentages.
+CASE STUDY 02  |  Fusio Wallet — AI-powered mobile and web financial product engineering
+RECOMMENDED HOMEPAGE/CARD TITLE
+Bringing mobile, web, AI, financial planning and digital-asset functionality into one product programme
+Client / product
+Fusio Wallet / Fusio ecosystem
+Business type
+FinTech / mobile & web product / AI & blockchain-enabled financial tooling
+Challenge
+The programme needed to bring traditional financial information, digital assets, planning tools, AI recommendations, adviser functionality and secure user access into one coherent product experience across mobile and web.
+What Pixelette built
+Pixelette led a phased engineering programme spanning native iOS/Android applications and web interfaces, with documented scope covering asset categorisation, off-chain financial-data aggregation, cash-flow forecasting, goal planning, authentication, adviser tooling, AI recommendations, administration and later-stage product functionality.
+Delivery approach
+Product architecture and phased scope → mobile/web engineering → financial and data integrations → AI recommendation features → adviser/admin tooling → testing, deployment planning and post-release support route.
+Publication-safe result
+The documented programme created a connected product architecture and phased delivery route from launch-oriented core functionality into more advanced financial-management, adviser and AI capability. Treat completion status feature-by-feature as a separate evidence gate.
+CTA
+Read the Fusio Wallet programme case study
+
+INTERNAL EVIDENCE / PUBLICATION NOTE
+The underlying programme documentation sets out native iOS/Android and web delivery, asset categorisation, financial-data aggregation, cash-flow forecasting, goal planning, authentication, adviser tooling, AI recommendations, administration and later-stage functionality. Describe this as a documented engineering programme and phased product scope unless separate completion evidence is approved.
+CASE STUDY 03  |  Ayni Gold — real-world-asset blockchain infrastructure
+RECOMMENDED HOMEPAGE/CARD TITLE
+Connecting physical gold-mining activity to a transparent on-chain participation model
+Client / product
+Ayni Gold
+Business type
+Real-world asset / gold-mining tokenisation ecosystem
+Challenge
+The product needed to connect a physical gold-mining proposition with transparent digital participation. Reward calculations, investor visibility, treasury activity and on-chain logic had to work as one coherent RWA architecture rather than as a standalone token.
+What Pixelette built
+Pixelette’s portfolio material documents an architecture around the AYNI ERC-20 token, staking and PAXG-linked reward logic, vesting, investor dashboards, treasury views and administration capability for mining and finance operations.
+Delivery approach
+RWA/product architecture → token and reward mechanics → investor/treasury interfaces → administration flows → on-chain components structured for independent security review and production deployment.
+Publication-safe result
+The resulting architecture created a structured digital layer around a physical mining proposition, bringing tokenisation, investor participation, treasury visibility and reward mechanics into one auditable product model. Do not add financial-performance or production-volume claims without evidence.
+CTA
+Read the Ayni Gold case study
+
+INTERNAL EVIDENCE / PUBLICATION NOTE
+Pixelette’s blockchain portfolio material describes Ayni Gold as an RWA platform linking licensed gold-mining throughput in Peru to on-chain participation, including the AYNI token, staking/PAXG reward logic, vesting, investor dashboards, treasury views and admin tooling. Do not publish investment-return, token-value, mining-output or production-volume claims without independent evidence and approval.
+Optional fourth case study for the wider Work page — AIA
+Keep AIA as a strong fourth proof point rather than a homepage lead. Internal case-study material documents Pixelette’s collaboration with DiverSCInnova on a seven-month SaaS/AI assessment programme spanning accessibility research, product design, AI/model work, integrations, QA and deployment. Any savings, integration-rate or satisfaction metrics remain behind an evidence gate.
+
+FROM PROBLEM TO PRODUCTION
+08  How we deliver
+Discover. Design. Build. Verify. Launch. Improve.
+01  DISCOVER
+Define the business problem, users, systems, data, constraints, risks and success measures. Decide what should — and should not — be built.
+02  DESIGN
+Architecture, UX, data model, workflow and delivery plan. For AI, define the baseline and evaluation method before model selection.
+03  BUILD & INTEGRATE
+Engineering, model integration, APIs, automation, infrastructure and iterative product delivery with working evidence.
+
+04  VERIFY
+Functional testing, security review, performance, model evaluation, human-control points and production-readiness evidence.
+05  LAUNCH
+Deploy with observability, rollback, monitoring and agreed ownership. Production is treated as an operating state, not a demo.
+06  RUN & IMPROVE
+Support, incident handling, optimisation, releases and roadmap delivery based on real usage and measured outcomes.
+
+CTA: See how we work  •  Discuss an engineering problem
+
+COMMERCIAL PRODUCTS
+09  Ways to work with us
+Three clear ways to engage Pixelette Technologies.
+ENGINEERING / AI DIAGNOSTIC
+For clients who know the problem but not the solution. Discovery, architecture, data/workflow review, feasibility and a prioritised build plan.CTA: Scope the problem
+BUILD & LAUNCH PROGRAMME
+A scoped product, automation or modernisation programme with milestones, working releases, acceptance criteria and launch.CTA: Scope a build
+MANAGED ENGINEERING PARTNER
+Ongoing product engineering, support and improvement for clients that need a continuing technical capability rather than a one-off project.CTA: Discuss ongoing engineering
+
+Optional fourth route for inherited problems
+Rescue & Modernise — for stalled builds, legacy platforms, inherited codebases or projects that need an independent technical assessment before further investment.
+POSITIONING RULE
+Do not lead the homepage with generic “hire developers by the day” language. Dedicated teams or staff augmentation can be sold where appropriate, but the default positioning should remain accountable engineering outcomes rather than commodity body-shopping.
+
+
+BROAD MARKET POSITIONING
+10  Who we work with
+Built around the problem, not the sector label.
+Pixelette Technologies should not position itself as technology-company-only. The offer applies wherever software, automation, AI or decentralised infrastructure can create a measurable business outcome.
+STARTUPS
+Turn a validated idea into a production product without building every technical capability internally.
+SCALE-UPS
+Add product capacity, AI capability, integration or architecture as complexity and customer requirements increase.
+ESTABLISHED BUSINESSES
+Modernise systems, automate processes, integrate data and create new digital products around existing operations.
+ENTERPRISE / PUBLIC SECTOR
+Deliver scoped engineering, analytics, automation and assurance-aware programmes inside more complex operating environments.
+
+Sector experience can be shown as evidence, not a boundary
+Financial services • retail • healthcare • public sector • media • professional services • technology • Web3 / digital assets • pharmaceuticals • travel / tourism • other data- and workflow-intensive sectors.
+
+HERITAGE WITHOUT DISTORTION
+11  Blockchain specialist practice
+Chains that hold — when decentralisation has a reason to exist.
+Pixelette’s engineering roots include blockchain. Keep that history because it demonstrates experience with trust, irreversible transactions, distributed systems and security-sensitive architecture. But present blockchain as a specialist solution to a specific problem, not as a mandatory ingredient in every technology project.
+Capability
+Website wording
+Asset tokenisation
+Architecture and implementation for representing and managing real-world or digital assets on-chain where the commercial/legal model supports it.
+Smart contracts & dApps
+Programmable workflows and decentralised applications with testing, access controls and clear upgrade/ownership decisions.
+Wallets & digital-asset products
+User-facing wallet, portfolio and transaction experiences across mobile/web environments.
+Layer 1 / Layer 2 & protocol work
+Specialist network and protocol engineering where a bespoke chain or scaling layer is justified.
+Interoperability & integrations
+Connect blockchain components to existing applications, data and off-chain systems.
+Blockchain product strategy
+Decide whether blockchain is actually required before committing to architecture and delivery.
+
+Programme highlight: BlockGuard / Fusio
+Pixelette internal project material documents work around the Fusio and BlockGuard ecosystem, including a chain-agnostic financial-management concept, wallet and portfolio functionality, AI-assisted financial planning, multichain ambitions and security-oriented blockchain design. Use this as specialist heritage/proof only after the exact completed components and public attribution rights are confirmed.
+DO NOT PUBLISH UNTIL VERIFIED
+Value tokenised • number of live chains/protocols • production transaction volumes • “audited” smart-contract claims • every roadmap feature shown as complete.
+
+SAFE PIXELETTE CERTIFIED CROSS-SELL
+12  Governance when required
+Need governance and assurance around what you are building?
+Pixelette Certified is the Group’s specialist compliance, cyber-assurance and AI-governance business. Where a technology programme needs formal governance, certification readiness, privacy or security-assurance support, Certified can help scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment where required.
+CTA: Explore Pixelette Certified
+Use this wording instead of the current “we build it, Certified proves it” claim
+We engineer it. Certified helps you govern, evidence and prepare it for assurance.
+ACCREDITATION-SAFE RULE
+Do not say Pixelette Technologies or Pixelette Certified “holds” an accreditation, issues a certificate, performs an independent audit, or has a named certified-practice status unless the exact legal entity and status have been verified. Keep the website open about readiness, coordination, credentialed specialists and independent assessment where required.
+
+
+GROUP ARCHITECTURE
+13  Part of Pixelette Group
+Four businesses. Four distinct jobs.
+PIXELETTE HOLDINGS
+PARTNER & VENTUREGroup-level venture partnerships, HSE/equity structures, portfolio and strategic relationships.
+PIXELETTE TECHNOLOGIES
+BUILD & AUTOMATESoftware engineering, AI & automation, blockchain and ongoing product engineering.
+PIXELETTE MARKETING
+GROW & CONVERTDemand, pipeline, conversion, revenue and accountable growth systems.
+PIXELETTE CERTIFIED
+GOVERN & ASSURECompliance readiness, cyber assurance, privacy, AI governance and ongoing compliance support.
+
+The Technologies site should reference the Group architecture lightly. It should never read like a holding-company website or force buyers through other Group companies before they can buy engineering.
+
+HOMEPAGE CLOSE
+14  Final conversion
+RECOMMENDED CLOSE
+Bring us the problem, not the specification.
+Tell us what needs to change — a product that needs building, a workflow that needs automating, a system that needs modernising, or a blockchain use case that needs testing. We’ll help you map the right engineering route and the evidence needed to know whether it worked.
+Primary CTA
+Book an Engineering Conversation
+Secondary CTA
+Send Us a Brief
+Optional file upload
+Upload a brief, requirements document, process map or architecture note.
+Form qualifier
+What are you trying to build or change?  •  What exists today?  •  Is there a deadline?  •  What would a successful result look like?
+
+Microcopy: No obligation. If the answer is “do not build this yet”, we should be willing to say so.
+
+NAVIGATION, SERVICE PAGES & SEO
+Recommended site structure
+Primary navigation
+Engineering  |  AI & Automation  |  Blockchain  |  Work  |  Insights  |  About  |  Book an Engineering Conversation
+Engineering dropdown / landing pages
+Custom Software & SaaS
+Web Platforms
+Mobile Applications
+Modernisation & Integration
+Cloud & Data Engineering
+Managed Engineering / Support
+AI & Automation dropdown / landing pages
+Agentic AI & Multi-Agent Systems
+AI Agents & Workflow Automation
+LLM Integration & RAG
+Predictive Intelligence
+NLP / Speech / Vision
+AI Integration, Evaluation & Observability
+Blockchain dropdown / landing pages
+Tokenisation
+Smart Contracts & dApps
+Wallets & Digital-Asset Products
+Blockchain Integration
+Layer 1 / Layer 2 & Protocol Engineering
+Homepage SEO
+SEO title
+Pixelette Technologies | Software Engineering, AI & Automation, Blockchain
+Meta description
+Design, build, automate and operate custom software, AI-powered products and intelligent workflows, with specialist blockchain engineering where it creates value.
+H1
+Engineering that ships. Chains that hold. AI built into both.
+Schema
+Organisation + WebSite + Service. Add CaseStudy/Article schema only where the published page genuinely supports it.
+
+HOMEPAGE FAQS
+Questions worth answering before a sales call
+What does Pixelette Technologies do?
+We design, build, integrate and operate custom software, AI-powered products, automation and specialist blockchain systems. Engagements can start with discovery or with an existing product, process or codebase.
+Do you build AI agents and agentic workflows?
+We scope and build AI-agent and workflow-automation solutions where the process, data, controls and expected value justify them. More autonomous operation is introduced according to risk and measurable performance, rather than as a default.
+Can you add AI to an existing product or system?
+Yes. A common engagement is to integrate model or agent capabilities into an existing application, knowledge base or workflow while preserving the systems and controls already in place.
+Do you build mobile applications?
+Yes. Mobile can be a standalone product or part of a wider SaaS/platform programme across iOS, Android and web, with the architecture chosen around the product and operating requirements.
+Can you take over an existing or stalled build?
+Yes. We can start with an independent technical assessment, architecture/code review and recovery plan before committing to continued development.
+Do you provide developers by the day?
+We can structure dedicated engineering capacity where that is the right commercial model, but our default proposition is accountable delivery around a defined product, workflow or engineering outcome.
+What happens after launch?
+Support can continue through monitoring, incident response, optimisation, releases, roadmap delivery and managed product engineering.
+Can you help with compliance or certification?
+Where a project needs governance, certification readiness or assurance support, Pixelette Certified can help scope and coordinate the appropriate readiness and independent-assessment route. The exact assurance provider depends on the requirement.
+
+INTERNAL CASE-STUDY EVIDENCE REGISTER
+What can go live now, and what needs proof first?
+Case
+Claim
+Status
+Evidence note
+2Connect
+Challenge / product architecture narrative
+READY subject to name permission
+Detailed client meeting notes + AI portfolio material.
+2Connect
+Working development environment / Phase 2 planning
+READY if public-use basis confirmed
+Project notes record dev URL and later Phase 2 discussions.
+2Connect
+Match accuracy / adoption / commercial-outcome percentages
+DO NOT INVENT
+No approved metric basis used in this handoff.
+Fusio Wallet
+Programme scope / mobile-web-AI architecture narrative
+READY as programme wording
+Pixelette-side service agreement + portfolio / ecosystem documentation.
+Fusio Wallet
+Every documented feature completed/live
+HOLD
+A scope/roadmap is not automatically completion evidence.
+Ayni Gold
+RWA architecture / token-reward-dashboard narrative
+READY subject to client/public-use approval
+Pixelette blockchain portfolio material.
+Ayni Gold
+Investment returns / token value / mining output / production volume
+HOLD
+Require independent evidence and approval.
+AIA
+Challenge / solution / seven-month programme narrative
+READY for wider Work page subject to name permission
+Dedicated AIA case-study document + AI portfolio.
+AIA
+$20k savings / 98% integration / 4.7/5
+HOLD
+Verify methodology, denominator and client permission.
+All case studies
+Client logo / quote / numerical result
+APPROVAL GATE
+Publish only where genuine engagement, evidence and public-use basis are confirmed.
+
+TECHNOLOGIES CLAIMS REGISTER
+Claims that must be controlled before deployment
+Claim
+Publication instruction
+Corporate ISO / Cyber Essentials badges
+HOLD — Publish only with current certificate for exact legal entity, scope and validity.
+Clutch rating / reviews
+HOLD — Verify live profile, current score and review count.
+Client logos
+APPROVAL GATE — Confirm genuine engagement + public-use permission/legitimate basis.
+Case-study metrics
+EVIDENCE GATE — Keep internal metrics in CMS but hide until evidence and permission are approved.
+200+ AI projects
+HOLD — Require project register and definition of “project”.
+Top AI company / award
+HOLD — Require exact award/ranking, year, publisher and wording.
+APPG / Parliament reference
+WORDING GATE — Use only the exact substantiated relationship. Do not imply Parliamentary endorsement.
+Blockchain volumes / values / chain counts
+HOLD — Require production/economic evidence and clear definitions.
+Smart contract “audit”
+HOLD / REWORD — Use “review/testing” unless the precise audit competence and scope is evidenced.
+Certified cross-sell
+SAFE WORDING ONLY — Use readiness/governance/coordination language; independent assurance remains independent.
+
+
+DEVELOPER HANDOFF
+Implementation checklist
+Keep the existing visual identity and premium whitespace; this is a copy/architecture upgrade, not a generic redesign.
+Keep the Section 01 hero exactly as revised: “Engineering that ships. Chains that hold. AI built into both.” Rebalance the first screen through route hierarchy and supporting copy, not by weakening the brand line.
+Keep Blockchain visible in navigation and route chips, but remove the equal 50/50 first-screen weighting.
+Add “What are you trying to change?” immediately after verified proof.
+Implement the Build • Automate • Decentralise • Run mental model as four reusable cards used across homepage and service pages.
+Create AI & Automation as a first-class navigation route. Do not hide AI solely inside Engineering/Blockchain.
+Expose agentic AI, orchestration, workflow automation, RAG, predictive intelligence, data/integration and evaluation/observability as sub-capabilities.
+Add the three selected-work cards in this order: 2Connect → Fusio Wallet → Ayni Gold. Use publication-safe narratives first. Keep any metrics as hidden CMS fields until approved. Use AIA as the next case study on the wider Work page.
+Build case-study pages with Challenge → What Pixelette Built → Delivery → Result → Tech / evidence → CTA.
+If client logo/name permission is not confirmed, support anonymised case-study presentation without changing layout.
+Add the Discover → Design → Build & Integrate → Verify → Launch → Run & Improve delivery path.
+Add the three commercial engagement routes: Diagnostic, Build & Launch, Managed Engineering Partner.
+Use the Blockchain section copy and separate specialist proof from homepage-level core proposition.
+Replace all current Certified wording with the Section 12 accreditation-safe copy.
+Update Group descriptions to Partner & Venture / Build & Automate / Grow & Convert / Govern & Assure.
+Remove or hide all unverified badges, awards, numerical claims, chain/value metrics and review counts until evidence approval.
+Build claim components as toggles/configuration so a missing proof item never breaks the design.
+Add “Send us a brief” and optional file upload to the final CTA if technically feasible.
+Use the FAQ copy in this document; do not repeat old “top-rated company” or unverified certification language inside FAQs.
+Confirm legal footer details and privacy/terms links remain correct for Pixelette Technologies Ltd before release.
+Add analytics events for hero CTAs, buyer-trigger routes, case studies, brief upload and booked conversations.
+After launch, measure conversion by route (Build / Automate / Blockchain / Run) and promote the highest-performing buyer problems in paid and organic campaigns.
+
+FINAL HOMEPAGE POSITIONING STATEMENT
+Engineering that ships. Chains that hold. AI built into both.
+The line remains the brand manifesto. Software engineering is the foundation. AI & automation are a visible first-class buying route and a horizontal capability across products. Blockchain remains a specialist practice with real heritage. Proof is shown through selected work, not unsupported badges or numbers.
+DEVELOPER SUMMARYIf a visitor remembers only four words, they should be: BUILD • AUTOMATE • DECENTRALISE • RUN.If they remember one line, it should be: Engineering that ships. Chains that hold. AI built into both.Do not flatten that line into a service menu. The commercial hierarchy lives underneath it.
+
+Internal source basis used for the case-study section
+2Connect / FindReciprocity client meeting notes and Pixelette AI portfolio material, supporting the agentic-AI matchmaking architecture, development route and later-phase planning.
+Fusio Wallet Pixelette-side service agreement and programme documentation, supporting the mobile/web product scope, AI recommendations, integrations, adviser/admin tooling and phased delivery model.
+Pixelette Blockchain Portfolio material for Ayni Gold, plus the dedicated AIA case-study document as the optional fourth Work-page proof point.
+Current Pixelette Technologies website capture supplied on 8 September 2026.
+This document intentionally separates internal evidence from public claims. Where the internal source states a metric but supporting evidence/permission was not independently available during this rewrite, the metric is marked HOLD.

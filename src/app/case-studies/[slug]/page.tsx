@@ -11,7 +11,16 @@ import {
   Placeholder,
   Section,
 } from '@/components/ui';
-import { caseStudies, getCaseStudy } from '@/content/work';
+import {
+  caseStudies,
+  displayKicker,
+  displayName,
+  getCaseStudy,
+  isNameGated,
+  publishedDetail,
+  publishedImage,
+  publishedMetrics,
+} from '@/content/work';
 import { breadcrumbSchema, caseStudySchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -24,11 +33,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const cs = getCaseStudy(slug);
   if (!cs) return pageMetadata({ title: 'Case study', description: '', path: `/case-studies/${slug}`, noIndex: true });
 
+  // `metaTitle` and `summary` are authored name-free for any case study whose
+  // client permission is still pending, so both are safe here either way. The
+  // og:image is not: a product screenshot generally carries the client's logo,
+  // so it comes through the same gate the page body uses.
   return pageMetadata({
     title: cs.metaTitle,
     description: cs.summary,
     path: `/case-studies/${cs.slug}`,
-    ogImage: cs.image,
+    ogImage: publishedImage(cs),
   });
 }
 
@@ -37,8 +50,30 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   const cs = getCaseStudy(slug);
   if (!cs) notFound();
 
+  // Everything below reads the case study through the publication gate in
+  // work.ts: `displayName` for the name, `publishedDetail` for the narrative,
+  // `publishedMetrics` for the figures, `publishedImage` for the artwork. The
+  // page has the same sections and the same layout whether or not the client
+  // can be named — only the words in the name slots change.
+  const name = displayName(cs);
+  const detail = publishedDetail(cs);
+  const metrics = publishedMetrics(cs);
+  const image = publishedImage(cs);
+
   const others = caseStudies.filter(c => c.slug !== cs.slug).slice(0, 2);
 
+  /*
+   * Structured data goes through the same gate as the page, and the gate now
+   * lives behind the two functions rather than here.
+   *
+   * `caseStudySchema` resolves the artwork through `publishedImage()` itself,
+   * so it can no longer emit a gated client's screenshot URL for any caller —
+   * this page used to hand it `{ ...cs, image }` to force that, which
+   * protected this call site and nobody else. `JsonLd` renders nothing when
+   * the builder returns null, so the `articleSchema ? … : null` guard is gone
+   * too. Both fixes are in the shared code, where the next caller inherits
+   * them instead of having to remember them.
+   */
   return (
     <>
       <JsonLd data={caseStudySchema(cs)} />
@@ -46,7 +81,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
           { name: 'Work', path: '/case-studies' },
-          { name: cs.client, path: `/case-studies/${cs.slug}` },
+          { name, path: `/case-studies/${cs.slug}` },
         ])}
       />
 
@@ -56,7 +91,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             <Link href="/case-studies">Work</Link> <span aria-hidden>/</span> {cs.sector}
           </p>
           <Eyebrow>
-            {cs.client} · {cs.service}
+            {name} · {cs.service}
           </Eyebrow>
           <h1 className="h1p" style={{ marginTop: 20, maxWidth: '24ch' }}>
             {cs.title}
@@ -72,17 +107,31 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               Client under NDA. We publish the sector and the number rather than nothing.
             </p>
           ) : null}
+          {/* The name gate, said out loud. It occupies the same slot as the two
+              notes above, so a gated case study is the same shape as any other
+              — it just tells the reader why the client is not named yet. */}
+          {isNameGated(cs) ? (
+            <p className="small" style={{ marginTop: 20, fontStyle: 'italic' }}>
+              Client named on request. We publish the challenge, the engineering and the result while
+              the name, logo and any figures are cleared for publication.
+            </p>
+          ) : null}
 
-          <div className="grid grid-4" style={{ marginTop: 44 }}>
-            {cs.metrics.map(m => (
-              <div className="tile" key={m.label}>
-                <b className={m.pending ? 'ph' : undefined} style={m.pending ? { fontSize: 18 } : undefined}>
-                  {m.value}
-                </b>
-                <span>{m.label}</span>
-              </div>
-            ))}
-          </div>
+          {metrics.length > 0 ? (
+            <div className="grid grid-4" style={{ marginTop: 44 }}>
+              {metrics.map(m => (
+                <div className="tile" key={m.label}>
+                  <b
+                    className={m.pending ? 'ph' : undefined}
+                    style={m.pending ? { fontSize: 18 } : undefined}
+                  >
+                    {m.value}
+                  </b>
+                  <span>{m.label}</span>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
 
@@ -95,48 +144,82 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             (675x419, 1.61:1) almost exactly, so nothing is cropped. Forcing
             16/9 here clipped the bottom of every laptop mockup on the site —
             the only MediaSlot in the build that did. */}
-        <MediaSlot
-          label={cs.imageLabel}
-          src={cs.image}
-          alt={`${cs.client} — ${cs.title}`}
-        />
+        <MediaSlot label={cs.imageLabel} src={image} alt={`${name} — ${cs.title}`} />
 
         <div className="split split--wide-left" style={{ marginTop: 56 }}>
           <div>
-            {cs.detail ? (
+            {detail ? (
+              /* The section order the 8 September 2026 handoff mandates:
+                 Challenge → What Pixelette built → Delivery → Result → Tech and
+                 evidence → CTA. Delivery and the evidence block are optional,
+                 because the case studies carried across from the previous site
+                 record neither, and inventing a delivery sequence for them
+                 would be writing fiction into a case study. */
               <>
-                <h2 className="h2">The problem</h2>
+                <h2 className="h2">The challenge</h2>
                 <p className="body" style={{ marginTop: 18 }}>
-                  {cs.detail.problem}
+                  {detail.problem}
                 </p>
 
                 <h2 className="h2" style={{ marginTop: 48 }}>
-                  What we built
+                  What Pixelette built
                 </h2>
                 <p className="body" style={{ marginTop: 18 }}>
-                  {cs.detail.built}
+                  {detail.built}
                 </p>
 
                 <div style={{ marginTop: 32 }}>
-                  <MediaSlot label={cs.detail.architectureLabel} ratio="16 / 7" />
+                  <MediaSlot label={detail.architectureLabel} ratio="16 / 7" />
                 </div>
 
+                {detail.delivery ? (
+                  <>
+                    <h2 className="h2" style={{ marginTop: 48 }}>
+                      How we delivered it
+                    </h2>
+                    <p className="body" style={{ marginTop: 18 }}>
+                      {detail.delivery}
+                    </p>
+                  </>
+                ) : null}
+
                 <h2 className="h2" style={{ marginTop: 48 }}>
-                  How it is measured
+                  The result
                 </h2>
                 <p className="body" style={{ marginTop: 18 }}>
-                  {cs.detail.measured}
+                  {detail.measured}
                 </p>
+
+                {/* Tech and evidence. Present where the write-up states what it
+                    rests on, which is every case study the handoff supplied.
+                    The stack is repeated from the aside on purpose: the aside
+                    is a scan-and-leave summary, and the handoff asks for tech
+                    and evidence to be a section a reader arrives at. */}
+                {detail.evidenceBasis ? (
+                  <>
+                    <h2 className="h2" style={{ marginTop: 48 }}>
+                      Tech and evidence
+                    </h2>
+                    <p className="body" style={{ marginTop: 18 }}>
+                      {detail.stack ? (
+                        <>
+                          Built with {detail.stack}.{' '}
+                        </>
+                      ) : null}
+                      {detail.evidenceBasis}
+                    </p>
+                  </>
+                ) : null}
 
                 {/* Shown when there is something to say, or where the design
                     boards the section and it is still waiting on the client. */}
-                {cs.detail.next || cs.pendingQuote ? (
+                {detail.next || cs.pendingQuote ? (
                   <>
                     <h2 className="h2" style={{ marginTop: 48 }}>
                       What happened next
                     </h2>
                     <p className="body" style={{ marginTop: 18 }}>
-                      {cs.detail.next ?? (
+                      {detail.next ?? (
                         <Placeholder>
                           RUN CONTRACT STATUS, OR WHAT THE CLIENT DID AFTERWARDS
                         </Placeholder>
@@ -151,7 +234,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                       <Placeholder>CLIENT QUOTE, WITH SIGN-OFF</Placeholder>
                     </p>
                     <footer className="small" style={{ marginTop: 18 }}>
-                      <Placeholder>NAME</Placeholder>, <Placeholder>ROLE</Placeholder>, {cs.client}
+                      <Placeholder>NAME</Placeholder>, <Placeholder>ROLE</Placeholder>, {name}
                     </footer>
                   </blockquote>
                 ) : null}
@@ -181,7 +264,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             <Eyebrow>At a glance</Eyebrow>
             <dl className="glance">
               <dt>Client</dt>
-              <dd>{cs.client}</dd>
+              <dd>{name}</dd>
               <dt>Sector</dt>
               <dd>{cs.sector}</dd>
               <dt>Service</dt>
@@ -192,14 +275,14 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   and an absent row reads as deliberate where an amber [MONTHS]
                   reads as unfinished. Only five engagements state a duration in
                   the source record; the rest are simply not published. */}
-              {cs.detail?.duration ? (
+              {detail?.duration ? (
                 <>
                   <dt>Duration</dt>
-                  <dd>{cs.detail.duration}</dd>
+                  <dd>{detail.duration}</dd>
                 </>
               ) : null}
               <dt>Stack</dt>
-              <dd>{cs.detail?.stack ?? <Placeholder>STACK</Placeholder>}</dd>
+              <dd>{detail?.stack ?? <Placeholder>STACK</Placeholder>}</dd>
             </dl>
             <hr className="rule" style={{ margin: '22px 0 18px' }} />
             <p>
@@ -230,8 +313,12 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         <div className="grid grid-2" style={{ marginTop: 32 }}>
           {others.map(o => (
             <Link key={o.slug} href={`/case-studies/${o.slug}`} className="work-card">
-              <MediaSlot label={o.imageLabel} src={o.image} alt={`${o.client} — ${o.title}`} />
-              <span className="mono work-card__kicker">{o.kicker}</span>
+              <MediaSlot
+                label={o.imageLabel}
+                src={publishedImage(o)}
+                alt={`${displayName(o)} — ${o.title}`}
+              />
+              <span className="mono work-card__kicker">{displayKicker(o)}</span>
               <h3 className="h4" style={{ marginTop: 10 }}>
                 {o.title}
               </h3>
@@ -240,9 +327,10 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         </div>
       </Section>
 
-      <ClosingCta title="Want the detail behind a number?">
-        Every case study links to the architecture, the evaluation approach and, where the client
-        agreed, a reference call.
+      <ClosingCta title="Want the evidence behind a result?">
+        Ask and we will walk you through the architecture, the evaluation approach and the
+        measurement behind any result on this page — including the figures we are not yet
+        publishing, and what it would take to publish them.
       </ClosingCta>
     </>
   );

@@ -8,6 +8,35 @@ The design's rule, which this build follows without exception: *a placeholder
 stays visible until a real engagement fills it.* Nothing here was invented to
 make a section look finished. Fill them, do not delete them.
 
+> **Reconciled by hand, 2026-09-08.** Thirteen work packages landed that day and
+> falsified parts of this file. The inventory below was re-derived from the
+> HTML the 2026-09-08 21:00 build emitted — the same documents the audit reads
+> off the running server, matched with the same `data-placeholder="true"`
+> pattern — rather than re-crawled, because that pass could not run the audit
+> against a live server. **Re-run `python scripts/audit.py --port 4000
+> --checklist` against a fresh build to confirm it.**
+>
+> Two things a later reader needs to know.
+>
+> **First, `--checklist` rewrites this file end to end, so not every
+> correction here is durable.** The launch-blocker section and every standing
+> task are string constants in `scripts/audit.py` (`LAUNCH_BLOCKER`,
+> `STANDING_TASKS`); those corrections were therefore made in **both** places
+> and survive regeneration. The per-page explanatory prose — why each
+> `/privacy` item closed, why `/assurance` cleared by removal rather than by
+> verification, why 2Connect's `[STACK]` is deliberate — has no home in the
+> generator and **will be lost the next time the audit runs.** That was
+> measured, not assumed: regenerating this file from the corrected
+> `scripts/audit.py` and the inventory below reproduces the whole skeleton
+> exactly — same count, same headings, same items, same standing tasks — and
+> drops 89 lines, all of them prose. If that reasoning is worth keeping,
+> `write_checklist` needs a per-page notes hook; that is a code change, and
+> this pass did not make it.
+>
+> **Second, nothing below is ticked that was not read in the code.** Where an
+> item is now waiting on the founder rather than on engineering, it says so
+> and names the decision.
+
 ## ✅ Contact routes — blocker cleared 2026-08-31
 
 The contact page previously offered no working way to reach the company: the form
@@ -36,7 +65,10 @@ per-field errors, and a valid submission with no endpoint configured fails
 honestly rather than showing a false success, keeping what the visitor typed.
 
 
-**73 placeholders across 21 pages.**
+**64 placeholders across 19 pages.** (Was 73 across 21 before the 2026-09-08
+work packages: `/terms` and `/assurance` are now clear, `/privacy` went from
+five to one, `/security-and-data` gained one, and two case studies lost their
+full-write-up placeholder.)
 
 To find them in a browser, on any page:
 
@@ -44,8 +76,18 @@ To find them in a browser, on any page:
 document.querySelectorAll('[data-placeholder]')
 ```
 
-Do not count them by grepping `.next/` — Next inlines the RSC flight payload
-into each HTML file, so every placeholder appears there twice.
+Do not count them with a recursive grep over `.next/`. Each placeholder is
+emitted into three artefacts — the prerendered `.html`, its `.rsc` flight
+payload and the route's `page.js` chunk — so the whole directory over-counts
+roughly threefold (199 hits against a true 64 on the 2026-09-08 build).
+Corrected 2026-09-08: this said the payload is inlined *into each HTML file*
+so every placeholder appears there twice, and it is not — a single
+prerendered `.html` contains each placeholder exactly once. Which matters,
+because searching `.next/server/app/**/*.html` for `data-placeholder="true"`
+is then a sound offline substitute for the crawl, and it is how the inventory
+below was reconciled. It is a substitute, not a replacement: it sees only
+prerendered routes, so a dynamic one (`/case-studies`, which reads
+`searchParams`) is invisible to it and has to be checked in the source.
 
 ## Blocking — legal and regulatory
 
@@ -53,21 +95,45 @@ These carry legal exposure. None should be published in its current state.
 
 **`/privacy`**
 
-- [ ] `[DATE — set at legal sign-off]`
-- [ ] `[RETENTION SCHEDULE — confirm periods per data class with the DPO]`
-- [ ] `[SUBPROCESSOR REGISTER — hosting, email and CRM processors, with locations]`
-- [ ] `[COOKIE POSITION — confirm whether any non-essential cookies are set before publication]`
-- [ ] `[ICO REGISTRATION NUMBER]`
+- [ ] `[TRANSFER MECHANISM PER PROVIDER — confirm UK adequacy regulations (Article 45A) or the International Data Transfer Addendum, and name it here]`
 
-**`/terms`**
+The other four are closed, and how each closed matters more than that it did
+(all read in `src/app/privacy/page.tsx` on 2026-09-08):
 
-- [ ] `[DATE — set at legal sign-off]`
-- [ ] `[LIABILITY WORDING — requires legal review before publication]`
-- [ ] `[GOVERNING LAW AND JURISDICTION CLAUSE — confirm with legal]`
+- `[DATE — set at legal sign-off]` — filled. The page carries a real
+  `lastReviewed="7 September 2026"`, because it really was reviewed that day.
+- `[RETENTION SCHEDULE …]` — answered the way Article 13(2)(a) permits when a
+  period is genuinely not fixed: by publishing the **criteria**. Same for named
+  recipients, published as **categories**.
+- `[COOKIE POSITION …]` — closed from first-hand inspection of the served site,
+  written against the PECR regime substituted on 5 February 2026.
+- `[ICO REGISTRATION NUMBER]` — the section was **removed rather than filled**,
+  on two recorded grounds: no provision requires a controller to publish it,
+  and the number held internally did not resolve on the ICO register of fee
+  payers when checked on 2026-09-07. That is a deliberate decision, not a gap.
 
-**`/assurance`**
+The one that remains is deliberate too. Article 13(1)(f) is discharged as to
+the fact of transfer and how to obtain the safeguards; naming the mechanism
+requires knowing what is actually in place with the hosting provider, and that
+is not a fact the page may guess at.
 
-- [ ] `[VERIFY: ISO/IEC 42006 accreditation wording before publication]`
+**`/terms`** — ✅ clear. All three are filled, and the page renders no
+placeholder at all in the current build. The liability and governing-law
+wording was drafted on 2026-09-07 on the founder's express instruction, with
+the heads of loss named rather than left to the phrase "consequential loss",
+and the authorities read at source (the drafting note in
+`src/app/terms/page.tsx` records a correction to a mis-cited one). The page
+carries `lastReviewed="7 September 2026"`. **Still owed:** a human legal
+review before publication — completing the wording is not the same as having
+it signed off, and this checklist does not claim it is.
+
+**`/assurance`** — ✅ clear, by removal rather than by verification, and the
+difference is the point. The page was rewritten on 2026-09-08 to the handoff's
+ACCREDITATION-SAFE RULE, and "ISO/IEC 42006" now appears **nowhere in `src/`**.
+There was no accreditation wording left to verify, so the placeholder went with
+the claim. What the page says instead is the route: Pixelette Certified helps
+scope the requirement, prepare the evidence and coordinate the path to an
+independent assessment, which stays independent.
 
 ## Blocking — security review answers
 
@@ -75,9 +141,20 @@ Read by procurement and security reviewers. A visible gap is safer than a guess,
 
 **`/security-and-data`**
 
+- [ ] `[ISMS SCOPE AND CERTIFICATION EVIDENCE — published once the certificate number, issuing body and expiry date can be shown for the exact legal entity]`
 - [ ] `[DATA RESIDENCY AND HOSTING REGIONS — confirm per environment before publication]`
 - [ ] `[SUBPROCESSOR REGISTER — publish the current list and the notification period]`
 - [ ] `[RETENTION SCHEDULE BY DATA CLASS — confirm with the DPO before publication]`
+
+The first one is **new on 2026-09-08 and is not a regression.** The section
+previously asserted a certified, externally audited ISMS; no certificate for
+the exact legal entity exists in this project, so the claim was downgraded to a
+visible gap — which is this page's own published policy applied to itself.
+**Blocked on the founder, not on engineering:** it needs the certificate
+number, the issuing body and the expiry date for Pixelette Technologies Ltd,
+and the `iso-cyber-essentials-badges` row in `src/content/claims.ts` moved to
+VERIFIED. That is the same decision that releases the badge artwork now held in
+`design/held-assets/`.
 
 ## Content — case studies awaiting client sign-off
 
@@ -85,13 +162,27 @@ Each needs the client's written approval before the outstanding figures and quot
 
 **`/case-studies/2connect`**
 
-- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
 - [ ] `[STACK]`
+
+The full write-up now exists — problem, what was built, the delivery route and
+a non-quantified result — so that placeholder is gone. The stack stays unfilled
+**on purpose**: the handoff describes the LLM/NLP and compatibility logic
+without naming the technologies, and naming them from memory would be inventing
+a fact into a case study. Two things still sit above this study and neither is
+an engineering task: the client name is `namePermission: 'PENDING'`, so the
+page runs anonymised until public-use permission is confirmed, and the
+`case-study-outcome-percentages` row is NOT_PUBLISHED — there is no metric
+basis to gather, so the narrative ships without numbers.
 
 **`/case-studies/ayni-gold`**
 
-- [ ] `[FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured]`
 - [ ] `[STACK]`
+
+The full write-up now exists, so that placeholder is gone. **Blocked on the
+founder, not on engineering:** the client is `namePermission: 'PENDING'`, and
+the investment-return, token-value and mining-output figures are held in
+`internalEvidence.heldMetrics` — some of them because they are the mine's
+results rather than the engineering's.
 
 **`/case-studies/blockguard`**
 
@@ -215,10 +306,32 @@ Pricing detail to confirm.
 - [ ] Confirm the production domain matches `SITE_URL` in `src/content/company.ts`
       (currently `https://pixelettetech.com`). Canonicals, the sitemap and the
       OpenGraph URLs are all derived from it.
-- [ ] Re-verify the Clutch rating and review count in `src/content/company.ts`;
-      the committed figures were last checked 2026-06-01.
-- [ ] Confirm each certification's verification URL resolves to this company's
-      entry, not just to the register's home page (`src/content/company.ts`).
+- [ ] **Founder decision: publish the Clutch aggregate, or leave it held.** Not
+      an engineering task any more. Corrected 2026-09-08: the figures in
+      `src/content/company.ts` were re-read off the live profile on **2026-09-03**
+      (`clutch.lastVerified`), not 2026-06-01 as this line said. They render
+      nowhere, because `clutch.published` is false and the `clutch-rating` row in
+      `src/content/claims.ts` is HELD. To publish: re-read the profile
+      immediately before launch, re-date `lastVerified`, set `clutch.published`,
+      and move the register row the same day — printing the read date beside the
+      score is what the 7 September legal review judged sound under the DMCCA
+      fake-review provisions. The individual review cards are a separate claim
+      and already render, each linking to the review it came from.
+- [ ] **Founder decision: produce the certificates, or the certification claim
+      stays off the site.** Corrected 2026-09-08: this was written as a
+      link-checking task, and it is not one. Every row in `certificationRegister`
+      (`src/content/company.ts`) is `published: false`, so `certifications` is
+      empty, the footer badge pills are gone and `VerificationTable` prints its
+      no-certification paragraph instead of a table. The URLs are also not
+      resolvable in the way this line asked for: IAF CertSearch and the IASME
+      register are search boxes, not per-company pages, and the founder decided on
+      2026-09-01 that certificate documents are held internally and not published.
+      What actually unblocks it is the certificate number, the issuing body and
+      the expiry date for **Pixelette Technologies Ltd**, printed beside the
+      badge, and the `iso-cyber-essentials-badges` row moved to VERIFIED. The
+      badge artwork is waiting in `design/held-assets/`, moved out of `public/` on
+      2026-09-08 because everything under `public/` is served at a guessable URL
+      and the claim in those two SVGs is machine-readable text.
 - [ ] Decide the redirect map from the current site's URLs to these routes. The
       information architecture has changed substantially — several existing
       service pages have no direct equivalent — so this needs a deliberate pass,
@@ -250,6 +363,15 @@ Pricing detail to confirm.
       white-on-transparent (built for the old dark site) and two of them are
       invisible on white, so the row renders client names as text — which is what
       the approved design specifies in any case.
+- [ ] **Founder decision: the seven client names on the homepage.** Added
+      2026-09-08 as a correction to the line above, which discussed the artwork
+      without stating where the names stand. Every row in `src/content/clients.ts`
+      is `permission: 'UNCONFIRMED'`, so `approvedClients()` is empty — but
+      `ClientLogos` reads `clients`, not `approvedClients()`, so the names render
+      anyway on `/` and `/ai-engineering`. That is a deliberately open gate and
+      the file says so: taking seven clients off the homepage is the founder's
+      call. Each name needs the engagement confirmed and the right to name it
+      publicly recorded, per the `client-logos` row in `src/content/claims.ts`.
 
 ## Fixes owed on the CURRENT live site, not this build
 

@@ -15,6 +15,31 @@ export const metadata = pageMetadata({
   path: '/contact',
 });
 
+/*
+ * Reworded 2026-09-08.
+ *
+ * The security-questionnaire answer said certificate documents were "verifiable
+ * on the public registers". Three things were wrong with that in one sentence.
+ *
+ *  1. It contradicted /certifications, which — rewritten the same day under the
+ *     handoff's ACCREDITATION-SAFE RULE — says the opposite: we send what we can
+ *     evidence direct to a reviewer "rather than pointing you at a register
+ *     search that may not return us". IAF CertSearch needs an account and the
+ *     IASME search sits behind bot protection, so the register route is not one
+ *     this page can promise on the company's behalf.
+ *  2. Saying a certificate is verifiable on a public register asserts that the
+ *     certificate exists and is findable, which is the claim the register HOLDs
+ *     (claims.ts `iso-cyber-essentials-badges`). An FAQ is not a lesser surface:
+ *     this array is also emitted as FAQPage JSON-LD below, so the held claim was
+ *     being handed to answer engines in machine-readable form.
+ *  3. It promised published subprocessors and data residency. /security-and-data
+ *     carries both as visible unfilled placeholders, by its own stated policy.
+ *     Pointing a security reviewer at answers that are not there loses the deal
+ *     the page exists to win.
+ *
+ * The replacement claims only what both pages actually do, and routes the
+ * reviewer the way /certifications routes them.
+ */
 const faqs = [
   {
     q: 'How quickly does Pixelette Technologies reply to an enquiry?',
@@ -22,7 +47,7 @@ const faqs = [
   },
   {
     q: 'Where do I find answers for a security questionnaire?',
-    a: 'Most answers are already published on our security and data page: our certification status, subprocessors, data residency and our AI governance policy. We publish the answers rather than sending them on request; certificate documents themselves are held internally and verifiable on the public registers.',
+    a: 'Start with our security and data page. It sets out how we handle client data, our position on AI and client data, and our incident-response commitments, and it marks the entries that are not published yet rather than quietly leaving them out. Certification is deliberately separate: a certification appears on this site only with a current certificate for this exact legal entity, its scope and its validity, so our certifications page sets out what is published, what is held back and what would release each one. If your review needs certificate detail, ask and we will send what we can evidence direct to your reviewer.',
   },
 ];
 
@@ -93,8 +118,8 @@ export default function ContactPage() {
               <div>
                 <b style={{ display: 'block', fontSize: 15 }}>Security questionnaires</b>
                 <span className="small" style={{ display: 'block', marginTop: 6 }}>
-                  Most answers are already published on our{' '}
-                  <Link href="/security-and-data">security and data page</Link>.
+                  Start with our <Link href="/security-and-data">security and data page</Link>, then
+                  ask us for anything your review still needs.
                 </span>
               </div>
             </div>
@@ -118,10 +143,16 @@ export default function ContactPage() {
         </h2>
         <div className="grid grid-3">
           <div className="card">
+            {/* Same correction as the FAQ above: this card listed subprocessors
+                and data residency as published, and "certification status"
+                beside them reads as a published certification. What is actually
+                published is the data-handling position; what is actually
+                offered is certificate detail direct to a reviewer. */}
             <h3 className="h4">Procurement and security</h3>
             <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-              Our certification status, subprocessors, data residency and AI governance policy are
-              published rather than sent on request.
+              How we handle client data, our AI governance position and our incident-response
+              commitments are published rather than sent on request. Certificate detail goes direct
+              to your reviewer.
             </p>
             <p style={{ marginTop: 16 }}>
               <FLink href="/security-and-data">Security & data page</FLink>

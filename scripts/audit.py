@@ -396,10 +396,32 @@ STANDING_TASKS = """## Not placeholders — separate go-live tasks
 - [ ] Confirm the production domain matches `SITE_URL` in `src/content/company.ts`
       (currently `https://pixelettetech.com`). Canonicals, the sitemap and the
       OpenGraph URLs are all derived from it.
-- [ ] Re-verify the Clutch rating and review count in `src/content/company.ts`;
-      the committed figures were last checked 2026-06-01.
-- [ ] Confirm each certification's verification URL resolves to this company's
-      entry, not just to the register's home page (`src/content/company.ts`).
+- [ ] **Founder decision: publish the Clutch aggregate, or leave it held.** Not
+      an engineering task any more. Corrected 2026-09-08: the figures in
+      `src/content/company.ts` were re-read off the live profile on **2026-09-03**
+      (`clutch.lastVerified`), not 2026-06-01 as this line said. They render
+      nowhere, because `clutch.published` is false and the `clutch-rating` row in
+      `src/content/claims.ts` is HELD. To publish: re-read the profile
+      immediately before launch, re-date `lastVerified`, set `clutch.published`,
+      and move the register row the same day — printing the read date beside the
+      score is what the 7 September legal review judged sound under the DMCCA
+      fake-review provisions. The individual review cards are a separate claim
+      and already render, each linking to the review it came from.
+- [ ] **Founder decision: produce the certificates, or the certification claim
+      stays off the site.** Corrected 2026-09-08: this was written as a
+      link-checking task, and it is not one. Every row in `certificationRegister`
+      (`src/content/company.ts`) is `published: false`, so `certifications` is
+      empty, the footer badge pills are gone and `VerificationTable` prints its
+      no-certification paragraph instead of a table. The URLs are also not
+      resolvable in the way this line asked for: IAF CertSearch and the IASME
+      register are search boxes, not per-company pages, and the founder decided on
+      2026-09-01 that certificate documents are held internally and not published.
+      What actually unblocks it is the certificate number, the issuing body and
+      the expiry date for **Pixelette Technologies Ltd**, printed beside the
+      badge, and the `iso-cyber-essentials-badges` row moved to VERIFIED. The
+      badge artwork is waiting in `design/held-assets/`, moved out of `public/` on
+      2026-09-08 because everything under `public/` is served at a guessable URL
+      and the claim in those two SVGs is machine-readable text.
 - [ ] Decide the redirect map from the current site's URLs to these routes. The
       information architecture has changed substantially — several existing
       service pages have no direct equivalent — so this needs a deliberate pass,
@@ -431,6 +453,15 @@ STANDING_TASKS = """## Not placeholders — separate go-live tasks
       white-on-transparent (built for the old dark site) and two of them are
       invisible on white, so the row renders client names as text — which is what
       the approved design specifies in any case.
+- [ ] **Founder decision: the seven client names on the homepage.** Added
+      2026-09-08 as a correction to the line above, which discussed the artwork
+      without stating where the names stand. Every row in `src/content/clients.ts`
+      is `permission: 'UNCONFIRMED'`, so `approvedClients()` is empty — but
+      `ClientLogos` reads `clients`, not `approvedClients()`, so the names render
+      anyway on `/` and `/ai-engineering`. That is a deliberately open gate and
+      the file says so: taking seven clients off the homepage is the founder's
+      call. Each name needs the engagement confirmed and the right to name it
+      publicly recorded, per the `client-logos` row in `src/content/claims.ts`.
 
 ## Fixes owed on the CURRENT live site, not this build
 
@@ -499,8 +530,18 @@ def write_checklist(placeholders, total):
         "document.querySelectorAll('[data-placeholder]')",
         "```",
         "",
-        "Do not count them by grepping `.next/` — Next inlines the RSC flight payload",
-        "into each HTML file, so every placeholder appears there twice.",
+        "Do not count them with a recursive grep over `.next/`. Each placeholder is",
+        "emitted into three artefacts — the prerendered `.html`, its `.rsc` flight",
+        "payload and the route's `page.js` chunk — so the whole directory over-counts",
+        "roughly threefold (199 hits against a true 64 on the 2026-09-08 build).",
+        "Corrected 2026-09-08: this said the payload is inlined *into each HTML file*",
+        "so every placeholder appears there twice, and it is not — a single",
+        "prerendered `.html` contains each placeholder exactly once. Which matters,",
+        'because searching `.next/server/app/**/*.html` for `data-placeholder="true"`',
+        "is then a sound offline substitute for the crawl. It is a substitute, not a",
+        "replacement: it sees only prerendered routes, so a dynamic one",
+        "(`/case-studies`, which reads `searchParams`) is invisible to it and has to",
+        "be checked in the source.",
         "",
     ]
 

@@ -1,333 +1,1019 @@
 import Link from 'next/link';
 
+import { ArrowRight } from '@/components/Icons';
 import {
-  AiMark,
-  ArrowRight,
-  BuildMark,
-  ChainMark,
-  Database,
-  Measure,
-  TrendChart,
-} from '@/components/Icons';
-import { CertifiedHandoff, ClientLogos, TrustStrip } from '@/components/sections';
+  CertifiedHandoff,
+  ClientLogos,
+  TrustStrip,
+  ValueModelCards,
+} from '@/components/sections';
 import {
-  CheckList,
   Cta,
   Eyebrow,
   FLink,
   JsonLd,
+  MediaSlot,
   Section,
   SectionHead,
 } from '@/components/ui';
-import { certified, company } from '@/content/company';
-import { faqSchema } from '@/lib/schema';
-import { pageMetadata } from '@/lib/seo';
+import { certified } from '@/content/company';
+import { groupEntities } from '@/content/nav';
+import {
+  displayCardCta,
+  displayKicker,
+  displayName,
+  homepageCaseStudies,
+  publishedImage,
+  publishedMetrics,
+} from '@/content/work';
+import { faqSchema, homepageServiceSchema } from '@/lib/schema';
+import { homepageMetadata } from '@/lib/seo';
 
-export const metadata = pageMetadata({
-  title: 'UK software engineering, blockchain and production AI',
-  description:
-    'Web, mobile and custom software and blockchain systems, with AI engineered into both. Two practices, one firm, ISO 9001 and ISO 27001 certified since 2018.',
-  path: '/',
-});
+/*
+ * The homepage, rebuilt 2026-09-08 to the fourteen-section architecture in
+ * `design/handoff-2026-09-08/IMPLEMENTATION-COPY.txt`.
+ *
+ * Read that document before editing this file. It is the founder's approved
+ * copy deck and it is the authority for every string here: the sections are in
+ * its order, and the wording is its wording. Where a sentence has been adapted
+ * it is because the handoff wrote it as an instruction to the developer rather
+ * than as copy for a reader, and each of those is commented at the point it
+ * happens rather than left for someone to spot.
+ *
+ * Two rules govern what may appear here and neither is a style preference:
+ *
+ *  - No badge, count, percentage, rating, client name or case-study figure
+ *    enters this page except through the gate that owns it —
+ *    `src/content/claims.ts` for corporate claims and the accessors in
+ *    `src/content/work.ts` for case studies. Nothing is typed as a literal.
+ *  - Every claim component must render correctly when its claim is withheld.
+ *    The handoff's DEVELOPER RULE is that "the absence of a badge must not
+ *    leave a broken layout", and today the register publishes nothing at all,
+ *    so the withheld state is the state this page actually ships in.
+ */
+
+export const metadata = homepageMetadata();
 
 /**
- * Answer-engine questions. These are the questions a buyer actually types, and
- * each answer is self-contained enough to be quoted without the surrounding
- * page — which is the unit an answer engine lifts.
+ * The buyer-routing table — handoff section 03, "What are you trying to
+ * change?". Six rows, verbatim.
+ *
+ * `routeHref` sends the reader to the capability; `cta` sends them to a
+ * conversation. Both are given because the handoff's own columns are "Route"
+ * and "CTA" and they do different jobs: one explains, one converts.
+ */
+const buyerRoutes = [
+  {
+    trigger: 'We need a new platform, product or app',
+    route: 'Build Software',
+    routeHref: '/engineering',
+    meaning: 'SaaS, web, mobile, internal platforms and customer-facing products.',
+    cta: 'Scope a build',
+  },
+  {
+    trigger: 'A manual process needs automating',
+    route: 'AI & Automation',
+    routeHref: '/ai-engineering',
+    meaning: 'Agents, workflow automation, decision support and system integration.',
+    cta: 'Map the workflow',
+  },
+  {
+    trigger: 'We want AI inside an existing product',
+    route: 'AI Engineering',
+    routeHref: '/ai-engineering/llm-integration-rag',
+    meaning: 'LLM/model integration, RAG, prediction, personalisation and agentic features.',
+    cta: 'Add AI to a product',
+  },
+  {
+    trigger: 'Our existing system needs modernising',
+    route: 'Modernise & Integrate',
+    routeHref: '/engineering/modernisation-integration',
+    meaning: 'Architecture, APIs, cloud, data migration and legacy replacement.',
+    cta: 'Modernise a system',
+  },
+  {
+    trigger: 'We need tokenisation, smart contracts or a dApp',
+    route: 'Blockchain',
+    routeHref: '/blockchain',
+    meaning: 'Specialist decentralised architecture where blockchain genuinely creates value.',
+    cta: 'Scope blockchain',
+  },
+  {
+    trigger: 'We need someone to keep improving what exists',
+    route: 'Run & Improve',
+    routeHref: '/engineering/managed-engineering',
+    meaning: 'Managed engineering, monitoring, support, optimisation and roadmap delivery.',
+    cta: 'Discuss ongoing engineering',
+  },
+];
+
+/** Handoff section 05, "Why Pixelette Technologies". Six differentiators. */
+const differentiators = [
+  {
+    t: 'Engineering before theatre',
+    d: 'Architecture, integration, testing and production readiness come before the demo.',
+  },
+  {
+    t: 'Product thinking, not ticket delivery',
+    d: 'We challenge the brief where a different product, workflow or architecture will create a better outcome.',
+  },
+  {
+    t: 'Built to keep operating',
+    d: 'Deployment, monitoring, observability, support and iterative improvement can remain inside the same engineering relationship.',
+  },
+  {
+    t: 'AI-native where useful',
+    d: 'AI can be part of the product, the workflow and the delivery process — but only where it earns its place.',
+  },
+  {
+    t: 'Blockchain depth',
+    d: 'The practice grew from blockchain engineering rather than adding Web3 language after the market moved.',
+  },
+  {
+    t: 'Governance route available',
+    d: 'Where formal governance, certification readiness or assurance is needed, Pixelette Certified provides a separate specialist route.',
+  },
+];
+
+/** Handoff section 06, "AI engineered in". Capability + implementation wording. */
+const aiCapabilities = [
+  {
+    t: 'Agentic AI & orchestration',
+    d: 'Single- and multi-agent systems that plan, call tools, coordinate steps and operate within defined controls.',
+    href: '/ai-engineering/agentic-ai-multi-agent',
+  },
+  {
+    t: 'Workflow automation',
+    d: 'Automate repetitive or high-friction business processes across systems, data and human approvals.',
+    href: '/ai-engineering/workflow-automation',
+  },
+  {
+    t: 'LLM integration & RAG',
+    d: 'Add model intelligence to existing products and knowledge environments with retrieval, permissions and grounded context.',
+    href: '/ai-engineering/llm-integration-rag',
+  },
+  {
+    t: 'Predictive intelligence',
+    d: 'Forecasting, scoring, recommendation and decision-support systems built around business data.',
+    href: '/ai-engineering/predictive-intelligence',
+  },
+  {
+    t: 'Language, speech & vision',
+    d: 'NLP, sentiment, extraction, classification, speech and image/video intelligence where the use case supports it.',
+    href: '/ai-engineering/language-speech-vision',
+  },
+  {
+    t: 'Data & integration',
+    d: 'Pipelines, APIs, model-serving layers and integrations into existing systems of record.',
+    href: '/ai-engineering/data-and-integration',
+  },
+  {
+    t: 'Evaluation & observability',
+    d: 'Measure output quality, reliability, latency, cost, drift and human escalation rather than trusting a demo.',
+    href: '/ai-engineering/evaluation-and-observability',
+  },
+  {
+    t: 'AI Value Baseline',
+    d: 'Define the current manual cost, cycle time, error rate or conversion baseline before automating so value can be measured afterwards.',
+    href: '/ai-engineering/ai-value-baseline',
+  },
+];
+
+/** Handoff section 08, "How we deliver". Six stages, verbatim. */
+const deliverySteps = [
+  {
+    n: '01',
+    t: 'DISCOVER',
+    d: 'Define the business problem, users, systems, data, constraints, risks and success measures. Decide what should — and should not — be built.',
+  },
+  {
+    n: '02',
+    t: 'DESIGN',
+    d: 'Architecture, UX, data model, workflow and delivery plan. For AI, define the baseline and evaluation method before model selection.',
+  },
+  {
+    n: '03',
+    t: 'BUILD & INTEGRATE',
+    d: 'Engineering, model integration, APIs, automation, infrastructure and iterative product delivery with working evidence.',
+  },
+  {
+    n: '04',
+    t: 'VERIFY',
+    d: 'Functional testing, security review, performance, model evaluation, human-control points and production-readiness evidence.',
+  },
+  {
+    n: '05',
+    t: 'LAUNCH',
+    d: 'Deploy with observability, rollback, monitoring and agreed ownership. Production is treated as an operating state, not a demo.',
+  },
+  {
+    n: '06',
+    t: 'RUN & IMPROVE',
+    d: 'Support, incident handling, optimisation, releases and roadmap delivery based on real usage and measured outcomes.',
+  },
+];
+
+/** Handoff section 09, "Ways to work with us". Three commercial routes. */
+const engagementRoutes = [
+  {
+    t: 'ENGINEERING / AI DIAGNOSTIC',
+    d: 'For clients who know the problem but not the solution. Discovery, architecture, data/workflow review, feasibility and a prioritised build plan.',
+    cta: 'Scope the problem',
+  },
+  {
+    t: 'BUILD & LAUNCH PROGRAMME',
+    d: 'A scoped product, automation or modernisation programme with milestones, working releases, acceptance criteria and launch.',
+    cta: 'Scope a build',
+  },
+  {
+    t: 'MANAGED ENGINEERING PARTNER',
+    d: 'Ongoing product engineering, support and improvement for clients that need a continuing technical capability rather than a one-off project.',
+    cta: 'Discuss ongoing engineering',
+  },
+];
+
+/** Handoff section 10, "Who we work with". Four growth stages. */
+const audiences = [
+  {
+    t: 'STARTUPS',
+    d: 'Turn a validated idea into a production product without building every technical capability internally.',
+  },
+  {
+    t: 'SCALE-UPS',
+    d: 'Add product capacity, AI capability, integration or architecture as complexity and customer requirements increase.',
+  },
+  {
+    t: 'ESTABLISHED BUSINESSES',
+    d: 'Modernise systems, automate processes, integrate data and create new digital products around existing operations.',
+  },
+  {
+    t: 'ENTERPRISE / PUBLIC SECTOR',
+    d: 'Deliver scoped engineering, analytics, automation and assurance-aware programmes inside more complex operating environments.',
+  },
+];
+
+const sectors = [
+  'Financial services',
+  'Retail',
+  'Healthcare',
+  'Public sector',
+  'Media',
+  'Professional services',
+  'Technology',
+  'Web3 / digital assets',
+  'Pharmaceuticals',
+  'Travel / tourism',
+];
+
+/** Handoff section 11, "Blockchain specialist practice". Six capabilities. */
+const blockchainCapabilities = [
+  {
+    t: 'Asset tokenisation',
+    d: 'Architecture and implementation for representing and managing real-world or digital assets on-chain where the commercial/legal model supports it.',
+    href: '/blockchain/tokenisation',
+  },
+  {
+    t: 'Smart contracts & dApps',
+    d: 'Programmable workflows and decentralised applications with testing, access controls and clear upgrade/ownership decisions.',
+    href: '/blockchain/smart-contracts-dapps',
+  },
+  {
+    t: 'Wallets & digital-asset products',
+    d: 'User-facing wallet, portfolio and transaction experiences across mobile/web environments.',
+    href: '/blockchain/wallets-digital-assets',
+  },
+  {
+    t: 'Layer 1 / Layer 2 & protocol work',
+    d: 'Specialist network and protocol engineering where a bespoke chain or scaling layer is justified.',
+    href: '/blockchain/protocol-engineering',
+  },
+  {
+    t: 'Interoperability & integrations',
+    d: 'Connect blockchain components to existing applications, data and off-chain systems.',
+    href: '/blockchain/integration',
+  },
+  {
+    t: 'Blockchain product strategy',
+    d: 'Decide whether blockchain is actually required before committing to architecture and delivery.',
+    href: '/blockchain',
+  },
+];
+
+/**
+ * The homepage FAQs.
+ *
+ * These are the handoff's HOMEPAGE FAQS section, verbatim and complete, and
+ * they replace the five that were here before. That replacement is a fix, not
+ * a rewrite: the previous set asserted that "Pixelette Technologies holds ISO
+ * 9001:2015 … ISO 27001:2022 … and Cyber Essentials Plus", named a fixed price
+ * band, and claimed delivery "across 13 countries". All of those are HELD in
+ * `src/content/claims.ts`, and because this array also feeds `faqSchema`, they
+ * were being asserted twice — once in prose and once as machine-readable
+ * JSON-LD, which is the harder of the two to retract. The handoff's own
+ * instruction is explicit: "Use the FAQ copy in this document; do not repeat
+ * old 'top-rated company' or unverified certification language inside FAQs."
+ *
+ * Nothing here states a certification, a rating, a price or a count.
  */
 const faqs = [
   {
     q: 'What does Pixelette Technologies do?',
-    a: 'Pixelette Technologies is a UK software engineering firm operating two practices: Build (web platforms, mobile applications, custom software and integration) and Blockchain (asset tokenisation, smart contracts, wallets, exchanges and dApps). AI is engineered into both rather than sold as a separate service. The firm has delivered since 2018 across 13 countries under ISO 9001 and ISO 27001 certified management systems.',
+    a: 'We design, build, integrate and operate custom software, AI-powered products, automation and specialist blockchain systems. Engagements can start with discovery or with an existing product, process or codebase.',
   },
   {
-    q: 'Does Pixelette Technologies certify the AI systems it builds?',
-    a: 'No. Assurance, AI governance and certification are delivered by Pixelette Certified, a separate practice inside the same group with its own lead auditors. Pixelette Technologies builds and runs the system; Pixelette Certified takes it through ISO/IEC 42001 and security review. A build team grading its own homework is not assurance.',
+    q: 'Do you build AI agents and agentic workflows?',
+    a: 'We scope and build AI-agent and workflow-automation solutions where the process, data, controls and expected value justify them. More autonomous operation is introduced according to risk and measurable performance, rather than as a default.',
   },
   {
-    q: 'How does an engagement with Pixelette Technologies start?',
-    a: 'Most start with an AI Value Baseline: four weeks, fixed price at £6,000 to £12,000, in which two or three processes are instrumented and measured, and a costed roadmap and board-ready business case are produced. If the numbers do not support going further, Pixelette says so in writing.',
+    q: 'Can you add AI to an existing product or system?',
+    a: 'Yes. A common engagement is to integrate model or agent capabilities into an existing application, knowledge base or workflow while preserving the systems and controls already in place.',
   },
   {
-    q: 'Which certifications does Pixelette Technologies hold?',
-    a: 'Pixelette Technologies holds ISO 9001:2015 for quality management, ISO 27001:2022 for information security, and Cyber Essentials Plus. ISO/IEC 42001 for AI management systems is a group capability delivered by Pixelette Certified and is not held by Pixelette Technologies.',
+    q: 'Do you build mobile applications?',
+    a: 'Yes. Mobile can be a standalone product or part of a wider SaaS/platform programme across iOS, Android and web, with the architecture chosen around the product and operating requirements.',
   },
   {
-    q: 'Does Pixelette Technologies supply developers by the day?',
-    a: 'No. The firm sells fixed-scope builds, standing product teams against a roadmap, and monthly support-and-run contracts. It does not sell developers on a timesheet and will say so on the first call.',
+    q: 'Can you take over an existing or stalled build?',
+    a: 'Yes. We can start with an independent technical assessment, architecture/code review and recovery plan before committing to continued development.',
+  },
+  {
+    q: 'Do you provide developers by the day?',
+    a: 'We can structure dedicated engineering capacity where that is the right commercial model, but our default proposition is accountable delivery around a defined product, workflow or engineering outcome.',
+  },
+  {
+    q: 'What happens after launch?',
+    a: 'Support can continue through monitoring, incident response, optimisation, releases, roadmap delivery and managed product engineering.',
+  },
+  {
+    q: 'Can you help with compliance or certification?',
+    a: 'Where a project needs governance, certification readiness or assurance support, Pixelette Certified can help scope and coordinate the appropriate readiness and independent-assessment route. The exact assurance provider depends on the requirement.',
   },
 ];
 
 export default function HomePage() {
   return (
     <>
+      {/*
+        The handoff's mandated schema for this page is "Organisation + WebSite +
+        Service". Organisation and WebSite are emitted once in the root layout
+        (`src/app/layout.tsx`), so only Service belongs here; emitting the other
+        two again would duplicate the graph. FAQPage is additional and is the
+        single highest-leverage block for answer engines.
+      */}
+      <JsonLd data={homepageServiceSchema()} />
       <JsonLd data={faqSchema(faqs)} />
 
-      {/* ------------------------------------------------------------ hero */}
-      <div className="hero-glow" style={{ padding: '88px 0 56px' }}>
+      {/* ═══════════════════════════════════ 01 · Hero ═══════════════════ */}
+      {/*
+        The three-line hero is the brand manifesto and is reproduced exactly.
+        The handoff is emphatic twice over — "Retain the full existing hero
+        line" and "Do not flatten that line into a service menu" — so the
+        rebalancing happens strictly underneath it.
+
+        The DESIGN NOTE it carries is the reason the two 50/50 door cards that
+        used to sit under this hero are gone: "Do not put Blockchain and
+        Software in two equal hero boxes." What replaces them is the hierarchy
+        the note asks for — Build and AI as the two buttons, Blockchain as a
+        specialist text route, and three chips underneath with the same
+        weighting.
+      */}
+      <div className="hero-glow" style={{ padding: '88px 0 64px' }}>
         <div className="wrap center">
-          <Eyebrow>UK software engineering since {company.incorporated}</Eyebrow>
+          <Eyebrow>Software engineering • AI &amp; automation • Blockchain</Eyebrow>
           <h1 className="h1" style={{ marginTop: 26, fontSize: 'clamp(36px, 4.6vw, 54px)' }}>
             <span style={{ display: 'block' }}>Engineering that ships.</span>
             <span style={{ display: 'block' }}>Chains that hold.</span>
             <span style={{ display: 'block' }}>AI built into both.</span>
           </h1>
-          <p className="lead" style={{ margin: '24px auto 0', maxWidth: '60ch' }}>
-            Two practices, one firm, the same engineers under the same certified management systems.
-            AI runs through both of them rather than sitting beside them.
+          <p className="lead" style={{ margin: '24px auto 0', maxWidth: '64ch' }}>
+            Pixelette Technologies designs, builds, integrates and operates software products, AI
+            systems and intelligent workflows. Software engineering is our foundation. AI and
+            automation are both a major capability in their own right and engineered into the
+            products we build. Our blockchain practice brings specialist depth where
+            decentralisation, tokenisation or distributed infrastructure genuinely creates value.
           </p>
-          <div style={{ marginTop: 38 }}>
-            <TrustStrip />
+
+          {/* Primary and secondary CTA. Build and AI, in that order, are the
+              two commercial engines the handoff reweights the page around. */}
+          <div className="btn-row" style={{ marginTop: 36, justifyContent: 'center' }}>
+            <Cta href="/engineering">Build a Product</Cta>
+            <Cta href="/ai-engineering" variant="secondary">
+              Automate a Workflow
+            </Cta>
           </div>
+
+          {/* The specialist route. Deliberately a text link rather than a third
+              button: visible, immediately reachable, and not competing with the
+              two commercial engines for the first screen. */}
+          <p style={{ marginTop: 22 }}>
+            <FLink href="/blockchain">Explore Blockchain Engineering</FLink>
+          </p>
+
+          {/* The low-friction route, for the buyer who cannot yet name the
+              service. It goes to section 03, which is the section built to
+              answer exactly that. */}
+          <p className="small" style={{ marginTop: 26 }}>
+            Not sure which route fits?{' '}
+            <a href="#what-are-you-trying-to-change">Tell us what needs to change.</a>
+          </p>
+
+          {/* The three route chips. Build and AI carry the brand accent and a
+              filled treatment; Blockchain keeps the muted outline and says what
+              it is, so it reads as specialist depth rather than as a third
+              equal division of the company. */}
+          <nav aria-label="Capability routes" style={{ marginTop: 34 }}>
+            <ul
+              className="filters"
+              style={{ justifyContent: 'center', listStyle: 'none', padding: 0, margin: 0 }}
+            >
+              <li>
+                <Link
+                  href="/engineering"
+                  className="filter"
+                  style={{ borderColor: 'var(--brand)', color: 'var(--brand)', fontWeight: 600 }}
+                >
+                  Build Software
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/ai-engineering"
+                  className="filter"
+                  style={{ borderColor: 'var(--brand)', color: 'var(--brand)', fontWeight: 600 }}
+                >
+                  AI &amp; Automation
+                </Link>
+              </li>
+              <li>
+                <Link href="/blockchain" className="filter">
+                  Blockchain
+                  <span className="mono" style={{ fontSize: 10, marginLeft: 8, opacity: 0.75 }}>
+                    SPECIALIST
+                  </span>
+                </Link>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
 
-      {/* ----------------------------------------------------------- doors */}
-      {/* The section is labelled rather than carrying a hidden heading, so the
-          two door titles sit at h2 exactly as the design has them. */}
-      <section style={{ padding: '0 0 88px' }} aria-label="The two practices">
-        <div className="wrap">
-          <div className="grid grid-2">
-            <Link href="/engineering" className="door door--build">
-              <div className="door__top">
-                <span className="mono door__kicker">01 · Build</span>
-                <BuildMark size={30} />
-              </div>
-              <h2 className="h3" style={{ fontSize: 27, color: 'var(--ink)' }}>
-                Software built, shipped and kept working
-              </h2>
-              <p className="body" style={{ fontSize: 14.5, marginTop: 14 }}>
-                Web platforms, mobile applications, custom software and integration. The larger half
-                of the business and the one we have been doing longest.
-              </p>
-              <div style={{ marginTop: 22 }}>
-                <CheckList
-                  items={[
-                    'Web platforms and portals',
-                    'Mobile applications, iOS and Android',
-                    'Custom software and integration',
-                    'Product design, cloud and modernisation',
-                  ]}
-                />
-              </div>
-              <div style={{ flexGrow: 1 }} />
-              <hr className="rule" style={{ margin: '26px 0 22px' }} />
-              <p className="small" style={{ fontSize: 12.5, marginBottom: 18 }}>
-                Fixed-scope build · product team · support and run
-              </p>
-              <span className="door__cta">
-                Scope a build
-                <ArrowRight size={16} />
-              </span>
-            </Link>
+      {/* ═════════════════════════════ 02 · Verified proof ═══════════════ */}
+      {/*
+        Short by instruction: "The first proof section should be short … Avoid a
+        badge wall that asks the visitor to work out what each certification or
+        award actually means."
 
-            <Link href="/blockchain" className="door door--chain theme-amber">
-              <div className="door__top">
-                <span className="mono door__kicker">02 · Blockchain</span>
-                <ChainMark size={30} />
-              </div>
-              <h2 className="h3" style={{ fontSize: 27, color: 'var(--ink)' }}>
-                Tokenisation and decentralised systems
-              </h2>
-              <p className="body" style={{ fontSize: 14.5, marginTop: 14 }}>
-                Where the firm started in 2018, and still the deepest specialism we hold. Twenty-four
-                chains and protocols in production use.
-              </p>
-              <div style={{ marginTop: 22 }}>
-                <CheckList
-                  items={[
-                    'Asset tokenisation platforms',
-                    'Smart contract development and audit',
-                    'Wallets, exchanges and dApps',
-                    'Layer 1 and Layer 2, DeFi and DAOs',
-                  ]}
-                />
-              </div>
-              <div style={{ flexGrow: 1 }} />
-              <hr className="rule" style={{ margin: '26px 0 22px' }} />
-              <p className="small" style={{ fontSize: 12.5, marginBottom: 18 }}>
-                $14M tokenised · 1,200+ tokens in 6 months
-              </p>
-              <span className="door__cta">
-                Scope a blockchain build
-                <ArrowRight size={16} />
-              </span>
-            </Link>
-          </div>
-
-          {/* Neither door fits everyone. This is the third route in. */}
-          <div
-            className="card"
-            style={{
-              marginTop: 18,
-              display: 'flex',
-              gap: 28,
-              alignItems: 'center',
-              flexWrap: 'wrap',
-            }}
-          >
-            <div style={{ flex: '1 1 460px' }}>
-              <h3 className="h4">Not sure which one you need?</h3>
-              <p className="body" style={{ marginTop: 10, fontSize: 15 }}>
-                Most engagements start as one and become two. Tell us the problem rather than the
-                product and we will point you at the right door, including when the answer is none of
-                them.
-              </p>
-            </div>
-            <Cta href="/contact" variant="secondary">
-              Start a conversation
-            </Cta>
-          </div>
+        `TrustStrip` reads the claims register and renders NOTHING today,
+        because every row in `src/content/claims.ts` is HELD or NOT_PUBLISHED.
+        That is the designed state, not a gap, and it is why the heading and the
+        lead carry this section on their own: the handoff says in terms that
+        "the first public release can be strong with client work + case studies
+        alone". When a row moves to VERIFIED the badges appear here with no edit
+        to this file.
+      */}
+      <Section labelledBy="proof-heading">
+        <SectionHead
+          eyebrow="Verified proof"
+          id="proof-heading"
+          title="Built for real operating environments."
+          lead="Every number, badge and accreditation on this site is either verified, held for evidence, or not published. Where a claim is held, nothing is shown in its place."
+        />
+        <div style={{ marginTop: 30 }}>
+          <TrustStrip />
         </div>
-      </section>
+      </Section>
 
-      {/* -------------------------------------------------------- AI band */}
-      <Section labelledBy="ai-heading" style={{ background: '#F7FAFA' }}>
+      {/* Client wordmarks. Held behind an approval gate in
+          `src/content/clients.ts`, which records every name as UNCONFIRMED and
+          raises the permission question to the founder rather than answering it
+          silently. That decision belongs to that file, and is left as it
+          stands. */}
+      <ClientLogos tight />
+
+      {/* ══════════════════ 03 · What are you trying to change? ══════════ */}
+      {/*
+        Placed immediately after verified proof, per the implementation
+        checklist. The handoff's whole thesis: "Most clients do not arrive with
+        a perfect technical specification. Let them identify the business change
+        they need, then route them to the relevant capability."
+      */}
+      <Section
+        id="what-are-you-trying-to-change"
+        labelledBy="routes-heading"
+        style={{ background: '#F7FAFA', scrollMarginTop: 90 }}
+      >
+        <SectionHead
+          eyebrow="Buyer route"
+          id="routes-heading"
+          title="What are you trying to change?"
+          lead="Start with the problem, not the technology. Most clients do not arrive with a perfect technical specification."
+        />
+        <div className="table-scroll" style={{ marginTop: 36 }}>
+          <table>
+            <caption className="small" style={{ textAlign: 'left', paddingBottom: 12 }}>
+              Six common starting points, and where each one goes.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Buyer trigger</th>
+                <th scope="col">Route</th>
+                <th scope="col">What it means</th>
+                <th scope="col">Next step</th>
+              </tr>
+            </thead>
+            <tbody>
+              {buyerRoutes.map(row => (
+                <tr key={row.trigger}>
+                  <th
+                    scope="row"
+                    style={{
+                      fontFamily: 'var(--sans)',
+                      fontSize: 14.5,
+                      textTransform: 'none',
+                      letterSpacing: 0,
+                      color: 'var(--ink)',
+                      fontWeight: 600,
+                      borderBottom: '1px solid var(--line)',
+                      padding: '14px 16px',
+                    }}
+                  >
+                    {row.trigger}
+                  </th>
+                  <td>
+                    <Link href={row.routeHref}>{row.route}</Link>
+                  </td>
+                  <td>{row.meaning}</td>
+                  <td>
+                    <Link href="/contact">{row.cta}</Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Section>
+
+      {/* ═══════════ 04 · Build • Automate • Decentralise • Run ══════════ */}
+      {/*
+        Rendered from the shared component in `src/components/sections.tsx`
+        rather than written out here, because the implementation checklist asks
+        for "four reusable cards used across homepage and service pages" — one
+        definition, one place to change it.
+      */}
+      <Section labelledBy="model-heading">
+        <SectionHead
+          eyebrow="Core offer"
+          id="model-heading"
+          title="One engineering company. Four ways we create value."
+        />
+        <div style={{ marginTop: 36 }}>
+          <ValueModelCards />
+        </div>
+      </Section>
+
+      {/* ═════════════════════ 05 · Why Pixelette Technologies ═══════════ */}
+      <Section labelledBy="why-heading" style={{ background: '#F7FAFA' }}>
         <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
           <div>
-            <Eyebrow>AI, in practice</Eyebrow>
-            <h2 className="h2" id="ai-heading" style={{ marginTop: 18 }}>
-              AI is not a third door. It is inside the first two.
-            </h2>
+            <SectionHead
+              eyebrow="Differentiation"
+              id="why-heading"
+              title="AI is stronger when there is engineering underneath it."
+            />
             <p className="body" style={{ marginTop: 20 }}>
-              We do not sell AI as a department you buy separately. We build it into the software and
-              the chains we are already building for you: retrieval over your own data, agents inside
-              a named workflow, model integration that survives production, and the evaluation to know
-              it still works next quarter.
+              Pixelette Technologies began with difficult engineering problems. That matters now:
+              clients do not need another AI presentation. They need systems that integrate with
+              data, survive production, can be measured, and can be improved when the model or
+              business changes.
             </p>
-            <p className="body" style={{ marginTop: 16 }}>
-              Same engineers, same certified management systems, and no separate AI team you have
-              never met.
-            </p>
-            <div style={{ marginTop: 28 }}>
-              <Cta href="/ai-engineering">See how we build AI</Cta>
-            </div>
-            <p className="small" style={{ marginTop: 24, maxWidth: '52ch' }}>
-              Governance, certification and audit of AI systems sit with{' '}
-              <a href={certified.url} target="_blank" rel="noopener noreferrer">
-                {certified.name}
-              </a>
-              , not here. We build it; they certify it.
-            </p>
+            {/* The handoff flags this line for retention — "KEEP THIS IDEA FROM
+                THE CURRENT SITE" — and allows it to be softened for enterprise
+                tone. It is kept exactly as written, because it is the sharpest
+                sentence in the deck and the idea it carries is the section. */}
+            <blockquote className="quote" style={{ marginTop: 30 }}>
+              “An AI practice with no engineering underneath it is essentially a slide deck.”
+            </blockquote>
           </div>
 
           <div className="grid" style={{ gap: 14 }}>
-            {[
-              {
-                icon: <AiMark size={32} />,
-                title: 'Production AI systems',
-                href: '/ai-engineering/production-ai-systems',
-                body: 'AI embedded in a named workflow, with the workflow redesigned around it. Human in the loop by default, agentic only where it earns it.',
-              },
-              {
-                icon: <Database size={32} />,
-                title: 'Data & integration',
-                href: '/ai-engineering/data-and-integration',
-                body: 'Entitlement-aware access, context layers and integration into your systems of record, so a model can reach what it needs and nothing it should not.',
-              },
-              {
-                icon: <TrendChart size={32} />,
-                title: 'Evaluation & observability',
-                href: '/ai-engineering/evaluation-and-observability',
-                body: 'Measurement that tells you when output quality moves, before your users do. Built in at the start, not bolted on after an incident.',
-              },
-              {
-                icon: <Measure size={32} />,
-                title: 'AI Value Baseline',
-                href: '/ai-engineering/ai-value-baseline',
-                body: 'Four weeks, fixed price. What two or three processes cost you today, and the business case for changing them. The one packaged way in.',
-              },
-            ].map(item => (
-              <Link key={item.href} href={item.href} className="mini-card">
-                <span className="icon-slot" aria-hidden>
-                  {item.icon}
-                </span>
-                <span>
-                  <b style={{ display: 'block', fontSize: 16, color: 'var(--ink)' }}>{item.title}</b>
-                  <span className="small" style={{ display: 'block', marginTop: 7 }}>
-                    {item.body}
-                  </span>
-                </span>
-              </Link>
+            {differentiators.map(item => (
+              <div key={item.t} className="tile" style={{ padding: '20px 22px' }}>
+                <b style={{ fontSize: 16 }}>{item.t}</b>
+                <p className="small" style={{ marginTop: 8 }}>
+                  {item.d}
+                </p>
+              </div>
             ))}
           </div>
         </div>
       </Section>
 
-      <CertifiedHandoff />
+      {/* ══════════════════════════ 06 · AI engineered in ════════════════ */}
+      <Section labelledBy="ai-heading">
+        <SectionHead
+          eyebrow="AI &amp; automation proposition"
+          id="ai-heading"
+          title="AI should do useful work, not decorate the roadmap."
+          lead="We design AI systems around a measurable job: remove repetitive work, accelerate a decision, create a new product capability, improve customer experience, or coordinate a workflow that would otherwise require multiple people and systems."
+        />
+        <div className="grid grid-2" style={{ marginTop: 36, gap: 14 }}>
+          {aiCapabilities.map(item => (
+            <Link key={item.href + item.t} href={item.href} className="mini-card">
+              <span>
+                <b style={{ display: 'block', fontSize: 16, color: 'var(--ink)' }}>{item.t}</b>
+                <span className="small" style={{ display: 'block', marginTop: 7 }}>
+                  {item.d}
+                </span>
+              </span>
+            </Link>
+          ))}
+        </div>
+        {/*
+          The AI operating principle. The handoff's third sentence here — "Pixelette
+          should sell autonomy as an engineered control decision, not as a slogan" —
+          is an instruction to us about how to sell, not a sentence written for a
+          reader, so it is not published. The two sentences that state the actual
+          operating position are reproduced exactly.
+        */}
+        <div className="card" style={{ marginTop: 28 }}>
+          <h3 className="h4">AI operating principle</h3>
+          <p className="body" style={{ marginTop: 10, fontSize: 15 }}>
+            Human oversight is the default where decisions are material. More autonomous operation
+            is introduced where the workflow, risk level and evidence justify it.
+          </p>
+        </div>
+      </Section>
 
-      <ClientLogos tight />
+      {/* ═══════════════════════════ 07 · Selected work ══════════════════ */}
+      {/*
+        The three homepage case studies come from `homepageCaseStudies`, which
+        fixes the handoff's order — 2Connect, then Fusio Wallet, then Ayni Gold
+        — in one place and throws at module load if a slug ever stops
+        resolving. AIA is deliberately absent: the handoff keeps it "as a strong
+        fourth proof point rather than a homepage lead".
 
-      {/* -------------------------------------------------------- why both */}
-      <Section labelledBy="why-heading">
-        <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
-          <div>
-            <SectionHead
-              eyebrow="Why one firm does both"
-              id="why-heading"
-              title="The second practice grew out of the first."
-            />
-            <p className="body" style={{ marginTop: 20 }}>
-              We started in 2018 as a blockchain studio. Building systems where a mistake is permanent
-              and every action has to be auditable taught us a discipline that most software teams
-              never need. That became the engineering practice.
-            </p>
-            <p className="body" style={{ marginTop: 16 }}>
-              Then AI started appearing inside the systems we had built, and clients asked the same
-              question they had always asked about a smart contract: how do you know it is doing the
-              right thing, and who is watching? We answer the engineering half of that here. The
-              certificate and the audit sit with {certified.name}.
-            </p>
-            <p className="body" style={{ marginTop: 16 }}>
-              Build is the larger of the two and we have no intention of changing that. An AI practice
-              with no engineering underneath it is a slide deck, and the market has enough of those.
-            </p>
-            <p style={{ marginTop: 26 }}>
-              <FLink href="/about">More about the firm</FLink>
+        Everything rendered per card goes through the publication accessors in
+        `src/content/work.ts`, never off the record. All three studies are
+        `namePermission: 'PENDING'` today, so the anonymised name, the
+        anonymised kicker, the name-free CTA and a labelled media box are what
+        render — and the card is structurally identical to the named version,
+        which is what the handoff means by "support anonymised case-study
+        presentation without changing layout".
+      */}
+      <Section labelledBy="work-heading" style={{ background: '#F7FAFA' }}>
+        <SectionHead
+          eyebrow="Challenge → build → result"
+          id="work-heading"
+          title="Selected work"
+          lead="Three case studies to show agentic AI, product engineering and specialist blockchain depth."
+        />
+        <div className="grid grid-3" style={{ marginTop: 40 }}>
+          {homepageCaseStudies.map(cs => {
+            const metrics = publishedMetrics(cs).slice(0, 3);
+            return (
+              <Link key={cs.slug} href={`/case-studies/${cs.slug}`} className="work-card">
+                <MediaSlot
+                  label={cs.imageLabel}
+                  src={publishedImage(cs)}
+                  alt={`${displayName(cs)} — ${cs.title}`}
+                />
+                <span className="mono work-card__kicker">{displayKicker(cs)}</span>
+                <h3 className="h3" style={{ marginTop: 12, fontSize: 21 }}>
+                  {cs.title}
+                </h3>
+                <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
+                  {cs.summary}
+                </p>
+                {/* Guarded. All three publish no figure at all today, and an
+                    empty metrics row would add a gap under the summary that
+                    says nothing. */}
+                {metrics.length > 0 ? (
+                  <div className="work-card__metrics">
+                    {metrics.map(m => (
+                      <span key={m.label}>
+                        <b
+                          className={m.pending ? 'ph' : undefined}
+                          style={m.pending ? { fontSize: 15 } : undefined}
+                        >
+                          {m.value}
+                        </b>
+                        <span>{m.shortLabel ?? m.label}</span>
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+                <span
+                  className="mono"
+                  style={{
+                    marginTop: 18,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: 12,
+                    color: 'var(--brand)',
+                  }}
+                >
+                  {displayCardCta(cs)}
+                  <ArrowRight size={14} />
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+        <p style={{ marginTop: 30 }}>
+          <FLink href="/case-studies">See all work</FLink>
+        </p>
+      </Section>
+
+      {/* ═══════════════════════════ 08 · How we deliver ═════════════════ */}
+      <Section labelledBy="deliver-heading">
+        <SectionHead
+          eyebrow="From problem to production"
+          id="deliver-heading"
+          title="Discover. Design. Build. Verify. Launch. Improve."
+        />
+        <div className="grid grid-3" style={{ marginTop: 40 }}>
+          {deliverySteps.map(step => (
+            <div key={step.n} className="tile" style={{ padding: '22px 24px' }}>
+              <span className="step__n">{step.n}</span>
+              <b style={{ fontSize: 15 }}>{step.t}</b>
+              <p className="small" style={{ marginTop: 8 }}>
+                {step.d}
+              </p>
+            </div>
+          ))}
+        </div>
+        <div className="btn-row" style={{ marginTop: 36 }}>
+          <Cta href="/method/live">See how we work</Cta>
+          <Cta href="/contact" variant="secondary">
+            Discuss an engineering problem
+          </Cta>
+        </div>
+      </Section>
+
+      {/* ══════════════════════ 09 · Ways to work with us ════════════════ */}
+      <Section labelledBy="engage-heading" style={{ background: '#F7FAFA' }}>
+        <SectionHead
+          eyebrow="Commercial products"
+          id="engage-heading"
+          title="Three clear ways to engage Pixelette Technologies."
+        />
+        <div className="grid grid-3" style={{ marginTop: 40 }}>
+          {engagementRoutes.map(route => (
+            <div
+              key={route.t}
+              className="card"
+              style={{ display: 'flex', flexDirection: 'column' }}
+            >
+              <h3 className="mono" style={{ fontSize: 12.5, letterSpacing: '0.1em', color: 'var(--ink)' }}>
+                {route.t}
+              </h3>
+              <p className="body" style={{ marginTop: 14, fontSize: 15 }}>
+                {route.d}
+              </p>
+              <div style={{ flexGrow: 1 }} />
+              <div style={{ marginTop: 20 }}>
+                <FLink href="/contact">{route.cta}</FLink>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* The handoff's optional fourth route, kept as a supporting line
+            rather than a fourth card so the section still reads as "three
+            clear ways", which is what its own heading promises. */}
+        <div
+          className="card"
+          style={{ marginTop: 18, display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}
+        >
+          <div style={{ flex: '1 1 520px' }}>
+            <h3 className="h4">Rescue &amp; Modernise</h3>
+            <p className="body" style={{ marginTop: 10, fontSize: 15 }}>
+              For stalled builds, legacy platforms, inherited codebases or projects that need an
+              independent technical assessment before further investment.
             </p>
           </div>
+          <Cta href="/contact" variant="secondary">
+            Start a conversation
+          </Cta>
+        </div>
+      </Section>
 
+      {/* ═══════════════════════════ 10 · Who we work with ═══════════════ */}
+      <Section labelledBy="who-heading">
+        <SectionHead
+          eyebrow="Broad market positioning"
+          id="who-heading"
+          title="Built around the problem, not the sector label."
+          // The handoff's opening sentence here ("Pixelette Technologies should
+          // not position itself as technology-company-only") is an instruction
+          // about positioning rather than copy for a reader; the sentence that
+          // states the actual position follows it and is reproduced exactly.
+          lead="The offer applies wherever software, automation, AI or decentralised infrastructure can create a measurable business outcome."
+        />
+        <div className="grid grid-4" style={{ marginTop: 40 }}>
+          {audiences.map(a => (
+            <div key={a.t} className="tile" style={{ padding: '22px 24px' }}>
+              <b style={{ fontSize: 14, fontFamily: 'var(--mono)', letterSpacing: '0.06em' }}>
+                {a.t}
+              </b>
+              <p className="small" style={{ marginTop: 10 }}>
+                {a.d}
+              </p>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 34 }}>
+          <Eyebrow>Sector experience</Eyebrow>
+          <div className="pill-row" style={{ marginTop: 16 }}>
+            {sectors.map(s => (
+              <span className="pill" key={s}>
+                {s}
+              </span>
+            ))}
+          </div>
+          <p className="small" style={{ marginTop: 14 }}>
+            And other data- and workflow-intensive sectors.
+          </p>
+        </div>
+      </Section>
+
+      {/* ═════════════════ 11 · Blockchain specialist practice ═══════════ */}
+      {/*
+        Heritage without distortion. Two things the handoff supplies for this
+        section are deliberately NOT published:
+
+         - The "Programme highlight: BlockGuard / Fusio" paragraph, which it
+           gates itself: "Use this as specialist heritage/proof only after the
+           exact completed components and public attribution rights are
+           confirmed." Neither is confirmed in this repository.
+         - Any count of chains or protocols, value tokenised or transaction
+           volume. Its "DO NOT PUBLISH UNTIL VERIFIED" list holds all of them,
+           and so does `claims.ts` under `blockchain-volumes-and-chain-counts`.
+           The previous version of this page carried both "Twenty-four chains
+           and protocols in production use" and "$14M tokenised · 1,200+ tokens
+           in 6 months"; neither has been carried across.
+      */}
+      <Section labelledBy="chain-heading" className="theme-amber" style={{ background: '#F7FAFA' }}>
+        <SectionHead
+          eyebrow="Heritage without distortion"
+          id="chain-heading"
+          title="Chains that hold — when decentralisation has a reason to exist."
+          lead="Pixelette’s engineering roots include blockchain: experience with trust, irreversible transactions, distributed systems and security-sensitive architecture. It is a specialist solution to a specific problem, not a mandatory ingredient in every technology project."
+        />
+        <div className="grid grid-3" style={{ marginTop: 40, gap: 14 }}>
+          {blockchainCapabilities.map(item => (
+            <Link key={item.t} href={item.href} className="mini-card">
+              <span>
+                <b style={{ display: 'block', fontSize: 15.5, color: 'var(--ink)' }}>{item.t}</b>
+                <span className="small" style={{ display: 'block', marginTop: 7 }}>
+                  {item.d}
+                </span>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
+      {/* ══════════════════════ 12 · Governance when required ════════════ */}
+      {/*
+        The accreditation-safe cross-sell. `certified.positioningLine` is the
+        handoff's replacement for "we build it, Certified proves it" and every
+        variant of it, and it is quoted rather than paraphrased. Nothing in this
+        block says any Pixelette company holds an accreditation, issues a
+        certificate or performs an independent audit.
+      */}
+      <CertifiedHandoff
+        eyebrow="Governance when required"
+        title="Need governance and assurance around what you are building?"
+        blurb={
+          <>
+            {certified.name} is{' '}
+            {certified.blurb.charAt(0).toLowerCase() + certified.blurb.slice(1)}{' '}
+            {certified.positioningLine}
+          </>
+        }
+        ctaLabel="Explore Pixelette Certified"
+      />
+
+      {/* ═══════════════════════ 13 · Part of Pixelette Group ════════════ */}
+      {/*
+        Four companies, four roles. `role` and `what` both come from
+        `src/content/nav.ts`, where they were set to the handoff's section 13
+        wording — BUILD & AUTOMATE / PARTNER & VENTURE / GROW & CONVERT /
+        GOVERN & ASSURE — so the group is described identically here, in the
+        footer and in the copy deck.
+
+        Referenced lightly, as instructed: this is a paragraph and a grid, not a
+        holding-company page, and no route to buying engineering passes through
+        another Group company.
+      */}
+      <Section labelledBy="group-heading">
+        <SectionHead
+          eyebrow="Group architecture"
+          id="group-heading"
+          title="Four businesses. Four distinct jobs."
+        />
+        <div className="grid grid-4" style={{ marginTop: 40 }}>
+          {groupEntities.map(entity => (
+            <div key={entity.name} className="tile" style={{ padding: '22px 24px' }}>
+              <b style={{ fontSize: 15, fontFamily: 'var(--sans)' }}>{entity.name}</b>
+              <span
+                className="mono"
+                style={{
+                  display: 'block',
+                  marginTop: 10,
+                  fontSize: 10.5,
+                  letterSpacing: '0.12em',
+                  color: 'var(--brand)',
+                }}
+              >
+                {entity.role}
+              </span>
+              <p className="small" style={{ marginTop: 10 }}>
+                {entity.what}
+              </p>
+              {entity.isThisEntity ? (
+                <p className="small" style={{ marginTop: 12, fontSize: 12.5 }}>
+                  You are here.
+                </p>
+              ) : (
+                <p style={{ marginTop: 12 }}>
+                  <a
+                    className="small"
+                    href={entity.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontSize: 12.5 }}
+                  >
+                    Visit site
+                  </a>
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ═══════════════════════════ 14 · Final CTA ══════════════════════ */}
+      {/*
+        Built inline rather than through `ClosingCta`, which carries a single
+        CTA; the handoff's close needs a primary and a secondary. The file
+        upload it asks for belongs to the contact form on /contact, which is
+        outside this page — the brief line names it and routes there rather than
+        promising an upload control this page does not have.
+      */}
+      <Section labelledBy="close-heading" style={{ background: '#F7FAFA' }}>
+        <div className="split split--cta">
           <div>
-            <Eyebrow>How clients usually arrive</Eyebrow>
-            <ol style={{ listStyle: 'none', padding: 0, marginTop: 24, display: 'grid', gap: 20 }}>
+            <Eyebrow>Homepage close</Eyebrow>
+            <h2 className="h2" id="close-heading" style={{ marginTop: 18 }}>
+              Bring us the problem, not the specification.
+            </h2>
+            <p className="body" style={{ marginTop: 20 }}>
+              Tell us what needs to change — a product that needs building, a workflow that needs
+              automating, a system that needs modernising, or a blockchain use case that needs
+              testing. We’ll help you map the right engineering route and the evidence needed to
+              know whether it worked.
+            </p>
+            <div className="btn-row" style={{ marginTop: 32 }}>
+              <Cta href="/contact">Book an Engineering Conversation</Cta>
+              <Cta href="/contact" variant="secondary">
+                Send Us a Brief
+              </Cta>
+            </div>
+            <p className="small" style={{ marginTop: 20 }}>
+              Upload a brief, requirements document, process map or architecture note.
+            </p>
+            <p className="src" style={{ marginTop: 18 }}>
+              No obligation. If the answer is “do not build this yet”, we should be willing to say
+              so.
+            </p>
+          </div>
+          <div className="card">
+            <h3 className="h4">What we will ask</h3>
+            <ul style={{ padding: 0, margin: '16px 0 0', display: 'grid', gap: 12 }}>
               {[
-                {
-                  n: '01',
-                  t: 'They need something built',
-                  d: 'A platform, an app, an integration, or a token and its contracts. We build it and, usually, keep running it.',
-                },
-                {
-                  n: '02',
-                  t: 'AI turns up inside it',
-                  d: 'In the product, or in a process around it. Someone has to make it measurable.',
-                },
-                {
-                  n: '03',
-                  t: 'Their client asks how it is governed',
-                  d: 'That question is now on most enterprise security reviews, and it stops deals.',
-                },
-                {
-                  n: '04',
-                  t: 'We build it, Certified proves it',
-                  d: `We engineer and run the system. ${certified.name} takes it through ISO 42001 and the security review. One group, two disciplines, neither pretending to be the other.`,
-                },
-              ].map(step => (
-                <li key={step.n} className="tile" style={{ padding: '20px 22px' }}>
-                  <span className="step__n">{step.n}</span>
-                  <b style={{ fontSize: 16 }}>{step.t}</b>
-                  <p className="small" style={{ marginTop: 8 }}>
-                    {step.d}
-                  </p>
+                'What are you trying to build or change?',
+                'What exists today?',
+                'Is there a deadline?',
+                'What would a successful result look like?',
+              ].map(q => (
+                <li key={q} className="small" style={{ listStyle: 'none' }}>
+                  {q}
                 </li>
               ))}
-            </ol>
+            </ul>
           </div>
         </div>
       </Section>
 
-      {/* -------------------------------------------------------------- faq */}
+      {/* ══════════════════════════════ FAQs ═════════════════════════════ */}
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="Common questions" id="faq-heading" title="Asked before every engagement." />
+        <SectionHead
+          eyebrow="Homepage FAQs"
+          id="faq-heading"
+          title="Questions worth answering before a sales call."
+        />
         <div style={{ marginTop: 34, maxWidth: '80ch' }}>
           {faqs.map(faq => (
             <details key={faq.q} className="faq">

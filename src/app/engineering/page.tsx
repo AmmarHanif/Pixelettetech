@@ -11,19 +11,48 @@ import {
   Section,
   SectionHead,
   SourceNote,
-  StatTile,
 } from '@/components/ui';
 import { company } from '@/content/company';
-import { caseStudies } from '@/content/work';
+import { caseStudies, displayKicker, displayName, publishedImage, publishedMetrics } from '@/content/work';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
+/*
+ * Claims sweep, 2026-09-08 (WP6).
+ *
+ * Removed from this page: the ISO 9001 and ISO 27001 badge tiles, the same two
+ * badges asserted inside the Next.js metadata description below and inside the
+ * Service JSON-LD, the "certified quality and information security management
+ * systems" clause in the hero, and the "countries delivered in" tile (which
+ * rendered blank once `company.countriesDelivered` was emptied). All are HELD
+ * in src/content/claims.ts.
+ *
+ * A metadata description and a JSON-LD blob are the worst places to leave a
+ * held badge: they are extracted, cached and quoted without the page around
+ * them, so the qualifying context never travels with the claim.
+ */
 export const metadata = pageMetadata({
   title: 'Web, mobile and custom software',
   description:
-    'Web platforms, mobile apps and custom software, built in the UK since 2018 under ISO 9001 and ISO 27001. Fixed-scope, product team or support and run.',
+    'Web platforms, mobile apps and custom software, built in the UK since 2018. Fixed-scope build, standing product team, or support and run.',
   path: '/engineering',
 });
+
+/**
+ * The six specialist pages beneath this hub.
+ *
+ * They stand where the badge tiles used to, because the hero needed something
+ * deliberate in that slot and this hub had no links to its own children at all.
+ * Navigation earns the space that an unevidenced number was occupying.
+ */
+const servicePages = [
+  { href: '/engineering/web-platforms', label: 'Web platforms' },
+  { href: '/engineering/mobile-applications', label: 'Mobile applications' },
+  { href: '/engineering/custom-software-saas', label: 'Custom software & SaaS' },
+  { href: '/engineering/modernisation-integration', label: 'Modernisation & integration' },
+  { href: '/engineering/cloud-data-engineering', label: 'Cloud & data engineering' },
+  { href: '/engineering/managed-engineering', label: 'Managed engineering' },
+];
 
 const capabilities = [
   {
@@ -112,7 +141,7 @@ export default function EngineeringPage() {
         data={serviceSchema({
           name: 'Software engineering',
           description:
-            'Web platforms, mobile applications, custom software and integration, delivered under ISO 9001 and ISO 27001 certified management systems.',
+            'Web platforms, mobile applications, custom software and integration, from a fixed-scope build through to a standing product team and ongoing support.',
           path: '/engineering',
           serviceType: 'Custom software development',
         })}
@@ -134,8 +163,8 @@ export default function EngineeringPage() {
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Web platforms, mobile applications, custom software and integration, delivered since{' '}
-            {company.incorporated} under certified quality and information security management
-            systems. This is still the larger part of our business and we are not quiet about it.
+            {company.incorporated}. This is still the larger part of our business and we are not
+            quiet about it.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Scope a build</Cta>
@@ -144,11 +173,20 @@ export default function EngineeringPage() {
             </Cta>
           </div>
 
-          <div className="grid grid-4" style={{ marginTop: 48 }}>
-            <StatTile value={String(company.incorporated)} label="Building production software since" />
-            <StatTile value={String(company.countriesDelivered)} label="Countries delivered in" />
-            <StatTile value="ISO 9001" label="Quality management, verifiable" />
-            <StatTile value="ISO 27001" label="Information security, certified" />
+          <div style={{ marginTop: 44 }}>
+            <Eyebrow>The practice</Eyebrow>
+            <div className="pill-row" style={{ marginTop: 16 }}>
+              {servicePages.map(page => (
+                <Link
+                  key={page.href}
+                  href={page.href}
+                  className="pill"
+                  style={{ color: 'var(--brand)' }}
+                >
+                  {page.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -239,23 +277,33 @@ export default function EngineeringPage() {
           <FLink href="/case-studies">All work</FLink>
         </div>
 
+        {/* Every field goes through the work.ts publication gate. Reading
+            `cs.client`, `cs.kicker`, `cs.image` or `cs.metrics` here would
+            publish a gated client's name and their own product screenshot the
+            moment a PENDING slug joined the list above. The metrics line is
+            conditional so an empty published set leaves no orphan paragraph. */}
         <div className="grid grid-3" style={{ marginTop: 36 }}>
-          {featured.map(cs => (
-            <Link key={cs.slug} href={`/case-studies/${cs.slug}`} className="work-card">
-              <MediaSlot label={cs.imageLabel} src={cs.image} alt={`${cs.client} — ${cs.title}`} />
-              <span className="mono work-card__kicker">{cs.kicker}</span>
-              <h3 className="h4" style={{ marginTop: 10 }}>
-                {cs.title}
-              </h3>
-              <p className="small" style={{ marginTop: 10 }}>
-                {cs.metrics
-                  .slice(0, 2)
-                  .map(m => `${m.value} ${m.shortLabel ?? m.label}`)
-                  .join(' · ')}
-              </p>
-            </Link>
-          ))}
-
+          {featured.map(cs => {
+            const metrics = publishedMetrics(cs).slice(0, 2);
+            return (
+              <Link key={cs.slug} href={`/case-studies/${cs.slug}`} className="work-card">
+                <MediaSlot
+                  label={cs.imageLabel}
+                  src={publishedImage(cs)}
+                  alt={`${displayName(cs)} — ${cs.title}`}
+                />
+                <span className="mono work-card__kicker">{displayKicker(cs)}</span>
+                <h3 className="h4" style={{ marginTop: 10 }}>
+                  {cs.title}
+                </h3>
+                {metrics.length > 0 ? (
+                  <p className="small" style={{ marginTop: 10 }}>
+                    {metrics.map(m => `${m.value} ${m.shortLabel ?? m.label}`).join(' · ')}
+                  </p>
+                ) : null}
+              </Link>
+            );
+          })}
         </div>
       </Section>
 
@@ -272,8 +320,8 @@ export default function EngineeringPage() {
               When yours does, the same team that shipped it can evaluate it, monitor it and keep it
               inside the boundaries you set. That is not an upsell, it is the reason we built the AI
               capability in the first place: we were already being asked to keep this stuff working.
-              Certification of it, when a customer or a regulator wants one, goes to Pixelette
-              Certified.
+              Where a customer or a regulator wants formal governance around it, Pixelette Certified
+              can scope the requirement and support the route to independent assessment.
             </p>
             <div style={{ marginTop: 28 }}>
               <Cta href="/ai-engineering" variant="secondary">

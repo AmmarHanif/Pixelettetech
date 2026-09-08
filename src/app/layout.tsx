@@ -6,6 +6,7 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { JsonLd } from '@/components/ui';
 import { SITE_URL, company } from '@/content/company';
 import { organizationSchema, websiteSchema } from '@/lib/schema';
+import { HOMEPAGE_SEO } from '@/lib/seo';
 
 import './globals.css';
 
@@ -37,13 +38,24 @@ const plexMono = IBM_Plex_Mono({
   variable: '--font-plex-mono',
 });
 
+/**
+ * Site-level metadata.
+ *
+ * `title.default` and `description` are the approved homepage SEO block from
+ * the 8 September 2026 handoff, verbatim. They are the site's fallback identity
+ * — every page that does not set its own title or description inherits these,
+ * as does the OpenGraph card — so the approved wording belongs here rather than
+ * only on `/`. The `default` is used as written; the template applies only to
+ * titles a child page supplies, which is why the homepage builder in
+ * `src/lib/seo.ts` marks its title absolute.
+ */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${company.name} — engineering that ships, chains that hold, AI built into both`,
+    default: HOMEPAGE_SEO.title,
     template: `%s — ${company.name}`,
   },
-  description: company.description,
+  description: HOMEPAGE_SEO.description,
   applicationName: company.name,
   authors: [{ name: company.name, url: SITE_URL }],
   creator: company.name,

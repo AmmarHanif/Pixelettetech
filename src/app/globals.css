@@ -582,6 +582,126 @@ td {
   color: var(--brand) !important;
 }
 
+/* Capability dropdowns. Native <details>, exactly like the mobile disclosure
+   below, so they open from the keyboard, carry an expanded state into the
+   accessibility tree, and work before hydration. Deliberately not a :hover
+   menu: hover-revealed content has to be dismissible without moving the
+   pointer (WCAG 2.1 SC 1.4.13) and that needs JavaScript this header does not
+   have. Chevron and its 0.15s motion are the .nav-toggle chevron below, at
+   the smaller size the 15px nav type takes. */
+.nav__drop {
+  position: relative;
+}
+
+.nav__drop-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  font-size: 15px;
+  color: var(--muted);
+  white-space: nowrap;
+  cursor: pointer;
+  list-style: none;
+}
+
+.nav__drop-summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav__drop-summary:hover,
+.nav__drop[open] > .nav__drop-summary {
+  color: var(--ink);
+}
+
+.nav__drop-summary::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-right: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.15s ease;
+}
+
+.nav__drop[open] > .nav__drop-summary::after {
+  transform: translateY(1px) rotate(225deg);
+}
+
+/* The 18px offset is the gap between a 44px trigger centred in the 80px bar
+   and the bar's own bottom border, so the panel hangs off the header edge the
+   way the mobile panel does. */
+.nav__drop-panel {
+  position: absolute;
+  top: calc(100% + 18px);
+  left: -14px;
+  width: 340px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  padding: 14px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: var(--shadow-door);
+}
+
+/* Specificity note: `.nav a` sets colour, size and a 44px min-height on every
+   link in the bar, so the panel's own link rules are written with two classes
+   to sit above it rather than with !important. */
+.nav__drop-panel .nav__drop-hub {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+  min-height: 44px;
+  padding: 9px 12px;
+  border-radius: 4px;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.nav__drop-panel .nav__drop-hub:hover {
+  background: var(--brand-tint);
+  color: var(--brand-hover);
+}
+
+.nav__drop-hub-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.nav__drop-hub-summary {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.nav__drop-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 8px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.nav__drop-panel .nav__drop-list a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: var(--body);
+}
+
+.nav__drop-panel .nav__drop-list a:hover {
+  background: var(--brand-tint);
+  color: var(--brand-hover);
+}
+
 /* Mobile disclosure. Native <details>, so it works without JavaScript. */
 .nav-mobile {
   display: none;
@@ -622,6 +742,10 @@ td {
   transform: translateY(1px) rotate(225deg);
 }
 
+/* The panel is anchored to a sticky header, so anything taller than the
+   viewport would be unreachable — which an open section group can be on a
+   short phone. It scrolls itself instead. 100dvh where the browser has it, so
+   a mobile toolbar sliding in does not clip the last link. */
 .nav-mobile__panel {
   position: absolute;
   left: 0;
@@ -634,6 +758,10 @@ td {
   border-bottom: 1px solid var(--line);
   padding: 8px var(--gutter) 20px;
   box-shadow: var(--shadow-card);
+  max-height: calc(100vh - 80px);
+  max-height: calc(100dvh - 80px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .nav-mobile__panel a {
@@ -654,6 +782,69 @@ td {
   margin-top: 14px;
   border: 1px solid var(--line-4);
   justify-content: center;
+}
+
+/* A capability section inside the mobile panel: the same <details> disclosure
+   nested one level, so the service pages are reachable on a phone rather than
+   only behind a dropdown a touch device cannot hover. The summary matches the
+   panel's own link row — 52px, same rule, same type — so the menu reads as one
+   list and not as two controls. */
+.nav-mobile__group-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 52px;
+  border-bottom: 1px solid var(--line);
+  font-size: 16px;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+}
+
+.nav-mobile__group-summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-mobile__group-summary::after {
+  content: '';
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-right: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.15s ease;
+}
+
+.nav-mobile__group[open] > .nav-mobile__group-summary {
+  color: var(--ink);
+}
+
+.nav-mobile__group[open] > .nav-mobile__group-summary::after {
+  transform: translateY(1px) rotate(225deg);
+}
+
+.nav-mobile__group-list {
+  list-style: none;
+  margin: 4px 0 8px;
+  padding: 0 0 0 14px;
+  border-left: 2px solid var(--line-2);
+}
+
+/* `display: flex` rather than the panel's `inline-flex`: inside an <li> an
+   inline box would only be as wide as its label, and a 48px-tall tap target
+   that is 90px wide is a worse target than the full row. */
+.nav-mobile__panel .nav-mobile__group-list a {
+  display: flex;
+  min-height: 48px;
+  border-bottom: 0;
+  font-size: 15px;
+  color: var(--body);
+}
+
+.nav-mobile__panel .nav-mobile__group-list a:hover {
+  color: var(--brand-hover);
 }
 
 /* ------------------------------------------------------------------ footer */

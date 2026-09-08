@@ -75,30 +75,42 @@ export default function InsightsPage() {
       </div>
 
       {/* -------------------------------------------------------- featured */}
-      <Section flush style={{ paddingTop: 48 }} labelledBy="featured-heading">
-        <article className="card" style={{ padding: 40 }}>
-          <div style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
-            <Eyebrow>{featuredInsight.category}</Eyebrow>
-            <span className="small" style={{ fontSize: 12.5 }}>
-              Updated <Placeholder>DATE</Placeholder>
-            </span>
-          </div>
-          <h2 className="h2" id="featured-heading" style={{ marginTop: 18, maxWidth: '24ch' }}>
-            {featuredInsight.title}
-          </h2>
-          <p className="body" style={{ marginTop: 20 }}>
-            {featuredInsight.summary}
-          </p>
-          <div
-            style={{ marginTop: 28, display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}
-          >
-            <Cta href="/ai-engineering/evaluation-and-observability">Read the methodology</Cta>
-            <span className="small">
-              <Placeholder>PLANNED: our eval in inspect_evals</Placeholder>
-            </span>
-          </div>
-        </article>
-      </Section>
+      {/* The whole section is gated, not just the card inside it. `Section`
+          carries `labelledBy="featured-heading"`, and that id lives on the h2
+          inside the article — keeping the section without the article would
+          leave an `aria-labelledby` pointing at nothing and an empty band above
+          the list. `featuredInsight` became `Insight | undefined` in
+          src/content/insights.ts on 2026-09-08, which turned the previously
+          invisible crash here into three compile errors; this is the fix they
+          asked for. With a featured piece present the output is unchanged;
+          without one the list section follows the hero directly and the page
+          still reads as finished. */}
+      {featuredInsight ? (
+        <Section flush style={{ paddingTop: 48 }} labelledBy="featured-heading">
+          <article className="card" style={{ padding: 40 }}>
+            <div style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
+              <Eyebrow>{featuredInsight.category}</Eyebrow>
+              <span className="small" style={{ fontSize: 12.5 }}>
+                Updated <Placeholder>DATE</Placeholder>
+              </span>
+            </div>
+            <h2 className="h2" id="featured-heading" style={{ marginTop: 18, maxWidth: '24ch' }}>
+              {featuredInsight.title}
+            </h2>
+            <p className="body" style={{ marginTop: 20 }}>
+              {featuredInsight.summary}
+            </p>
+            <div
+              style={{ marginTop: 28, display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}
+            >
+              <Cta href="/ai-engineering/evaluation-and-observability">Read the methodology</Cta>
+              <span className="small">
+                <Placeholder>PLANNED: our eval in inspect_evals</Placeholder>
+              </span>
+            </div>
+          </article>
+        </Section>
+      ) : null}
 
       {/* ------------------------------------------------------------ list */}
       <Section labelledBy="articles-heading">

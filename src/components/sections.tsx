@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
-import { ArrowUpRight, Shield, Star } from '@/components/Icons';
-import { Cta, Eyebrow, FLink, PillRow, Section, SourceNote } from '@/components/ui';
+import { AiMark, ArrowUpRight, BuildMark, ChainMark, Gauge, Shield, Star } from '@/components/Icons';
+import { ProofStrip } from '@/components/ProofStrip';
+import { Cta, Eyebrow, FLink, Section, SourceNote } from '@/components/ui';
+import { publishedClaims } from '@/content/claims';
 import { certifications, certified, clutch, company } from '@/content/company';
 import { clients } from '@/content/clients';
 import { featuredTestimonials, type Testimonial } from '@/content/testimonials';
@@ -26,6 +28,35 @@ export function ClientLogos({
   heading?: string;
   tight?: boolean;
 }) {
+  /*
+   * The zero guard (added 2026-09-08).
+   *
+   * The same defect class as the footer badge row, the certification table and
+   * the trust strip, all of which were live bugs earlier today. This one is
+   * latent only because the list happens to be non-empty right now.
+   *
+   * `src/content/clients.ts` gained a required `permission` field today, along
+   * with an `approvedClients()` accessor that returns EMPTY, and it records the
+   * founder's open decision to switch this render onto that accessor. On the
+   * day that switch is made, the unguarded component left a "Trusted by" label
+   * sitting over an empty `<ul>`, inside a bordered 128px section, on the
+   * homepage and on /ai-engineering — an orphan heading, an empty container
+   * and a stray separator in one. Exactly what the handoff's DEVELOPER RULE
+   * forbids: "the absence of a badge must not leave a broken layout".
+   *
+   * The whole component returns null rather than guarding the inner list,
+   * because the `<Section>` — with its border-top and its 64px of padding —
+   * lives inside this component and both call sites render it bare. Nothing
+   * wraps it, so nothing is left behind.
+   *
+   * The guard and the map read one local, so they cannot drift apart, and
+   * switching to `approvedClients()` stays the one-line change that file
+   * describes. This does NOT make that switch: the permission question is the
+   * founder's to answer, not this component's.
+   */
+  const names = clients;
+  if (names.length === 0) return null;
+
   return (
     <Section tight={tight} labelledBy="clients-heading">
       <div className="clientrow">
@@ -33,7 +64,7 @@ export function ClientLogos({
           {heading}
         </span>
         <ul className="clientrow__list">
-          {clients.map(client => (
+          {names.map(client => (
             <li key={client.name}>{client.name}</li>
           ))}
         </ul>
@@ -50,6 +81,29 @@ export function Testimonials({
   items?: Testimonial[];
   heading?: string;
 }) {
+  /*
+   * The zero guard (added 2026-09-08).
+   *
+   * `src/content/testimonials.ts` gained a required `publication` field today,
+   * and `featuredTestimonials` — this component's default — is now derived
+   * from a fail-closed accessor, so it empties the moment any row is set to
+   * WITHHELD. That file names this component as the consumer that had not yet
+   * guarded its zero case.
+   *
+   * Unguarded, an empty list rendered the eyebrow, an empty `.grid.grid-2` and
+   * the source note inside a bordered 96px section: an orphan heading, an
+   * empty container and a stray separator. Worse than the layout, the note
+   * read "Each review above links to the review it came from" with no reviews
+   * above it. The `clutch.published` branch is no better — an aggregate over
+   * zero rendered reviews is precisely the rollup that flag exists to withhold.
+   *
+   * So the guard covers the whole block, heading and note included, and not
+   * merely the grid. Same treatment as the footer badge row, the certification
+   * table and the trust strip earlier today, and the same rule behind all
+   * four: "the absence of a badge must not leave a broken layout".
+   */
+  if (items.length === 0) return null;
+
   return (
     <Section labelledBy="voices-heading">
       <Eyebrow id="voices-heading">{heading}</Eyebrow>
@@ -99,14 +153,40 @@ export function Testimonials({
           </figure>
         ))}
       </div>
-      <SourceNote>
-        Rating {clutch.ratingValue} from {clutch.reviewCount} verified reviews. Last checked{' '}
-        {clutch.lastVerified}.{' '}
-        <a href={clutch.profileUrl} target="_blank" rel="noopener noreferrer">
-          Full profile on Clutch
-        </a>
-        .
-      </SourceNote>
+      {/*
+        The aggregate is gated on `clutch.published` (added 2026-09-08).
+
+        Not in the brief for this work package, found while fixing the same
+        defect in `TrustStrip` and fixed here because it is the same held claim
+        in the same file: `clutch-rating` is HELD in the claims register, and
+        `clutch.published` is `false` specifically so that nothing prints the
+        score and the review count until the live profile is re-read. This note
+        printed both regardless.
+
+        The individual reviews are a different claim from the aggregate and are
+        untouched — each card still carries its own quote, its own rating and
+        its own "Verify on Clutch" link to the review it came from. Only the
+        firm-level rollup is withheld, and a source note is still rendered
+        either way, so the section closes the same way in both states.
+      */}
+      {clutch.published ? (
+        <SourceNote>
+          Rating {clutch.ratingValue} from {clutch.reviewCount} verified reviews. Last checked{' '}
+          {clutch.lastVerified}.{' '}
+          <a href={clutch.profileUrl} target="_blank" rel="noopener noreferrer">
+            Full profile on Clutch
+          </a>
+          .
+        </SourceNote>
+      ) : (
+        <SourceNote>
+          Each review above links to the review it came from.{' '}
+          <a href={clutch.profileUrl} target="_blank" rel="noopener noreferrer">
+            Full profile on Clutch
+          </a>
+          .
+        </SourceNote>
+      )}
     </Section>
   );
 }
@@ -139,12 +219,20 @@ export function CertifiedHandoff({
   eyebrow,
   title,
   blurb,
+  /**
+   * Label for the outbound link in the full variant. Defaults to the bare
+   * domain, which is what every existing call site renders; the homepage
+   * passes the handoff's section 12 CTA, "Explore Pixelette Certified".
+   * Optional and additive, so no existing caller changes.
+   */
+  ctaLabel,
 }: {
   variant?: 'full' | 'compact';
   allServices?: boolean;
   eyebrow?: string;
   title?: string;
   blurb?: ReactNode;
+  ctaLabel?: string;
 }) {
   if (variant === 'compact') {
     return (
@@ -152,14 +240,22 @@ export function CertifiedHandoff({
         <span style={{ color: 'var(--mint)', display: 'inline-flex', marginBottom: 16 }} aria-hidden>
           <Shield size={26} />
         </span>
+        {/* Reworded 2026-09-08 under the handoff's ACCREDITATION-SAFE RULE.
+            The heading said "The one we do not do: certify it" and the body
+            said Certified delivers ISO/IEC 42001 and audit "with its own lead
+            auditors" — a named certified-practice status and an independent
+            audit competence, neither of which is verified for the exact legal
+            entity (claims.ts `certified-cross-sell`). This is the handoff's
+            own section 12 wording instead, which sells the same route without
+            asserting a status. Three pages render this variant with no props,
+            so the default is the only thing that fixes them. */}
         <h2 className="h3" style={{ color: 'var(--dark-head)' }}>
-          The one we do not do: certify it
+          Need governance and assurance around what you are building?
         </h2>
         <p style={{ marginTop: 12, fontSize: 15, lineHeight: 1.6 }}>
-          ISO/IEC 42001, AI governance, security review and audit are delivered by{' '}
-          {certified.name}, a separate practice in the same group, with its own lead auditors. We
-          will not sell you an audit of our own build.
+          {certified.positioningLine}
         </p>
+        <p style={{ marginTop: 12, fontSize: 15, lineHeight: 1.6 }}>{certified.blurb}</p>
         <p style={{ marginTop: 20 }}>
           <a
             href={certified.url}
@@ -183,17 +279,40 @@ export function CertifiedHandoff({
           {title ?? 'Came for the certificate rather than the build?'}
         </h2>
         <p style={{ marginTop: 20, fontSize: 16, lineHeight: 1.65, maxWidth: '66ch' }}>
+          {/* Reworded 2026-09-08, same rule as the compact variant above. The
+              default said Certified delivers five standards "by certified lead
+              auditors", which is a named certified-practice status the
+              ACCREDITATION-SAFE RULE forbids until the exact legal entity and
+              status are verified. It is now the handoff's section 12 sentence,
+              assembled from `certified.blurb` so the wording has one home in
+              `src/content/company.ts` and cannot drift from it here. */}
           {blurb ?? (
             <>
-              {certified.name} is the group’s compliance and certification practice: ISO 27001,
-              ISO/IEC 42001 for AI management systems, Cyber Essentials, GDPR and SOC 2, delivered by
-              certified lead auditors. If the question is whether your AI will survive a security
-              review or a board, that is their work rather than ours, and we will hand you straight
-              over.
+              {certified.name} is{' '}
+              {certified.blurb.charAt(0).toLowerCase() + certified.blurb.slice(1)}
             </>
           )}
         </p>
-        <div className="pill-row" style={{ marginTop: 26 }}>
+        {/*
+          The pill row is labelled (added 2026-09-08).
+
+          It was rendering "ISO 27001 · ISO 42001 · Cyber Essentials · GDPR ·
+          SOC 2" as five bare pills directly under the Certified panel, with
+          nothing saying what the list was. `src/content/company.ts` states the
+          requirement on the list itself — "These are areas of support, not
+          accreditations held by any Pixelette company … the copy around this
+          list must not turn readiness into a certificate" — and an unlabelled
+          badge row is precisely the presentation that turns it into one. Under
+          DMCCA 2024 s.226 the test is the overall impression, so a true list
+          under a misleading label is still a misleading action.
+
+          The label states what the list is before the reader reaches it.
+        */}
+        <p className="small" style={{ marginTop: 26, color: 'var(--dark-text)' }}>
+          What {certified.name} helps with. These are areas of support, not accreditations held by
+          any Pixelette company; independent assessment stays independent.
+        </p>
+        <div className="pill-row" style={{ marginTop: 14 }}>
           {(allServices ? certified.services : certified.standards).map(s => (
             <span
               className="pill"
@@ -217,7 +336,7 @@ export function CertifiedHandoff({
               fontWeight: 600,
             }}
           >
-            pixelettecertified.com
+            {ctaLabel ?? 'pixelettecertified.com'}
             <ArrowUpRight size={14} />
           </a>
           <Link
@@ -241,12 +360,42 @@ export function CertifiedHandoff({
  * certificate is a group capability we do not hold.
  */
 export function VerificationTable({ withHeading = true }: { withHeading?: boolean }) {
+  /*
+   * The guard (added 2026-09-08).
+   *
+   * `certifications` is `certificationRegister.filter(c => c.published === true)`
+   * and every row is currently unpublished, so this list is EMPTY. Without a
+   * guard the component rendered a caption claiming "Certifications held by
+   * Pixelette Technologies Ltd" and a three-column header row over
+   * `<tbody></tbody>` on /ai-engineering and /security-and-data — a table
+   * asserting certifications it then failed to list, which is both the broken
+   * layout the handoff's DEVELOPER RULE forbids and a claim made by a caption.
+   *
+   * Returning `null` for the whole component would be worse, not better: both
+   * call sites wrap this in a `<Section labelledBy="verify-heading">`, so an
+   * empty return leaves a bordered 96px section with nothing in it and an
+   * `aria-labelledby` pointing at an element that does not exist. So the guard
+   * is around the TABLE, and the section keeps a heading and a sentence that
+   * makes no certification claim at all.
+   *
+   * The table below maps `rows` rather than `certifications` (2026-09-08, with
+   * the empty-state sweep that added the two guards above). The guard tested
+   * `rows` while the body read the import, so narrowing `rows` to a filtered
+   * view later would have rendered the unfiltered register under a guard that
+   * had already agreed the list was safe. One local, read in both places.
+   */
+  const rows = certifications;
+
   return (
     <>
       {withHeading ? (
         <>
           <Eyebrow>Verification</Eyebrow>
-          <h2 className="h2" style={{ marginTop: 18 }}>
+          {/* `id` added 2026-09-08: /ai-engineering labels its section
+              "verify-heading" and nothing on the page carried that id, so the
+              reference dangled. /security-and-data passes withHeading={false}
+              and supplies its own, so the two never collide. */}
+          <h2 className="h2" id="verify-heading" style={{ marginTop: 18 }}>
             Every claim on this page resolves to a link.
           </h2>
           <p className="body" style={{ marginTop: 20 }}>
@@ -257,6 +406,18 @@ export function VerificationTable({ withHeading = true }: { withHeading?: boolea
         </>
       ) : null}
 
+      {rows.length === 0 ? (
+        /* Says what is NOT being published and why, and asserts nothing about
+           what is or is not held. The reader is told the standard the site
+           applies to itself, which is the only claim-free thing that can go
+           here while the register rows are unpublished. */
+        <p className="body" style={{ marginTop: withHeading ? 34 : 0, maxWidth: '68ch' }}>
+          No certification is listed here. This site publishes one only when a reader can check it
+          without taking our word for it — the certificate number, the issuing certification body
+          and the expiry date, against {company.legalName} as the named entity. Until that is
+          published, no badge is shown.
+        </p>
+      ) : (
       <div className="table-scroll" style={{ marginTop: withHeading ? 34 : 0 }}>
         <table>
           <caption className="small" style={{ textAlign: 'left', paddingBottom: 12 }}>
@@ -270,7 +431,7 @@ export function VerificationTable({ withHeading = true }: { withHeading?: boolea
             </tr>
           </thead>
           <tbody>
-            {certifications.map(cert => (
+            {rows.map(cert => (
               <tr key={cert.standard}>
                 <th
                   scope="row"
@@ -319,6 +480,7 @@ export function VerificationTable({ withHeading = true }: { withHeading?: boolea
           </tbody>
         </table>
       </div>
+      )}
       <p style={{ marginTop: 26 }}>
         <FLink href="/security-and-data">Read our security and data position</FLink>
       </p>
@@ -365,18 +527,153 @@ export function ClosingCta({
   );
 }
 
-/** Compact trust strip: certifications, rating and reach. */
-export function TrustStrip() {
+/* ------------------------------------------------------------------------ *
+ * BUILD • AUTOMATE • DECENTRALISE • RUN
+ * ------------------------------------------------------------------------ */
+
+/**
+ * The four-card service model.
+ *
+ * The handoff's implementation checklist asks for this specifically:
+ * "Implement the Build • Automate • Decentralise • Run mental model as four
+ * reusable cards used across homepage and service pages." So it lives here,
+ * exported, rather than as markup inside `src/app/page.tsx` — a copy of these
+ * four cards on each service page is four places for the wording to drift, and
+ * the point of the mnemonic is that it reads identically everywhere. The
+ * handoff's own developer summary is the reason to keep it exact: "If a
+ * visitor remembers only four words, they should be: BUILD • AUTOMATE •
+ * DECENTRALISE • RUN."
+ *
+ * Every string below is the handoff's, verbatim. `summary` is the short
+ * definition from the four capitalised blocks in section 04; `detail` is the
+ * longer paragraph the same section gives underneath them. `linkLabel` is the
+ * navigation label from `src/content/nav.ts`, so a card and the menu name the
+ * same destination the same way.
+ */
+export type ValueModelEntry = {
+  key: 'BUILD' | 'AUTOMATE' | 'DECENTRALISE' | 'RUN';
+  icon: ReactNode;
+  summary: string;
+  detail: string;
+  href: string;
+  linkLabel: string;
+};
+
+export const valueModel: ValueModelEntry[] = [
+  {
+    key: 'BUILD',
+    icon: <BuildMark size={30} />,
+    summary:
+      'Custom software, SaaS, web and mobile products, APIs, integrations, cloud architecture and modernisation.',
+    detail:
+      'From a blank sheet or an inherited codebase, we design and engineer products that can move from specification to production without handing the client a prototype and walking away.',
+    href: '/engineering',
+    linkLabel: 'Engineering',
+  },
+  {
+    key: 'AUTOMATE',
+    icon: <AiMark size={30} />,
+    summary:
+      'AI agents, workflow orchestration, model/LLM integration, RAG, predictive systems and intelligent automation.',
+    detail:
+      'We apply AI where it can reduce work, improve decisions, personalise a product or coordinate complex workflows — with human oversight and measurable success criteria where the use case requires it.',
+    href: '/ai-engineering',
+    linkLabel: 'AI & Automation',
+  },
+  {
+    key: 'DECENTRALISE',
+    icon: <ChainMark size={30} />,
+    summary:
+      'Tokenisation, smart contracts, dApps, wallets and blockchain infrastructure where decentralisation solves a real problem.',
+    detail:
+      'Blockchain is a specialist tool, not a default answer. We use it where ownership, programmability, verification, tokenisation or distributed trust creates a genuine advantage.',
+    href: '/blockchain',
+    linkLabel: 'Blockchain',
+  },
+  {
+    key: 'RUN',
+    icon: <Gauge size={30} />,
+    summary:
+      'Operate, monitor, support and continually improve products and workflows after launch.',
+    detail:
+      'Production is a starting point, not a handover ceremony. Ongoing support can include monitoring, incident response, optimisation, releases, backlog delivery and product evolution.',
+    href: '/engineering/managed-engineering',
+    linkLabel: 'Managed Engineering / Support',
+  },
+];
+
+export function ValueModelCards({
+  /**
+   * Show the longer paragraph under each short definition. True on the
+   * homepage, where section 04 carries both layers; a service page
+   * reintroducing the model alongside its own copy wants the compact form.
+   */
+  detailed = true,
+}: {
+  detailed?: boolean;
+} = {}) {
   return (
-    <PillRow
-      items={[
-        'ISO 9001',
-        'ISO 27001',
-        'Cyber Essentials Plus',
-        `Clutch ${clutch.ratingValue} · ${clutch.reviewCount} reviews`,
-        `${company.countriesDelivered} countries`,
-      ]}
-      style={{ justifyContent: 'center' }}
-    />
+    <div className="grid grid-4">
+      {valueModel.map(entry => (
+        <div
+          className="card"
+          key={entry.key}
+          style={{ display: 'flex', flexDirection: 'column', padding: 26 }}
+        >
+          <span
+            style={{ color: 'var(--brand)', display: 'inline-flex', marginBottom: 18 }}
+            aria-hidden
+          >
+            {entry.icon}
+          </span>
+          <h3 className="mono" style={{ fontSize: 13, letterSpacing: '0.1em', color: 'var(--ink)' }}>
+            {entry.key}
+          </h3>
+          <p className="body" style={{ marginTop: 12, fontSize: 14.5 }}>
+            {entry.summary}
+          </p>
+          {detailed ? (
+            <p className="small" style={{ marginTop: 14 }}>
+              {entry.detail}
+            </p>
+          ) : null}
+          <div style={{ flexGrow: 1 }} />
+          <div style={{ marginTop: 18 }}>
+            <FLink href={entry.href}>{entry.linkLabel}</FLink>
+          </div>
+        </div>
+      ))}
+    </div>
   );
+}
+
+/**
+ * Compact trust strip.
+ *
+ * Rewritten 2026-09-08. It used to be a hardcoded pill row — 'ISO 9001',
+ * 'ISO 27001', 'Cyber Essentials Plus', the Clutch score and a country count —
+ * which made it the single largest publication exposure on the site, for three
+ * separate reasons:
+ *
+ *  1. It bypassed the claims register entirely. Every one of those five items
+ *     is HELD in `src/content/claims.ts`, and a component that prints a badge
+ *     from a string literal cannot be stopped by a register it never consults.
+ *  2. It printed the Clutch aggregate without checking `clutch.published`,
+ *     which is `false` precisely so that nothing renders it.
+ *  3. `company.countriesDelivered` was emptied to '' when the geography count
+ *     was held, so the last pill had been rendering as a bare " countries" on
+ *     every page that used the strip. A live defect, not a hypothetical.
+ *
+ * It now reads the register and nothing else, through `ProofStrip`, which
+ * returns `null` at zero verified claims rather than an empty frame. Today
+ * `publishedClaims()` is empty, so this renders nothing at all — which is the
+ * correct output under the handoff's DEVELOPER RULE ("the absence of a badge
+ * must not leave a broken layout"), not a degraded one. It repopulates by
+ * itself the moment a register row moves to VERIFIED; no edit here is needed.
+ *
+ * The signature is unchanged — both new props are optional — so every existing
+ * call site keeps working.
+ */
+export function TrustStrip({ heading, note }: { heading?: string; note?: string }) {
+  return <ProofStrip claims={publishedClaims()} heading={heading} note={note} />;
 }
