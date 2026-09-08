@@ -62,6 +62,28 @@ export const metadata: Metadata = {
   publisher: company.legalName,
   formatDetection: { telephone: false, address: false, email: false },
   alternates: { canonical: SITE_URL },
+  /**
+   * Both files behind these two paths were, until 8 September 2026, ANOTHER
+   * COMPANY'S mark: a blue rounded square with a serif "A", in all three
+   * favicon sizes and at 180px. The paths are unchanged and correct; what they
+   * serve was replaced with the Pixelette tree device, taken from
+   * public/pixelette-logo-white.svg and set on the brand purple below —
+   * `themeColor` and `--brand` are the same #661a8f, so the tile matches the
+   * browser UI colour this file already declares.
+   *
+   * The two are drawn differently on purpose. `apple-touch-icon.png` is a
+   * full-bleed opaque square with square corners, because iOS applies its own
+   * corner mask and composites alpha onto black — rounded corners here would
+   * put black wedges on a home screen. `favicon.ico` carries 16, 32 and 48px
+   * entries with an 18% corner radius, as uncompressed BGRA BMP (not
+   * PNG-in-ICO), which is what the previous file used and what every ICO
+   * parser reads.
+   *
+   * Known limit, recorded rather than glossed: the device is a canopy of
+   * detached squares, so at 16px the individual squares fall below a pixel and
+   * merge. The tree silhouette still reads; the squares do not. That is the
+   * artwork's own ceiling at that size, not the rasteriser's.
+   */
   icons: {
     icon: '/favicon.ico',
     apple: '/apple-touch-icon.png',

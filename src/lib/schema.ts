@@ -48,7 +48,25 @@ export function organizationSchema(published: PublishedOrgClaims = {}) {
     name: company.name,
     legalName: company.legalName,
     url: SITE_URL,
-    logo: `${SITE_URL}/apple-touch-icon.png`,
+    // The company's machine-readable identity image. Until 8 September 2026
+    // this pointed at /apple-touch-icon.png, and that file was ANOTHER
+    // COMPANY'S mark — a blue rounded square with a serif "A" — so the graph
+    // asserted a foreign logo as Pixelette's own identity to Google and to
+    // every answer engine that reads this block. A wrong favicon is
+    // embarrassing; a wrong Organization.logo is an identity claim.
+    //
+    // It now points at a raster of the real lockup, generated from
+    // public/pixelette-logo.svg at the SVG's own viewBox framing:
+    // 1024x285, opaque, on the white ground the colour artwork is drawn for.
+    //
+    // Raster rather than the SVG on purpose. Whether a consumer accepts an SVG
+    // here could not be verified from a primary source in the session that made
+    // this change (no network), and the artwork carries no intrinsic width or
+    // height for a minimum-dimension check to read. A PNG is accepted under
+    // every reading of the guidance, so it is the option that cannot be
+    // silently ignored. It is deliberately NOT the icon file: an icon is a
+    // 180px tile, and this is the lockup that carries the company name.
+    logo: `${SITE_URL}/pixelette-logo-1024.png`,
     description: HOMEPAGE_SEO.description,
     foundingDate: String(company.incorporated),
     identifier: {
