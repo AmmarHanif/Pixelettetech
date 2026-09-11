@@ -565,8 +565,10 @@ export default function HomePage() {
           seven rows there read APPROVED on the founder's decision of
           2026-09-11 ("Keep them — I'm confident we have the basis"), so
           `approvedClients()` returns exactly the seven names this line
-          renders. `ClientLogos` still reads `clients` directly, which is why
-          the render is unchanged either way.
+          renders. `ClientLogos` reads `approvedClients()`, and the render
+          is unchanged either way because every row is APPROVED — the
+          accessor and the raw array hold the same seven names, in the same
+          order.
 
           CORRECTED 2026-09-11, comment only. What follows is a correction,
           not a deletion. This comment used to read: "Held behind an approval
@@ -591,7 +593,29 @@ export default function HomePage() {
 
           Nothing rendered by this line changed on 2026-09-11: the same seven
           names rendered before the decision and after it. Nothing is owed from
-          this paragraph. */}
+          this paragraph.
+
+          CORRECTED AGAIN 2026-09-11, later the same day, comment only. The
+          opening paragraph used to end: "`ClientLogos` still reads `clients`
+          directly, which is why the render is unchanged either way." The
+          conclusion was right and is kept — this line renders the same seven
+          names it always did — but the reason given for it was overtaken the
+          same day. `ClientLogos` was switched onto `approvedClients()`, so
+          "still reads `clients` directly" is no longer true of it and can no
+          longer be the reason for anything.
+
+          The render is unchanged for a different and better reason: all seven
+          rows are APPROVED, so the accessor returns the same seven names the
+          raw array did. That reason is contingent where the old one was
+          structural, and the difference is the point of the switch — this
+          line is now fail-closed. Withdraw a permission and the name leaves
+          this page in that one edit; withdraw all seven and `ClientLogos`
+          renders nothing rather than an empty frame. Measured by building it
+          on 2026-09-11, not assumed.
+
+          Nothing else in this comment moves. The record still lives in
+          `src/content/clients.ts`, this page still asserts no permission of
+          its own, and nothing is owed from this paragraph either. */}
       <ClientLogos tight />
 
       {/* ══════════════════ 03 · What are you trying to change? ══════════ */}

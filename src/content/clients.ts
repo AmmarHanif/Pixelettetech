@@ -85,6 +85,46 @@
  *     and is a genuine one-liner — but it is a change to another file and is
  *     left to whoever makes it.
  *
+ *     CORRECTED 2026-09-11, later the same day. A correction, not a deletion:
+ *     the bullet above is kept word for word because it is the reasoning that
+ *     authorised the change, and it should be read as history rather than as
+ *     work outstanding.
+ *
+ *     THE SWITCH IS MADE. `ClientLogos` reads `approvedClients()`. "still
+ *     reads `clients`, not `approvedClients()`" and "left to whoever makes
+ *     it" were both true when they were written and both stopped being true
+ *     the same day: whoever makes it made it. Nothing is owed from this
+ *     bullet.
+ *
+ *     What it changed on the page: nothing, and that was measured rather than
+ *     assumed. The seven APPROVED rows are the whole of `clients`, so the
+ *     accessor returns the same names in the same order, and `/` and
+ *     `/ai-engineering` render byte-identical HTML across the switch.
+ *
+ *     What it changed permanently: this gate is fail-closed, which it was not
+ *     before. A row set back to UNCONFIRMED now leaves both pages in that one
+ *     edit, and with every row UNCONFIRMED the accessor returns nothing and
+ *     `ClientLogos` renders nothing at all — no orphan "Trusted by" heading,
+ *     no empty list, no bordered section. Measured on 2026-09-11 by building
+ *     the site with all seven rows flipped back: the whole
+ *     `clients-heading` section disappears from both pages. That is the zero
+ *     guard in `ClientLogos` doing the work, and it is why `approvedClients()`
+ *     below is allowed to return an empty array.
+ *
+ * ON THE HEADING OF THIS LIST, corrected 2026-09-11 in the same pass.
+ * "DELIBERATELY NOT CHANGED BY THIS DECISION, and each is somebody's next
+ * job" was true of both bullets when it was written and is true of neither
+ * now. The second was done, as its own correction records. The first was
+ * ANSWERED rather than done: ADR-0023 decided that the `client-logos` row
+ * STAYS HELD, because that row governs a claim class and the founder cleared
+ * seven names inside it — "evidence for part of a row's scope does not move
+ * the row; that is the register working, not a backlog". So the first
+ * bullet's "it now lags this file by one decision" describes a lag that is
+ * not one: it is a deliberate, documented state, and a reader who "fixes" it
+ * by moving that row would publish a proof badge nobody asked for. Both
+ * bullets stand as written, no status anywhere is changed by this note, and
+ * nothing is owed from either of them.
+ *
  * If permission is ever refused for a name, delete the row: the handoff
  * supports anonymised presentation without changing the layout, so a shorter
  * row is not a broken one.

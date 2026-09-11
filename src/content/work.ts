@@ -316,10 +316,21 @@ export type InternalEvidence = {
    */
   heldMetrics: GatedMetric[];
   /**
-   * Every name that must not appear in public copy while `namePermission` is
-   * 'PENDING' — the client, the product, the token, the end customer.
+   * Every name that must not appear in public copy — the client, the product,
+   * the token, the end customer.
+   *
    * `assertPublicationInvariants` checks the published strings against this
-   * list and fails the build on a leak.
+   * list and fails the build on a leak. The scan is scoped to NAMES, not to
+   * studies: a name leaves this list's protection only where `releasedNames`
+   * on the study records a decision releasing that exact name. A study whose
+   * `namePermission` is 'CONFIRMED' is therefore still scanned for every
+   * other name listed here.
+   *
+   * Corrected 2026-09-11. This note used to read "Every name that must not
+   * appear in public copy while `namePermission` is 'PENDING'", and the check
+   * matched it — it skipped any study that was not 'PENDING'. Confirming one
+   * name consequently disarmed the guard on every other name in the same
+   * study. See `NameRelease` for what replaced that.
    */
   gatedNames: string[];
 };
@@ -381,15 +392,63 @@ export type CaseStudyDetail = CaseStudyNarrative & {
 export type NamePermission = 'CONFIRMED' | 'PENDING';
 
 /**
+ * One name, released by one decision, with the decision attached.
+ *
+ * A permission is about a NAME, not about a case study. A study can carry
+ * several gated names — the client, the product it was white-labelled as, the
+ * end customer whose data it processes — and a founder asked about one of them
+ * has answered about one of them. This type exists so that "confirmed" has to
+ * say *what* was confirmed, and so the gate can release that string and keep
+ * scanning the rest.
+ *
+ * Matching against `gatedNames` is whole-string and case-insensitive, never by
+ * substring: releasing 'Ayni' does not release 'Ayni Gold', because they are
+ * two names and a founder asked about one of them was asked about one of them.
+ *
+ * Every field is required. An approval nobody can attribute, date and quote is
+ * the thing `src/content/clients.ts` calls "not an approval at all", and the
+ * invariant rejects one with any field blank.
+ */
+export type NameRelease = {
+  /** The gated string this release covers, exactly as `gatedNames` spells it. */
+  name: string;
+  /** Who gave the permission. The founder, or a named document — not "the team". */
+  approvedBy: string;
+  /** ISO date the permission was given. */
+  approvedOn: string;
+  /** What was asked and what was answered, in the words it was answered in. */
+  basis: string;
+};
+
+/**
  * The name gate, as a discriminated union rather than as two loose fields.
  *
  * A study cannot be marked 'PENDING' without supplying the copy that stands in
  * for its name, because the compiler will not let it. That is the difference
  * between a policy and a comment about a policy.
+ *
+ * `releasedNames` lives on the 'CONFIRMED' branch alone, so the compiler will
+ * not let a study that is still PENDING carry a release record at all.
  */
 type NameGate =
   | {
       namePermission: 'CONFIRMED';
+      /**
+       * The gated names this study's confirmation actually released, one entry
+       * per name, each with the decision behind it.
+       *
+       * Optional only because most studies here gate no name at all
+       * (`gatedNames` is empty) and have nothing to release. It is not
+       * optional in effect: invariant 3 scans every name in `gatedNames` that
+       * no entry here releases, whatever `namePermission` says, so a study
+       * flipped to 'CONFIRMED' without a release record fails the build the
+       * moment its own client name appears in published copy — which, for any
+       * study that was PENDING, it does the instant the flip is made.
+       *
+       * Confirming one name releases THAT name. It is not blanket permission
+       * for every gated string the study happens to contain.
+       */
+      releasedNames?: NameRelease[];
       /** May be prepared in advance, so a study can be gated without losing copy. */
       anonymisedName?: string;
       anonymisedKicker?: string;
@@ -584,17 +643,55 @@ export const caseStudies: CaseStudy[] = [
      *     not completion evidence.
      *   - It confirms nothing about Fusio Wallet, Ayni Gold or AIA.
      *
-     * Known consequence, recorded rather than discovered later: invariant 3 in
-     * `assertPublicationInvariants` is per-study and skips any study that is
-     * not PENDING, so the gated-name scan no longer guards this entry — and
-     * that includes the SECOND name in `gatedNames`, 'FindReciprocity', which
-     * the founder was not asked about. It is not published today: it appears
-     * only in `internalEvidence.sourceBasis`, which no page reads and which
-     * `publishedStrings()` does not collect. Checked on 2026-09-11. Anyone
-     * editing the copy below should keep it that way by hand, because the
-     * automatic check that used to do it is off for this study.
+     * CORRECTED 2026-09-11, later the same day. A correction, not a deletion.
+     *
+     * This paragraph used to read: "Known consequence, recorded rather than
+     * discovered later: invariant 3 in `assertPublicationInvariants` is
+     * per-study and skips any study that is not PENDING, so the gated-name
+     * scan no longer guards this entry — and that includes the SECOND name in
+     * `gatedNames`, 'FindReciprocity', which the founder was not asked about.
+     * … Anyone editing the copy below should keep it that way by hand, because
+     * the automatic check that used to do it is off for this study."
+     *
+     * It described a real defect accurately, and the defect has now been fixed
+     * rather than documented. Invariant 3 is scoped to NAMES, not to studies:
+     * it runs over every study whatever its permission, and skips only the
+     * names a `releasedNames` record released. The record below releases
+     * '2Connect' and nothing else, so 'FindReciprocity' is scanned across this
+     * study's published strings on every build, and the build fails if it ever
+     * reaches one.
+     *
+     * Nothing is owed by hand any more. It remains true that 'FindReciprocity'
+     * appears today only in `internalEvidence.sourceBasis`, which no page
+     * reads and which `publishedStrings()` does not collect — the difference
+     * is that the build now proves that on every run instead of relying on it,
+     * so an edit that publishes the name fails loudly rather than quietly.
      */
     namePermission: 'CONFIRMED',
+    /*
+     * WHAT THE CONFIRMATION RELEASED, name by name.
+     *
+     * One entry, for one name. The founder was asked about 2Connect and
+     * answered about 2Connect. 'FindReciprocity' is deliberately absent: he was
+     * never asked about it, and an answer about one client cannot release
+     * another. Leaving it out is not an omission to tidy up later — it is what
+     * keeps the gated-name scan running over it.
+     *
+     * If permission for 'FindReciprocity' is ever obtained, add a second entry
+     * here recording who gave it and when, in the same shape. Do not delete it
+     * from `gatedNames`; the release record is the permission's home, and a
+     * name removed from the gated list leaves no trace of ever having been
+     * gated.
+     */
+    releasedNames: [
+      {
+        name: '2Connect',
+        approvedBy: 'The founder',
+        approvedOn: '2026-09-11',
+        basis:
+          'Asked whether the client could be named in the case study, having confirmed 2Connect as a normal client he is content to be publicly associated with, he answered "Yes — name them in the case study". That decision is the entire basis for this release, and it names one client.',
+      },
+    ],
     /*
      * Kept, not deleted, and the type allows exactly this — the 'CONFIRMED'
      * branch of `NameGate` makes both fields optional rather than forbidding
@@ -2532,6 +2629,17 @@ const HELD_VOCABULARY: readonly { claimId: ClaimId; name: string; re: RegExp }[]
 ];
 
 /**
+ * How a gated name and a released name are compared.
+ *
+ * Whole-string and case-insensitive, matching the case-insensitive scan below.
+ * Never a substring test: 'Ayni' and 'Ayni Gold' are two entries in the same
+ * `gatedNames` list and releasing one must not release the other.
+ */
+function normaliseName(name: string): string {
+  return name.trim().toLowerCase();
+}
+
+/**
  * Everything a page can actually put in front of a reader for one case study,
  * paired with the field it came from so a fault names a place to go and fix.
  *
@@ -2594,9 +2702,21 @@ function publishedStrings(cs: CaseStudy): { field: string; text: string }[] {
  *     render it.
  *  2. The deprecated `pending` flag still mirrors `status === 'NOT_MEASURED'`,
  *     so the three practice pages that read it keep behaving.
- *  3. No gated name appears in any string a gated case study publishes. This
- *     is the check that would have caught the two places the handoff's own
- *     approved wording carries a client name.
+ *  3. No gated name appears in any string a case study publishes. Scoped to
+ *     NAMES, not to studies: it runs over every study whatever its permission,
+ *     and skips a name only where that study's `releasedNames` records the
+ *     decision that released THAT name. This is the check that would have
+ *     caught the two places the handoff's own approved wording carries a
+ *     client name.
+ *
+ *     Corrected 2026-09-11. It used to read "No gated name appears in any
+ *     string a GATED case study publishes", and the code matched the wording:
+ *     `if (cs.namePermission !== 'PENDING') continue`. Confirming one name
+ *     therefore disarmed the guard on every other name in the same study,
+ *     which is what happened to 'FindReciprocity' on the 2Connect entry the
+ *     same morning — a second client name, never put to the founder, left
+ *     protected by a code comment. A release is now per name and carries its
+ *     approver, its date and its basis.
  *  4. Every `ClaimId` this file names still exists in `claims.ts`. Without it
  *     the checks below degrade silently into no-ops when a row is renamed.
  *  5. Every measured figure names at least one register row, and always the
@@ -2614,6 +2734,11 @@ function publishedStrings(cs: CaseStudy): { field: string; text: string }[] {
  *  9. No published string carries the vocabulary of a held claim (ISO, Cyber
  *     Essentials, Clutch, APPG, a geography or project count, an award, a
  *     smart-contract audit claim).
+ * 10. Every release record in `releasedNames` names a string the study
+ *     actually gated — its `client`, or an entry in `gatedNames` — and
+ *     carries an approver, a date and a basis. A release that matches no gated
+ *     name releases nothing and hides the typo that caused it; a release
+ *     nobody can attribute and date is not a permission.
  *
  * Check 8 lifts when `case-study-metrics` is released, which is correct: at
  * that point figures are permitted, subject to each figure's own status. Its
@@ -2740,16 +2865,74 @@ function assertPublicationInvariants(studies: CaseStudy[]): void {
       }
     }
 
-    // 3.
-    if (cs.namePermission !== 'PENDING') continue;
+    // 3 and 10. THE NAME GATE, SCOPED TO NAMES RATHER THAN TO STUDIES.
+    //
+    //    `gatedNames` is the list of names this study may not publish. A name
+    //    leaves that list through one route only: a `releasedNames` record
+    //    naming that exact string. Never through the study's permission flag,
+    //    which says a decision was taken without saying what it was about.
+    const declaredGatedNames = cs.internalEvidence?.gatedNames ?? [];
+    const releases: NameRelease[] =
+      cs.namePermission === 'CONFIRMED' ? (cs.releasedNames ?? []) : [];
 
-    const gatedNames = [cs.client, ...(cs.internalEvidence?.gatedNames ?? [])];
-    for (const name of gatedNames) {
+    // 10. A release must be about a name this study actually gated, and must
+    //     carry its provenance.
+    for (const r of releases) {
+      const namesSomethingGated = [cs.client, ...declaredGatedNames].some(
+        n => normaliseName(n) === normaliseName(r.name),
+      );
+      if (!namesSomethingGated) {
+        faults.push(
+          `${cs.slug}: releasedNames releases "${r.name}", which is neither this study's \`client\` ` +
+            'nor an entry in `internalEvidence.gatedNames`. A release must name the gated string it ' +
+            'releases, spelled the same way, or it releases nothing and the mismatch is invisible.',
+        );
+      }
+      for (const [fieldName, value] of [
+        ['approvedBy', r.approvedBy],
+        ['approvedOn', r.approvedOn],
+        ['basis', r.basis],
+      ] as const) {
+        if (!value.trim()) {
+          faults.push(
+            `${cs.slug}: the releasedNames entry for "${r.name}" has an empty ${fieldName}. A name ` +
+              'permission nobody can attribute, date and quote is not a permission.',
+          );
+        }
+      }
+    }
+
+    // 3. Every declared gated name no release covers, plus the client's own
+    //    name while the permission is still pending.
+    //
+    //    Deduplicated on the normalised name, because most studies list their
+    //    own client in `gatedNames` as well and a doubled entry produced two
+    //    identical fault lines for one leak. Nothing is lost by it: the scan
+    //    below is case-insensitive, so scanning 'Ayni' covers the 'AYNI' entry
+    //    beside it in the same list.
+    const stillGated = [
+      ...new Map(
+        (cs.namePermission === 'PENDING'
+          ? [cs.client, ...declaredGatedNames]
+          : declaredGatedNames
+        )
+          .filter(name => !releases.some(r => normaliseName(r.name) === normaliseName(name)))
+          .map(name => [normaliseName(name), name] as const),
+      ).values(),
+    ];
+
+    for (const name of stillGated) {
       const pattern = new RegExp(`\\b${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
       for (const { field, text } of published) {
         if (pattern.test(text)) {
           faults.push(
-            `${cs.slug}: name "${name}" is gated but appears in published copy (${field}): "${text.slice(0, 90)}…"`,
+            cs.namePermission === 'CONFIRMED'
+              ? `${cs.slug}: name "${name}" is gated but appears in published copy (${field}): ` +
+                  `"${text.slice(0, 90)}…". This study is CONFIRMED, but its \`releasedNames\` records ` +
+                  'no decision releasing THAT name. Confirming one name is not permission for every ' +
+                  'other name in the same study: either record the release — who approved it, when, ' +
+                  'and on what basis — or take the name out of the published copy.'
+              : `${cs.slug}: name "${name}" is gated but appears in published copy (${field}): "${text.slice(0, 90)}…"`,
           );
         }
       }

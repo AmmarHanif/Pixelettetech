@@ -6,7 +6,7 @@ import { ProofStrip } from '@/components/ProofStrip';
 import { Cta, Eyebrow, FLink, Section, SourceNote } from '@/components/ui';
 import { publishedClaims } from '@/content/claims';
 import { certifications, certified, clutch, company } from '@/content/company';
-import { clients } from '@/content/clients';
+import { approvedClients } from '@/content/clients';
 import { featuredTestimonials, type Testimonial } from '@/content/testimonials';
 import { ANALYTICS_EVENTS, ANALYTICS_SURFACES, analyticsAttrs } from '@/lib/analytics';
 
@@ -58,10 +58,9 @@ export function ClientLogos({
    * wraps it, so nothing is left behind.
    *
    * The guard and the map read one local, so they cannot drift apart, and
-   * switching to `approvedClients()` stays the one-line change that file
-   * describes. This does NOT make that switch — it is a separate change to a
-   * separate line, and `src/content/clients.ts` records it as left to whoever
-   * makes it.
+   * that local is now `approvedClients()`. The second correction at the foot
+   * of this block records when that switch was made, what it changed, and
+   * quotes what this passage used to say about it.
    *
    * CORRECTED 2026-09-11, comment only. What follows is a correction, not a
    * deletion.
@@ -103,8 +102,69 @@ export function ClientLogos({
    * The RENDERED output of this component is untouched by this correction, and
    * the guard it describes was correct on 2026-09-08 and is correct today.
    * NOTHING IS OWED FROM THIS PARAGRAPH AND NOTHING HERE IS BLOCKING.
+   *
+   * ----------------------------------------------------------------------
+   * CORRECTED AGAIN 2026-09-11, later the same day — and this time the code
+   * moved, not only the comment. A correction, not a deletion.
+   *
+   * Two passages described the switch to `approvedClients()` as outstanding.
+   * They were true when written and are quoted here because they are not true
+   * now:
+   *
+   *   - This block used to say, a few paragraphs above: "This does NOT make
+   *     that switch — it is a separate change to a separate line, and
+   *     `src/content/clients.ts` records it as left to whoever makes it."
+   *   - Point 2 above still says: "What is left is not a decision but an edit,
+   *     and it is a safe one for the first time: with the two lists identical,
+   *     moving this render onto `approvedClients()` changes no rendered name."
+   *     That sentence is left standing deliberately — it is the reasoning that
+   *     authorised this edit. Read it as history, not as work outstanding.
+   *
+   * THE SWITCH IS MADE. On 2026-09-11 this component moved from the raw
+   * `clients` array to `approvedClients()`. Three files recorded the change
+   * as owed and each left it to the next person: this comment; the gate note
+   * in `src/content/clients.ts`, under "DELIBERATELY NOT CHANGED BY THIS
+   * DECISION", which ends "left to whoever makes it"; and the open founder
+   * decision item in `GO-LIVE-CHECKLIST.md`. It is done. The other two were
+   * outside the scope of this change and still describe it as outstanding —
+   * they are stale from today, and they are not a task list.
+   *
+   * Two further files state the OLD mechanism as a fact and go stale with
+   * them: the comment above the call site in `src/app/page.tsx`, which says
+   * this component "still reads `clients` directly", and the `client-logos`
+   * evidenceNote in `src/content/claims.ts`, which says "That component reads
+   * `clients` directly". Their conclusions survive intact — that register row
+   * still gates nothing here, because `approvedClients()` filters the
+   * `permission` field in `src/content/clients.ts` and not the claims
+   * register — but the sentences describing how are now wrong. Checked file by
+   * file on 2026-09-11 rather than assumed; `DESIGN-CONFORMANCE-AUDIT.md`
+   * does not mention this component at all.
+   *
+   * What it changes TODAY: nothing, and that was measured rather than assumed.
+   * All seven rows read APPROVED, so the accessor returns the same seven names
+   * in the same order, and the rendered markup is byte-identical to the markup
+   * this component produced before the switch.
+   *
+   * What it changes FOREVER: this gate is now fail-closed like every other one
+   * on this site. If a permission is ever withdrawn, that row drops out of
+   * `approvedClients()` and out of this render in the same edit, instead of
+   * rendering on until somebody remembers there is a second file to change.
+   * Reading the raw array was fail-open by omission; it was the last gate here
+   * that was.
+   *
+   * The zero guard below is what makes the empty case safe, and it is now load
+   * bearing rather than latent: `approvedClients()` genuinely can return an
+   * empty array, and when it does the whole component returns null — no orphan
+   * "Trusted by" heading, no empty `<ul>`, no bordered section with nothing
+   * in it. `src/content/clients.ts` names this guard as the reason that
+   * accessor is allowed to return nothing at all.
+   *
+   * The eighth name is no nearer this render than it was. `additionalClients`
+   * holds 'Akashic Knowing', still UNCONFIRMED, and is imported by nothing;
+   * `approvedClients()` filters `clients` alone and never looks at it.
+   * ----------------------------------------------------------------------
    */
-  const names = clients;
+  const names = approvedClients();
   if (names.length === 0) return null;
 
   return (

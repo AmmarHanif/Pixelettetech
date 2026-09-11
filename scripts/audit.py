@@ -592,16 +592,35 @@ STANDING_TASKS = """## Not placeholders — separate go-live tasks
       The founder decided to KEEP the names: "Keep them — I'm confident we
       have the basis." All seven rows are now APPROVED, with the decision, its
       date and its limits recorded in that file. Two things it did NOT do, and
-      both are still open below.
-- [ ] **Move the `client-logos` row in `src/content/claims.ts`.** It still
-      reads HELD with its APPROVAL GATE instruction, so the claims register now
-      lags `src/content/clients.ts` by one decision. The decision of 2026-09-11
-      is what it needs recording against it.
-- [ ] **Point `ClientLogos` at `approvedClients()`.** With all seven rows
-      APPROVED the accessor and the raw array return the same seven names, so
-      the switch `src/content/clients.ts` has always described is finally a
-      safe one-line change in `src/components/sections.tsx`. Until it is made,
-      the render still cannot be emptied by setting a row back to UNCONFIRMED.
+      both were settled later the same day. CORRECTED 2026-09-11: this item
+      ended "Two things it did NOT do, and both are still open below." Neither
+      is open. See the two closed items that follow; the history above stands
+      as written.
+- [x] **Move the `client-logos` row in `src/content/claims.ts` — ANSWERED
+      2026-09-11, and the answer is that it does not move.** CORRECTED
+      2026-09-11. This item read: "It still reads HELD with its APPROVAL GATE
+      instruction, so the claims register now lags `src/content/clients.ts` by
+      one decision. The decision of 2026-09-11 is what it needs recording
+      against it." It is not a lag. ADR-0023 decided the row STAYS HELD: it
+      governs a claim CLASS, the founder cleared seven names inside that class,
+      and VERIFIED is not inert — it would print a "Named client logos and
+      wordmarks" badge in the proof strip on `/` and under "Verified and
+      published" on `/certifications`, which is the site advertising its own
+      permission as a proof point. The decision of 2026-09-11 IS recorded
+      against the row, in its evidence note, with the status deliberately
+      unchanged. Nothing is owed here, and a reader auditing the register
+      against the site should not "tidy" this row.
+- [x] **Point `ClientLogos` at `approvedClients()` — DONE 2026-09-11.**
+      CORRECTED 2026-09-11. This item read: "With all seven rows APPROVED the
+      accessor and the raw array return the same seven names, so the switch
+      `src/content/clients.ts` has always described is finally a safe one-line
+      change in `src/components/sections.tsx`. Until it is made, the render
+      still cannot be emptied by setting a row back to UNCONFIRMED." The switch
+      was made the same day. `ClientLogos` reads `approvedClients()`; the
+      rendered HTML of both pages is byte-identical across the change; and the
+      render CAN now be emptied — with every row set back to UNCONFIRMED the
+      whole client section disappears from `/` and `/ai-engineering`, measured
+      by building it rather than assumed. Nothing is owed.
 - [ ] **Akashic Knowing stays UNCONFIRMED.** The eighth row, in
       `additionalClients`, is imported by nothing and has never been published.
       The 2026-09-11 decision was put about the seven live names and is not
