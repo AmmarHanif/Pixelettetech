@@ -194,9 +194,50 @@ export function Testimonials({
 /**
  * The group hand-off.
  *
- * This block exists to send certification work away from us. It is the
- * commercial point of the whole architecture: we build it, they certify it,
- * and a builder grading its own homework is not assurance.
+ * This block exists to send certification and assurance work away from us.
+ *
+ * CORRECTED 2026-09-11. What follows is a correction, not a deletion.
+ *
+ * This comment used to read: "It is the commercial point of the whole
+ * architecture: we build it, they certify it, and a builder grading its own
+ * homework is not assurance."
+ *
+ * "We build it, they certify it" is the formulation the founder's
+ * implementation handoff displaced. At its section 12 CTA the handoff says:
+ * 'Use this wording instead of the current "we build it, Certified proves it"
+ * claim'; and its ACCREDITATION-SAFE RULE forbids saying that Pixelette
+ * Technologies or Pixelette Certified "holds" an accreditation, issues a
+ * certificate, performs an independent audit or has a named certified-practice
+ * status unless the exact legal entity and status have been verified. "They
+ * certify it" asserts that a Group company issues certificates, which is
+ * precisely what that rule forbids.
+ *
+ * The approved replacement has one home — `certified.positioningLine` in
+ * `src/content/company.ts`: "We engineer it. Certified helps you govern,
+ * evidence and prepare it for assurance." That file's own note records it as
+ * replacing "we build it, Certified proves it" and every variant of it,
+ * wherever those still appear. This comment was one of the places they still
+ * appeared.
+ *
+ * The RENDERED output of this component was fixed on 2026-09-08 and has been
+ * safe since: both variants below compose `certified.positioningLine`,
+ * `certified.blurb`, `certified.name` and `certified.standards` from that file
+ * and assert no status, and the pill row carries an explicit label saying the
+ * standards are areas of support rather than accreditations held. Only the doc
+ * comment sitting above the fix kept the displaced wording. NOTHING IS OWED
+ * FROM THIS PARAGRAPH AND NOTHING HERE IS BLOCKING.
+ *
+ * Corrected in place rather than quietly deleted, for the reason the same
+ * correction in `src/app/ai-engineering/page.tsx` gives: a comment that states
+ * a displaced policy as current reads as authority to the next person editing
+ * the file, and this is the most widely imported component file in the
+ * repository. The history is what stops the sentence being reintroduced.
+ *
+ * What the old sentence was reaching for is still true, and is still why this
+ * block exists: a builder grading its own homework is not assurance, so the
+ * assessment stays independent. What changed is the claim about who performs
+ * it. Certified prepares a client for independent assessment. It does not
+ * carry it out, and neither do we.
  */
 export function CertifiedHandoff({
   variant = 'full',
@@ -207,23 +248,38 @@ export function CertifiedHandoff({
    */
   allServices = false,
   /**
-   * The design gives this block different copy on two boards, because it does
-   * two different jobs. On the front page it interrupts someone who landed on
-   * the wrong site — "Came for the certificate rather than the build?". On the
-   * Assurance page it closes a reader who has already worked through the
-   * who-does-what comparison, so it simply states what Certified sells.
+   * The design gives this block different copy on different boards, because it
+   * does different jobs: on a service page it interrupts someone who landed on
+   * the wrong site, and on the Assurance page it closes a reader who has
+   * already worked through the who-does-what comparison. Only the framing
+   * differs, which is why this is a prop rather than a second component.
    *
-   * The facts are identical in both; only the framing sentence differs, which
-   * is why this is a prop rather than a second component.
+   * CORRECTED 2026-09-11, comment only. This used to say that the front page
+   * renders "Came for the certificate rather than the build?". It does not.
+   * All three full-variant call sites now pass their own `eyebrow`, `title`
+   * and `blurb`: the homepage and /certifications both pass the title "Need
+   * governance and assurance around what you are building?", and /assurance
+   * passes "Governance, evidence and readiness for assurance." So the three
+   * defaults below are rendered by NO call site today.
+   *
+   * They are kept deliberately. A fourth caller added with no props must still
+   * land on accreditation-safe copy, and the defaults are that floor — not
+   * dead code. Nothing is owed from this paragraph.
    */
   eyebrow,
   title,
   blurb,
   /**
    * Label for the outbound link in the full variant. Defaults to the bare
-   * domain, which is what every existing call site renders; the homepage
-   * passes the handoff's section 12 CTA, "Explore Pixelette Certified".
-   * Optional and additive, so no existing caller changes.
+   * domain. Optional and additive, so no caller is forced to change.
+   *
+   * CORRECTED 2026-09-11, comment only. This used to say the bare domain is
+   * "what every existing call site renders", which stopped being true once the
+   * homepage began passing a label. Counted today: of the three full-variant
+   * call sites, /assurance and /certifications take the default and render
+   * "pixelettecertified.com", and the homepage passes the handoff's section 12
+   * CTA, "Explore Pixelette Certified". The compact variant does not read this
+   * prop at all. Nothing is owed from this paragraph.
    */
   ctaLabel,
 }: {
@@ -356,8 +412,25 @@ export function CertifiedHandoff({
  *
  * Published because security review delays roughly half of enterprise deals,
  * and because publishing what a reviewer will ask for is cheaper than
- * answering it forty times. The ISO 42001 row states plainly that the
- * certificate is a group capability we do not hold.
+ * answering it forty times.
+ *
+ * CORRECTED 2026-09-11. What follows is a correction, not a deletion.
+ *
+ * This comment used to end: "The ISO 42001 row states plainly that the
+ * certificate is a group capability we do not hold." That described the table
+ * this component renders, and it stopped describing it on 2026-09-08, when
+ * every row of `certificationRegister` was set `published: false`.
+ * `certifications` is the published filter over that register, so it is EMPTY,
+ * and NO row renders — the ISO 42001 one included. The guard immediately below
+ * is the live behaviour: the table is suppressed and a paragraph that makes no
+ * certification claim renders in its place.
+ *
+ * The sentence remains true of the REGISTER, which is where it belongs: the
+ * ISO/IEC 42001 row in `src/content/company.ts` carries the status "Group
+ * capability" and the note "Pixelette Technologies does not hold this standard;
+ * Pixelette Certified supports readiness and the route to independent
+ * assessment." It will render when that row publishes, and nothing in this
+ * component has to change for it to. NOTHING IS OWED FROM THIS PARAGRAPH.
  */
 export function VerificationTable({ withHeading = true }: { withHeading?: boolean }) {
   /*
@@ -609,40 +682,91 @@ export function ValueModelCards({
    * reintroducing the model alongside its own copy wants the compact form.
    */
   detailed = true,
+  /**
+   * The one of the four this page actually is, marked as the reader's own
+   * position in the set.
+   *
+   * Added 2026-09-11, when the three practice hubs started reintroducing the
+   * model. Without it a visitor who lands on /blockchain from search meets four
+   * identical cards and has to work out which one they are standing in, which
+   * is the opposite of what an orientation block is for.
+   *
+   * Optional, and `undefined` by default, so every call site that does not pass
+   * it renders exactly the markup it rendered before — today that is section 04
+   * of `src/app/page.tsx`, verified byte-identical against a pre-change render.
+   *
+   * Marked three ways, each of them a primitive this site already has:
+   * `aria-current="page"` on the card, which is the standard way to name the
+   * current item in a set; the brand border colour, written as `var(--brand)`
+   * so it resolves to the amber of `.theme-amber` on /blockchain with no
+   * special case; and the small mono marker the homepage hero already uses for
+   * its SPECIALIST chip. No new colour, font or component.
+   *
+   * CORRECTED 2026-09-11, comment only. This used to describe `aria-current`
+   * as "the only part of this that reaches a screen reader". That was wrong on
+   * the day it was written. The "THIS PAGE" marker below carries no
+   * `aria-hidden`, so it sits in the accessibility tree, and because it is
+   * inside the `<h3>` the heading announces as "BUILD THIS PAGE". Read out of
+   * the rendered HTML rather than assumed. Of the three markers the border
+   * colour is the only purely visual one.
+   *
+   * That is a description corrected, not a defect fixed. Whether the marker
+   * SHOULD be exposed is a design question with two defensible answers — it is
+   * either redundant beside `aria-current` or a useful plain-text cue — and
+   * adding `aria-hidden` would change rendered output, which the 2026-09-11
+   * comment-accuracy pass does not do. Left for the next reader to decide, not
+   * decided here. Nothing else in this paragraph is owed.
+   */
+  current,
 }: {
   detailed?: boolean;
+  current?: ValueModelEntry['key'];
 } = {}) {
   return (
     <div className="grid grid-4">
-      {valueModel.map(entry => (
-        <div
-          className="card"
-          key={entry.key}
-          style={{ display: 'flex', flexDirection: 'column', padding: 26 }}
-        >
-          <span
-            style={{ color: 'var(--brand)', display: 'inline-flex', marginBottom: 18 }}
-            aria-hidden
+      {valueModel.map(entry => {
+        const isCurrent = entry.key === current;
+        return (
+          <div
+            className="card"
+            key={entry.key}
+            aria-current={isCurrent ? 'page' : undefined}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              padding: 26,
+              ...(isCurrent ? { borderColor: 'var(--brand)' } : null),
+            }}
           >
-            {entry.icon}
-          </span>
-          <h3 className="mono" style={{ fontSize: 13, letterSpacing: '0.1em', color: 'var(--ink)' }}>
-            {entry.key}
-          </h3>
-          <p className="body" style={{ marginTop: 12, fontSize: 14.5 }}>
-            {entry.summary}
-          </p>
-          {detailed ? (
-            <p className="small" style={{ marginTop: 14 }}>
-              {entry.detail}
+            <span
+              style={{ color: 'var(--brand)', display: 'inline-flex', marginBottom: 18 }}
+              aria-hidden
+            >
+              {entry.icon}
+            </span>
+            <h3 className="mono" style={{ fontSize: 13, letterSpacing: '0.1em', color: 'var(--ink)' }}>
+              {entry.key}
+              {isCurrent ? (
+                <span className="mono" style={{ fontSize: 10, marginLeft: 8, opacity: 0.75 }}>
+                  THIS PAGE
+                </span>
+              ) : null}
+            </h3>
+            <p className="body" style={{ marginTop: 12, fontSize: 14.5 }}>
+              {entry.summary}
             </p>
-          ) : null}
-          <div style={{ flexGrow: 1 }} />
-          <div style={{ marginTop: 18 }}>
-            <FLink href={entry.href}>{entry.linkLabel}</FLink>
+            {detailed ? (
+              <p className="small" style={{ marginTop: 14 }}>
+                {entry.detail}
+              </p>
+            ) : null}
+            <div style={{ flexGrow: 1 }} />
+            <div style={{ marginTop: 18 }}>
+              <FLink href={entry.href}>{entry.linkLabel}</FLink>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

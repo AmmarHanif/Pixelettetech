@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { Cloud, Cpu, Mobile, Pen, Shield, Window } from '@/components/Icons';
-import { ClosingCta, Testimonials } from '@/components/sections';
+import { ClosingCta, Testimonials, ValueModelCards } from '@/components/sections';
 import {
   Cta,
   Eyebrow,
@@ -304,6 +304,38 @@ export default function EngineeringPage() {
               </Link>
             );
           })}
+        </div>
+      </Section>
+
+      {/* -------------------------------------------------- where this sits */}
+      {/*
+        Build • Automate • Decentralise • Run, reintroduced (2026-09-11).
+
+        The implementation checklist asks for "four reusable cards used across
+        homepage and service pages", and the handoff's developer summary gives
+        the reason: "If a visitor remembers only four words, they should be:
+        BUILD • AUTOMATE • DECENTRALISE • RUN." The cards were built reusable
+        and then rendered on exactly one page, so a visitor who arrived here
+        from search never met the model at all.
+
+        Placed here rather than higher because this is the seam where the page
+        stops arguing its own practice and starts relating it to the rest of the
+        company — the next section cross-links to AI engineering, and these
+        cards are the map that hand-off was missing. `detailed={false}` is the
+        component's own service-page mode: the long paragraphs belong to section
+        04 of the homepage, where the model is introduced rather than recalled.
+        The tint also repairs a white-on-white run between this section and the
+        one after it.
+      */}
+      <Section labelledBy="model-heading" style={{ background: '#F7FAFA' }}>
+        <SectionHead
+          eyebrow="Where this sits"
+          id="model-heading"
+          title="One engineering company. Four ways we create value."
+          lead="Build is this page. Automate, Decentralise and Run are the other three."
+        />
+        <div style={{ marginTop: 36 }}>
+          <ValueModelCards detailed={false} current="BUILD" />
         </div>
       </Section>
 

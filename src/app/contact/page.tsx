@@ -8,10 +8,18 @@ import { pageMetadata } from '@/lib/seo';
 
 import { ContactForm } from './ContactForm';
 
+/*
+ * "Four fields" was true of this form until 2026-09-11, when it was rebuilt
+ * around the handoff's section 14 form qualifier — the four questions the
+ * homepage close already published as its "What we will ask" card. The form now
+ * asks those four, plus a name and a reply address, so the two descriptions of
+ * it on this page changed with it. A page that describes its own form has to go
+ * on describing it accurately.
+ */
 export const metadata = pageMetadata({
   title: 'Contact',
   description:
-    'Four fields. One of us replies, not a sequence. If a value baseline is not the right next step we will say so on the call.',
+    'Four questions and a reply address. One of us replies, not a sequence. If a value baseline is not the right next step we will say so on the call.',
   path: '/contact',
 });
 
@@ -70,8 +78,8 @@ export default function ContactPage() {
             Tell us the process that annoys you most.
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
-            Four fields. One of us replies, not a sequence. If a baseline is not the right next step we
-            will say so on the call.
+            Four questions and a reply address. One of us replies, not a sequence. If a baseline is
+            not the right next step we will say so on the call.
           </p>
         </div>
       </div>

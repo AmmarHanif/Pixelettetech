@@ -64,6 +64,40 @@ export const metadata = pageMetadata({
  * Where a required fact is genuinely unknown, the legally permitted alternative
  * is used: CRITERIA in place of a retention period, CATEGORIES in place of named
  * recipients. Nothing is invented to fill a gap.
+ *
+ * FIELD LIST RE-STATED 2026-09-11. "What this site collects" used to read: "The
+ * contact form collects your name, company, work email address and the
+ * description of the process you write. Nothing else is collected through it,
+ * and none of the fields are optional-but-tracked." That was accurate until the
+ * contact form was rewritten earlier the same day. "Which process is costing you
+ * most?" was removed and replaced by the handoff’s four qualifying questions,
+ * and Company became optional, so the disclosure was one form behind the thing it
+ * describes. An Art 13(1)(c) enumeration has to be re-read every time the field
+ * set moves; this one is now written from the code rather than from memory of it
+ * — src/app/contact/ContactForm.tsx for the labels and requiredness, and
+ * src/app/contact/actions.ts for what is validated and forwarded. As at this
+ * date: REQUIRED are name, work email, and "What are you trying to build or
+ * change?"; OPTIONAL are company, "What exists today?", "Is there a deadline?"
+ * and "What would a successful result look like?". The hidden anti-spam control
+ * is disclosed rather than left for a reader to find in the markup and wonder
+ * about; a filled one causes the submission to be dropped, and it is never
+ * forwarded.
+ *
+ * "Whether you have to give it to us" was amended in the same pass. Three of the
+ * controls now carry `required`, so a paragraph saying nothing is required could
+ * not stand unqualified: it now separates our operational minimum from a legal
+ * one. Art 13(2)(e) itself is unchanged — the requirement is still neither
+ * statutory nor contractual.
+ *
+ * Nothing else moved, and that was checked rather than assumed. The recipients,
+ * retention and transfer sections were re-read against actions.ts on the same
+ * date and already agree with it: the action POSTs the submission to an endpoint
+ * read at runtime from the CONTACT_WEBHOOK_URL environment variable (variable
+ * name only, never a value) and this site stores nothing itself, which is what
+ * "the service that delivers contact form submissions to our inbox" already
+ * describes in CATEGORY terms. No processor is named here because none is named
+ * in the code either, and the transfer placeholder below stays open for the same
+ * reason it was opened.
  */
 
 export default function PrivacyPage() {
@@ -98,9 +132,19 @@ export default function PrivacyPage() {
             body: (
               <>
                 <p className="body" style={{ marginTop: 12 }}>
-                  The contact form collects your name, company, work email address and the description
-                  of the process you write. Nothing else is collected through it, and none of the
-                  fields are optional-but-tracked.
+                  The contact form asks for your name and a work email address, so that there is
+                  someone to reply to and somewhere to send the reply, and for a description of what
+                  you are trying to build or change. It also asks four further things — your
+                  company, what exists today, whether there is a deadline, and what a successful
+                  result would look like — and none of those four are required. Leave one blank and
+                  it is simply left out of what reaches us.
+                </p>
+                <p className="body" style={{ marginTop: 12 }}>
+                  One field on that form is hidden from you on purpose. It is a spam trap: people
+                  never see it and automated scripts fill in every box they find, so if anything
+                  arrives in it we drop the submission. It asks nothing about you and it records nothing about you.
+                  Apart from that, the form collects nothing you have not typed into it, and no field
+                  quietly tracks you.
                 </p>
                 <p className="body" style={{ marginTop: 12 }}>
                   Separately, our hosting provider records the technical detail of every request made
@@ -139,8 +183,12 @@ export default function PrivacyPage() {
             body: (
               <p className="body" style={{ marginTop: 12 }}>
                 No. Nothing on this site is a statutory or contractual requirement, and you are not
-                obliged to provide any of it. The only consequence of not completing the contact form
-                is that we cannot reply to you, so you may prefer to email us instead.
+                obliged to provide any of it. The form itself will not send without a name, a work
+                email address and a line about what you are trying to build or change, because
+                without those there is no-one to reply to and nothing to reply about — but that is
+                our own minimum, not a legal one, and everything else the form asks is optional. The
+                only consequence of not completing it at all is that we cannot reply to you, so you
+                may prefer to email us instead.
               </p>
             ),
           },

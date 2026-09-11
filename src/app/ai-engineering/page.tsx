@@ -6,6 +6,7 @@ import {
   ClientLogos,
   ClosingCta,
   Testimonials,
+  ValueModelCards,
   VerificationTable,
 } from '@/components/sections';
 import {
@@ -37,14 +38,44 @@ import { LiveDiagram } from './LiveDiagram';
  * section 12 language: scope, coordinate, and support the route to
  * independent assessment.
  *
- * Still owed and NOT fixable from this file, confirmed by rendering this page
- * and reading the HTML: `LiveDiagram` (./LiveDiagram.tsx, rendered by the
- * method section below and by /method/live) says "Certification of it sits
- * with Pixelette Certified" and labels its evidence layer "certified
- * separately by Pixelette Certified". Both assert that a Group company issues
- * certificates, which is what the handoff's ACCREDITATION-SAFE RULE forbids
- * until the exact legal entity and status are verified. That file is outside
- * this work package. Raised as a blocking finding.
+ * CLOSED 2026-09-11. What follows is a correction, not a deletion.
+ *
+ * This paragraph used to read: "Still owed and NOT fixable from this file,
+ * confirmed by rendering this page and reading the HTML: `LiveDiagram`
+ * (./LiveDiagram.tsx, rendered by the method section below and by
+ * /method/live) says 'Certification of it sits with Pixelette Certified' and
+ * labels its evidence layer 'certified separately by Pixelette Certified'.
+ * Both assert that a Group company issues certificates, which is what the
+ * handoff's ACCREDITATION-SAFE RULE forbids until the exact legal entity and
+ * status are verified. That file is outside this work package. Raised as a
+ * blocking finding."
+ *
+ * It was true when it was written and it stopped being true on 2026-09-08,
+ * when LiveDiagram was fixed in the same sweep. That file now imports
+ * `certified` from src/content/company.ts and composes a single string,
+ * GOVERNANCE_ROUTE, from `certified.name` and `certified.positioningLine`.
+ * Both the compact and the full variant render that one string, so
+ * /ai-engineering and /method/live can no longer drift apart, and its own
+ * comment block records the old wording and the fix. Neither unsafe sentence
+ * survives anywhere in src/ as rendered copy: the only occurrences left are
+ * quotations kept deliberately as history — here, in LiveDiagram.tsx, and in
+ * the `certified-cross-sell` row of src/content/claims.ts. Re-verified
+ * 2026-09-11 by reading both files and by grepping src/ for the two strings.
+ * NOTHING IS OWED FROM THIS PARAGRAPH AND NOTHING HERE IS BLOCKING.
+ *
+ * Corrected in place rather than quietly removed, because leaving it stale
+ * has already cost this project a round: an agent read it, believed it over
+ * the file it describes, and re-raised a finding that had been closed for
+ * three days. The next reader should meet the history and its closure
+ * together, in the place the false claim used to sit. A comment that asserts
+ * an open defect is load-bearing; when the defect closes, the comment is a
+ * defect of its own.
+ *
+ * What is still genuinely open is a founder fact rather than a code change,
+ * and it lives in claims.ts, not here: `certified-cross-sell` is status
+ * 'HELD', and moving it to VERIFIED needs the exact legal entity and status.
+ * Nothing on this page asserts it either way, which is the correct state for
+ * as long as it is held.
  *
  * `CertifiedHandoff variant="compact"` carried the same defect and was fixed
  * in src/components/sections.tsx while this sweep was running; it now renders
@@ -340,6 +371,32 @@ export default function AiEngineeringPage() {
             </p>
           </div>
           <CertifiedHandoff variant="compact" />
+        </div>
+      </Section>
+
+      {/* -------------------------------------------------- where this sits */}
+      {/*
+        Build • Automate • Decentralise • Run, reintroduced (2026-09-11); see
+        the note on /engineering for why the model now reaches the hubs at all.
+
+        It lands immediately after the two cross-link cards above, because those
+        cards raise the "where does this sit?" question one destination at a
+        time — Engineering, and Certified — and then leave it half answered.
+        The four cards answer it completely, and mark Automate as the one the
+        reader is already in. Deliberately not tinted: `The method` below is
+        tinted and two tinted bands in a row would break the page's rhythm,
+        whereas two white sections in sequence is the rhythm this site already
+        uses (Proof and the verification table, further down, are both white).
+      */}
+      <Section labelledBy="ai-model-heading">
+        <SectionHead
+          eyebrow="Where this sits"
+          id="ai-model-heading"
+          title="One engineering company. Four ways we create value."
+          lead="Automate is this page. Build, Decentralise and Run are the other three."
+        />
+        <div style={{ marginTop: 36 }}>
+          <ValueModelCards detailed={false} current="AUTOMATE" />
         </div>
       </Section>
 

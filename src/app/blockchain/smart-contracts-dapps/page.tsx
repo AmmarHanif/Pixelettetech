@@ -1,5 +1,6 @@
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, JsonLd, Section, SectionHead } from '@/components/ui';
+import { certified } from '@/content/company';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -144,10 +145,42 @@ export default function SmartContractsDappsPage() {
             </div>
           ))}
         </div>
+        {/*
+          Reworded 2026-09-11 under the handoff's ACCREDITATION-SAFE RULE
+          (section 12), which checklist item 14 requires applied to ALL current
+          Certified wording.
+
+          What was here: "The same principle runs through the group: the firm
+          that builds a system is not the firm that certifies it." Read alone it
+          names no Pixelette company, which is the argument for leaving it. Read
+          in place it names one by two separate routes. Its own opening clause
+          scopes it to the group, and the only other firm in the reader's head at
+          that point is Pixelette Certified, which the very next sentence supplies
+          by name in the certifying role. A sentence that sets up builder-versus-
+          certifier and then names the certifier is an accreditation claim
+          however carefully the noun is avoided.
+
+          Three things settled it. The repository already removed a weaker
+          version of the same sentence from the group blurb for exactly this
+          reason (`src/content/nav.ts`, the note above `groupBlurb`), and a
+          precedent that only binds where the wording is identical is not a
+          precedent. The site already has an accreditation-safe form of the same
+          separation-of-duties point in published copy — "the firm that builds a
+          system is not the firm that assesses it", in the /ai-engineering FAQ —
+          so nothing commercial is lost by dropping this variant. And checklist
+          item 14 says "all", which is a word with no residual in it.
+
+          The replacement is imported from `src/content/company.ts` rather than
+          retyped, so it cannot drift from the approved wording the way this
+          sentence drifted from it. The assembly is the one `CertifiedHandoff`
+          already uses for the same two fields.
+        */}
         <p className="body" style={{ marginTop: 30, maxWidth: '76ch' }}>
-          The same principle runs through the group: the firm that builds a system is not the firm
-          that certifies it. Where formal governance or assurance is needed around a programme,
-          Pixelette Certified can help scope the requirement and the route to independent assessment.
+          The same principle runs through the group. {certified.positioningLine}
+        </p>
+        <p className="body" style={{ marginTop: 16, maxWidth: '76ch' }}>
+          {certified.name} is{' '}
+          {certified.blurb.charAt(0).toLowerCase() + certified.blurb.slice(1)}
         </p>
         <p style={{ marginTop: 22 }}>
           <FLink href="/assurance">Who does what</FLink>

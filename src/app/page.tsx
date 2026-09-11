@@ -957,10 +957,27 @@ export default function HomePage() {
       {/* ═══════════════════════════ 14 · Final CTA ══════════════════════ */}
       {/*
         Built inline rather than through `ClosingCta`, which carries a single
-        CTA; the handoff's close needs a primary and a secondary. The file
-        upload it asks for belongs to the contact form on /contact, which is
-        outside this page — the brief line names it and routes there rather than
-        promising an upload control this page does not have.
+        CTA; the handoff's close needs a primary and a secondary.
+
+        The handoff also asks for an optional file upload here, qualified "if
+        technically feasible" (checklist 18). It does not exist — not on this
+        page, and not on /contact, which is where it would have to live. Until
+        2026-09-11 this section published the handoff's line "Upload a brief,
+        requirements document, process map or architecture note." above two CTAs
+        that both route to a form of text fields with no file input, and an
+        earlier note here said the upload "belongs to the contact form on
+        /contact". It did not: nothing was ever built there. The site was
+        offering something it could not receive, which is the defect this
+        project has already corrected once elsewhere.
+
+        The line is gone and the copy below offers only what /contact can
+        actually do. Whether the upload is built is a founder decision rather
+        than an engineering one — it needs a storage or forwarding target, a
+        size and type policy, a retention position and a privacy-page
+        consequence — and the options are set out for him in
+        `../UPLOAD-FEASIBILITY-2026-09-11.md`, in the project folder alongside
+        this repository. Nothing here should promise an upload again until one
+        of them is chosen and shipped.
       */}
       <Section labelledBy="close-heading" style={{ background: '#F7FAFA' }}>
         <div className="split split--cta">
@@ -982,13 +999,26 @@ export default function HomePage() {
               </Cta>
             </div>
             <p className="small" style={{ marginTop: 20 }}>
-              Upload a brief, requirements document, process map or architecture note.
+              No specification required. Tell us what you are trying to change in your own words —
+              and if a brief, requirements document, process map or architecture note already
+              exists, say so and we will ask for it when we reply.
             </p>
             <p className="src" style={{ marginTop: 18 }}>
               No obligation. If the answer is “do not build this yet”, we should be willing to say
               so.
             </p>
           </div>
+          {/*
+            These four are the handoff's section 14 form qualifier, verbatim,
+            and they are now the questions /contact actually asks
+            (`src/app/contact/ContactForm.tsx`). They were not until 2026-09-11:
+            the form asked Name, Company, Work email and "Which process is
+            costing you most?", so this card told a visitor what would be asked
+            and the form then asked something else. The spec's four are the
+            authority, so the form moved to them rather than this card moving to
+            the form. Change one of these strings and you must change it in both
+            places, or the page is lying again.
+          */}
           <div className="card">
             <h3 className="h4">What we will ask</h3>
             <ul style={{ padding: 0, margin: '16px 0 0', display: 'grid', gap: 12 }}>

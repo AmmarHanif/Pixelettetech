@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { ClosingCta } from '@/components/sections';
+import { ClosingCta, ValueModelCards } from '@/components/sections';
 import {
   Cta,
   Eyebrow,
@@ -271,6 +271,35 @@ export default function BlockchainPage() {
               </Link>
             );
           })}
+        </div>
+      </Section>
+
+      {/* -------------------------------------------------- where this sits */}
+      {/*
+        Build • Automate • Decentralise • Run, reintroduced (2026-09-11); see
+        the note on /engineering for why the model now reaches the hubs at all.
+
+        This hub needs it more than the other two. A visitor who lands here from
+        a tokenisation search has no way of knowing that blockchain is one
+        specialism inside an engineering company rather than the whole of it,
+        and the handoff is explicit that blockchain must read as specialist
+        depth and not as a third equal division. Four cards with Decentralise
+        marked, immediately before the section that argues the same point in
+        prose, is the cheapest way to say so.
+
+        The tint is `#FBF8F4`, the amber-theme tint this page already uses for
+        the chains section, not a new colour; the brand border on the current
+        card resolves through `.theme-amber` for the same reason.
+      */}
+      <Section labelledBy="bc-model-heading" style={{ background: '#FBF8F4' }}>
+        <SectionHead
+          eyebrow="Where this sits"
+          id="bc-model-heading"
+          title="One engineering company. Four ways we create value."
+          lead="Decentralise is this page. Build, Automate and Run are the other three."
+        />
+        <div style={{ marginTop: 36 }}>
+          <ValueModelCards detailed={false} current="DECENTRALISE" />
         </div>
       </Section>
 
