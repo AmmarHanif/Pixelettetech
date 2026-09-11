@@ -14,6 +14,8 @@
  *    actually contains, plus the evidence layer and the measurement band.
  */
 
+import { certified } from '@/content/company';
+
 type Stage = {
   n: string;
   letter: string;
@@ -84,6 +86,35 @@ const stages: Stage[] = [
 const EVIDENCE_ARTEFACTS =
   'Model inventory · impact assessment · risk register · audit trail · human oversight procedure · incident response';
 
+/**
+ * The governance route, in the handoff's own accreditation-safe words.
+ *
+ * 2026-09-08. This diagram used to say "Certification of it sits with Pixelette
+ * Certified" (compact) and label its evidence layer "certified separately by
+ * Pixelette Certified" (full). Both assert that a Group company issues
+ * certificates, which the handoff's ACCREDITATION-SAFE RULE forbids unless the
+ * exact legal entity and status have been verified — and `claims.ts`
+ * (`certified-cross-sell`) records that they have not been. Because this file
+ * is rendered by /ai-engineering and by /method/live, the unsafe form was
+ * published on two pages from one string.
+ *
+ * Composed from `certified` in src/content/company.ts rather than retyped, so
+ * the claim-bearing sentence is the same object the founder's section 12
+ * wording lives in and the same one `CertifiedHandoff` renders. A page cannot
+ * now drift back into an unsafe form on its own: there is one sentence, in one
+ * place, imported twice.
+ *
+ * The leading clause names the entity in full because the diagram has to stand
+ * on its own. /ai-engineering introduces Pixelette Certified twice before this
+ * point and /method/live never introduces it at all, and a component cannot see
+ * the copy around it — writing the short form here and relying on the host page
+ * to have explained it is exactly the coupling that leaves one page reading
+ * correctly and another reading like a stray proper noun. The clause makes no
+ * accreditation claim: it restates `certified.blurb`, which is already
+ * published as it stands on /assurance and /certifications.
+ */
+const GOVERNANCE_ROUTE = `${certified.name} is the group’s governance practice. ${certified.positioningLine}`;
+
 export function LiveDiagram({ variant = 'full' }: { variant?: 'compact' | 'full' }) {
   if (variant === 'compact') {
     return (
@@ -110,8 +141,8 @@ export function LiveDiagram({ variant = 'full' }: { variant?: 'compact' | 'full'
         <aside className="live__evidence">
           <span className="live__evidence-title mono">Evidence</span>
           <p>
-            Measurement, evaluation, audit trail and human oversight at every stage. Certification of
-            it sits with Pixelette Certified.
+            Measurement, evaluation, audit trail and human oversight at every stage.{' '}
+            {GOVERNANCE_ROUTE}
           </p>
         </aside>
       </div>
@@ -143,11 +174,14 @@ export function LiveDiagram({ variant = 'full' }: { variant?: 'compact' | 'full'
 
       <p className="live__loop mono">Feedback loop — Evolve returns to Land</p>
 
+      {/* The label is a 10px uppercase mono slot on one line, so it holds the
+          layer name only and the route goes in the body beneath it, where
+          there is room for it. It is also shorter than the line it replaces,
+          so nothing that fitted before can overflow now. */}
       <aside className="live__evidence">
-        <span className="live__evidence-title mono">
-          Evidence layer · certified separately by Pixelette Certified
-        </span>
+        <span className="live__evidence-title mono">Evidence layer</span>
         <p>{EVIDENCE_ARTEFACTS}</p>
+        <p>{GOVERNANCE_ROUTE}</p>
       </aside>
 
       <aside className="live__evidence live__evidence--measure">

@@ -93,5 +93,30 @@ export const insights: Insight[] = [
   },
 ];
 
-export const featuredInsight = insights.find(i => i.featured)!;
+/**
+ * The lead article, or `undefined` when no row carries `featured`.
+ *
+ * 2026-09-08 (WP13). This was `insights.find(i => i.featured)!`. The `!` was a
+ * promise to the compiler that this list always contains a featured row, and
+ * nothing enforces that promise: `featured` is an optional field, any editor
+ * can clear it, and a piece pulled from the list for review takes the flag with
+ * it. The result was a failure the type checker could not see —
+ * `tsc --noEmit` green, /insights throwing "TypeError: Cannot read properties
+ * of undefined (reading 'category')" at src/app/insights/page.tsx on the first
+ * read of the featured article.
+ *
+ * Typing it honestly as `Insight | undefined` is the point of the change: it
+ * converts an invisible runtime crash into a compile error at the one place
+ * that consumes it, so the build catches the next person who breaks it rather
+ * than a visitor. The consumer now renders the featured card only when there is
+ * one, and the list below it is unaffected because `otherInsights` filters
+ * rather than indexes and already degrades to the full list.
+ *
+ * The alternative considered was asserting the invariant here — throw at module
+ * load if nothing is featured. Rejected: this module is imported for its list
+ * as well as its lead, so a throw would take down every consumer over a missing
+ * decoration, and the handoff's DEVELOPER RULE is that the absence of one piece
+ * of content must not break the layout around it.
+ */
+export const featuredInsight: Insight | undefined = insights.find(i => i.featured);
 export const otherInsights = insights.filter(i => !i.featured);

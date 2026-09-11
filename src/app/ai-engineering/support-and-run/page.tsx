@@ -86,7 +86,31 @@ const faqs = [
   },
 ];
 
+/**
+ * The attribution line under the hero figures, derived rather than indexed.
+ *
+ * 2026-09-08. This read used to be `runStats[0]!.source`. The three figures it
+ * attributed cited "Industry incident survey, 2026" — a source naming no
+ * publisher — so they were held in `runStatsRegister` and `runStats` became
+ * empty. The non-null assertion told the compiler the element was there, so
+ * `tsc --noEmit` stayed green while the page threw at render:
+ * "TypeError: Cannot read properties of undefined (reading 'source')". A type
+ * assertion over a filtered register is a promise the register cannot keep.
+ *
+ * Deriving the line removes the index entirely, so there is nothing left to
+ * assert about: an empty register yields an empty array and no note. It also
+ * fixes a smaller latent fault — if the figures return from two different
+ * studies, `[0]` would have attributed all of them to whichever happened to be
+ * first, whereas this names every source actually used. With one source it
+ * renders exactly the string the old line did.
+ */
+function heroSources(): string[] {
+  return Array.from(new Set(runStats.map(stat => stat.source)));
+}
+
 export default function SupportAndRunPage() {
+  const sources = heroSources();
+
   return (
     <>
       <JsonLd
@@ -126,15 +150,27 @@ export default function SupportAndRunPage() {
             </Cta>
           </div>
 
-          <div className="grid grid-3" style={{ marginTop: 48 }}>
-            {runStats.map(stat => (
-              <div className="tile" key={stat.value}>
-                <b>{stat.value}</b>
-                <span>{stat.label}</span>
+          {/* The figures and their attribution are one unit: the grid, the
+              note and the 48px of space above them all appear together or not
+              at all. An empty `.grid.grid-3` is not a neutral no-op — it is a
+              48px band of nothing under the CTAs — and the handoff's DEVELOPER
+              RULE is that the absence of a claim must not leave a broken
+              layout. Today `runStats` is empty and the hero ends on its CTA
+              row, which reads as finished because the prose above never
+              promises a number. */}
+          {runStats.length > 0 ? (
+            <>
+              <div className="grid grid-3" style={{ marginTop: 48 }}>
+                {runStats.map(stat => (
+                  <div className="tile" key={stat.value}>
+                    <b>{stat.value}</b>
+                    <span>{stat.label}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <SourceNote>{runStats[0]!.source}</SourceNote>
+              {sources.length > 0 ? <SourceNote>{sources.join(' · ')}</SourceNote> : null}
+            </>
+          ) : null}
         </div>
       </div>
 

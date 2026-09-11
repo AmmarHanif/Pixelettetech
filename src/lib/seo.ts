@@ -4,6 +4,26 @@ import { SITE_URL, company } from '@/content/company';
 import { SITE_IN_DEVELOPMENT } from '@/content/launch';
 
 /**
+ * The approved homepage SEO block, verbatim.
+ *
+ * Source: "NAVIGATION, SERVICE PAGES & SEO > Homepage SEO" in the founder's
+ * implementation handoff of 8 September 2026. These three strings are copy, not
+ * code, and they are not to be paraphrased, truncated or keyword-tuned in
+ * passing — the title is the one place the three commercial engines appear in
+ * the order the positioning sets, and the description is the sentence answer
+ * engines quote most often.
+ *
+ * `h1` is carried here so the homepage and the graph cannot drift apart. It is
+ * the brand manifesto line and stays exactly as written.
+ */
+export const HOMEPAGE_SEO = {
+  title: 'Pixelette Technologies | Software Engineering, AI & Automation, Blockchain',
+  description:
+    'Design, build, automate and operate custom software, AI-powered products and intelligent workflows, with specialist blockchain engineering where it creates value.',
+  h1: 'Engineering that ships. Chains that hold. AI built into both.',
+} as const;
+
+/**
  * Per-page metadata builder.
  *
  * Three things every page gets and the old site frequently missed: a canonical
@@ -15,6 +35,13 @@ export function pageMetadata(input: {
   title: string;
   description: string;
   path: string;
+  /**
+   * Emit the title exactly as given, bypassing the root layout's
+   * "%s — Pixelette Technologies" template. Needed where the approved title
+   * already carries the company name, as the homepage title does; without it
+   * the template appends a second one.
+   */
+  absoluteTitle?: boolean;
   /** Omit to fall back to the shared social card. */
   ogImage?: string;
   noIndex?: boolean;
@@ -28,7 +55,7 @@ export function pageMetadata(input: {
   const image = input.ogImage ?? '/opengraph-image';
 
   return {
-    title: input.title,
+    title: input.absoluteTitle ? { absolute: input.title } : input.title,
     description: input.description,
     alternates: { canonical: url },
     // SITE_IN_DEVELOPMENT forces noindex across every page that uses this
@@ -63,6 +90,23 @@ export function pageMetadata(input: {
       images: [image],
     },
   };
+}
+
+/**
+ * Homepage metadata, built from the approved SEO block.
+ *
+ * A named builder rather than three loose strings, so `/` cannot end up with a
+ * hand-edited variant of the approved title. Intended use in `src/app/page.tsx`:
+ *
+ *   export const metadata = homepageMetadata();
+ */
+export function homepageMetadata(): Metadata {
+  return pageMetadata({
+    title: HOMEPAGE_SEO.title,
+    description: HOMEPAGE_SEO.description,
+    path: '/',
+    absoluteTitle: true,
+  });
 }
 
 /** Title suffix applied by the root layout template. */

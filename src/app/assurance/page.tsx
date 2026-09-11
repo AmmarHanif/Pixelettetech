@@ -1,20 +1,34 @@
 import { CertifiedHandoff } from '@/components/sections';
-import {
-  Cta,
-  Eyebrow,
-  JsonLd,
-  Placeholder,
-  Section,
-  SectionHead,
-} from '@/components/ui';
+import { Cta, Eyebrow, JsonLd, Section, SectionHead } from '@/components/ui';
 import { certified, company } from '@/content/company';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
+/*
+ * Rewritten 2026-09-08 to the handoff's section 12 copy and its
+ * ACCREDITATION-SAFE RULE.
+ *
+ * The rule: do not say Pixelette Technologies or Pixelette Certified "holds" an
+ * accreditation, issues a certificate, performs an independent audit, or has a
+ * named certified-practice status, unless the exact legal entity and status
+ * have been verified. Keep the site open about readiness, coordination,
+ * credentialed specialists, and independent assessment where required.
+ *
+ * Two habits had to go from this page. "Certified certifies it" states that a
+ * group company issues certification. "With its own lead auditors" is a named
+ * certified-practice status, and it was repeated four times — in the meta
+ * description, the hero, a card and an FAQ answer — which means it was also
+ * riding into the FAQ JSON-LD, where a correction to the prose alone would
+ * never have reached it.
+ *
+ * The commercial point is unchanged and, if anything, sharper: a build team
+ * does not assure its own build.
+ */
+
 export const metadata = pageMetadata({
   title: 'Assurance and AI governance',
   description:
-    'We build the AI; Pixelette Certified certifies it. Assurance and ISO 42001 are delivered by a separate group practice with its own lead auditors.',
+    'We engineer it. Pixelette Certified helps you govern and evidence it — certification readiness, assurance support, and the route to independent assessment.',
   path: '/assurance',
 });
 
@@ -22,17 +36,17 @@ const comparison = [
   {
     row: 'The question',
     tech: 'Can you build it, integrate it and keep it working?',
-    cert: 'Can we show a customer, an auditor or a board that it is governed?',
+    cert: 'Can we show a customer, a reviewer or a board that it is governed and evidenced?',
   },
   {
     row: 'Typical work',
     tech: 'Production AI systems, data and integration, evaluation and observability, support and run',
-    cert: 'ISO/IEC 42001 AI management system, ISO 27001, Cyber Essentials, GDPR, SOC 2, security review support',
+    cert: 'Governance and certification readiness for ISO/IEC 42001 and ISO 27001, Cyber Essentials and SOC 2 preparation, privacy and security-assurance support, and coordination of the route to independent assessment',
   },
   {
     row: 'Engaged as',
     tech: 'Build contract or monthly run contract',
-    cert: 'Certification programme, fixed fee',
+    cert: 'Readiness and governance programme, fixed fee',
   },
   {
     row: 'Who signs it off',
@@ -41,8 +55,8 @@ const comparison = [
   },
   {
     row: 'Entity',
-    tech: 'Pixelette Technologies Ltd',
-    cert: 'Pixelette Certified',
+    tech: company.legalName,
+    cert: certified.name,
   },
 ];
 
@@ -52,27 +66,27 @@ const reasons = [
     body: 'If the same team writes the system and then signs off that the system is safe, you have bought a marketing document rather than an assurance opinion. Splitting the work across two practices is the point, not an inconvenience.',
   },
   {
-    title: 'Certification belongs to accredited bodies',
-    body: null,
+    title: 'The certification decision is not ours to make',
+    body: `Neither ${company.name} nor ${certified.name} issues a certificate or makes a certification decision. Certified helps scope the requirement, prepare the management system and the evidence behind it, and coordinate appropriately credentialed specialists. The assessment itself stays independent of both of us, which is the only reason it is worth anything to your customer.`,
   },
   {
     title: 'You can buy either without the other',
-    body: 'Plenty of Certified clients never buy a line of code from us, and plenty of our build clients certify elsewhere. Neither engagement is a condition of the other, and we will say so in writing if a procurement team asks.',
+    body: `Plenty of ${certified.name} clients never buy a line of code from us, and plenty of our build clients go elsewhere for governance. Neither engagement is a condition of the other, and we will say so in writing if a procurement team asks.`,
   },
 ];
 
 const faqs = [
   {
     q: 'Does Pixelette Technologies issue ISO certificates?',
-    a: 'No. Neither Pixelette Technologies nor Pixelette Certified issues an ISO certificate — that is the role of an accredited certification body. Pixelette Certified builds the management system, produces the artefacts, runs the internal audit and stands with you through the external one.',
+    a: `No. Neither ${company.name} nor ${certified.name} issues a certificate, and neither makes a certification decision — that sits with an independent assessment. ${certified.name} helps scope the requirement, prepare the management system and the supporting evidence, coordinate appropriately credentialed specialists, and support the route to independent assessment where required.`,
   },
   {
-    q: 'Why are building and certifying split across two practices?',
-    a: 'Because a team that writes a system and then signs off that the system is safe has produced a marketing document, not an assurance opinion. Pixelette Technologies builds and runs; Pixelette Certified assures. Every serious reviewer knows the difference.',
+    q: 'Why are building and governing split across two practices?',
+    a: 'Because a team that writes a system and then signs off that the system is safe has produced a marketing document, not an assurance opinion. Pixelette Technologies engineers it; Pixelette Certified helps you govern, evidence and prepare it for assurance. Every serious reviewer knows the difference.',
   },
   {
     q: 'Do I have to buy both?',
-    a: 'No. Many Pixelette Certified clients never buy a line of code from Pixelette Technologies, and many build clients certify elsewhere. Neither engagement is a condition of the other, and Pixelette will confirm that in writing if a procurement team asks.',
+    a: `No. Many ${certified.name} clients never buy a line of code from ${company.name}, and many build clients handle governance elsewhere. Neither engagement is a condition of the other, and Pixelette will confirm that in writing if a procurement team asks.`,
   },
 ];
 
@@ -89,18 +103,24 @@ export default function AssurancePage() {
 
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
         <div className="wrap">
-          <Eyebrow>Assurance · Pixelette Group</Eyebrow>
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            We build the AI. {certified.name} certifies it.
+          <Eyebrow>Governance when required · Pixelette Group</Eyebrow>
+          {/* Handoff section 12, verbatim, and taken from the canonical
+              constants rather than retyped — the same two strings appear on the
+              front page and in the Certified handoff block, and three hand-typed
+              copies of an accreditation-safe sentence is three chances to drift
+              back into an unsafe one. */}
+          <h1 className="h1" style={{ marginTop: 24, maxWidth: '24ch' }}>
+            {certified.positioningLine}
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
-            Assurance, AI governance and certification are not delivered by {company.name}. They are
-            delivered by {certified.name}, a separate practice inside the same group with its own lead
-            auditors. This page exists so that you land in the right place rather than the nearest one.
+            {certified.blurb}
+          </p>
+          <p className="body" style={{ marginTop: 20, maxWidth: '66ch' }}>
+            This page exists so that you land in the right place rather than the nearest one.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href={certified.url} external>
-              Go to {certified.name}
+              Explore {certified.name}
             </Cta>
             <Cta href="/ai-engineering" variant="secondary">
               See how we build AI
@@ -162,44 +182,36 @@ export default function AssurancePage() {
         <SectionHead
           eyebrow="Why we keep them separate"
           id="sep-heading"
-          title="We do not audit our own work."
+          title="We do not assure our own work."
         />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
           {reasons.map(r => (
             <div className="card" key={r.title}>
               <h3 className="h4">{r.title}</h3>
-              {r.body ? (
-                <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-                  {r.body}
-                </p>
-              ) : (
-                <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-                  Neither practice issues an ISO certificate. {certified.name} builds the management
-                  system, produces the artefacts, runs the internal audit and stands with you through
-                  the external one.{' '}
-                  {/* Accreditation wording is legally load-bearing and stays
-                      unfilled until it has been checked against ISO/IEC 42006. */}
-                  <Placeholder>VERIFY: ISO/IEC 42006 accreditation wording before publication</Placeholder>
-                </p>
-              )}
+              <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
+                {r.body}
+              </p>
             </div>
           ))}
         </div>
       </Section>
 
-      {/* Board 10's own copy for this block. By this point the reader has worked
-          through the who-does-what comparison, so it states what Certified sells
-          rather than interrupting them the way the front page does — and it
-          lists the retained-officer services too. */}
+      {/* By this point the reader has worked through the who-does-what
+          comparison, so this block states what Certified does rather than
+          interrupting them the way the front page does — and it lists the
+          retained-officer services too. The framing sentence is the handoff's
+          section 12 wording; the standards are named as the routes Certified
+          prepares you for, never as accreditations either company holds. */}
       <CertifiedHandoff
         allServices
         eyebrow={certified.name}
-        title="Compliance, governance and cyber trust."
+        title="Governance, evidence and readiness for assurance."
         blurb={
           <>
-            ISO 27001, ISO/IEC 42001 for AI management systems, Cyber Essentials, GDPR, SOC 2, vCISO
-            and vDPO, delivered on a fixed fee by certified lead auditors. If your next enterprise
-            deal is waiting on a certificate, that is the practice you want.
+            {certified.blurb} The standards below are the routes it prepares you for, not
+            accreditations any Pixelette company holds; the assessment itself stays independent. If
+            your next enterprise deal is waiting on governance rather than on a build, that is the
+            practice you want.
           </>
         }
       />

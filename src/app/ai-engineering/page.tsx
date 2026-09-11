@@ -6,6 +6,7 @@ import {
   ClientLogos,
   ClosingCta,
   Testimonials,
+  ValueModelCards,
   VerificationTable,
 } from '@/components/sections';
 import {
@@ -15,20 +16,72 @@ import {
   FLink,
   JsonLd,
   MediaSlot,
-  Placeholder,
   Section,
   SectionHead,
   SourceNote,
-  StatTile,
 } from '@/components/ui';
-import { clutch, company } from '@/content/company';
 import { gapStats } from '@/content/sources';
-import { caseStudies } from '@/content/work';
+import { caseStudies, displayKicker, displayName, publishedImage, publishedMetrics } from '@/content/work';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 import { LiveDiagram } from './LiveDiagram';
 
+/*
+ * Claims sweep, 2026-09-08 (WP6).
+ *
+ * Removed from this page: the ISO 9001 and ISO 27001 badge tiles, the Clutch
+ * rating tile, the "countries delivered in" tile, and "with its own lead
+ * auditors" from the FAQ — which also fed the FAQPage JSON-LD, so the held
+ * claim was machine-readable as well as visible. All are HELD in
+ * src/content/claims.ts. The Certified wording is now the handoff's own
+ * section 12 language: scope, coordinate, and support the route to
+ * independent assessment.
+ *
+ * CLOSED 2026-09-11. What follows is a correction, not a deletion.
+ *
+ * This paragraph used to read: "Still owed and NOT fixable from this file,
+ * confirmed by rendering this page and reading the HTML: `LiveDiagram`
+ * (./LiveDiagram.tsx, rendered by the method section below and by
+ * /method/live) says 'Certification of it sits with Pixelette Certified' and
+ * labels its evidence layer 'certified separately by Pixelette Certified'.
+ * Both assert that a Group company issues certificates, which is what the
+ * handoff's ACCREDITATION-SAFE RULE forbids until the exact legal entity and
+ * status are verified. That file is outside this work package. Raised as a
+ * blocking finding."
+ *
+ * It was true when it was written and it stopped being true on 2026-09-08,
+ * when LiveDiagram was fixed in the same sweep. That file now imports
+ * `certified` from src/content/company.ts and composes a single string,
+ * GOVERNANCE_ROUTE, from `certified.name` and `certified.positioningLine`.
+ * Both the compact and the full variant render that one string, so
+ * /ai-engineering and /method/live can no longer drift apart, and its own
+ * comment block records the old wording and the fix. Neither unsafe sentence
+ * survives anywhere in src/ as rendered copy: the only occurrences left are
+ * quotations kept deliberately as history — here, in LiveDiagram.tsx, and in
+ * the `certified-cross-sell` row of src/content/claims.ts. Re-verified
+ * 2026-09-11 by reading both files and by grepping src/ for the two strings.
+ * NOTHING IS OWED FROM THIS PARAGRAPH AND NOTHING HERE IS BLOCKING.
+ *
+ * Corrected in place rather than quietly removed, because leaving it stale
+ * has already cost this project a round: an agent read it, believed it over
+ * the file it describes, and re-raised a finding that had been closed for
+ * three days. The next reader should meet the history and its closure
+ * together, in the place the false claim used to sit. A comment that asserts
+ * an open defect is load-bearing; when the defect closes, the comment is a
+ * defect of its own.
+ *
+ * What is still genuinely open is a founder fact rather than a code change,
+ * and it lives in claims.ts, not here: `certified-cross-sell` is status
+ * 'HELD', and moving it to VERIFIED needs the exact legal entity and status.
+ * Nothing on this page asserts it either way, which is the correct state for
+ * as long as it is held.
+ *
+ * `CertifiedHandoff variant="compact"` carried the same defect and was fixed
+ * in src/components/sections.tsx while this sweep was running; it now renders
+ * `certified.positioningLine` and `certified.blurb`, which are the handoff's
+ * section 12 wording. Verified in the rendered output, not assumed.
+ */
 export const metadata = pageMetadata({
   title: 'AI engineering for UK businesses',
   description:
@@ -96,12 +149,35 @@ const faqs = [
   },
   {
     q: 'Does Pixelette Technologies audit or certify the AI it builds?',
-    a: 'No. ISO/IEC 42001, AI governance, security review and audit are delivered by Pixelette Certified, a separate practice in the same group with its own lead auditors. Pixelette Technologies will not sell you an audit of its own build.',
+    a: 'No, and it does not offer to. Where a programme needs formal governance, certification readiness, privacy or security-assurance support, Pixelette Certified — a separate practice in the same group — can scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment. Independent assurance stays independent: the firm that builds a system is not the firm that assesses it.',
   },
 ];
 
+/**
+ * The attribution line under the gap figures, derived rather than indexed.
+ *
+ * 2026-09-08 (WP13). This read used to be `gapStats[0]!.source`. The non-null
+ * assertion is invisible to `tsc --noEmit` — an empty array type-checks
+ * perfectly against it — so the compiler stayed green while the page threw
+ * "TypeError: Cannot read properties of undefined (reading 'source')" the
+ * moment the register behind it emptied. That is not hypothetical: it is what
+ * happened to `runStats` on /ai-engineering/support-and-run this morning, when
+ * three figures citing an unnameable publisher were held and the identical
+ * `[0]!` read took the page down.
+ *
+ * Deriving the line removes the index, so there is no assertion left for a
+ * future edit to falsify. It also closes a quieter fault: if the two figures
+ * ever come from two studies, `[0]` would attribute both to whichever happened
+ * to be first. Both rows cite McKinsey today, so the de-duplicated set is one
+ * string and the rendered output is unchanged.
+ */
+function gapSources(): string[] {
+  return Array.from(new Set(gapStats.map(stat => stat.source)));
+}
+
 export default function AiEngineeringPage() {
   const proof = caseStudies.filter(c => ['lytics', 'blockguard'].includes(c.slug));
+  const sources = gapSources();
 
   return (
     <>
@@ -131,8 +207,9 @@ export default function AiEngineeringPage() {
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             We engineer AI into the software UK mid-market businesses already run, measure what it
-            changes, and keep it working. Certification and governance of that AI sit with Pixelette
-            Certified, our group practice, not with us.
+            changes, and keep it working. Governance around that AI, and the route to independent
+            assessment where one is needed, sit with Pixelette Certified, our group practice, not
+            with us.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Book a value baseline</Cta>
@@ -141,19 +218,13 @@ export default function AiEngineeringPage() {
             </Cta>
           </div>
 
-          <div className="grid grid-4" style={{ marginTop: 48 }}>
-            <StatTile value="ISO 9001" label="Certified · verify on the IAF registry" />
-            {/* See ADR-0012: certificates are not published on the site. */}
-            <StatTile value="ISO 27001" label="Certified · verifiable on the register" />
-            <StatTile
-              value={String(clutch.ratingValue)}
-              label={`Clutch rating across ${clutch.reviewCount} verified reviews`}
-            />
-            <StatTile
-              value={String(company.countriesDelivered)}
-              label={`Countries delivered in since ${company.incorporated}`}
-            />
-          </div>
+          {/* The four-tile badge row that stood here (ISO 9001, ISO 27001, the
+              Clutch rating and a "countries delivered in" tile that rendered
+              blank once `company.countriesDelivered` was emptied) is gone: all
+              four are HELD in src/content/claims.ts. Nothing replaces it,
+              because this hero already runs straight into the client strip and
+              then into two sourced figures — the proof below is real, and the
+              badges were the weakest thing on the screen. */}
         </div>
       </div>
 
@@ -161,7 +232,17 @@ export default function AiEngineeringPage() {
 
       {/* ------------------------------------------------------------- gap */}
       <Section labelledBy="gap-heading" style={{ background: '#F7FAFA' }}>
-        <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
+        {/* Two columns while there are figures to put in the right one, a
+            single full-width column when there are not. `grid-2` is
+            `repeat(2, minmax(0, 1fr))`, so keeping it with one child would
+            hold half the section open as empty space beside a squeezed
+            paragraph — the broken layout the handoff's DEVELOPER RULE forbids
+            when a claim is absent. With today's non-empty register this
+            evaluates to exactly the class string it always had. */}
+        <div
+          className={gapStats.length > 0 ? 'grid grid-2' : 'grid'}
+          style={{ gap: 56, alignItems: 'start' }}
+        >
           <div>
             <SectionHead
               eyebrow="The gap"
@@ -179,29 +260,37 @@ export default function AiEngineeringPage() {
             </p>
           </div>
 
-          <div className="grid" style={{ gap: 16 }}>
-            {gapStats.map(stat => (
-              <div className="card" key={stat.value}>
-                <b
-                  className="mono"
-                  style={{
-                    fontSize: 44,
-                    fontWeight: 500,
-                    color: 'var(--brand)',
-                    letterSpacing: '-0.03em',
-                    lineHeight: 1,
-                    display: 'block',
-                  }}
-                >
-                  {stat.value}
-                </b>
-                <p className="body" style={{ marginTop: 14, fontSize: 15 }}>
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-            <SourceNote style={{ marginTop: 0 }}>{gapStats[0]!.source}</SourceNote>
-          </div>
+          {/* The cards and their attribution are one unit: the column appears
+              whole or not at all. An empty `.grid` here is not a neutral no-op
+              — it is a second grid track holding open an empty band beside the
+              prose. */}
+          {gapStats.length > 0 ? (
+            <div className="grid" style={{ gap: 16 }}>
+              {gapStats.map(stat => (
+                <div className="card" key={stat.value}>
+                  <b
+                    className="mono"
+                    style={{
+                      fontSize: 44,
+                      fontWeight: 500,
+                      color: 'var(--brand)',
+                      letterSpacing: '-0.03em',
+                      lineHeight: 1,
+                      display: 'block',
+                    }}
+                  >
+                    {stat.value}
+                  </b>
+                  <p className="body" style={{ marginTop: 14, fontSize: 15 }}>
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+              {sources.length > 0 ? (
+                <SourceNote style={{ marginTop: 0 }}>{sources.join(' · ')}</SourceNote>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </Section>
 
@@ -285,6 +374,32 @@ export default function AiEngineeringPage() {
         </div>
       </Section>
 
+      {/* -------------------------------------------------- where this sits */}
+      {/*
+        Build • Automate • Decentralise • Run, reintroduced (2026-09-11); see
+        the note on /engineering for why the model now reaches the hubs at all.
+
+        It lands immediately after the two cross-link cards above, because those
+        cards raise the "where does this sit?" question one destination at a
+        time — Engineering, and Certified — and then leave it half answered.
+        The four cards answer it completely, and mark Automate as the one the
+        reader is already in. Deliberately not tinted: `The method` below is
+        tinted and two tinted bands in a row would break the page's rhythm,
+        whereas two white sections in sequence is the rhythm this site already
+        uses (Proof and the verification table, further down, are both white).
+      */}
+      <Section labelledBy="ai-model-heading">
+        <SectionHead
+          eyebrow="Where this sits"
+          id="ai-model-heading"
+          title="One engineering company. Four ways we create value."
+          lead="Automate is this page. Build, Decentralise and Run are the other three."
+        />
+        <div style={{ marginTop: 36 }}>
+          <ValueModelCards detailed={false} current="AUTOMATE" />
+        </div>
+      </Section>
+
       {/* ---------------------------------------------------------- method */}
       <Section labelledBy="method-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
@@ -323,31 +438,49 @@ export default function AiEngineeringPage() {
           <FLink href="/case-studies">All work</FLink>
         </div>
 
+        {/* Through the work.ts publication gate. The client name, the kicker,
+            the client's own screenshot and the figures all resolve through the
+            accessors, so a PENDING study dropped into `proof` above renders
+            anonymised instead of leaking a name and a logo-bearing image. */}
         <div className="grid grid-3" style={{ marginTop: 36 }}>
-          {proof.map(cs => (
-            <Link key={cs.slug} href={`/case-studies/${cs.slug}`} className="work-card">
-              <MediaSlot label={cs.imageLabel} src={cs.image} alt={`${cs.client} — ${cs.title}`} />
-              {/* Internal work is labelled "Internal" here, as the board has it.
-                  Falling back to the sector would quietly drop the disclosure
-                  the design put on this card on purpose. */}
-              <span className="mono work-card__kicker">
-                {cs.client} · {cs.internal ? 'Internal' : cs.sector}
-              </span>
-              <h3 className="h4" style={{ marginTop: 10 }}>
-                {cs.title}
-              </h3>
-              <div className="work-card__metrics">
-                {cs.metrics.slice(0, 2).map(m => (
-                  <span key={m.label}>
-                    <b className={m.pending ? 'ph' : undefined} style={m.pending ? { fontSize: 17 } : undefined}>
-                      {m.value}
-                    </b>
-                    <span>{m.shortLabel ?? m.label}</span>
-                  </span>
-                ))}
-              </div>
-            </Link>
-          ))}
+          {proof.map(cs => {
+            const metrics = publishedMetrics(cs).slice(0, 2);
+            return (
+              <Link key={cs.slug} href={`/case-studies/${cs.slug}`} className="work-card">
+                <MediaSlot
+                  label={cs.imageLabel}
+                  src={publishedImage(cs)}
+                  alt={`${displayName(cs)} — ${cs.title}`}
+                />
+                {/* Internal work is labelled "Internal" here, as the board has
+                    it. Falling back to the sector would quietly drop the
+                    disclosure the design put on this card on purpose, so the
+                    internal branch is kept and only the name goes through the
+                    gate. */}
+                <span className="mono work-card__kicker">
+                  {cs.internal ? `${displayName(cs)} · Internal` : displayKicker(cs)}
+                </span>
+                <h3 className="h4" style={{ marginTop: 10 }}>
+                  {cs.title}
+                </h3>
+                {metrics.length > 0 ? (
+                  <div className="work-card__metrics">
+                    {metrics.map(m => (
+                      <span key={m.label}>
+                        <b
+                          className={m.pending ? 'ph' : undefined}
+                          style={m.pending ? { fontSize: 17 } : undefined}
+                        >
+                          {m.value}
+                        </b>
+                        <span>{m.shortLabel ?? m.label}</span>
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+              </Link>
+            );
+          })}
         </div>
       </Section>
 

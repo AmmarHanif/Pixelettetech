@@ -87,9 +87,9 @@ export default function AiServicesPage() {
                 boards 04 and 20 both say "Five things we do". Five is correct
                 and is what the build ships. */}
             Five services delivered by the same engineers who build the rest of your system, and one
-            thing we deliberately do not do. Governance and certification are a separate discipline
-            and sit with {certified.name}. If you are here for a conventional build instead, that
-            lives under Engineering.
+            thing we deliberately do not do. Governance and assurance readiness are a separate
+            discipline and sit with {certified.name}. If you are here for a conventional build
+            instead, that lives under Engineering.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Book a value baseline</Cta>
@@ -137,11 +137,30 @@ export default function AiServicesPage() {
             <h3 className="h3" style={{ color: 'var(--dark-head)' }}>
               AI Assurance & Governance
             </h3>
+            {/*
+              Was: "... Delivered by Pixelette Certified, a separate practice in
+              the same group, with its own lead auditors."
+
+              "Its own lead auditors" is a named certified-practice status, and
+              the handoff's ACCREDITATION-SAFE RULE forbids it until the exact
+              legal entity and status are verified (claims.ts
+              `certified-cross-sell`). What remains is what the section 12 copy
+              actually permits: scoping the requirement, coordinating
+              appropriately credentialed specialists, and supporting the route
+              to independent assessment. The card keeps its job — routing this
+              work away from us — without borrowing a credential to do it.
+
+              The ISO/IEC 42001 and ISO 27001 references here describe the
+              READER's management system and the standard the work is built to,
+              not a certificate any Pixelette company holds.
+            */}
             <p style={{ marginTop: 12, fontSize: 15, lineHeight: 1.6 }}>
               An AI management system built to ISO/IEC 42001 as an extension of the ISO 27001 you
               already hold: policy, risk methodology, system inventory, impact assessments, human
-              oversight, incident response and a Statement of Applicability. Delivered by{' '}
-              {certified.name}, a separate practice in the same group, with its own lead auditors.
+              oversight, incident response and a Statement of Applicability. Scoped by{' '}
+              {certified.name}, a separate practice in the same group, which coordinates
+              appropriately credentialed specialists and supports the route to independent
+              assessment.
             </p>
             <div style={{ flexGrow: 1 }} />
             <div className="pill-row" style={{ marginTop: 22 }}>

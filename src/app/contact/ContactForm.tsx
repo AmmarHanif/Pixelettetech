@@ -8,6 +8,29 @@ import { submitContact, type ContactState } from './actions';
 
 const initialState: ContactState = { status: 'idle', message: '' };
 
+/**
+ * The four qualifying questions.
+ *
+ * They are the handoff's section 14 "Form qualifier"
+ * (`design/handoff-2026-09-08/IMPLEMENTATION-COPY.txt`), and the homepage close
+ * already published them verbatim as its "What we will ask" card
+ * (`src/app/page.tsx`). Until 2026-09-11 this form asked four different
+ * questions — Name, Company, Work email, "Which process is costing you most?"
+ * — so a visitor was told what would be asked and then met something else. The
+ * spec's four are the authority, so the form moved.
+ *
+ * Spec, card and form must stay word for word identical. They cannot be shared
+ * from `./actions`: that module is `'use server'`, and a server-action module
+ * may export nothing but async functions. The server keeps its own copy for the
+ * transcript it forwards, commented to match.
+ */
+const QUESTIONS = {
+  objective: 'What are you trying to build or change?',
+  existing: 'What exists today?',
+  deadline: 'Is there a deadline?',
+  success: 'What would a successful result look like?',
+} as const;
+
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
@@ -17,8 +40,99 @@ function SubmitButton() {
   );
 }
 
+type FieldProps = {
+  name: string;
+  label: string;
+  /** Server-side message for this field, if the last submission failed on it. */
+  error?: string;
+  hint?: string;
+  /** Optional fields say so in the label; everything else carries `required`. */
+  optional?: boolean;
+  maxLength: number;
+  autoComplete?: string;
+  type?: 'text' | 'email';
+  /** Present means a textarea; absent means a single-line input. */
+  rows?: number;
+};
+
 /**
- * Four fields, as the design specifies.
+ * One labelled control, with its hint and its error wired to it.
+ *
+ * Written once rather than seven times so the accessibility contract cannot
+ * drift between fields: every control has a real `<label for>`, every hint and
+ * every error is named in `aria-describedby`, and requiredness is carried by
+ * the `required` attribute and stated in the visible label.
+ */
+function Field({
+  name,
+  label,
+  error,
+  hint,
+  optional = false,
+  maxLength,
+  autoComplete,
+  type = 'text',
+  rows,
+}: FieldProps) {
+  const id = `field-${name}`;
+  const hintId = hint ? `hint-${name}` : undefined;
+  const errorId = error ? `err-${name}` : undefined;
+  const describedBy = [hintId, errorId].filter(Boolean).join(' ');
+
+  const shared = {
+    id,
+    name,
+    maxLength,
+    required: !optional,
+    'aria-invalid': error ? true : undefined,
+    'aria-describedby': describedBy === '' ? undefined : describedBy,
+  };
+
+  return (
+    <div className="field">
+      <label className="field__label" htmlFor={id}>
+        {optional ? `${label} (optional)` : label}
+      </label>
+      {hint ? (
+        <span
+          className="small"
+          id={hintId}
+          style={{ display: 'block', marginTop: -2, marginBottom: 8, fontSize: 12.5 }}
+        >
+          {hint}
+        </span>
+      ) : null}
+      {rows === undefined ? (
+        <input {...shared} type={type} autoComplete={autoComplete} />
+      ) : (
+        <textarea {...shared} rows={rows} />
+      )}
+      {error ? (
+        <span className="field__error" id={errorId}>
+          {error}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+/**
+ * A name, a reply address, and the four questions the homepage says we will
+ * ask.
+ *
+ * Name and work email are not spec questions and are not meant to be: they are
+ * the operational minimum, because a brief with no-one to reply to is not an
+ * enquiry. Company is kept — it is already part of the payload this form
+ * forwards — but made optional, since the handoff's own close is "Bring us the
+ * problem, not the specification" and a company name has never been the thing
+ * that qualifies a brief.
+ *
+ * Only what we cannot reply or begin qualifying without is required: a name, an
+ * address, and what the visitor is trying to build or change. The other three
+ * questions are asked of everyone and answered by whoever can — a first-contact
+ * visitor legitimately may not know what exists today, when it is needed, or
+ * what success looks like, and an unanswered question is more useful than a
+ * forced one.
  *
  * Built on a Server Action so it still submits with JavaScript disabled;
  * `useActionState` only upgrades the feedback, it is not load-bearing.
@@ -41,77 +155,60 @@ export function ContactForm() {
       {state.status === 'success' ? null : (
         <div style={{ display: 'grid', gap: 20, marginTop: state.status === 'error' ? 24 : 0 }}>
           <div className="grid grid-2" style={{ gap: 20 }}>
-            <label className="field">
-              <span className="field__label">Name</span>
-              <input
-                name="name"
-                type="text"
-                autoComplete="name"
-                required
-                maxLength={120}
-                aria-invalid={err.name ? true : undefined}
-                aria-describedby={err.name ? 'err-name' : undefined}
-              />
-              {err.name ? (
-                <span className="field__error" id="err-name">
-                  {err.name}
-                </span>
-              ) : null}
-            </label>
-
-            <label className="field">
-              <span className="field__label">Company</span>
-              <input
-                name="company"
-                type="text"
-                autoComplete="organization"
-                required
-                maxLength={160}
-                aria-invalid={err.company ? true : undefined}
-                aria-describedby={err.company ? 'err-company' : undefined}
-              />
-              {err.company ? (
-                <span className="field__error" id="err-company">
-                  {err.company}
-                </span>
-              ) : null}
-            </label>
+            <Field name="name" label="Name" autoComplete="name" maxLength={120} error={err.name} />
+            <Field
+              name="company"
+              label="Company"
+              autoComplete="organization"
+              maxLength={160}
+              optional
+              error={err.company}
+            />
           </div>
 
-          <label className="field">
-            <span className="field__label">Work email</span>
-            <input
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              maxLength={200}
-              aria-invalid={err.email ? true : undefined}
-              aria-describedby={err.email ? 'err-email' : undefined}
-            />
-            {err.email ? (
-              <span className="field__error" id="err-email">
-                {err.email}
-              </span>
-            ) : null}
-          </label>
+          <Field
+            name="email"
+            label="Work email"
+            type="email"
+            autoComplete="email"
+            maxLength={200}
+            error={err.email}
+          />
 
-          <label className="field">
-            <span className="field__label">Which process is costing you most?</span>
-            <textarea
-              name="process"
-              required
-              maxLength={4000}
-              rows={4}
-              aria-invalid={err.process ? true : undefined}
-              aria-describedby={err.process ? 'err-process' : undefined}
-            />
-            {err.process ? (
-              <span className="field__error" id="err-process">
-                {err.process}
-              </span>
-            ) : null}
-          </label>
+          <Field
+            name="objective"
+            label={QUESTIONS.objective}
+            rows={4}
+            maxLength={4000}
+            error={err.objective}
+          />
+
+          <Field
+            name="existing"
+            label={QUESTIONS.existing}
+            rows={3}
+            maxLength={4000}
+            optional
+            error={err.existing}
+          />
+
+          <Field
+            name="deadline"
+            label={QUESTIONS.deadline}
+            maxLength={200}
+            optional
+            hint="A date, a quarter, or “not yet” — whatever you know."
+            error={err.deadline}
+          />
+
+          <Field
+            name="success"
+            label={QUESTIONS.success}
+            rows={3}
+            maxLength={4000}
+            optional
+            error={err.success}
+          />
 
           {/* Honeypot: hidden from people, irresistible to bots. */}
           <div aria-hidden className="honeypot">

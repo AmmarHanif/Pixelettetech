@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { ClosingCta } from '@/components/sections';
+import { ClosingCta, ValueModelCards } from '@/components/sections';
 import {
   Cta,
   Eyebrow,
@@ -10,7 +10,6 @@ import {
   PillRow,
   Section,
   SectionHead,
-  StatTile,
 } from '@/components/ui';
 import {
   blockchainSectors,
@@ -18,14 +17,43 @@ import {
   company,
   consensusAndCryptography,
 } from '@/content/company';
-import { caseStudies } from '@/content/work';
+import { caseStudies, displayKicker, displayName, publishedImage, publishedMetrics } from '@/content/work';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
+/*
+ * Claims sweep, 2026-09-08 (WP6).
+ *
+ * This page carried more held claims than any other on the site. Removed:
+ *
+ *  - the four hero stat tiles ($14M tokenised, 1,200+ tokens, £500,000+ sales
+ *    volume, 24 chains) and "$14M in tokenised assets" in the tokenisation
+ *    capability. claims.ts holds blockchain volumes, values and chain counts
+ *    outright, pending production evidence and definitions. Presented as hero
+ *    tiles these also read as practice-wide totals when they are figures from
+ *    two named engagements, which is the "overall presentation" that DMCCA
+ *    2024 s.226 reaches even where each individual number is true.
+ *  - "Twenty-four chains and protocols in production use" from the hero, the
+ *    chains section heading, the FAQ (and therefore the FAQPage JSON-LD) and
+ *    the metadata description. The chain LIST stays: claims.ts is explicit
+ *    that a capability list is not a production claim, and only the wording
+ *    that turns it into a count "in production use" is held.
+ *  - "delivered under ISO 9001 and ISO 27001" from the hero and the metadata
+ *    description. Both badges are HELD; design/certificates/ is empty.
+ *  - "independent audit of contracts written by someone else", and "audit" as
+ *    a service word throughout. The register's instruction is HOLD / REWORD:
+ *    use review and testing unless the audit competence and scope is
+ *    evidenced. /blockchain/smart-contracts-dapps already says "We do not call
+ *    our own testing an audit"; this hub was contradicting its own child page.
+ *
+ * Not removed: "audit trail", and a buyer's own audit and reporting concerns.
+ * Those are properties of a system and questions a regulated buyer asks. They
+ * assert no audit competence on our side.
+ */
 export const metadata = pageMetadata({
   title: 'Blockchain development and tokenisation',
   description:
-    'Asset tokenisation, smart contracts and audit, wallets, exchanges and dApps. Twenty-four chains in production use, delivered under ISO 27001 since 2018.',
+    'Asset tokenisation, smart contract engineering and review, wallets, exchanges and dApps. A specialist blockchain practice, engineering since 2018.',
   path: '/blockchain',
 });
 
@@ -33,12 +61,12 @@ const capabilities = [
   {
     id: 'asset-tokenisation',
     title: 'Asset tokenisation platforms',
-    body: 'Fractional ownership of real assets, with the custody, compliance and reporting around it. Our largest delivered platform holds $14M in tokenised assets.',
+    body: 'Fractional ownership of real assets, with the custody, compliance and reporting around it. What the token represents, who may hold it and how it reconciles to the off-chain record are designed together.',
   },
   {
     id: 'smart-contracts',
-    title: 'Smart contract development and audit',
-    body: 'Contracts written to be read by an auditor, and independent audit of contracts written by someone else. On chain, a mistake is permanent.',
+    title: 'Smart contract development and review',
+    body: 'Contracts written to be read, and structured review and testing of contracts written by someone else. We do not call our own testing an audit. On chain, a mistake is permanent.',
   },
   {
     id: 'wallets',
@@ -62,10 +90,22 @@ const capabilities = [
   },
 ];
 
+/**
+ * The five specialist pages beneath this hub. They fill the hero slot the stat
+ * tiles vacated; see the hero comment below.
+ */
+const servicePages = [
+  { href: '/blockchain/tokenisation', label: 'Tokenisation' },
+  { href: '/blockchain/smart-contracts-dapps', label: 'Smart contracts & dApps' },
+  { href: '/blockchain/wallets-digital-assets', label: 'Wallets & digital assets' },
+  { href: '/blockchain/protocol-engineering', label: 'Protocol engineering' },
+  { href: '/blockchain/integration', label: 'Integration' },
+];
+
 const faqs = [
   {
-    q: 'How many blockchains has Pixelette Technologies shipped on?',
-    a: 'Twenty-four chains and protocols are in production use, including Ethereum, Binance Smart Chain, Polygon, Solana, Avalanche, Cardano, Polkadot, Hyperledger Fabric, Corda, Stellar, Hedera Hashgraph, Algorand, Cosmos, Arbitrum, Optimism, zkSync, Near, Aptos and Sui. Where a project needs a chain the firm has not used, it says so and prices the learning curve rather than hiding it in the estimate.',
+    q: 'Which chains and protocols does Pixelette Technologies work with?',
+    a: 'The practice works with Ethereum, Binance Smart Chain, Polygon, Solana, Avalanche, Cardano, Polkadot, Hyperledger Fabric, Corda, Stellar, Hedera Hashgraph, Algorand, Cosmos, Arbitrum, Optimism, zkSync, Near, Aptos and Sui, among others. Where a project needs a chain the firm has not used, it says so and prices the learning curve rather than hiding it in the estimate.',
   },
   {
     q: 'Will Pixelette tell me if I do not need a blockchain?',
@@ -90,7 +130,7 @@ export default function BlockchainPage() {
         data={serviceSchema({
           name: 'Blockchain development',
           description:
-            'Asset tokenisation, smart contract development and audit, wallets, exchanges, dApps and DeFi, Layer 1 and Layer 2 engineering.',
+            'Asset tokenisation, smart contract development, review and testing, wallets, exchanges, dApps and DeFi, Layer 1 and Layer 2 engineering.',
           path: '/blockchain',
           serviceType: 'Blockchain development',
         })}
@@ -111,9 +151,10 @@ export default function BlockchainPage() {
             Tokenisation and decentralised systems, since {company.incorporated}.
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
-            Pixelette began as a blockchain studio and it remains our deepest specialism.
-            Twenty-four chains and protocols in production use, delivered under ISO 9001 and ISO
-            27001, with results we can name.
+            Pixelette began as a blockchain studio and it remains our deepest specialism:
+            tokenisation, smart contracts, wallets, exchanges and the infrastructure underneath
+            them. We use a chain where ownership, programmability or distributed verification
+            genuinely creates an advantage, and we say so when it does not.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Scope a blockchain build</Cta>
@@ -122,11 +163,24 @@ export default function BlockchainPage() {
             </Cta>
           </div>
 
-          <div className="grid grid-4" style={{ marginTop: 48 }}>
-            <StatTile value="$14M" label="in assets tokenised, averaging 25 fractional owners per asset" />
-            <StatTile value="1,200+" label="tokens sold within the first six months" />
-            <StatTile value="£500,000+" label="total marketplace sales volume" />
-            <StatTile value="24" label="chains and protocols in production use" />
+          {/* The five specialist pages stand where the four stat tiles stood.
+              Removing an unevidenced number should not leave a hollow hero, and
+              this hub had no links to its own children at all — so the space
+              goes to navigation that is true by construction. */}
+          <div style={{ marginTop: 44 }}>
+            <Eyebrow>The practice</Eyebrow>
+            <div className="pill-row" style={{ marginTop: 16 }}>
+              {servicePages.map(page => (
+                <Link
+                  key={page.href}
+                  href={page.href}
+                  className="pill"
+                  style={{ color: 'var(--brand)' }}
+                >
+                  {page.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -136,7 +190,7 @@ export default function BlockchainPage() {
         <SectionHead
           title="What we build"
           id="bc-build-heading"
-          lead="End-to-end delivery, from the consulting engagement that decides whether a chain is the right answer through to the audit that lets you ship."
+          lead="End-to-end delivery, from the consulting engagement that decides whether a chain is the right answer through to the review and testing that let you ship."
         />
         <div className="grid grid-3" style={{ marginTop: 40 }}>
           {capabilities.map(cap => (
@@ -155,8 +209,8 @@ export default function BlockchainPage() {
         <SectionHead
           eyebrow="Chains and protocols"
           id="chains-heading"
-          title="Twenty-four, in production, not on a slide."
-          lead="We do not claim a chain we have not shipped on. Where a project needs one we have not used, we say so and price the learning curve honestly rather than hiding it in the estimate."
+          title="The networks we work with, not a league table."
+          lead="This is the list the practice works across. We do not add a chain to it because it is fashionable, and where a project needs one we have not used, we say so and price the learning curve honestly rather than hiding it in the estimate."
         />
         <PillRow items={chains} style={{ marginTop: 34 }} />
 
@@ -185,24 +239,67 @@ export default function BlockchainPage() {
           <FLink href="/case-studies">All work</FLink>
         </div>
 
+        {/* Through the work.ts publication gate, not around it. Reading
+            `cs.client`, `cs.kicker`, `cs.image` or `cs.metrics` directly was
+            safe here only because every slug in the list above happens to be
+            CONFIRMED; adding one PENDING slug would have published a client's
+            name and their own product screenshot. */}
         <div className="grid grid-3" style={{ marginTop: 36 }}>
-          {featured.map(cs => (
-            <Link key={cs.slug} href={`/case-studies/${cs.slug}`} className="work-card">
-              <MediaSlot label={cs.imageLabel} src={cs.image} alt={`${cs.client} — ${cs.title}`} />
-              <span className="mono work-card__kicker">{cs.kicker}</span>
-              <h3 className="h4" style={{ marginTop: 10 }}>
-                {cs.title}
-              </h3>
-              <div className="work-card__metrics">
-                {cs.metrics.slice(0, 2).map(m => (
-                  <span key={m.label}>
-                    <b>{m.value}</b>
-                    <span>{m.shortLabel ?? m.label}</span>
-                  </span>
-                ))}
-              </div>
-            </Link>
-          ))}
+          {featured.map(cs => {
+            const metrics = publishedMetrics(cs).slice(0, 2);
+            return (
+              <Link key={cs.slug} href={`/case-studies/${cs.slug}`} className="work-card">
+                <MediaSlot
+                  label={cs.imageLabel}
+                  src={publishedImage(cs)}
+                  alt={`${displayName(cs)} — ${cs.title}`}
+                />
+                <span className="mono work-card__kicker">{displayKicker(cs)}</span>
+                <h3 className="h4" style={{ marginTop: 10 }}>
+                  {cs.title}
+                </h3>
+                {metrics.length > 0 ? (
+                  <div className="work-card__metrics">
+                    {metrics.map(m => (
+                      <span key={m.label}>
+                        <b>{m.value}</b>
+                        <span>{m.shortLabel ?? m.label}</span>
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+              </Link>
+            );
+          })}
+        </div>
+      </Section>
+
+      {/* -------------------------------------------------- where this sits */}
+      {/*
+        Build • Automate • Decentralise • Run, reintroduced (2026-09-11); see
+        the note on /engineering for why the model now reaches the hubs at all.
+
+        This hub needs it more than the other two. A visitor who lands here from
+        a tokenisation search has no way of knowing that blockchain is one
+        specialism inside an engineering company rather than the whole of it,
+        and the handoff is explicit that blockchain must read as specialist
+        depth and not as a third equal division. Four cards with Decentralise
+        marked, immediately before the section that argues the same point in
+        prose, is the cheapest way to say so.
+
+        The tint is `#FBF8F4`, the amber-theme tint this page already uses for
+        the chains section, not a new colour; the brand border on the current
+        card resolves through `.theme-amber` for the same reason.
+      */}
+      <Section labelledBy="bc-model-heading" style={{ background: '#FBF8F4' }}>
+        <SectionHead
+          eyebrow="Where this sits"
+          id="bc-model-heading"
+          title="One engineering company. Four ways we create value."
+          lead="Decentralise is this page. Build, Automate and Run are the other three."
+        />
+        <div style={{ marginTop: 36 }}>
+          <ValueModelCards detailed={false} current="DECENTRALISE" />
         </div>
       </Section>
 
@@ -223,8 +320,9 @@ export default function BlockchainPage() {
             <p className="body" style={{ marginTop: 16 }}>
               That is now exactly what an enterprise asks about an AI system. The audit trail, the
               decision boundary, the evidence. Our AI engineering work is that same competence pointed
-              at a newer problem, which is why the two sit in one firm. The certificate at the end of
-              it is Pixelette Certified’s work, not ours.
+              at a newer problem, which is why the two sit in one firm. Where a programme needs
+              formal governance or a route to independent assessment at the end of it, that is
+              Pixelette Certified’s work to scope and coordinate, not ours.
             </p>
             <div style={{ marginTop: 28 }}>
               <Cta href="/ai-engineering" variant="secondary">

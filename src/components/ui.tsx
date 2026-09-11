@@ -4,12 +4,28 @@ import type { CSSProperties, ReactNode } from 'react';
 import { ArrowRight, ArrowUpRight } from '@/components/Icons';
 import { jsonLd } from '@/lib/schema';
 
-/** Injects a JSON-LD graph. Used on every page for GEO/AEO reach. */
+/**
+ * Injects a JSON-LD graph. Used on every page for GEO/AEO reach.
+ *
+ * Renders nothing at all when there is no graph. `jsonLd` returns '' for a
+ * builder that declined to assert anything — `caseStudySchema` returns null for
+ * a case study with no published detail — and an empty
+ * `<script type="application/ld+json"></script>` is not a neutral no-op: a
+ * structured-data validator reports it as "no items detected", which is a
+ * failing result on a page that has a perfectly good graph elsewhere on it.
+ *
+ * The guard belongs here rather than at each call site. Callers were writing
+ * `schema ? <JsonLd data={schema} /> : null` to work around it, which only
+ * protected the caller that remembered.
+ */
 export function JsonLd({ data }: { data: unknown }) {
+  const html = jsonLd(data);
+  if (!html) return null;
+
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: jsonLd(data) }}
+      dangerouslySetInnerHTML={{ __html: html }}
     />
   );
 }

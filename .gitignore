@@ -46,3 +46,10 @@ Thumbs.db
 
 # Local audit scratch
 /audit-output
+
+# Python bytecode. scripts/ is run with `py -3.12 -B` so none should be
+# produced; this is the belt to that braces. NOTE: scripts/__pycache__/
+# audit.cpython-314.pyc was committed before this rule and stays tracked -
+# an ignore rule never untracks a file, and removing one is not this
+# script-hygiene change to make.
+__pycache__/

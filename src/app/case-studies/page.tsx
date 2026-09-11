@@ -8,14 +8,22 @@ import {
   MediaSlot,
   Section,
 } from '@/components/ui';
-import { caseStudies, workFilters, type WorkFilter } from '@/content/work';
+import {
+  caseStudies,
+  displayKicker,
+  displayName,
+  publishedImage,
+  publishedMetrics,
+  workFilters,
+  type WorkFilter,
+} from '@/content/work';
 import { breadcrumbSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
   title: 'Work and case studies',
   description:
-    'Every case study names the client where we are permitted to, states the process, and shows the number before and after. No stock case studies.',
+    'Every case study names the client where we are permitted to and states the engineering. Figures go up once the measurement basis and permission are confirmed.',
   path: '/case-studies',
 });
 
@@ -51,10 +59,22 @@ export default async function WorkPage({
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
             Named clients. Named processes. Measured results.
           </h1>
+          {/* Rewritten twice on 2026-09-08, and the second time is the one that
+              matters. The first rewrite still led with "shows the number before
+              and after", treating a held figure as the exception. Reconciling
+              work.ts against the claims register the same day moved every
+              numerical result behind the evidence gate, so that emphasis had
+              become the opposite of what the page renders — and an overall
+              presentation that misleads is a misleading action under DMCCA 2024
+              s.226 even where each sentence is true. The gate is stated as the
+              rule, because today it is the rule. */}
           <p className="lead" style={{ marginTop: 24 }}>
-            Every case study on this site names the client where we are permitted to, states the
-            process, and shows the number before and after. Where a client cannot be named, we say so
-            and publish the sector metric instead.
+            Every case study on this site names the client where we are permitted to and states the
+            engineering. Figures are a separate gate: a numerical result goes up only once its
+            measurement basis and the client’s permission are both confirmed, and none has cleared
+            that gate yet. So what follows is the challenge, the work and the result without a number
+            on it. The figures are recorded, not discarded, and each one goes up when its evidence
+            does.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Book a value baseline</Cta>
@@ -106,38 +126,58 @@ export default async function WorkPage({
           </p>
         ) : (
           <div className="grid grid-2" style={{ marginTop: 40 }}>
-            {visible.map(cs => (
-              <Link key={cs.slug} href={`/case-studies/${cs.slug}`} className="work-card">
-                <MediaSlot label={cs.imageLabel} src={cs.image} alt={`${cs.client} — ${cs.title}`} />
-                <span className="mono work-card__kicker">{cs.kicker}</span>
-                <h3 className="h3" style={{ marginTop: 12 }}>
-                  {cs.title}
-                </h3>
-                <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-                  {cs.summary}
-                </p>
-                <div className="work-card__metrics">
-                  {cs.metrics.slice(0, 3).map(m => (
-                    <span key={m.label}>
-                      <b
-                        className={m.pending ? 'ph' : undefined}
-                        style={m.pending ? { fontSize: 15 } : undefined}
-                      >
-                        {m.value}
-                      </b>
-                      <span>{m.shortLabel ?? m.label}</span>
-                    </span>
-                  ))}
-                </div>
-              </Link>
-            ))}
+            {/* Name, kicker, artwork and figures all come through the accessors
+                in work.ts rather than off the record directly. A case study
+                whose client name is not cleared for publication renders the
+                same card in the same grid, with the anonymised name, the
+                anonymised kicker and the labelled media box the slot falls back
+                to — the layout does not change, which is what the handoff
+                asks for. */}
+            {visible.map(cs => {
+              const metrics = publishedMetrics(cs).slice(0, 3);
+              return (
+                <Link key={cs.slug} href={`/case-studies/${cs.slug}`} className="work-card">
+                  <MediaSlot
+                    label={cs.imageLabel}
+                    src={publishedImage(cs)}
+                    alt={`${displayName(cs)} — ${cs.title}`}
+                  />
+                  <span className="mono work-card__kicker">{displayKicker(cs)}</span>
+                  <h3 className="h3" style={{ marginTop: 12 }}>
+                    {cs.title}
+                  </h3>
+                  <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
+                    {cs.summary}
+                  </p>
+                  {/* Rendered only when there is something in it. An empty
+                      metrics row on a case study that publishes no figure adds
+                      a gap under the summary and says nothing. */}
+                  {metrics.length > 0 ? (
+                    <div className="work-card__metrics">
+                      {metrics.map(m => (
+                        <span key={m.label}>
+                          <b
+                            className={m.pending ? 'ph' : undefined}
+                            style={m.pending ? { fontSize: 15 } : undefined}
+                          >
+                            {m.value}
+                          </b>
+                          <span>{m.shortLabel ?? m.label}</span>
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                </Link>
+              );
+            })}
           </div>
         )}
       </Section>
 
-      <ClosingCta title="Want the detail behind a number?">
-        Every case study links to the architecture, the evaluation approach and, where the client
-        agreed, a reference call.
+      <ClosingCta title="Want the evidence behind a result?">
+        Ask and we will walk you through the architecture, the evaluation approach and the
+        measurement behind any result on this page — including the figures we are not yet
+        publishing, and what it would take to publish them.
       </ClosingCta>
     </>
   );

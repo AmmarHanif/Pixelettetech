@@ -58,9 +58,21 @@ const faqs = [
     q: 'How well do regulated firms understand the AI they already run?',
     a: 'Nearly half of regulated firms report only partial understanding of the AI systems already in use across their business, according to the Bank of England and FCA AI survey. The exposure is rarely the model itself — it is the absence of lineage, monitoring and a defined escalation boundary around it.',
   },
+  /*
+   * Was: "... Formal AI governance, ISO/IEC 42001 and audit are delivered by
+   * Pixelette Certified, a separate practice in the same group with its own
+   * lead auditors."
+   *
+   * Two breaches of the handoff's ACCREDITATION-SAFE RULE in one sentence — an
+   * independent-audit claim and a named certified-practice status — and this
+   * array is fed to `faqSchema`, so both were being published as structured
+   * data as well as prose (claims.ts `certified-cross-sell`). Rewritten
+   * 2026-09-08 to the section 12 wording. The answer to the question asked is
+   * unchanged and is still "no", which is the commercially useful part.
+   */
   {
     q: 'Does Pixelette Technologies provide regulatory sign-off for AI in financial services?',
-    a: 'No. Pixelette Technologies engineers the system and provides the technical evidence: lineage, evaluation results, drift monitoring and incident records. Formal AI governance, ISO/IEC 42001 and audit are delivered by Pixelette Certified, a separate practice in the same group with its own lead auditors.',
+    a: 'No. Pixelette Technologies engineers the system and provides the technical evidence: lineage, evaluation results, drift monitoring and incident records. Sign-off is not ours to give. Where a programme needs formal governance, certification readiness or assurance support, Pixelette Certified — a separate company in the same group — can help scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment.',
   },
   {
     q: 'Will an AI system in a regulated process make decisions automatically?',
@@ -91,8 +103,8 @@ export default function InsuranceFsPage() {
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Nearly half of regulated firms report only partial understanding of the AI systems they
-            already run. We make them explainable, monitored and defensible — and hand the
-            certification of that to Pixelette Certified rather than grading our own work.
+            already run. We make them explainable, monitored and defensible — and leave the
+            assurance route to Pixelette Certified rather than grading our own work.
           </p>
           <SourceNote>Bank of England / FCA AI survey</SourceNote>
           <div className="btn-row" style={{ marginTop: 34 }}>
