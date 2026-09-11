@@ -21,6 +21,7 @@ import {
   publishedImage,
   publishedMetrics,
 } from '@/content/work';
+import { ANALYTICS_EVENTS, ANALYTICS_SURFACES, analyticsAttrs } from '@/lib/analytics';
 import { breadcrumbSchema, caseStudySchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -289,7 +290,14 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               <FLink href="/contact">Request the technical note</FLink>
             </p>
             <div style={{ marginTop: 14 }}>
-              <Cta href="/contact">Book a value baseline</Cta>
+              <Cta
+                href="/contact"
+                analytics={analyticsAttrs(ANALYTICS_EVENTS.BOOK_CONVERSATION_CTA, {
+                  surface: ANALYTICS_SURFACES.CASE_STUDY_ASIDE,
+                })}
+              >
+                Book a value baseline
+              </Cta>
             </div>
           </aside>
         </div>
@@ -312,7 +320,15 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         </div>
         <div className="grid grid-2" style={{ marginTop: 32 }}>
           {others.map(o => (
-            <Link key={o.slug} href={`/case-studies/${o.slug}`} className="work-card">
+            <Link
+              key={o.slug}
+              href={`/case-studies/${o.slug}`}
+              className="work-card"
+              {...analyticsAttrs(ANALYTICS_EVENTS.CASE_STUDY_OPENED, {
+                surface: ANALYTICS_SURFACES.CASE_STUDY_RELATED,
+                detail: o.slug,
+              })}
+            >
               <MediaSlot
                 label={o.imageLabel}
                 src={publishedImage(o)}

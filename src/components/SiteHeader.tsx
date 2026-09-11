@@ -5,6 +5,7 @@ import { ArrowRight, ArrowUpRight } from '@/components/Icons';
 import { company } from '@/content/company';
 import { navSections, primaryCta, primaryNav } from '@/content/nav';
 import type { NavItem, NavSection } from '@/content/nav';
+import { ANALYTICS_EVENTS, ANALYTICS_SURFACES, analyticsAttrs } from '@/lib/analytics';
 
 /**
  * Site header.
@@ -169,7 +170,17 @@ export function SiteHeader() {
 
         <nav className="nav" aria-label="Primary">
           {desktopNav}
-          <Link href={primaryCta.href} className="nav__cta">
+          {/* Tracked as two surfaces, not one. The same label appears on the
+              desktop bar and inside the mobile panel, and "does the header CTA
+              convert on a phone" is a different question from whether it
+              converts on a desktop. Collapsing them answers neither. */}
+          <Link
+            href={primaryCta.href}
+            className="nav__cta"
+            {...analyticsAttrs(ANALYTICS_EVENTS.BOOK_CONVERSATION_CTA, {
+              surface: ANALYTICS_SURFACES.SITE_HEADER,
+            })}
+          >
             {primaryCta.label}
           </Link>
         </nav>
@@ -180,7 +191,13 @@ export function SiteHeader() {
           </summary>
           <nav className="nav-mobile__panel" aria-label="Primary, mobile">
             {mobileNav}
-            <Link href={primaryCta.href} className="nav__cta">
+            <Link
+              href={primaryCta.href}
+              className="nav__cta"
+              {...analyticsAttrs(ANALYTICS_EVENTS.BOOK_CONVERSATION_CTA, {
+                surface: ANALYTICS_SURFACES.SITE_HEADER_MOBILE,
+              })}
+            >
               {primaryCta.label}
             </Link>
           </nav>

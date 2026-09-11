@@ -8,6 +8,7 @@ import { publishedClaims } from '@/content/claims';
 import { certifications, certified, clutch, company } from '@/content/company';
 import { clients } from '@/content/clients';
 import { featuredTestimonials, type Testimonial } from '@/content/testimonials';
+import { ANALYTICS_EVENTS, ANALYTICS_SURFACES, analyticsAttrs } from '@/lib/analytics';
 
 /**
  * "Trusted by" client row.
@@ -32,17 +33,24 @@ export function ClientLogos({
    * The zero guard (added 2026-09-08).
    *
    * The same defect class as the footer badge row, the certification table and
-   * the trust strip, all of which were live bugs earlier today. This one is
-   * latent only because the list happens to be non-empty right now.
+   * the trust strip, all of which were live bugs earlier that same day. This
+   * one is latent only because the list happens to be non-empty right now.
    *
-   * `src/content/clients.ts` gained a required `permission` field today, along
-   * with an `approvedClients()` accessor that returns EMPTY, and it records the
-   * founder's open decision to switch this render onto that accessor. On the
-   * day that switch is made, the unguarded component left a "Trusted by" label
-   * sitting over an empty `<ul>`, inside a bordered 128px section, on the
-   * homepage and on /ai-engineering — an orphan heading, an empty container
-   * and a stray separator in one. Exactly what the handoff's DEVELOPER RULE
-   * forbids: "the absence of a badge must not leave a broken layout".
+   * `src/content/clients.ts` gained a required `permission` field on
+   * 2026-09-08, along with an `approvedClients()` accessor that filters on it.
+   * Read on 2026-09-11, all seven rows of `clients` are APPROVED, so that
+   * accessor returns all seven and the two lists hold the same names. The
+   * filter is still the point rather than a formality: a row set back to
+   * UNCONFIRMED drops out of it with nobody editing that function, and the
+   * eighth row — `additionalClients`, still UNCONFIRMED, imported by nothing —
+   * is the shape of a name that must not reach this render by accident.
+   *
+   * So the guard stands on its own merits. Unguarded, an empty list left a
+   * "Trusted by" label sitting over an empty `<ul>`, inside a bordered 128px
+   * section, on the homepage and on /ai-engineering — an orphan heading, an
+   * empty container and a stray separator in one. Exactly what the handoff's
+   * DEVELOPER RULE forbids: "the absence of a badge must not leave a broken
+   * layout".
    *
    * The whole component returns null rather than guarding the inner list,
    * because the `<Section>` — with its border-top and its 64px of padding —
@@ -51,8 +59,50 @@ export function ClientLogos({
    *
    * The guard and the map read one local, so they cannot drift apart, and
    * switching to `approvedClients()` stays the one-line change that file
-   * describes. This does NOT make that switch: the permission question is the
-   * founder's to answer, not this component's.
+   * describes. This does NOT make that switch — it is a separate change to a
+   * separate line, and `src/content/clients.ts` records it as left to whoever
+   * makes it.
+   *
+   * CORRECTED 2026-09-11, comment only. What follows is a correction, not a
+   * deletion.
+   *
+   * This comment used to read: "`src/content/clients.ts` gained a required
+   * `permission` field today, along with an `approvedClients()` accessor that
+   * returns EMPTY, and it records the founder's open decision to switch this
+   * render onto that accessor. On the day that switch is made, the unguarded
+   * component left a 'Trusted by' label sitting over an empty `<ul>` …", and
+   * it ended: "This does NOT make that switch: the permission question is the
+   * founder's to answer, not this component's."
+   *
+   * Both halves stopped being true on 2026-09-11.
+   *
+   *  1. `approvedClients()` does not return EMPTY. The founder was asked on
+   *     2026-09-11 whether the seven names that render with no recorded
+   *     permission should be hidden or kept, and answered "Keep them — I'm
+   *     confident we have the basis". Every row in `clients` reads APPROVED on
+   *     the strength of that decision and of nothing else, so the accessor
+   *     returns all seven. Read the gate note at the top of
+   *     `src/content/clients.ts` before relying on this: it is a founder
+   *     decision of that date, NOT a per-client release document, and no such
+   *     document exists anywhere in this repository.
+   *  2. The permission question is no longer the founder's to answer, because
+   *     he has answered it. What is left is not a decision but an edit, and it
+   *     is a safe one for the first time: with the two lists identical, moving
+   *     this render onto `approvedClients()` changes no rendered name.
+   *
+   * The decision does not reach the eighth name. `additionalClients` holds
+   * 'Akashic Knowing' and stays UNCONFIRMED deliberately: the question was put
+   * about the seven names that were live on the homepage, and an answer about
+   * those cannot approve a name he was not asked about. Nothing imports that
+   * array, so this component has never published it.
+   *
+   * "Earlier today" above is re-dated to "earlier that same day" in the same
+   * pass, because this block was written on 2026-09-08 and is now read after
+   * it; the events it names are unchanged.
+   *
+   * The RENDERED output of this component is untouched by this correction, and
+   * the guard it describes was correct on 2026-09-08 and is correct today.
+   * NOTHING IS OWED FROM THIS PARAGRAPH AND NOTHING HERE IS BLOCKING.
    */
   const names = clients;
   if (names.length === 0) return null;
@@ -577,6 +627,24 @@ export function ClosingCta({
   ctaLabel?: string;
   aside?: ReactNode;
 }) {
+  /*
+   * Instrumented HERE rather than at each of the call sites, because this
+   * component is the closing CTA on the work index, every case study and the
+   * service pages, and an event added per call site is an event some future
+   * call site forgets.
+   *
+   * Conditional on the destination, and that is not defensive padding:
+   * `ctaHref` is overridable, so this block can be pointed somewhere that is
+   * not a conversation. A closing CTA to a service page is not a booked
+   * conversation and counting it as one would inflate the single number the
+   * founder is most likely to act on.
+   */
+  const ctaAnalytics = ctaHref.startsWith('/contact')
+    ? analyticsAttrs(ANALYTICS_EVENTS.BOOK_CONVERSATION_CTA, {
+        surface: ANALYTICS_SURFACES.CLOSING_CTA,
+      })
+    : undefined;
+
   return (
     <Section labelledBy="closing-heading">
       <div className={`split ${aside ? 'split--cta' : 'split--single'}`}>
@@ -591,7 +659,9 @@ export function ClosingCta({
             </p>
           ) : null}
           <div className="btn-row" style={{ marginTop: 32 }}>
-            <Cta href={ctaHref}>{ctaLabel}</Cta>
+            <Cta href={ctaHref} analytics={ctaAnalytics}>
+              {ctaLabel}
+            </Cta>
           </div>
         </div>
         {aside}

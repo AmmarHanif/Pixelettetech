@@ -26,6 +26,13 @@ import {
   publishedImage,
   publishedMetrics,
 } from '@/content/work';
+import {
+  ANALYTICS_EVENTS,
+  ANALYTICS_SURFACES,
+  BUYER_ROUTES,
+  analyticsAttrs,
+  type BuyerRoute,
+} from '@/lib/analytics';
 import { faqSchema, homepageServiceSchema } from '@/lib/schema';
 import { homepageMetadata } from '@/lib/seo';
 
@@ -61,14 +68,30 @@ export const metadata = homepageMetadata();
  * `routeHref` sends the reader to the capability; `cta` sends them to a
  * conversation. Both are given because the handoff's own columns are "Route"
  * and "CTA" and they do different jobs: one explains, one converts.
+ *
+ * `analyticsRoute` is the same row's stable identifier in
+ * `src/lib/analytics.ts`, and it is what makes checklist item 22 —
+ * "measure conversion by route" — answerable from the data rather than by
+ * guessing from a URL. The display label above it may be re-worded at any
+ * time; the slug may not, because renaming a dimension value orphans its own
+ * history. Typed as `BuyerRoute`, so the six rows here cannot drift away from
+ * the six routes declared there.
  */
-const buyerRoutes = [
+const buyerRoutes: {
+  trigger: string;
+  route: string;
+  routeHref: string;
+  meaning: string;
+  cta: string;
+  analyticsRoute: BuyerRoute;
+}[] = [
   {
     trigger: 'We need a new platform, product or app',
     route: 'Build Software',
     routeHref: '/engineering',
     meaning: 'SaaS, web, mobile, internal platforms and customer-facing products.',
     cta: 'Scope a build',
+    analyticsRoute: BUYER_ROUTES.BUILD_SOFTWARE,
   },
   {
     trigger: 'A manual process needs automating',
@@ -76,6 +99,7 @@ const buyerRoutes = [
     routeHref: '/ai-engineering',
     meaning: 'Agents, workflow automation, decision support and system integration.',
     cta: 'Map the workflow',
+    analyticsRoute: BUYER_ROUTES.AI_AUTOMATION,
   },
   {
     trigger: 'We want AI inside an existing product',
@@ -83,6 +107,7 @@ const buyerRoutes = [
     routeHref: '/ai-engineering/llm-integration-rag',
     meaning: 'LLM/model integration, RAG, prediction, personalisation and agentic features.',
     cta: 'Add AI to a product',
+    analyticsRoute: BUYER_ROUTES.AI_ENGINEERING,
   },
   {
     trigger: 'Our existing system needs modernising',
@@ -90,6 +115,7 @@ const buyerRoutes = [
     routeHref: '/engineering/modernisation-integration',
     meaning: 'Architecture, APIs, cloud, data migration and legacy replacement.',
     cta: 'Modernise a system',
+    analyticsRoute: BUYER_ROUTES.MODERNISE_INTEGRATE,
   },
   {
     trigger: 'We need tokenisation, smart contracts or a dApp',
@@ -97,6 +123,7 @@ const buyerRoutes = [
     routeHref: '/blockchain',
     meaning: 'Specialist decentralised architecture where blockchain genuinely creates value.',
     cta: 'Scope blockchain',
+    analyticsRoute: BUYER_ROUTES.BLOCKCHAIN,
   },
   {
     trigger: 'We need someone to keep improving what exists',
@@ -104,6 +131,7 @@ const buyerRoutes = [
     routeHref: '/engineering/managed-engineering',
     meaning: 'Managed engineering, monitoring, support, optimisation and roadmap delivery.',
     cta: 'Discuss ongoing engineering',
+    analyticsRoute: BUYER_ROUTES.RUN_IMPROVE,
   },
 ];
 
@@ -396,8 +424,23 @@ export default function HomePage() {
           {/* Primary and secondary CTA. Build and AI, in that order, are the
               two commercial engines the handoff reweights the page around. */}
           <div className="btn-row" style={{ marginTop: 36, justifyContent: 'center' }}>
-            <Cta href="/engineering">Build a Product</Cta>
-            <Cta href="/ai-engineering" variant="secondary">
+            <Cta
+              href="/engineering"
+              analytics={analyticsAttrs(ANALYTICS_EVENTS.HERO_PRIMARY_CTA, {
+                route: BUYER_ROUTES.BUILD_SOFTWARE,
+                surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
+              })}
+            >
+              Build a Product
+            </Cta>
+            <Cta
+              href="/ai-engineering"
+              variant="secondary"
+              analytics={analyticsAttrs(ANALYTICS_EVENTS.HERO_SECONDARY_CTA, {
+                route: BUYER_ROUTES.AI_AUTOMATION,
+                surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
+              })}
+            >
               Automate a Workflow
             </Cta>
           </div>
@@ -406,7 +449,15 @@ export default function HomePage() {
               button: visible, immediately reachable, and not competing with the
               two commercial engines for the first screen. */}
           <p style={{ marginTop: 22 }}>
-            <FLink href="/blockchain">Explore Blockchain Engineering</FLink>
+            <FLink
+              href="/blockchain"
+              analytics={analyticsAttrs(ANALYTICS_EVENTS.HERO_SPECIALIST_ROUTE, {
+                route: BUYER_ROUTES.BLOCKCHAIN,
+                surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
+              })}
+            >
+              Explore Blockchain Engineering
+            </FLink>
           </p>
 
           {/* The low-friction route, for the buyer who cannot yet name the
@@ -414,7 +465,18 @@ export default function HomePage() {
               answer exactly that. */}
           <p className="small" style={{ marginTop: 26 }}>
             Not sure which route fits?{' '}
-            <a href="#what-are-you-trying-to-change">Tell us what needs to change.</a>
+            {/* No route on this one on purpose: the whole point of the
+                low-friction line is that this visitor cannot yet name their
+                route. Attaching one would invent an answer they have not
+                given, and item 22's route breakdown would be counting it. */}
+            <a
+              href="#what-are-you-trying-to-change"
+              {...analyticsAttrs(ANALYTICS_EVENTS.HERO_LOW_FRICTION_ROUTE, {
+                surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
+              })}
+            >
+              Tell us what needs to change.
+            </a>
           </p>
 
           {/* The three route chips. Build and AI carry the brand accent and a
@@ -431,6 +493,10 @@ export default function HomePage() {
                   href="/engineering"
                   className="filter"
                   style={{ borderColor: 'var(--brand)', color: 'var(--brand)', fontWeight: 600 }}
+                  {...analyticsAttrs(ANALYTICS_EVENTS.HERO_ROUTE_CHIP, {
+                    route: BUYER_ROUTES.BUILD_SOFTWARE,
+                    surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
+                  })}
                 >
                   Build Software
                 </Link>
@@ -440,12 +506,23 @@ export default function HomePage() {
                   href="/ai-engineering"
                   className="filter"
                   style={{ borderColor: 'var(--brand)', color: 'var(--brand)', fontWeight: 600 }}
+                  {...analyticsAttrs(ANALYTICS_EVENTS.HERO_ROUTE_CHIP, {
+                    route: BUYER_ROUTES.AI_AUTOMATION,
+                    surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
+                  })}
                 >
                   AI &amp; Automation
                 </Link>
               </li>
               <li>
-                <Link href="/blockchain" className="filter">
+                <Link
+                  href="/blockchain"
+                  className="filter"
+                  {...analyticsAttrs(ANALYTICS_EVENTS.HERO_ROUTE_CHIP, {
+                    route: BUYER_ROUTES.BLOCKCHAIN,
+                    surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
+                  })}
+                >
                   Blockchain
                   <span className="mono" style={{ fontSize: 10, marginLeft: 8, opacity: 0.75 }}>
                     SPECIALIST
@@ -483,11 +560,38 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Client wordmarks. Held behind an approval gate in
-          `src/content/clients.ts`, which records every name as UNCONFIRMED and
-          raises the permission question to the founder rather than answering it
-          silently. That decision belongs to that file, and is left as it
-          stands. */}
+      {/* Client wordmarks, behind the approval gate in
+          `src/content/clients.ts` — a gate that has now been answered. All
+          seven rows there read APPROVED on the founder's decision of
+          2026-09-11 ("Keep them — I'm confident we have the basis"), so
+          `approvedClients()` returns exactly the seven names this line
+          renders. `ClientLogos` still reads `clients` directly, which is why
+          the render is unchanged either way.
+
+          CORRECTED 2026-09-11, comment only. What follows is a correction,
+          not a deletion. This comment used to read: "Held behind an approval
+          gate in `src/content/clients.ts`, which records every name as
+          UNCONFIRMED and raises the permission question to the founder rather
+          than answering it silently. That decision belongs to that file, and
+          is left as it stands." Both halves are now false. No row is
+          UNCONFIRMED: all seven moved to APPROVED on 2026-09-11. And the
+          question is no longer raised but answered — the founder was asked
+          whether the seven names rendering with no recorded permission should
+          be hidden or kept, and kept them.
+
+          What has NOT changed is where the record lives. The decision still
+          belongs to `src/content/clients.ts` and is written down there and
+          nowhere else, so this page continues to assert no permission of its
+          own. Read that file's gate note before quoting this one: what exists
+          is a founder decision of 2026-09-11, NOT a per-client release
+          document, and no such document exists in this repository. Nor does
+          the decision reach the eighth name — 'Akashic Knowing' in
+          `additionalClients` stays UNCONFIRMED, because he was not asked about
+          it, and nothing imports that array.
+
+          Nothing rendered by this line changed on 2026-09-11: the same seven
+          names rendered before the decision and after it. Nothing is owed from
+          this paragraph. */}
       <ClientLogos tight />
 
       {/* ══════════════════ 03 · What are you trying to change? ══════════ */}
@@ -540,11 +644,31 @@ export default function HomePage() {
                     {row.trigger}
                   </th>
                   <td>
-                    <Link href={row.routeHref}>{row.route}</Link>
+                    <Link
+                      href={row.routeHref}
+                      {...analyticsAttrs(ANALYTICS_EVENTS.BUYER_TRIGGER_ROUTE, {
+                        route: row.analyticsRoute,
+                        surface: ANALYTICS_SURFACES.HOMEPAGE_BUYER_TRIGGERS,
+                      })}
+                    >
+                      {row.route}
+                    </Link>
                   </td>
                   <td>{row.meaning}</td>
                   <td>
-                    <Link href="/contact">{row.cta}</Link>
+                    {/* The conversion step of the two. Same route slug as the
+                        link beside it, so "read the capability" and "ask for a
+                        conversation" are separable per route rather than
+                        collapsed into one number. */}
+                    <Link
+                      href="/contact"
+                      {...analyticsAttrs(ANALYTICS_EVENTS.BUYER_TRIGGER_CTA, {
+                        route: row.analyticsRoute,
+                        surface: ANALYTICS_SURFACES.HOMEPAGE_BUYER_TRIGGERS,
+                      })}
+                    >
+                      {row.cta}
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -671,7 +795,15 @@ export default function HomePage() {
           {homepageCaseStudies.map(cs => {
             const metrics = publishedMetrics(cs).slice(0, 3);
             return (
-              <Link key={cs.slug} href={`/case-studies/${cs.slug}`} className="work-card">
+              <Link
+                key={cs.slug}
+                href={`/case-studies/${cs.slug}`}
+                className="work-card"
+                {...analyticsAttrs(ANALYTICS_EVENTS.CASE_STUDY_OPENED, {
+                  surface: ANALYTICS_SURFACES.HOMEPAGE_SELECTED_WORK,
+                  detail: cs.slug,
+                })}
+              >
                 <MediaSlot
                   label={cs.imageLabel}
                   src={publishedImage(cs)}
@@ -993,8 +1125,28 @@ export default function HomePage() {
               know whether it worked.
             </p>
             <div className="btn-row" style={{ marginTop: 32 }}>
-              <Cta href="/contact">Book an Engineering Conversation</Cta>
-              <Cta href="/contact" variant="secondary">
+              <Cta
+                href="/contact"
+                analytics={analyticsAttrs(ANALYTICS_EVENTS.BOOK_CONVERSATION_CTA, {
+                  surface: ANALYTICS_SURFACES.HOMEPAGE_CLOSE,
+                })}
+              >
+                Book an Engineering Conversation
+              </Cta>
+              {/*
+                `SEND_US_A_BRIEF_INTENT`, and the name is load-bearing. There
+                is no upload control on this site and no file can reach us —
+                see the note above and `../UPLOAD-FEASIBILITY-2026-09-11.md`.
+                This counts a button press. It must never be read, or
+                renamed, as a brief having been received.
+              */}
+              <Cta
+                href="/contact"
+                variant="secondary"
+                analytics={analyticsAttrs(ANALYTICS_EVENTS.SEND_US_A_BRIEF_INTENT, {
+                  surface: ANALYTICS_SURFACES.HOMEPAGE_CLOSE,
+                })}
+              >
                 Send Us a Brief
               </Cta>
             </div>

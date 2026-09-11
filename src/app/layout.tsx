@@ -1,10 +1,13 @@
+import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import { IBM_Plex_Mono, Newsreader, Outfit } from 'next/font/google';
 
+import { AnalyticsEvents } from '@/components/AnalyticsEvents';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
 import { JsonLd } from '@/components/ui';
 import { SITE_URL, company } from '@/content/company';
+import { ANALYTICS_ENABLED } from '@/lib/analytics';
 import { organizationSchema, websiteSchema } from '@/lib/schema';
 import { HOMEPAGE_SEO } from '@/lib/seo';
 
@@ -117,6 +120,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteFooter />
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />
+        {/*
+          Analytics. Both halves are gated on ONE switch, `ANALYTICS_ENABLED`
+          in `src/lib/analytics.ts`, which is `false` today. While it is
+          false nothing below renders, so no script is requested, no beacon
+          is sent and no listener is attached — which is what keeps the
+          published privacy page true. Read the switch's own comment before
+          changing it; the reasons it is off are not only that the site is
+          still de-indexed.
+
+          `<Analytics />` is Vercel's pageview component. It carries its own
+          use-client directive and its own `<Suspense>` boundary inside the
+          package, so it can be rendered straight from this Server Component.
+          `<AnalyticsEvents />` is this repository's only analytics client
+          component: one delegated click listener for every tracked CTA on
+          the site.
+
+          The directive is described rather than quoted, deliberately. A
+          literal copy of it in a comment makes THIS file answer a grep for
+          client components, and this file is not one — it is the root
+          layout and must stay a Server Component.
+        */}
+        {ANALYTICS_ENABLED ? (
+          <>
+            <Analytics />
+            <AnalyticsEvents />
+          </>
+        ) : null}
       </body>
     </html>
   );

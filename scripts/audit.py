@@ -20,6 +20,7 @@ import json
 import pathlib
 import re
 import sys
+from html import unescape as html_unescape
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
@@ -35,6 +36,80 @@ ASSET_SUFFIXES = (
 # What a search engine actually renders before truncating.
 MAX_TITLE = 65
 MAX_DESCRIPTION = 165
+
+# What is measured: the DECODED title, not the raw HTML (changed 2026-09-11).
+#
+# The title is read out of the served markup, so an ampersand arrives as
+# `&amp;` and used to cost FOUR characters against a 65-character budget it
+# does not actually occupy. That is a property of the transport encoding, not
+# of the title: a search engine parses the entity back to `&` before it lays
+# the text out, and it truncates on pixel width, so the string being
+# approximated here is the decoded one.
+#
+# Measured across the 69 prerendered pages of the 2026-09-11 build: FOURTEEN
+# titles carry an `&amp;` and were each being charged four characters they do
+# not have. Decoding changes no page's verdict today — nothing flips from
+# fail to pass — so this is a correction to the measurement, not a
+# relaxation of the rule. It is worth making anyway, because those thirteen
+# other pages sit between 45 and 57 characters with a false penalty already
+# applied, and the first one to be edited up to the line would have failed for
+# a reason no one could see in the copy.
+#
+# The alternative was to measure the SOURCE string in `src/lib/seo.ts`. That is
+# rejected: the source is not what ships, a title can be composed at runtime
+# from a template (`pageMetadata` does exactly that), and an audit that reads
+# the source has stopped auditing the site and started auditing the intent.
+# Decoding the served markup keeps the audit pointed at what was published
+# while measuring it the way the consumer will.
+#
+# NOT changed here: MAX_DESCRIPTION is still measured against the raw HTML.
+# The same artefact applies to it, and this is deliberate rather than an
+# oversight. Descriptions on this site are written right up to the line — the
+# longest is exactly 165 — and seven were rewritten on 2026-09-08 to come back
+# inside it, measured against this script as it then was. Silently handing
+# four characters back to copy that was calibrated against the old
+# measurement is an unrequested relaxation of a check that is currently
+# passing. Change it deliberately, with the copy re-measured, or not at all.
+
+
+# The mandated-title exception.
+#
+# WHY THIS EXISTS. The homepage title is mandated verbatim by the founder's
+# implementation handoff — `design/handoff-2026-09-08/IMPLEMENTATION-COPY.txt`
+# line 433, under "NAVIGATION, SERVICE PAGES & SEO > Homepage SEO" — and is held
+# in `HOMEPAGE_SEO.title` (`src/lib/seo.ts`), which says in terms that the
+# three strings there are copy, not code, and are not to be paraphrased or
+# truncated in passing. It is 74 characters decoded, so it fails the
+# 65-character rule, and it failed it on every run.
+#
+# WHO APPROVED IT, AND WHEN. The founder, on 2026-09-11. He was asked which of
+# the two should give — the mandated title, or the audit rule — and chose to
+# KEEP THE TITLE AND RELAX THE AUDIT. This is his call and not the auditor's:
+# the title is approved commercial copy, and the 65 is an engineering
+# heuristic about SERP truncation.
+#
+# WHY IT IS SHAPED LIKE THIS rather than as a bigger number. Raising MAX_TITLE
+# to 78 would have bought the homepage its exception at the cost of the rule
+# everywhere: every other page would silently gain thirteen characters, and a
+# genuinely over-long title on any of the other 68 would then pass unnoticed.
+# That trades a working check for one approved exception, which is the worst
+# available deal. So the exception is: keyed BY PATH, so it covers one page;
+# and matched on the EXACT approved string, so it covers one TITLE. Rewrite
+# the homepage title to something else over-long and the exception stops
+# applying and the audit fails again, which is the point — what is approved
+# here is a specific sentence, not a licence for that route to run long.
+#
+# DO NOT TIDY THIS AWAY. An empty-looking dict entry is not dead code. If the
+# entry ever stops matching the page it names, the audit says so in its
+# "NOTES" section rather than failing, so a stale exception surfaces to a
+# human instead of quietly protecting nothing — or, worse, quietly protecting
+# something nobody approved.
+#
+# Keys are crawl paths. Values are the approved title as DECODED text, which
+# is what the check compares against.
+TITLE_EXCEPTIONS = {
+    "/": "Pixelette Technologies | Software Engineering, AI & Automation, Blockchain",
+}
 
 
 def fetch(base, path, timeout=20):
@@ -124,15 +199,23 @@ def check_links(base, pages):
 
 
 def check_seo(pages):
-    """Check the metadata every page needs to be indexed and quoted correctly."""
-    problems, rows, faq_total = [], [], 0
+    """Check the metadata every page needs to be indexed and quoted correctly.
+
+    Returns (problems, notes, rows, faq_total). `notes` are non-failing: today
+    they carry the health of TITLE_EXCEPTIONS, which is bookkeeping about the
+    audit itself rather than a defect in the site.
+    """
+    problems, notes, rows, faq_total = [], [], [], 0
 
     def first(pattern, html):
         m = re.search(pattern, html, re.S)
         return m.group(1) if m else None
 
     for path, html in sorted(pages.items()):
-        title = first(r"<title>(.*?)</title>", html)
+        # Decoded before measuring: `&amp;` is four characters of transport
+        # encoding standing in for one character of title. See MAX_TITLE above.
+        title_raw = first(r"<title>(.*?)</title>", html)
+        title = html_unescape(title_raw) if title_raw is not None else None
         desc = first(r'<meta name="description" content="(.*?)"', html)
         types, faqs = [], 0
         for block in re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S):
@@ -147,9 +230,37 @@ def check_seo(pages):
         faq_total += faqs
 
         h1s = re.findall(r"<h1[^>]*>", html)
+
+        # The mandated-title exception, resolved for this path. `approved` is
+        # the title this path is allowed to run long with, and nothing else:
+        # an over-long title that is not character-for-character the approved
+        # string still fails, on this path as on every other.
+        approved = TITLE_EXCEPTIONS.get(path)
+        over_long = bool(title) and len(title) > MAX_TITLE
+        excepted = approved is not None and title == approved
+        if approved is not None and title != approved:
+            notes.append(
+                (
+                    path,
+                    "a title exception is recorded for this path but the title no longer matches it. "
+                    "Either re-approve the new title and update TITLE_EXCEPTIONS in this script, or delete "
+                    "the entry. It is protecting nothing as it stands.",
+                )
+            )
+
         checks = [
             (not title, "no <title>"),
-            (title and len(title) > MAX_TITLE, "title %d chars (>%d)" % (len(title or ""), MAX_TITLE)),
+            (
+                over_long and not excepted,
+                "title %d chars (>%d)%s"
+                % (
+                    len(title or ""),
+                    MAX_TITLE,
+                    ""
+                    if approved is None
+                    else " and it is NOT the approved exception for this path",
+                ),
+            ),
             (not desc, "no meta description"),
             (desc and len(desc) > MAX_DESCRIPTION, "description %d chars (>%d)" % (len(desc or ""), MAX_DESCRIPTION)),
             (not first(r'<link rel="canonical" href="(.*?)"', html), "no canonical"),
@@ -164,7 +275,20 @@ def check_seo(pages):
 
         rows.append((path, len(title or ""), len(desc or ""), len(h1s), faqs))
 
-    return problems, rows, faq_total
+    # An exception naming a path the crawl never reached is stale in the
+    # other direction: the route was renamed or removed and the entry was
+    # left behind.
+    for path in TITLE_EXCEPTIONS:
+        if path not in pages:
+            notes.append(
+                (
+                    path,
+                    "a title exception is recorded for this path, but the crawl never reached it. "
+                    "Remove the entry, or find out why the page is gone.",
+                )
+            )
+
+    return problems, notes, rows, faq_total
 
 
 def check_placeholders(pages):
@@ -260,7 +384,7 @@ def main():
 
     broken, asset_count = check_links(base, pages)
     broken += [(("<crawl>"), p, "HTTP %s" % s) for p, s in unreachable]
-    problems, rows, faq_total = check_seo(pages)
+    problems, seo_notes, rows, faq_total = check_seo(pages)
     placeholders = check_placeholders(pages)
     stale_slugs = check_slug_references()
     hidden = check_noindex(pages)
@@ -297,6 +421,13 @@ def main():
             print("  %-46s %s" % (path, why))
     else:
         print("SEO: ok — no defects")
+
+    # Non-failing. The audit reporting on the health of its own documented
+    # exceptions is how one stops rotting quietly into a permanent hole.
+    if seo_notes:
+        print("\nNOTES: %d — no failure, but somebody should look" % len(seo_notes))
+        for path, why in seo_notes:
+            print("  %-46s %s" % (path, why))
 
     total = sum(len(v) for v in placeholders.values())
     print("\nPLACEHOLDERS: %d across %d pages (expected before go-live — see ADR-0003)" % (total, len(placeholders)))
@@ -453,15 +584,29 @@ STANDING_TASKS = """## Not placeholders — separate go-live tasks
       white-on-transparent (built for the old dark site) and two of them are
       invisible on white, so the row renders client names as text — which is what
       the approved design specifies in any case.
-- [ ] **Founder decision: the seven client names on the homepage.** Added
-      2026-09-08 as a correction to the line above, which discussed the artwork
-      without stating where the names stand. Every row in `src/content/clients.ts`
-      is `permission: 'UNCONFIRMED'`, so `approvedClients()` is empty — but
-      `ClientLogos` reads `clients`, not `approvedClients()`, so the names render
-      anyway on `/` and `/ai-engineering`. That is a deliberately open gate and
-      the file says so: taking seven clients off the homepage is the founder's
-      call. Each name needs the engagement confirmed and the right to name it
-      publicly recorded, per the `client-logos` row in `src/content/claims.ts`.
+- [x] **Founder decision: the seven client names on the homepage — ANSWERED
+      2026-09-11.** Raised 2026-09-08, when every row in
+      `src/content/clients.ts` read `permission: 'UNCONFIRMED'` while
+      `ClientLogos` rendered the names anyway on `/` and `/ai-engineering`,
+      because it reads `clients` rather than the empty `approvedClients()`.
+      The founder decided to KEEP the names: "Keep them — I'm confident we
+      have the basis." All seven rows are now APPROVED, with the decision, its
+      date and its limits recorded in that file. Two things it did NOT do, and
+      both are still open below.
+- [ ] **Move the `client-logos` row in `src/content/claims.ts`.** It still
+      reads HELD with its APPROVAL GATE instruction, so the claims register now
+      lags `src/content/clients.ts` by one decision. The decision of 2026-09-11
+      is what it needs recording against it.
+- [ ] **Point `ClientLogos` at `approvedClients()`.** With all seven rows
+      APPROVED the accessor and the raw array return the same seven names, so
+      the switch `src/content/clients.ts` has always described is finally a
+      safe one-line change in `src/components/sections.tsx`. Until it is made,
+      the render still cannot be emptied by setting a row back to UNCONFIRMED.
+- [ ] **Akashic Knowing stays UNCONFIRMED.** The eighth row, in
+      `additionalClients`, is imported by nothing and has never been published.
+      The 2026-09-11 decision was put about the seven live names and is not
+      blanket permission, so it was deliberately not swept in. Put it to the
+      founder in its own right if that row is ever wanted on the page.
 
 ## Fixes owed on the CURRENT live site, not this build
 

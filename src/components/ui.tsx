@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { CSSProperties, ReactNode } from 'react';
 
 import { ArrowRight, ArrowUpRight } from '@/components/Icons';
+import type { AnalyticsAttributes } from '@/lib/analytics';
 import { jsonLd } from '@/lib/schema';
 
 /**
@@ -147,23 +148,35 @@ export function Cta({
   children,
   variant = 'primary',
   external,
+  analytics,
 }: {
   href: string;
   children: ReactNode;
   variant?: 'primary' | 'secondary';
   external?: boolean;
+  /**
+   * Analytics attributes from `analyticsAttrs()` in `src/lib/analytics.ts`,
+   * spread onto the rendered anchor.
+   *
+   * They are plain `data-*` attributes and not a handler, which is the whole
+   * point: a tracked CTA stays server-rendered, and the single delegated
+   * listener in `src/components/AnalyticsEvents.tsx` reads them at click
+   * time. Optional, so an untracked CTA renders exactly the markup it
+   * rendered before this prop existed.
+   */
+  analytics?: AnalyticsAttributes;
 }) {
   const cls = variant === 'primary' ? 'btn' : 'btn2';
   if (external) {
     return (
-      <a className={cls} href={href} target="_blank" rel="noopener noreferrer">
+      <a className={cls} href={href} target="_blank" rel="noopener noreferrer" {...analytics}>
         {children}
         <ArrowUpRight size={15} />
       </a>
     );
   }
   return (
-    <Link className={cls} href={href}>
+    <Link className={cls} href={href} {...analytics}>
       {children}
       {variant === 'primary' ? <ArrowRight size={16} /> : null}
     </Link>
@@ -175,21 +188,24 @@ export function FLink({
   href,
   children,
   external,
+  analytics,
 }: {
   href: string;
   children: ReactNode;
   external?: boolean;
+  /** See `Cta`. Plain attributes, no handler, no client boundary. */
+  analytics?: AnalyticsAttributes;
 }) {
   if (external) {
     return (
-      <a className="flink" href={href} target="_blank" rel="noopener noreferrer">
+      <a className="flink" href={href} target="_blank" rel="noopener noreferrer" {...analytics}>
         {children}
         <ArrowUpRight size={13} />
       </a>
     );
   }
   return (
-    <Link className="flink" href={href}>
+    <Link className="flink" href={href} {...analytics}>
       {children}
       <ArrowRight size={15} />
     </Link>

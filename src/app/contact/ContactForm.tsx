@@ -1,8 +1,11 @@
 'use client';
 
+import { track } from '@vercel/analytics/react';
 import Link from 'next/link';
-import { useActionState } from 'react';
+import { useActionState, useEffect, useRef } from 'react';
 import { useFormStatus } from 'react-dom';
+
+import { ANALYTICS_ENABLED, ANALYTICS_EVENTS, ANALYTICS_SURFACES } from '@/lib/analytics';
 
 import { submitContact, type ContactState } from './actions';
 
@@ -140,6 +143,31 @@ function Field({
 export function ContactForm() {
   const [state, formAction] = useActionState(submitContact, initialState);
   const err = state.errors ?? {};
+
+  /*
+   * The completed conversion — checklist item 21's "booked conversations".
+   *
+   * Reported from the SERVER'S answer, not from the submit button. A click on
+   * Send is an attempt: it can fail validation, the webhook can be unset (it
+   * is today, by design — see `GO-LIVE-CHECKLIST.md`), and the visitor is
+   * then told to email instead. Counting attempts as conversions would
+   * overstate the one number the founder would act on hardest.
+   *
+   * The ref is load-bearing and not belt-and-braces. `reactStrictMode` is on
+   * (`next.config.ts`), so React invokes effects twice in development, and
+   * `state` is re-read on every render of this component. Without the guard a
+   * single successful enquiry reports two or more times.
+   */
+  const reported = useRef(false);
+  useEffect(() => {
+    if (!ANALYTICS_ENABLED) return;
+    if (state.status !== 'success') return;
+    if (reported.current) return;
+    reported.current = true;
+    track(ANALYTICS_EVENTS.CONTACT_FORM_SUBMITTED, {
+      surface: ANALYTICS_SURFACES.CONTACT_FORM,
+    });
+  }, [state.status]);
 
   return (
     <form action={formAction} noValidate>

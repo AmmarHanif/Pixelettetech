@@ -532,11 +532,18 @@ export const caseStudies: CaseStudy[] = [
    * card titles and narratives but no card summary. Each one is a compression
    * of the handoff's own sentences and introduces no fact that is not in them.
    *
-   * All four are `namePermission: 'PENDING'`. Nothing in this repository
-   * evidences a confirmed public-use basis for any of the four names, and the
-   * handoff makes permission the gate rather than the assumption. Flipping one
-   * to 'CONFIRMED' restores the client name, the client's screenshot and the
-   * named wording in `detail`, and changes nothing else about the page.
+   * All four were `namePermission: 'PENDING'` when this block was written.
+   * Nothing in this repository evidenced a confirmed public-use basis for any
+   * of the four names, and the handoff makes permission the gate rather than
+   * the assumption. Flipping one to 'CONFIRMED' restores the client name, the
+   * client's screenshot and the named wording in `detail`, and changes nothing
+   * else about the page.
+   *
+   * Corrected 2026-09-11: THREE of the four are PENDING. 2Connect is now
+   * 'CONFIRMED' by founder decision of 2026-09-11 — the record sits on that
+   * entry, a few lines below. Fusio Wallet, Ayni Gold and AIA are deliberately
+   * untouched by it: the question was put and answered about 2Connect alone,
+   * and one confirmed name is not blanket permission for the other three.
    *
    * `title`, `metaTitle` and `summary` are authored name-free for all four, so
    * the same string is safe in either state. When a permission lands, the name
@@ -546,7 +553,58 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: '2connect',
     client: '2Connect',
-    namePermission: 'PENDING',
+    /*
+     * NAME PERMISSION CONFIRMED — founder decision, 2026-09-11.
+     *
+     * Approved by: the founder. Approved on: 2026-09-11. He confirmed that
+     * 2Connect is a normal client he is content to be publicly associated
+     * with, and, asked whether they could be named in the case study,
+     * answered "Yes — name them in the case study". That is the basis for
+     * this line and the only basis for it.
+     *
+     * What flipping this does, all of it through the display accessors:
+     *   - `displayName()`    — '2Connect' instead of the anonymised phrase.
+     *   - `displayKicker()`  — the named kicker.
+     *   - `displayCardCta()` — un-suppressed, so the selected-work card now
+     *     reads 'Read the 2Connect case study' rather than the name-free label.
+     *   - `publishedImage()` — un-suppressed, so /work/2connect.png renders on
+     *     the card, the hero and the og:image. That file was confirmed present
+     *     on disk on 2026-09-11 before this line was changed; un-gating an
+     *     image that does not exist is how a card ships broken.
+     *   - `publishedDetail()` — the approved named wording in `detail`, rather
+     *     than the `detail.anonymised` overlay.
+     * The page keeps the same sections and the same layout either way.
+     *
+     * What it does NOT do, and must not be read as doing:
+     *   - It releases no figure. `metrics` is empty and stays empty; the
+     *     register row below still reads DO_NOT_INVENT.
+     *   - It does not lift the HOLD on "taken from concept to live on the web
+     *     and both app stores". That is a completion claim, it was withdrawn
+     *     on 2026-09-08 pending completion evidence, and a name permission is
+     *     not completion evidence.
+     *   - It confirms nothing about Fusio Wallet, Ayni Gold or AIA.
+     *
+     * Known consequence, recorded rather than discovered later: invariant 3 in
+     * `assertPublicationInvariants` is per-study and skips any study that is
+     * not PENDING, so the gated-name scan no longer guards this entry — and
+     * that includes the SECOND name in `gatedNames`, 'FindReciprocity', which
+     * the founder was not asked about. It is not published today: it appears
+     * only in `internalEvidence.sourceBasis`, which no page reads and which
+     * `publishedStrings()` does not collect. Checked on 2026-09-11. Anyone
+     * editing the copy below should keep it that way by hand, because the
+     * automatic check that used to do it is off for this study.
+     */
+    namePermission: 'CONFIRMED',
+    /*
+     * Kept, not deleted, and the type allows exactly this — the 'CONFIRMED'
+     * branch of `NameGate` makes both fields optional rather than forbidding
+     * them, "so a study can be gated without losing copy".
+     *
+     * If the permission is ever withdrawn, the fallback is already written and
+     * the study goes back to 'PENDING' as a one-word change. Deleting these two
+     * lines would turn that into a copywriting job done under pressure, which
+     * is the worst moment to be inventing name-free wording.
+     */
     anonymisedName: 'an AI professional-networking platform',
     anonymisedKicker: 'AI professional networking · Agentic AI · Production AI system',
     kicker: '2Connect · Agentic AI · Production AI system',
@@ -593,10 +651,15 @@ export const caseStudies: CaseStudy[] = [
     },
     internalEvidence: {
       publicationNote:
-        'Internal project records include repeated discovery and development meetings, defined onboarding/persona flows, vector and compatibility matching, controlled AI-agent interaction, feedback loops, dashboard requirements, event-platform integration routes and a working development environment. Publish the client name/logo only where the public-use basis is confirmed; do not invent match-accuracy or adoption percentages.',
+        'Internal project records include repeated discovery and development meetings, defined onboarding/persona flows, vector and compatibility matching, controlled AI-agent interaction, feedback loops, dashboard requirements, event-platform integration routes and a working development environment. Publish the client name/logo only where the public-use basis is confirmed; do not invent match-accuracy or adoption percentages. NAME PERMISSION CONFIRMED 2026-09-11 by the founder, who confirmed 2Connect as a normal client he is content to be publicly associated with and answered "Yes — name them in the case study"; namePermission is CONFIRMED from that date. The second half of this instruction is untouched by it: no match-accuracy, adoption or commercial-outcome figure is published, and the completion claim in the register below stays on HOLD.',
       sourceBasis:
         '2Connect / FindReciprocity client meeting notes and Pixelette AI portfolio material, supporting the agentic-AI matchmaking architecture, development route and later-phase planning.',
       register: [
+        {
+          claim: 'Public use of the client name 2Connect in this case study',
+          status: 'READY',
+          note: 'Confirmed by the founder on 2026-09-11. He confirmed 2Connect as a normal client he is content to be publicly associated with, and answered "Yes — name them in the case study". This is a permission for the NAME. It releases no figure and no completion claim, and the two rows below that read READY_SUBJECT_TO_PERMISSION are left as written, as the record of what was true before this date.',
+        },
         {
           claim: 'Challenge / product architecture narrative',
           status: 'READY_SUBJECT_TO_PERMISSION',

@@ -17,6 +17,7 @@ import {
   workFilters,
   type WorkFilter,
 } from '@/content/work';
+import { ANALYTICS_EVENTS, ANALYTICS_SURFACES, analyticsAttrs } from '@/lib/analytics';
 import { breadcrumbSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -77,7 +78,14 @@ export default async function WorkPage({
             does.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta
+              href="/contact"
+              analytics={analyticsAttrs(ANALYTICS_EVENTS.BOOK_CONVERSATION_CTA, {
+                surface: ANALYTICS_SURFACES.WORK_INDEX_HERO,
+              })}
+            >
+              Book a value baseline
+            </Cta>
             {/* The board pairs the primary CTA with a visible "Filter by sector"
                 affordance. Without it the chips below are only announced to
                 screen readers — a sighted visitor has nothing telling them the
@@ -136,7 +144,15 @@ export default async function WorkPage({
             {visible.map(cs => {
               const metrics = publishedMetrics(cs).slice(0, 3);
               return (
-                <Link key={cs.slug} href={`/case-studies/${cs.slug}`} className="work-card">
+                <Link
+                  key={cs.slug}
+                  href={`/case-studies/${cs.slug}`}
+                  className="work-card"
+                  {...analyticsAttrs(ANALYTICS_EVENTS.CASE_STUDY_OPENED, {
+                    surface: ANALYTICS_SURFACES.WORK_INDEX,
+                    detail: cs.slug,
+                  })}
+                >
                   <MediaSlot
                     label={cs.imageLabel}
                     src={publishedImage(cs)}
