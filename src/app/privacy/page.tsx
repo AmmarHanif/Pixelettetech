@@ -98,6 +98,42 @@ export const metadata = pageMetadata({
  * describes in CATEGORY terms. No processor is named here because none is named
  * in the code either, and the transfer placeholder below stays open for the same
  * reason it was opened.
+ *
+ * REVIEW DATE CORRECTED 2026-09-11. What follows is a correction, not a
+ * deletion.
+ *
+ * `lastReviewed` below used to read "7 September 2026", and it was still reading
+ * it after the amendment recorded immediately above had gone live. That left a
+ * published privacy notice telling a reader it was last reviewed on the 7th
+ * while its Article 13(1)(c) enumeration had been rewritten on the 11th. The
+ * date is the one thing a reader checks to decide whether the rest can be
+ * trusted, so a notice whose own date predates its substance is inaccurate
+ * about precisely the claim it is there to support.
+ *
+ * The value is a REVIEW date, not a modified date, and the difference decided
+ * what it should say. `LegalPage` prints it as "Last reviewed:", and /terms
+ * states the same thing in its own copy: "The date at the top is the date it was
+ * last reviewed." A modified date only says the text changed; a review date says
+ * someone read the document and confirmed it current on that day. A review date
+ * may therefore sit LATER than the last edit, because reading a page and
+ * changing nothing is still a review. It can never sit EARLIER than the content
+ * it certifies. That ordering is the invariant that broke, which is why the date
+ * moves rather than the wording.
+ *
+ * 11 September is asserted on evidence and is BOUNDED by what was actually done
+ * that day: the field enumeration was re-read against ContactForm.tsx and
+ * actions.ts and rewritten, "Whether you have to give it to us" was amended, and
+ * the recipients, retention and transfer sections were re-read against actions.ts
+ * and confirmed to still agree with it. The statutory provisions themselves were
+ * read at legislation.gov.uk on 2026-09-07, as recorded at the top of this
+ * comment, and this pass did not reopen them. Nothing here claims a fresh legal
+ * sign-off; it claims a documented re-read of the page against the code it
+ * describes, which is what "last reviewed" asserts.
+ *
+ * THE OPEN ITEM IS UNAFFECTED. The per-provider transfer mechanism below is
+ * still a placeholder, still deliberate, and still raises the amber "not yet
+ * finalised" notice through `containsPlaceholder` in LegalPage. Moving a review
+ * date does not close a gap, and this one is not closed.
  */
 
 export default function PrivacyPage() {
@@ -113,7 +149,7 @@ export default function PrivacyPage() {
         eyebrow="Privacy"
         title="What we collect, and what we do with it."
         intro="Short version: we use what you send us to reply to you. There is no sequence, no list, and nothing sold on."
-        lastReviewed="7 September 2026"
+        lastReviewed="11 September 2026"
         sections={[
           {
             heading: 'Who the controller is',

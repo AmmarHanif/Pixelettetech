@@ -50,10 +50,10 @@
  * neither is a decision to take on the founder's behalf:
  *
  *   1. LINK CHECK. This file's own rule is that a stranger can open and read
- *      each review. That has not been recorded as done. Four of the six URLs
+ *      each review. That has not been recorded as done. Five of the six URLs
  *      are `#review-NNNNNN` anchors on the profile page, which resolve only
- *      while that review is on the page the anchor lands on, and one is a
- *      `/go-to-review/` redirect rather than a permalink. The check costs
+ *      while that review is on the page the anchor lands on, and the sixth is
+ *      a `/go-to-review/` redirect rather than a permalink. The check costs
  *      minutes and belongs with the pre-launch re-read of the live profile
  *      that releases `clutch-rating` — same profile, same visit.
  *   2. ATTRIBUTION ON THE TWO ANONYMOUS ROWS. Both name a client company while
@@ -68,6 +68,28 @@
  * the 8 September 2026 work; the reasoning above is about which claim class
  * these entries fall into, which is a question the repository can answer.
  * Whether the reviews are checkable today is a question only the profile can.
+ *
+ * ---------------------------------------------------------------------------
+ * COUNT CORRECTED IN ITEM 1, 2026-09-11. BOTH GATE ITEMS REMAIN OPEN.
+ * ---------------------------------------------------------------------------
+ *
+ * Item 1 used to read "Four of the six URLs are `#review-NNNNNN` anchors on the
+ * profile page ... and one is a `/go-to-review/` redirect". Counted from the
+ * rows below rather than from memory: FIVE are `#review-NNNNNN` anchors
+ * (255279, 275026, 158221, 365839 and 178359) and the sixth is the
+ * `/go-to-review/` redirect. Five plus one accounts for every row; four plus one
+ * accounted for five of six and left one row unexplained, which is how the
+ * arithmetic gave the error away. Item 1 is corrected, NOT discharged — no URL
+ * in this file has been opened, and the check is still owed.
+ *
+ * Item 2's description is inaccurate and it is likewise NOT discharged. "Both
+ * name a client company" holds for one of the two anonymous rows rather than
+ * both: "CEO, System Soft Technologies" names a company, whereas "Executive,
+ * Healthcare Company" names a SECTOR in Clutch's usual anonymisation and
+ * discloses no client identity at all. The wording of item 2 is left exactly as
+ * it stands, because narrowing a founder gate is the founder's call and not this
+ * file's; the observation is recorded here so that whoever answers item 2 knows
+ * which row actually carries the question.
  */
 
 /**
@@ -176,9 +198,32 @@ export function publishedTestimonials(): Testimonial[] {
  *
  * NOTE for whoever consumes this: it can be empty, and an empty list must
  * render nothing rather than an empty frame — the handoff's DEVELOPER RULE.
- * `Testimonials` in `components/sections.tsx` does not yet guard its zero case:
- * with no items it renders the eyebrow, an empty grid and the source note.
- * That component is owned by another work package on 8 September 2026 and is
- * reported rather than edited here.
+ *
+ * CLOSED 2026-09-11. What follows is a correction, not a deletion.
+ *
+ * This note used to continue: "`Testimonials` in `components/sections.tsx` does
+ * not yet guard its zero case: with no items it renders the eyebrow, an empty
+ * grid and the source note. That component is owned by another work package on
+ * 8 September 2026 and is reported rather than edited here."
+ *
+ * The guard has been live since 2026-09-08. `Testimonials` in
+ * src/components/sections.tsx now opens with `if (items.length === 0) return
+ * null;` — read at that line today, not assumed — and it covers the whole
+ * block, eyebrow and source note included, rather than merely the grid, so the
+ * DEVELOPER RULE above is satisfied by the consumer. The component's own
+ * comment there records the reasoning. Nothing is owed from this paragraph.
+ *
+ * Worth knowing for next time: the claim was stale the moment it was committed,
+ * not later. Both this file's note and that guard arrived in the SAME commit
+ * (30347e8, "Rebuild the site onto the 8 September implementation handoff",
+ * 2026-09-08) — the sweep fixed the component and left the report of the defect
+ * standing beside it. A cross-file "X does not yet do Y" is only true until
+ * someone does Y, and nothing in the language makes it fail loudly when they do.
+ *
+ * The wording is kept rather than deleted because deleting it is how the claim
+ * comes back. This defect class — a comment asserting a state of the world that
+ * has since changed — has now been corrected seven times in this project, once
+ * producing a blocking finding three days after the defect it described had
+ * already been closed.
  */
 export const featuredTestimonials: Testimonial[] = publishedTestimonials().slice(0, 2);
