@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { LegalPage } from '@/components/LegalPage';
 import { JsonLd } from '@/components/ui';
 import { company, contactEmail } from '@/content/company';
+import { DELIVERY_CONNECTED } from '@/content/launch';
 import { breadcrumbSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -206,14 +207,20 @@ export const metadata = pageMetadata({
  *     forgetting is that this page UNDERSTATES what we do — never overstates
  *     it.
  *
- * `DELIVERY_CONNECTED` below is that constant. Both branches are written out
- * rather than left to be composed under pressure on the day, and both were
- * rendered and read during verification rather than assumed to work.
+ * `DELIVERY_CONNECTED` is that constant. Both branches are written out rather
+ * than left to be composed under pressure on the day, and both are proven to
+ * render rather than assumed to work.
  *
- * ITS TWIN IS IN src/app/security-and-data/page.tsx AND THE TWO MUST BE FLIPPED
- * TOGETHER. They are separate constants only because those two files were the
- * whole of the authorised scope for this change; one shared constant in
- * src/content/ is the right home and is recorded as owed.
+ * IT NOW LIVES IN src/content/launch.ts, AND THE DEBT RECORDED HERE IS PAID.
+ * This used to be a local constant with a twin in
+ * src/app/security-and-data/page.tsx, and this comment used to tell the reader
+ * to remember to flip both. That was the whole problem: flip one, miss the
+ * other, and two legal pages contradict each other about whether personal data
+ * is being stored, with no way to notice from either page alone. Moved
+ * 2026-09-14 to sit beside `SITE_IN_DEVELOPMENT`, the site's other go-live
+ * switch. One constant cannot half-flip. The full reasoning — why it is not read
+ * from `process.env`, and why the direction of error is deliberate — is in
+ * launch.ts, which is now its single home.
  *
  * ---------------------------------------------------------------------------
  * RETENTION — the judgement in this pass that could most easily have become a
@@ -293,21 +300,12 @@ export const metadata = pageMetadata({
  * later than the last edit, never earlier than the content it certifies.
  */
 
-/**
- * Is the contact form's delivery path actually connected?
- *
- * Set this to `true` only when all four of `SUPABASE_URL`,
- * `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY` and `CONTACT_NOTIFICATION_FROM`
- * are set in the production environment AND a real submission has been seen to
- * land. Variable names only; no value belongs in this repository.
- *
- * Flip the twin in src/app/security-and-data/page.tsx in the same commit.
- *
- * Typed `boolean` rather than left to infer the literal `false`, matching
- * `ANALYTICS_ENABLED` in src/lib/analytics.ts, so that the other branch is not
- * treated as dead code.
+/*
+ * `DELIVERY_CONNECTED` is imported from src/content/launch.ts — see the note
+ * above, and the full reasoning at its definition. There is no local copy here
+ * on purpose: a second copy is what made flipping it a two-file job that could
+ * be half-done.
  */
-const DELIVERY_CONNECTED: boolean = false;
 
 export default function PrivacyPage() {
   return (

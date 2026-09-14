@@ -9,6 +9,7 @@ import {
   SourceNote,
 } from '@/components/ui';
 import { certified, company } from '@/content/company';
+import { DELIVERY_CONNECTED } from '@/content/launch';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -22,37 +23,25 @@ export const metadata = pageMetadata({
 /*
  * Is the contact form's delivery path actually connected?
  *
- * TWIN CONSTANT. Its pair is `DELIVERY_CONNECTED` in src/app/privacy/page.tsx,
- * where the full reasoning is written out — in short: the code that writes an
- * enquiry to Supabase and notifies through Resend shipped on 2026-09-14, but
- * `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY` and
- * `CONTACT_NOTIFICATION_FROM` are unset, so nothing has reached either provider.
- * A subprocessor register that lists a processor as current when no data has
- * ever flowed to it is the same defect as any other unearned claim on this page.
+ * IMPORTED FROM src/content/launch.ts, where the full reasoning lives. In
+ * short: the code that writes an enquiry to Supabase and notifies through Resend
+ * shipped on 2026-09-14, but `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`,
+ * `RESEND_API_KEY` and `CONTACT_NOTIFICATION_FROM` are unset, so nothing has
+ * reached either provider. A subprocessor register that lists a processor as
+ * current when no data has ever flowed to it is the same defect as any other
+ * unearned claim on this page.
  *
- * THE TWO MUST BE FLIPPED TOGETHER, in one commit. They are separate constants
- * only because those two files were the whole of the authorised scope for the
- * change that introduced them; one shared constant in src/content/ is the right
- * home and is recorded as owed.
+ * THE DEBT RECORDED HERE IS PAID, 2026-09-14. This used to be a local constant
+ * with a twin in src/app/privacy/page.tsx, and this comment used to say the two
+ * must be flipped together in one commit — which is an instruction to a human to
+ * do something a compiler could guarantee. Flip one and miss the other, and this
+ * page and /privacy contradict each other about whether personal data is being
+ * stored. It is one constant now, in the file that already holds
+ * `SITE_IN_DEVELOPMENT`, and it cannot half-flip.
  *
- * Set it to `true` only when all four variables are set in production AND a real
- * submission has been seen to land. Variable names only; no value belongs in
- * this repository.
- *
- * Deliberately NOT read from `process.env`. This page is statically prerendered,
- * so an environment read resolves at build time, and a variable set in the
- * hosting dashboard without a redeploy would leave a confidently wrong published
- * page. An editorial constant produces a dated, reviewable diff instead — which
- * is what a published disclosure needs and what a silent runtime switch cannot
- * give.
- *
- * Typed `boolean` rather than left to infer the literal `false`, matching
- * `ANALYTICS_ENABLED` in src/lib/analytics.ts, so the other branch is not
- * treated as dead code. Both branches were rendered and read during
- * verification.
+ * Both branches of this page are proven to render by
+ * `verification/2026-09-14/delivery_connected_render.js`.
  */
-const DELIVERY_CONNECTED: boolean = false;
-
 const SUBPROCESSOR_STATE = DELIVERY_CONNECTED
   ? 'All three are in use today.'
   : 'Vercel is in use today; Supabase and Resend are not connected yet, so no enquiry data has reached either of them.';
