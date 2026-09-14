@@ -87,7 +87,9 @@ export default function InsuranceFsPage() {
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'Industries', path: '/industries/professional-services' },
+          /* Was '/industries/professional-services' - this page was naming its
+             SIBLING as its parent. /industries now exists. */
+          { name: 'Industries', path: '/industries' },
           {
             name: 'Insurance & specialist financial services',
             path: '/industries/insurance-financial-services',

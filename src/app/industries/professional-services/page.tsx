@@ -173,7 +173,9 @@ export default function ProfessionalServicesPage() {
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'Industries', path: '/industries/professional-services' },
+          /* Was '/industries/professional-services', making positions 2 and 3
+             identical URLs in one trail. /industries now exists. */
+          { name: 'Industries', path: '/industries' },
           { name: 'Professional & business services', path: '/industries/professional-services' },
         ])}
       />

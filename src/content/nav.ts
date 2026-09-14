@@ -358,6 +358,7 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
   { path: '/ai-engineering/evaluation-and-observability', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/method/live', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/assurance', priority: 0.7, changeFrequency: 'monthly' },
+  { path: '/industries', priority: 0.6, changeFrequency: 'yearly' },
   { path: '/industries/professional-services', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/industries/insurance-financial-services', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/case-studies', priority: 0.9, changeFrequency: 'weekly' },

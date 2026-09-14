@@ -66,11 +66,22 @@ const nextConfig: NextConfig = {
       { from: '/privacy-policy', to: '/privacy' },
       { from: '/terms-conditions', to: '/terms' },
     ];
-    return moved.map(({ from, to }) => ({
-      source: from,
-      destination: to,
-      permanent: true,
-    }));
+    return [
+      ...moved.map(({ from, to }) => ({
+        source: from,
+        destination: to,
+        permanent: true,
+      })),
+      /*
+       * /method had no index and returned 404, so trimming the last segment off
+       * /method/live dead-ended. A redirect rather than an index page: an index
+       * listing ONE child is padding, and /method/live is what the reader wants
+       * anyway. NOT `permanent` - if a second method page is ever published,
+       * /method becomes a real hub, and a 308 already cached by browsers would
+       * be in the way of it.
+       */
+      { source: '/method', destination: '/method/live', permanent: false },
+    ];
   },
 
   async headers() {
@@ -95,8 +106,12 @@ const nextConfig: NextConfig = {
              *
              * WHAT IT IS AND IS NOT. There is no live script-execution hole here
              * to patch: the only `dangerouslySetInnerHTML` on the site is the
-             * JSON-LD block, and `jsonLd()` in src/lib/schema.ts escapes `<` to
-             * <, which closes the </script> break-out. All content is
+             * JSON-LD block, and `jsonLd()` in src/lib/schema.ts escapes every
+             * less-than sign to its unicode escape, which closes the closing-tag
+             * break-out. (This sentence avoids writing that escape literally: a
+             * previous version did, the sequence was interpreted rather than
+             * stored as text, and the comment ended up claiming the character is
+             * escaped to itself.) All content is
              * authored in this repository and there is no user-generated HTML.
              * So this is defence in depth, and it matters for two reasons: this
              * site is read by procurement and security reviewers — /security-and-data

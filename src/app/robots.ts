@@ -36,6 +36,8 @@ export default function robots(): MetadataRoute.Robots {
     // able to fetch a page to read that canonical — blocking them would leave
     // the duplicates in the index with no signal pointing home.
     sitemap: `${SITE_URL}/sitemap.xml`,
-    host: SITE_URL,
+    /* `host:` removed 2026-09-14. Only Yandex ever honoured it and Yandex
+       deprecated it; Google and Bing have never read it. It was a line of
+       configuration asserting a canonical host to nobody. */
   };
 }
