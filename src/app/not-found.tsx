@@ -1,8 +1,22 @@
 import { Cta, Eyebrow, FLink, Section } from '@/components/ui';
 
+/*
+ * CANONICAL EXPLICITLY NULLED, 2026-09-14.
+ *
+ * This object bypassed `pageMetadata`, so it inherited the root layout's
+ * `alternates: { canonical: SITE_URL }` — every 404 on the site was declaring
+ * the HOMEPAGE as its canonical URL. Largely inert while the 404 is noindexed,
+ * but it is a false statement emitted on every mistyped path, and the reason it
+ * happened is the footgun worth naming: a root-level canonical default silently
+ * applies to any page that forgets the helper.
+ *
+ * `canonical: null` rather than a self-referencing canonical, because a 404 has
+ * no canonical URL to point at — it is not a page, it is the absence of one.
+ */
 export const metadata = {
   title: 'Page not found',
   robots: { index: false, follow: true },
+  alternates: { canonical: null },
 };
 
 export default function NotFound() {

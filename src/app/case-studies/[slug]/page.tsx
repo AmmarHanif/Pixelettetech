@@ -32,7 +32,19 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const cs = getCaseStudy(slug);
-  if (!cs) return pageMetadata({ title: 'Case study', description: '', path: `/case-studies/${slug}`, noIndex: true });
+  if (!cs) {
+    // An ABSENT description, not an empty one. `description: ''` emitted
+    // `<meta name="description" content="">`, which is a tag asserting that the
+    // page has no description rather than simply not making the claim. Inert
+    // here because the branch is noIndex, and wrong in the same small way the
+    // rest of this repository refuses elsewhere.
+    return pageMetadata({
+      title: 'Case study',
+      description: 'This case study does not exist.',
+      path: `/case-studies/${slug}`,
+      noIndex: true,
+    });
+  }
 
   // `metaTitle` and `summary` are authored name-free for any case study whose
   // client permission is still pending, so both are safe here either way. The
@@ -146,7 +158,10 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             (675x419, 1.61:1) almost exactly, so nothing is cropped. Forcing
             16/9 here clipped the bottom of every laptop mockup on the site —
             the only MediaSlot in the build that did. */}
-        <MediaSlot label={cs.imageLabel} src={image} alt={`${name} — ${cs.title}`} />
+        {/* `priority`: this is the hero, directly under the h1, and is the
+            likely LCP element on all 29 case-study pages. Every other MediaSlot
+            on the page is below the fold and stays lazy. */}
+        <MediaSlot label={cs.imageLabel} src={image} alt={`${name} — ${cs.title}`} priority />
 
         <div className="split split--wide-left" style={{ marginTop: 56 }}>
           <div>

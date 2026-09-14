@@ -228,18 +228,40 @@ export function MediaSlot({
   src,
   alt,
   ratio = '16 / 10',
+  /**
+   * Load this image eagerly and at high fetch priority. Set it on an image that
+   * is ABOVE THE FOLD, never below it.
+   *
+   * Added 2026-09-14. Every MediaSlot hardcoded `loading="lazy"`, which is right
+   * for the several below-fold slots on a case study and wrong for the one at
+   * the top: the hero renders immediately after the h1 on all 29 case-study
+   * pages and is the likely largest-contentful-paint element. Lazy-loading the
+   * LCP candidate delays the metric by design — the browser is told not to
+   * start the fetch until layout proves the image is near the viewport, which
+   * for an above-fold image is work done in the wrong order.
+   *
+   * Defaults to false so every existing call site keeps the behaviour it had.
+   */
+  priority = false,
 }: {
   label: string;
   src?: string;
   alt?: string;
   ratio?: string;
+  priority?: boolean;
 }) {
   if (src) {
     return (
       <div className="slot slot--media" style={{ aspectRatio: ratio }}>
         {/* Plain <img>: these are pre-sized static exports, and skipping the
             optimiser keeps the site deployable to any static host. */}
-        <img src={src} alt={alt ?? label} loading="lazy" decoding="async" />
+        <img
+          src={src}
+          alt={alt ?? label}
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : undefined}
+          decoding="async"
+        />
       </div>
     );
   }

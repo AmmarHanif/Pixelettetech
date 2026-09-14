@@ -64,9 +64,16 @@ export const HOMEPAGE_SEO = {
  * Per-page metadata builder.
  *
  * Three things every page gets and the old site frequently missed: a canonical
- * URL, a page-specific OpenGraph image, and a description written as an answer
- * rather than a keyword list. The last one matters for answer engines, which
- * quote the description far more often than they quote the H1.
+ * URL, an OpenGraph image, and a description written as an answer rather than a
+ * keyword list. The last of those matters most for answer engines, which quote a
+ * description far more often than they quote an H1.
+ *
+ * CORRECTED 2026-09-14: the first sentence said "a page-specific OpenGraph
+ * image", and that was never true. All 40 static pages share the one generated
+ * /opengraph-image; only case studies pass their own, and only where the
+ * client's name permission has cleared. The card is fine — the claim about it
+ * was not, and a reader trusting that sentence would go looking for per-page
+ * artwork that does not exist.
  */
 export function pageMetadata(input: {
   title: string;
