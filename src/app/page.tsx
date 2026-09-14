@@ -312,124 +312,58 @@ export default function HomePage() {
             <span style={{ display: 'block' }}>Chains that hold.</span>
             <span style={{ display: 'block' }}>AI built into both.</span>
           </h1>
-          <p className="lead" style={{ margin: '24px auto 0', maxWidth: '64ch' }}>
-            Pixelette Technologies designs, builds, integrates and operates software products, AI
-            systems and intelligent workflows. Software engineering is our foundation. AI and
-            automation are both a major capability in their own right and engineered into the
-            products we build. Our blockchain practice brings specialist depth where
-            decentralisation, tokenisation or distributed infrastructure genuinely creates value.
+          {/*
+            HERO TRIMMED 2026-09-14, on the external homepage audit.
+
+            Six interactive elements became two. Removed: the 62-word paragraph,
+            the "Explore Blockchain Engineering" text link, the "Not sure which
+            route fits?" line and the three route chips. The headline stays
+            untouched — the audit calls it the best line on the page and it is.
+
+            The standfirst is 27 words in place of 62, recomposed only from
+            wording already on this page and /blockchain. No new claim enters.
+
+            THE PRIMARY BUTTON CHANGED, and that is the substantive edit rather
+            than the deletions. It read "Build a Product", which matches no call
+            to action anywhere else on this site — not in the nav, not on a
+            service page, not in llms.txt. A primary CTA that exists only on the
+            homepage is one the rest of the site cannot reinforce. "Book a value
+            baseline" is the conversion action /ai-engineering, /contact and
+            llms.txt all already name, and it is the one with a published price
+            behind it.
+
+            The blockchain route is not lost. It remains in the mega-menu, in
+            the DECENTRALISE card below, and in the h1 — which is where a
+            specialist practice belongs rather than competing with two
+            commercial engines for the first screen.
+          */}
+          <p className="lead" style={{ margin: '24px auto 0', maxWidth: '54ch' }}>
+            We design, build and run software products, AI systems and intelligent workflows.
+            Engineering is the foundation. Blockchain is a specialist practice, used where it earns
+            its place.
           </p>
 
-          {/* Primary and secondary CTA. Build and AI, in that order, are the
-              two commercial engines the handoff reweights the page around. */}
           <div className="btn-row" style={{ marginTop: 36, justifyContent: 'center' }}>
             <Cta
-              href="/engineering"
+              href="/contact"
               analytics={analyticsAttrs(ANALYTICS_EVENTS.HERO_PRIMARY_CTA, {
-                route: BUYER_ROUTES.BUILD_SOFTWARE,
-                surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
-              })}
-            >
-              Build a Product
-            </Cta>
-            <Cta
-              href="/ai-engineering"
-              variant="secondary"
-              analytics={analyticsAttrs(ANALYTICS_EVENTS.HERO_SECONDARY_CTA, {
                 route: BUYER_ROUTES.AI_AUTOMATION,
                 surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
               })}
             >
-              Automate a Workflow
+              Book a value baseline
+            </Cta>
+            <Cta
+              href="/engineering"
+              variant="secondary"
+              analytics={analyticsAttrs(ANALYTICS_EVENTS.HERO_SECONDARY_CTA, {
+                route: BUYER_ROUTES.BUILD_SOFTWARE,
+                surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
+              })}
+            >
+              Scope a build
             </Cta>
           </div>
-
-          {/* The specialist route. Deliberately a text link rather than a third
-              button: visible, immediately reachable, and not competing with the
-              two commercial engines for the first screen. */}
-          <p style={{ marginTop: 22 }}>
-            <FLink
-              href="/blockchain"
-              analytics={analyticsAttrs(ANALYTICS_EVENTS.HERO_SPECIALIST_ROUTE, {
-                route: BUYER_ROUTES.BLOCKCHAIN,
-                surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
-              })}
-            >
-              Explore Blockchain Engineering
-            </FLink>
-          </p>
-
-          {/* The low-friction route, for the buyer who cannot yet name the
-              service. It goes to section 03, which is the section built to
-              answer exactly that. */}
-          <p className="small" style={{ marginTop: 26 }}>
-            Not sure which route fits?{' '}
-            {/* No route on this one on purpose: the whole point of the
-                low-friction line is that this visitor cannot yet name their
-                route. Attaching one would invent an answer they have not
-                given, and item 22's route breakdown would be counting it. */}
-            <a
-              href="#what-are-you-trying-to-change"
-              {...analyticsAttrs(ANALYTICS_EVENTS.HERO_LOW_FRICTION_ROUTE, {
-                surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
-              })}
-            >
-              Tell us what needs to change.
-            </a>
-          </p>
-
-          {/* The three route chips. Build and AI carry the brand accent and a
-              filled treatment; Blockchain keeps the muted outline and says what
-              it is, so it reads as specialist depth rather than as a third
-              equal division of the company. */}
-          <nav aria-label="Capability routes" style={{ marginTop: 34 }}>
-            <ul
-              className="filters"
-              style={{ justifyContent: 'center', listStyle: 'none', padding: 0, margin: 0 }}
-            >
-              <li>
-                <Link
-                  href="/engineering"
-                  className="filter"
-                  style={{ borderColor: 'var(--brand)', color: 'var(--brand)', fontWeight: 600 }}
-                  {...analyticsAttrs(ANALYTICS_EVENTS.HERO_ROUTE_CHIP, {
-                    route: BUYER_ROUTES.BUILD_SOFTWARE,
-                    surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
-                  })}
-                >
-                  Build Software
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/ai-engineering"
-                  className="filter"
-                  style={{ borderColor: 'var(--brand)', color: 'var(--brand)', fontWeight: 600 }}
-                  {...analyticsAttrs(ANALYTICS_EVENTS.HERO_ROUTE_CHIP, {
-                    route: BUYER_ROUTES.AI_AUTOMATION,
-                    surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
-                  })}
-                >
-                  AI &amp; Automation
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/blockchain"
-                  className="filter"
-                  {...analyticsAttrs(ANALYTICS_EVENTS.HERO_ROUTE_CHIP, {
-                    route: BUYER_ROUTES.BLOCKCHAIN,
-                    surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
-                  })}
-                >
-                  Blockchain
-                  <span className="mono" style={{ fontSize: 10, marginLeft: 8, opacity: 0.75 }}>
-                    SPECIALIST
-                  </span>
-                </Link>
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
 
@@ -535,81 +469,35 @@ export default function HomePage() {
         a perfect technical specification. Let them identify the business change
         they need, then route them to the relevant capability."
       */}
-      <Section
-        id="what-are-you-trying-to-change"
-        labelledBy="routes-heading"
-        style={{ background: '#F7FAFA', scrollMarginTop: 90 }}
-      >
-        <SectionHead
-          eyebrow="Buyer route"
-          id="routes-heading"
-          title="What are you trying to change?"
-          lead="Start with the problem, not the technology. Most clients do not arrive with a perfect technical specification."
-        />
-        <div className="table-scroll" style={{ marginTop: 36 }}>
-          <table>
-            <caption className="small" style={{ textAlign: 'left', paddingBottom: 12 }}>
-              Six common starting points, and where each one goes.
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Buyer trigger</th>
-                <th scope="col">Route</th>
-                <th scope="col">What it means</th>
-                <th scope="col">Next step</th>
-              </tr>
-            </thead>
-            <tbody>
-              {buyerRoutes.map(row => (
-                <tr key={row.trigger}>
-                  <th
-                    scope="row"
-                    style={{
-                      fontFamily: 'var(--sans)',
-                      fontSize: 14.5,
-                      textTransform: 'none',
-                      letterSpacing: 0,
-                      color: 'var(--ink)',
-                      fontWeight: 600,
-                      borderBottom: '1px solid var(--line)',
-                      padding: '14px 16px',
-                    }}
-                  >
-                    {row.trigger}
-                  </th>
-                  <td>
-                    <Link
-                      href={row.routeHref}
-                      {...analyticsAttrs(ANALYTICS_EVENTS.BUYER_TRIGGER_ROUTE, {
-                        route: row.analyticsRoute,
-                        surface: ANALYTICS_SURFACES.HOMEPAGE_BUYER_TRIGGERS,
-                      })}
-                    >
-                      {row.route}
-                    </Link>
-                  </td>
-                  <td>{row.meaning}</td>
-                  <td>
-                    {/* The conversion step of the two. Same route slug as the
-                        link beside it, so "read the capability" and "ask for a
-                        conversation" are separable per route rather than
-                        collapsed into one number. */}
-                    <Link
-                      href="/contact"
-                      {...analyticsAttrs(ANALYTICS_EVENTS.BUYER_TRIGGER_CTA, {
-                        route: row.analyticsRoute,
-                        surface: ANALYTICS_SURFACES.HOMEPAGE_BUYER_TRIGGERS,
-                      })}
-                    >
-                      {row.cta}
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Section>
+      {/*
+        TWO MORE BLOCKS REMOVED 2026-09-14, on the audit re-check.
+
+        BUYER ROUTE TABLE - "What are you trying to change?", six rows. It
+        answered the same question as the four cards below it, and it held
+        TWELVE of this page's links on its own, which made it the largest
+        single contributor to call-to-action sprawl on a page the audit
+        measured at 29 distinct CTAs against a comparator range of 2 to 21.
+        Nothing is lost: all six triggers now sit on the card that answers
+        them, verbatim, via `triggers` on ValueModelEntry. Six rows collapse to
+        four because Modernise and AI Engineering already live inside Build and
+        Automate.
+
+        BROAD MARKET POSITIONING - four audience cards and ten sector names.
+        Two faults in one block. It sold to startups, scale-ups, established
+        businesses, enterprise and public sector, which CONTRADICTS the client
+        profile published on /ai-engineering and in llms.txt: UK-headquartered,
+        GBP100m to GBP500m, sponsored by a COO, approved by a CFO, reviewed by
+        a CISO, with an explicit "who this is not for". A buyer who reads two
+        pages found two companies. And the ten sector names rendered as plain
+        spans with no destination while only two industry pages exist - ten
+        dead terms on the highest-authority page on the site.
+
+        DELETING IT DOES NOT DECIDE THE AUDIENCE. It removes the homepage's
+        contradiction of a position already published in two other places. If
+        the broad profile is the one the firm wants, the fix runs the other way
+        and /ai-engineering and llms.txt change instead - a larger decision, and
+        the founder's. Publishing both remains the only option that cannot work.
+      */}
 
       {/* ═══════════ 04 · Build • Automate • Decentralise • Run ══════════ */}
       {/*
@@ -892,43 +780,6 @@ export default function HomePage() {
       </Section>
 
       {/* ═══════════════════════════ 10 · Who we work with ═══════════════ */}
-      <Section labelledBy="who-heading">
-        <SectionHead
-          eyebrow="Broad market positioning"
-          id="who-heading"
-          title="Built around the problem, not the sector label"
-          // The handoff's opening sentence here ("Pixelette Technologies should
-          // not position itself as technology-company-only") is an instruction
-          // about positioning rather than copy for a reader; the sentence that
-          // states the actual position follows it and is reproduced exactly.
-          lead="The offer applies wherever software, automation, AI or decentralised infrastructure can create a measurable business outcome."
-        />
-        <div className="grid grid-4" style={{ marginTop: 40 }}>
-          {audiences.map(a => (
-            <div key={a.t} className="tile" style={{ padding: '22px 24px' }}>
-              <b style={{ fontSize: 14, fontFamily: 'var(--mono)', letterSpacing: '0.06em' }}>
-                {a.t}
-              </b>
-              <p className="small" style={{ marginTop: 10 }}>
-                {a.d}
-              </p>
-            </div>
-          ))}
-        </div>
-        <div style={{ marginTop: 34 }}>
-          <Eyebrow>Sector experience</Eyebrow>
-          <div className="pill-row" style={{ marginTop: 16 }}>
-            {sectors.map(s => (
-              <span className="pill" key={s}>
-                {s}
-              </span>
-            ))}
-          </div>
-          <p className="small" style={{ marginTop: 14 }}>
-            And other data- and workflow-intensive sectors.
-          </p>
-        </div>
-      </Section>
 
       {/* ═════════════════ 11 · Blockchain specialist practice ═══════════ */}
       {/*

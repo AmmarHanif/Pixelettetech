@@ -849,11 +849,28 @@ export type ValueModelEntry = {
   detail: string;
   href: string;
   linkLabel: string;
+  /**
+   * The buyer's own words for the problem this card answers.
+   *
+   * Added 2026-09-14. The homepage carried a separate six-row "What are you
+   * trying to change?" table whose rows mapped onto these four cards, so one
+   * buyer question was answered twice on one page — and that table held 12 of
+   * the homepage's links on its own, which is why it was the largest single
+   * contributor to call-to-action sprawl. The triggers are lifted verbatim from
+   * it; six rows collapse to four because Modernise and AI Engineering already
+   * sit inside Build and Automate.
+   *
+   * Optional, so the three practice hubs that reintroduce this model render
+   * exactly what they rendered before. Triggers are orientation for a buyer who
+   * cannot yet name the service, which is a homepage job.
+   */
+  triggers?: readonly string[];
 };
 
 export const valueModel: ValueModelEntry[] = [
   {
     key: 'BUILD',
+    triggers: ['We need a new platform, product or app', 'Our existing system needs modernising'],
     icon: <BuildMark size={30} />,
     summary:
       'Custom software, SaaS, web and mobile products, APIs, integrations, cloud architecture and modernisation.',
@@ -864,6 +881,7 @@ export const valueModel: ValueModelEntry[] = [
   },
   {
     key: 'AUTOMATE',
+    triggers: ['A manual process needs automating', 'We want AI inside an existing product'],
     icon: <AiMark size={30} />,
     summary:
       'AI agents, workflow orchestration, model/LLM integration, RAG, predictive systems and intelligent automation.',
@@ -874,6 +892,7 @@ export const valueModel: ValueModelEntry[] = [
   },
   {
     key: 'DECENTRALISE',
+    triggers: ['We need tokenisation, smart contracts or a dApp'],
     icon: <ChainMark size={30} />,
     summary:
       'Tokenisation, smart contracts, dApps, wallets and blockchain infrastructure where decentralisation solves a real problem.',
@@ -884,6 +903,7 @@ export const valueModel: ValueModelEntry[] = [
   },
   {
     key: 'RUN',
+    triggers: ['We need someone to keep improving what exists'],
     icon: <Gauge size={30} />,
     summary:
       'Operate, monitor, support and continually improve products and workflows after launch.',
@@ -974,6 +994,27 @@ export function ValueModelCards({
             <p className="body" style={{ marginTop: 12, fontSize: 14.5 }}>
               {entry.summary}
             </p>
+            {/*
+              The buyer's own words, shown only where this block is the page's
+              definition rather than its orientation — i.e. the homepage, which
+              is also the only call site passing `detailed`. Rendered as a list
+              of quoted triggers rather than links: the card's own link already
+              goes to the right place, and the six-row table these came from was
+              deleted precisely because it duplicated that destination twelve
+              times over.
+            */}
+            {detailed && entry.triggers ? (
+              <ul
+                className="small"
+                style={{ marginTop: 14, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 4 }}
+              >
+                {entry.triggers.map(trigger => (
+                  <li key={trigger} style={{ opacity: 0.85 }}>
+                    &ldquo;{trigger}.&rdquo;
+                  </li>
+                ))}
+              </ul>
+            ) : null}
             {detailed ? (
               <p className="small" style={{ marginTop: 14 }}>
                 {entry.detail}
