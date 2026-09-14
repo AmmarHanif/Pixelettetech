@@ -318,7 +318,7 @@ export default function PrivacyPage() {
       />
       <LegalPage
         eyebrow="Privacy"
-        title="What we collect, and what we do with it."
+        title="What we collect, and what we do with it"
         intro="Short version: we use what you send us to reply to you. There is no marketing sequence, no mailing list, and nothing sold on."
         lastReviewed="14 September 2026"
         sections={[

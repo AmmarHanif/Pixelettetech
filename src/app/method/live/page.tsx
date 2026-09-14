@@ -131,7 +131,7 @@ export default function LivePage() {
           <SectionHead
             eyebrow="Why it is built this way"
             id="why-live-heading"
-            title="Generic productivity pilots almost never reach production."
+            title="Generic productivity pilots almost never reach production"
           />
           <div>
             <p className="body">
@@ -151,11 +151,11 @@ export default function LivePage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 
-      <ClosingCta title="Start at LAND.">
+      <ClosingCta title="Start at LAND">
         Every LIVE engagement begins with a measured baseline, because you cannot price an outcome you
         have never counted.
       </ClosingCta>

@@ -97,7 +97,7 @@ export default function LanguageSpeechVisionPage() {
         <div className="wrap">
           <Eyebrow>Automate · Language, Speech &amp; Vision</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            Reading, listening and looking, where the use case supports it.
+            Reading, listening and looking, where the use case supports it
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Extraction, classification, sentiment, speech and image or video intelligence. That
@@ -133,7 +133,7 @@ export default function LanguageSpeechVisionPage() {
         <SectionHead
           eyebrow="How these are built responsibly"
           id="lsv-disc-heading"
-          title="Four rules that decide whether it survives contact with real inputs."
+          title="Four rules that decide whether it survives contact with real inputs"
         />
         <div className="grid grid-4" style={{ marginTop: 36 }}>
           {discipline.map(item => (
@@ -157,7 +157,7 @@ export default function LanguageSpeechVisionPage() {
             <SectionHead
               eyebrow="Where we say no"
               id="lsv-limits-heading"
-              title="Some of these tasks should not be automated at all."
+              title="Some of these tasks should not be automated at all"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Inferring emotion, intent, character or truthfulness about a person from their voice,
@@ -198,7 +198,7 @@ export default function LanguageSpeechVisionPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

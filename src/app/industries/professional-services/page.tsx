@@ -183,7 +183,7 @@ export default function ProfessionalServicesPage() {
         <div className="wrap">
           <Eyebrow>Industries · Professional & business services</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '22ch' }}>
-            Your clients have started asking what AI has done for them.
+            Your clients have started asking what AI has done for them
           </h1>
           {/* Third sentence removed 2026-09-08 — see the note on `faqs[0]` above
               for why "one in five is prepared to move within twelve months" could
@@ -285,7 +285,7 @@ export default function ProfessionalServicesPage() {
 
       {/* ------------------------------------------------------ sector work */}
       <Section labelledBy="ps-work-heading" style={{ background: '#F7FAFA' }}>
-        <SectionHead eyebrow="Sector work" id="ps-work-heading" title="Published as it is measured." />
+        <SectionHead eyebrow="Sector work" id="ps-work-heading" title="Published as it is measured" />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
           {[0, 1, 2].map(i => (
             <div className="work-card work-card--empty" key={i}>
@@ -309,7 +309,7 @@ export default function ProfessionalServicesPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

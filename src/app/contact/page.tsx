@@ -90,7 +90,7 @@ export default function ContactPage() {
         <div className="wrap">
           <Eyebrow>Contact</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '18ch' }}>
-            Tell us the process that annoys you most.
+            Tell us the process that annoys you most
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Four questions and a reply address. One of us replies, not a sequence. If a baseline is
@@ -207,7 +207,7 @@ export default function ContactPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
     </>

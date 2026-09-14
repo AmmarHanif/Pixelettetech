@@ -98,7 +98,7 @@ export default function SmartContractsDappsPage() {
         <div className="wrap">
           <Eyebrow>Decentralise · Smart Contracts &amp; dApps</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            Contracts written to be read by a reviewer.
+            Contracts written to be read by a reviewer
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Programmable workflows and decentralised applications, with testing, access controls and
@@ -134,7 +134,7 @@ export default function SmartContractsDappsPage() {
         <SectionHead
           eyebrow="Review and testing, stated precisely"
           id="sc-review-heading"
-          title="We do not call our own testing an audit."
+          title="We do not call our own testing an audit"
           lead="The word carries a specific meaning in this market and it is routinely misused. Here is exactly where the boundary sits on our engagements."
         />
         <div className="grid grid-4" style={{ marginTop: 36 }}>
@@ -194,7 +194,7 @@ export default function SmartContractsDappsPage() {
             <SectionHead
               eyebrow="The decision people skip"
               id="sc-upgrade-heading"
-              title="Upgradeable or immutable is a governance choice."
+              title="Upgradeable or immutable is a governance choice"
             />
             <p className="body" style={{ marginTop: 20 }}>
               An upgradeable contract can be fixed when a defect is found. It can also be changed
@@ -231,7 +231,7 @@ export default function SmartContractsDappsPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

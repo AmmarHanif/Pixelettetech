@@ -121,7 +121,7 @@ export default function ProtocolEngineeringPage() {
         <SectionHead
           eyebrow="Justification first"
           id="pe-test-heading"
-          title="Four tests before this work is worth starting."
+          title="Four tests before this work is worth starting"
           lead="Most enquiries that reach this page do not pass all four, and saying so is considerably more useful than taking the engagement."
         />
         <div className="grid grid-4" style={{ marginTop: 36 }}>
@@ -160,7 +160,7 @@ export default function ProtocolEngineeringPage() {
             <SectionHead
               eyebrow="The ladder of options"
               id="pe-ladder-heading"
-              title="Climb it in order, and stop at the first rung that works."
+              title="Climb it in order, and stop at the first rung that works"
             />
             <p className="body" style={{ marginTop: 20 }}>
               An existing general-purpose chain. Then an existing chain with a different design
@@ -201,7 +201,7 @@ export default function ProtocolEngineeringPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

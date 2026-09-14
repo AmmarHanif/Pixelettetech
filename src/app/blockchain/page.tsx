@@ -210,7 +210,7 @@ export default function BlockchainPage() {
         <SectionHead
           eyebrow="Chains and protocols"
           id="chains-heading"
-          title="The networks we work with, not a league table."
+          title="The networks we work with, not a league table"
           lead="This is the list the practice works across. We do not add a chain to it because it is fashionable, and where a project needs one we have not used, we say so and price the learning curve honestly rather than hiding it in the estimate."
         />
         <PillRow items={chains} style={{ marginTop: 34 }} />
@@ -235,7 +235,7 @@ export default function BlockchainPage() {
           <SectionHead
             eyebrow="Delivered"
             id="delivered-heading"
-            title="Named platforms, measured results."
+            title="Named platforms, measured results"
           />
           <FLink href="/case-studies">All work</FLink>
         </div>
@@ -311,7 +311,7 @@ export default function BlockchainPage() {
             <SectionHead
               eyebrow="Why this matters beyond crypto"
               id="why-bc-heading"
-              title="Auditable systems are the same problem twice."
+              title="Auditable systems are the same problem twice"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Building where every action is permanent, publicly verifiable and reviewed by
@@ -345,7 +345,7 @@ export default function BlockchainPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

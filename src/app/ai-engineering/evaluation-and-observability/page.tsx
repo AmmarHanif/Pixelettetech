@@ -80,7 +80,7 @@ export default function EvaluationPage() {
         <div className="wrap">
           <Eyebrow>Evaluation & Observability</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '22ch' }}>
-            Find out that quality moved before your users do.
+            Find out that quality moved before your users do
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Test sets, regression checks and monitoring, so a change in output quality is something
@@ -120,7 +120,7 @@ export default function EvaluationPage() {
             <SectionHead
               eyebrow="Why it is the enabling service"
               id="eval-why-heading"
-              title="Everything else depends on this one."
+              title="Everything else depends on this one"
             />
             <p className="body" style={{ marginTop: 20 }}>
               An acceptance threshold you cannot measure is a wish. An outcome-linked commercial model
@@ -137,7 +137,7 @@ export default function EvaluationPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

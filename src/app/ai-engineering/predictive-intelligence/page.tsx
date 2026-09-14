@@ -97,7 +97,7 @@ export default function PredictiveIntelligencePage() {
         <div className="wrap">
           <Eyebrow>Automate · Predictive Intelligence</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            Forecasts and scores that a decision can actually rest on.
+            Forecasts and scores that a decision can actually rest on
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Forecasting, scoring, recommendation and decision-support systems built around your
@@ -133,7 +133,7 @@ export default function PredictiveIntelligencePage() {
         <SectionHead
           eyebrow="Before we agree to build one"
           id="pi-cond-heading"
-          title="Four conditions, checked in that order."
+          title="Four conditions, checked in that order"
           lead="They take an afternoon to establish and they are the difference between a model in production and a notebook nobody opens."
         />
         <div className="grid grid-4" style={{ marginTop: 36 }}>
@@ -196,7 +196,7 @@ export default function PredictiveIntelligencePage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

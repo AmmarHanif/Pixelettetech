@@ -106,7 +106,7 @@ export default function TermsPage() {
       />
       <LegalPage
         eyebrow="Terms"
-        title="Terms of use for this website."
+        title="Terms of use for this website"
         intro="These terms cover the website only. Engagement terms are set out in the contract for the work and are not varied by anything on this page."
         lastReviewed="7 September 2026"
         sections={[

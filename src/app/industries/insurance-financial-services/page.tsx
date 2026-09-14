@@ -100,7 +100,7 @@ export default function InsuranceFsPage() {
         <div className="wrap">
           <Eyebrow>Industries · Insurance & specialist financial services</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '22ch' }}>
-            You are already running AI you cannot fully explain.
+            You are already running AI you cannot fully explain
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Nearly half of regulated firms report only partial understanding of the AI systems they
@@ -119,7 +119,7 @@ export default function InsuranceFsPage() {
 
       <Section labelledBy="fs-def-heading">
         <SectionHead
-          title="Explainable, monitored, defensible."
+          title="Explainable, monitored, defensible"
           id="fs-def-heading"
           lead="Three properties a supervisor actually tests for, and the engineering that produces each one."
         />
@@ -139,7 +139,7 @@ export default function InsuranceFsPage() {
         <SectionHead
           eyebrow="Where it usually starts"
           id="fs-opps-heading"
-          title="Processes we would baseline first."
+          title="Processes we would baseline first"
         />
         <div className="grid grid-4" style={{ marginTop: 36 }}>
           {opportunities.map(o => (
@@ -154,7 +154,7 @@ export default function InsuranceFsPage() {
       </Section>
 
       <Section labelledBy="fs-work-heading">
-        <SectionHead eyebrow="Sector work" id="fs-work-heading" title="Published as it is measured." />
+        <SectionHead eyebrow="Sector work" id="fs-work-heading" title="Published as it is measured" />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
           {[0, 1, 2].map(i => (
             <div className="work-card work-card--empty" key={i}>
@@ -178,7 +178,7 @@ export default function InsuranceFsPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

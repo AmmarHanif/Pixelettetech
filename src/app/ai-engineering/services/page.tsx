@@ -78,7 +78,7 @@ export default function AiServicesPage() {
         <div className="wrap">
           <Eyebrow>AI engineering</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '22ch' }}>
-            Measure it, make it reachable, build it, then keep it working.
+            Measure it, make it reachable, build it, then keep it working
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             {/* "Five", not the board's "Four". The board numbers only 01-04 and
@@ -232,7 +232,7 @@ export default function AiServicesPage() {
             <SectionHead
               eyebrow="The other half of the business"
               id="other-half-heading"
-              title="Software engineering is a door of its own, not a footnote."
+              title="Software engineering is a door of its own, not a footnote"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Web platforms, mobile applications, custom software and integration are still the larger

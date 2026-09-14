@@ -137,7 +137,7 @@ export default function BlockchainIntegrationPage() {
         <SectionHead
           eyebrow="Four things a demonstration never shows you"
           id="bi-risk-heading"
-          title="They all appear in the second month of production."
+          title="They all appear in the second month of production"
         />
         <div className="grid grid-4" style={{ marginTop: 36 }}>
           {risks.map(item => (
@@ -161,7 +161,7 @@ export default function BlockchainIntegrationPage() {
             <SectionHead
               eyebrow="The design question"
               id="bi-boundary-heading"
-              title="Put on-chain only what has to be there."
+              title="Put on-chain only what has to be there"
             />
             <p className="body" style={{ marginTop: 20 }}>
               A chain is good at a specific set of things: shared state that no single party
@@ -201,7 +201,7 @@ export default function BlockchainIntegrationPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

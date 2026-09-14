@@ -46,7 +46,7 @@ export default function AccessibilityPage() {
       />
       <LegalPage
         eyebrow="Accessibility"
-        title="Who can use this site, and what to do when it fails you."
+        title="Who can use this site, and what to do when it fails you"
         intro="We would rather tell you what we have actually checked than publish a conformance badge we have not earned."
         lastReviewed="7 September 2026"
         sections={[

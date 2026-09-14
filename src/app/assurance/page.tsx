@@ -134,7 +134,7 @@ export default function AssurancePage() {
         <SectionHead
           eyebrow="Who does what"
           id="split-heading"
-          title="Two practices, two different questions."
+          title="Two practices, two different questions"
           lead="Most suppliers blur these together because it sells a bigger number. We keep them apart because a build team grading its own homework is not assurance, and every serious reviewer knows it."
         />
 
@@ -182,7 +182,7 @@ export default function AssurancePage() {
         <SectionHead
           eyebrow="Why we keep them separate"
           id="sep-heading"
-          title="We do not assure our own work."
+          title="We do not assure our own work"
         />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
           {reasons.map(r => (
@@ -205,7 +205,7 @@ export default function AssurancePage() {
       <CertifiedHandoff
         allServices
         eyebrow={certified.name}
-        title="Governance, evidence and readiness for assurance."
+        title="Governance, evidence and readiness for assurance"
         blurb={
           <>
             {certified.blurb} The standards below are the routes it prepares you for, not
@@ -217,7 +217,7 @@ export default function AssurancePage() {
       />
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
     </>

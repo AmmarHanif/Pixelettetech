@@ -114,7 +114,7 @@ export default function BaselinePage() {
       <Section labelledBy="why-first-heading">
         <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
           <div>
-            <SectionHead title="Why this comes first, always." id="why-first-heading" />
+            <SectionHead title="Why this comes first, always" id="why-first-heading" />
             <p className="body" style={{ marginTop: 20 }}>
               Buyers want to pay for outcomes. Fewer than one in five organisations tracks ROI on AI
               at all, and 40% do not know whether anyone is measuring it. You cannot underwrite an
@@ -197,11 +197,11 @@ export default function BaselinePage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 
-      <ClosingCta title="Book the baseline.">
+      <ClosingCta title="Book the baseline">
         No procurement cycle, no discovery call ladder. Tell us the process that annoys you most and
         we will tell you whether it is measurable.
       </ClosingCta>

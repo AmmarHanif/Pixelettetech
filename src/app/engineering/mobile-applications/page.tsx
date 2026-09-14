@@ -93,7 +93,7 @@ export default function MobileApplicationsPage() {
         <div className="wrap">
           <Eyebrow>Build · Mobile Applications</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Mobile as a product, not a port of the website.
+            Mobile as a product, not a port of the website
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Native iOS and Android and cross-platform builds, taken through store submission and kept
@@ -131,7 +131,7 @@ export default function MobileApplicationsPage() {
             <SectionHead
               eyebrow="Native, cross-platform or neither"
               id="mob-choice-heading"
-              title="The decision belongs to the product, not to the supplier."
+              title="The decision belongs to the product, not to the supplier"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Every mobile agency has a preferred answer and it is usually the one they already
@@ -179,7 +179,7 @@ export default function MobileApplicationsPage() {
             <SectionHead
               eyebrow="After the first release"
               id="mob-after-heading"
-              title="An app is never finished, it is only current."
+              title="An app is never finished, it is only current"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Operating systems change annually, store requirements change without asking, and
@@ -209,7 +209,7 @@ export default function MobileApplicationsPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

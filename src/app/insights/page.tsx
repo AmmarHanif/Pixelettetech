@@ -55,7 +55,7 @@ export default function InsightsPage() {
         <div className="wrap">
           <Eyebrow>Insights</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '18ch' }}>
-            How we work, published in full.
+            How we work, published in full
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Our methodology, our evaluation approach and our reading of the regulation, written for

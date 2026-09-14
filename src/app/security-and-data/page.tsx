@@ -350,7 +350,7 @@ export default function SecurityDataPage() {
         <div className="wrap">
           <Eyebrow>Security & data</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '22ch' }}>
-            What a reviewer asks for, published before they ask.
+            What a reviewer asks for, published before they ask
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Security review delays half of all enterprise deals. Rather than answer the same
@@ -375,7 +375,7 @@ export default function SecurityDataPage() {
       <Section labelledBy="verify-heading">
         <Eyebrow>Verification</Eyebrow>
         <h2 className="h2" id="verify-heading" style={{ marginTop: 18 }}>
-          What we publish about certification, and what we hold back.
+          What we publish about certification, and what we hold back
         </h2>
         {/*
           Written on 8 September 2026 to read correctly in both states — "it
@@ -474,7 +474,7 @@ export default function SecurityDataPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

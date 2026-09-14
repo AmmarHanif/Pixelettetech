@@ -101,7 +101,7 @@ export default function ModernisationIntegrationPage() {
         <div className="wrap">
           <Eyebrow>Build · Modernisation &amp; Integration</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            Inherited systems, stalled builds and the estate nobody wants to touch.
+            Inherited systems, stalled builds and the estate nobody wants to touch
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Architecture, APIs, cloud, data migration and legacy replacement. The work usually starts
@@ -141,7 +141,7 @@ export default function ModernisationIntegrationPage() {
         <SectionHead
           eyebrow="Straight talk"
           id="mod-truth-heading"
-          title="Four things suppliers rarely volunteer."
+          title="Four things suppliers rarely volunteer"
         />
         <div className="grid grid-4" style={{ marginTop: 36 }}>
           {truths.map(item => (
@@ -166,7 +166,7 @@ export default function ModernisationIntegrationPage() {
             <SectionHead
               eyebrow="Rescue and modernise"
               id="mod-assess-heading"
-              title="Assessment before further investment."
+              title="Assessment before further investment"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Stalled builds, inherited codebases and projects where confidence in the current
@@ -206,7 +206,7 @@ export default function ModernisationIntegrationPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

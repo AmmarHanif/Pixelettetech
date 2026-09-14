@@ -104,7 +104,7 @@ export default function AgenticAiPage() {
         <div className="wrap">
           <Eyebrow>Automate · Agentic AI</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Autonomy is a control decision, not a slogan.
+            Autonomy is a control decision, not a slogan
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Single- and multi-agent systems that plan, call tools, coordinate steps and operate
@@ -145,7 +145,7 @@ export default function AgenticAiPage() {
         <SectionHead
           eyebrow="How autonomy is granted"
           id="ag-ladder-heading"
-          title="Four steps, and you have to earn each one."
+          title="Four steps, and you have to earn each one"
           lead="A system moves up only on evidence from its own evaluation results. Nothing here is granted because a demonstration went well."
         />
         <div className="grid grid-4" style={{ marginTop: 36 }}>
@@ -173,7 +173,7 @@ export default function AgenticAiPage() {
             <SectionHead
               eyebrow="Where this fits"
               id="ag-when-heading"
-              title="An agent is a solution to variability, not to work."
+              title="An agent is a solution to variability, not to work"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Agentic architecture earns its cost when the path genuinely varies from case to case
@@ -215,7 +215,7 @@ export default function AgenticAiPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

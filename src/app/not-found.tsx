@@ -10,7 +10,7 @@ export default function NotFound() {
     <Section flush style={{ padding: '120px 0 96px' }}>
       <Eyebrow>404</Eyebrow>
       <h1 className="h1" style={{ marginTop: 22, maxWidth: '18ch' }}>
-        That page is not here.
+        That page is not here
       </h1>
       <p className="lead" style={{ marginTop: 22 }}>
         The link may be old, or we may have moved it. The two practices and the AI work are all one

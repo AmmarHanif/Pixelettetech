@@ -309,7 +309,7 @@ export default function AiEngineeringPage() {
           <SectionHead
             eyebrow="What we do"
             id="what-heading"
-            title="Five things we do, and one we deliberately do not."
+            title="Five things we do, and one we deliberately do not"
           />
           <FLink href="/ai-engineering/services">All AI services</FLink>
         </div>
@@ -406,7 +406,7 @@ export default function AiEngineeringPage() {
         <SectionHead
           eyebrow="The method"
           id="method-heading"
-          title="LIVE: land, integrate, verify, evolve."
+          title="LIVE: land, integrate, verify, evolve"
         />
         <div style={{ marginTop: 40 }}>
           {/* Board 04 carries the compact variant: stages mapped to the service
@@ -495,7 +495,7 @@ export default function AiEngineeringPage() {
         <SectionHead
           eyebrow="Who we work with"
           id="who-heading"
-          title="Two sectors, one profile, and an honest note on who this is not for."
+          title="Two sectors, one profile, and an honest note on who this is not for"
         />
 
         <div className="grid grid-3" style={{ marginTop: 40 }}>
@@ -544,7 +544,7 @@ export default function AiEngineeringPage() {
 
       {/* ------------------------------------------------------------ close */}
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

@@ -619,7 +619,7 @@ export function VerificationTable({ withHeading = true }: { withHeading?: boolea
               reference dangled. /security-and-data passes withHeading={false}
               and supplies its own, so the two never collide. */}
           <h2 className="h2" id="verify-heading" style={{ marginTop: 18 }}>
-            Every claim on this page resolves to a link.
+            Every claim on this page resolves to a link
           </h2>
           <p className="body" style={{ marginTop: 20 }}>
             Security review delays half of all enterprise deals. We publish what a reviewer asks for

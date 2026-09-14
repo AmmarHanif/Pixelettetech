@@ -96,7 +96,7 @@ export default function ProductionAiPage() {
         <div className="wrap">
           <Eyebrow>Production AI Systems</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '22ch' }}>
-            Systems that change a number, not pilots that prove a concept.
+            Systems that change a number, not pilots that prove a concept
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             We build AI into a named business process and redesign the process around it. Agentic
@@ -119,7 +119,7 @@ export default function ProductionAiPage() {
             <SectionHead
               eyebrow="Our position on agents"
               id="agents-heading"
-              title="We will talk you out of an agent if you do not need one."
+              title="We will talk you out of an agent if you do not need one"
             />
             <p className="body" style={{ marginTop: 20 }}>
               17% of organisations have deployed AI agents. Over 40% of agentic projects are forecast
@@ -176,7 +176,7 @@ export default function ProductionAiPage() {
 
       {/* ------------------------------------------------------- evidence */}
       <Section labelledBy="evidence-heading">
-        <SectionHead title="Every build ships with its own evidence." id="evidence-heading" />
+        <SectionHead title="Every build ships with its own evidence" id="evidence-heading" />
         {/* Card titles are headings, matching the board and the processes grid
             above. As bold text these four sat outside the outline entirely, so
             heading navigation skipped what ships with every build. */}
@@ -191,7 +191,7 @@ export default function ProductionAiPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

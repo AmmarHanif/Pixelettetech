@@ -154,7 +154,7 @@ export default function CertificationsPage() {
         <div className="wrap">
           <Eyebrow>Certification claims</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            What we can evidence, and what we hold back.
+            What we can evidence, and what we hold back
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             {company.name} publishes a certification, badge, rating or award only where there is
@@ -191,7 +191,7 @@ export default function CertificationsPage() {
         <SectionHead
           eyebrow="Evidence gate"
           id="cert-gate-heading"
-          title="Every claim on this page has to resolve to something a reviewer can check."
+          title="Every claim on this page has to resolve to something a reviewer can check"
           lead="Security review delays roughly half of enterprise deals, so the useful thing is not another badge wall — it is a straight account of what is published, what is not, and what would change that."
         />
 
@@ -333,11 +333,11 @@ export default function CertificationsPage() {
       />
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 
-      <ClosingCta title="Governance is a separate conversation.">
+      <ClosingCta title="Governance is a separate conversation">
         {certified.positioningLine} If your next deal is waiting on governance rather than on a
         build, we will hand you straight over.
       </ClosingCta>

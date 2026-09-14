@@ -93,7 +93,7 @@ export default function ManagedEngineeringPage() {
         <div className="wrap">
           <Eyebrow>Run · Managed Engineering</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Production is a starting point, not a handover ceremony.
+            Production is a starting point, not a handover ceremony
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Operate, monitor, support and continually improve a product after launch. For
@@ -133,7 +133,7 @@ export default function ManagedEngineeringPage() {
         <SectionHead
           eyebrow="Three shapes"
           id="me-shapes-heading"
-          title="Chosen around what you actually need owned."
+          title="Chosen around what you actually need owned"
         />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
           {shapes.map(shape => (
@@ -160,7 +160,7 @@ export default function ManagedEngineeringPage() {
             <SectionHead
               eyebrow="When there is AI in the product"
               id="me-ai-heading"
-              title="Running a model is a different job from running a service."
+              title="Running a model is a different job from running a service"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Conventional software fails loudly. An AI component degrades quietly: the output is
@@ -200,7 +200,7 @@ export default function ManagedEngineeringPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

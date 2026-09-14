@@ -137,7 +137,7 @@ export default function SupportAndRunPage() {
         <div className="wrap">
           <Eyebrow>Support & Run</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Somebody has to own whether it still works.
+            Somebody has to own whether it still works
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             You built it, or you bought it, or a platform vendor deployed it. Six months on, nobody
@@ -180,7 +180,7 @@ export default function SupportAndRunPage() {
         <SectionHead
           eyebrow="The dashboard"
           id="dash-heading"
-          title="What you see, every day, without asking."
+          title="What you see, every day, without asking"
         />
         <div style={{ marginTop: 36 }}>
           <OperatingDashboard />
@@ -193,7 +193,7 @@ export default function SupportAndRunPage() {
       {/* ----------------------------------------------------- commitments */}
       <Section labelledBy="commit-heading">
         <SectionHead
-          title="What the contract actually commits us to."
+          title="What the contract actually commits us to"
           id="commit-heading"
           lead="No vague retainer. A severity model, response times, and a metric we report against whether it flatters us or not."
         />
@@ -260,7 +260,7 @@ export default function SupportAndRunPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

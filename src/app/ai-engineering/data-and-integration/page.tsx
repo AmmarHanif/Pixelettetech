@@ -126,7 +126,7 @@ export default function DataIntegrationPage() {
         <SectionHead
           eyebrow="Reference architecture"
           id="arch-heading"
-          title="A shape we can defend in a technical review."
+          title="A shape we can defend in a technical review"
         />
         <div style={{ marginTop: 40 }}>
           <ReferenceArchitecture />
@@ -138,11 +138,11 @@ export default function DataIntegrationPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 
-      <ClosingCta title="Start with what is actually blocking you.">
+      <ClosingCta title="Start with what is actually blocking you">
         The baseline usually finds that the problem is not the model. It is the four systems that will
         not talk to each other.
       </ClosingCta>

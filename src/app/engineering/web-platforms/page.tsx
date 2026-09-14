@@ -97,7 +97,7 @@ export default function WebPlatformsPage() {
         <div className="wrap">
           <Eyebrow>Build · Web Platforms</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Platforms that carry a business, not a brochure.
+            Platforms that carry a business, not a brochure
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Customer portals, marketplaces, booking and workflow systems, internal tools, and the
@@ -133,7 +133,7 @@ export default function WebPlatformsPage() {
         <SectionHead
           eyebrow="In every platform we ship"
           id="wp-standards-heading"
-          title="Four things that are not features."
+          title="Four things that are not features"
           lead="They never appear on a requirements list and they decide whether the platform is usable, defensible and operable a year after launch."
         />
         <div className="grid grid-4" style={{ marginTop: 36 }}>
@@ -153,7 +153,7 @@ export default function WebPlatformsPage() {
             <SectionHead
               eyebrow="Rebuild or extend"
               id="wp-rebuild-heading"
-              title="The cheapest answer is often not the new one."
+              title="The cheapest answer is often not the new one"
             />
             <p className="body" style={{ marginTop: 20 }}>
               A platform that is slow, awkward or expensive to change does not automatically need
@@ -194,7 +194,7 @@ export default function WebPlatformsPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

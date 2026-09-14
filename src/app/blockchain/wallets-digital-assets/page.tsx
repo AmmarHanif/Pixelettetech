@@ -100,7 +100,7 @@ export default function WalletsDigitalAssetsPage() {
         <div className="wrap">
           <Eyebrow>Decentralise · Wallets &amp; Digital Assets</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            A wallet is a key-management problem wearing a product interface.
+            A wallet is a key-management problem wearing a product interface
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             User-facing wallet, portfolio and transaction experiences across mobile and web. The
@@ -136,7 +136,7 @@ export default function WalletsDigitalAssetsPage() {
         <SectionHead
           eyebrow="Four design principles"
           id="wal-princ-heading"
-          title="Written from the failure modes, not from a style guide."
+          title="Written from the failure modes, not from a style guide"
         />
         <div className="grid grid-4" style={{ marginTop: 36 }}>
           {principles.map(item => (
@@ -155,7 +155,7 @@ export default function WalletsDigitalAssetsPage() {
             <SectionHead
               eyebrow="The decision that shapes everything"
               id="wal-custody-heading"
-              title="Custody is not a technical preference."
+              title="Custody is not a technical preference"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Holding a user’s keys makes recovery straightforward and places you in a position of
@@ -196,7 +196,7 @@ export default function WalletsDigitalAssetsPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

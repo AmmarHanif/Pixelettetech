@@ -97,7 +97,7 @@ export default function LlmIntegrationRagPage() {
         <div className="wrap">
           <Eyebrow>Automate · LLM Integration &amp; RAG</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            Model intelligence inside the product you already run.
+            Model intelligence inside the product you already run
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Add model capability to existing products and knowledge environments with retrieval,
@@ -137,7 +137,7 @@ export default function LlmIntegrationRagPage() {
         <SectionHead
           eyebrow="Four ways this goes wrong"
           id="rag-fail-heading"
-          title="All of them are design problems, not model problems."
+          title="All of them are design problems, not model problems"
           lead="Every one of these is recoverable, and every one is considerably cheaper to prevent than to discover in front of a customer."
         />
         <div className="grid grid-4" style={{ marginTop: 36 }}>
@@ -157,7 +157,7 @@ export default function LlmIntegrationRagPage() {
             <SectionHead
               eyebrow="Grounding is the product"
               id="rag-needs-heading"
-              title="An answer nobody can check is an opinion with a citation style."
+              title="An answer nobody can check is an opinion with a citation style"
             />
             <p className="body" style={{ marginTop: 20 }}>
               The purpose of retrieval is not to make the model sound informed. It is to make the
@@ -199,7 +199,7 @@ export default function LlmIntegrationRagPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

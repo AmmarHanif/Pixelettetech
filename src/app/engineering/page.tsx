@@ -160,7 +160,7 @@ export default function EngineeringPage() {
         <div className="wrap">
           <Eyebrow>Engineering</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '18ch' }}>
-            We build software that has to keep working.
+            We build software that has to keep working
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Web platforms, mobile applications, custom software and integration, delivered since{' '}
@@ -224,7 +224,7 @@ export default function EngineeringPage() {
             <SectionHead
               eyebrow="Straight talk"
               id="straight-heading"
-              title="What AI actually does to the cost of a build."
+              title="What AI actually does to the cost of a build"
               lead="Every agency is now claiming AI makes them dramatically faster. The published evidence is more specific than that, and more useful to you."
             />
           </div>
@@ -273,7 +273,7 @@ export default function EngineeringPage() {
           <SectionHead
             eyebrow="Selected builds"
             id="selected-heading"
-            title="Named clients, shipped systems."
+            title="Named clients, shipped systems"
           />
           <FLink href="/case-studies">All work</FLink>
         </div>
@@ -347,7 +347,7 @@ export default function EngineeringPage() {
             <SectionHead
               eyebrow="Where the two halves meet"
               id="meet-heading"
-              title="Most builds now have AI somewhere in them."
+              title="Most builds now have AI somewhere in them"
             />
             <p className="body" style={{ marginTop: 20 }}>
               When yours does, the same team that shipped it can evaluate it, monitor it and keep it
@@ -388,7 +388,7 @@ export default function EngineeringPage() {
       <Testimonials heading="What clients say" />
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

@@ -105,7 +105,7 @@ export default function CloudDataEngineeringPage() {
         <div className="wrap">
           <Eyebrow>Build · Cloud &amp; Data Engineering</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            Where the system runs, and what moves through it.
+            Where the system runs, and what moves through it
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Cloud architecture, environments and deployment on one side; pipelines, warehousing, APIs
@@ -126,7 +126,7 @@ export default function CloudDataEngineeringPage() {
         <SectionHead
           eyebrow="Cloud"
           id="cde-cloud-heading"
-          title="Infrastructure that holds under production load."
+          title="Infrastructure that holds under production load"
           lead="AWS, Azure and Google Cloud, with Kubernetes where the workload justifies it and without it where it does not."
         />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
@@ -146,7 +146,7 @@ export default function CloudDataEngineeringPage() {
         <SectionHead
           eyebrow="Data"
           id="cde-data-heading"
-          title="Pipelines, models and the integrations underneath them."
+          title="Pipelines, models and the integrations underneath them"
           lead="The unglamorous layer that decides whether reporting, automation and any AI you later buy are possible at all."
         />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
@@ -168,7 +168,7 @@ export default function CloudDataEngineeringPage() {
             <SectionHead
               eyebrow="Why this comes before AI"
               id="cde-link-heading"
-              title="A model cannot use data it cannot reach."
+              title="A model cannot use data it cannot reach"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Automation and AI projects stall on access far more often than on capability: the
@@ -211,7 +211,7 @@ export default function CloudDataEngineeringPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

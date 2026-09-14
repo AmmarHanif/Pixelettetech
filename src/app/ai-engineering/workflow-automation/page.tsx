@@ -85,7 +85,7 @@ export default function WorkflowAutomationPage() {
         <div className="wrap">
           <Eyebrow>Automate · Workflow Automation</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            Take the work out of the process, not the person out of the decision.
+            Take the work out of the process, not the person out of the decision
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Automate repetitive or high-friction business processes across systems, data and human
@@ -123,7 +123,7 @@ export default function WorkflowAutomationPage() {
             <SectionHead
               eyebrow="The order matters"
               id="wa-order-heading"
-              title="Automating a broken process gives you a faster broken process."
+              title="Automating a broken process gives you a faster broken process"
             />
             <p className="body" style={{ marginTop: 20 }}>
               A surprising amount of manual work exists only because two systems never spoke to each
@@ -165,7 +165,7 @@ export default function WorkflowAutomationPage() {
             <SectionHead
               eyebrow="Where people stay"
               id="wa-oversight-heading"
-              title="Approval is part of the design, not a concession to nervousness."
+              title="Approval is part of the design, not a concession to nervousness"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Human oversight is the default wherever a decision is material: money leaving the
@@ -201,7 +201,7 @@ export default function WorkflowAutomationPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

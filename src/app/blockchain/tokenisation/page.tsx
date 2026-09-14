@@ -97,7 +97,7 @@ export default function TokenisationPage() {
         <div className="wrap">
           <Eyebrow>Decentralise · Tokenisation</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '22ch' }}>
-            A tokenisation problem is a legal and commercial design problem first.
+            A tokenisation problem is a legal and commercial design problem first
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Architecture and implementation for representing and managing real-world or digital
@@ -137,7 +137,7 @@ export default function TokenisationPage() {
         <SectionHead
           eyebrow="Before any architecture"
           id="tok-q-heading"
-          title="Four questions we ask before quoting."
+          title="Four questions we ask before quoting"
           lead="They are cheap to answer at the start and extremely expensive to answer after a token has been issued to real holders."
         />
         <div className="grid grid-4" style={{ marginTop: 36 }}>
@@ -162,7 +162,7 @@ export default function TokenisationPage() {
             <SectionHead
               eyebrow="The part that is not on-chain"
               id="tok-off-heading"
-              title="Most of a tokenisation platform is ordinary software."
+              title="Most of a tokenisation platform is ordinary software"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Onboarding, identity checks, permissions, statements, support tooling, administration,
@@ -201,7 +201,7 @@ export default function TokenisationPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

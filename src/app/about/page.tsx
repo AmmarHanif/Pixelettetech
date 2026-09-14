@@ -72,7 +72,7 @@ export default function AboutPage() {
       <Section labelledBy="measure-heading">
         <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
           <div>
-            <SectionHead title="Why an engineering firm measures everything." id="measure-heading" />
+            <SectionHead title="Why an engineering firm measures everything" id="measure-heading" />
             <p className="body" style={{ marginTop: 20 }}>
               Running a quality management process and an information security management process
               for years teaches you something most AI specialists have never had to learn: how to
@@ -112,7 +112,7 @@ export default function AboutPage() {
           <SectionHead
             eyebrow="Policy exposure"
             id="policy-heading"
-            title="Stated precisely, because the precision is the point."
+            title="Stated precisely, because the precision is the point"
           />
           <div>
             <p className="body">
@@ -132,7 +132,7 @@ export default function AboutPage() {
       <Testimonials heading="What clients say" />
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 

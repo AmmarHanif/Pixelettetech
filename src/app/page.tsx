@@ -570,7 +570,7 @@ export default function HomePage() {
         <SectionHead
           eyebrow="Verified proof"
           id="proof-heading"
-          title="Built for real operating environments."
+          title="Built for real operating environments"
           lead="Every number, badge and accreditation on this site is either verified, held for evidence, or not published. Where a claim is held, nothing is shown in its place."
         />
         <div style={{ marginTop: 30 }}>
@@ -744,7 +744,7 @@ export default function HomePage() {
             <SectionHead
               eyebrow="Differentiation"
               id="why-heading"
-              title="AI is stronger when there is engineering underneath it."
+              title="AI is stronger when there is engineering underneath it"
             />
             <p className="body" style={{ marginTop: 20 }}>
               Pixelette Technologies began with difficult engineering problems. That matters now:
@@ -779,7 +779,7 @@ export default function HomePage() {
         <SectionHead
           eyebrow="AI &amp; automation proposition"
           id="ai-heading"
-          title="AI should do useful work, not decorate the roadmap."
+          title="AI should do useful work, not decorate the roadmap"
           lead="We design AI systems around a measurable job: remove repetitive work, accelerate a decision, create a new product capability, improve customer experience, or coordinate a workflow that would otherwise require multiple people and systems."
         />
         <div className="grid grid-2" style={{ marginTop: 36, gap: 14 }}>
@@ -930,7 +930,7 @@ export default function HomePage() {
         <SectionHead
           eyebrow="Commercial products"
           id="engage-heading"
-          title="Three clear ways to engage Pixelette Technologies."
+          title="Three clear ways to engage Pixelette Technologies"
         />
         <div className="grid grid-3" style={{ marginTop: 40 }}>
           {engagementRoutes.map(route => (
@@ -977,7 +977,7 @@ export default function HomePage() {
         <SectionHead
           eyebrow="Broad market positioning"
           id="who-heading"
-          title="Built around the problem, not the sector label."
+          title="Built around the problem, not the sector label"
           // The handoff's opening sentence here ("Pixelette Technologies should
           // not position itself as technology-company-only") is an instruction
           // about positioning rather than copy for a reader; the sentence that
@@ -1031,7 +1031,7 @@ export default function HomePage() {
         <SectionHead
           eyebrow="Heritage without distortion"
           id="chain-heading"
-          title="Chains that hold — when decentralisation has a reason to exist."
+          title="Chains that hold — when decentralisation has a reason to exist"
           lead="Pixelette’s engineering roots include blockchain: experience with trust, irreversible transactions, distributed systems and security-sensitive architecture. It is a specialist solution to a specific problem, not a mandatory ingredient in every technology project."
         />
         <div className="grid grid-3" style={{ marginTop: 40, gap: 14 }}>
@@ -1158,7 +1158,7 @@ export default function HomePage() {
           <div>
             <Eyebrow>Homepage close</Eyebrow>
             <h2 className="h2" id="close-heading" style={{ marginTop: 18 }}>
-              Bring us the problem, not the specification.
+              Bring us the problem, not the specification
             </h2>
             <p className="body" style={{ marginTop: 20 }}>
               Tell us what needs to change — a product that needs building, a workflow that needs
@@ -1236,7 +1236,7 @@ export default function HomePage() {
         <SectionHead
           eyebrow="Homepage FAQs"
           id="faq-heading"
-          title="Questions worth answering before a sales call."
+          title="Questions worth answering before a sales call"
         />
         <div style={{ marginTop: 34, maxWidth: '80ch' }}>
           {faqs.map(faq => (

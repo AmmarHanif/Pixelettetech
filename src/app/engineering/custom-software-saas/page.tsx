@@ -112,7 +112,7 @@ export default function CustomSoftwareSaasPage() {
         <div className="wrap">
           <Eyebrow>Build · Custom Software &amp; SaaS</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            The system that does not come off the shelf.
+            The system that does not come off the shelf
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             From a blank sheet or an inherited codebase, we design and engineer products that move
@@ -192,7 +192,7 @@ export default function CustomSoftwareSaasPage() {
         <SectionHead
           eyebrow="Ways to work with us"
           id="css-routes-heading"
-          title="Three commercial shapes, chosen around the problem."
+          title="Three commercial shapes, chosen around the problem"
         />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
           {routes.map(route => (
@@ -212,7 +212,7 @@ export default function CustomSoftwareSaasPage() {
       </Section>
 
       <Section labelledBy="faq-heading">
-        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 
