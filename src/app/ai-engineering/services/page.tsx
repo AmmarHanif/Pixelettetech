@@ -163,8 +163,32 @@ export default function AiServicesPage() {
               assessment.
             </p>
             <div style={{ flexGrow: 1 }} />
+            {/*
+              THE BARE "ISO 42001" PILL WAS REMOVED 2026-09-14, and the paragraph
+              above is why it could not stay.
+
+              That paragraph is careful and correct: it says in terms that the
+              ISO/IEC 42001 reference describes the READER's management system,
+              not a certificate any Pixelette company holds. A pill carries none
+              of that. It is a standard number on a coloured chip, and
+              `company.ts:313-340` keeps the certification register deliberately
+              empty because a pill is the one presentation that register singles
+              out as the highest risk — it reads as a credential at a glance and
+              has nowhere to put a qualifier.
+
+              It also hardcoded past the register entirely, which is the thing the
+              register exists to prevent. And /certifications states plainly that
+              Pixelette Technologies Ltd does NOT hold ISO/IEC 42001 — an answer
+              that, until the same commit removed this pill, lived only in
+              structured data and was never shown to a human. A reader met the
+              chip and never met the denial.
+
+              The two remaining pills still do the card's job, which is routing
+              this work to a separate practice. The standard is named precisely,
+              once, in prose that can hold the qualifier it needs.
+            */}
             <div className="pill-row" style={{ marginTop: 22 }}>
-              {['ISO 42001', 'AI governance', 'Separate engagement'].map(m => (
+              {['AI governance', 'Separate engagement'].map(m => (
                 <span className="pill" key={m} style={{ borderColor: '#1C4744', color: '#ffffff' }}>
                   {m}
                 </span>

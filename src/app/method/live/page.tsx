@@ -1,6 +1,6 @@
 import { LiveDiagram } from '@/app/ai-engineering/LiveDiagram';
 import { ClosingCta } from '@/components/sections';
-import { Cta, Eyebrow, JsonLd, Section, SectionHead, SourceNote } from '@/components/ui';
+import { Cta, Eyebrow, Faqs, JsonLd, Section, SectionHead, SourceNote } from '@/components/ui';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -148,6 +148,11 @@ export default function LivePage() {
             <SourceNote>HFS Research, May 2026, n=979 use cases</SourceNote>
           </div>
         </div>
+      </Section>
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
       </Section>
 
       <ClosingCta title="Start at LAND.">

@@ -2,6 +2,7 @@ import { ClosingCta } from '@/components/sections';
 import {
   Cta,
   Eyebrow,
+  Faqs,
   JsonLd,
   PillRow,
   Placeholder,
@@ -256,6 +257,11 @@ export default function SupportAndRunPage() {
           Running what somebody else wrote is the clearest proof that this is a capability rather than
           a warranty on our own work.
         </p>
+      </Section>
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
       </Section>
 
       <ClosingCta title="Already have something in production?">

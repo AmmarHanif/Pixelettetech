@@ -1,5 +1,5 @@
 import { ClosingCta, Testimonials } from '@/components/sections';
-import { Cta, Eyebrow, JsonLd, Section, SectionHead, StatTile } from '@/components/ui';
+import { Cta, Eyebrow, Faqs, JsonLd, Section, SectionHead, StatTile } from '@/components/ui';
 import { certified, clutch, company } from '@/content/company';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
@@ -130,6 +130,11 @@ export default function AboutPage() {
       </Section>
 
       <Testimonials heading="What clients say" />
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
+      </Section>
 
       <ClosingCta
         title="Want to test whether we know what we are talking about?"

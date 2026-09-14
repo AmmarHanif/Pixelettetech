@@ -2,6 +2,7 @@ import { CertifiedHandoff, ClosingCta, VerificationTable } from '@/components/se
 import {
   Eyebrow,
   FLink,
+  Faqs,
   JsonLd,
   Placeholder,
   Section,
@@ -470,6 +471,11 @@ export default function SecurityDataPage() {
           </div>
           <CertifiedHandoff variant="compact" />
         </div>
+      </Section>
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
       </Section>
 
       <ClosingCta title="Need something this page does not answer?">

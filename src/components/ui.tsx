@@ -361,3 +361,56 @@ export function CheckList({ items }: { items: ReactNode[] }) {
     </ul>
   );
 }
+
+export type Faq = { q: string; a: string };
+
+/**
+ * The FAQ list, rendered for humans.
+ *
+ * WHY THIS EXISTS AS A COMPONENT, 2026-09-14. It did not, and the consequence was
+ * measured rather than suspected: 33 pages emitted `faqSchema(faqs)` into the
+ * structured data and exactly ONE — the homepage — rendered the array. 89 of 103
+ * answers were published to machines and shown to nobody.
+ *
+ * That is not a missed opportunity, it is a Google structured-data policy breach:
+ * FAQPage markup must correspond to content visible on the page, and the exposure
+ * is a manual action rather than a lost rich result. It was inert only because
+ * `SITE_IN_DEVELOPMENT` keeps the site out of the index, and it would have gone
+ * live on the day that flag flipped.
+ *
+ * The sharpest instance was on /certifications, where the answer to "Does
+ * Pixelette Technologies hold ISO/IEC 42001?" — "No." — was machine-only. That is
+ * the one disambiguation this site most needs a human and an answer engine to
+ * agree on, and only the machine was getting it.
+ *
+ * So the component takes the SAME array the schema takes. A page that emits the
+ * schema and renders this cannot state more in the graph than in the prose, which
+ * is the rule `src/lib/schema.ts` sets out and which 32 pages were breaking. Two
+ * call sites reading one array is the only version of this that stays true.
+ *
+ * Guarded three ways, because a convention is not a control: the type is shared
+ * with `faqSchema`; `scripts/audit.py` now asserts every `acceptedAnswer.text`
+ * appears in the page body with the JSON stripped; and that assertion is a
+ * problem, not a note, so the audit fails rather than warns.
+ */
+export function Faqs({
+  items,
+  style,
+}: {
+  items: readonly Faq[];
+  style?: CSSProperties;
+}) {
+  if (items.length === 0) return null;
+  return (
+    <div style={{ marginTop: 34, maxWidth: '80ch', ...style }}>
+      {items.map(faq => (
+        <details key={faq.q} className="faq">
+          <summary>{faq.q}</summary>
+          <p className="body" style={{ marginTop: 12 }}>
+            {faq.a}
+          </p>
+        </details>
+      ))}
+    </div>
+  );
+}

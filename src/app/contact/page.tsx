@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { Mail, Pin, Shield } from '@/components/Icons';
-import { Eyebrow, FLink, JsonLd, Placeholder, Section, SectionHead } from '@/components/ui';
+import { Eyebrow, FLink, Faqs, JsonLd, Placeholder, Section, SectionHead } from '@/components/ui';
 import { company, contactEmail, pressEmail } from '@/content/company';
 import { breadcrumbSchema, contactPageSchema, faqSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
@@ -204,6 +204,11 @@ export default function ContactPage() {
             </p>
           </div>
         </div>
+      </Section>
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
       </Section>
     </>
   );

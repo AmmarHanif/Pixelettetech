@@ -1,5 +1,5 @@
 import { ClosingCta } from '@/components/sections';
-import { Cta, Eyebrow, FLink, JsonLd, Section, SectionHead } from '@/components/ui';
+import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -209,6 +209,11 @@ export default function CustomSoftwareSaasPage() {
           commercial model. It is not our default, and we will not pretend a timesheet is an
           outcome.
         </p>
+      </Section>
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
       </Section>
 
       <ClosingCta title="Have something that needs building?" ctaLabel="Scope a build">

@@ -2,6 +2,7 @@ import { ClosingCta } from '@/components/sections';
 import {
   Cta,
   Eyebrow,
+  Faqs,
   JsonLd,
   MediaSlot,
   Placeholder,
@@ -174,6 +175,11 @@ export default function InsuranceFsPage() {
           Placeholders stay visible until a real engagement fills them. We do not use stock case
           studies.
         </p>
+      </Section>
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
       </Section>
 
       <ClosingCta title="Need to explain a system you inherited?">

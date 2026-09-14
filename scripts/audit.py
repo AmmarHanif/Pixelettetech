@@ -227,6 +227,48 @@ def check_seo(pages):
             types.append(data.get("@type"))
             if data.get("@type") == "FAQPage":
                 faqs = len(data.get("mainEntity", []))
+                # ------------------------------------------------------------
+                # FAQ ANSWERS MUST BE VISIBLE, NOT MERELY MARKED UP.
+                #
+                # Added 2026-09-14 because this counter was the reason the
+                # defect survived. It counted pairs out of the JSON-LD and
+                # printed the number as a signal, so 33 pages emitting FAQPage
+                # read as 33 healthy pages — while 89 of 103 answers were
+                # published to machines and shown to nobody. A count of what
+                # the graph says can never detect the graph saying more than
+                # the page does.
+                #
+                # Google requires FAQPage markup to correspond to content
+                # visible on the page; the exposure is a manual action, not a
+                # lost rich result. So this is a `problem`, not a `note` — the
+                # audit fails rather than warns.
+                #
+                # Strip EVERY script, not just ld+json. Next re-embeds the same
+                # JSON, escaped, in the RSC flight payload, so stripping only
+                # the ld+json blocks leaves a copy of every answer in the
+                # haystack and each one is "found". That false negative is
+                # exactly how the first attempt at this check certified a clean
+                # result over a real breach.
+                # ------------------------------------------------------------
+                body = re.sub(r"<script[\s\S]*?</script>", " ", html, flags=re.I)
+                body = re.sub(r"<style[\s\S]*?</style>", " ", body, flags=re.I)
+                body = re.sub(r"\s+", " ", html_unescape(re.sub(r"<[^>]+>", " ", body)))
+                if "acceptedAnswer" in body:
+                    problems.append(
+                        (path, "FAQ visibility check is broken - JSON survived stripping")
+                    )
+                else:
+                    for question in data.get("mainEntity", []):
+                        answer = (question.get("acceptedAnswer") or {}).get("text", "")
+                        probe = re.sub(r"\s+", " ", html_unescape(answer)).strip()[:70]
+                        if probe and probe not in body:
+                            problems.append(
+                                (
+                                    path,
+                                    "FAQ answer is in the structured data but not on the page: "
+                                    + repr(probe[:48]),
+                                )
+                            )
         faq_total += faqs
 
         h1s = re.findall(r"<h1[^>]*>", html)

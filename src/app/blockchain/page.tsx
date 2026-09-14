@@ -5,6 +5,7 @@ import {
   Cta,
   Eyebrow,
   FLink,
+  Faqs,
   JsonLd,
   MediaSlot,
   PillRow,
@@ -341,6 +342,11 @@ export default function BlockchainPage() {
             </p>
           </div>
         </div>
+      </Section>
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
       </Section>
 
       <ClosingCta

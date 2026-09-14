@@ -3,6 +3,7 @@ import {
   CheckList,
   Cta,
   Eyebrow,
+  Faqs,
   JsonLd,
   Section,
   SectionHead,
@@ -193,6 +194,11 @@ export default function BaselinePage() {
             </li>
           ))}
         </ol>
+      </Section>
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
       </Section>
 
       <ClosingCta title="Book the baseline.">

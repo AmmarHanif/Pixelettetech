@@ -1,5 +1,5 @@
 import { ClosingCta } from '@/components/sections';
-import { Cta, Eyebrow, FLink, JsonLd, Section, SectionHead, SourceNote } from '@/components/ui';
+import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead, SourceNote } from '@/components/ui';
 import { SOURCES } from '@/content/sources';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
@@ -203,6 +203,11 @@ export default function ModernisationIntegrationPage() {
             </p>
           </div>
         </div>
+      </Section>
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
       </Section>
 
       <ClosingCta title="Inherited something difficult?" ctaLabel="Modernise a system">

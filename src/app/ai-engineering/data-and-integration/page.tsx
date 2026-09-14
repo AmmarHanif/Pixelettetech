@@ -1,5 +1,5 @@
 import { ClosingCta } from '@/components/sections';
-import { Cta, Eyebrow, JsonLd, Section, SectionHead, SourceNote } from '@/components/ui';
+import { Cta, Eyebrow, Faqs, JsonLd, Section, SectionHead, SourceNote } from '@/components/ui';
 import { dataBarrierStats } from '@/content/sources';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
@@ -135,6 +135,11 @@ export default function DataIntegrationPage() {
           Illustrative reference shape. Every engagement produces an architecture specific to your
           estate.
         </SourceNote>
+      </Section>
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
       </Section>
 
       <ClosingCta title="Start with what is actually blocking you.">

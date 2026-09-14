@@ -14,6 +14,7 @@ import {
   Cta,
   Eyebrow,
   FLink,
+  Faqs,
   JsonLd,
   MediaSlot,
   Section,
@@ -542,6 +543,11 @@ export default function AiEngineeringPage() {
       <Testimonials heading="Voices" />
 
       {/* ------------------------------------------------------------ close */}
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
+      </Section>
+
       <ClosingCta
         eyebrow="Start here"
         title="Four weeks. Fixed price. A number your CFO can sign off."

@@ -1,5 +1,5 @@
 import { ClosingCta } from '@/components/sections';
-import { Cta, Eyebrow, FLink, JsonLd, Section, SectionHead } from '@/components/ui';
+import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -196,6 +196,11 @@ export default function LlmIntegrationRagPage() {
             </div>
           </div>
         </div>
+      </Section>
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
       </Section>
 
       <ClosingCta title="Have a product that should be answering questions?">

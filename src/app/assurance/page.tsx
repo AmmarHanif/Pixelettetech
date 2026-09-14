@@ -1,5 +1,5 @@
 import { CertifiedHandoff } from '@/components/sections';
-import { Cta, Eyebrow, JsonLd, Section, SectionHead } from '@/components/ui';
+import { Cta, Eyebrow, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { certified, company } from '@/content/company';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
@@ -215,6 +215,11 @@ export default function AssurancePage() {
           </>
         }
       />
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
+      </Section>
     </>
   );
 }

@@ -6,6 +6,7 @@ import {
   Cta,
   Eyebrow,
   FLink,
+  Faqs,
   JsonLd,
   MediaSlot,
   Section,
@@ -385,6 +386,11 @@ export default function EngineeringPage() {
       </Section>
 
       <Testimonials heading="What clients say" />
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
+      </Section>
 
       <ClosingCta
         title="Have something you need built?"

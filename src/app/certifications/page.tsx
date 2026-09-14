@@ -1,6 +1,6 @@
 import { ProofStrip } from '@/components/ProofStrip';
 import { CertifiedHandoff, ClosingCta } from '@/components/sections';
-import { Eyebrow, JsonLd, Section, SectionHead } from '@/components/ui';
+import { Eyebrow, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { type Claim, claimById, publishedClaims } from '@/content/claims';
 import { certificationRegister, certified, company, type Certification } from '@/content/company';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';
@@ -331,6 +331,11 @@ export default function CertificationsPage() {
         title="Need governance and assurance around what you are building?"
         blurb={certified.blurb}
       />
+
+      <Section labelledBy="faq-heading">
+        <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering." />
+        <Faqs items={faqs} />
+      </Section>
 
       <ClosingCta title="Governance is a separate conversation.">
         {certified.positioningLine} If your next deal is waiting on governance rather than on a
