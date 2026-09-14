@@ -142,7 +142,12 @@ images, media slots, placeholders, and responsive behaviour.
    `sales@pixelettetech.com` — the address the live site already hands out — for
    both enquiries and press, and the form's failure messages now name it.
    `CONTACT_WEBHOOK_URL` remains a deploy-time setting but is no longer blocking,
-   because a visitor always has a route that works.
+   because a visitor always has a route that works. *(Superseded 2026-09-14: that
+   variable is read by no code any more. The deploy-time step is now a Supabase
+   project, a migration, a Resend sending domain and four variables — see
+   `CONTACT-FORM-SETUP.md`. Still not blocking, for the same reason. The two
+   later mentions in this document are findings from the audit run and are left
+   as recorded.)*
 2. **The audit method was wrong twice**, both times reporting a board as clean
    while content was missing — 51 pieces of diagram text hidden by stripping
    SVGs, then short labels hidden by a 12-character filter. Both now guarded by

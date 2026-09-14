@@ -508,11 +508,30 @@ visitor always has a route that works.
 | Enquiries email | ✅ `sales@pixelettetech.com` |
 | Press email | ✅ same inbox, by decision — one monitored route beats two where one is not |
 | Postal address | ✅ Real |
-| Contact form | ⚠️ Still needs `CONTACT_WEBHOOK_URL` at deploy — see standing tasks |
+| Contact form | ⚠️ Still needs four variables at deploy — see standing tasks |
 
-- [ ] Set `CONTACT_WEBHOOK_URL` in the deployment environment. **No longer
-      launch-blocking** now that a real address is published, but until it is set
-      the form collects nothing and tells visitors so.
+- [ ] Connect the contact form. **No longer launch-blocking** now that a real
+      address is published, but until it is connected the form collects nothing
+      and tells visitors so.
+
+      **Corrected 2026-09-14.** This line used to read "Set `CONTACT_WEBHOOK_URL`
+      in the deployment environment", and following it would have achieved
+      nothing: commit a3745f0 replaced the webhook with Supabase storage and
+      Resend delivery, and `CONTACT_WEBHOOK_URL` is now read by no code in this
+      repository. The variables that matter are `SUPABASE_URL`,
+      `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY` and
+      `CONTACT_NOTIFICATION_FROM` — **all four**, because each pair gates one leg
+      independently. `CONTACT-FORM-SETUP.md` is the procedure: it says where each
+      value comes from, and it carries the two steps that are not variables at
+      all, namely running the migration that creates the table and verifying a
+      sending domain in Resend.
+
+      Two things go with the switch-on, on the same day, or the site publishes a
+      false statement about itself: flip `DELIVERY_CONNECTED` to `true` in both
+      `src/app/privacy/page.tsx` and `src/app/security-and-data/page.tsx`, and
+      redeploy. Both pages are statically prerendered, so setting the variables
+      without a redeploy leaves both legal notices asserting that the path is not
+      connected while it is.
 
 The form is verified working: server-side validation rejects bad input with
 per-field errors, and a valid submission with no endpoint configured fails
@@ -521,9 +540,26 @@ honestly rather than showing a false success, keeping what the visitor typed.
 
 STANDING_TASKS = """## Not placeholders — separate go-live tasks
 
-- [ ] Set `CONTACT_WEBHOOK_URL` in the deployment environment. Until it is set,
-      the contact form tells visitors it is not connected rather than silently
-      dropping enquiries — but it is still not collecting them.
+- [ ] **Connect the contact form.** Until it is connected, the form tells
+      visitors it is not connected rather than silently dropping enquiries — but
+      it is still not collecting them.
+
+      **Corrected 2026-09-14**, for the same reason as the row under "Contact
+      routes" above: this said `CONTACT_WEBHOOK_URL`, and that variable is read
+      by no code in this repository any more. The work is a Supabase project, a
+      Resend account, the migration in
+      `supabase/migrations/20260914120000_create_contact_enquiries.sql`, four
+      environment variables, and flipping `DELIVERY_CONNECTED` in
+      `src/app/privacy/page.tsx` and `src/app/security-and-data/page.tsx` on the
+      same day. `CONTACT-FORM-SETUP.md` carries the procedure.
+
+      **One of those steps cannot be undone.** A Supabase project's region is
+      chosen when the project is created and cannot be changed afterwards — the
+      only way to move it is a new project and a migration. Both legal notices
+      name a residency position that is currently written around not yet knowing
+      it, so the region chosen is the answer published on `/privacy` and
+      `/security-and-data`. Choose it deliberately, and tell the department which
+      region both providers ended up in; that is the last open privacy gap.
 - [ ] Confirm the production domain matches `SITE_URL` in `src/content/company.ts`
       (currently `https://pixelettetech.com`). Canonicals, the sitemap and the
       OpenGraph URLs are all derived from it.
@@ -538,7 +574,7 @@ STANDING_TASKS = """## Not placeholders — separate go-live tasks
       score is what the 7 September legal review judged sound under the DMCCA
       fake-review provisions. The individual review cards are a separate claim
       and already render, each linking to the review it came from.
-- [ ] **Founder decision: produce the certificates, or the certification claim
+- [~] **Founder decision: produce the certificates, or the certification claim
       stays off the site.** Corrected 2026-09-08: this was written as a
       link-checking task, and it is not one. Every row in `certificationRegister`
       (`src/content/company.ts`) is `published: false`, so `certifications` is

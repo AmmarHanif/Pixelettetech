@@ -14,8 +14,14 @@ next-env.d.ts
 /dist
 
 # Environment — NEVER commit these.
-# The only environment variable this app reads is CONTACT_WEBHOOK_URL, and it is
-# referenced by NAME in src/app/contact/actions.ts, never by value.
+# Corrected 2026-09-14. This said the only variable the app reads is
+# CONTACT_WEBHOOK_URL; that variable is now read by no code here at all.
+# The app reads four, all in src/lib/enquiries.ts and all by NAME, never by
+# value: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, RESEND_API_KEY and
+# CONTACT_NOTIFICATION_FROM. TWO OF THEM ARE SECRETS — the Supabase service-role
+# key bypasses row-level security, and the Resend key can send as the domain —
+# where the old webhook URL was one capability-bearing string. That raises what
+# an accidental commit of a .env file here would cost, not lowers it.
 .env
 .env.*
 !.env.example

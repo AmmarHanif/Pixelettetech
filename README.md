@@ -160,10 +160,21 @@ Verified with no horizontal overflow at 360px, 390px, 768px, 1024px and 1440px.
 Posts through a Server Action, so it submits with JavaScript disabled.
 Validation is server-side, with a honeypot field for bots.
 
-Delivery goes to whatever endpoint `CONTACT_WEBHOOK_URL` names. **No secret is
-committed** — only the variable name appears in source. If the variable is unset
-or delivery fails, the visitor is told plainly and given the fallback route
-rather than shown a success message for an enquiry that went nowhere.
+Delivery has two legs, changed 2026-09-14 in commit `a3745f0`. The enquiry is
+written to a **Supabase** table and a notification is sent through **Resend**.
+Neither SDK is installed — both are plain HTTP calls, so the dependency count is
+unchanged. The legs fail independently and both always run: success is returned
+only if at least one landed, because an enquiry that is stored is in the record
+and one that is emailed is in front of a person, and either beats losing it.
+
+Four variables configure it: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`,
+`RESEND_API_KEY`, `CONTACT_NOTIFICATION_FROM`. **No secret is committed** — only
+the variable names appear in source. If nothing is configured, or both legs fail,
+the visitor is told plainly and given the fallback route rather than shown a
+success message for an enquiry that went nowhere. See `CONTACT-FORM-SETUP.md`.
+
+This paragraph previously said delivery went "to whatever endpoint
+`CONTACT_WEBHOOK_URL` names". That variable is read by no code here any more.
 
 ## Known items
 
