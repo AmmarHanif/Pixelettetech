@@ -846,11 +846,36 @@ export default function HomePage() {
                   detail: cs.slug,
                 })}
               >
-                <MediaSlot
-                  label={cs.imageLabel}
-                  src={publishedImage(cs)}
-                  alt={`${displayName(cs)} — ${cs.title}`}
-                />
+                {/*
+                  GUARDED 2026-09-14. A gated image is not a missing one, and the
+                  page was presenting them identically.
+                  `publishedImage()` returns the artwork only where
+                  `namePermission === 'CONFIRMED'`, because a product screenshot
+                  carries the client's branding and would name them by the back
+                  door. That gate is correct and stays. What was wrong is what a
+                  visitor saw when it fired: `MediaSlot` fell back to its
+                  unfilled-slot form and rendered the literal string
+                  "[ Product screenshot ]" on the homepage, on two of the three
+                  selected-work cards.
+                  A bracketed placeholder is this site's signal for "a real
+                  engagement will fill this" (ADR-0003), and it is the right
+                  signal for an unwritten case study. It is the WRONG signal
+                  here: nothing is unfinished, the artwork exists on disk, and it
+                  is deliberately withheld pending permission. An external audit
+                  read the homepage as an unfinished page because of these two
+                  strings, which is precisely the misreading they invite.
+                  So a card whose image is gated renders no image frame at all
+                  and leads with its kicker. An intentional typographic card
+                  reads as a choice; a bracket reads as a gap. The frame returns
+                  on its own the moment permission lands, with no edit here.
+                */}
+                {publishedImage(cs) ? (
+                  <MediaSlot
+                    label={cs.imageLabel}
+                    src={publishedImage(cs)}
+                    alt={`${displayName(cs)} — ${cs.title}`}
+                  />
+                ) : null}
                 <span className="mono work-card__kicker">{displayKicker(cs)}</span>
                 <h3 className="h3" style={{ marginTop: 12, fontSize: 21 }}>
                   {cs.title}

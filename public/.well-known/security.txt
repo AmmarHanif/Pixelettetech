@@ -1,0 +1,24 @@
+# Security contact for pixelettetech.com
+#
+# RFC 9116. Served from /.well-known/security.txt.
+#
+# Expires is mandatory under the RFC and is deliberately a year out rather than
+# further: a stale security.txt is worse than none, because it tells a finder
+# the route is maintained when nobody is reading it. Renew it with the ISO
+# certificate dates, which fall in the same window and are already diarised.
+
+Contact: mailto:sales@pixelettetech.com
+Expires: 2027-09-14T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://pixelettetech.com/.well-known/security.txt
+
+# Policy note, not a bug bounty.
+#
+# There is no paid programme and this file does not imply one. What it offers is
+# a monitored address and an answer. Reports are acknowledged, and where a report
+# concerns personal data the response follows the breach-notification route set
+# out at https://pixelettetech.com/privacy rather than an informal reply.
+#
+# The published security position, including subprocessors, retention and the
+# certification register, is at https://pixelettetech.com/security-and-data.
+Policy: https://pixelettetech.com/security-and-data

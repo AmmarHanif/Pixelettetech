@@ -16,10 +16,34 @@ import { SITE_IN_DEVELOPMENT } from '@/content/launch';
  * `h1` is carried here so the homepage and the graph cannot drift apart. It is
  * the brand manifesto line and stays exactly as written.
  */
+/*
+ * TITLE AND DESCRIPTION SHORTENED 2026-09-14, on an external homepage audit.
+ *
+ * The title was 74 characters and the description 162; both truncate in most
+ * result displays, and every inner page was already correctly sized, so this was
+ * a homepage-only defect.
+ *
+ * THE AUDIT PROPOSED TWO TITLES AND NEITHER IS USED, for a reason worth
+ * recording rather than silently overruling. Its first option, "AI and software
+ * engineering | Pixelette Technologies" (52), drops blockchain from the title of
+ * a company that names it as a specialist practice in its own H1. Its second,
+ * "Software, AI and blockchain engineering | Pixelette" (51), keeps blockchain by
+ * dropping "Technologies" — and that is the one to refuse. This site spends
+ * ADR-0005, a footer group band, an llms.txt section and a subOrganization graph
+ * keeping four Pixelette companies distinct. A homepage title that says only
+ * "Pixelette" hands back the exact ambiguity all of that exists to remove.
+ *
+ * What is used keeps all three practices AND the full entity name at 55
+ * characters, which is shorter than either proposal that kept the qualifier.
+ *
+ * The description is the audit's own wording, taken verbatim. It measures 154
+ * characters rather than the 148 the audit states — checked rather than trusted,
+ * and still comfortably inside the practical limit where 162 was not.
+ */
 export const HOMEPAGE_SEO = {
-  title: 'Pixelette Technologies | Software Engineering, AI & Automation, Blockchain',
+  title: 'Engineering, AI and blockchain | Pixelette Technologies',
   description:
-    'Design, build, automate and operate custom software, AI-powered products and intelligent workflows, with specialist blockchain engineering where it creates value.',
+    'We design, build and run software products, AI systems and intelligent workflows, with specialist blockchain engineering where it genuinely creates value.',
   h1: 'Engineering that ships. Chains that hold. AI built into both.',
 } as const;
 

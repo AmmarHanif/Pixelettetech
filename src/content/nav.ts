@@ -361,7 +361,23 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
   { path: '/industries/professional-services', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/industries/insurance-financial-services', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/case-studies', priority: 0.9, changeFrequency: 'weekly' },
-  { path: '/insights', priority: 0.7, changeFrequency: 'weekly' },
+  /*
+   * Dropped from weekly/0.7 to yearly/0.3 on 2026-09-14, and it goes back up the
+   * day an article exists.
+   *
+   * /insights lists seven article titles and publishes zero articles: the
+   * `Insight` type carries no body field, there is no /insights/[slug] route, and
+   * no card is a link. Telling a crawler this changes weekly, at the same
+   * priority as a real service page, is a claim the page cannot honour — and the
+   * cost is specific rather than theoretical: a sitemap that repeatedly promises
+   * fresh content and delivers none is how a site teaches Google to ignore its
+   * own freshness signals, including on the pages that do change.
+   *
+   * This is the asset that would earn answer-engine citations if it existed, so
+   * the fix is to fill it, not to hide it. Until then the sitemap should describe
+   * what is there.
+   */
+  { path: '/insights', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/security-and-data', priority: 0.7, changeFrequency: 'monthly' },
