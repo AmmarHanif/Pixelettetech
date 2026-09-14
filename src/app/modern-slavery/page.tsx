@@ -1,6 +1,6 @@
 import { LegalPage } from '@/components/LegalPage';
 import { JsonLd } from '@/components/ui';
-import { company } from '@/content/company';
+import { company, contactEmail } from '@/content/company';
 import { breadcrumbSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -12,18 +12,102 @@ export const metadata = pageMetadata({
 });
 
 /*
- * Reframed as a VOLUNTARY statement by founder decision, 2026-09-01.
+ * Modern slavery statement — amendment history.
  *
- * Basis, verified against primary sources that day: section 54 of the Modern
- * Slavery Act 2015 applies at £36m+ annual turnover (gov.uk guidance), and
- * Pixelette Technologies Ltd files total-exemption-full accounts — the
- * small-companies regime (Companies House, 11716825). A statutory statement is
- * therefore not required; this page is published because procurement teams ask.
+ * 2026-09-01  Reframed as a VOLUNTARY statement by founder decision.
  *
- * The rule for this page: commitments may be stated, existing processes may
- * not be invented. The statutory-machinery sections (board approval,
- * signatory, financial year) belong to s.54 statements and were removed with
- * the reframe rather than left as unfillable placeholders.
+ * 2026-09-14  REVIEWED AND REWRITTEN BY THE FOUNDER. The statement below is his
+ *             wording, published as written. `lastReviewed` moved to
+ *             14 September 2026 because he READ the statement that day — the
+ *             date tracks his review, not this edit. An unread review date was
+ *             the blocker on this page; his review cleared it. Do not advance
+ *             that date again for a code change: it means someone read it.
+ *
+ * What he changed, substantively:
+ *   - Headings. "Why this statement is voluntary" became "Why this is
+ *     voluntary"; "Our business and supply chain" became "Where our risk sits".
+ *   - Intro and body shortened throughout. The voluntary basis, the
+ *     £36 million threshold and the "buyers ask" reason are unchanged in
+ *     substance.
+ *
+ * TWO ADDITIONS ARE STRONGER UNDERTAKINGS than the previous text, made
+ * deliberately and in public. A future reader should not mistake either for
+ * incidental tidying, and neither should be weakened without the founder:
+ *
+ *   1. WHERE THE WORK IS DONE. The statement now discloses that engineering and
+ *      support work is done by our own employed and contracted staff "in the UK
+ *      and overseas". No previous version said where. The earlier text claimed
+ *      the business contains "no labour supply chains of the kinds where modern
+ *      slavery risk concentrates" — too wide a denial for a business that
+ *      engages overseas staff. Disclosure replaced denial. If the About page is
+ *      ever reconciled with this, the two should agree.
+ *
+ *   2. SPECIFIC LABOUR COMMITMENTS. The statement now commits, by name, that we
+ *      do not require or retain anyone's identity documents; that we never use
+ *      withheld pay, debt or immigration status to keep someone working; and
+ *      that we do not retaliate against anyone who raises a concern. These are
+ *      undertakings about our conduct, not descriptions of an audited process,
+ *      and they bind us publicly.
+ *
+ * The rule for this page: commitments may be stated, existing processes may not
+ * be invented. Two lines were corrected against that rule before his review,
+ * and his text keeps both corrections:
+ *
+ *   - "is paid what was agreed" became "is paid under it". The first asserts a
+ *     settled outcome about every past engagement. There are live disputes in
+ *     the legal estate about sums said to be due to people who worked on
+ *     engagements, and an anticipated counterclaim for unpaid dues, notice and
+ *     gratuity. A commitment to pay under the agreement is true, and is what a
+ *     buyer is actually asking.
+ *
+ *   - "We hold no one's identity documents" became "We do not require or retain
+ *     anyone's identity documents". The first is an audited fact about an
+ *     eight-year operation, and nobody has audited it. The second is a policy
+ *     this company controls.
+ *
+ * Basis for the voluntary framing, as recorded by the lane that prepared this
+ * page. NOT re-verified during publication (no network access in that lane) and
+ * not corroborated anywhere else in this repo — treat it as that lane's
+ * record, not as independently proven here:
+ *   - S.I. 2015/1833 reg. 2: the total turnover prescribed for the purposes of
+ *     section 54(2)(b) of the 2015 Act is £36 million.
+ *   - Companies House 11716825: last accounts made up to 31 December 2024,
+ *     filed under the small-companies regime; accounts for YE 2025 due
+ *     30 September 2026.
+ *   - Companies House officers, 11716825: ONE current officer, a single
+ *     director. That is what "our director" refers to and why it is singular.
+ *   - SIC codes 62012, 62030, 63110, 63120 — all software and IT, which is
+ *     what supports "no manufacturing, no raw materials".
+ *
+ * NOT verified, and the statement is written so it does not depend on it: no
+ * turnover figure exists anywhere in the estate. The £36m position rests on the
+ * accounts filing CATEGORY, not on a number anyone has read. Re-check it when
+ * the YE 2025 accounts are filed (State/DEADLINES carries the row).
+ *
+ * The company name and the contact address render from `company.legalName` and
+ * `contactEmail` so they cannot drift from the canonical record. Both were
+ * checked on 2026-09-14 against the founder's literals and match exactly:
+ * "Pixelette Technologies Ltd" and sales@pixelettetech.com.
+ *
+ * ACTION OWED BEFORE THE STATEMENT IS TRUE: "it goes to our director" requires
+ * the sales@ inbox to actually reach the director. It is a mail rule, not a
+ * process, but until it is set up the line is unevidenced. Reported at
+ * publication; his text stands as written.
+ *
+ * OPEN QUESTION PUT TO THE FOUNDER AT PUBLICATION, deliberately NOT actioned —
+ * his wording is published as written: "We do not require or retain anyone's
+ * identity documents" is plainly intended as the anti-confiscation commitment,
+ * which is the recognised forced-labour indicator. Read literally it is wider
+ * than that, because a UK employer running statutory right-to-work checks does
+ * examine identity documents and retain copies in order to hold the statutory
+ * excuse. The narrower reading — we do not retain originals, and never hold
+ * documents to control someone — is what is meant. This was NOT verified at
+ * primary source in the publishing lane; put it to counsel at the next annual
+ * review rather than editing a reviewed legal statement in passing.
+ *
+ * The statutory-machinery sections (board approval, a named signatory, the
+ * financial year) belong to s.54 statements and stay out until the threshold is
+ * crossed. His text is deliberate that a named signatory comes only then.
  */
 
 export default function ModernSlaveryPage() {
@@ -38,31 +122,28 @@ export default function ModernSlaveryPage() {
       <LegalPage
         eyebrow="Modern slavery"
         title="Modern slavery and human trafficking."
-        intro="A voluntary statement of our position on modern slavery in our business and our supply chain."
-        lastReviewed="1 September 2026"
+        intro="Our position on modern slavery in our business and supply chain."
+        lastReviewed="14 September 2026"
         sections={[
           {
-            heading: 'Why this statement is voluntary',
+            heading: 'Why this is voluntary',
             body: (
               <p className="body" style={{ marginTop: 12 }}>
-                Section 54 of the Modern Slavery Act 2015 requires an annual statement from
-                commercial organisations with a turnover of £36 million or more.{' '}
-                {company.legalName} is below that threshold, so no statutory statement is required
-                of us. We publish this one anyway, because the buyers we work with ask their
-                suppliers where they stand, and we would rather answer in public than on request.
+                Section 54 of the Modern Slavery Act 2015 applies at £36 million turnover.{' '}
+                {company.legalName} is below it, so no statutory statement is required of us. We
+                publish one because buyers ask, and we would rather answer in public than on
+                request.
               </p>
             ),
           },
           {
-            heading: 'Our business and supply chain',
+            heading: 'Where our risk sits',
             body: (
               <p className="body" style={{ marginTop: 12 }}>
-                We are a UK software engineering firm delivering web, mobile, custom software,
-                blockchain and AI engineering work. Our supply chain consists principally of cloud
-                infrastructure providers, software licences and professional services, alongside our
-                own employed and contracted engineering staff. It contains no manufacturing, no raw
-                materials and no labour supply chains of the kinds where modern slavery risk
-                concentrates — which lowers our exposure, and does not remove our responsibility.
+                We are a UK software engineering firm. What we buy in is cloud infrastructure,
+                software licences and professional services — no manufacturing, no raw materials.
+                Our exposure is in people, not goods: engineering and support work is done by our
+                own employed and contracted staff, in the UK and overseas.
               </p>
             ),
           },
@@ -71,21 +152,22 @@ export default function ModernSlaveryPage() {
             body: (
               <ul className="body" style={{ marginTop: 12, paddingLeft: 20 }}>
                 <li>
-                  We do not use forced, bonded or involuntary labour, and we do not work with
-                  anyone we believe does.
+                  No forced, bonded or involuntary labour, and we do not knowingly work with anyone
+                  who uses it.
                 </li>
                 <li>
-                  Everyone who works on our engagements — employed or contracted — is engaged
-                  lawfully, paid what was agreed, and free to leave.
+                  Everyone on our engagements, employed or contracted, works under a lawful
+                  agreement, is paid under it, and is free to end it on its terms. We do not require
+                  or retain anyone’s identity documents, and we never use withheld pay, debt or
+                  immigration status to keep someone working.
                 </li>
                 <li>
-                  We expect the suppliers we buy from to comply with the Modern Slavery Act 2015,
-                  and our principal suppliers are large technology vendors who publish their own
-                  statements under it.
+                  We expect our suppliers to comply with the Act. Our principal suppliers are large
+                  technology vendors who publish their own statements under it.
                 </li>
                 <li>
-                  Anyone with a concern about modern slavery in our business or supply chain can
-                  raise it through our published contact routes, and it will reach a director.
+                  Raise a concern at <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. It goes
+                  to our director, who is accountable for this statement, and we do not retaliate.
                 </li>
               </ul>
             ),
@@ -94,9 +176,8 @@ export default function ModernSlaveryPage() {
             heading: 'Review',
             body: (
               <p className="body" style={{ marginTop: 12 }}>
-                We review this statement annually. If the business grows past the statutory
-                threshold, we will publish a full statement under section 54, with board approval
-                and a named signatory, as the Act requires.
+                Reviewed annually. If we pass the threshold, we will publish a full section 54
+                statement with board approval and a named signatory.
               </p>
             ),
           },
