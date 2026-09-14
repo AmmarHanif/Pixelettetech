@@ -19,6 +19,44 @@ export const metadata = pageMetadata({
   path: '/security-and-data',
 });
 
+/*
+ * Is the contact form's delivery path actually connected?
+ *
+ * TWIN CONSTANT. Its pair is `DELIVERY_CONNECTED` in src/app/privacy/page.tsx,
+ * where the full reasoning is written out — in short: the code that writes an
+ * enquiry to Supabase and notifies through Resend shipped on 2026-09-14, but
+ * `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY` and
+ * `CONTACT_NOTIFICATION_FROM` are unset, so nothing has reached either provider.
+ * A subprocessor register that lists a processor as current when no data has
+ * ever flowed to it is the same defect as any other unearned claim on this page.
+ *
+ * THE TWO MUST BE FLIPPED TOGETHER, in one commit. They are separate constants
+ * only because those two files were the whole of the authorised scope for the
+ * change that introduced them; one shared constant in src/content/ is the right
+ * home and is recorded as owed.
+ *
+ * Set it to `true` only when all four variables are set in production AND a real
+ * submission has been seen to land. Variable names only; no value belongs in
+ * this repository.
+ *
+ * Deliberately NOT read from `process.env`. This page is statically prerendered,
+ * so an environment read resolves at build time, and a variable set in the
+ * hosting dashboard without a redeploy would leave a confidently wrong published
+ * page. An editorial constant produces a dated, reviewable diff instead — which
+ * is what a published disclosure needs and what a silent runtime switch cannot
+ * give.
+ *
+ * Typed `boolean` rather than left to infer the literal `false`, matching
+ * `ANALYTICS_ENABLED` in src/lib/analytics.ts, so the other branch is not
+ * treated as dead code. Both branches were rendered and read during
+ * verification.
+ */
+const DELIVERY_CONNECTED: boolean = false;
+
+const SUBPROCESSOR_STATE = DELIVERY_CONNECTED
+  ? 'All three are in use today.'
+  : 'Vercel is in use today; Supabase and Resend are not connected yet, so no enquiry data has reached either of them.';
+
 const positions = [
   {
     /*
@@ -98,14 +136,92 @@ const positions = [
     placeholder: 'DATA RESIDENCY AND HOSTING REGIONS — confirm per environment before publication',
   },
   {
+    /*
+     * FILLED 2026-09-14. The list is read out of the code, not recalled, and
+     * each name was traced to the call that reaches it:
+     *
+     *   Vercel   — the hosting platform. DEPENDENCIES.md names it as "the
+     *              platform already hosting this site"; it therefore holds the
+     *              server request logs the privacy notice describes.
+     *   Supabase — src/lib/enquiries.ts `storeEnquiry` POSTs to
+     *              `${SUPABASE_URL}/rest/v1/contact_enquiries`.
+     *   Resend   — src/lib/enquiries.ts `sendNotification` POSTs to
+     *              https://api.resend.com/emails.
+     *
+     * The negatives were checked rather than assumed, because "nothing else" is
+     * the load-bearing half of a subprocessor register:
+     *
+     *   — Analytics is NOT armed. `ANALYTICS_ENABLED` in src/lib/analytics.ts is
+     *     `false`, and src/app/layout.tsx renders `<Analytics />` and
+     *     `<AnalyticsEvents />` only inside that gate, so no script is requested
+     *     and no beacon is sent. The component is present in the codebase and
+     *     switched off, and the copy says exactly that rather than "no
+     *     analytics", because a reviewer reading package.json will find
+     *     `@vercel/analytics` and is owed the precise answer.
+     *   — Fonts are SELF-HOSTED. src/app/layout.tsx uses `next/font/google`,
+     *     which downloads the files at build time and serves them from this
+     *     origin. A grep across src/ finds no `fonts.googleapis.com`,
+     *     `fonts.gstatic.com` or `@font-face` pointing off-domain.
+     *   — No third-party script of any kind: no `next/script`, no tag manager,
+     *     no embed.
+     *
+     * NOT LISTED, and deliberately: the mailbox provider that carries our own
+     * email once an enquiry reaches us. The privacy notice discloses it as a
+     * CATEGORY, which Article 13(1)(e) permits. It is absent here because this
+     * register is scoped to the processors THIS WEBSITE sends data to, and
+     * naming a provider that cannot be determined from this repository would be
+     * inventing a fact. Identifying it is an open item for the founder, not a
+     * gap this file may fill.
+     *
+     * THE 30 DAYS ARE THE FOUNDER'S DECISION. The copy spends its words on what
+     * the period is FOR rather than on the number, because notice that only
+     * informs is worth very little: the point a reader has to take away is that
+     * the window exists so an objection can be made while the change is still a
+     * proposal.
+     */
     title: 'Subprocessors',
-    body: null,
-    placeholder: 'SUBPROCESSOR REGISTER — publish the current list and the notification period',
+    body:
+      'Three, and we name them rather than describe them. Vercel, Inc. hosts and serves this site, which also makes it the holder of the server request logs. Supabase provides the database that contact form enquiries are written to. Resend sends the notification email that tells us an enquiry has arrived. ' +
+      SUBPROCESSOR_STATE +
+      ' That is the whole list, and it was read out of the code rather than from memory. There is no third-party analytics or tracking: the hosting platform’s own analytics component sits in the codebase behind a single flag that is switched off, so no script is requested and no analytics provider receives anything. There are no advertising or tag-manager scripts, no embedded third-party content and no third-party font service — the typefaces are compiled into the build and served from this domain, so loading a page here does not disclose your visit to anybody else. Before we add a processor or replace one, we publish it here and then wait 30 days before the change takes effect. The wait is the point of the notice, not a formality: it is there so that you can object while the change is still a proposal, rather than be told afterwards that your data has already moved. Object inside those 30 days and we will deal with it before we proceed, and we will not pass your data to the new provider while it is unresolved. If you would rather we deleted what we hold than accept the change, ask and we will.',
   },
   {
+    /*
+     * FILLED 2026-09-14 with the founder's decision: 24 months from LAST
+     * CONTACT, then deletion.
+     *
+     * THE DELETION SENTENCE IS THE WHOLE DIFFICULTY, so it is written down.
+     * Nothing in this repository deletes anything. The table created by
+     * supabase/migrations/20260914120000_create_contact_enquiries.sql has no
+     * TTL and no expiry; there is no scheduled job, no cron, no retention
+     * automation anywhere. An unqualified "then deleted" would commit the firm
+     * to a process that does not exist, and it would read to a security
+     * reviewer as an automated control they could rely on.
+     *
+     * So the period is published as A POLICY THE FIRM APPLIES, and the copy
+     * states the mechanism in terms: it is not a timer in the database. That is
+     * the honest answer, it is the answer a reviewer would extract in due
+     * diligence anyway, and a false claim of automated deletion is exactly the
+     * kind of thing that fails a diligence review rather than passing one. The
+     * automation is OWED as an engineering item.
+     *
+     * THE CLOCK IS NAMED. 24 months from last contact and 24 months from
+     * receipt are different periods; a schedule that does not say which it means
+     * has not published a period at all.
+     *
+     * SCOPED TO ENQUIRIES HOWEVER THEY ARRIVE, which is also what makes it true
+     * TODAY rather than only after the database exists: the policy is about
+     * enquiries, not about a table. Work arising from an enquiry is excluded,
+     * because otherwise this page would publish a promise to destroy client
+     * engagement records at 24 months — a promise the firm would not keep.
+     *
+     * AGREES WITH /privacy. That page previously stated CRITERIA rather than a
+     * period, which Article 13(2)(a) permits; it now states this same period,
+     * this same clock and this same mechanism. One page saying "criteria" while
+     * the other says "24 months" was the defect to avoid.
+     */
     title: 'Retention and deletion',
-    body: null,
-    placeholder: 'RETENTION SCHEDULE BY DATA CLASS — confirm with the DPO before publication',
+    body: 'Enquiries are kept for 24 months and then deleted, whether they reached us through the contact form or by email, and the period covers the correspondence that follows as well as the first message. The 24 months run from our last contact with you about that enquiry, not from the date it arrived, so an enquiry that turns into a conversation is measured from the end of the conversation rather than the start. Anyone can ask us to delete theirs sooner, at any point, and we will. The mechanism matters and a reviewer should not have to guess at it: this is a policy we apply, not a timer in the database. There is no expiry on the table and no scheduled job that empties it, so deletion here is a deliberate act on our side rather than something that happens whether or not anybody does it. Work that comes out of an enquiry is retained under that engagement’s own terms rather than under this period. Server request logs sit with the hosting platform on its own rolling schedule and are not separately retained by us.',
   },
   {
     title: 'AI-specific handling',

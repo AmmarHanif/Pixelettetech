@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { LegalPage } from '@/components/LegalPage';
-import { JsonLd, Placeholder } from '@/components/ui';
+import { JsonLd } from '@/components/ui';
 import { company, contactEmail } from '@/content/company';
 import { breadcrumbSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
@@ -134,7 +134,180 @@ export const metadata = pageMetadata({
  * still a placeholder, still deliberate, and still raises the amber "not yet
  * finalised" notice through `containsPlaceholder` in LegalPage. Moving a review
  * date does not close a gap, and this one is not closed.
+ *
+ * ==========================================================================
+ * REWRITTEN 2026-09-14, because the architecture underneath this notice moved
+ * on the same day. What follows supersedes the 2026-09-11 note above; that
+ * note is left standing because the reasoning it records is what changed.
+ *
+ * Commit a3745f0 replaced the contact form's delivery path. It used to POST to
+ * `CONTACT_WEBHOOK_URL`, a variable that was never set in any environment, so
+ * nothing was ever stored anywhere by anybody. It now inserts the enquiry into
+ * a Supabase table (supabase/migrations/20260914120000_create_contact_enquiries.sql)
+ * and sends a notification through Resend (src/lib/enquiries.ts).
+ *
+ * That falsified the sentence recorded above — "this site stores nothing
+ * itself" — and with it the Article 13(1)(e) analysis that followed from it. A
+ * RECIPIENT CATEGORY came into existence that the section had no entry for at
+ * all: storage. The old copy named three categories — the platform that hosts
+ * the site, the provider that carries our email, and the service that delivered
+ * form submissions to our inbox — and not one of them is a database. That was
+ * the real defect this pass had to close, and it was invisible from the
+ * placeholder list.
+ *
+ * ---------------------------------------------------------------------------
+ * THE TIMING PROBLEM, AND WHY THIS FILE ANSWERS IT THE WAY IT DOES
+ *
+ * The code is written; the accounts are not. `SUPABASE_URL`,
+ * `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY` and `CONTACT_NOTIFICATION_FROM`
+ * are all unset, so `deliverEnquiry` returns `unconfigured` for both legs and
+ * the visitor is told the form is not connected and asked to email instead.
+ * Nothing is stored anywhere. "We store your enquiry in our database" is
+ * therefore NOT YET TRUE, and publishing it would be the same defect as an
+ * analytics disclosure written for a tracker that was never armed.
+ *
+ * Three ways to write that. This file takes the third.
+ *
+ *  1. DESCRIBE THE DESIGNED PROCESSING IN THE PRESENT TENSE. Rejected outright.
+ *     It publishes a description of processing that is not happening.
+ *
+ *  2. DERIVE THE COPY FROM THE ENVIRONMENT — read the four variables at render
+ *     time and pick the wording from them. Rejected, and because it is the
+ *     tempting option the reasons are written down rather than assumed:
+ *
+ *       (a) This page is STATICALLY PRERENDERED. A `process.env` read resolves
+ *           when the build runs, so setting a variable in the hosting dashboard
+ *           without redeploying would leave the published notice stale and
+ *           CONFIDENTLY WRONG — worse than the problem it was meant to solve,
+ *           and silent.
+ *       (b) A legal notice that changes what it says with no diff and no date
+ *           cannot be audited. A data subject asking what was disclosed, and
+ *           when, would have no answer, and neither would we.
+ *       (c) It turns a published page into an oracle for whether a credential
+ *           is set.
+ *       (d) The variables gate the DEPLOYMENT, not the design, and they can be
+ *           half-set. The copy would have to handle four states and still would
+ *           not have described the arrangement.
+ *
+ *  3. DESCRIBE THE ARRANGEMENT, AND STATE ITS CURRENT STATE AS A FACT THE
+ *     READER CAN CHECK. What this file does. The notice sets out what happens
+ *     to an enquiry, and then says plainly — in both places where a reader
+ *     could otherwise form a false belief — that the delivery path is not
+ *     connected yet and that submitting today returns an error instead of
+ *     storing anything. That claim is FALSIFIABLE BY THE READER in a single
+ *     submission, which is what makes it honest rather than hedged.
+ *
+ *     Disclosing ahead is also the safer direction of error. Switching this on
+ *     is four variables pasted into a dashboard: no code review, no diff, no
+ *     publication step. A notice that only becomes true when somebody remembers
+ *     to rewrite it means personal data starts being stored in an overseas
+ *     database with no published disclosure at all. Written this way, the only
+ *     edit owed on switch-on day is one constant, and the failure mode of
+ *     forgetting is that this page UNDERSTATES what we do — never overstates
+ *     it.
+ *
+ * `DELIVERY_CONNECTED` below is that constant. Both branches are written out
+ * rather than left to be composed under pressure on the day, and both were
+ * rendered and read during verification rather than assumed to work.
+ *
+ * ITS TWIN IS IN src/app/security-and-data/page.tsx AND THE TWO MUST BE FLIPPED
+ * TOGETHER. They are separate constants only because those two files were the
+ * whole of the authorised scope for this change; one shared constant in
+ * src/content/ is the right home and is recorded as owed.
+ *
+ * ---------------------------------------------------------------------------
+ * RETENTION — the judgement in this pass that could most easily have become a
+ * lie.
+ *
+ * The founder's decision is 24 months from LAST CONTACT, then deletion. Nothing
+ * in the code deletes anything: the table has no TTL, there is no scheduled
+ * job, there is no retention automation of any kind. Publishing "then deleted"
+ * unqualified would commit the firm to a process that does not exist.
+ *
+ * So the period is published as A POLICY THE FIRM APPLIES, and the copy says in
+ * terms that it is not a timer — because a reader who pictures automatic expiry
+ * has been misled by omission just as surely as by a false sentence. Stating
+ * that deletion is a human act is also what makes the promise auditable and
+ * gives the reader a lever: if the date has passed, they can say so.
+ *
+ * The clock is stated explicitly, because 24 months from LAST CONTACT and 24
+ * months from RECEIPT are different periods and a notice that does not say
+ * which one it means has not disclosed a retention period at all.
+ *
+ * The automation remains OWED. It is an engineering item, not a disclosure: a
+ * customer-facing notice is not the place to publish internal build state.
+ *
+ * One bound is deliberate. Work that comes out of an enquiry is excluded from
+ * the 24 months, because without that exclusion this page would be publishing a
+ * promise to destroy client engagement records at 24 months — a promise the
+ * firm would not keep, which is the same defect pointing the other way.
+ *
+ * ---------------------------------------------------------------------------
+ * TRANSFERS — the per-provider placeholder this file has carried since
+ * 2026-09-07 is CLOSED.
+ *
+ * All three providers reach the same mechanism. Verified 2026-09-14 against
+ * each provider's own published data processing agreement; the operative
+ * wording of each is recorded here so the claim can be re-checked without
+ * re-reading three documents:
+ *
+ *   Vercel   — "For data transfers from the United Kingdom, the UK IDTA will be
+ *              deemed entered into (and incorporated into this Addendum by
+ *              reference) together with the Standard Contractual Clauses."
+ *   Supabase — a "UK Addendum" paragraph applying "to any transfer of Covered
+ *              Data from Customer (as data exporter) to Supabase (as data
+ *              importer)" where UK Data Protection Laws apply to the customer.
+ *   Resend   — defines "UK SCCs" as "the EU SCCs, as amended by the UK
+ *              Addendum", and states that "ex-UK Transfers are made pursuant to
+ *              the UK SCCs, which are deemed entered into and incorporated into
+ *              this DPA by reference".
+ *
+ * One route, so one paragraph. Three near-identical sentences would read as
+ * three different answers.
+ *
+ * Three things the section deliberately does NOT say:
+ *
+ *   — It does not assert an ADEQUACY DECISION for any provider. None was
+ *     verified, and Article 45A is not what any of the three relies on.
+ *   — It does not claim we HOLD A SIGNED DOCUMENT. The whole point of all three
+ *     quotations is that the terms are incorporated BY REFERENCE and nobody
+ *     signs anything. "We will send you a copy of the safeguards" survives,
+ *     because the clauses are published and pointing at them is what Article
+ *     13(1)(f) asks for.
+ *   — It does not sharpen the existing hedge "including in the United States"
+ *     into "all three are established in the United States". The DPAs prove
+ *     each is a data importer outside the UK; they do not prove where each is
+ *     incorporated. Upgrading a safe hedge into an unverified fact is exactly
+ *     the failure this file exists to avoid.
+ *
+ * ---------------------------------------------------------------------------
+ * THE AMBER NOTICE ON THIS PAGE NOW STOPS FIRING, and that is correct rather
+ * than a regression. `LegalPage.containsPlaceholder` raises it only while an
+ * unfilled `<Placeholder>` remains, and the transfer mechanism was this page's
+ * last one. `Placeholder` is therefore no longer imported here. The remaining
+ * open item on this site — the hosting region — lives on /security-and-data,
+ * is untouched, and still raises its own.
+ *
+ * `lastReviewed` moves to 14 September 2026, which is the date this content
+ * changed. The invariant recorded on 2026-09-11 holds: a review date may sit
+ * later than the last edit, never earlier than the content it certifies.
  */
+
+/**
+ * Is the contact form's delivery path actually connected?
+ *
+ * Set this to `true` only when all four of `SUPABASE_URL`,
+ * `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY` and `CONTACT_NOTIFICATION_FROM`
+ * are set in the production environment AND a real submission has been seen to
+ * land. Variable names only; no value belongs in this repository.
+ *
+ * Flip the twin in src/app/security-and-data/page.tsx in the same commit.
+ *
+ * Typed `boolean` rather than left to infer the literal `false`, matching
+ * `ANALYTICS_ENABLED` in src/lib/analytics.ts, so that the other branch is not
+ * treated as dead code.
+ */
+const DELIVERY_CONNECTED: boolean = false;
 
 export default function PrivacyPage() {
   return (
@@ -148,8 +321,8 @@ export default function PrivacyPage() {
       <LegalPage
         eyebrow="Privacy"
         title="What we collect, and what we do with it."
-        intro="Short version: we use what you send us to reply to you. There is no sequence, no list, and nothing sold on."
-        lastReviewed="11 September 2026"
+        intro="Short version: we use what you send us to reply to you. There is no marketing sequence, no mailing list, and nothing sold on."
+        lastReviewed="14 September 2026"
         sections={[
           {
             heading: 'Who the controller is',
@@ -183,6 +356,27 @@ export default function PrivacyPage() {
                   quietly tracks you.
                 </p>
                 <p className="body" style={{ marginTop: 12 }}>
+                  What happens to it next: your enquiry is saved as a record in a database we run,
+                  and a copy is emailed to us so that a person sees it rather than a queue. Both of
+                  those run on outside providers, and we name all of them further down this page.
+                  Nothing else is done with it.
+                </p>
+                {DELIVERY_CONNECTED ? (
+                  <p className="body" style={{ marginTop: 12 }}>
+                    Both of those are connected and working today.
+                  </p>
+                ) : (
+                  <p className="body" style={{ marginTop: 12 }}>
+                    That is not switched on yet. The accounts behind it have not been set up, so at
+                    the moment the form cannot deliver anything at all: send it and you will get a
+                    message telling you it is not connected and asking you to email us instead, and
+                    nothing you typed is kept anywhere. You can check that for yourself in one
+                    submission. We have written this page for the arrangement as it will work rather
+                    than adding it afterwards, because the day it is switched on should not also be
+                    the day somebody has to remember to update the privacy notice.
+                  </p>
+                )}
+                <p className="body" style={{ marginTop: 12 }}>
                   Separately, our hosting provider records the technical detail of every request made
                   to this site: the IP address it came from, the page requested, the browser used and
                   the time. That is how the site is served and kept secure. We do not use it to build
@@ -202,10 +396,12 @@ export default function PrivacyPage() {
               <>
                 <p className="body" style={{ marginTop: 12 }}>
                   We rely on legitimate interests, Article 6(1)(f) UK GDPR, for both. For the contact
-                  form, the interest is replying to a business enquiry you chose to send us. For the
-                  request records, it is delivering this site and protecting it from abuse. In each
-                  case we have weighed that against your interests and concluded that a reply you
-                  asked for, and a site that stays up, do not override them.
+                  form, the interest is replying to a business enquiry you chose to send us, and
+                  keeping a record of what was asked and what we said for as long as that is of any
+                  use to either of us. For the request records, it is delivering this site and
+                  protecting it from abuse. In each case we have weighed that against your interests
+                  and concluded that a reply you asked for, a record of it, and a site that stays up,
+                  do not override them.
                 </p>
                 <p className="body" style={{ marginTop: 12 }}>
                   You can object to either at any time, and we will stop unless we have compelling
@@ -231,13 +427,31 @@ export default function PrivacyPage() {
           {
             heading: 'How long we keep it',
             body: (
-              <p className="body" style={{ marginTop: 12 }}>
-                We keep an enquiry for as long as there is a live conversation with you, and after
-                that for as long as we need it to show what was discussed and agreed. Once neither
-                reason applies, we delete it. We do not keep enquiries indefinitely. If you want yours
-                deleted sooner, ask us and we will. Request records are kept for the rolling period
-                our hosting provider applies to them and are not separately retained by us.
-              </p>
+              <>
+                <p className="body" style={{ marginTop: 12 }}>
+                  We keep an enquiry for 24 months and then delete it. The 24 months run from the
+                  last time we were in contact with you about it, not from the day it arrived — so if
+                  you write in and we exchange a few messages, the clock starts when that exchange
+                  ends rather than when it began. If nothing follows your first message, it starts
+                  there.
+                </p>
+                <p className="body" style={{ marginTop: 12 }}>
+                  Deleting it is something we do, not something a machine does on a timer. We would
+                  rather tell you that than leave you picturing an automatic expiry that does not
+                  exist: the 24 months are a rule we hold ourselves to and act on. So if you think we
+                  are still holding something past it, say so, and we will check and delete it.
+                </p>
+                <p className="body" style={{ marginTop: 12 }}>
+                  You do not have to wait for the 24 months either. Ask us to delete your enquiry at
+                  any point and we will, and you do not have to give a reason.
+                </p>
+                <p className="body" style={{ marginTop: 12 }}>
+                  If an enquiry turns into a piece of work, the records of that work are kept under
+                  the terms of that engagement rather than under this rule, which is about the
+                  enquiry itself. Request records are kept for the rolling period our hosting
+                  provider applies to them and are not separately retained by us.
+                </p>
+              </>
             ),
           },
           {
@@ -245,15 +459,26 @@ export default function PrivacyPage() {
             body: (
               <>
                 <p className="body" style={{ marginTop: 12 }}>
-                  Your enquiry is handled by us, and by the service providers that make this website
-                  and our email work: the platform that hosts and serves the site, the provider that
-                  carries email to and from our address, and the service that delivers contact form
-                  submissions to our inbox.
+                  Your enquiry is handled by us, and by three outside providers, which we name rather
+                  than describe: Vercel, which hosts and serves this website and holds the request
+                  records described above; Supabase, which runs the database your enquiry is saved
+                  into; and Resend, which sends us the notification that it has arrived. What each one
+                  does, and what happens if we ever change that list, is set out on our{' '}
+                  <Link href="/security-and-data">security and data page</Link>.
+                </p>
+                <p className="body" style={{ marginTop: 12 }}>
+                  {DELIVERY_CONNECTED
+                    ? 'All three are in use today.'
+                    : 'Vercel is in use today. Supabase and Resend are not connected yet, so nothing has reached either of them.'}{' '}
+                  Once an enquiry reaches us, our own email is carried by our mailbox provider, in the
+                  ordinary way that any business email is.
                 </p>
                 <p className="body" style={{ marginTop: 12 }}>
                   Each of them acts on our instructions and none of them may use your data for their
-                  own purposes. We do not sell your data and we do not share it with anyone else. You
-                  can ask us which providers are involved at any time and we will tell you.
+                  own purposes. We do not sell your data and we do not share it with anyone else. If
+                  we ever add a provider or swap one out, we will publish it on that page and give 30
+                  days&rsquo; notice before the change takes effect, so that you can object while it
+                  is still a proposal.
                 </p>
               </>
             ),
@@ -263,21 +488,25 @@ export default function PrivacyPage() {
             body: (
               <>
                 <p className="body" style={{ marginTop: 12 }}>
-                  Some of those providers are established outside the United Kingdom, including in the
-                  United States. Your data is therefore transferred out of the UK when it passes
-                  through them.
+                  Those providers are established outside the United Kingdom, including in the United
+                  States. Your data is therefore transferred out of the UK when it passes through
+                  them.
                 </p>
                 <p className="body" style={{ marginTop: 12 }}>
-                  You can ask us which providers are involved, which country each is in, and what
-                  protections apply to that transfer, by emailing{' '}
-                  <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. We will give you a copy of
-                  the safeguards relied on.
+                  All three are protected in the same way, so there is one answer here rather than
+                  three near-identical ones. Each provider&rsquo;s data processing terms bring in the
+                  standard contractual clauses issued by the European Commission for transfers out of
+                  the European Union, together with the UK Addendum that adapts those clauses for
+                  transfers out of the United Kingdom. Those terms apply by reference: they are part
+                  of the agreement that governs our use of each service and they take effect without
+                  anyone signing a separate document. We are not relying on a UK adequacy decision for
+                  any of them.
                 </p>
                 <p className="body" style={{ marginTop: 12 }}>
-                  <Placeholder>
-                    TRANSFER MECHANISM PER PROVIDER — confirm UK adequacy regulations (Article 45A) or
-                    the International Data Transfer Addendum, and name it here
-                  </Placeholder>
+                  You do not have to take our word for that. Each provider publishes those terms, so
+                  if you email <a href={`mailto:${contactEmail}`}>{contactEmail}</a> we will tell you
+                  which country each provider is in, point you at where its clauses are published, and
+                  send you a copy of the safeguards relied on.
                 </p>
               </>
             ),
