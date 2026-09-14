@@ -5,7 +5,6 @@ import { LiveDiagram } from '@/components/LiveDiagram';
 import {
   CertifiedHandoff,
   ClientLogos,
-  TrustStrip,
   ValueModelCards,
 } from '@/components/sections';
 import {
@@ -399,18 +398,12 @@ export default function HomePage() {
         badge, so this section is not the badge wall the handoff warned against.
         Nothing else in the register is VERIFIED, and nothing else shows.
       */}
-      <Section labelledBy="proof-heading">
-        <SectionHead
-          eyebrow="Verified proof"
-          id="proof-heading"
-          title="Built for real operating environments"
-          lead="Every number, badge and accreditation on this site is either verified, held for evidence, or not published. Where a claim is held, nothing is shown in its place."
-        />
-        <div style={{ marginTop: 30 }}>
-          <TrustStrip />
-        </div>
-      </Section>
-
+      {/*
+        CLIENT NAMES MOVED ABOVE THE CERTIFICATE BLOCK, 2026-09-14.
+        They are the fastest credibility signal on the page and sat underneath
+        114 words of certificate detail. No copy change, same seven names,
+        same gate.
+      */}
       {/* Client wordmarks, behind the approval gate in
           `src/content/clients.ts` — a gate that has now been answered. All
           seven rows there read APPROVED on the founder's decision of
@@ -468,6 +461,40 @@ export default function HomePage() {
           `src/content/clients.ts`, this page still asserts no permission of
           its own, and nothing is owed from this paragraph either. */}
       <ClientLogos tight />
+
+      <Section labelledBy="proof-heading">
+        <SectionHead
+          eyebrow="Verified proof"
+          id="proof-heading"
+          title="Built for real operating environments"
+          lead="Every number, badge and accreditation on this site is either verified, held for evidence, or not published. Where a claim is held, nothing is shown in its place."
+        />
+        <div style={{ marginTop: 30 }}>
+        {/*
+          CERTIFICATE REGISTER DEMOTED TO A LINE, 2026-09-14.
+
+          <TrustStrip /> rendered both certificates in full here - number,
+          holder, issuing body, accrediting body, expiry and recertification,
+          about 114 words of it - immediately above the client names, which are
+          the faster credibility signal and were buried under it. The same
+          detail is published verbatim on /certifications and /security-and-data,
+          which is where a reviewer actually goes.
+
+          NOT compressed into a bare "ISO 27001 certified" badge, and that is a
+          rule rather than a preference: llms.txt instructs any reader never to
+          restate one of these certificates without its number and expiry. So
+          the standards are named, and the link carries the reader to the full
+          detail. A badge with no route to the evidence would breach the
+          instruction this site publishes about itself.
+        */}
+        <p className="body" style={{ marginTop: 22, maxWidth: '72ch' }}>
+          ISO/IEC 27001:2022 and ISO 9001:2015 are certified, with certificate numbers, issuing
+          body and dates{' '}
+          <FLink href="/certifications">published in full</FLink>.
+        </p>
+        </div>
+      </Section>
+
 
       {/* ══════════════════ 03 · What are you trying to change? ══════════ */}
       {/*
