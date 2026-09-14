@@ -13,8 +13,21 @@ import { SITE_IN_DEVELOPMENT } from '@/content/launch';
  * the order the positioning sets, and the description is the sentence answer
  * engines quote most often.
  *
- * `h1` is carried here so the homepage and the graph cannot drift apart. It is
- * the brand manifesto line and stays exactly as written.
+ * `h1` is carried here so the homepage and the graph cannot drift apart.
+ *
+ * IT NO LONGER "STAYS EXACTLY AS WRITTEN", which is what this line said until
+ * 2026-09-14. The founder removed the three full stops on that date, so the
+ * manifesto reads "Engineering that ships · Chains that hold · AI built into
+ * both". Deleting the trailing stop alone would have run the three statements
+ * together in every context that renders this as ONE string — the schema, the
+ * social-card alt text, `company.tagline` — so the sentence breaks became middle
+ * dots. The rendered H1 has no separators at all, because there each statement
+ * is already its own block element and the line break does the work.
+ *
+ * FOUR COPIES OF THIS LINE EXIST and they were changed together: here, the three
+ * spans in src/app/page.tsx, the three text blocks in src/app/opengraph-image.tsx
+ * and `company.tagline`. Changing fewer would have left the social card
+ * punctuated differently from the page it advertises.
  */
 /*
  * TITLE AND DESCRIPTION SHORTENED 2026-09-14, on an external homepage audit.
@@ -44,7 +57,7 @@ export const HOMEPAGE_SEO = {
   title: 'Engineering, AI and blockchain | Pixelette Technologies',
   description:
     'We design, build and run software products, AI systems and intelligent workflows, with specialist blockchain engineering where it genuinely creates value.',
-  h1: 'Engineering that ships. Chains that hold. AI built into both.',
+  h1: 'Engineering that ships · Chains that hold · AI built into both',
 } as const;
 
 /**

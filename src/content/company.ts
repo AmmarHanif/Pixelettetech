@@ -72,7 +72,7 @@ export const company = {
    * register row to VERIFIED.
    */
   countriesDelivered: '',
-  tagline: 'Engineering that ships. Chains that hold. AI built into both.',
+  tagline: 'Engineering that ships · Chains that hold · AI built into both',
   description:
     'UK software engineering since 2018. Web, mobile and custom software, blockchain systems, and the AI we build into both.',
   linkedin: 'https://www.linkedin.com/company/pixelettetechnologies/',

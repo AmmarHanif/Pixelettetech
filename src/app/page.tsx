@@ -314,9 +314,9 @@ export default function HomePage() {
         <div className="wrap center">
           <Eyebrow>Software engineering • AI &amp; automation • Blockchain</Eyebrow>
           <h1 className="h1" style={{ marginTop: 26, fontSize: 'clamp(36px, 4.6vw, 54px)' }}>
-            <span style={{ display: 'block' }}>Engineering that ships.</span>
-            <span style={{ display: 'block' }}>Chains that hold.</span>
-            <span style={{ display: 'block' }}>AI built into both.</span>
+            <span style={{ display: 'block' }}>Engineering that ships</span>
+            <span style={{ display: 'block' }}>Chains that hold</span>
+            <span style={{ display: 'block' }}>AI built into both</span>
           </h1>
           {/*
             HERO TRIMMED 2026-09-14, on the external homepage audit.
