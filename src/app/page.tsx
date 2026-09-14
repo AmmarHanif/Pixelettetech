@@ -16,9 +16,11 @@ import {
   MediaSlot,
   Section,
   SectionHead,
+  SourceNote,
+  StatTile,
 } from '@/components/ui';
 import { certified } from '@/content/company';
-import { groupEntities } from '@/content/nav';
+import { gapStats } from '@/content/sources';
 import {
   displayCardCta,
   displayKicker,
@@ -242,6 +244,23 @@ const sectors = [
  *
  * Nothing here states a certification, a rating, a price or a count.
  */
+/*
+ * TRIMMED FROM EIGHT TO FIVE, 2026-09-14, on the external audit.
+ *
+ * Removed: mobile applications, developers by the day, and compliance or
+ * certification. Each is answered better on the page that owns it, and one of
+ * them was answered WEAKER here in a way that mattered. "Do you provide
+ * developers by the day?" was a soft FAQ on this page while /engineering makes
+ * it a hard positioning statement - "we do not sell developers by the day; if
+ * what you want is bodies on a timesheet, we are the wrong supplier and we will
+ * say so on the first call". A homepage that hedges what an inner page states
+ * plainly is the weaker of the two answers winning the more-read surface.
+ *
+ * This array feeds BOTH the rendered <Faqs> and faqSchema(faqs), so page and
+ * markup cannot disagree about how many questions exist - which is the failure
+ * the audit warned about when it said to cut the JSON-LD to match. One array,
+ * two consumers, nothing to keep in step by hand.
+ */
 const faqs = [
   {
     q: 'What does Pixelette Technologies do?',
@@ -256,24 +275,12 @@ const faqs = [
     a: 'Yes. A common engagement is to integrate model or agent capabilities into an existing application, knowledge base or workflow while preserving the systems and controls already in place.',
   },
   {
-    q: 'Do you build mobile applications?',
-    a: 'Yes. Mobile can be a standalone product or part of a wider SaaS/platform programme across iOS, Android and web, with the architecture chosen around the product and operating requirements.',
-  },
-  {
     q: 'Can you take over an existing or stalled build?',
     a: 'Yes. We can start with an independent technical assessment, architecture/code review and recovery plan before committing to continued development.',
   },
   {
-    q: 'Do you provide developers by the day?',
-    a: 'We can structure dedicated engineering capacity where that is the right commercial model, but our default proposition is accountable delivery around a defined product, workflow or engineering outcome.',
-  },
-  {
     q: 'What happens after launch?',
     a: 'Support can continue through monitoring, incident response, optimisation, releases, roadmap delivery and managed product engineering.',
-  },
-  {
-    q: 'Can you help with compliance or certification?',
-    a: 'Where a project needs governance, certification readiness or assurance support, Pixelette Certified can help scope and coordinate the appropriate readiness and independent-assessment route. The exact assurance provider depends on the requirement.',
   },
 ];
 
@@ -517,6 +524,42 @@ export default function HomePage() {
         </div>
       </Section>
 
+      {/*
+        THE PROBLEM, added 2026-09-14 on the external audit. The only block this
+        pass ADDS; everything else removed or relocated.
+
+        The homepage carried NO third-party evidence of any kind - no citation,
+        no client quote, no named result - while the rest of the site cites
+        McKinsey, DORA, METR, HFS, G2, Thomson Reuters and the Bank of England.
+        The machine-readable llms.txt sided with the inner pages. The front page
+        was the least-evidenced surface on an otherwise well-sourced site.
+
+        Copy and figures are lifted verbatim from /ai-engineering, including the
+        attribution, and the figures come from `gapStats` rather than being
+        retyped - so a corrected citation reaches both pages, and a figure
+        withdrawn from the register disappears from both. `published` is already
+        true on both rows; nothing new is asserted here.
+      */}
+      <Section labelledBy="gap-heading">
+        <SectionHead
+          eyebrow="The gap"
+          id="gap-heading"
+          title="Your people feel faster. Your P&amp;L does not."
+        />
+        <p className="body" style={{ marginTop: 20, maxWidth: '72ch' }}>
+          Almost every organisation now has AI somewhere. Very few can point at a line in the
+          accounts and say what it changed. The gap is not the model. It is that the work around the
+          model was never redesigned, the data it needs was never made reachable, and nobody owns
+          whether it still works next quarter.
+        </p>
+        <div className="grid grid-2" style={{ marginTop: 32, maxWidth: '72ch' }}>
+          {gapStats.map(stat => (
+            <StatTile key={stat.value} value={stat.value} label={stat.label} />
+          ))}
+        </div>
+        <SourceNote>{gapStats[0].source}</SourceNote>
+      </Section>
+
       {/* ═════════════════════ 05 · Why Pixelette Technologies ═══════════ */}
       <Section labelledBy="why-heading" style={{ background: '#F7FAFA' }}>
         <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
@@ -733,6 +776,62 @@ export default function HomePage() {
         </div>
       </Section>
 
+      {/*
+        THE PRICE, added 2026-09-14. The audit calls this the single
+        highest-expected-revenue change in its register, and the reasoning is
+        simple: a fixed price on the homepage is the difference between an
+        enquiry and a quote request.
+
+        Nothing here is new. The figure, the duration and all four inclusions are
+        already published on /ai-engineering/ai-value-baseline, on /contact and
+        in llms.txt - so the machine-readable version of this company quoted a
+        price its own front page did not. Putting it here discloses nothing that
+        was not already public; it stops the homepage being the one surface that
+        makes a buyer ask.
+
+        It leads the commercial block rather than replacing it. The three
+        engagement modes below still name the larger routes; this is the entry
+        offer, which is the one with a number attached.
+      */}
+      <Section labelledBy="baseline-heading">
+        <SectionHead
+          eyebrow="Start here"
+          id="baseline-heading"
+          title="Four weeks. Fixed price. A number your CFO can sign off."
+        />
+        <div className="grid grid-2" style={{ marginTop: 34, gap: 40, alignItems: 'start' }}>
+          <div>
+            <p className="body">
+              We instrument two or three of your processes, measure what they actually cost today,
+              and hand you a costed roadmap with the business case written for finance. If the
+              numbers do not support going further, we tell you that.
+            </p>
+            <div className="btn-row" style={{ marginTop: 28 }}>
+              <Cta href="/ai-engineering/ai-value-baseline">See what is included</Cta>
+              <Cta href="/contact" variant="secondary">
+                Book a value baseline
+              </Cta>
+            </div>
+          </div>
+          <div className="card" style={{ padding: 28 }}>
+            <span className="mono" style={{ fontSize: 12.5, letterSpacing: '0.1em', color: 'var(--ink)' }}>
+              AI VALUE BASELINE
+            </span>
+            <p style={{ marginTop: 10, fontSize: 26, fontWeight: 600 }}>
+              &pound;6,000 to &pound;12,000
+            </p>
+            <p className="small" style={{ marginTop: 4 }}>Fixed, four weeks.</p>
+            <ul className="small" style={{ marginTop: 18, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8 }}>
+              <li>Two to three processes instrumented and measured</li>
+              <li>Measurement left running, and yours to keep</li>
+              <li>Prioritised opportunity map with a costed roadmap</li>
+              <li>Board-ready business case naming what it displaces</li>
+            </ul>
+          </div>
+        </div>
+      </Section>
+
+
       <Section labelledBy="engage-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
           eyebrow="Commercial products"
@@ -831,52 +930,23 @@ export default function HomePage() {
         holding-company page, and no route to buying engineering passes through
         another Group company.
       */}
-      <Section labelledBy="group-heading">
-        <SectionHead
-          eyebrow="Group architecture"
-          id="group-heading"
-          title="Four businesses. Four distinct jobs."
-        />
-        <div className="grid grid-4" style={{ marginTop: 40 }}>
-          {groupEntities.map(entity => (
-            <div key={entity.name} className="tile" style={{ padding: '22px 24px' }}>
-              <b style={{ fontSize: 15, fontFamily: 'var(--sans)' }}>{entity.name}</b>
-              <span
-                className="mono"
-                style={{
-                  display: 'block',
-                  marginTop: 10,
-                  fontSize: 10.5,
-                  letterSpacing: '0.12em',
-                  color: 'var(--brand)',
-                }}
-              >
-                {entity.role}
-              </span>
-              <p className="small" style={{ marginTop: 10 }}>
-                {entity.what}
-              </p>
-              {entity.isThisEntity ? (
-                <p className="small" style={{ marginTop: 12, fontSize: 12.5 }}>
-                  You are here.
-                </p>
-              ) : (
-                <p style={{ marginTop: 12 }}>
-                  <a
-                    className="small"
-                    href={entity.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ fontSize: 12.5 }}
-                  >
-                    Visit site
-                  </a>
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
-      </Section>
+      {/*
+        GROUP ARCHITECTURE REMOVED 2026-09-14, and NOT moved to the footer as
+        the audit proposed - because SiteFooter already renders it on every
+        page. Verified from the built HTML: the footer carries "Part of
+        Pixelette Group" and names Holdings, Marketing and Certified.
+
+        So this was not a block in the wrong position, it was the same block
+        twice on one page. Moving it would have produced two group bands in the
+        footer region.
+
+        The audit's reason for moving it stands and is the reason it goes:
+        three outbound "Visit site" links to other domains sat immediately
+        before the conversion block, at the exact point a warm visitor should
+        be converting. In the footer they are a reference; here they were an
+        exit. Entity distinctness is unaffected - the footer band, llms.txt and
+        the subOrganization graph all still carry it.
+      */}
 
       {/* ═══════════════════════════ 14 · Final CTA ══════════════════════ */}
       {/*
