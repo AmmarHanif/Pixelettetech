@@ -148,10 +148,18 @@ export function ContactForm() {
    * The completed conversion — checklist item 21's "booked conversations".
    *
    * Reported from the SERVER'S answer, not from the submit button. A click on
-   * Send is an attempt: it can fail validation, the webhook can be unset (it
-   * is today, by design — see `GO-LIVE-CHECKLIST.md`), and the visitor is
-   * then told to email instead. Counting attempts as conversions would
-   * overstate the one number the founder would act on hardest.
+   * Send is an attempt: it can fail validation, and the delivery path can be
+   * unconfigured (it is today, by design — see `CONTACT-FORM-SETUP.md`), in
+   * which case the visitor is told to email instead. Counting attempts as
+   * conversions would overstate the one number the founder would act on
+   * hardest.
+   *
+   * "The webhook can be unset" is what this said until 2026-09-14, and the
+   * wording outlived the thing it named: commit a3745f0 replaced the webhook
+   * with Supabase storage and Resend delivery. The distinction the comment
+   * exists to draw is unchanged — attempt is not success — but it now has two
+   * legs rather than one, and `submitContact` returns success only if at least
+   * one of them landed. So this still counts what the server actually did.
    *
    * The ref is load-bearing and not belt-and-braces. `reactStrictMode` is on
    * (`next.config.ts`), so React invokes effects twice in development, and
