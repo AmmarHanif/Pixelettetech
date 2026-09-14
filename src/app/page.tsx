@@ -55,8 +55,15 @@ import { homepageMetadata } from '@/lib/seo';
  *    `src/content/work.ts` for case studies. Nothing is typed as a literal.
  *  - Every claim component must render correctly when its claim is withheld.
  *    The handoff's DEVELOPER RULE is that "the absence of a badge must not
- *    leave a broken layout", and today the register publishes nothing at all,
- *    so the withheld state is the state this page actually ships in.
+ *    leave a broken layout". From 8 to 14 September 2026 the register published
+ *    nothing at all, so the withheld state was the state this page shipped in
+ *    and the rule was being exercised on every render. Since 14 September the
+ *    register publishes two certification rows and this page shows them, so the
+ *    withheld state is no longer the default — which makes the rule MORE
+ *    important here, not less. It is now a path that only runs when a row comes
+ *    back down, and an untaken path is the one that rots. Both certificates
+ *    carry dated expiries (1 January 2027 and 11 March 2027), so the withheld
+ *    state has a date in the diary rather than being hypothetical.
  */
 
 export const metadata = homepageMetadata();
@@ -540,13 +547,24 @@ export default function HomePage() {
         badge wall that asks the visitor to work out what each certification or
         award actually means."
 
-        `TrustStrip` reads the claims register and renders NOTHING today,
-        because every row in `src/content/claims.ts` is HELD or NOT_PUBLISHED.
-        That is the designed state, not a gap, and it is why the heading and the
-        lead carry this section on their own: the handoff says in terms that
-        "the first public release can be strong with client work + case studies
-        alone". When a row moves to VERIFIED the badges appear here with no edit
-        to this file.
+        `TrustStrip` reads the claims register. From 8 to 14 September 2026 it
+        rendered NOTHING, because every row in `src/content/claims.ts` was HELD
+        or NOT_PUBLISHED — the designed state rather than a gap, and the reason
+        the heading and the lead were written to carry this section on their
+        own: the handoff says in terms that "the first public release can be
+        strong with client work + case studies alone".
+
+        That comment closed with a prediction: "When a row moves to VERIFIED the
+        badges appear here with no edit to this file." On 14 September 2026 two
+        certification rows moved to VERIFIED and the badges appeared here, with
+        no edit to this file. The prediction is left in place above and marked
+        as kept, because a register that claims this property and has never been
+        observed doing it is a design note; one that has is a mechanism.
+
+        What renders now is ISO/IEC 27001:2022 and ISO 9001, each printing the
+        row's `detail` — certificate number, issuing body and dates — under the
+        badge, so this section is not the badge wall the handoff warned against.
+        Nothing else in the register is VERIFIED, and nothing else shows.
       */}
       <Section labelledBy="proof-heading">
         <SectionHead

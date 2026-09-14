@@ -32,6 +32,21 @@ import { company } from '@/content/company';
  * knowing: this file runs at build time, so a released claim reaches the card
  * on the next build rather than the next request.
  *
+ * 2026-09-14: THE GATE IS DELIBERATELY LEFT WHERE IT IS, and the reason is the
+ * hardcoded strings a few lines below rather than anything about this card. The
+ * claims register published two certificates that day — `iso-27001-certificate`
+ * and `iso-9001-certificate` — and `iso-cyber-essentials-badges` stayed HELD
+ * because the third standard it names, Cyber Essentials Plus, has produced no
+ * certificate. This row prints all three names. Retargeting the check at either
+ * new VERIFIED row would put "Cyber Essentials Plus" back on the DEFAULT social
+ * card for every share of every page, on evidence that says nothing about it.
+ *
+ * If this row is ever wanted back, the fix is not a different claim id: it is to
+ * render the standards from the register instead of from three string literals,
+ * so the card can only ever show what is actually published. Until someone does
+ * that, this gate is closed and correct, and the card carries the incorporation
+ * line alone.
+ *
  * Layout. The card is a fixed 1200x630 column with `justify-content:
  * space-between` and exactly three children: the logo lockup, the three-line
  * headline, and this footer row. The badges sat INSIDE the third child, which

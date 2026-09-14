@@ -62,6 +62,24 @@ export type Claim = {
   /** The claim itself, written as the thing that would be published. */
   label: string;
   status: ClaimStatus;
+  /**
+   * The substantiation printed with the claim: the specific, checkable facts
+   * that make the label something a reader can test rather than take.
+   *
+   * Required on every VERIFIED row and enforced at module load by
+   * `assertRegisterInvariants` below. That is this file's own standard turned
+   * into a mechanism: the `iso-cyber-essentials-badges` note has said since
+   * 8 September 2026 that to publish a certification you "hold the certificate
+   * number, the issuing certification body and the expiry date for Pixelette
+   * Technologies Ltd, and print them beside the badge". A label with no detail
+   * behind it is the badge wall, and the badge wall is what this register
+   * exists to stop.
+   *
+   * `ProofStrip` already accepts this field — `ProofClaim` declared an optional
+   * `detail` long before any row had one — so a row carrying it renders its
+   * substantiation under the badge with no change to any component.
+   */
+  detail?: string;
   /** What exists today, and what would have to exist to move this to VERIFIED. */
   evidenceNote: string;
   /**
@@ -88,6 +106,24 @@ export type Claim = {
  * its attribution while staying HELD — because he cleared seven names, not
  * the claim class that row governs. Evidence for part of a row's scope does
  * not move the row; that is the register working, not a backlog.
+ *
+ * RE-RUN 14 September 2026, because rows were touched and, again, this file
+ * does not let a dated statement be inherited. The two sentences above are now
+ * partly false and are corrected here rather than edited away: it is NO LONGER
+ * true that every row is HELD or NOT_PUBLISHED, and `publishedClaims()` is NO
+ * LONGER empty. Two rows are VERIFIED — `iso-9001-certificate` and
+ * `iso-27001-certificate` — on certificates supplied by the founder for
+ * Pixelette Technologies Ltd, and they are the first claims this site has ever
+ * published. Everything else in this register is still HELD or NOT_PUBLISHED.
+ *
+ * The rule the paragraph above states is untouched, and is in fact what shaped
+ * the change. Evidence arrived for TWO of the three standards named by
+ * `iso-cyber-essentials-badges`; nothing arrived for Cyber Essentials Plus. So
+ * that row did not move. The evidenced standards were given rows of their own
+ * and released there, the unevidenced one was given a row of its own and left
+ * HELD, and the class row stays HELD and stays wired to the three surfaces that
+ * would otherwise publish a Cyber Essentials claim. Evidence for part of a
+ * row's scope still does not move the row. See ADR-0029.
  */
 export const claims: Claim[] = [
   {
@@ -97,7 +133,78 @@ export const claims: Claim[] = [
     publicationInstruction:
       'HOLD — Publish only with current certificate for exact legal entity, scope and validity.',
     evidenceNote:
-      'No certificate is held anywhere in this project. Corrected 8 September 2026: this note said "design/certificates/ is empty", but there is no design/certificates/ directory in the repository at all; the empty folder is certificates/ in the project directory one level above it. Badge artwork exists but is no longer on the public surface. CORRECTED later the same day: this note said the artwork "does exist, at public/certifications/..., and is referenced by nothing in src/", which read as reassurance and was not. It was at public/certifications/iso-9001.svg and public/certifications/iso-27001.svg, referenced by nothing in src/ but served all the same, because everything under public/ is a web root and is retrievable at a guessable URL whether or not a page links to it. The claim in those two files is also machine-readable rather than artwork: it sits in SVG text elements reading CERTIFIED, ISO, 9001:2015 / 27001:2022 and COMPANY, so a crawler reads it as characters. Both files were moved to design/held-assets/, which is not served, with a README recording what they are, why they moved and the four steps that release them. They were moved rather than deleted so the artwork is there the day the claim is. The legal review of 7 September 2026 recorded that IAF CertSearch needs an account and the IASME register sat behind bot protection, and concluded: not doubted, not verified. Where it renders as at 8 September 2026: nowhere. CORRECTED later the same day. This note said src/app/opengraph-image.tsx prints "ISO 9001 · ISO 27001 · Cyber Essentials Plus" across the default social card, which every route without its own image inherits, contradicting public/llms.txt ("No certification badge is published by Pixelette Technologies"), and raised it as a blocking finding outside that work package. The finding was closed the same day: that row is now wrapped in an isPublishable() check on this claim id, so it renders nothing while this row is HELD and returns of its own accord if the row is ever released. One property of the fix is worth knowing — the card is generated at build time, so a released claim reaches it on the next build rather than the next request. Everywhere else is gated and prints nothing: no row in the certificationRegister in src/content/company.ts is published, so `certifications` is empty and VerificationTable prints its no-certification paragraph instead of a table, and SiteFooter renders no badge pills. To publish, hold the certificate number, the issuing certification body and the expiry date for Pixelette Technologies Ltd, and print them beside the badge.',
+      'No certificate is held anywhere in this project. Corrected 8 September 2026: this note said "design/certificates/ is empty", but there is no design/certificates/ directory in the repository at all; the empty folder is certificates/ in the project directory one level above it. Badge artwork exists but is no longer on the public surface. CORRECTED later the same day: this note said the artwork "does exist, at public/certifications/..., and is referenced by nothing in src/", which read as reassurance and was not. It was at public/certifications/iso-9001.svg and public/certifications/iso-27001.svg, referenced by nothing in src/ but served all the same, because everything under public/ is a web root and is retrievable at a guessable URL whether or not a page links to it. The claim in those two files is also machine-readable rather than artwork: it sits in SVG text elements reading CERTIFIED, ISO, 9001:2015 / 27001:2022 and COMPANY, so a crawler reads it as characters. Both files were moved to design/held-assets/, which is not served, with a README recording what they are, why they moved and the four steps that release them. They were moved rather than deleted so the artwork is there the day the claim is. The legal review of 7 September 2026 recorded that IAF CertSearch needs an account and the IASME register sat behind bot protection, and concluded: not doubted, not verified. Where it renders as at 8 September 2026: nowhere. CORRECTED later the same day. This note said src/app/opengraph-image.tsx prints "ISO 9001 · ISO 27001 · Cyber Essentials Plus" across the default social card, which every route without its own image inherits, contradicting public/llms.txt ("No certification badge is published by Pixelette Technologies"), and raised it as a blocking finding outside that work package. The finding was closed the same day: that row is now wrapped in an isPublishable() check on this claim id, so it renders nothing while this row is HELD and returns of its own accord if the row is ever released. One property of the fix is worth knowing — the card is generated at build time, so a released claim reaches it on the next build rather than the next request. Everywhere else is gated and prints nothing: no row in the certificationRegister in src/content/company.ts is published, so `certifications` is empty and VerificationTable prints its no-certification paragraph instead of a table, and SiteFooter renders no badge pills. To publish, hold the certificate number, the issuing certification body and the expiry date for Pixelette Technologies Ltd, and print them beside the badge. SUPERSEDED IN PART, 14 September 2026, and the words "in part" carry the weight. The first sentence of this note — "No certificate is held anywhere in this project" — stopped being true on 14 September 2026, when the founder supplied certificate detail for TWO of the three standards this row names: ISO/IEC 27001:2022 (AMER800409) and ISO 9001:2015 (AMER37046), both in the name of Pixelette Technologies Ltd, both issued by Americo Quality Standards Registech Pvt. Ltd, accredited by the United Accreditation Foundation. Nothing at all was supplied for Cyber Essentials Plus. WHAT WAS DONE WITH IT. The two evidenced standards were released through two NEW rows, `iso-9001-certificate` and `iso-27001-certificate`, each carrying the certificate number, the issuing body and the dates in its `detail` — which is the very thing the sentence before this one asked for. The unevidenced standard was given its own row, `cyber-essentials-plus-certificate`, which is HELD and states that no certificate has been produced for it. WHY THIS ROW DOES NOT MOVE, which is a decision and should be read as one. This row governs a claim class naming three standards, and its `label` is the published sentence: `publishedClaims()` feeds `ProofStrip`, which prints `label` verbatim, so VERIFIED here would print "ISO 9001, ISO 27001 and Cyber Essentials Plus certification badges" as a badge on / and on /certifications. That is a Cyber Essentials Plus claim with no certificate behind it, which is the exact thing the instruction above forbids. It would not stop there, and the other three consequences were traced in source on 14 September 2026 rather than assumed: src/components/SiteFooter.tsx gates its badge pills on THIS id (`TRUST_BADGE_CLAIM_ID`); src/app/opengraph-image.tsx gates a hardcoded row reading "ISO 9001 · ISO 27001 · Cyber Essentials Plus" on THIS id, on the default social card every page inherits; and src/content/work.ts holds two case-study vocabulary scans on THIS id, one of which matches the word ISO followed by four or five digits — a pattern that therefore also matches ISO/IEC 42001, a standard /certifications says in terms that Pixelette Technologies does not hold. Releasing this row on the strength of two certificates would therefore publish one unevidenced badge and unlock two more claim classes by side effect. So it stays HELD, exactly as ADR-0023 required of `client-logos`: evidence for part of a row\'s scope does not move the row. WHERE IT RENDERS as at 14 September 2026, re-run and not inherited: nowhere. The footer pills are double-gated and `trustBadges` is still empty; the social-card row is gated on this id and prints nothing; the two work.ts scans still run, so no case study may print an ISO number or the words "cyber essentials". WHAT WOULD MOVE THIS ROW: a current Cyber Essentials Plus certificate for Pixelette Technologies Ltd, at which point all three standards this row names are evidenced. Until then the evidenced pair publishes through its own rows and this one does not.',
+  },
+  {
+    /*
+     * The first published claim on this site, and its twin below.
+     *
+     * These two rows exist because the founder produced certificates for two of
+     * the three standards in `iso-cyber-essentials-badges` and nothing for the
+     * third, and ADR-0016's rule is that a row moves only when its whole scope
+     * is evidenced. Splitting was weighed against the alternative of recording
+     * the evidence in the class row's note and publishing nothing (ADR-0029);
+     * the deciding difference from ADR-0023 is that there, VERIFIED would have
+     * printed a badge nobody asked for, whereas here publishing the evidence IS
+     * what the founder asked for and what this register has been holding the
+     * space for since 8 September 2026.
+     *
+     * New ids, and the old one kept. ADR-0016 fixes ids as stable keys that are
+     * "never renumbered", so `iso-cyber-essentials-badges` is neither renamed
+     * nor repurposed: it still means the three-standard class it has always
+     * meant, every comment and ADR that cites it still resolves to the same
+     * claim, and src/content/work.ts — which fails the build if an id it names
+     * disappears — still finds it.
+     *
+     * The dates are recorded as the certificate states them and nothing is
+     * inferred from them. In particular no surveillance schedule is asserted:
+     * the certificate gives an issue date, an expiry date one year on, and a
+     * recertification date three years on, and that is all this register says
+     * about it. `detail` is what a reviewer can check; `evidenceNote` is what we
+     * hold and what would move the row.
+     */
+    id: 'iso-27001-certificate',
+    label: 'ISO/IEC 27001:2022 certified information security management system',
+    status: 'VERIFIED',
+    detail:
+      'Certificate AMER800409, held by Pixelette Technologies Ltd. Issued 12 March 2026 by Americo Quality Standards Registech Pvt. Ltd, accredited by the United Accreditation Foundation. Certificate expiry 11 March 2027; recertification 11 March 2029.',
+    publicationInstruction:
+      'HOLD — Publish only with current certificate for exact legal entity, scope and validity.',
+    evidenceNote:
+      'RELEASED 14 September 2026, and this is the first row in this register ever to reach VERIFIED. WHAT EVIDENCE EXISTS. Certificate detail supplied by the founder on 14 September 2026: ISO/IEC 27001:2022, certificate number AMER800409, issued 12 March 2026, expiry 11 March 2027, recertification 11 March 2029; issuing body Americo Quality Standards Registech Pvt. Ltd, accredited by the United Accreditation Foundation (UAF); legal entity Pixelette Technologies Ltd, 77 Fulham Palace Road, London W6 8JA; Statement of Applicability version 1.0 dated 15 January 2026. The certified scope, quoted verbatim from the certificate: "Information security management system for the design, development, deployment and support of AI solutions, blockchain applications, AR/VR solutions, web platforms, mobile applications, custom software products, UI/UX design services and quantum computing systems". That clears the instruction above on every limb it names: a current certificate, the exact legal entity, the scope, and the validity. WHAT IS DELIBERATELY NOT CLAIMED, and must not be added later without evidence. (1) Nothing about UAF\'s standing under any recognition arrangement. The founder has been told that UAF\'s position following the closure of the International Accreditation Forum is unverified, so this register records the accreditation as the certificate states it — the issuing body says it is accredited by UAF — and asserts nothing whatever about what that accreditation is recognised by. (2) No surveillance schedule. The certificate supplies three dates and no audit programme; "maintained subject to surveillance" is not written here because nobody has produced the programme that would support it. (3) No independent-audit or "externally audited" adjective, which asserts an activity this project cannot describe. (4) The scope is the certificate\'s scope and is published as such. It names AR/VR and quantum computing systems, which this site does not sell, and it is quoted rather than trimmed to match the site because a scope edited to fit the seller is not the certificate\'s scope. It is introduced on /security-and-data as what the certificate covers, never as a list of services on offer. THE CERTIFICATE DOCUMENT IS NOT PUBLISHED (ADR-0012, founder decision 2026-09-01): the number, body, entity, dates and scope are published, and a reviewer who needs the document is told to ask and is sent it directly. NO VERIFICATION LINK IS PUBLISHED and that is a change, not an omission — see `certificationRegister` in src/content/company.ts, which removed the IAF CertSearch link on 14 September 2026 because the International Accreditation Forum ceased operations on 1 January 2026. WHERE IT RENDERS as at 14 September 2026: as a badge with this `detail` beneath it in `ProofStrip` on / and /certifications; as a published row with certificate number, body and expiry in `VerificationTable` on /security-and-data and /ai-engineering; as the "Information security management" paragraph on /security-and-data; in the security-questionnaire answers on /security-and-data and /certifications, which also feed FAQPage JSON-LD; and in public/llms.txt. It is NOT emitted as schema.org `hasCredential`, deliberately — src/lib/schema.ts can, the caller does not, and the reason is in that file. THE DIARY ENTRY, which is the cost of publishing anything: this certificate expires 11 March 2027. Every surface listed above states the expiry date, so a reader is never shown a bare badge, but a badge that outlives its certificate is worse than no badge. On or before 11 March 2027 this row is re-evidenced from the current certificate or moved back to HELD.',
+  },
+  {
+    id: 'iso-9001-certificate',
+    label: 'ISO 9001:2015 certified quality management system',
+    status: 'VERIFIED',
+    detail:
+      'Certificate AMER37046, held by Pixelette Technologies Ltd. Issued 2 January 2026 by Americo Quality Standards Registech Pvt. Ltd, accredited by the United Accreditation Foundation. Certificate expiry 1 January 2027; recertification 1 January 2029.',
+    publicationInstruction:
+      'HOLD — Publish only with current certificate for exact legal entity, scope and validity.',
+    evidenceNote:
+      'RELEASED 14 September 2026. WHAT EVIDENCE EXISTS. Certificate detail supplied by the founder on 14 September 2026: ISO 9001, certificate number AMER37046, issued 2 January 2026, expiry 1 January 2027, recertification 1 January 2029; issuing body Americo Quality Standards Registech Pvt. Ltd, accredited by the United Accreditation Foundation (UAF); legal entity Pixelette Technologies Ltd. THE LIMIT OF THIS ROW, and it is the reason it is a separate row from the 27001 one rather than a second line in it: ISO 9001 is a QUALITY management standard, not a security one. It is published on /certifications and in the verification table, and it is deliberately NOT offered as an answer to a security question — the "Information security management" position on /security-and-data cites 27001 and does not cite this. A quality certificate presented as security assurance is a borrowed credential in the handoff\'s sense, and the split between these two rows is what keeps the two claims from being read as one. WHAT IS NOT CLAIMED. No scope is published for this certificate, because no scope wording was supplied for it — the verbatim scope this project holds belongs to the 27001 certificate and is not transferable to this one. Nothing is claimed about UAF\'s standing under any recognition arrangement; see the 27001 row. No surveillance schedule is asserted. The certificate document itself is not published (ADR-0012). WHERE IT RENDERS as at 14 September 2026: as a badge with this `detail` beneath it in `ProofStrip` on / and /certifications; as a published row in `VerificationTable` on /security-and-data and /ai-engineering; in the certification FAQ answers, which feed FAQPage JSON-LD; and in public/llms.txt. THE DIARY ENTRY: expiry 1 January 2027. Re-evidence from the current certificate on or before that date, or move this row back to HELD.',
+  },
+  {
+    /*
+     * Split out of `iso-cyber-essentials-badges` on 14 September 2026, and
+     * given a row of its own for one reason: the class row is now the only
+     * thing standing between this claim and three publication surfaces, and a
+     * gate that is load-bearing should be visible rather than implied by the
+     * absence of a row. A reader scanning the status column can now see that
+     * Cyber Essentials Plus is held, and see it named, instead of inferring it
+     * from a compound label.
+     *
+     * This row publishes nothing and gates nothing. It is a record. The
+     * mechanical gate remains `iso-cyber-essentials-badges`, which is the id
+     * the footer, the social card and the work.ts vocabulary scans consult.
+     */
+    id: 'cyber-essentials-plus-certificate',
+    label: 'Cyber Essentials Plus certification',
+    status: 'HELD',
+    publicationInstruction:
+      'HOLD — Publish only with current certificate for exact legal entity, scope and validity.',
+    evidenceNote:
+      'NO EVIDENCE EXISTS, as at 14 September 2026, and none has ever been produced in this project. The founder supplied certificate detail for ISO/IEC 27001:2022 and ISO 9001 on 14 September 2026 and supplied NOTHING for Cyber Essentials Plus — no certificate number, no issuing body, no dates, no certifying body reference. This row exists so that the absence is stated rather than left to be inferred from a compound label that has now been partly released. The previous site asserted Cyber Essentials Plus in footer pills, on the default social card and in prose; all of it was withdrawn on 8 September 2026 for want of a certificate, and none of it returns on the strength of the two ISO certificates, which say nothing about it. The 7 September 2026 legal review recorded that the IASME register sat behind bot protection and concluded: not doubted, not verified. That is still the position. WHERE IT RENDERS as at 14 September 2026: nowhere, and the same is true of the words "Cyber Essentials" anywhere on the published site. WHAT WOULD MOVE THIS ROW: a current Cyber Essentials Plus certificate for Pixelette Technologies Ltd with its certifying body and expiry date, at which point this row and `iso-cyber-essentials-badges` can both be released together.',
   },
   {
     id: 'clutch-rating',
@@ -219,3 +326,64 @@ export function claimById(id: string): Claim | undefined {
 export function isPublishable(id: string): boolean {
   return claimById(id)?.status === 'VERIFIED';
 }
+
+/**
+ * The register's invariants, checked once at module load.
+ *
+ * This file has been a set of conventions enforced by review since 8 September
+ * 2026. Two of those conventions are now mechanical, because on 14 September
+ * 2026 the register published its first claim and the cost of getting a row
+ * wrong stopped being theoretical.
+ *
+ *  1. **Ids are unique.** `claimById` returns the FIRST match, so a duplicated
+ *     id does not collide loudly — it shadows. The shadowed row's status is
+ *     then unreachable, which means a HELD row could sit in the file looking
+ *     like a gate while `isPublishable` answers from a VERIFIED twin above it.
+ *     That is a silent fail-OPEN in a mechanism whose whole purpose is to fail
+ *     closed.
+ *
+ *  2. **A VERIFIED row carries its substantiation.** `ProofStrip` prints
+ *     `label` as a badge and `detail` as the line under it. A VERIFIED row with
+ *     no `detail` therefore renders a bare badge — precisely the presentation
+ *     this register was built to prevent, and the one the DMCCA 2024 s.226
+ *     reasoning at the top of this file is aimed at. The rule is not "some
+ *     verified rows should show evidence"; it is that a claim this site is
+ *     willing to print is a claim it is willing to have checked.
+ *
+ * Thrown rather than logged, at module load rather than at render. Every page
+ * that can publish a claim imports this file, so a breach is a build failure
+ * and not a bad deployment. `src/content/work.ts` already does the same thing
+ * for the case-study invariants, and this is that pattern applied to the
+ * register itself.
+ */
+function assertRegisterInvariants(rows: readonly Claim[]): void {
+  const faults: string[] = [];
+
+  const seen = new Set<string>();
+  for (const row of rows) {
+    if (seen.has(row.id)) {
+      faults.push(
+        `duplicate claim id '${row.id}'. claimById() returns the first match, so the later row ` +
+          'is unreachable and its status gates nothing. Ids are stable keys and must be unique.',
+      );
+    }
+    seen.add(row.id);
+  }
+
+  for (const row of rows) {
+    if (row.status !== 'VERIFIED') continue;
+    if (!row.detail || row.detail.trim().length === 0) {
+      faults.push(
+        `claim '${row.id}' is VERIFIED but carries no \`detail\`. A published claim must ship with ` +
+          'the substantiation a reader can check — for a certification, the certificate number, ' +
+          'the issuing body and the expiry date. Add it, or return the row to HELD.',
+      );
+    }
+  }
+
+  if (faults.length > 0) {
+    throw new Error(`Claims register invariants failed:\n - ${faults.join('\n - ')}`);
+  }
+}
+
+assertRegisterInvariants(claims);

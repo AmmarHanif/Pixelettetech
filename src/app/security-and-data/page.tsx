@@ -39,10 +39,58 @@ const positions = [
      * we have not verified is worse to a security reviewer than a visible gap.
      * The page now applies that rule to itself.
      */
+    /*
+     * FILLED 2026-09-14, on evidence, and the placeholder above it is gone
+     * rather than softened.
+     *
+     * The placeholder set its own release condition on 8 September 2026:
+     * "published once the certificate number, issuing body and expiry date can
+     * be shown for the exact legal entity". All three are below, plus the
+     * scope, the issue date, the recertification date and the Statement of
+     * Applicability version. The exact legal entity is named in full with the
+     * registered office, because "for the exact legal entity" was the precise
+     * thing the placeholder asked for and a company name without an address is
+     * how a reviewer ends up checking the wrong Pixelette.
+     *
+     * Four things are deliberately absent and must not creep back in:
+     *
+     *  1. ANY CLAIM ABOUT WHAT THE ACCREDITATION IS RECOGNISED BY. The
+     *     certificate says the issuing body is accredited by the United
+     *     Accreditation Foundation; this paragraph says exactly that and stops.
+     *     The founder has been told UAF's standing under the arrangements that
+     *     followed the closure of the International Accreditation Forum is
+     *     unverified, so nothing here says the accreditation is recognised,
+     *     internationally recognised, or recognised by any scheme.
+     *  2. A SURVEILLANCE SCHEDULE. The certificate supplies three dates and no
+     *     audit programme. The three dates are printed and described; no annual
+     *     audit, no surveillance interval and no maintenance condition is
+     *     asserted, because none was supplied. Describing the dates is not the
+     *     same as inventing the programme behind them.
+     *  3. "EXTERNALLY AUDITED", the adjective the withdrawn version used. It
+     *     asserts an activity this project cannot describe, and the certificate
+     *     is the evidence without it.
+     *  4. CYBER ESSENTIALS PLUS, in any form, including a denial. Still no
+     *     certificate; still held (claims.ts `cyber-essentials-plus-certificate`).
+     *     It is not mentioned even to say it is not published, because this
+     *     array feeds nothing but human copy while the FAQ below feeds FAQPage
+     *     JSON-LD, and ADR-0016's rule for a held claim is that it is dropped
+     *     silently rather than shown as a near-miss. The place that instruction
+     *     belongs is public/llms.txt, which tells crawlers not to attribute it.
+     *
+     * THE SCOPE IS QUOTED, NOT EDITED. It names AR/VR solutions and quantum
+     * computing systems, which this site does not sell. It is introduced as
+     * what the certificate covers and closed with a sentence saying in terms
+     * that it is the certificate's wording rather than a menu, because a scope
+     * trimmed to match the seller is not the certificate's scope and a reviewer
+     * comparing the site to the document would find the edit.
+     *
+     * DIARY: this certificate expires 11 March 2027. The paragraph prints that
+     * date, so no reader is left with a bare badge — but on or before that date
+     * this is re-evidenced from the current certificate or it comes down.
+     */
     title: 'Information security management',
-    body: null,
-    placeholder:
-      'ISMS SCOPE AND CERTIFICATION EVIDENCE — published once the certificate number, issuing body and expiry date can be shown for the exact legal entity',
+    body:
+      'Our information security management system is certified to ISO/IEC 27001:2022 under certificate AMER800409, held by Pixelette Technologies Ltd of 77 Fulham Palace Road, London W6 8JA. It was issued on 12 March 2026 by Americo Quality Standards Registech Pvt. Ltd, which the certificate records as accredited by the United Accreditation Foundation. It carries two further dates and we publish both, because either one alone would mislead you: the certificate expires on 11 March 2027, and its recertification date is 11 March 2029 — an expiry one year after issue, inside a cycle running three years from it. We are not publishing an audit schedule, because the certificate does not state one and we will not describe a programme we cannot show you. The certified scope, in the certificate\'s own words, is the “Information security management system for the design, development, deployment and support of AI solutions, blockchain applications, AR/VR solutions, web platforms, mobile applications, custom software products, UI/UX design services and quantum computing systems”. That is the scope as written on the certificate, quoted rather than trimmed to match this site, and it is not a list of what we sell. The Statement of Applicability is version 1.0, dated 15 January 2026. We do not publish the certificate document itself — ask and we will send the detail to your reviewer directly.',
   },
   {
     title: 'Where your data sits',
@@ -87,9 +135,31 @@ const faqs = [
    * to the claims register and the handoff's ACCREDITATION-SAFE RULE, which
    * also forbids saying a group company "delivers" a standard or audits anyone.
    */
+  /*
+   * REWRITTEN 2026-09-14. The answer opened "None at present", which stopped
+   * being true the moment the paragraph above published, and this array is the
+   * one on this page that is ALSO emitted as FAQPage JSON-LD. A stale answer
+   * here is not a stale sentence — it is a contradiction handed to answer
+   * engines in machine-readable form, which is the channel this project has
+   * twice recorded as the hardest to retract.
+   *
+   * Two things it does that the human copy above does not have to:
+   *
+   *  - It answers the question that was ASKED. "Which SECURITY certifications"
+   *    is answered with the 27001 certificate. ISO 9001 is named because it is
+   *    published elsewhere on the site and a reviewer will see it, and it is
+   *    named with the words "quality management" and an explicit statement that
+   *    we do not offer it as security assurance. A quality certificate allowed
+   *    to stand as an answer to a security question is a borrowed credential.
+   *  - It closes the set. "Nothing else is published" is what makes this answer
+   *    safe to hand to a crawler: it forecloses every badge this company has
+   *    ever had attributed to it without naming any of them, so no held claim
+   *    is put into structured data even inside a negation. An answer engine
+   *    that drops a "no" from a sentence cannot drop one that is not there.
+   */
   {
     q: 'Which security certifications does Pixelette Technologies publish?',
-    a: 'None at present. A certification is published on this site only with a current certificate for the exact legal entity, its scope and its validity, and until that can be shown for Pixelette Technologies Ltd nothing is asserted either way — a badge a reviewer cannot check is not evidence. Where a programme needs formal governance, certification readiness, privacy or security-assurance support, Pixelette Certified can help scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment.',
+    a: 'One. ISO/IEC 27001:2022, certificate AMER800409, held by Pixelette Technologies Ltd and issued on 12 March 2026 by Americo Quality Standards Registech Pvt. Ltd, which the certificate records as accredited by the United Accreditation Foundation. The certificate expires on 11 March 2027 and its recertification date is 11 March 2029. We also publish ISO 9001, certificate AMER37046 from the same body, but that is a quality management standard and we do not offer it as security assurance. Nothing else is published: a certification appears on this site only with a current certificate for the exact legal entity, its scope and its validity, which is why the number, the issuing body and the dates are given here rather than a badge. The certificate documents stay internal — ask and we will send the detail to your reviewer. Where a programme needs formal governance, certification readiness, privacy or security-assurance support, Pixelette Certified can help scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment.',
   },
 ];
 
@@ -135,11 +205,21 @@ export default function SecurityDataPage() {
         <h2 className="h2" id="verify-heading" style={{ marginTop: 18 }}>
           What we publish about certification, and what we hold back.
         </h2>
+        {/*
+          Written on 8 September 2026 to read correctly in both states — "it
+          describes the standard the table is held to, not the number of rows in
+          it, so it stays true on the day the first row publishes". That day was
+          14 September 2026 and the sentence did survive it, which is the point
+          of recording the intent. One clause did not and is replaced: "nothing
+          is asserted either way in the meantime" described an empty table, and
+          the table is no longer empty. The standard it states is unchanged.
+        */}
         <p className="body" style={{ marginTop: 20, maxWidth: '68ch' }}>
           A certification appears on this site only with a current certificate for{' '}
           {company.legalName} — its scope, and its validity — set out so that you can check it
           rather than take it. Anything that does not clear that bar is held back rather than
-          softened, and nothing is asserted either way in the meantime.
+          softened. What has cleared it is below, with the certificate number, the issuing body and
+          the dates; about anything not listed, nothing is asserted either way.
         </p>
         <p style={{ marginTop: 16 }}>
           <FLink href="/certifications">

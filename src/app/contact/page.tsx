@@ -35,6 +35,21 @@ export const metadata = pageMetadata({
  *     search that may not return us". IAF CertSearch needs an account and the
  *     IASME search sits behind bot protection, so the register route is not one
  *     this page can promise on the company's behalf.
+ *
+ *     THE IAF HALF OF THAT IS NOW WORSE, 2026-09-14, and it is recorded here
+ *     because this comment is one of the four places in this repository that
+ *     named IAF CertSearch as a route. The founder reports that the
+ *     International Accreditation Forum ceased operations on 1 January 2026 and
+ *     that iaf.nu now describes itself as a legacy archive. That report is NOT
+ *     verified in the session that wrote this — raw network access was blocked,
+ *     so neither iaf.nu nor iafcertsearch.org was loaded — and it is therefore
+ *     asserted nowhere in rendered copy, here or anywhere else. The two IAF
+ *     links themselves are gone from src/content/company.ts, and no successor
+ *     register is named in their place because none has been checked. The
+ *     effect on THIS page is nil: the answer below already routes a reviewer by
+ *     asking rather than by linking, which is why it needed no rewording when
+ *     two certificates published on 14 September 2026. It is the answer that
+ *     was right for the wrong-sounding reason, and it stays.
  *  2. Saying a certificate is verifiable on a public register asserts that the
  *     certificate exists and is findable, which is the claim the register HOLDs
  *     (claims.ts `iso-cyber-essentials-badges`). An FAQ is not a lesser surface:

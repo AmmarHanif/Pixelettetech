@@ -12,6 +12,26 @@ import { footerColumns, groupBlurb, groupEntities, legalNav } from '@/content/na
  * `trustBadges` held "ISO 9001", "ISO 27001" and "Cyber Essentials Plus", which
  * is exactly the claim registered under this id: "HOLD — Publish only with
  * current certificate for exact legal entity, scope and validity."
+ *
+ * DELIBERATELY NOT RETARGETED, 2026-09-14. On that date the claims register
+ * split that compound row: two certificates were evidenced and published under
+ * `iso-27001-certificate` and `iso-9001-certificate`, and this id kept its
+ * original three-standard meaning and stayed HELD. The obvious-looking edit is
+ * to point this constant at one of the two new VERIFIED rows. Do not make it.
+ *
+ *  - The third string in `trustBadges` is "Cyber Essentials Plus", for which no
+ *    certificate has ever been produced. Gating that array on a row that says
+ *    ISO 27001 is evidenced would publish the Cyber Essentials pill on the
+ *    strength of a 27001 certificate, on every route of the site.
+ *  - A pill is the presentation this footer's own register calls out as
+ *    highest-risk, because it asserts everything and evidences nothing. What
+ *    was published on 14 September was the certificate number, the issuing body
+ *    and the dates. None of those fits in a footer pill, and the footer is on
+ *    every page.
+ *
+ * `trustBadges` is empty as well, so both gates below are shut and the pills
+ * would not return even if this one were opened. That is defence in depth, not
+ * a reason to relax either gate.
  */
 const TRUST_BADGE_CLAIM_ID = 'iso-cyber-essentials-badges';
 

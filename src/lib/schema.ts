@@ -32,6 +32,30 @@ const SITE_ID = `${SITE_URL}/#website`;
  * certificate for exact legal entity, scope and validity". When the founder
  * closes either gate, the switch is one argument at the call site rather than
  * an edit to this file.
+ *
+ * ONE OF THOSE GATES CLOSED ON 14 SEPTEMBER 2026, AND `credentials` IS STILL
+ * NOT PASSED. That is a decision, not an oversight, and it is recorded here
+ * because the next reader will otherwise treat it as a loose end.
+ *
+ * Two certificates are now published in human copy on /security-and-data and
+ * /certifications, in the verification table and in public/llms.txt: ISO/IEC
+ * 27001:2022 (AMER800409) and ISO 9001 (AMER37046). No caller passes them into
+ * `hasCredential`, for the reason this file's own header gives about retracted
+ * claims surviving in machine-readable markup. These certificates carry dated
+ * expiries — 11 March 2027 and 1 January 2027 — so the question is not whether
+ * this claim will ever need retracting but when, and `hasCredential` emits a
+ * bare standard name with no number and no expiry beside it. That is the one
+ * presentation the register refuses in human copy; emitting it here would be
+ * that presentation in the channel that is hardest to take back.
+ *
+ * The published surfaces all print the certificate number, the issuing body and
+ * the expiry date, and public/llms.txt instructs crawlers not to restate a
+ * certificate without them. That is a deliberately better answer for machine
+ * readers than `hasCredential` gives, and it is retractable in one edit.
+ *
+ * If this is ever revisited, the thing to change is the shape, not the switch:
+ * `credentials` takes standard names only, and what would make it safe is a
+ * type that cannot express a credential without its identifier and validity.
  */
 export type PublishedOrgClaims = {
   /** Only from a re-verified live profile. */

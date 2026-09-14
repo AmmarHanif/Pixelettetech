@@ -141,7 +141,19 @@ Read by procurement and security reviewers. A visible gap is safer than a guess,
 
 **`/security-and-data`**
 
-- [ ] `[ISMS SCOPE AND CERTIFICATION EVIDENCE — published once the certificate number, issuing body and expiry date can be shown for the exact legal entity]`
+- [x] ~~`[ISMS SCOPE AND CERTIFICATION EVIDENCE — published once the certificate
+      number, issuing body and expiry date can be shown for the exact legal
+      entity]`~~ **CLOSED 2026-09-14.** The founder supplied the ISO/IEC
+      27001:2022 certificate detail and the placeholder was replaced with it:
+      certificate AMER800409, Pixelette Technologies Ltd of 77 Fulham Palace
+      Road, London W6 8JA, issued 12 March 2026 by Americo Quality Standards
+      Registech Pvt. Ltd (which the certificate records as accredited by the
+      United Accreditation Foundation), expiry 11 March 2027, recertification
+      11 March 2029, Statement of Applicability v1.0 of 15 January 2026, and the
+      certified scope quoted verbatim. The three items below it are untouched
+      and still block: this closed the gap it had evidence for and nothing else.
+      **Re-opens 11 March 2027** unless re-evidenced from the current
+      certificate. See ADR-0029.
 - [ ] `[DATA RESIDENCY AND HOSTING REGIONS — confirm per environment before publication]`
 - [ ] `[SUBPROCESSOR REGISTER — publish the current list and the notification period]`
 - [ ] `[RETENTION SCHEDULE BY DATA CLASS — confirm with the DPO before publication]`
@@ -317,7 +329,7 @@ Pricing detail to confirm.
       score is what the 7 September legal review judged sound under the DMCCA
       fake-review provisions. The individual review cards are a separate claim
       and already render, each linking to the review it came from.
-- [ ] **Founder decision: produce the certificates, or the certification claim
+- [~] **Founder decision: produce the certificates, or the certification claim
       stays off the site.** Corrected 2026-09-08: this was written as a
       link-checking task, and it is not one. Every row in `certificationRegister`
       (`src/content/company.ts`) is `published: false`, so `certifications` is
@@ -332,6 +344,52 @@ Pricing detail to confirm.
       badge artwork is waiting in `design/held-assets/`, moved out of `public/` on
       2026-09-08 because everything under `public/` is served at a guessable URL
       and the claim in those two SVGs is machine-readable text.
+
+      **The IAF CertSearch half of that paragraph is worse than "a search box",
+      2026-09-14.** The founder reports that the International Accreditation
+      Forum ceased operations on 1 January 2026 and that iaf.nu now presents
+      itself as a legacy archive naming a successor body. That report is **not
+      verified in this repository** — raw network access was blocked in the
+      session that acted on it, so neither iaf.nu nor iafcertsearch.org was
+      loaded, and the current state of iafcertsearch.org is unknown rather than
+      established. Both `verifyUrl`s are removed anyway, because pointing a
+      buyer at a registry that may have closed undercuts the certificate it is
+      supposed to support. No successor URL is invented anywhere, and the
+      closure is asserted in no rendered copy. **Open item for the founder:** if
+      an authoritative verification route for these certificates exists under
+      the post-IAF arrangements, someone with network access should establish it
+      and it can be added; until then the route is the printed certificate
+      number and issuing body, plus the detail sent on request.
+
+      **PARTLY CLOSED 2026-09-14, and the remainder is named rather than
+      rounded up.** The founder produced two certificates and nothing else, so
+      two of the five register rows publish and three do not.
+
+      - **Closed.** ISO 27001:2022 (AMER800409) and ISO 9001:2015 (AMER37046),
+        both for Pixelette Technologies Ltd, both from Americo Quality Standards
+        Registech Pvt. Ltd, accredited by UAF. Each row now carries its number,
+        issuing body, issue date, expiry and recertification date, and
+        `VerificationTable` prints all of them. `certifications` is no longer
+        empty and the proof strip renders for the first time.
+      - **Still open, and the reason this item is not ticked.** Cyber Essentials
+        Plus: no certificate has ever been produced. ISO/IEC 42001: not ours to
+        claim. AI DPS RM6200: still no listing to point at.
+      - **The `iso-cyber-essentials-badges` row did NOT move**, and the line
+        above that names moving it as the unblocking step is superseded. That
+        row covers three standards and one of them has no evidence; moving it
+        would publish a Cyber Essentials badge, refill the footer pills and put
+        "Cyber Essentials Plus" back on the default social card. The two
+        evidenced standards were released through their own new register rows
+        instead. See ADR-0029.
+      - **The badge artwork is still in `design/held-assets/` and still
+        unreleased.** What was published is the certificate facts, not a mark.
+        The two SVGs there say CERTIFIED / ISO / 9001:2015 / 27001:2022 in
+        machine-readable text with no number and no expiry beside them, which is
+        the presentation the register refuses. Releasing them is a separate
+        decision and is not implied by this one.
+      - **Two dates now sit in the diary**: 1 January 2027 and 11 March 2027.
+        Re-evidence each row from the current certificate on or before its date,
+        or return it to HELD.
 - [ ] Decide the redirect map from the current site's URLs to these routes. The
       information architecture has changed substantially — several existing
       service pages have no direct equivalent — so this needs a deliberate pass,

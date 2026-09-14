@@ -112,3 +112,66 @@ script the package *loads* could not be inspected from the build environment,
 because it is served by the Vercel platform at deploy time. That is why
 `ANALYTICS_ENABLED` ships `false` and why `ANALYTICS.md` §5b makes it a
 precondition rather than an assumption.
+
+### 2026-09-14 — `@supabase/supabase-js` and `resend` evaluated, and NOT added
+
+The contact form's delivery path was rebuilt onto Supabase storage and Resend
+email (`CONTACT-FORM-SETUP.md`). The founder authorised these two packages, and
+only these two, for that work. Both were evaluated against the gate. **Neither
+was added, and the installed tree is unchanged at 29 packages.** The reasons are
+below, together with everything needed to reverse the decision in one step.
+
+**The versions and licences, as required — read from the npm registry
+2026-09-14, not from the sibling repo's pins.**
+
+| Package | Current | Licence | Runtime deps | Engines | Peers |
+|---|---|---|---|---|---|
+| `@supabase/supabase-js` | 2.116.0 | MIT | 5 (`auth-js`, `storage-js`, `realtime-js`, `functions-js`, `postgrest-js`, all 2.116.0) | `node >=22.0.0` | `@opentelemetry/api` — optional |
+| `resend` | 6.28.0 | MIT | 2 (`postal-mime@2.7.5`, `standardwebhooks@1.0.0`) | `node >=20` | `@react-email/render` — optional |
+
+Both are MIT, so neither adds a licence obligation. Neither declares a `react`
+or `next` peer, so neither can conflict with Next 15.5.24 or React 19 — the
+compatibility question for these two is **Node**, not React. Note that
+`@supabase/supabase-js` has moved its floor since the sibling repo pinned it:
+the sibling's `^2.103.0` declares `node >=20.0.0`, current declares
+`node >=22.0.0`. This project pins no `engines` and ships no `vercel.json`, so
+it would inherit whatever Node version the Vercel project is set to. That would
+have to be confirmed as 22.x before adopting current `supabase-js`.
+
+**Why they were not added.**
+
+1. **The install could not be performed here, and routing around the gate was
+   not an option.** `npm install` is refused in this environment by the R14
+   dependency gate. Adding the two names to `package.json` by hand would have
+   declared a tree that does not exist on disk, left `package-lock.json`
+   inconsistent with it, and — because nothing can be compiled against a package
+   that is not installed — made it impossible to type-check or build the very
+   code that imports them. That was measured, not assumed: a probe importing
+   both packages fails with `TS2307: Cannot find module`, exit 2.
+2. **Shipping unbuildable code is worse than shipping no code.** The founder
+   asked for something ready to test on the day credentials arrive. With the
+   SDKs, "ready" would still have required a successful dependency install
+   first. Without them it requires only environment variables and a migration.
+3. **What the SDKs were wanted for is two HTTP calls.** One `INSERT` through
+   PostgREST and one `POST /emails`. `supabase-js` brings realtime, auth,
+   storage and functions clients — five packages of surface — to perform a
+   single insert, and every one of them would sit in the same process as a
+   service-role credential. Fewer moving parts around that credential is the
+   better security position, and it keeps the "no strong copyleft, 29 packages"
+   record in this file true.
+
+This is a deviation from the letter of the authorisation and it is recorded as
+one. The authorisation was a ceiling — "these two only… no other dependency" —
+and using neither stays inside it, but the intent was plainly to use them, so
+the decision belongs to the founder if he disagrees.
+
+**To adopt them instead**, nothing needs designing: run
+`npm install --save-exact @supabase/supabase-js@2.116.0 resend@6.28.0` from an
+interactive session that can clear the gate, confirm the Vercel project runs
+Node 22.x, and replace the two `fetch` calls in `src/lib/enquiries.ts` with the
+SDK equivalents. The module boundary was drawn so that this is the only file
+that changes: `deliverEnquiry` is the whole interface, and the server action
+neither knows nor cares how the transport works. The behavioural suite at
+`verification/2026-09-14/contact_action_test.js` stubs `fetch`, so it would need
+its stubs re-pointed at the SDKs, and it is the thing that tells you the swap
+was faithful.

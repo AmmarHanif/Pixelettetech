@@ -115,6 +115,47 @@ export type Certification = {
   verifyUrl?: string;
   /** True when the certificate is held by Pixelette Certified, not by us. */
   heldByCertified?: boolean;
+  /*
+   * The certificate's own facts, added 2026-09-14.
+   *
+   * `VerificationTable`'s empty-state paragraph has named these as the
+   * condition for publishing anything since 8 September 2026 — "the certificate
+   * number, the issuing certification body and the expiry date, against
+   * Pixelette Technologies Ltd as the named entity" — and until now the type
+   * had nowhere to put them, so the promise was one the table could not have
+   * kept even with the evidence in hand. It can now.
+   *
+   * All three of `certificateNumber`, `issuingBody` and `validTo`, or none.
+   * `VerificationTable` guards them as a single unit for that reason: a row
+   * published with a number and no expiry is the badge problem again in
+   * smaller type, and a reader who is given two of the three facts cannot tell
+   * whether the third is missing or simply not applicable.
+   */
+  /** As printed on the certificate. */
+  certificateNumber?: string;
+  /**
+   * The certification body, and its accreditation exactly as the certificate
+   * states it — no more. Nothing here asserts what that accreditation is
+   * recognised BY: see claims.ts `iso-27001-certificate`, which records that
+   * the standing of the accreditation body under any recognition arrangement
+   * is unverified and is deliberately not claimed anywhere on this site.
+   */
+  issuingBody?: string;
+  /** Issue date on the certificate. */
+  issued?: string;
+  /** Expiry date on the certificate. */
+  validTo?: string;
+  /**
+   * Recertification date on the certificate, where it states one.
+   *
+   * Published alongside `validTo` rather than instead of it, because either
+   * date alone misleads: the expiry read on its own suggests the certification
+   * ends there, and the recertification date read on its own suggests a
+   * three-year run with no dated checkpoint in it. No audit programme is
+   * recorded in this type, because no audit programme was supplied with the
+   * certificates and this project does not describe schedules it has not seen.
+   */
+  recertification?: string;
   /**
    * Renders only when true. Set it when the certificate number, the issuing
    * certification body and the expiry date are in hand for this exact legal
@@ -134,18 +175,60 @@ export type Certification = {
  * protection. Its finding was precise, and is worth repeating rather than
  * softening: not doubted, not verified. design/certificates/ is empty.
  *
- * So every row here is unpublished. This is the internal record, kept so the
- * work is not lost and so the missing evidence is named; `certifications` below
- * is what the site may render.
+ * UPDATED 2026-09-14, and two things changed at once.
+ *
+ * FIRST, THE ROWS. "So every row here is unpublished" is no longer true. The
+ * founder supplied certificate detail for ISO/IEC 27001:2022 (AMER800409) and
+ * ISO 9001 (AMER37046), both for Pixelette Technologies Ltd, and those two rows
+ * are published with the number, the issuing body and the dates printed beside
+ * them. Nothing was supplied for Cyber Essentials Plus and that row is
+ * unchanged; ISO 42001 is still not ours to claim and RM6200 still has no
+ * listing to point at. See claims.ts `iso-27001-certificate`,
+ * `iso-9001-certificate` and `cyber-essentials-plus-certificate`, and ADR-0029.
+ *
+ * SECOND, THE LINKS — and this one is the reason the rule above could never
+ * have been kept. The two ISO rows pointed at IAF CertSearch. **The
+ * International Accreditation Forum ceased operations on 1 January 2026.** The
+ * founder read iaf.nu on 14 September 2026 and reports that it now describes
+ * itself as a legacy archival site and names a successor body, Global
+ * Accreditation Cooperation. That report could NOT be verified from this
+ * session: raw network access is blocked here, so neither iaf.nu nor
+ * iafcertsearch.org was loaded, and whether iafcertsearch.org itself still
+ * resolves is unknown rather than established. It does not need to be known for
+ * the decision. Publishing a certificate while sending the reader to a register
+ * run by a body that has ceased operations undercuts the certificate, and a
+ * dead verification route is worse than none because the reader concludes the
+ * claim is empty rather than unlinked. No successor URL is invented here — the
+ * successor body is named in this comment and NOWHERE in rendered copy, because
+ * nobody in this project has loaded its register or confirmed it holds these
+ * certificates. So the links are removed and the verification route is the one
+ * ADR-0012 and /certifications already give: the certificate number and the
+ * issuing body are printed so a reviewer can go to the body direct, and the
+ * detail is sent to a reviewer who asks. The IASME link on the Cyber Essentials
+ * Plus row is untouched and renders nowhere, because that row is unpublished.
+ *
+ * This is still the internal record, kept so the work is not lost and so the
+ * missing evidence is named; `certifications` below is what the site may render.
  */
 export const certificationRegister: Certification[] = [
   {
     standard: 'ISO 9001:2015',
     status: 'Certified',
     note: 'Quality management system',
-    verifyLabel: 'IAF CertSearch',
-    verifyUrl: 'https://www.iafcertsearch.org/',
-    published: false,
+    certificateNumber: 'AMER37046',
+    issuingBody:
+      'Americo Quality Standards Registech Pvt. Ltd, which the certificate records as accredited by the United Accreditation Foundation',
+    issued: '2 January 2026',
+    validTo: '1 January 2027',
+    recertification: '1 January 2029',
+    /* Label without a URL was the old idiom for "no route"; this is a route,
+       and it is the one ADR-0012 chose. /certifications is the page that says
+       what is published, what is not, and how to ask for the document. It
+       promises a page that exists rather than a register search that does
+       not. */
+    verifyLabel: 'Detail on request',
+    verifyUrl: '/certifications',
+    published: true,
   },
   {
     standard: 'ISO 27001:2022',
@@ -155,14 +238,26 @@ export const certificationRegister: Certification[] = [
      * Founder decision 2026-09-01: certificate documents are held internally
      * and are NOT published on the site. This link was previously labelled
      * "Certificate" and pointed at /security-and-data, which hosts none — a
-     * promise the page could not keep (audit finding C8). It now points at the
-     * public register, labelled as what it is. The register is still not a
-     * resolution: it is a search box. Publishing the certificate number, the
-     * issuing body and the expiry date is what would let a stranger check.
+     * promise the page could not keep (audit finding C8). It then pointed at
+     * the public register, labelled as what it was: a search box, not a
+     * resolution. The comment that replaced it said "publishing the certificate
+     * number, the issuing body and the expiry date is what would let a stranger
+     * check", and that is now done, in the fields below.
+     *
+     * The register link is gone for the separate reason recorded above this
+     * array: IAF ceased operations on 1 January 2026. The last sentence of that
+     * old comment turned out to be the whole answer — the facts, not the link,
+     * are what let a stranger check.
      */
-    verifyLabel: 'IAF CertSearch',
-    verifyUrl: 'https://www.iafcertsearch.org/',
-    published: false,
+    certificateNumber: 'AMER800409',
+    issuingBody:
+      'Americo Quality Standards Registech Pvt. Ltd, which the certificate records as accredited by the United Accreditation Foundation',
+    issued: '12 March 2026',
+    validTo: '11 March 2027',
+    recertification: '11 March 2029',
+    verifyLabel: 'Detail on request',
+    verifyUrl: '/certifications',
+    published: true,
   },
   {
     standard: 'Cyber Essentials Plus',
@@ -198,11 +293,17 @@ export const certificationRegister: Certification[] = [
 ];
 
 /**
- * What the site may render. Empty until a row above is evidenced and marked
- * published, which is the intended state and not an oversight: the handoff is
- * explicit that a first release is strong on client work and case studies
- * alone, and that a missing badge must never leave a broken layout. Any
- * component mapping over this has to render nothing when it is empty.
+ * What the site may render.
+ *
+ * This was empty from 8 September 2026 until 14 September 2026, and the comment
+ * here recorded that as the intended state rather than an oversight. It now
+ * holds exactly two rows, ISO 9001:2015 and ISO 27001:2022, and the design
+ * requirement it records has NOT lapsed with them: a missing badge must never
+ * leave a broken layout, so any component mapping over this still has to render
+ * nothing when it is empty, and `VerificationTable` still carries the
+ * no-certification paragraph it would print if these rows came back down. That
+ * path is not dead code — it is what runs on the day a certificate expires and
+ * is not renewed, which for these two is 1 January 2027 and 11 March 2027.
  */
 export const certifications: Certification[] = certificationRegister.filter(
   cert => cert.published === true,
@@ -215,8 +316,26 @@ export const certifications: Certification[] = certificationRegister.filter(
  * Plus" printed as bare pills on every page of the site — the badge wall the
  * handoff holds until there is a current certificate for the exact legal
  * entity, and the presentation that carries the most risk under DMCCA 2024
- * s.226 because a pill asserts everything and evidences nothing. It refills
- * from `certificationRegister` once those rows are published.
+ * s.226 because a pill asserts everything and evidences nothing.
+ *
+ * STILL EMPTY, deliberately, 2026-09-14. The sentence that used to close this
+ * comment — "It refills from `certificationRegister` once those rows are
+ * published" — was wrong and is withdrawn rather than quietly deleted, because
+ * the trigger it named has now happened and nothing refilled. Two rows in
+ * `certificationRegister` ARE published, and these pills stay empty on purpose:
+ *
+ *  - A pill is the one presentation this register singles out as highest risk,
+ *    and publishing a certificate does not make a bare "ISO 27001" on every
+ *    page of the site any more checkable than it was. What was published is the
+ *    number, the body and the dates; a pill carries none of them, and it is the
+ *    footer, which appears on all twenty-odd routes with no room for any of it.
+ *  - One of the three strings was "Cyber Essentials Plus", for which there is
+ *    still no certificate at all.
+ *
+ * `SiteFooter` double-gates on this array AND on the claims-register row
+ * `iso-cyber-essentials-badges`, which remains HELD, so refilling this array
+ * alone would not put the pills back either. Both gates are shut, and the
+ * second one is shut for the Cyber Essentials reason above.
  */
 export const trustBadges: readonly string[] = [];
 
@@ -249,9 +368,20 @@ export const certified = {
     'We engineer it. Certified helps you govern, evidence and prepare it for assurance.',
   /**
    * The standards Certified helps clients prepare for, shown wherever Certified
-   * is introduced. These are areas of support, not accreditations held by any
-   * Pixelette company: independent assurance stays independent, and the copy
-   * around this list must not turn readiness into a certificate.
+   * is introduced. These are areas of support, and the copy around this list
+   * must not turn readiness into a certificate: independent assurance stays
+   * independent.
+   *
+   * This comment used to add "not accreditations held by any Pixelette
+   * company", and `CertifiedHandoff` printed that clause to the reader. It
+   * stopped being true on 14 September 2026, when Pixelette Technologies Ltd
+   * published an ISO/IEC 27001:2022 certificate — and ISO 27001 is the first
+   * entry in this array. The rule that clause existed to serve is unchanged and
+   * is restated without the false half: THIS LIST IS NOT A STATEMENT ABOUT WHAT
+   * ANY PIXELETTE COMPANY HOLDS, in either direction. Copy near it must not
+   * imply these are held, and must not deny it either, because one of them now
+   * is. What is held is published in `certificationRegister` above, with
+   * certificate numbers and dates.
    */
   standards: ['ISO 27001', 'ISO 42001', 'Cyber Essentials', 'GDPR', 'SOC 2'],
   /**

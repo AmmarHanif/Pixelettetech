@@ -473,10 +473,35 @@ export function CertifiedHandoff({
           under a misleading label is still a misleading action.
 
           The label states what the list is before the reader reaches it.
+
+          CORRECTED 2026-09-14, and this is the ADR-0012 defect repeating in a
+          place no grep for it would have found. The label read "These are areas
+          of support, not accreditations held by any Pixelette company". That
+          was true when it was written and it was FALSE the moment two
+          certificates published on 14 September 2026: ISO 27001 is one of the
+          five pills below, and Pixelette Technologies Ltd now holds and
+          publishes an ISO/IEC 27001:2022 certificate. A disclaimer that is
+          itself inaccurate is worse than none — it is the sentence a reviewer
+          quotes back — and this panel renders on /, /certifications and
+          /assurance, two of which now also carry the published badge.
+
+          The replacement asserts NOTHING about what is or is not held. Saying
+          "not held by Pixelette Technologies" would be the same error with the
+          sign flipped, since one of these standards IS held. What is true, and
+          all that needs to be true, is that this list is not a claim about
+          holdings: it is what Certified helps a client with. The reader is then
+          pointed at the one page that answers the holdings question properly,
+          with numbers and dates.
+
+          Found by rendering the page and reading it, not by grepping source —
+          which is the lesson ADR-0012 recorded and the reason this comment is
+          this long.
         */}
         <p className="small" style={{ marginTop: 26, color: 'var(--dark-text)' }}>
-          What {certified.name} helps with. These are areas of support, not accreditations held by
-          any Pixelette company; independent assessment stays independent.
+          What {certified.name} helps with. This is a list of support areas, not a claim that{' '}
+          {certified.name} or {company.name} holds any of them. What {company.name} does hold is
+          published with its certificate numbers and dates on our certifications page; independent
+          assessment stays independent.
         </p>
         <div className="pill-row" style={{ marginTop: 14 }}>
           {(allServices ? certified.services : certified.standards).map(s => (
@@ -569,6 +594,21 @@ export function VerificationTable({ withHeading = true }: { withHeading?: boolea
    */
   const rows = certifications;
 
+  /*
+   * The caption used to read "Certifications held by <entity>, and the one held
+   * elsewhere in the group", which was safe only while `rows` was empty and the
+   * caption never rendered. On 14 September 2026 two rows published and NEITHER
+   * is the group one — `heldByCertified` is the ISO 42001 row, and that row is
+   * not published — so the sentence would have shipped as a false statement
+   * about the very table it captions, in the caption element a screen reader
+   * announces before the table.
+   *
+   * Derived rather than corrected. Writing "Certifications held by <entity>"
+   * would be true today and false again the day the 42001 row publishes, which
+   * is how the first version got here. This reads the rows it is captioning.
+   */
+  const hasGroupHeldRow = rows.some(cert => cert.heldByCertified === true);
+
   return (
     <>
       {withHeading ? (
@@ -604,7 +644,9 @@ export function VerificationTable({ withHeading = true }: { withHeading?: boolea
       <div className="table-scroll" style={{ marginTop: withHeading ? 34 : 0 }}>
         <table>
           <caption className="small" style={{ textAlign: 'left', paddingBottom: 12 }}>
-            Certifications held by {company.legalName}, and the one held elsewhere in the group.
+            Certifications held by {company.legalName}
+            {hasGroupHeldRow ? ', and the one held elsewhere in the group' : ''}, with the
+            certificate number, the issuing body and the dates for each.
           </caption>
           <thead>
             <tr>
@@ -636,6 +678,53 @@ export function VerificationTable({ withHeading = true }: { withHeading?: boolea
                       style={{ display: 'block', fontWeight: 400, marginTop: 4 }}
                     >
                       {cert.note}
+                    </span>
+                  ) : null}
+                  {/*
+                    The three facts the empty-state paragraph twenty lines above
+                    promises a reader, printed for real from 14 September 2026.
+                    That paragraph has said since 8 September that this site
+                    publishes a certification "only when a reader can check it
+                    without taking our word for it — the certificate number, the
+                    issuing certification body and the expiry date". This is the
+                    same sentence, kept.
+
+                    Guarded on all three together, not on each in turn, because
+                    a row showing a number and no expiry is the badge problem in
+                    smaller type: the reader cannot tell whether the date is
+                    missing or the certificate is open-ended. `issued` and
+                    `recertification` are additive and are shown when present.
+
+                    Both dates are printed where the certificate carries both.
+                    Either on its own misleads — the expiry read alone says the
+                    certification stops there, the recertification date read
+                    alone says three years with no checkpoint — and no audit
+                    schedule is described anywhere here, because none was
+                    supplied and this site does not narrate programmes it has
+                    not seen.
+
+                    In the row header rather than in new columns, so the table
+                    stays three wide on a phone.
+
+                    CLAUSE ORDER MATTERS HERE and was wrong once. The issue date
+                    was appended AFTER `issuingBody`, which ends "...accredited
+                    by the United Accreditation Foundation" — so the row read
+                    "accredited by the United Accreditation Foundation on 12
+                    March 2026", dating the ACCREDITATION rather than the
+                    certificate. That is an invented fact about an accreditation
+                    body, produced by string concatenation rather than by anyone
+                    deciding it. The date now sits next to the word it modifies.
+                    Caught by reading the rendered row, not the source.
+                  */}
+                  {cert.certificateNumber && cert.issuingBody && cert.validTo ? (
+                    <span
+                      className="small"
+                      style={{ display: 'block', fontWeight: 400, marginTop: 6 }}
+                    >
+                      Certificate {cert.certificateNumber}, issued
+                      {cert.issued ? ` ${cert.issued}` : ''} by {cert.issuingBody}. Expires{' '}
+                      {cert.validTo}
+                      {cert.recertification ? `; recertification ${cert.recertification}` : ''}.
                     </span>
                   ) : null}
                 </th>
