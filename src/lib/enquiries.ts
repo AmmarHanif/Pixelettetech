@@ -162,6 +162,35 @@ async function storeEnquiry(enquiry: Enquiry): Promise<LegStatus> {
 
   if (!url || !serviceRole) return 'unconfigured';
 
+  /*
+   * This is NOT an SSRF guard, and saying otherwise would overstate it: the
+   * endpoint is operator-supplied and no visitor input reaches it. It guards a
+   * quieter failure. The service-role key is the project's master credential,
+   * and the headers below attach it as a bearer token to whatever host this
+   * variable names. A typo, a pasted wrong project URL, or an http:// value
+   * sends that credential to that host — in cleartext, in the http case — and
+   * the only visible symptom is an enquiry that never arrived.
+   *
+   * Refusing an unparseable or non-HTTPS value turns a silent credential
+   * disclosure into the same honest `unconfigured` path an unset variable
+   * already takes, which the visitor sees handled properly.
+   *
+   * The host is deliberately NOT required to end `.supabase.co`. A self-hosted
+   * instance or a custom domain is a legitimate deployment, and forbidding it
+   * would be a guess about infrastructure rather than a security property.
+   */
+  let endpoint: URL;
+  try {
+    endpoint = new URL(url);
+  } catch {
+    logFailure('supabase insert', enquiry.id, 'supabase_url_unparseable');
+    return 'unconfigured';
+  }
+  if (endpoint.protocol !== 'https:') {
+    logFailure('supabase insert', enquiry.id, 'supabase_url_not_https');
+    return 'unconfigured';
+  }
+
   // An unanswered optional question is absent, not empty. Storing `''` would
   // make "answered with nothing" and "not answered" indistinguishable in the
   // table, and the column checks in the migration treat NULL as the absent case.
@@ -269,10 +298,61 @@ async function sendNotification(enquiry: Enquiry, stored: LegStatus): Promise<Le
 
   if (!mailCredential || !from) return 'unconfigured';
 
+  /*
+   * Header-safe interpolation, added 2026-09-14 after a security review.
+   *
+   * THE DEFECT THIS CLOSES. `name` and `company` arrive here having passed
+   * `.trim()` and a length ceiling in actions.ts, and nothing else. `.trim()`
+   * removes leading and trailing whitespace; INTERIOR control characters
+   * survive. A submission whose name carries a carriage return and line feed
+   * followed by "Bcc: someone@example.test" passes validation — non-empty,
+   * under 120 characters — and is interpolated straight into the `subject`
+   * field below. If Resend does not itself strip those when composing the MIME
+   * header, that injects an arbitrary header into a message sent from a domain
+   * verified to this company: silent copying of every enquiry to a third party,
+   * or spoofed mail carrying our sending reputation.
+   *
+   * WHY THE EXISTING REASONING DID NOT COVER IT. The note on `reply_to` below
+   * argues that field is safe because "there is no header to inject a newline
+   * into, and the address has already passed validation". Both halves are
+   * correct FOR reply_to — `isEmail` in actions.ts rejects whitespace, so no
+   * line break can reach it. The reasoning was never extended to `subject`,
+   * which is free text and has no such filter.
+   *
+   * AND WHY IT IS NOT LEFT TO THE PROVIDER. Whether Resend strips these is
+   * plausible and unverified: CONTACT-FORM-SETUP.md and DEPENDENCIES.md both
+   * record that its API reference could not be reached from the build
+   * environment. A mitigation nobody here has read is not a control this
+   * repository owns.
+   *
+   * SUBJECT ONLY. The email body is a text part, not a header, and the stored
+   * row is the record. Sanitising either would mangle genuine enquiries to fix
+   * a header problem that does not exist in them.
+   *
+   * Filtered by CODEPOINT rather than by a regex escape, deliberately. Writing
+   * this as a character class cost an hour: the escape sequences were
+   * interpreted before they reached the file and went in as literal NUL and
+   * 0x1F BYTES, which is not something a .ts file should contain and not
+   * something a reader can see. Codepoints cannot be mangled that way and say
+   * plainly what is being removed.
+   */
+  const headerSafe = (value: string) =>
+    Array.from(value)
+      .map(character => {
+        const code = character.codePointAt(0) ?? 0;
+        return code < 32 || code === 127 ? ' ' : character;
+      })
+      .join('')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+  const safeName = headerSafe(enquiry.name);
+  const safeCompany = headerSafe(enquiry.company);
+
   const subject =
-    enquiry.company === ''
-      ? `New contact enquiry: ${enquiry.name}`
-      : `New contact enquiry: ${enquiry.name}, ${enquiry.company}`;
+    safeCompany === ''
+      ? `New contact enquiry: ${safeName}`
+      : `New contact enquiry: ${safeName}, ${safeCompany}`;
 
   const payload: Record<string, unknown> = {
     from,

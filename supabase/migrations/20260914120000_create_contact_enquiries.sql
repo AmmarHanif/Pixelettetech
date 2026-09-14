@@ -2,7 +2,10 @@
 -- contact_enquiries — the table behind the form at pixelettetech.com/contact
 --
 -- Applied by: supabase db push, or pasted whole into the SQL Editor.
--- Safe to run twice: every statement is idempotent.
+-- Safe to re-run, with one caveat added 2026-09-14: re-running does NOT repair
+-- a table that already exists. `create table if not exists` no-ops, so the
+-- constraints are skipped while the access-control statements still run. See
+-- check 3b in the acceptance block at the end.
 --
 -- WHY THIS IS NOT THE SIBLING'S `leads` TABLE
 -- -------------------------------------------
@@ -204,6 +207,28 @@ grant insert on table public.contact_enquiries to service_role;
 --       where table_schema = 'public'
 --         and table_name   = 'contact_enquiries'
 --         and grantee      = 'service_role';
+--
+-- 3b. The eight CHECK constraints exist. Expect 8 rows.
+--
+--     Added 2026-09-14, because the header's claim that every statement is
+--     idempotent is true statement-by-statement and FALSE as a guarantee about
+--     the resulting schema. If this table already exists in any form - created
+--     by hand, or by an earlier draft of this file - then `create table if not
+--     exists` silently does nothing and the constraints below it are never
+--     applied, while the RLS and REVOKE statements further down DO run. The
+--     result passes checks 1, 2 and 3 and looks fully configured, with the
+--     second line of length defence simply absent. That second line is the only
+--     one that holds for a caller which is not the server action, which is
+--     precisely when it matters.
+--
+--       select conname from pg_constraint
+--        where conrelid = 'public.contact_enquiries'::regclass
+--          and contype  = 'c';
+--
+--     Fewer than 8 means the table predates this file. Do not "fix" it by
+--     re-running this migration - it will no-op again. Add the missing
+--     constraints explicitly, or drop and recreate the table if it holds no
+--     real enquiries.
 --
 -- 4. The end-to-end check, and the one that actually matters, because 1-3 read
 --    the same catalogues this file wrote to. Do this from outside the database,

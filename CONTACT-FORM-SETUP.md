@@ -69,6 +69,24 @@ is, the form reports honestly that it is not connected. See section 6.
    proves nothing.
 4. Do not "fix" the table later by adding a policy to make it readable. Read it
    in the dashboard's table editor, which uses the owning role and is unaffected.
+5. **Open enquiry CSV exports through Excel's Data → From Text/CSV, never by
+   double-clicking the file.** Added 2026-09-14 after a security review, and the
+   victim here is your laptop rather than the website. Every field in the table
+   is free text a stranger typed. A name submitted as `=HYPERLINK(...)` or a DDE
+   payload is stored exactly as sent — correctly, because the table is the
+   record and mangling it would corrupt genuine enquiries — and then *evaluated*
+   when a spreadsheet opens the export by double-click. That can fire a formula
+   or quietly send adjacent cells, meaning other enquirers' names and email
+   addresses, to whoever wrote it. The import path does not auto-evaluate.
+6. **Enforce MFA on every member of the Supabase organisation, and keep a note
+   of who they are.** This is the real access control for the data, not a nice
+   extra: because the table deliberately does not `force row level security`
+   (which would lock the owner out and look exactly like data loss), the only
+   route to a list of named individuals and their work email addresses is
+   whoever can log in to the dashboard. Review the member list whenever you
+   review the certificate dates — an ISO 27001 certified firm will be asked this
+   in diligence, and "we rely on the Supabase login" is only a good answer if
+   the login is defended.
 
 The migration grants the service role `INSERT` and deliberately not `SELECT`.
 If a future admin page needs to list enquiries through the API, grant `SELECT`
