@@ -932,18 +932,33 @@ export default function HomePage() {
         block says any Pixelette company holds an accreditation, issues a
         certificate or performs an independent audit.
       */}
-      <CertifiedHandoff
-        eyebrow="Governance when required"
-        title="Need governance and assurance around what you are building?"
-        blurb={
-          <>
-            {certified.name} is{' '}
-            {certified.blurb.charAt(0).toLowerCase() + certified.blurb.slice(1)}{' '}
-            {certified.positioningLine}
-          </>
-        }
-        ctaLabel="Explore Pixelette Certified"
-      />
+      {/*
+        GOVERNANCE COMPRESSED 2026-09-14, on the external audit, by switching to
+        a variant this component already had rather than writing new copy.
+
+        The full variant rendered the long Certified paragraph, a support-areas
+        disclaimer and five standard chips — near-verbatim with the /assurance
+        hero and the governance block on /security-and-data, so the same
+        paragraph ran three times across the site with the homepage getting the
+        longest version of it.
+
+        `variant="compact"` is what /engineering, /ai-engineering and /blockchain
+        already render. Using it here means the homepage is no longer the odd one
+        out, and no fourth wording of this handoff enters the codebase.
+
+        WHY THE BLOCK STAYS AT ALL. The separation between building a system and
+        assuring it is a genuine differentiator and survives review better than
+        most claims on this site — it is the reason /certifications can say
+        plainly that this company does not hold ISO/IEC 42001. It needs one
+        strong statement here, not the full paragraph for a third time.
+
+        The five standard chips go with the full variant, and that is a gain
+        rather than a loss: they put ISO 42001 and Cyber Essentials on the
+        homepage as bare pills, which is the presentation `claims.ts` singles out
+        as highest risk and the same construction removed from
+        /ai-engineering/services earlier today.
+      */}
+      <CertifiedHandoff variant="compact" />
 
       {/* ═══════════════════════ 13 · Part of Pixelette Group ════════════ */}
       {/*
