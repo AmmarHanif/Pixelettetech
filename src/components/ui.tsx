@@ -122,7 +122,11 @@ export function StatTile({
 }) {
   return (
     <div className="tile">
-      <b className={pending ? 'ph' : undefined} style={pending ? { fontSize: 20 } : undefined}>
+      <b
+        className={pending ? 'ph' : undefined}
+        style={pending ? { fontSize: 20 } : undefined}
+        {...(pending ? { 'data-placeholder': 'true' } : {})}
+      >
         {value}
       </b>
       <span>{label}</span>

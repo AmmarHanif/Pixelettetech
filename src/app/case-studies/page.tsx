@@ -172,9 +172,17 @@ export default async function WorkPage({
                     <div className="work-card__metrics">
                       {metrics.map(m => (
                         <span key={m.label}>
+                          {/* data-placeholder added 2026-09-14. These wear the amber
+                              placeholder styling but carried no attribute, so the
+                              audit counter - which counts data-placeholder - could
+                              not see them. Eighteen [MEASURED RESULT] tiles were
+                              outstanding content on no list. They ARE gaps awaiting
+                              evidence, so they are counted; the `intentional` escape
+                              hatch on Placeholder exists for the copy that is not. */}
                           <b
                             className={m.pending ? 'ph' : undefined}
                             style={m.pending ? { fontSize: 15 } : undefined}
+                            {...(m.pending ? { 'data-placeholder': 'true' } : {})}
                           >
                             {m.value}
                           </b>

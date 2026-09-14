@@ -125,6 +125,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   <b
                     className={m.pending ? 'ph' : undefined}
                     style={m.pending ? { fontSize: 18 } : undefined}
+                    {...(m.pending ? { 'data-placeholder': 'true' } : {})}
                   >
                     {m.value}
                   </b>
