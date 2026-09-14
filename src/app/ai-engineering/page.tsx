@@ -26,7 +26,7 @@ import { caseStudies, displayKicker, displayName, publishedImage, publishedMetri
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
-import { LiveDiagram } from './LiveDiagram';
+import { LiveDiagram } from '@/components/LiveDiagram';
 
 /*
  * Claims sweep, 2026-09-08 (WP6).

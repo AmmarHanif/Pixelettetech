@@ -1,4 +1,4 @@
-import { LiveDiagram } from '@/app/ai-engineering/LiveDiagram';
+import { LiveDiagram } from '@/components/LiveDiagram';
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, Faqs, JsonLd, Section, SectionHead, SourceNote } from '@/components/ui';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';

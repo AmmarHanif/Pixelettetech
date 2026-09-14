@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { ArrowRight } from '@/components/Icons';
+import { LiveDiagram } from '@/components/LiveDiagram';
 import {
   CertifiedHandoff,
   ClientLogos,
@@ -170,83 +171,7 @@ const differentiators = [
   },
 ];
 
-/** Handoff section 06, "AI engineered in". Capability + implementation wording. */
-const aiCapabilities = [
-  {
-    t: 'Agentic AI & orchestration',
-    d: 'Single- and multi-agent systems that plan, call tools, coordinate steps and operate within defined controls.',
-    href: '/ai-engineering/agentic-ai-multi-agent',
-  },
-  {
-    t: 'Workflow automation',
-    d: 'Automate repetitive or high-friction business processes across systems, data and human approvals.',
-    href: '/ai-engineering/workflow-automation',
-  },
-  {
-    t: 'LLM integration & RAG',
-    d: 'Add model intelligence to existing products and knowledge environments with retrieval, permissions and grounded context.',
-    href: '/ai-engineering/llm-integration-rag',
-  },
-  {
-    t: 'Predictive intelligence',
-    d: 'Forecasting, scoring, recommendation and decision-support systems built around business data.',
-    href: '/ai-engineering/predictive-intelligence',
-  },
-  {
-    t: 'Language, speech & vision',
-    d: 'NLP, sentiment, extraction, classification, speech and image/video intelligence where the use case supports it.',
-    href: '/ai-engineering/language-speech-vision',
-  },
-  {
-    t: 'Data & integration',
-    d: 'Pipelines, APIs, model-serving layers and integrations into existing systems of record.',
-    href: '/ai-engineering/data-and-integration',
-  },
-  {
-    t: 'Evaluation & observability',
-    d: 'Measure output quality, reliability, latency, cost, drift and human escalation rather than trusting a demo.',
-    href: '/ai-engineering/evaluation-and-observability',
-  },
-  {
-    t: 'AI Value Baseline',
-    d: 'Define the current manual cost, cycle time, error rate or conversion baseline before automating so value can be measured afterwards.',
-    href: '/ai-engineering/ai-value-baseline',
-  },
-];
 
-/** Handoff section 08, "How we deliver". Six stages, verbatim. */
-const deliverySteps = [
-  {
-    n: '01',
-    t: 'DISCOVER',
-    d: 'Define the business problem, users, systems, data, constraints, risks and success measures. Decide what should — and should not — be built.',
-  },
-  {
-    n: '02',
-    t: 'DESIGN',
-    d: 'Architecture, UX, data model, workflow and delivery plan. For AI, define the baseline and evaluation method before model selection.',
-  },
-  {
-    n: '03',
-    t: 'BUILD & INTEGRATE',
-    d: 'Engineering, model integration, APIs, automation, infrastructure and iterative product delivery with working evidence.',
-  },
-  {
-    n: '04',
-    t: 'VERIFY',
-    d: 'Functional testing, security review, performance, model evaluation, human-control points and production-readiness evidence.',
-  },
-  {
-    n: '05',
-    t: 'LAUNCH',
-    d: 'Deploy with observability, rollback, monitoring and agreed ownership. Production is treated as an operating state, not a demo.',
-  },
-  {
-    n: '06',
-    t: 'RUN & IMPROVE',
-    d: 'Support, incident handling, optimisation, releases and roadmap delivery based on real usage and measured outcomes.',
-  },
-];
 
 /** Handoff section 09, "Ways to work with us". Three commercial routes. */
 const engagementRoutes = [
@@ -300,39 +225,6 @@ const sectors = [
   'Travel / tourism',
 ];
 
-/** Handoff section 11, "Blockchain specialist practice". Six capabilities. */
-const blockchainCapabilities = [
-  {
-    t: 'Asset tokenisation',
-    d: 'Architecture and implementation for representing and managing real-world or digital assets on-chain where the commercial/legal model supports it.',
-    href: '/blockchain/tokenisation',
-  },
-  {
-    t: 'Smart contracts & dApps',
-    d: 'Programmable workflows and decentralised applications with testing, access controls and clear upgrade/ownership decisions.',
-    href: '/blockchain/smart-contracts-dapps',
-  },
-  {
-    t: 'Wallets & digital-asset products',
-    d: 'User-facing wallet, portfolio and transaction experiences across mobile/web environments.',
-    href: '/blockchain/wallets-digital-assets',
-  },
-  {
-    t: 'Layer 1 / Layer 2 & protocol work',
-    d: 'Specialist network and protocol engineering where a bespoke chain or scaling layer is justified.',
-    href: '/blockchain/protocol-engineering',
-  },
-  {
-    t: 'Interoperability & integrations',
-    d: 'Connect blockchain components to existing applications, data and off-chain systems.',
-    href: '/blockchain/integration',
-  },
-  {
-    t: 'Blockchain product strategy',
-    d: 'Decide whether blockchain is actually required before committing to architecture and delivery.',
-    href: '/blockchain',
-  },
-];
 
 /**
  * The homepage FAQs.
@@ -775,40 +667,6 @@ export default function HomePage() {
       </Section>
 
       {/* ══════════════════════════ 06 · AI engineered in ════════════════ */}
-      <Section labelledBy="ai-heading">
-        <SectionHead
-          eyebrow="AI &amp; automation proposition"
-          id="ai-heading"
-          title="AI should do useful work, not decorate the roadmap"
-          lead="We design AI systems around a measurable job: remove repetitive work, accelerate a decision, create a new product capability, improve customer experience, or coordinate a workflow that would otherwise require multiple people and systems."
-        />
-        <div className="grid grid-2" style={{ marginTop: 36, gap: 14 }}>
-          {aiCapabilities.map(item => (
-            <Link key={item.href + item.t} href={item.href} className="mini-card">
-              <span>
-                <b style={{ display: 'block', fontSize: 16, color: 'var(--ink)' }}>{item.t}</b>
-                <span className="small" style={{ display: 'block', marginTop: 7 }}>
-                  {item.d}
-                </span>
-              </span>
-            </Link>
-          ))}
-        </div>
-        {/*
-          The AI operating principle. The handoff's third sentence here — "Pixelette
-          should sell autonomy as an engineered control decision, not as a slogan" —
-          is an instruction to us about how to sell, not a sentence written for a
-          reader, so it is not published. The two sentences that state the actual
-          operating position are reproduced exactly.
-        */}
-        <div className="card" style={{ marginTop: 28 }}>
-          <h3 className="h4">AI operating principle</h3>
-          <p className="body" style={{ marginTop: 10, fontSize: 15 }}>
-            Human oversight is the default where decisions are material. More autonomous operation
-            is introduced where the workflow, risk level and evidence justify it.
-          </p>
-        </div>
-      </Section>
 
       {/* ═══════════════════════════ 07 · Selected work ══════════════════ */}
       {/*
@@ -826,6 +684,37 @@ export default function HomePage() {
         which is what the handoff means by "support anonymised case-study
         presentation without changing layout".
       */}
+      {/*
+        THREE BLOCKS REMOVED HERE AND BELOW, 2026-09-14, on the external
+        homepage audit of that date. Deletion only: no copy was rewritten, and
+        nothing is lost from the site, because each reproduced a page that
+        already exists in a sharper form. The data arrays they consumed
+        (aiCapabilities, deliverySteps, blockchainCapabilities) went with them.
+
+        AI & AUTOMATION PROPOSITION - eight capability tiles mapping one-to-one
+        onto eight pages under /ai-engineering. That page deliberately narrows
+        to five services plus one it refuses to sell; this block reinstated the
+        long list the AI page was written to replace.
+
+        FROM PROBLEM TO PRODUCTION - "Discover. Design. Build. Verify. Launch.
+        Improve." was the THIRD competing process model on one site.
+        /method/live publishes LIVE in four stages, each with a named
+        commercial structure; /engineering publishes a four-step path. Three
+        models is not three explanations, it is one company that has not
+        decided. LIVE is the one that survives, and it survives everywhere.
+
+        HERITAGE WITHOUT DISTORTION - six tiles, five reproducing the five
+        child pages under /blockchain and the sixth a strategy line. Its actual
+        argument, that blockchain is a specialist tool rather than a default
+        answer, is already the second paragraph of the DECENTRALISE card above.
+        The sentence stays; only the tiles go.
+
+        Measured cause: the audit put this page at 18.6 viewport screens against
+        a comparator range of 6.7 to 14.5, and 29 distinct calls to action in
+        main against a range of 2 to 21 - an outlier on its own site as well as
+        in the market, since every inner page here drives one or two actions.
+      */}
+
       <Section labelledBy="work-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
           eyebrow="Challenge → build → result"
@@ -925,32 +814,37 @@ export default function HomePage() {
       </Section>
 
       {/* ═══════════════════════════ 08 · How we deliver ═════════════════ */}
-      <Section labelledBy="deliver-heading">
+
+      {/* ══════════════════════ 09 · Ways to work with us ════════════════ */}
+      {/*
+        ONE METHOD, 2026-09-14. This slot held "Discover. Design. Build. Verify.
+        Launch. Improve." - the third competing process model on a site that also
+        publishes LIVE on /method/live and a four-step path on /engineering.
+        Deleting it without replacing it would have left the homepage publishing
+        no method at all, so the compact LIVE strip takes the slot rather than
+        the page simply losing a block.
+        `LiveDiagram` is the component /ai-engineering and /method/live already
+        render, reused rather than recreated, so the three surfaces cannot drift
+        into three descriptions of one method. It moved to src/components/ in
+        this commit for that reason: a component rendered by three routes should
+        not live inside one route's folder.
+      */}
+      <Section labelledBy="method-heading">
         <SectionHead
-          eyebrow="From problem to production"
-          id="deliver-heading"
-          title="Discover. Design. Build. Verify. Launch. Improve."
+          eyebrow="The method"
+          id="method-heading"
+          title="LIVE: land, integrate, verify, evolve"
         />
-        <div className="grid grid-3" style={{ marginTop: 40 }}>
-          {deliverySteps.map(step => (
-            <div key={step.n} className="tile" style={{ padding: '22px 24px' }}>
-              <span className="step__n">{step.n}</span>
-              <b style={{ fontSize: 15 }}>{step.t}</b>
-              <p className="small" style={{ marginTop: 8 }}>
-                {step.d}
-              </p>
-            </div>
-          ))}
+        <div style={{ marginTop: 40 }}>
+          <LiveDiagram variant="compact" />
         </div>
-        <div className="btn-row" style={{ marginTop: 36 }}>
-          <Cta href="/method/live">See how we work</Cta>
-          <Cta href="/contact" variant="secondary">
-            Discuss an engineering problem
+        <div style={{ marginTop: 34 }}>
+          <Cta href="/method/live" variant="secondary">
+            See how LIVE works
           </Cta>
         </div>
       </Section>
 
-      {/* ══════════════════════ 09 · Ways to work with us ════════════════ */}
       <Section labelledBy="engage-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
           eyebrow="Commercial products"
@@ -1052,26 +946,6 @@ export default function HomePage() {
            and protocols in production use" and "$14M tokenised · 1,200+ tokens
            in 6 months"; neither has been carried across.
       */}
-      <Section labelledBy="chain-heading" className="theme-amber" style={{ background: '#F7FAFA' }}>
-        <SectionHead
-          eyebrow="Heritage without distortion"
-          id="chain-heading"
-          title="Chains that hold — when decentralisation has a reason to exist"
-          lead="Pixelette’s engineering roots include blockchain: experience with trust, irreversible transactions, distributed systems and security-sensitive architecture. It is a specialist solution to a specific problem, not a mandatory ingredient in every technology project."
-        />
-        <div className="grid grid-3" style={{ marginTop: 40, gap: 14 }}>
-          {blockchainCapabilities.map(item => (
-            <Link key={item.t} href={item.href} className="mini-card">
-              <span>
-                <b style={{ display: 'block', fontSize: 15.5, color: 'var(--ink)' }}>{item.t}</b>
-                <span className="small" style={{ display: 'block', marginTop: 7 }}>
-                  {item.d}
-                </span>
-              </span>
-            </Link>
-          ))}
-        </div>
-      </Section>
 
       {/* ══════════════════════ 12 · Governance when required ════════════ */}
       {/*
