@@ -173,9 +173,39 @@ Read by procurement and security reviewers. A visible gap is safer than a guess,
       and still block: this closed the gap it had evidence for and nothing else.
       **Re-opens 11 March 2027** unless re-evidenced from the current
       certificate. See ADR-0029.
-- [ ] `[DATA RESIDENCY AND HOSTING REGIONS — confirm per environment before publication]`
-- [ ] `[SUBPROCESSOR REGISTER — publish the current list and the notification period]`
-- [ ] `[RETENTION SCHEDULE BY DATA CLASS — confirm with the DPO before publication]`
+- [x] ~~`[DATA RESIDENCY AND HOSTING REGIONS — confirm per environment before
+      publication]`~~ **CLOSED 2026-09-14, and written BEFORE the database exists
+      on the founder's decision.** The ordering is deliberate: state the position,
+      then create the project in the region that matches it, rather than picking a
+      region during setup and describing it afterwards. Published as three answers,
+      because it is three questions — static delivery from a global CDN carrying no
+      personal data; the contact form's function running in London, so the UK is
+      where an enquiry is processed; and the database hosted in the UK, London
+      region, fixed at creation. **The page explicitly does NOT claim a UK-only
+      arrangement**, because the notification is sent through Resend, which is
+      US-established, so that copy leaves the UK — disclosed here, with the
+      mechanism on `/privacy`. **Two settings must now be made to match published
+      copy:** the Vercel function region must be London (runbook step 1), and the
+      Supabase project must be created in London. The second cannot be changed
+      afterwards. Check both on the day `DELIVERY_CONNECTED` is flipped.
+- [x] ~~`[SUBPROCESSOR REGISTER — publish the current list and the notification
+      period]`~~ **CLOSED 2026-09-14** by commit `0f2324e`. Hosting, database and
+      email delivery are named, with thirty days' notice written around why the
+      window exists — so a reader can object while a change is still a proposal.
+- [x] ~~`[RETENTION SCHEDULE BY DATA CLASS — confirm with the DPO before
+      publication]`~~ **CLOSED 2026-09-14** by commit `0f2324e`. Twenty-four months
+      from last contact, published as **a policy the firm applies rather than a
+      timer in the database**, because there is no expiry on the table and no
+      scheduled job. **The deletion mechanism is still owed** and is not claimed.
+
+> **These three rows were stale and are corrected by hand, 2026-09-14.** Two of
+> them were closed on 8 and 14 September and this file went on listing them as
+> blocking. Unlike the `CONTACT_WEBHOOK_URL` rows elsewhere in this document,
+> hand-editing is safe here: this section is derived from the crawled build rather
+> than from a constant in `scripts/audit.py`, so a regeneration reaches the same
+> result — none of the three renders any longer. Verified from the built HTML, and
+> guarded from regression by branch-independent assertions in
+> `verification/2026-09-14/delivery_connected_render.js`.
 
 The first one is **new on 2026-09-08 and is not a regression.** The section
 previously asserted a certified, externally audited ISMS; no certificate for

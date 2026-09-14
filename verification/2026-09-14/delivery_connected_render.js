@@ -71,6 +71,8 @@ const EXPECT = {
     ],
     security: [
       'All three are in use today.',
+      /* RESIDENCY_STATE, added 2026-09-14 when the residency entry was filled. */
+      'That is the arrangement in use today.',
     ],
   },
   disconnected: {
@@ -80,6 +82,36 @@ const EXPECT = {
     ],
     security: [
       'Vercel is in use today; Supabase and Resend are not connected yet, so no enquiry data has reached either of them.',
+      /* RESIDENCY_STATE, added 2026-09-14 when the residency entry was filled. */
+      'The database and the notification path are not connected yet, so no enquiry has been stored or sent anywhere; the regions above are the ones they are being set up in.',
+    ],
+  },
+};
+
+/*
+ * Branch-independent assertions — true whichever way DELIVERY_CONNECTED is set.
+ *
+ * The first two are a regression guard on the residency entry filled on
+ * 2026-09-14. It was the LAST placeholder on that page, and the failure worth
+ * catching is not a wrong sentence but a reverted one: if that entry ever returns
+ * to `body: null`, the page silently starts publishing an amber gap again on the
+ * single point a security reviewer is most likely to be checking.
+ *
+ * The third guards the footnote that moved with it. With no gaps left, the page
+ * must not still advertise gaps it does not have.
+ */
+const ALWAYS = {
+  security: {
+    present: [
+      'The enquiry is then written to our database, which is hosted in the United Kingdom, in the London region',
+      /* The transfer is disclosed rather than smoothed over. */
+      'it is sent through Resend, which is established in the United States, so that copy of the enquiry leaves the United Kingdom',
+      'Every entry above is answered.',
+    ],
+    absent: [
+      'DATA RESIDENCY AND HOSTING REGIONS',
+      /* The page must not claim a UK-only arrangement it does not have. */
+      'Unfilled entries are shown rather than hidden.',
     ],
   },
 };
@@ -173,6 +205,29 @@ function assertBranch(label, expected, forbidden) {
         `${page}: does NOT publish "${sentence.slice(0, 46)}..."`,
         !html.includes(sentence),
       );
+    }
+
+    /*
+     * The branch-independent set runs on BOTH branches rather than once, because
+     * a regression that only appears on the branch nobody currently ships is
+     * exactly the kind this harness exists to catch before it is switched on.
+     */
+    const always = ALWAYS[page];
+    if (always) {
+      for (const [i, sentence] of always.present.entries()) {
+        check(
+          `${label}.${page}.always.present.${i + 1}`,
+          `${page}: always publishes "${sentence.slice(0, 50)}..."`,
+          html.includes(sentence),
+        );
+      }
+      for (const [i, sentence] of always.absent.entries()) {
+        check(
+          `${label}.${page}.always.absent.${i + 1}`,
+          `${page}: never publishes "${sentence.slice(0, 42)}..."`,
+          !html.includes(sentence),
+        );
+      }
     }
   }
 }

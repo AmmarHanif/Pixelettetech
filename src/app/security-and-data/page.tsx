@@ -46,7 +46,72 @@ const SUBPROCESSOR_STATE = DELIVERY_CONNECTED
   ? 'All three are in use today.'
   : 'Vercel is in use today; Supabase and Resend are not connected yet, so no enquiry data has reached either of them.';
 
-const positions = [
+/*
+ * Residency, written on the founder's decision of 2026-09-14 and BEFORE the
+ * Supabase project exists.
+ *
+ * The ordering is deliberate and it is his call: state the position, then create
+ * the project in the region that matches it. That is better than the reverse. A
+ * region picked under time pressure during setup, and then described afterwards,
+ * is a decision made by whoever clicked fastest; a region published first is a
+ * commitment the setup has to meet. The one thing it requires is that the setup
+ * actually meets it — see the diary note at the end of this comment.
+ *
+ * WHY THIS IS THREE ANSWERS AND NOT ONE. "Where does our data sit" reads as a
+ * single question and is three, and a single answer conceals the two it does not
+ * cover. Static delivery, request processing and enquiry storage have different
+ * answers here, and a reviewer who is told only the friendliest one has been
+ * given a true sentence and a false impression.
+ *
+ * WHAT THIS PAGE WILL NOT SAY: that the arrangement is UK-only. The database can
+ * be in London and the notification still cannot be, because Resend is
+ * established in the United States — so an enquiry leaves the United Kingdom by
+ * the email leg whatever region the database sits in. Writing "your data stays in
+ * the UK" would be the kind of sentence that survives until the first reviewer
+ * asks one more question. The transfer is disclosed here and the mechanism
+ * covering it is set out on /privacy, which is where transfer mechanisms belong.
+ *
+ * The Vercel function region is stated as London because that is what
+ * DEPLOY-RUNBOOK.md step 1 requires. That is a REQUIREMENT THIS SITE IMPOSES ON
+ * ITS OWN DEPLOYMENT, not an observation read back from the dashboard — the
+ * Vercel API returns 403 for this project (scope restriction recorded 2026-09-01)
+ * so it cannot be verified from here. It is phrased as what we run on, which is
+ * a commitment we control, rather than as a reading we have not taken.
+ *
+ * DIARY, and it is the whole risk of writing this first. Two settings must match
+ * what is published above them: the Vercel function region must be London, and
+ * the Supabase project must be created in London. A Supabase region is fixed at
+ * creation and cannot be moved afterwards, so that one is answered once. If
+ * either ends up elsewhere, this paragraph is wrong on the page a security
+ * reviewer reads first, and the fix is to change the setting or change the text
+ * the same day. Flipping DELIVERY_CONNECTED is the moment to check both.
+ */
+const RESIDENCY_STATE = DELIVERY_CONNECTED
+  ? 'That is the arrangement in use today.'
+  : 'The database and the notification path are not connected yet, so no enquiry has been stored or sent anywhere; the regions above are the ones they are being set up in.';
+
+/*
+ * Typed explicitly, and the reason is the commit that needed it.
+ *
+ * Filling the residency entry removed the LAST placeholder on this page, and
+ * TypeScript promptly inferred the array element as `{ title, body: string }` and
+ * rejected `p.placeholder` in the renderer below. The lazy fix is to delete the
+ * placeholder branch, and that would quietly retire the mechanism this page's own
+ * closing sentence promises: unfilled entries are shown, not hidden. The next
+ * unanswered position would then render nothing, or someone would reinvent it.
+ *
+ * So the shape is declared rather than inferred. `body: string | null` with an
+ * optional `placeholder` keeps the gap mechanism alive through a state where no
+ * gap happens to exist, which is exactly when a capability gets deleted by
+ * accident.
+ */
+type Position = {
+  title: string;
+  body: string | null;
+  placeholder?: string;
+};
+
+const positions: Position[] = [
   {
     /*
      * Was: "We operate an ISO 27001:2022 certified information security
@@ -121,8 +186,9 @@ const positions = [
   },
   {
     title: 'Where your data sits',
-    body: null,
-    placeholder: 'DATA RESIDENCY AND HOSTING REGIONS — confirm per environment before publication',
+    body:
+      'Three answers, because this is three questions and one answer would hide two of them. The site itself is static and served from a global content delivery network, so it is delivered from wherever you are — and that delivery carries no personal data at all, because there is none in a page. Personal data is collected in exactly one place, the contact form, and the only server-side code we run is the function that handles it. That function runs in London, so the United Kingdom is where an enquiry is processed. The enquiry is then written to our database, which is hosted in the United Kingdom, in the London region; a database region is fixed when the project is created and cannot be moved afterwards, so this is settled once rather than reviewed. The notification that tells us an enquiry has arrived is a different matter and we will not blur it: it is sent through Resend, which is established in the United States, so that copy of the enquiry leaves the United Kingdom. This arrangement is therefore not UK-only, and we do not describe it as such — the transfer mechanism that covers it is set out in our privacy notice. ' +
+      RESIDENCY_STATE,
   },
   {
     /*
@@ -352,9 +418,19 @@ export default function SecurityDataPage() {
             </div>
           ))}
         </div>
+        {/*
+          Written for both states, because on 2026-09-14 the last gap on this page
+          was filled and the previous wording — "Unfilled entries are shown rather
+          than hidden" — started describing entries that no longer exist. A
+          reviewer would hunt for the amber gaps it advertises and find none, which
+          makes the one sentence on the page whose job is to establish candour read
+          as boilerplate. The policy is the same in both branches; only the tense
+          moves.
+        */}
         <p className="small" style={{ marginTop: 26, fontStyle: 'italic' }}>
-          Unfilled entries are shown rather than hidden. This page is read by security reviewers, and
-          a confident-sounding answer we have not verified is worse to them than a visible gap.
+          {positions.some(p => p.body === null)
+            ? 'Unfilled entries are shown rather than hidden. This page is read by security reviewers, and a confident-sounding answer we have not verified is worse to them than a visible gap.'
+            : 'Every entry above is answered. Where one is not, we show the gap rather than hide it — this page is read by security reviewers, and a confident-sounding answer we have not verified is worse to them than a visible gap.'}
         </p>
       </Section>
 
