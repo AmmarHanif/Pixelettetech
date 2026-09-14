@@ -14,6 +14,17 @@
 > deliberately NOT sold by this company. That route runs through Pixelette
 > Certified, a separate company in the same group.
 
+## About this file
+
+- Last updated: 14 September 2026
+- Canonical location: https://pixelettetech.com/llms.txt
+- There is deliberately NO /llms-full.txt. An expanded copy of the site's content
+  maintained by hand would drift from the pages within a week, and a stale brief
+  that reads as current is worse for an answer engine than no brief at all. This
+  file is the index; the pages it names are the content, and each one carries its
+  own review date. If a generated full file is ever published it will be built
+  from those pages rather than written alongside them.
+
 ## Entity
 
 - Legal name: Pixelette Technologies Ltd

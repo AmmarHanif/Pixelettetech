@@ -111,6 +111,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en-GB"
       className={`${outfit.variable} ${newsreader.variable} ${plexMono.variable}`}
     >
+      <head>
+        {/*
+          llms.txt is discoverable, added 2026-09-14 on an external audit.
+
+          The file has existed and been good since the rebuild, and nothing on
+          the site pointed at it: no link element, no footer link, no mention in
+          robots.ts. The only non-comment reference anywhere was the
+          Content-Type header in next.config.ts. A brief an agent has to guess
+          the location of is a brief most agents will not read.
+
+          `rel="alternate"` with an explicit text/plain type is the convention
+          the llms.txt proposal uses. It costs one tag and no render.
+        */}
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM brief" />
+      </head>
       <body>
         <a className="skip-link" href="#main">
           Skip to content

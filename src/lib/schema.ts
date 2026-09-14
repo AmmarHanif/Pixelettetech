@@ -106,9 +106,40 @@ export function organizationSchema(published: PublishedOrgClaims = {}) {
       postalCode: company.address.postalCode,
       addressCountry: company.address.country,
     },
-    // A profile link is an identity signal, not a rating assertion, so it is
-    // safe while the score itself sits behind the evidence gate.
-    sameAs: [company.linkedin, clutch.profileUrl],
+    /*
+     * A profile link is an identity signal, not a rating assertion, so it is
+     * safe while the score itself sits behind the evidence gate.
+     *
+     * EXTENDED 2026-09-14 from two entries to six, on an external audit: an
+     * answer engine resolving "is this a real company" wants independent
+     * anchors for the same entity, and it had only LinkedIn and Clutch.
+     *
+     * The Companies House URL was VERIFIED AT SOURCE before being published
+     * rather than constructed from the number and assumed. Loaded on
+     * 2026-09-14: it returns PIXELETTE TECHNOLOGIES LTD, company number
+     * 11716825, status Active, registered office 77 Fulham Palace Road, London
+     * W6 8JA — which matches `company.address` here — and incorporated 7
+     * December 2018, which matches `company.incorporated`. A `sameAs` is an
+     * assertion that this URL is this entity, so a guessed URL pattern would be
+     * exactly the kind of unchecked claim this file exists to refuse.
+     *
+     * The three group domains are identity anchors for the RELATIONSHIP already
+     * asserted in `subOrganization` below, taken from `groupEntities` rather
+     * than retyped so a changed domain moves in one place.
+     */
+    sameAs: [
+      company.linkedin,
+      clutch.profileUrl,
+      `https://find-and-update.company-information.service.gov.uk/company/${company.crn}`,
+      ...groupEntities.filter(entity => !entity.isThisEntity).map(entity => entity.href),
+    ],
+    /*
+     * Where the work is sold. GB rather than a list of cities: the published
+     * client profile is UK-headquartered organisations, and naming anything
+     * wider would contradict /ai-engineering and llms.txt — the same
+     * contradiction the homepage's broad-market block was deleted for.
+     */
+    areaServed: 'GB',
     /*
      * THE GROUP RELATIONSHIP, added 2026-09-14.
      *
