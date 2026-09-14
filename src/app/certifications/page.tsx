@@ -1,8 +1,9 @@
 import { ProofStrip } from '@/components/ProofStrip';
 import { CertifiedHandoff, ClosingCta } from '@/components/sections';
-import { Eyebrow, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
+import { Eyebrow, Faqs, JsonLd, Section, SectionHead, SourceNote } from '@/components/ui';
 import { type Claim, claimById, publishedClaims } from '@/content/claims';
 import { certificationRegister, certified, company, type Certification } from '@/content/company';
+import { SOURCES } from '@/content/sources';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -194,6 +195,26 @@ export default function CertificationsPage() {
           title="Every claim on this page has to resolve to something a reviewer can check"
           lead="Security review delays roughly half of enterprise deals, so the useful thing is not another badge wall — it is a straight account of what is published, what is not, and what would change that."
         />
+        {/*
+          ADDED 2026-09-14, and the omission was worse here than it would be
+          anywhere else on the site.
+
+          The heading directly above this reads "Every claim on this page has to
+          resolve to something a reviewer can check", and the sentence under it
+          asserted a third-party figure with no attribution at all — on the one
+          page whose entire argument is that we do not do that. /certifications
+          contained no SourceNote of any kind. The same G2 figure was already
+          cited properly twice elsewhere, at security-and-data:360 and
+          sections.tsx:628, so this was an omission rather than an unsourced
+          claim: the evidence existed and simply was not printed where the claim
+          was made.
+
+          Taken from SOURCES rather than retyped, unlike the two older call
+          sites which hardcode the string. One constant means a corrected
+          citation reaches every instance; those two should be migrated when
+          someone is next in that file.
+        */}
+        <SourceNote style={{ marginTop: 14 }}>{SOURCES.g2}</SourceNote>
 
         {/*
           The standing instruction, and then what has actually met it.

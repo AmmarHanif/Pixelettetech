@@ -434,7 +434,7 @@ export default function AiEngineeringPage() {
           <SectionHead
             eyebrow="Proof"
             id="proof-heading"
-            title="Named clients. Named processes. Measured results."
+            title="Named clients. Named processes. No invented numbers."
           />
           <FLink href="/case-studies">All work</FLink>
         </div>

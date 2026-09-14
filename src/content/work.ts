@@ -564,6 +564,27 @@ const DESIGN_BOARD_BASIS =
 const HELD_FIGURES_EVIDENCE_BASIS =
   'The figures for this engagement are recorded in Pixelette’s own project material and are held behind this site’s evidence gate. Under the publication rule set on 8 September 2026 a numerical result goes live only once its measurement basis and the client’s permission are both confirmed, so what is published here is the challenge, the engineering and the result without a number on it. The figures are kept, not discarded, and go up when the evidence does.';
 
+/**
+ * For a study whose figures were WITHDRAWN at source rather than held pending
+ * evidence. Added 2026-09-14 for Beyorch, which had no `evidenceBasis` at all.
+ *
+ * The distinction is this file's own, stated at Beyorch's `metrics: []`: "a
+ * withdrawn figure is not a pending one". So neither existing constant fits.
+ * GATED_EVIDENCE_BASIS says the client name goes live once permission is
+ * confirmed, and Beyorch's name IS confirmed and published.
+ * HELD_FIGURES_EVIDENCE_BASIS promises the figures "are kept, not discarded, and
+ * go up when the evidence does" — which would be a promise this engagement
+ * cannot keep, because the numbers were struck from the source record, not
+ * parked behind a gate. Reusing it would have been the tidier-looking mistake.
+ *
+ * The consequence of having none was not cosmetic: the "Tech and evidence"
+ * section renders only where `evidenceBasis` is set, so Beyorch was the one
+ * detailed study on the site that silently published no evidence statement at
+ * all — confirmed from its built page, which contains no such section.
+ */
+const WITHDRAWN_FIGURES_EVIDENCE_BASIS =
+  'This write-up is drawn from Pixelette’s own project records for the engagement, and the client is named with permission. The outcome figures that once accompanied it were withdrawn from publication at source and are not repeated here or held for later release — a withdrawn figure is not a pending one. What is published is the challenge, the engineering and the stack.';
+
 export const caseStudies: CaseStudy[] = [
   /*
    * ------------------------------------------------------------------------
@@ -740,7 +761,24 @@ export const caseStudies: CaseStudy[] = [
          [STACK] placeholder instead, which is this file's existing idiom. */
       duration: null,
       architectureLabel: 'Matchmaking and agent-interaction architecture',
-      evidenceBasis: GATED_EVIDENCE_BASIS,
+      /*
+       * Moved off GATED_EVIDENCE_BASIS 2026-09-14, because that constant had
+       * become self-contradicting on this page.
+       *
+       * It reads "the client name, logo, quotes and any numerical result go
+       * live only once permission and evidence are both confirmed" — printed on
+       * a page that names 2Connect in its title, its kicker and its body. The
+       * name permission was confirmed on 2026-09-11 and the name went live; the
+       * evidence statement underneath it went on describing the name as gated.
+       *
+       * HELD_FIGURES_EVIDENCE_BASIS is the constant written for exactly this
+       * state and its own docstring says so: "for the studies whose client is
+       * named but whose numbers are not cleared". The figures here are still
+       * gated — no match-accuracy or adoption percentage is published — which is
+       * what that wording describes, accurately, without also claiming the name
+       * is withheld.
+       */
+      evidenceBasis: HELD_FIGURES_EVIDENCE_BASIS,
       anonymised: {
         measured:
           'The engagement moved the platform from concept and discovery into a structured AI product architecture and MVP development programme, with defined matching flows, a working development environment and later-phase product planning recorded in the project trail.',
@@ -1882,6 +1920,7 @@ export const caseStudies: CaseStudy[] = [
       stack: 'Polkadot, Hyperledger, Go, C++, React',
       duration: null,
       architectureLabel: 'Platform architecture',
+      evidenceBasis: WITHDRAWN_FIGURES_EVIDENCE_BASIS,
     },
   },
   {

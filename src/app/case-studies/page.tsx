@@ -58,7 +58,7 @@ export default async function WorkPage({
         <div className="wrap">
           <Eyebrow>Work</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Named clients. Named processes. Measured results.
+            Named clients. Named processes. No invented numbers.
           </h1>
           {/* Rewritten twice on 2026-09-08, and the second time is the one that
               matters. The first rewrite still led with "shows the number before

@@ -247,14 +247,33 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   {cs.summary}
                 </p>
                 <p className="body" style={{ marginTop: 24 }}>
-                  {/* Internal case studies have no client, so claiming to wait on
-                      a client sign-off would be untrue — and it read oddly on our
-                      own work, which is the one write-up nobody outside the firm
-                      is blocking. */}
+                  {/*
+                    CORRECTED 2026-09-14. This branched on `cs.internal`, which
+                    NO study sets, so every unfilled write-up rendered "PENDING
+                    CLIENT SIGN-OFF" — and on all nine of them that is false.
+
+                    Measured: every one of the nine carries
+                    `namePermission: 'CONFIRMED'`. The client has already cleared
+                    the name. work.ts says so in its own note at the block that
+                    holds them — "filling them needs the engagement detail, not
+                    more design files" — so the blocker is ours, and the page was
+                    quietly attributing our backlog to nine clients who had
+                    already said yes.
+
+                    That matters beyond tidiness. A visitor reading "pending
+                    client sign-off" on nine of twenty-nine studies concludes
+                    those clients are unhappy or slow. The gate this site is
+                    proud of is the FIGURES gate; the write-ups are simply not
+                    written.
+
+                    Now branches on the fact that decides it. A name still
+                    gated is genuinely waiting on a client; a confirmed one is
+                    waiting on us, and says so.
+                  */}
                   <Placeholder>
-                    {cs.internal
-                      ? 'FULL WRITE-UP PENDING — problem, what we built, how it is measured'
-                      : 'FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured'}
+                    {cs.namePermission === 'PENDING'
+                      ? 'FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured'
+                      : 'FULL WRITE-UP PENDING — problem, what we built, how it is measured'}
                   </Placeholder>
                 </p>
               </>
