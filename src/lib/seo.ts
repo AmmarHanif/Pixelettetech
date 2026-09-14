@@ -80,7 +80,35 @@ export function pageMetadata(input: {
       title: input.title,
       description: input.description,
       url,
-      images: [{ url: image, width: 1200, height: 630, alt: input.title }],
+      /*
+       * Dimensions are declared ONLY for the generated card, 2026-09-14.
+       *
+       * This line used to read `{ url: image, width: 1200, height: 630 }`
+       * unconditionally, and the numbers were false on every page that supplied
+       * its own image. Measured on disk: not one of the 29 case-study PNGs is
+       * 1200x630 — seventeen are 675x420, seven are 675x419, and neom.png and
+       * sandoz.png are 512x320, which is below the 600x315 floor for a large
+       * card entirely. aia.png is 346x214.
+       *
+       * Declaring a size a file does not have is worse than declaring none.
+       * LinkedIn, Slack and Facebook allocate the box from the declared
+       * numbers, so they crop or drop a card that arrives at a different shape,
+       * and a crawler has no reason to doubt what the tag says. Omitting the
+       * dimensions lets each platform read the real size from the file.
+       *
+       * `/opengraph-image` genuinely is 1200x630 — it is generated at that size
+       * in src/app/opengraph-image.tsx — so it keeps its declaration, and it is
+       * what all 40 static pages use.
+       *
+       * The real fix for the case studies is re-exporting the artwork at
+       * 1200x630, which needs image tooling and a design decision about
+       * cropping. Until then this stops the site asserting something untrue.
+       */
+      images: [
+        image === '/opengraph-image'
+          ? { url: image, width: 1200, height: 630, alt: input.title }
+          : { url: image, alt: input.title },
+      ],
       ...(input.article ?? {}),
     },
     twitter: {

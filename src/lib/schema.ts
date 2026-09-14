@@ -1,4 +1,5 @@
-import { SITE_URL, clutch, company } from '@/content/company';
+import { SITE_URL, clutch, company, contactEmail } from '@/content/company';
+import { groupEntities } from '@/content/nav';
 import { publishedDetail, publishedImage, type CaseStudy } from '@/content/work';
 import { HOMEPAGE_SEO } from '@/lib/seo';
 
@@ -108,6 +109,57 @@ export function organizationSchema(published: PublishedOrgClaims = {}) {
     // A profile link is an identity signal, not a rating assertion, so it is
     // safe while the score itself sits behind the evidence gate.
     sameAs: [company.linkedin, clutch.profileUrl],
+    /*
+     * THE GROUP RELATIONSHIP, added 2026-09-14.
+     *
+     * ADR-0005 names entity conflation — a reader or an answer engine treating
+     * Pixelette Technologies and Pixelette Certified as one company — as the
+     * single most damaging error available on this site. The prose carries the
+     * distinction, the footer publishes "Part of Pixelette Group" with all four
+     * companies, and llms.txt sets it out. The GRAPH said nothing at all, which
+     * is the layer that survives when a page is summarised rather than read.
+     *
+     * This asserts a RELATIONSHIP, not a credential, which is why it does not
+     * touch the claims gate: it says these four companies are part of one group
+     * and that this one is Technologies. It says nothing about what any of them
+     * holds or is accredited for. `hasCredential` above remains the only place a
+     * certification can enter, and it remains conditional.
+     *
+     * Built from `groupEntities` rather than retyped, so the footer and the
+     * graph cannot drift. The current entity is excluded from its own sibling
+     * list — an organisation is not its own subOrganization.
+     */
+    parentOrganization: {
+      '@type': 'Organization',
+      name: 'Pixelette Group',
+    },
+    subOrganization: groupEntities
+      .filter(entity => !entity.isThisEntity)
+      .map(entity => ({
+        '@type': 'Organization',
+        name: entity.name,
+        url: entity.href,
+        description: entity.what,
+      })),
+    /*
+     * Contact and identity facts that were already published in prose and were
+     * missing from the graph. "How do I contact them" and "is this a real
+     * registered company" are two of the highest-frequency questions an answer
+     * engine resolves about a firm, and both answers were sitting in company.ts
+     * unexposed. The CRN was already emitted above as an identifier; the VAT
+     * number has its own schema.org property and was not.
+     *
+     * No new claim: every value here renders somewhere on the site already.
+     */
+    email: contactEmail,
+    vatID: company.vat,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'sales',
+      email: contactEmail,
+      areaServed: 'GB',
+      availableLanguage: 'English',
+    },
     ...(published.aggregateRating
       ? {
           aggregateRating: {
