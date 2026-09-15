@@ -171,6 +171,50 @@ const differentiators = [
   },
 ];
 
+/**
+ * The three the homepage renders, and the ORDER IS LOAD-BEARING.
+ *
+ * The gap paragraph above names three failures in sequence — the work around
+ * the model was never redesigned, the data it needs was never made reachable,
+ * nobody owns whether it still works next quarter. These three answer those
+ * three IN THE SAME ORDER. That rhyme is what carries a reader from problem to
+ * answer, and it is doing the job the deleted second h2 and the deleted origin
+ * paragraph were doing with 48 words between them. Reordering this array breaks
+ * the section without breaking the build, so do not sort it.
+ *
+ * Six were rendering here until 2026-09-15 — the array below is the handoff
+ * record and keeps all six. The three not rendered were each already published
+ * on this same page or one click from it, so the cut removes duplication rather
+ * than positions:
+ *
+ *  - 'Governance route available' → `CertifiedHandoff variant="compact"`, this
+ *    page, section 12, in the accreditation-safe wording claims.ts requires.
+ *  - 'Blockchain depth' → /blockchain's hero: "Pixelette began as a blockchain
+ *    studio and it remains our deepest specialism", under an h1 dated "since
+ *    2018". Stronger than this tile and on the page that owns the claim.
+ *    VERIFIED AT SOURCE, because the first survival citation offered for it was
+ *    the DECENTRALISE card, which says something else — "a specialist tool, not
+ *    a default answer" is restraint, not heritage.
+ *  - 'AI-native where useful' → the weakest of the three, and recorded as such
+ *    rather than dressed up. AUTOMATE carries the capability; the RESTRAINT
+ *    applied to AI is only carried obliquely, by "earns its place" on the
+ *    DECENTRALISE headline and in the hero. If one comes back, it is this one —
+ *    swapped for 'Built to keep operating', never added as a fourth, which
+ *    would break both the three-answers rhyme and the 3-up grid.
+ *
+ * Throws at module load rather than silently rendering a short row, the same
+ * way `homepageCaseStudies` fails closed on a slug.
+ */
+const homepageDifferentiators = [
+  'Product thinking, not ticket delivery',
+  'Engineering before theatre',
+  'Built to keep operating',
+].map(title => {
+  const found = differentiators.find(item => item.t === title);
+  if (!found) throw new Error(`Homepage differentiator not found: ${title}`);
+  return found;
+});
+
 
 
 /** Handoff section 09, "Ways to work with us". Three commercial routes. */
@@ -510,42 +554,59 @@ export default function HomePage() {
           ))}
         </div>
         <SourceNote>{gapStats[0].source}</SourceNote>
-      </Section>
 
-      {/* ═════════════════════ 05 · Why Pixelette Technologies ═══════════ */}
-      <Section labelledBy="why-heading" style={{ background: '#F7FAFA' }}>
-        <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
-          <div>
-            <SectionHead
-              eyebrow="Differentiation"
-              id="why-heading"
-              title="AI is stronger when there is engineering underneath it"
-            />
-            <p className="body" style={{ marginTop: 20 }}>
-              Pixelette Technologies began with difficult engineering problems. That matters now:
-              clients do not need another AI presentation. They need systems that integrate with
-              data, survive production, can be measured, and can be improved when the model or
-              business changes.
-            </p>
-            {/* The handoff flags this line for retention — "KEEP THIS IDEA FROM
-                THE CURRENT SITE" — and allows it to be softened for enterprise
-                tone. It is kept exactly as written, because it is the sharpest
-                sentence in the deck and the idea it carries is the section. */}
-            <blockquote className="quote" style={{ marginTop: 30 }}>
-              “An AI practice with no engineering underneath it is essentially a slide deck.”
-            </blockquote>
-          </div>
+        {/*
+          MERGED 2026-09-15 on founder instruction. "The gap" and a separate
+          "Differentiation" section are now one block, and the turn between them
+          is the blockquote rather than a section boundary.
 
-          <div className="grid" style={{ gap: 14 }}>
-            {differentiators.map(item => (
-              <div key={item.t} className="tile" style={{ padding: '20px 22px' }}>
-                <b style={{ fontSize: 16 }}>{item.t}</b>
-                <p className="small" style={{ marginTop: 8 }}>
-                  {item.d}
-                </p>
-              </div>
-            ))}
-          </div>
+          WHY. They were always a matched pair - this states the problem, that
+          answered it - but they were spending a section boundary, a second h2
+          and 192px of padding on the turn. Measured before the merge: 97 words
+          and 543px here, 174 words and 945px there, so 271 words of argument
+          before the reader saw a single piece of work, on a page an external
+          audit measured at 18.6 viewport screens against a 6.7-14.5 comparator.
+
+          THE STATS AND THE CITATION ARE THE REASON THIS SECTION EXISTS, and
+          they survive the merge untouched. They are the ONLY third-party
+          evidence on the whole homepage - one SourceNote on the page. They were
+          added 2026-09-14 to close an audit finding that the front page carried
+          no citation of any kind while the rest of the site cites McKinsey,
+          DORA, METR, HFS, G2, Thomson Reuters and the Bank of England. The
+          client row and a verified-proof block have since been removed on
+          founder instruction, so the page has LESS proof than when that finding
+          was written. Do not move them below the blockquote, do not paraphrase
+          the attribution, and do not read `gapStats` by index if that array ever
+          becomes filterable.
+
+          The second h2 went, not the idea it carried. "AI is stronger when there
+          is engineering underneath it" says what the blockquote below says, and
+          the blockquote says it harder - the handoff flags that line "KEEP THIS
+          IDEA FROM THE CURRENT SITE". Full width at 21px serif it now carries
+          more weight than it did inside a half-width column.
+
+          The origin paragraph went: "Pixelette Technologies began with difficult
+          engineering problems...". The SENTENCE was homepage-only; the ARGUMENT
+          was not. /about's hero already carries it dated and evidenced - "built
+          production software since 2018... that operating discipline is why we
+          can build AI into a client system and still stand behind it a year
+          later". A sentence lost, not a position.
+        */}
+        <blockquote className="quote" style={{ marginTop: 48 }}>
+          “An AI practice with no engineering underneath it is essentially a slide deck.”
+        </blockquote>
+
+        <div className="grid grid-3" style={{ marginTop: 44 }}>
+          {homepageDifferentiators.map(item => (
+            <div key={item.t} className="tile">
+              {/* 16px overrides `.tile b`, which is a 26px mono brand numeral
+                  for StatTile. Without it these titles render as statistics. */}
+              <b style={{ fontSize: 16 }}>{item.t}</b>
+              <p className="small" style={{ marginTop: 8 }}>
+                {item.d}
+              </p>
+            </div>
+          ))}
         </div>
       </Section>
 
