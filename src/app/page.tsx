@@ -915,7 +915,7 @@ export default function HomePage() {
       {/* ══════════════════════════════ FAQs ═════════════════════════════ */}
       <Section labelledBy="faq-heading">
         <SectionHead
-          eyebrow="Homepage FAQs"
+          eyebrow="FAQs"
           id="faq-heading"
           title="Questions worth answering before a sales call"
         />

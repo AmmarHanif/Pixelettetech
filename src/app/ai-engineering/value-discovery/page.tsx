@@ -189,7 +189,7 @@ export default function BaselinePage() {
         <Faqs items={faqs} />
       </Section>
 
-      <ClosingCta title="Book the baseline">
+      <ClosingCta title="Start with Value Discovery">
         No procurement cycle, no discovery call ladder. Tell us the process that annoys you most and
         we will tell you whether it is measurable.
       </ClosingCta>

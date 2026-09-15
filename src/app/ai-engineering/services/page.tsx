@@ -289,8 +289,8 @@ export default function AiServicesPage() {
       </Section>
 
       <ClosingCta title="Not sure which of the five you need?">
-        Most clients start with the baseline, because it tells you which of the other four is worth
-        paying for.
+        Most clients start with Value Discovery, because it tells you which of the other four is
+        worth paying for.
       </ClosingCta>
     </>
   );

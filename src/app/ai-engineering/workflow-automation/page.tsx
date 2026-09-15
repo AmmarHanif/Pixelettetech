@@ -137,7 +137,7 @@ export default function WorkflowAutomationPage() {
               genuinely cannot do.
             </p>
             <p style={{ marginTop: 26 }}>
-              <FLink href="/ai-engineering/value-discovery">Start with the baseline</FLink>
+              <FLink href="/ai-engineering/value-discovery">Start with Value Discovery</FLink>
             </p>
           </div>
 

@@ -185,7 +185,7 @@ export default function LanguageSpeechVisionPage() {
             </p>
             <div className="btn-row" style={{ marginTop: 28 }}>
               <Cta href="/ai-engineering/value-discovery" variant="secondary">
-                Start with the baseline
+                Start with Value Discovery
               </Cta>
             </div>
             <p style={{ marginTop: 26 }}>

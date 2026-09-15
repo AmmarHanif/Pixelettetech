@@ -93,8 +93,8 @@ export default function ContactPage() {
             Tell us the process that annoys you most
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
-            Four questions and a reply address. One of us replies, not a sequence. If a baseline is
-            not the right next step we will say so on the call.
+            Four questions and a reply address. One of us replies, not a sequence. If Value Discovery is not
+            the right next step we will say so on the call.
           </p>
         </div>
       </div>
