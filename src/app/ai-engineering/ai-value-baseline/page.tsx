@@ -93,7 +93,7 @@ export default function BaselinePage() {
           <p className="lead" style={{ marginTop: 24 }}>
             The entry engagement. We instrument two or three of your processes, measure what they
             actually cost today, and hand you a costed roadmap with the business case written for
-            finance.
+            your exec team.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Book a value baseline</Cta>

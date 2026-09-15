@@ -115,7 +115,7 @@ const services = [
     title: 'AI Value Baseline',
     href: '/ai-engineering/ai-value-baseline',
     linkLabel: 'Four weeks, fixed price',
-    body: 'Four weeks, fixed price. We instrument the process, measure what it costs today, and write the business case your CFO will approve.',
+    body: 'Four weeks, fixed price. We instrument the process, measure what it costs today, and write the business case your exec team will approve.',
   },
   {
     tag: 'Ready',
