@@ -4,7 +4,7 @@ import { ArrowUpRight } from '@/components/Icons';
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, JsonLd, Section, SectionHead } from '@/components/ui';
 import { certified } from '@/content/company';
-import { breadcrumbSchema } from '@/lib/schema';
+import { breadcrumbSchema, itemListSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
@@ -72,6 +72,33 @@ export default function AiServicesPage() {
           { name: 'AI engineering', path: '/ai-engineering' },
           { name: 'Services', path: '/ai-engineering/services' },
         ])}
+      />
+      {/*
+        The five services as an ordered list, added 2026-09-15. This page is the
+        AI section's index and was the odd one out against its own siblings:
+        every other service page pairs serviceSchema with breadcrumbSchema and a
+        FAQ, while this one emitted a breadcrumb alone.
+
+        ItemList RATHER THAN hasOfferCatalog, which is what an external audit
+        proposed. An OfferCatalog wants structured prices, and the prices on this
+        page are display prose — "From £1,500 / month" sits inside a `meta`
+        string array next to "Monthly retainer" and "Extends an existing build".
+        Building Offers would mean parsing a figure out of a label written for a
+        human, and then asserting a price shape — currency, unit, validity — that
+        no register here has cleared. The real prices are published with their
+        inclusions on the pages this list points at, which is where a buyer and a
+        crawler should both read them.
+
+        So: structure, no invented commercial claims. Five entries, every URL a
+        page that exists.
+      */}
+      <JsonLd
+        data={itemListSchema(
+          [...primary, ...secondary].map(service => ({
+            name: service.title,
+            path: service.href,
+          })),
+        )}
       />
 
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>

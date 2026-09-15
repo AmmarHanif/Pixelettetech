@@ -18,7 +18,7 @@ import {
   type WorkFilter,
 } from '@/content/work';
 import { ANALYTICS_EVENTS, ANALYTICS_SURFACES, analyticsAttrs } from '@/lib/analytics';
-import { breadcrumbSchema } from '@/lib/schema';
+import { breadcrumbSchema, itemListSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
@@ -52,6 +52,28 @@ export default async function WorkPage({
           { name: 'Home', path: '/' },
           { name: 'Work', path: '/case-studies' },
         ])}
+      />
+      {/*
+        The 29 studies as an ordered list, added 2026-09-15. This page emitted a
+        BreadcrumbList and nothing else — it told an answer engine where it sits
+        in the hierarchy and nothing whatever about what is on it.
+
+        NAMES COME THROUGH `displayName`, not from `cs.client`. Three studies are
+        still name-gated, and a graph that listed the real client while the page
+        showed an anonymised label would leak the exact thing the gate exists to
+        withhold — in the channel that is hardest to take back. The gate holds
+        here for the same reason it holds on the image.
+
+        The full list, not the filtered `visible` set: the canonical URL for this
+        page does not vary with `?filter=`, so the graph should not either.
+      */}
+      <JsonLd
+        data={itemListSchema(
+          caseStudies.map(cs => ({
+            name: displayName(cs),
+            path: `/case-studies/${cs.slug}`,
+          })),
+        )}
       />
 
       <div className="hero-glow" style={{ padding: '80px 0 56px' }}>

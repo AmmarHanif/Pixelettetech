@@ -252,6 +252,41 @@ export function breadcrumbSchema(trail: { name: string; path: string }[]) {
   };
 }
 
+/**
+ * An ordered list of things this page links to.
+ *
+ * Added 2026-09-15 for /case-studies and /insights, which emitted a
+ * BreadcrumbList and nothing else. A listing page whose only structured data is
+ * its own position in the hierarchy tells an answer engine where the page sits
+ * and nothing about what is on it — so 29 case studies and a set of articles
+ * were invisible to anything that did not parse the full HTML.
+ *
+ * FAIL-CLOSED, like every other builder in this file: an empty list returns null
+ * and `JsonLd` then renders nothing, rather than emitting an ItemList with zero
+ * items. A graph asserting "here is a collection" over an empty collection is
+ * the same defect class as a badge with no certificate behind it.
+ *
+ * Takes names and paths only. It deliberately cannot carry a description, a
+ * figure or an image: this is a table of contents, and every claim about the
+ * things in it already has a gate of its own elsewhere.
+ */
+export function itemListSchema(
+  items: { name: string; path: string }[],
+): Record<string, unknown> | null {
+  if (items.length === 0) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    numberOfItems: items.length,
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      url: `${SITE_URL}${item.path === '/' ? '' : item.path}`,
+    })),
+  };
+}
+
 export function serviceSchema(input: {
   name: string;
   description: string;
