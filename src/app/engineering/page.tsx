@@ -195,12 +195,26 @@ export default function EngineeringPage() {
       {/* --------------------------------------------------- what we build */}
       <Section labelledBy="build-heading">
         <SectionHead title="What we build" id="build-heading" />
+        {/*
+          `.tile` rather than `.card` on founder instruction, to make this 6-up
+          run more compact: 4px radius against 12, 20/22px padding against 28,
+          and the lighter --shadow-tile. Column count is unchanged at 3, which is
+          the right fit for six items; 4-up would leave a ragged second row.
+
+          THE ICON WRAPPER IS A div, NOT A span, AND THAT IS LOAD-BEARING.
+          `.tile span` in globals.css is a one-class-one-element selector, so it
+          is MORE SPECIFIC than `.icon-slot` and wins regardless of source order.
+          As a span the icon would take display:block, colour var(--muted) and
+          margin-top 9px - losing its brand purple and its flex centring. A div
+          does not match that selector, so `.icon-slot` applies intact and no CSS
+          change is needed.
+        */}
         <div className="grid grid-3" style={{ marginTop: 36 }}>
           {capabilities.map(cap => (
-            <div key={cap.id} id={cap.id} className="card" style={{ scrollMarginTop: 100 }}>
-              <span className="icon-slot" aria-hidden>
+            <div key={cap.id} id={cap.id} className="tile" style={{ scrollMarginTop: 100 }}>
+              <div className="icon-slot" aria-hidden>
                 {cap.icon}
-              </span>
+              </div>
               <h3 className="h3" style={{ marginTop: 18 }}>
                 {cap.title}
               </h3>

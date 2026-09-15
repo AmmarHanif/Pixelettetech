@@ -56,18 +56,43 @@ const ships = [
   },
 ];
 
+/*
+ * ALIGNED 2026-09-15 to the three shapes on /engineering, on founder decision.
+ * The site carried TWO commercial vocabularies one click apart, and this page
+ * held the losing one: Engineering diagnostic / Build & launch programme /
+ * Managed engineering partner.
+ *
+ * Strings are VERBATIM from `engagementModels` in ../page.tsx so the two cannot
+ * drift in wording. They are duplicated rather than imported because that array
+ * is a module-local const on a page component; promoting it to shared content is
+ * a refactor nobody asked for, so the duplication is deliberate and flagged here
+ * rather than hidden.
+ *
+ * TWO CONSEQUENCES, recorded rather than left to be found:
+ *
+ *  - 'Engineering diagnostic' is GONE and had no counterpart in the surviving
+ *    three. That is not a loss: it described paid discovery producing a plan,
+ *    which is exactly what Value Discovery now is, as a named offer with its own
+ *    page. One paid-discovery concept instead of two.
+ *  - 'Managed engineering partner' meant DIFFERENT THINGS on two pages. Here it
+ *    described continuity after launch; on /engineering/managed-engineering it
+ *    describes a standing team against a roadmap and a quarterly outcome, which
+ *    is this set's 'Product team'. That page still uses the old label and is NOT
+ *    changed here, because it is that page's own service name rather than a
+ *    commercial-shape card. Flagged.
+ */
 const routes = [
   {
-    label: 'Engineering diagnostic',
-    body: 'For when you know the problem but not the solution. Discovery, architecture, data and workflow review, feasibility, and a prioritised build plan.',
+    label: 'Fixed-scope build',
+    body: 'A defined outcome, a fixed price and a date. Best when you know what you want built.',
   },
   {
-    label: 'Build & launch programme',
-    body: 'A scoped product programme with milestones, working releases, acceptance criteria and a launch.',
+    label: 'Product team',
+    body: 'A standing team against a roadmap and a quarterly outcome, not a headcount you manage. Best when the destination will move.',
   },
   {
-    label: 'Managed engineering partner',
-    body: 'A continuing engineering capability once the product is live, rather than a one-off project and a goodbye.',
+    label: 'Support & run',
+    body: 'We keep what we built working, on a monthly contract. One contract covers the conventional software and any AI we built into it.',
   },
 ];
 

@@ -614,10 +614,17 @@ export default function HomePage() {
 
         WHAT WENT WITH "Commercial products", and where each survives. Checked by
         opening the file, not by assertion:
-         - Engineering diagnostic, Build & launch programme and Managed
-           engineering partner all render at /engineering/custom-software-saas
-           under "Ways to work with us — Three commercial shapes, chosen around
-           the problem".
+         - The three commercial shapes all render at
+           /engineering/custom-software-saas under "Ways to work with us — Three
+           commercial shapes, chosen around the problem". RE-CHECKED 2026-09-15:
+           that page then carried a SECOND vocabulary (Engineering diagnostic /
+           Build & launch programme / Managed engineering partner) and has since
+           been aligned to /engineering's Fixed-scope build / Product team /
+           Support & run on founder decision. So BUILD & LAUNCH survives as
+           Fixed-scope build and MANAGED ENGINEERING PARTNER as Support & run.
+           ENGINEERING / AI DIAGNOSTIC no longer survives there at all: its
+           counterpart is Value Discovery, which is the same thing as a named
+           offer with its own page.
          - Rescue & Modernise renders at /engineering/modernisation-integration
            under its own "Rescue and modernise — Assessment before further
            investment", in fuller copy than the box had. It ALSO survives on this
