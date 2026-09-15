@@ -237,7 +237,7 @@ export default function BlockchainPage() {
             id="delivered-heading"
             title="Named platforms, measured results"
           />
-          <FLink href="/case-studies">All work</FLink>
+          <FLink href="/case-studies">Read the full case studies</FLink>
         </div>
 
         {/* Through the work.ts publication gate, not around it. Reading

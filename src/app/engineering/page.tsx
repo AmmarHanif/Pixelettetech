@@ -289,7 +289,7 @@ export default function EngineeringPage() {
             id="selected-heading"
             title="Named clients, shipped systems"
           />
-          <FLink href="/case-studies">All work</FLink>
+          <FLink href="/case-studies">Read the full case studies</FLink>
         </div>
 
         {/* Every field goes through the work.ts publication gate. Reading

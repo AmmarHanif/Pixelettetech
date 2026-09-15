@@ -351,7 +351,16 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           <h2 className="h2" id="more-work-heading">
             More work
           </h2>
-          <FLink href="/case-studies">All work</FLink>
+          {/*
+            NOT "Read the full case studies", which is the label the other four
+            call sites use. Those sit above kicker LABELS with no title and no
+            body, so there the phrase correctly means "these are labels, the real
+            thing is one click away". Here the grid below holds ACTUAL case-study
+            cards that link to individual studies, so the same phrase would imply
+            those cards are abridged versions of themselves. This link goes to
+            the index, and says so.
+          */}
+          <FLink href="/case-studies">All case studies</FLink>
         </div>
         <div className="grid grid-2" style={{ marginTop: 32 }}>
           {others.map(o => (

@@ -436,7 +436,7 @@ export default function AiEngineeringPage() {
             id="proof-heading"
             title="Named clients. Named processes. No invented numbers."
           />
-          <FLink href="/case-studies">All work</FLink>
+          <FLink href="/case-studies">Read the full case studies</FLink>
         </div>
 
         {/* Through the work.ts publication gate. The client name, the kicker,
