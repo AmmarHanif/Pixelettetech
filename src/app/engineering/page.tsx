@@ -332,11 +332,11 @@ export default function EngineeringPage() {
         <SectionHead
           eyebrow="Where this sits"
           id="model-heading"
-          title="One engineering company. Four ways we create value."
+          title="One engineering company, four ways we create value"
           lead="Build is this page. Automate, Decentralise and Run are the other three."
         />
         <div style={{ marginTop: 36 }}>
-          <ValueModelCards detailed={false} current="BUILD" />
+          <ValueModelCards current="BUILD" />
         </div>
       </Section>
 

@@ -845,82 +845,68 @@ export function ClosingCta({
 export type ValueModelEntry = {
   key: 'BUILD' | 'AUTOMATE' | 'DECENTRALISE' | 'RUN';
   icon: ReactNode;
+  /**
+   * The plain-English line a buyer reads to place their own problem, 2026-09-15.
+   *
+   * The block was defining rather than routing. Measured before this change: 223
+   * rendered words across the four cards, 49 to 63 each, in four text layers —
+   * a capability list, quoted buyer triggers and an explanatory paragraph on top
+   * of the key. A first-time reader had to read all of it before they could
+   * choose. IBM's UK homepage cards, measured the same day, run a median of 23
+   * words in two layers: a headline and one line.
+   *
+   * IBM's brevity is earned by a proof line — a percentage or a named customer.
+   * That slot cannot be filled here: every figure on this site sits behind the
+   * evidence gate and there are 48 of them. So the shape is borrowed and the
+   * proof slot is not faked. What goes in its place is recognition rather than
+   * evidence: a headline in the buyer's language, then one sentence of scope.
+   */
+  headline: string;
   summary: string;
-  detail: string;
   href: string;
   linkLabel: string;
-  /**
-   * The buyer's own words for the problem this card answers.
-   *
-   * Added 2026-09-14. The homepage carried a separate six-row "What are you
-   * trying to change?" table whose rows mapped onto these four cards, so one
-   * buyer question was answered twice on one page — and that table held 12 of
-   * the homepage's links on its own, which is why it was the largest single
-   * contributor to call-to-action sprawl. The triggers are lifted verbatim from
-   * it; six rows collapse to four because Modernise and AI Engineering already
-   * sit inside Build and Automate.
-   *
-   * Optional, so the three practice hubs that reintroduce this model render
-   * exactly what they rendered before. Triggers are orientation for a buyer who
-   * cannot yet name the service, which is a homepage job.
-   */
-  triggers?: readonly string[];
 };
 
 export const valueModel: ValueModelEntry[] = [
   {
     key: 'BUILD',
-    triggers: ['We need a new platform, product or app', 'Our existing system needs modernising'],
     icon: <BuildMark size={30} />,
+    headline: 'Software built or rebuilt',
     summary:
-      'Custom software, SaaS, web and mobile products, APIs, integrations, cloud architecture and modernisation.',
-    detail:
-      'From a blank sheet or an inherited codebase, we design and engineer products that can move from specification to production without handing the client a prototype and walking away.',
+      'New platforms, products and apps, plus the modernisation of systems you already run.',
     href: '/engineering',
     linkLabel: 'Engineering',
   },
   {
     key: 'AUTOMATE',
-    triggers: ['A manual process needs automating', 'We want AI inside an existing product'],
     icon: <AiMark size={30} />,
+    headline: 'AI put to work',
     summary:
-      'AI agents, workflow orchestration, model/LLM integration, RAG, predictive systems and intelligent automation.',
-    detail:
-      'We apply AI where it can reduce work, improve decisions, personalise a product or coordinate complex workflows — with human oversight and measurable success criteria where the use case requires it.',
+      'Agents and workflow automation for manual processes, and AI inside products that already exist.',
     href: '/ai-engineering',
     linkLabel: 'AI & Automation',
   },
   {
     key: 'DECENTRALISE',
-    triggers: ['We need tokenisation, smart contracts or a dApp'],
     icon: <ChainMark size={30} />,
+    headline: 'Blockchain is a specialist tool, not a default answer',
     summary:
-      'Tokenisation, smart contracts, dApps, wallets and blockchain infrastructure where decentralisation solves a real problem.',
-    detail:
-      'Blockchain is a specialist tool, not a default answer. We use it where ownership, programmability, verification, tokenisation or distributed trust creates a genuine advantage.',
+      'Tokenisation, smart contracts, dApps and wallets, used where decentralisation solves a real problem.',
     href: '/blockchain',
     linkLabel: 'Blockchain',
   },
   {
     key: 'RUN',
-    triggers: ['We need someone to keep improving what exists'],
     icon: <Gauge size={30} />,
+    headline: 'Support that does not stop at launch',
     summary:
-      'Operate, monitor, support and continually improve products and workflows after launch.',
-    detail:
-      'Production is a starting point, not a handover ceremony. Ongoing support can include monitoring, incident response, optimisation, releases, backlog delivery and product evolution.',
+      'Monitoring, optimisation and releases that keep the product improving, not just running.',
     href: '/engineering/managed-engineering',
     linkLabel: 'Managed Engineering / Support',
   },
 ];
 
 export function ValueModelCards({
-  /**
-   * Show the longer paragraph under each short definition. True on the
-   * homepage, where section 04 carries both layers; a service page
-   * reintroducing the model alongside its own copy wants the compact form.
-   */
-  detailed = true,
   /**
    * The one of the four this page actually is, marked as the reader's own
    * position in the set.
@@ -958,7 +944,6 @@ export function ValueModelCards({
    */
   current,
 }: {
-  detailed?: boolean;
   current?: ValueModelEntry['key'];
 } = {}) {
   return (
@@ -991,35 +976,22 @@ export function ValueModelCards({
                 </span>
               ) : null}
             </h3>
-            <p className="body" style={{ marginTop: 12, fontSize: 14.5 }}>
+            {/*
+              Headline then one sentence. Two text layers, matching the shape of
+              the comparator measured on 2026-09-15 and replacing four.
+
+              A <p> with the `.h4` class rather than a heading element: `key` is
+              already the <h3> and carries the "THIS PAGE" marker that announces
+              the reader's position on the three hub pages. Promoting this to a
+              heading would put two headings in every card and change the
+              accessibility tree on four pages to fix nothing.
+            */}
+            <p className="h4" style={{ marginTop: 10 }}>
+              {entry.headline}
+            </p>
+            <p className="body" style={{ marginTop: 10, fontSize: 14.5 }}>
               {entry.summary}
             </p>
-            {/*
-              The buyer's own words, shown only where this block is the page's
-              definition rather than its orientation — i.e. the homepage, which
-              is also the only call site passing `detailed`. Rendered as a list
-              of quoted triggers rather than links: the card's own link already
-              goes to the right place, and the six-row table these came from was
-              deleted precisely because it duplicated that destination twelve
-              times over.
-            */}
-            {detailed && entry.triggers ? (
-              <ul
-                className="small"
-                style={{ marginTop: 14, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 4 }}
-              >
-                {entry.triggers.map(trigger => (
-                  <li key={trigger} style={{ opacity: 0.85 }}>
-                    &ldquo;{trigger}.&rdquo;
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-            {detailed ? (
-              <p className="small" style={{ marginTop: 14 }}>
-                {entry.detail}
-              </p>
-            ) : null}
             <div style={{ flexGrow: 1 }} />
             <div style={{ marginTop: 18 }}>
               <FLink href={entry.href}>{entry.linkLabel}</FLink>

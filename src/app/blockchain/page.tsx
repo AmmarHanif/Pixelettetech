@@ -296,11 +296,11 @@ export default function BlockchainPage() {
         <SectionHead
           eyebrow="Where this sits"
           id="bc-model-heading"
-          title="One engineering company. Four ways we create value."
+          title="One engineering company, four ways we create value"
           lead="Decentralise is this page. Build, Automate and Run are the other three."
         />
         <div style={{ marginTop: 36 }}>
-          <ValueModelCards detailed={false} current="DECENTRALISE" />
+          <ValueModelCards current="DECENTRALISE" />
         </div>
       </Section>
 

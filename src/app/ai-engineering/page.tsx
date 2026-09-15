@@ -393,11 +393,11 @@ export default function AiEngineeringPage() {
         <SectionHead
           eyebrow="Where this sits"
           id="ai-model-heading"
-          title="One engineering company. Four ways we create value."
+          title="One engineering company, four ways we create value"
           lead="Automate is this page. Build, Decentralise and Run are the other three."
         />
         <div style={{ marginTop: 36 }}>
-          <ValueModelCards detailed={false} current="AUTOMATE" />
+          <ValueModelCards current="AUTOMATE" />
         </div>
       </Section>
 

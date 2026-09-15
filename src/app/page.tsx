@@ -469,7 +469,7 @@ export default function HomePage() {
         <SectionHead
           eyebrow="Core offer"
           id="model-heading"
-          title="One engineering company. Four ways we create value."
+          title="One engineering company, four ways we create value"
         />
         <div style={{ marginTop: 36 }}>
           <ValueModelCards />
