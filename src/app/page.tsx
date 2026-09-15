@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import { ArrowRight } from '@/components/Icons';
 import { LiveDiagram } from '@/components/LiveDiagram';
 import {
   CertifiedHandoff,
@@ -11,7 +10,6 @@ import {
   Eyebrow,
   FLink,
   JsonLd,
-  MediaSlot,
   Section,
   SectionHead,
   SourceNote,
@@ -19,14 +17,6 @@ import {
 } from '@/components/ui';
 import { certified } from '@/content/company';
 import { gapStats } from '@/content/sources';
-import {
-  displayCardCta,
-  displayKicker,
-  displayName,
-  homepageCaseStudies,
-  publishedImage,
-  publishedMetrics,
-} from '@/content/work';
 import {
   ANALYTICS_EVENTS,
   ANALYTICS_SURFACES,
@@ -241,6 +231,7 @@ const homepageDifferentiators = [
   'Product thinking, not ticket delivery',
   'AI-native where useful',
   'Built to keep operating',
+  'Governance route available',
 ].map(title => {
   const found = differentiators.find(item => item.t === title);
   if (!found) throw new Error(`Homepage differentiator not found: ${title}`);
@@ -628,7 +619,7 @@ export default function HomePage() {
           “An AI practice with no engineering underneath it is essentially a slide deck.”
         </blockquote>
 
-        <div className="grid grid-3" style={{ marginTop: 44 }}>
+        <div className="grid grid-4" style={{ marginTop: 44 }}>
           {homepageDifferentiators.map(item => (
             <div key={item.t} className="tile">
               {/* 16px overrides `.tile b`, which is a 26px mono brand numeral
@@ -644,154 +635,6 @@ export default function HomePage() {
 
       {/* ══════════════════════════ 06 · AI engineered in ════════════════ */}
 
-      {/* ═══════════════════════════ 07 · Selected work ══════════════════ */}
-      {/*
-        The three homepage case studies come from `homepageCaseStudies`, which
-        fixes the handoff's order — 2Connect, then Fusio Wallet, then Ayni Gold
-        — in one place and throws at module load if a slug ever stops
-        resolving. AIA is deliberately absent: the handoff keeps it "as a strong
-        fourth proof point rather than a homepage lead".
-
-        Everything rendered per card goes through the publication accessors in
-        `src/content/work.ts`, never off the record. All three studies are
-        `namePermission: 'PENDING'` today, so the anonymised name, the
-        anonymised kicker, the name-free CTA and a labelled media box are what
-        render — and the card is structurally identical to the named version,
-        which is what the handoff means by "support anonymised case-study
-        presentation without changing layout".
-      */}
-      {/*
-        THREE BLOCKS REMOVED HERE AND BELOW, 2026-09-14, on the external
-        homepage audit of that date. Deletion only: no copy was rewritten, and
-        nothing is lost from the site, because each reproduced a page that
-        already exists in a sharper form. The data arrays they consumed
-        (aiCapabilities, deliverySteps, blockchainCapabilities) went with them.
-
-        AI & AUTOMATION PROPOSITION - eight capability tiles mapping one-to-one
-        onto eight pages under /ai-engineering. That page deliberately narrows
-        to five services plus one it refuses to sell; this block reinstated the
-        long list the AI page was written to replace.
-
-        FROM PROBLEM TO PRODUCTION - "Discover. Design. Build. Verify. Launch.
-        Improve." was the THIRD competing process model on one site.
-        /method/live publishes LIVE in four stages, each with a named
-        commercial structure; /engineering publishes a four-step path. Three
-        models is not three explanations, it is one company that has not
-        decided. LIVE is the one that survives, and it survives everywhere.
-
-        HERITAGE WITHOUT DISTORTION - six tiles, five reproducing the five
-        child pages under /blockchain and the sixth a strategy line. Its actual
-        argument, that blockchain is a specialist tool rather than a default
-        answer, is already the second paragraph of the DECENTRALISE card above.
-        The sentence stays; only the tiles go.
-
-        Measured cause: the audit put this page at 18.6 viewport screens against
-        a comparator range of 6.7 to 14.5, and 29 distinct calls to action in
-        main against a range of 2 to 21 - an outlier on its own site as well as
-        in the market, since every inner page here drives one or two actions.
-      */}
-
-      <Section labelledBy="work-heading" style={{ background: '#F7FAFA' }}>
-        <SectionHead
-          eyebrow="Challenge → build → result"
-          id="work-heading"
-          title="Selected work"
-          lead="Three case studies to show agentic AI, product engineering and specialist blockchain depth."
-        />
-        <div className="grid grid-3" style={{ marginTop: 40 }}>
-          {homepageCaseStudies.map(cs => {
-            const metrics = publishedMetrics(cs).slice(0, 3);
-            return (
-              <Link
-                key={cs.slug}
-                href={`/case-studies/${cs.slug}`}
-                className="work-card"
-                {...analyticsAttrs(ANALYTICS_EVENTS.CASE_STUDY_OPENED, {
-                  surface: ANALYTICS_SURFACES.HOMEPAGE_SELECTED_WORK,
-                  detail: cs.slug,
-                })}
-              >
-                {/*
-                  GUARDED 2026-09-14. A gated image is not a missing one, and the
-                  page was presenting them identically.
-                  `publishedImage()` returns the artwork only where
-                  `namePermission === 'CONFIRMED'`, because a product screenshot
-                  carries the client's branding and would name them by the back
-                  door. That gate is correct and stays. What was wrong is what a
-                  visitor saw when it fired: `MediaSlot` fell back to its
-                  unfilled-slot form and rendered the literal string
-                  "[ Product screenshot ]" on the homepage, on two of the three
-                  selected-work cards.
-                  A bracketed placeholder is this site's signal for "a real
-                  engagement will fill this" (ADR-0003), and it is the right
-                  signal for an unwritten case study. It is the WRONG signal
-                  here: nothing is unfinished, the artwork exists on disk, and it
-                  is deliberately withheld pending permission. An external audit
-                  read the homepage as an unfinished page because of these two
-                  strings, which is precisely the misreading they invite.
-                  So a card whose image is gated renders no image frame at all
-                  and leads with its kicker. An intentional typographic card
-                  reads as a choice; a bracket reads as a gap. The frame returns
-                  on its own the moment permission lands, with no edit here.
-                */}
-                {publishedImage(cs) ? (
-                  <MediaSlot
-                    label={cs.imageLabel}
-                    src={publishedImage(cs)}
-                    alt={`${displayName(cs)} — ${cs.title}`}
-                  />
-                ) : null}
-                <span className="mono work-card__kicker">{displayKicker(cs)}</span>
-                <h3 className="h3" style={{ marginTop: 12, fontSize: 21 }}>
-                  {cs.title}
-                </h3>
-                <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-                  {cs.summary}
-                </p>
-                {/* Guarded. All three publish no figure at all today, and an
-                    empty metrics row would add a gap under the summary that
-                    says nothing. */}
-                {metrics.length > 0 ? (
-                  <div className="work-card__metrics">
-                    {metrics.map(m => (
-                      <span key={m.label}>
-                        <b
-                          className={m.pending ? 'ph' : undefined}
-                          style={m.pending ? { fontSize: 15 } : undefined}
-                        >
-                          {m.value}
-                        </b>
-                        <span>{m.shortLabel ?? m.label}</span>
-                      </span>
-                    ))}
-                  </div>
-                ) : null}
-                <span
-                  className="mono"
-                  style={{
-                    marginTop: 18,
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    fontSize: 12,
-                    color: 'var(--brand)',
-                  }}
-                >
-                  {displayCardCta(cs)}
-                  <ArrowRight size={14} />
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-        <p style={{ marginTop: 30 }}>
-          <FLink href="/case-studies">See all work</FLink>
-        </p>
-      </Section>
-
-      {/* ═══════════════════════════ 08 · How we deliver ═════════════════ */}
-
-      {/* ══════════════════════ 09 · Ways to work with us ════════════════ */}
       {/*
         ONE METHOD, 2026-09-14. This slot held "Discover. Design. Build. Verify.
         Launch. Improve." - the third competing process model on a site that also

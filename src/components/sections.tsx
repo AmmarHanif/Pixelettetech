@@ -844,54 +844,27 @@ export function ClosingCta({
  */
 export type ValueModelEntry = {
   key: 'BUILD' | 'AUTOMATE' | 'DECENTRALISE' | 'RUN';
-  /**
-   * The rendered eyebrow: the mnemonic paired with the nav's own service name.
+  /*
+   * REMOVED 2026-09-15, same day it was added, on founder instruction.
    *
-   * Added 2026-09-15. The card carried two naming systems and gave the strong
-   * slot to the weaker one. `key` sat under the icon — invented vocabulary,
-   * where DECENTRALISE is jargon and RUN alone is ambiguous — while the word a
-   * buyer actually searches, and the word in the nav bar directly above the
-   * block, was demoted to link text at the card foot. A visitor met "Blockchain"
-   * in the nav, "DECENTRALISE" on the card, and "Blockchain" again underneath.
+   * A `service` field briefly rendered the nav's own service name on a second
+   * line under the mnemonic, so a card read BUILD / ENGINEERING. He looked at it
+   * built and called it duplication, because the same word was already the
+   * card's link at the foot: "I only want the purple text ... there's an arrow
+   * ... I want that retained because there's duplication."
    *
-   * THIS IS NOT A NEW PATTERN. `Mnemonic · Service` is already the eyebrow on
-   * SIXTEEN service pages — `Run · Managed Engineering` at
-   * engineering/managed-engineering, `Decentralise · Tokenisation`,
-   * `Build · Web Platforms` and so on. The homepage cards were the outlier. This
-   * propagates the site's own convention upward rather than inventing one.
+   * HE IS RIGHT AND THIS WAS A KNOWN TRADE. The design review that added it
+   * weighed exactly this and accepted the repetition for the sake of anchor text
+   * and a distinct accessible name. That was a defensible call and it was the
+   * wrong one: a reader meets the word twice on one card and the nav a third
+   * time in the bar directly above. Anchor text survives either way, because the
+   * link keeps its own label.
    *
-   * Why a separate field and not a wider `key`: `key` is the React key, the
-   * `isCurrent` matcher below, and the public prop value at three call sites
-   * (/engineering, /ai-engineering, /blockchain). Widening it to carry display
-   * text would break all three and couple presentation to identity.
-   *
-   * STACKED, NOT JOINED BY A SEPARATOR, and that was forced by measurement
-   * rather than chosen. A first attempt paired them inline as `BUILD ·
-   * Engineering`, matching those sixteen pages. Built and measured in a browser,
-   * three of the four overflowed the 211px a card gives an eyebrow — 237px,
-   * 228px, 228px — and broke mid-service-name, rendering as "AUTOMATE · AI &"
-   * above "Automation". The overflow is driven by the MNEMONIC: card three is
-   * `DECENTRALISE` plus `Blockchain`, the shortest service name on the site, and
-   * still needs 228px. Since the mnemonic is founder-locked at handoff line 561,
-   * no shortening and no type size reaches one line at any desktop width.
-   *
-   * So the eyebrow is two lines on all four cards, forced by `display: block`
-   * rather than left to wrapping. Uniform by construction: card one would fit on
-   * one line and is stacked anyway, because one tidy card beside three wrapped
-   * ones is worse than four identical ones. Longest single line is then
-   * MANAGED ENGINEERING at ~173px, inside 211px at every width where the grid is
-   * 4-up.
-   *
-   * No separator survives the stack. A separator divides two tokens sharing a
-   * line; a line break already does that, so a trailing `AUTOMATE ·` is an
-   * orphan and a leading `· Blockchain` reads as a list bullet.
-   *
-   * Values here are byte-identical to the `nav.ts` labels so a future reader can
-   * grep them against the menu. The uppercasing is done in the render by
-   * `textTransform`, which is where `globals.css` .eyebrow already puts it for
-   * every other eyebrow on the site — not baked into these strings.
+   * The FIELD is deleted rather than left unused, on the same reasoning that
+   * removed the `detailed` prop: a field nothing renders is a field the next
+   * reader has to work out. `linkLabel` at the card foot is now the only place
+   * the service name appears, which is what he asked for.
    */
-  service: string;
   icon: ReactNode;
   /**
    * The plain-English line a buyer reads to place their own problem, 2026-09-15.
@@ -918,7 +891,6 @@ export type ValueModelEntry = {
 export const valueModel: ValueModelEntry[] = [
   {
     key: 'BUILD',
-    service: 'Engineering',
     icon: <BuildMark size={30} />,
     headline: 'Software built or rebuilt',
     summary:
@@ -933,7 +905,6 @@ export const valueModel: ValueModelEntry[] = [
      * The nav says 'AI & Automation'; a card that says something tidier forfeits
      * exactly the recognition this pairing exists to buy.
      */
-    service: 'AI & Automation',
     icon: <AiMark size={30} />,
     headline: 'AI put to work',
     summary:
@@ -943,7 +914,6 @@ export const valueModel: ValueModelEntry[] = [
   },
   {
     key: 'DECENTRALISE',
-    service: 'Blockchain',
     icon: <ChainMark size={30} />,
     /*
      * SHORTENED 2026-09-15 on founder instruction, to run the same length as the
@@ -973,7 +943,6 @@ export const valueModel: ValueModelEntry[] = [
   },
   {
     key: 'RUN',
-    service: 'Managed Engineering',
     icon: <Gauge size={30} />,
     headline: 'Support that does not stop at launch',
     summary:
@@ -1063,36 +1032,13 @@ export function ValueModelCards({
             >
               {entry.icon}
             </span>
-            {/*
-              `textTransform` rather than uppercase strings in the data: it keeps
-              the four `service` values byte-identical to the `nav.ts` labels a
-              future reader will grep them against, and it puts the casing in the
-              same layer `globals.css` .eyebrow already uses for every other
-              eyebrow on this site. 0.1em tracking is an uppercase treatment —
-              lower case at it reads as broken spacing rather than as a label.
-            */}
-            <h3
-              className="mono"
-              style={{
-                fontSize: 13,
-                letterSpacing: '0.1em',
-                color: 'var(--ink)',
-                textTransform: 'uppercase',
-              }}
-            >
+            <h3 className="mono" style={{ fontSize: 13, letterSpacing: '0.1em', color: 'var(--ink)' }}>
               {entry.key}
               {isCurrent ? (
                 <span className="mono" style={{ fontSize: 10, marginLeft: 8, opacity: 0.75 }}>
                   THIS PAGE
                 </span>
               ) : null}
-              {/*
-                `display: block` forces the break, rather than leaving it to the
-                card width. That is the whole point: left to wrap, card one fit
-                on one line while the other three broke mid-name, giving a ragged
-                set. Forced, all four are two lines at every 4-up width.
-              */}
-              <span style={{ display: 'block' }}>{entry.service}</span>
             </h3>
             {/*
               Headline then one sentence. Two text layers, matching the shape of
