@@ -14,7 +14,7 @@ doc = io.open(p, encoding="utf-8", errors="replace").read()
 BOARD_TO_PATH = {
     "p0": "/", "p3": "/ai-engineering", "p4": "/engineering", "p5": "/blockchain",
     "p6": "/ai-engineering/services", "p7": "/method/live", "p8": "/ai-engineering/support-and-run",
-    "p9": "/assurance", "p10": "/ai-engineering/ai-value-baseline",
+    "p9": "/assurance", "p10": "/ai-engineering/value-discovery",
     "p11": "/ai-engineering/data-and-integration", "p12": "/ai-engineering/production-ai-systems",
     "p13": "/industries/professional-services", "p14": "/case-studies",
     "p15": "/case-studies/lytics", "p16": "/insights", "p17": "/about",

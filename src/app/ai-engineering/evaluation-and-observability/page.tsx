@@ -88,7 +88,7 @@ export default function EvaluationPage() {
             at the start, not bolted on after an incident.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="/contact">Book a conversation</Cta>
             <Cta href="/insights" variant="secondary">
               Read the methodology
             </Cta>

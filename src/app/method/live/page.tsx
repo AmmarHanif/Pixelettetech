@@ -16,7 +16,7 @@ const stages = [
     stage: 'Land',
     doing: 'Instrument two or three processes and measure the real current-state numbers',
     getting: 'Baseline, opportunity map, costed roadmap, CFO-grade business case',
-    commercial: 'Fixed price, published',
+    commercial: 'Quoted before we start',
   },
   {
     stage: 'Integrate',
@@ -73,7 +73,7 @@ export default function LivePage() {
             buying outcomes.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="/contact">Book a conversation</Cta>
             <Cta href="/case-studies" variant="secondary">
               See it applied
             </Cta>

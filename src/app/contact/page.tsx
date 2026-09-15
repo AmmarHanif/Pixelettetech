@@ -19,7 +19,7 @@ import { ContactForm } from './ContactForm';
 export const metadata = pageMetadata({
   title: 'Contact',
   description:
-    'Four questions and a reply address. One of us replies, not a sequence. If a value baseline is not the right next step we will say so on the call.',
+    'Four questions and a reply address. One of us replies, not a sequence. If Value Discovery is not the right next step we will say so on the call.',
   path: '/contact',
 });
 
@@ -66,7 +66,7 @@ export const metadata = pageMetadata({
 const faqs = [
   {
     q: 'How quickly does Pixelette Technologies reply to an enquiry?',
-    a: 'Within one working day, from a person rather than an automated sequence. If a value baseline is not the right next step, we say so on the call.',
+    a: 'Within one working day, from a person rather than an automated sequence. If Value Discovery is not the right next step, we say so on the call.',
   },
   {
     q: 'Where do I find answers for a security questionnaire?',
@@ -149,9 +149,9 @@ export default function ContactPage() {
           </div>
 
           <div className="card" style={{ padding: 36 }}>
-            <h3 className="h3">Book a value baseline</h3>
+            <h3 className="h3">Book a conversation</h3>
             <p className="small" style={{ marginTop: 10 }}>
-              £6,000 to £12,000, four weeks, fixed price.
+              Four questions. One of us replies within one working day.
             </p>
             <div style={{ marginTop: 28 }}>
               <ContactForm />

@@ -111,7 +111,7 @@ export default function InsuranceFsPage() {
           </p>
           <SourceNote>Bank of England / FCA AI survey</SourceNote>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="/contact">Book a conversation</Cta>
             <Cta href="/industries/professional-services" variant="secondary">
               Professional & business services
             </Cta>

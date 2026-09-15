@@ -62,7 +62,7 @@ export default function InsightsPage() {
             the engineers and risk officers who have to check it. Every claim cites its source.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="/contact">Book a conversation</Cta>
             {/* The board's second CTA. There is no mailing list wired up yet, so
                 this routes to the contact form — unlike a "Download" button with
                 no file, a subscription request is something a person can

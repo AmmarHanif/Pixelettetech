@@ -105,7 +105,7 @@ export default function PredictiveIntelligencePage() {
             prediction that alters nothing is an expensive chart.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="/contact">Book a conversation</Cta>
             <Cta href="/ai-engineering" variant="secondary">
               All AI &amp; automation
             </Cta>

@@ -105,7 +105,7 @@ export default function LanguageSpeechVisionPage() {
             consistent correct answer and unreliable at tasks without one.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="/contact">Book a conversation</Cta>
             <Cta href="/ai-engineering" variant="secondary">
               All AI &amp; automation
             </Cta>
@@ -184,7 +184,7 @@ export default function LanguageSpeechVisionPage() {
               than asserted.
             </p>
             <div className="btn-row" style={{ marginTop: 28 }}>
-              <Cta href="/ai-engineering/ai-value-baseline" variant="secondary">
+              <Cta href="/ai-engineering/value-discovery" variant="secondary">
                 Start with the baseline
               </Cta>
             </div>

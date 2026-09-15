@@ -14,10 +14,10 @@ import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
-  title: 'AI Value Baseline',
+  title: 'Value Discovery',
   description:
-    'Four weeks, fixed price, £6,000 to £12,000. We instrument two or three processes, measure what they cost today, and write the business case for your exec team.',
-  path: '/ai-engineering/ai-value-baseline',
+    'Four weeks. We instrument two or three of your processes, measure what they cost today, and hand you a costed roadmap and the business case for your exec team.',
+  path: '/ai-engineering/value-discovery',
 });
 
 const weeks = [
@@ -45,15 +45,15 @@ const weeks = [
 
 const faqs = [
   {
-    q: 'How much does an AI Value Baseline cost?',
-    a: '£6,000 to £12,000, fixed, depending on how many processes are in scope and how messy the data is. The price is quoted before the work starts, not after.',
+    q: 'How is Value Discovery priced?',
+    a: 'It is scoped to how many processes are in scope and how messy the data is, and quoted before the work starts. The price is quoted before the work starts, not after.',
   },
   {
-    q: 'How long does an AI Value Baseline take?',
+    q: 'How long does an Value Discovery take?',
     a: 'Four weeks from start to readout, covering two to three instrumented processes. No procurement cycle is required.',
   },
   {
-    q: 'What do I get at the end of an AI Value Baseline?',
+    q: 'What do I get at the end of an Value Discovery?',
     a: 'Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included.',
   },
   {
@@ -67,11 +67,10 @@ export default function BaselinePage() {
     <>
       <JsonLd
         data={serviceSchema({
-          name: 'AI Value Baseline',
+          name: 'Value Discovery',
           description:
-            'A four-week fixed-price engagement that instruments two or three processes, measures their current cost, and produces a costed roadmap and board-ready business case.',
-          path: '/ai-engineering/ai-value-baseline',
-          price: { low: 6000, high: 12000, currency: 'GBP' },
+            'A four-week engagement that instruments two or three processes, measures their current cost, and produces a costed roadmap and board-ready business case.',
+          path: '/ai-engineering/value-discovery',
           serviceType: 'AI consulting',
         })}
       />
@@ -79,16 +78,16 @@ export default function BaselinePage() {
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
           { name: 'AI engineering', path: '/ai-engineering' },
-          { name: 'AI Value Baseline', path: '/ai-engineering/ai-value-baseline' },
+          { name: 'Value Discovery', path: '/ai-engineering/value-discovery' },
         ])}
       />
       <JsonLd data={faqSchema(faqs)} />
 
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
         <div className="wrap">
-          <Eyebrow>AI Value Baseline</Eyebrow>
+          <Eyebrow>Value Discovery</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Four weeks. Fixed price. A number your exec team can sign off.
+            Four weeks to find out where you actually are, and what is worth doing next
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             The entry engagement. We instrument two or three of your processes, measure what they
@@ -96,12 +95,12 @@ export default function BaselinePage() {
             your exec team.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="/contact">Book a conversation</Cta>
             {/* The board's second CTA reads "Download a sample output". No such
                 artefact exists yet, and a Download button that does not download
                 is a worse promise than none. This keeps the design's function —
                 a low-commitment second action for someone not ready to commit to
-                a £6,000 engagement — and becomes a real download the moment the
+                a paid engagement — and becomes a real download the moment the
                 sample exists. Tracked in GO-LIVE-CHECKLIST.md. */}
             <Cta href="/contact" variant="secondary">
               Request a sample output
@@ -122,7 +121,7 @@ export default function BaselinePage() {
             </p>
             <SourceNote>Thomson Reuters, February 2026, n=1,500+</SourceNote>
             <p className="body" style={{ marginTop: 24 }}>
-              So we sell the counting first. It is cheap, it is fixed price, and at the end of it you
+              So we sell the counting first. It is a short engagement, and at the end of it you
               own a measurement system whether or not you ever engage us again. If the numbers do not
               support going further, we say so in writing.
             </p>
@@ -130,29 +129,18 @@ export default function BaselinePage() {
             <div className="grid grid-3" style={{ marginTop: 34 }}>
               <StatTile value="4" label="weeks, start to readout" />
               <StatTile value="2–3" label="processes instrumented" />
-              <StatTile value="Fixed" label="price, quoted before we start" />
+              <StatTile value="Yours" label="the measurement system, kept either way" />
             </div>
           </div>
 
           <div className="card">
-            <Eyebrow>Fixed price</Eyebrow>
-            <p style={{ marginTop: 16 }}>
-              <b
-                className="mono"
-                style={{
-                  fontSize: 46,
-                  color: 'var(--brand)',
-                  fontWeight: 500,
-                  letterSpacing: '-0.03em',
-                  lineHeight: 1,
-                }}
-              >
-                £6,000
-              </b>
-            </p>
+            <Eyebrow>Stage one of LIVE</Eyebrow>
+            <h3 className="h3" style={{ marginTop: 16 }}>
+              Value Discovery
+            </h3>
             <p className="small" style={{ marginTop: 12 }}>
-              to £12,000 depending on how many processes and how messy the data is. Quoted before we
-              start, not after.
+              Four weeks, start to readout. Scoped to how many processes are in scope and how messy
+              the data is, and quoted before we start, not after.
             </p>
             <hr className="rule" style={{ margin: '24px 0' }} />
             <h2 className="eyebrow">Includes</h2>

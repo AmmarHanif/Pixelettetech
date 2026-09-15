@@ -106,7 +106,7 @@ export default async function WorkPage({
                 surface: ANALYTICS_SURFACES.WORK_INDEX_HERO,
               })}
             >
-              Book a value baseline
+              Book a conversation
             </Cta>
             {/* The board pairs the primary CTA with a visible "Filter by sector"
                 affordance. Without it the chips below are only announced to

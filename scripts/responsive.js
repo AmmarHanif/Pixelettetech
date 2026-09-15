@@ -14,7 +14,7 @@
 (async () => {
   const PATHS = [
     '/', '/engineering', '/blockchain', '/ai-engineering', '/ai-engineering/services',
-    '/ai-engineering/ai-value-baseline', '/ai-engineering/data-and-integration',
+    '/ai-engineering/value-discovery', '/ai-engineering/data-and-integration',
     '/ai-engineering/production-ai-systems', '/ai-engineering/support-and-run',
     '/ai-engineering/evaluation-and-observability', '/method/live', '/assurance',
     '/industries/professional-services', '/industries/insurance-financial-services',

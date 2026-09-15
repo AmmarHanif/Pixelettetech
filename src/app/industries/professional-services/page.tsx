@@ -98,7 +98,7 @@ const faqs = [
      * machine-readably as well as visibly. The other "one in five" in this
      * codebase is not the same claim and does not rescue it: it is "fewer than
      * one in five organisations tracks ROI on AI" on
-     * /ai-engineering/ai-value-baseline, from a different Thomson Reuters study
+     * /ai-engineering/value-discovery, from a different Thomson Reuters study
      * (February 2026, n=1,500+).
      *
      * To restore it: add it to `professionalServicesStats` with the study,
@@ -215,7 +215,7 @@ export default function ProfessionalServicesPage() {
               : 'UK corporate clients have started treating AI-enabled quality improvement as essential, and far fewer of them say their providers are delivering it.'}
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="/contact">Book a conversation</Cta>
             <Cta href="/industries/insurance-financial-services" variant="secondary">
               Insurance & specialist FS
             </Cta>

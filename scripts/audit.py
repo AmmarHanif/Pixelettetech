@@ -651,7 +651,7 @@ STANDING_TASKS = """## Not placeholders — separate go-live tasks
       `import torch`, or its requirements file) or from whoever led delivery. If
       nobody can confirm it, drop the framework name: "Python, streaming ingest,
       AWS" is true either way and removes a checkable claim that buys nothing.
-- [ ] **Produce the sample AI Value Baseline output.** Board 11 specifies a
+- [ ] **Produce the sample Value Discovery output.** Board 11 specifies a
       second hero CTA reading "Download a sample output". No such artefact
       exists, so the button currently reads "Request a sample output" and routes
       to the contact form — the design's function preserved without promising a

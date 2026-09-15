@@ -124,7 +124,7 @@ export const ANALYTICS_EVENTS = {
   /**
    * A booked-conversation CTA was pressed: the header CTA, section 14's
    * primary "Book an Engineering Conversation", the shared closing CTA, or a
-   * case-study "Book a value baseline". `surface` says which.
+   * case-study "Book a conversation". `surface` says which.
    */
   BOOK_CONVERSATION_CTA: 'book_conversation_cta',
 

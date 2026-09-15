@@ -133,8 +133,9 @@ export default function TermsPage() {
                   contract for that work, and nothing on this page varies it.
                 </p>
                 <p className="body" style={{ marginTop: 12 }}>
-                  Prices shown on this site, including the AI Value Baseline band and the Support
-                  &amp; Run tiers, are indicative published ranges. The price for a specific
+                  Prices shown on this site, including the Support &amp; Run tiers, are indicative
+                  published ranges. Where a service is published without a price, including Value
+                  Discovery, it is scoped and quoted for each engagement. The price for a specific
                   engagement is the one in your proposal.
                 </p>
                 <p className="body" style={{ marginTop: 12 }}>

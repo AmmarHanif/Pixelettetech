@@ -10,7 +10,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'AI engineering services',
   description:
-    'Five services from the engineers who build the rest of your system: Value Baseline, Data & Integration, Production AI, Evaluation, and Support & Run.',
+    'Five services from the engineers who build the rest of your system: Value Discovery, Data & Integration, Production AI, Evaluation, and Support & Run.',
   path: '/ai-engineering/services',
 });
 
@@ -28,10 +28,10 @@ const primary = [
 const secondary = [
   {
     n: '01',
-    title: 'AI Value Baseline',
-    href: '/ai-engineering/ai-value-baseline',
-    body: 'The entry point. Four weeks, fixed price, published. Instrument the process, measure it, write the case.',
-    meta: '£6,000 to £12,000',
+    title: 'Value Discovery',
+    href: '/ai-engineering/value-discovery',
+    body: 'The entry point. Four weeks. Instrument the process, measure it, write the case.',
+    meta: 'Quoted before we start',
   },
   {
     n: '02',
@@ -119,7 +119,7 @@ export default function AiServicesPage() {
             instead, that lives under Engineering.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="/contact">Book a conversation</Cta>
             <Cta href="/engineering" variant="secondary">
               Engineering
             </Cta>

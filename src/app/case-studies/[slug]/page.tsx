@@ -331,7 +331,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   surface: ANALYTICS_SURFACES.CASE_STUDY_ASIDE,
                 })}
               >
-                Book a value baseline
+                Book a conversation
               </Cta>
             </div>
           </aside>

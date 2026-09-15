@@ -766,7 +766,7 @@ export function ClosingCta({
   title,
   children,
   ctaHref = '/contact',
-  ctaLabel = 'Book a value baseline',
+  ctaLabel = 'Book a conversation',
   aside,
 }: {
   eyebrow?: string;

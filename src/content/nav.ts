@@ -179,7 +179,7 @@ export const footerColumns: { heading: string; items: NavItem[] }[] = [
       { href: '/ai-engineering/predictive-intelligence', label: 'Predictive intelligence' },
       { href: '/ai-engineering/production-ai-systems', label: 'Production AI Systems' },
       { href: '/ai-engineering/data-and-integration', label: 'Data & Integration' },
-      { href: '/ai-engineering/ai-value-baseline', label: 'AI Value Baseline' },
+      { href: '/ai-engineering/value-discovery', label: 'Value Discovery' },
       {
         href: '/ai-engineering/evaluation-and-observability',
         label: 'Evaluation & observability',
@@ -351,7 +351,7 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
   { path: '/ai-engineering/predictive-intelligence', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/ai-engineering/language-speech-vision', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/ai-engineering/services', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/ai-engineering/ai-value-baseline', priority: 0.9, changeFrequency: 'monthly' },
+  { path: '/ai-engineering/value-discovery', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/ai-engineering/data-and-integration', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/ai-engineering/production-ai-systems', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/ai-engineering/support-and-run', priority: 0.8, changeFrequency: 'monthly' },

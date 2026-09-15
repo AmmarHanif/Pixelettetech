@@ -145,7 +145,7 @@ export default function SupportAndRunPage() {
             used. We take that contract.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="/contact">Book a conversation</Cta>
             <Cta href="#dashboard" variant="secondary">
               See a sample report
             </Cta>

@@ -144,7 +144,7 @@ export function Layers({ size = 24, className }: IconProps) {
   );
 }
 
-/** Ruler. The AI Value Baseline is the measuring engagement. */
+/** Ruler. The Value Discovery is the measuring engagement. */
 export function Measure({ size = 24, className }: IconProps) {
   return (
     <svg {...base(size)} viewBox="0 0 24 24" className={className}>

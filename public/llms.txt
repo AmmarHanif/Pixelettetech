@@ -112,7 +112,7 @@ Four things, and the fourth sits under the other three.
 
 ## What the company sells
 
-- **AI Value Baseline** — four weeks, fixed price £6,000 to £12,000. Two or
+- **Value Discovery** — four weeks, quoted before the work starts. Two or
   three processes instrumented and measured; a prioritised opportunity map, a
   costed roadmap and a board-ready business case. The measurement is left
   running and is the client's to keep. If the numbers do not support proceeding,
@@ -158,7 +158,7 @@ Four things, and the fourth sits under the other three.
 
 LIVE — Land, Integrate, Verify, Evolve.
 
-- LAND: instrument two or three processes, measure current state. Fixed price.
+- LAND: instrument two or three processes, measure current state. Quoted before we start.
 - INTEGRATE: make data reachable, permissioned and observable. Fixed-scope phases.
 - VERIFY: build the system, redesign the workflow around it, prove it against
   agreed acceptance thresholds. Outcome-linked where the baseline supports it.
@@ -202,7 +202,7 @@ Engineering services
 
 AI & automation services
 - https://pixelettetech.com/ai-engineering/services — all AI services
-- https://pixelettetech.com/ai-engineering/ai-value-baseline — the entry engagement
+- https://pixelettetech.com/ai-engineering/value-discovery — the entry engagement
 - https://pixelettetech.com/ai-engineering/agentic-ai-multi-agent
 - https://pixelettetech.com/ai-engineering/workflow-automation
 - https://pixelettetech.com/ai-engineering/llm-integration-rag

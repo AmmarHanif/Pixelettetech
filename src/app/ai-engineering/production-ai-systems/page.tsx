@@ -104,7 +104,7 @@ export default function ProductionAiPage() {
             where it does not. Human review by default.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="/contact">Book a conversation</Cta>
             <Cta href="/case-studies" variant="secondary">
               See the work
             </Cta>

@@ -82,7 +82,9 @@ check('Audit: body words under 1600', words < 1600, '%d words' % words)
 check('Audit: zero visible placeholders',
       len(re.findall(r'\[\s*[A-Za-z][^\]]{2,60}\]', main_txt)) == 0)
 check('Audit: one process model (six-step retired)', 'Discover. Design. Build' not in main_txt)
-check('Audit: price on the homepage', '6,000' in main_txt and '12,000' in main_txt)
+# INVERTED 2026-09-15 on founder instruction: the GBP6,000-12,000 figure is
+# removed from the site entirely, so the original assertion is now the defect.
+check('Founder: no price figure on the homepage', '6,000' not in main_txt and '12,000' not in main_txt)
 check('Audit: third-party citation on the homepage', 'McKinsey' in main_txt)
 faq_page = len(re.findall(r'<details', main_html))
 faq_schema = 0

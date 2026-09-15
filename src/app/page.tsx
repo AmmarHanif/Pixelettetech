@@ -294,7 +294,7 @@ export default function HomePage() {
                 surface: ANALYTICS_SURFACES.HOMEPAGE_HERO,
               })}
             >
-              Book a value baseline
+              Book a conversation
             </Cta>
             <Cta
               href="/engineering"
@@ -555,7 +555,7 @@ export default function HomePage() {
             id="work-heading"
             title="Challenge &rarr; build &rarr; result"
           />
-          <FLink href="/case-studies">All work</FLink>
+          <FLink href="/case-studies">Read the full case studies</FLink>
         </div>
         <div className="grid grid-3" style={{ marginTop: 32 }}>
           {homepageCaseStudies.map(cs => (
@@ -581,13 +581,13 @@ export default function HomePage() {
         "The method", "Start here" and "Commercial products" are now this.
 
         WHY THE METHOD AND THE OFFER MERGED: the proof is inside the diagram.
-        `LiveDiagram` stage 01 is named 'Land' with the service 'Value Baseline'
+        `LiveDiagram` stage 01 is named 'Land' with the service 'Value Discovery'
         — which IS the offer the next section was selling. The page told one
         story twice, across two headings and a section boundary.
 
         ORDER INSIDE THE SECTION IS DELIBERATE: price first, diagram second. The
         card is the reader's action; the diagram is the context that makes stage
-        01 legible. Meeting "Value Baseline" in the rail AFTER the priced card is
+        01 legible. Meeting "Value Discovery" in the rail AFTER the priced card is
         recognition. Before it, it is an introduction the reader has to hold.
 
         THE BRIDGE SENTENCE IS LOAD-BEARING, not a transition. The compact
@@ -596,7 +596,7 @@ export default function HomePage() {
         would be a stray proper noun. Delete the sentence and you must restore a
         heading.
 
-        THE /contact CTA WAS REMOVED HERE, not lost. "Book a value baseline" was
+        THE /contact CTA WAS REMOVED HERE, not lost. "Book a conversation" was
         word-for-word the hero's primary button and, unlike the hero's, carried
         NO analytics props — so it spent a call to action and reported nothing.
         The conversion paths are the hero, the close below, and the baseline page
@@ -626,11 +626,11 @@ export default function HomePage() {
         wording. If that matters the fix is one word on custom-software-saas,
         not a homepage section.
       */}
-      <Section labelledBy="baseline-heading">
+      <Section labelledBy="process-heading">
         {/*
           "CFO" replaced 2026-09-15 on founder instruction — he does not accept
           that finance always signs off, and the chief exec often does. "Exec
-          team" is not new wording: /ai-engineering/ai-value-baseline already
+          team" is not new wording: /ai-engineering/value-discovery already
           publishes "Readout to your exec team, and the deck is yours".
 
           The FRAMING, not just the headline, was finance-led: the body said "the
@@ -638,68 +638,82 @@ export default function HomePage() {
           Both are changed, because swapping the heading alone would leave the
           section addressed to finance underneath a heading that is not.
         */}
+        {/*
+          REWRITTEN 2026-09-15 on founder instruction, and the price came OUT.
+          He asked to merge the offer and the method into one narrative - "this
+          is the process that we undertake, but the first step is to really help
+          you understand where you are" - and separately ruled that the
+          GBP6,000-12,000 figure comes off this site entirely.
+
+          THE HEADLINE HAD TO GO WITH IT. It read "Four weeks. Fixed price. A
+          number your exec team can sign off." - built entirely on a number that
+          no longer exists. A heading is not a factual claim, so new wording is
+          allowed here; it asserts no figure, no duration and no outcome.
+
+          THE CARD SURVIVES, RE-PURPOSED FROM A PRICE CARD INTO A STAGE CARD.
+          The mono slot that held the product name now reads STAGE ONE, and the
+          26px slot that held the figure now holds the name. So it no longer
+          says "here is a thing to buy" beside a diagram; it says "here is the
+          first box in the diagram below", and the reader meets Value Discovery
+          again seconds later in the rail under LAND. Deleting the card instead
+          would leave a lone paragraph beside an empty column and remove the only
+          concrete content in the section.
+
+          "Our AI work", NOT "every engagement". This page also sells fixed-scope
+          software builds, which do not run LIVE. The broader claim would be
+          false on this page.
+
+          LIVE is named in visible prose in the first paragraph deliberately: the
+          compact diagram prints the word only in the list's aria-label, so
+          without it the "See how LIVE works" link refers to nothing on screen.
+
+          The line he quoted back - "If the numbers do not support going further,
+          we tell you that" - is now its own paragraph rather than the tail of a
+          sentence, which is the weight he clearly attaches to it.
+        */}
         <SectionHead
-          eyebrow="Start here"
-          id="baseline-heading"
-          title="Four weeks. Fixed price. A number your exec team can sign off."
+          eyebrow="How we work"
+          id="process-heading"
+          title="First we find out where you are, then we agree what is worth doing"
         />
         <div className="grid grid-2" style={{ marginTop: 34, gap: 40, alignItems: 'start' }}>
           <div>
             <p className="body">
-              We instrument two or three of your processes, measure what they actually cost today,
-              and hand you a costed roadmap and a readout to your exec team, with the deck included.
+              Our AI work runs the same four stages every time: land, integrate, verify, evolve. We
+              call it LIVE, and it always starts in the same place.
+            </p>
+            <p className="body" style={{ marginTop: 20 }}>
+              Value Discovery is that first stage. We review the processes you already run,
+              instrument two or three of them, and measure what they actually cost you today. You
+              get a clear picture of where you are, a costed roadmap of what the next steps would
+              be, and a readout to your exec team with the deck included.
+            </p>
+            <p className="body" style={{ marginTop: 20 }}>
               If the numbers do not support going further, we tell you that.
             </p>
             <div className="btn-row" style={{ marginTop: 28 }}>
-              <Cta href="/ai-engineering/ai-value-baseline">See what is included</Cta>
+              <Cta href="/ai-engineering/value-discovery">See what is included</Cta>
             </div>
           </div>
           <div className="card" style={{ padding: 28 }}>
             <span className="mono" style={{ fontSize: 12.5, letterSpacing: '0.1em', color: 'var(--ink)' }}>
-              AI VALUE BASELINE
+              STAGE ONE
             </span>
-            <p style={{ marginTop: 10, fontSize: 26, fontWeight: 600 }}>
-              &pound;6,000 to &pound;12,000
-            </p>
-            <p className="small" style={{ marginTop: 4 }}>Fixed, four weeks.</p>
+            <h3 className="h4" style={{ marginTop: 10, fontSize: 22 }}>
+              Value Discovery
+            </h3>
+            <p className="small" style={{ marginTop: 4 }}>Four weeks, start to readout.</p>
             <ul className="small" style={{ marginTop: 18, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8 }}>
               <li>Two to three processes instrumented and measured</li>
               <li>Measurement left running, and yours to keep</li>
               <li>Prioritised opportunity map with a costed roadmap</li>
-              {/*
-                Was "Board-ready business case naming what it displaces". This is
-                the product page's own inclusions wording, verbatim
-                (ai-value-baseline/page.tsx), so the homepage and the page it
-                links to now agree.
-
-                CORRECTED 2026-09-15, comment only. This used to claim
-                "'Board-ready' renders nowhere else on this site — it exists only
-                inside a JSON-LD description string". THAT WAS FALSE and was
-                written here without opening the files. "Board-ready" renders in
-                VISIBLE copy at ai-engineering/page.tsx (the inclusions list and
-                an FAQ answer) and in llms.txt.
-
-                So this deliverable is phrased THREE ways across the site:
-                  - "Business case naming the budget line it displaces"
-                    (product page, and now here)
-                  - "Board-ready business case naming what it displaces"
-                    (ai-engineering inclusions)
-                  - "a board-ready business case naming the budget line it
-                    displaces" (ai-engineering FAQ; llms.txt has a fourth short
-                    form)
-                That divergence PRE-DATES this change and is not a CFO/finance
-                issue — a board is broader than finance, so it was out of scope
-                for that repair. It is recorded as an open item rather than
-                fixed here, because rewriting two other pages' copy was not
-                asked for.
-              */}
               <li>Business case naming the budget line it displaces</li>
             </ul>
           </div>
         </div>
 
         <p className="body" style={{ marginTop: 48, maxWidth: '72ch' }}>
-          The baseline is stage one of LIVE: land, integrate, verify, evolve.
+          The whole process, and the service that delivers each stage.
         </p>
         <div style={{ marginTop: 24 }}>
           <LiveDiagram variant="compact" />

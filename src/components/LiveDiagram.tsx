@@ -34,9 +34,9 @@ const stages: Stage[] = [
     n: '01',
     letter: 'L',
     name: 'Land',
-    service: 'Value Baseline',
+    service: 'Value Discovery',
     line: 'Instrument two or three processes and measure the real current-state numbers.',
-    commercial: 'Fixed price, published',
+    commercial: 'Quoted before we start',
     items: ['CRM / ERP', 'Case management', 'Documents'],
   },
   {

@@ -86,7 +86,7 @@ import { LiveDiagram } from '@/components/LiveDiagram';
 export const metadata = pageMetadata({
   title: 'AI engineering for UK businesses',
   description:
-    'We engineer AI into the software you already run, measure what it changes and keep it working. Start with a four-week AI Value Baseline, £6,000 to £12,000.',
+    'We engineer AI into the software you already run, measure what it changes and keep it working. Start with a four-week Value Discovery.',
   path: '/ai-engineering',
 });
 
@@ -112,10 +112,10 @@ const services = [
   {
     tag: 'Measure',
     icon: <Measure size={32} />,
-    title: 'AI Value Baseline',
-    href: '/ai-engineering/ai-value-baseline',
-    linkLabel: 'Four weeks, fixed price',
-    body: 'Four weeks, fixed price. We instrument the process, measure what it costs today, and write the business case your exec team will approve.',
+    title: 'Value Discovery',
+    href: '/ai-engineering/value-discovery',
+    linkLabel: 'What the four weeks covers',
+    body: 'Four weeks. We instrument the process, measure what it costs today, and write the business case your exec team will approve.',
   },
   {
     tag: 'Ready',
@@ -141,8 +141,8 @@ const faqs = [
     a: 'Because the work around the model was never redesigned, the data it needs was never made reachable, and nobody owns whether it still works next quarter. Around 80% of individual AI users report they are more productive, while only 37% of organisations can attribute any EBIT impact to it — a figure unchanged year on year (McKinsey State of AI, August 2026, n=1,719).',
   },
   {
-    q: 'What is an AI Value Baseline?',
-    a: 'A four-week, fixed-price engagement costing £6,000 to £12,000. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.',
+    q: 'What is an Value Discovery?',
+    a: 'A four-week engagement. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.',
   },
   {
     q: 'Who is Pixelette Technologies AI engineering not for?',
@@ -213,7 +213,7 @@ export default function AiEngineeringPage() {
             with us.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Book a value baseline</Cta>
+            <Cta href="/contact">Book a conversation</Cta>
             <Cta href="/ai-engineering/support-and-run" variant="secondary">
               See what we run
             </Cta>
@@ -550,24 +550,14 @@ export default function AiEngineeringPage() {
 
       <ClosingCta
         eyebrow="Start here"
-        title="Four weeks. Fixed price. A number your exec team can sign off."
+        title="First we find out where you are, then we agree what is worth doing"
         aside={
           <div className="card">
             <Eyebrow>What it includes</Eyebrow>
             <h3 className="h3" style={{ marginTop: 16 }}>
-              AI Value Baseline
+              Value Discovery
             </h3>
-            <p style={{ marginTop: 14 }}>
-              <b
-                className="mono"
-                style={{ fontSize: 34, color: 'var(--brand)', fontWeight: 500, letterSpacing: '-0.02em' }}
-              >
-                £6,000
-              </b>
-              <span className="small" style={{ marginLeft: 8 }}>
-                to £12,000, fixed
-              </span>
-            </p>
+            <p className="small" style={{ marginTop: 14 }}>Four weeks, start to readout.</p>
             <div style={{ marginTop: 22 }}>
               <CheckList
                 items={[

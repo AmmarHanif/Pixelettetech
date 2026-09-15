@@ -60,6 +60,13 @@ const nextConfig: NextConfig = {
       { from: '/custom-software-development-services', to: '/engineering/custom-software-saas' },
       { from: '/web-development-services', to: '/engineering/web-platforms' },
       { from: '/mobile-app-development-services', to: '/engineering/mobile-applications' },
+
+      // Renamed 2026-09-15 on founder instruction: the offer did not change, the
+      // name did. Unlike the legacy paths above this is not a judgement call --
+      // the destination is the same document under a new URL. The old path
+      // carries priority 0.9 in the sitemap, the second-highest on the site, so
+      // shipping the rename without this would drop the strongest AI-section URL.
+      { from: '/ai-engineering/ai-value-baseline', to: '/ai-engineering/value-discovery' },
       // Company and legal pages: same document, shorter path.
       { from: '/about-us', to: '/about' },
       { from: '/contact-us', to: '/contact' },
