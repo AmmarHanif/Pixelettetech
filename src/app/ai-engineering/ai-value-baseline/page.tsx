@@ -88,7 +88,7 @@ export default function BaselinePage() {
         <div className="wrap">
           <Eyebrow>AI Value Baseline</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Four weeks. Fixed price. A number your CFO can sign off.
+            Four weeks. Fixed price. A number your exec team can sign off.
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             The entry engagement. We instrument two or three of your processes, measure what they

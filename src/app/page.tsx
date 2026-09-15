@@ -1,4 +1,3 @@
-import Link from 'next/link';
 
 import { LiveDiagram } from '@/components/LiveDiagram';
 import {
@@ -17,12 +16,12 @@ import {
 } from '@/components/ui';
 import { certified } from '@/content/company';
 import { gapStats } from '@/content/sources';
+import { displayKicker, homepageCaseStudies } from '@/content/work';
 import {
   ANALYTICS_EVENTS,
   ANALYTICS_SURFACES,
   BUYER_ROUTES,
   analyticsAttrs,
-  type BuyerRoute,
 } from '@/lib/analytics';
 import { faqSchema, homepageServiceSchema } from '@/lib/schema';
 import { homepageMetadata } from '@/lib/seo';
@@ -58,80 +57,6 @@ import { homepageMetadata } from '@/lib/seo';
  */
 
 export const metadata = homepageMetadata();
-
-/**
- * The buyer-routing table — handoff section 03, "What are you trying to
- * change?". Six rows, verbatim.
- *
- * `routeHref` sends the reader to the capability; `cta` sends them to a
- * conversation. Both are given because the handoff's own columns are "Route"
- * and "CTA" and they do different jobs: one explains, one converts.
- *
- * `analyticsRoute` is the same row's stable identifier in
- * `src/lib/analytics.ts`, and it is what makes checklist item 22 —
- * "measure conversion by route" — answerable from the data rather than by
- * guessing from a URL. The display label above it may be re-worded at any
- * time; the slug may not, because renaming a dimension value orphans its own
- * history. Typed as `BuyerRoute`, so the six rows here cannot drift away from
- * the six routes declared there.
- */
-const buyerRoutes: {
-  trigger: string;
-  route: string;
-  routeHref: string;
-  meaning: string;
-  cta: string;
-  analyticsRoute: BuyerRoute;
-}[] = [
-  {
-    trigger: 'We need a new platform, product or app',
-    route: 'Build Software',
-    routeHref: '/engineering',
-    meaning: 'SaaS, web, mobile, internal platforms and customer-facing products.',
-    cta: 'Scope a build',
-    analyticsRoute: BUYER_ROUTES.BUILD_SOFTWARE,
-  },
-  {
-    trigger: 'A manual process needs automating',
-    route: 'AI & Automation',
-    routeHref: '/ai-engineering',
-    meaning: 'Agents, workflow automation, decision support and system integration.',
-    cta: 'Map the workflow',
-    analyticsRoute: BUYER_ROUTES.AI_AUTOMATION,
-  },
-  {
-    trigger: 'We want AI inside an existing product',
-    route: 'AI Engineering',
-    routeHref: '/ai-engineering/llm-integration-rag',
-    meaning: 'LLM/model integration, RAG, prediction, personalisation and agentic features.',
-    cta: 'Add AI to a product',
-    analyticsRoute: BUYER_ROUTES.AI_ENGINEERING,
-  },
-  {
-    trigger: 'Our existing system needs modernising',
-    route: 'Modernise & Integrate',
-    routeHref: '/engineering/modernisation-integration',
-    meaning: 'Architecture, APIs, cloud, data migration and legacy replacement.',
-    cta: 'Modernise a system',
-    analyticsRoute: BUYER_ROUTES.MODERNISE_INTEGRATE,
-  },
-  {
-    trigger: 'We need tokenisation, smart contracts or a dApp',
-    route: 'Blockchain',
-    routeHref: '/blockchain',
-    meaning: 'Specialist decentralised architecture where blockchain genuinely creates value.',
-    cta: 'Scope blockchain',
-    analyticsRoute: BUYER_ROUTES.BLOCKCHAIN,
-  },
-  {
-    trigger: 'We need someone to keep improving what exists',
-    route: 'Run & Improve',
-    routeHref: '/engineering/managed-engineering',
-    meaning: 'Managed engineering, monitoring, support, optimisation and roadmap delivery.',
-    cta: 'Discuss ongoing engineering',
-    analyticsRoute: BUYER_ROUTES.RUN_IMPROVE,
-  },
-];
 
 /** Handoff section 05, "Why Pixelette Technologies". Six differentiators. */
 const differentiators = [
@@ -237,60 +162,6 @@ const homepageDifferentiators = [
   if (!found) throw new Error(`Homepage differentiator not found: ${title}`);
   return found;
 });
-
-
-
-/** Handoff section 09, "Ways to work with us". Three commercial routes. */
-const engagementRoutes = [
-  {
-    t: 'ENGINEERING / AI DIAGNOSTIC',
-    d: 'For clients who know the problem but not the solution. Discovery, architecture, data/workflow review, feasibility and a prioritised build plan.',
-    cta: 'Scope the problem',
-  },
-  {
-    t: 'BUILD & LAUNCH PROGRAMME',
-    d: 'A scoped product, automation or modernisation programme with milestones, working releases, acceptance criteria and launch.',
-    cta: 'Scope a build',
-  },
-  {
-    t: 'MANAGED ENGINEERING PARTNER',
-    d: 'Ongoing product engineering, support and improvement for clients that need a continuing technical capability rather than a one-off project.',
-    cta: 'Discuss ongoing engineering',
-  },
-];
-
-/** Handoff section 10, "Who we work with". Four growth stages. */
-const audiences = [
-  {
-    t: 'STARTUPS',
-    d: 'Turn a validated idea into a production product without building every technical capability internally.',
-  },
-  {
-    t: 'SCALE-UPS',
-    d: 'Add product capacity, AI capability, integration or architecture as complexity and customer requirements increase.',
-  },
-  {
-    t: 'ESTABLISHED BUSINESSES',
-    d: 'Modernise systems, automate processes, integrate data and create new digital products around existing operations.',
-  },
-  {
-    t: 'ENTERPRISE / PUBLIC SECTOR',
-    d: 'Deliver scoped engineering, analytics, automation and assurance-aware programmes inside more complex operating environments.',
-  },
-];
-
-const sectors = [
-  'Financial services',
-  'Retail',
-  'Healthcare',
-  'Public sector',
-  'Media',
-  'Professional services',
-  'Technology',
-  'Web3 / digital assets',
-  'Pharmaceuticals',
-  'Travel / tourism',
-];
 
 
 /**
@@ -633,72 +504,154 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ══════════════════════════ 06 · AI engineered in ════════════════ */}
-
+      {/* ═══════════════════════ 03 · Selected work ══════════════════ */}
       {/*
-        ONE METHOD, 2026-09-14. This slot held "Discover. Design. Build. Verify.
-        Launch. Improve." - the third competing process model on a site that also
-        publishes LIVE on /method/live and a four-step path on /engineering.
-        Deleting it without replacing it would have left the homepage publishing
-        no method at all, so the compact LIVE strip takes the slot rather than
-        the page simply losing a block.
-        `LiveDiagram` is the component /ai-engineering and /method/live already
-        render, reused rather than recreated, so the three surfaces cannot drift
-        into three descriptions of one method. It moved to src/components/ in
-        this commit for that reason: a component rendered by three routes should
-        not live inside one route's folder.
+        RESTORED 2026-09-15 on founder instruction, as a compact row rather than
+        the three full cards removed earlier the same day. ~32 words against 158.
+
+        POSITION IS LOAD-BEARING. It sits between the argument and the ask. The
+        gap section above closes on four differentiator tiles, which are CLAIMS;
+        work placed immediately after them is the evidence for the claims just
+        read, beside the page's only third-party citation. And it must stay ABOVE
+        the priced section, because proof precedes price.
+
+        EVERY STRING GOES THROUGH THE work.ts GATE. `displayKicker` resolves name
+        permission by itself: 2Connect is CONFIRMED and renders named, Fusio
+        Wallet and Ayni Gold are PENDING and render anonymised kickers in the same
+        shape. Nothing here is a literal, and `homepageCaseStudies` throws at
+        module load if a slug stops resolving. If 2Connect's permission is ever
+        withdrawn, this row re-renders anonymised with no edit and no layout
+        change.
+
+        NO MediaSlot, AND THAT IS A RECORDED DECISION RATHER THAN AN OMISSION:
+        an intentional typographic card reads as a choice, a bracket reads as a
+        gap. It is measured, not stylistic — `publishedImage` returns nothing for
+        the two PENDING studies, so a media row would print a placeholder twice
+        beside one real screenshot, which reads as broken rather than withheld.
+        The /case-studies index does show those brackets; the homepage must not.
+
+        NO FIGURES. `publishedMetrics` returns empty for all three today — every
+        figure is HELD — and this row is deliberately too short to carry a
+        conditional. Neither accessor is called, because nothing here renders an
+        image or a figure; calling one and discarding it would be theatre.
+
+        The kickers are LABELS, not cards, so they are not individually
+        clickable: with no title, image or figure there is not enough on a tile
+        to choose between three. One link, to the index, where the work is
+        presented properly.
       */}
-      <Section labelledBy="method-heading">
-        <SectionHead
-          eyebrow="The method"
-          id="method-heading"
-          title="LIVE: land, integrate, verify, evolve"
-        />
-        <div style={{ marginTop: 40 }}>
-          <LiveDiagram variant="compact" />
+      <Section labelledBy="work-heading" style={{ background: '#F7FAFA' }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'flex-end',
+            justifyContent: 'space-between',
+            gap: 24,
+            flexWrap: 'wrap',
+          }}
+        >
+          <SectionHead
+            eyebrow="Selected work"
+            id="work-heading"
+            title="Challenge &rarr; build &rarr; result"
+          />
+          <FLink href="/case-studies">All work</FLink>
         </div>
-        <div style={{ marginTop: 34 }}>
-          <Cta href="/method/live" variant="secondary">
-            See how LIVE works
-          </Cta>
+        <div className="grid grid-3" style={{ marginTop: 32 }}>
+          {homepageCaseStudies.map(cs => (
+            <div key={cs.slug} className="tile">
+              {/* A <p>, not a <span>: `.tile span` is a 13px muted block written
+                  for StatTile's caption and `.tile b` a 26px brand numeral.
+                  Either would restyle this label. */}
+              <p
+                className="mono"
+                style={{ fontSize: 12.5, letterSpacing: '0.1em', color: 'var(--ink)', margin: 0 }}
+              >
+                {displayKicker(cs)}
+              </p>
+            </div>
+          ))}
         </div>
       </Section>
 
+
+      {/* ═════════════════ 04 · Start here (method + entry offer) ══════ */}
       {/*
-        THE PRICE, added 2026-09-14. The audit calls this the single
-        highest-expected-revenue change in its register, and the reasoning is
-        simple: a fixed price on the homepage is the difference between an
-        enquiry and a quote request.
+        COLLAPSED 2026-09-15 on founder instruction, from three sections to one.
+        "The method", "Start here" and "Commercial products" are now this.
 
-        Nothing here is new. The figure, the duration and all four inclusions are
-        already published on /ai-engineering/ai-value-baseline, on /contact and
-        in llms.txt - so the machine-readable version of this company quoted a
-        price its own front page did not. Putting it here discloses nothing that
-        was not already public; it stops the homepage being the one surface that
-        makes a buyer ask.
+        WHY THE METHOD AND THE OFFER MERGED: the proof is inside the diagram.
+        `LiveDiagram` stage 01 is named 'Land' with the service 'Value Baseline'
+        — which IS the offer the next section was selling. The page told one
+        story twice, across two headings and a section boundary.
 
-        It leads the commercial block rather than replacing it. The three
-        engagement modes below still name the larger routes; this is the entry
-        offer, which is the one with a number attached.
+        ORDER INSIDE THE SECTION IS DELIBERATE: price first, diagram second. The
+        card is the reader's action; the diagram is the context that makes stage
+        01 legible. Meeting "Value Baseline" in the rail AFTER the priced card is
+        recognition. Before it, it is an introduction the reader has to hold.
+
+        THE BRIDGE SENTENCE IS LOAD-BEARING, not a transition. The compact
+        variant never prints the word "LIVE" in visible text — it exists only in
+        the list's aria-label — so with the old h2 gone, "See how LIVE works"
+        would be a stray proper noun. Delete the sentence and you must restore a
+        heading.
+
+        THE /contact CTA WAS REMOVED HERE, not lost. "Book a value baseline" was
+        word-for-word the hero's primary button and, unlike the hero's, carried
+        NO analytics props — so it spent a call to action and reported nothing.
+        The conversion paths are the hero, the close below, and the baseline page
+        itself, which carries the same button.
+
+        WHAT WENT WITH "Commercial products", and where each survives. Checked by
+        opening the file, not by assertion:
+         - Engineering diagnostic, Build & launch programme and Managed
+           engineering partner all render at /engineering/custom-software-saas
+           under "Ways to work with us — Three commercial shapes, chosen around
+           the problem".
+         - Rescue & Modernise renders at /engineering/modernisation-integration
+           under its own "Rescue and modernise — Assessment before further
+           investment", in fuller copy than the box had. It ALSO survives on this
+           page, in the FAQ below: "Can you take over an existing or stalled
+           build?"
+         - Three of the four also restated the value cards at the top of this
+           page: MANAGED ENGINEERING PARTNER is the RUN card, BUILD & LAUNCH is
+           the BUILD card, and Rescue & Modernise is BUILD's "modernisation of
+           systems you already run".
+
+        ONE HONEST RESIDUAL, named rather than glossed: the deleted box said "a
+        scoped product, AUTOMATION OR MODERNISATION programme with milestones,
+        working releases, acceptance criteria and launch". The survivor says "a
+        scoped PRODUCT programme" with those attributes. Automation and
+        modernisation survive as subjects, not as a programme shape with that
+        wording. If that matters the fix is one word on custom-software-saas,
+        not a homepage section.
       */}
       <Section labelledBy="baseline-heading">
+        {/*
+          "CFO" replaced 2026-09-15 on founder instruction — he does not accept
+          that finance always signs off, and the chief exec often does. "Exec
+          team" is not new wording: /ai-engineering/ai-value-baseline already
+          publishes "Readout to your exec team, and the deck is yours".
+
+          The FRAMING, not just the headline, was finance-led: the body said "the
+          business case written for finance" and the card said "Board-ready".
+          Both are changed, because swapping the heading alone would leave the
+          section addressed to finance underneath a heading that is not.
+        */}
         <SectionHead
           eyebrow="Start here"
           id="baseline-heading"
-          title="Four weeks. Fixed price. A number your CFO can sign off."
+          title="Four weeks. Fixed price. A number your exec team can sign off."
         />
         <div className="grid grid-2" style={{ marginTop: 34, gap: 40, alignItems: 'start' }}>
           <div>
             <p className="body">
               We instrument two or three of your processes, measure what they actually cost today,
-              and hand you a costed roadmap with the business case written for finance. If the
-              numbers do not support going further, we tell you that.
+              and hand you a costed roadmap and a readout to your exec team, with the deck included.
+              If the numbers do not support going further, we tell you that.
             </p>
             <div className="btn-row" style={{ marginTop: 28 }}>
               <Cta href="/ai-engineering/ai-value-baseline">See what is included</Cta>
-              <Cta href="/contact" variant="secondary">
-                Book a value baseline
-              </Cta>
             </div>
           </div>
           <div className="card" style={{ padding: 28 }}>
@@ -713,58 +666,26 @@ export default function HomePage() {
               <li>Two to three processes instrumented and measured</li>
               <li>Measurement left running, and yours to keep</li>
               <li>Prioritised opportunity map with a costed roadmap</li>
-              <li>Board-ready business case naming what it displaces</li>
+              {/* Was "Board-ready business case naming what it displaces".
+                  "Board-ready" renders nowhere else on this site, and "what it
+                  displaces" is the vague form of a published line. This is the
+                  baseline page's own inclusions wording, verbatim. */}
+              <li>Business case naming the budget line it displaces</li>
             </ul>
           </div>
         </div>
+
+        <p className="body" style={{ marginTop: 48, maxWidth: '72ch' }}>
+          The baseline is stage one of LIVE: land, integrate, verify, evolve.
+        </p>
+        <div style={{ marginTop: 24 }}>
+          <LiveDiagram variant="compact" />
+        </div>
+        <p style={{ marginTop: 26 }}>
+          <FLink href="/method/live">See how LIVE works</FLink>
+        </p>
       </Section>
 
-
-      <Section labelledBy="engage-heading" style={{ background: '#F7FAFA' }}>
-        <SectionHead
-          eyebrow="Commercial products"
-          id="engage-heading"
-          title="Three clear ways to engage Pixelette Technologies"
-        />
-        <div className="grid grid-3" style={{ marginTop: 40 }}>
-          {engagementRoutes.map(route => (
-            <div
-              key={route.t}
-              className="card"
-              style={{ display: 'flex', flexDirection: 'column' }}
-            >
-              <h3 className="mono" style={{ fontSize: 12.5, letterSpacing: '0.1em', color: 'var(--ink)' }}>
-                {route.t}
-              </h3>
-              <p className="body" style={{ marginTop: 14, fontSize: 15 }}>
-                {route.d}
-              </p>
-              <div style={{ flexGrow: 1 }} />
-              <div style={{ marginTop: 20 }}>
-                <FLink href="/contact">{route.cta}</FLink>
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* The handoff's optional fourth route, kept as a supporting line
-            rather than a fourth card so the section still reads as "three
-            clear ways", which is what its own heading promises. */}
-        <div
-          className="card"
-          style={{ marginTop: 18, display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap' }}
-        >
-          <div style={{ flex: '1 1 520px' }}>
-            <h3 className="h4">Rescue &amp; Modernise</h3>
-            <p className="body" style={{ marginTop: 10, fontSize: 15 }}>
-              For stalled builds, legacy platforms, inherited codebases or projects that need an
-              independent technical assessment before further investment.
-            </p>
-          </div>
-          <Cta href="/contact" variant="secondary">
-            Start a conversation
-          </Cta>
-        </div>
-      </Section>
 
       {/* ═══════════════════════════ 10 · Who we work with ═══════════════ */}
 

@@ -550,7 +550,7 @@ export default function AiEngineeringPage() {
 
       <ClosingCta
         eyebrow="Start here"
-        title="Four weeks. Fixed price. A number your CFO can sign off."
+        title="Four weeks. Fixed price. A number your exec team can sign off."
         aside={
           <div className="card">
             <Eyebrow>What it includes</Eyebrow>
