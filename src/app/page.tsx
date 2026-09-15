@@ -296,8 +296,31 @@ export default function HomePage() {
             >
               Book a conversation
             </Cta>
+            {/*
+              RETARGETED 2026-09-15 on founder instruction: "scoping a build
+              should take us first to the form". It pointed at /engineering, the
+              capability page.
+
+              IT WAS ALSO THE ODD ONE OUT. Every other "Scope a build" on this
+              site already goes to /contact - /engineering itself and its four
+              child pages, five call sites - so the homepage was the only one
+              sending a reader who had decided to a page that explains rather
+              than one that asks.
+
+              The analytics distinguish it from the primary button beside it, so
+              two buttons to one destination is legible in the data: `route`
+              stays BUILD_SOFTWARE and the event stays HERO_SECONDARY_CTA, which
+              is what separates "I want a build" from the primary's "I want a
+              conversation". Do not merge the two buttons on the grounds that
+              they share a href; the intent is the point, not the destination.
+
+              WHAT THIS COSTS, recorded rather than discovered later: the hero no
+              longer links to /engineering at all. That page is still reachable
+              from the BUILD card immediately below and from the header, so it is
+              one scroll or one hover away, not orphaned.
+            */}
             <Cta
-              href="/engineering"
+              href="/contact"
               variant="secondary"
               analytics={analyticsAttrs(ANALYTICS_EVENTS.HERO_SECONDARY_CTA, {
                 route: BUYER_ROUTES.BUILD_SOFTWARE,
