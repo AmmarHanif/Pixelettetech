@@ -430,7 +430,43 @@ export default function HomePage() {
         withdrawn from the register disappears from both. `published` is already
         true on both rows; nothing new is asserted here.
       */}
-      <Section labelledBy="gap-heading">
+      {/*
+        THE PROBLEM AND ITS PROOF, merged 2026-09-15 on founder instruction.
+        Was two sections: "The gap" (white) and "Selected work" (tinted).
+
+        WHY ONE SECTION. The gap closed on four differentiator tiles, which are
+        CLAIMS. Selected work is the ONLY first-party evidence on this page;
+        everything else here is a third-party statistic about the market. So a
+        section boundary was sitting exactly between a claim and its proof. One
+        movement now: the problem, how we are different, what we have built.
+
+        THE STATS AND THE CITATION ARE WHY THIS SECTION EXISTS and they survive
+        untouched, in order, above the blockquote. They are the only SourceNote
+        on the homepage, added 2026-09-14 to close an audit finding that the
+        front page carried no citation at all. The client row and a
+        verified-proof block have since been removed on founder instruction, so
+        this page has LESS proof than when that finding was written.
+
+        WHAT SEPARATES THE WORK ROW, now the tint no longer can. NOT a rule and
+        NOT an inner tinted block, and the reason is the same for both: they are
+        SECTION-BOUNDARY TOKENS. `.sec` draws border-top 1px var(--line) and
+        `.rule` is height 1px background var(--line), so the section boundary on
+        this site IS that glyph. And #F7FAFA appears at 14 call sites in src/,
+        every one a Section background, never an inner block. Using either here
+        would redraw the boundary the merge just removed, in the site's own
+        vocabulary. So the separator is HIERARCHY instead: 72px of air, the
+        eyebrow, an h3 with a lead, a 4-up to 3-up column change, and a type
+        step on the kicker. Hierarchy is the one separator that cannot be
+        mistaken for a section break.
+
+        THE TINT MOVED TO THE WHOLE SECTION, and it is not a new treatment:
+        /ai-engineering already renders this headline, this paragraph, these
+        gapStats figures and this attribution inside a #F7FAFA section. Two
+        pages sharing the content now share its ground. It also keeps the page
+        alternating white, tint, white, tint, white, and gives the nine white
+        tile cards in here a ground to sit on instead of white on white.
+      */}
+      <Section labelledBy="gap-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
           eyebrow="The gap"
           id="gap-heading"
@@ -449,52 +485,15 @@ export default function HomePage() {
         </div>
         <SourceNote>{gapStats[0].source}</SourceNote>
 
-        {/*
-          MERGED 2026-09-15 on founder instruction. "The gap" and a separate
-          "Differentiation" section are now one block, and the turn between them
-          is the blockquote rather than a section boundary.
-
-          WHY. They were always a matched pair - this states the problem, that
-          answered it - but they were spending a section boundary, a second h2
-          and 192px of padding on the turn. Measured before the merge: 97 words
-          and 543px here, 174 words and 945px there, so 271 words of argument
-          before the reader saw a single piece of work, on a page an external
-          audit measured at 18.6 viewport screens against a 6.7-14.5 comparator.
-
-          THE STATS AND THE CITATION ARE THE REASON THIS SECTION EXISTS, and
-          they survive the merge untouched. They are the ONLY third-party
-          evidence on the whole homepage - one SourceNote on the page. They were
-          added 2026-09-14 to close an audit finding that the front page carried
-          no citation of any kind while the rest of the site cites McKinsey,
-          DORA, METR, HFS, G2, Thomson Reuters and the Bank of England. The
-          client row and a verified-proof block have since been removed on
-          founder instruction, so the page has LESS proof than when that finding
-          was written. Do not move them below the blockquote, do not paraphrase
-          the attribution, and do not read `gapStats` by index if that array ever
-          becomes filterable.
-
-          The second h2 went, not the idea it carried. "AI is stronger when there
-          is engineering underneath it" says what the blockquote below says, and
-          the blockquote says it harder - the handoff flags that line "KEEP THIS
-          IDEA FROM THE CURRENT SITE". Full width at 21px serif it now carries
-          more weight than it did inside a half-width column.
-
-          The origin paragraph went: "Pixelette Technologies began with difficult
-          engineering problems...". The SENTENCE was homepage-only; the ARGUMENT
-          was not. /about's hero already carries it dated and evidenced - "built
-          production software since 2018... that operating discipline is why we
-          can build AI into a client system and still stand behind it a year
-          later". A sentence lost, not a position.
-        */}
         <blockquote className="quote" style={{ marginTop: 48 }}>
-          “An AI practice with no engineering underneath it is essentially a slide deck.”
+          &ldquo;An AI practice with no engineering underneath it is essentially a slide deck.&rdquo;
         </blockquote>
 
         <div className="grid grid-4" style={{ marginTop: 44 }}>
           {homepageDifferentiators.map(item => (
             <div key={item.t} className="tile">
-              {/* 16px overrides `.tile b`, which is a 26px mono brand numeral
-                  for StatTile. Without it these titles render as statistics. */}
+              {/* 16px overrides `.tile b`, a 26px mono brand numeral for
+                  StatTile. Without it these titles render as statistics. */}
               <b style={{ fontSize: 16 }}>{item.t}</b>
               <p className="small" style={{ marginTop: 8 }}>
                 {item.d}
@@ -502,47 +501,18 @@ export default function HomePage() {
             </div>
           ))}
         </div>
-      </Section>
 
-      {/* ═══════════════════════ 03 · Selected work ══════════════════ */}
-      {/*
-        RESTORED 2026-09-15 on founder instruction, as a compact row rather than
-        the three full cards removed earlier the same day. ~32 words against 158.
-
-        POSITION IS LOAD-BEARING. It sits between the argument and the ask. The
-        gap section above closes on four differentiator tiles, which are CLAIMS;
-        work placed immediately after them is the evidence for the claims just
-        read, beside the page's only third-party citation. And it must stay ABOVE
-        the priced section, because proof precedes price.
-
-        EVERY STRING GOES THROUGH THE work.ts GATE. `displayKicker` resolves name
-        permission by itself: 2Connect is CONFIRMED and renders named, Fusio
-        Wallet and Ayni Gold are PENDING and render anonymised kickers in the same
-        shape. Nothing here is a literal, and `homepageCaseStudies` throws at
-        module load if a slug stops resolving. If 2Connect's permission is ever
-        withdrawn, this row re-renders anonymised with no edit and no layout
-        change.
-
-        NO MediaSlot, AND THAT IS A RECORDED DECISION RATHER THAN AN OMISSION:
-        an intentional typographic card reads as a choice, a bracket reads as a
-        gap. It is measured, not stylistic — `publishedImage` returns nothing for
-        the two PENDING studies, so a media row would print a placeholder twice
-        beside one real screenshot, which reads as broken rather than withheld.
-        The /case-studies index does show those brackets; the homepage must not.
-
-        NO FIGURES. `publishedMetrics` returns empty for all three today — every
-        figure is HELD — and this row is deliberately too short to carry a
-        conditional. Neither accessor is called, because nothing here renders an
-        image or a figure; calling one and discarding it would be theatre.
-
-        The kickers are LABELS, not cards, so they are not individually
-        clickable: with no title, image or figure there is not enough on a tile
-        to choose between three. One link, to the index, where the work is
-        presented properly.
-      */}
-      <Section labelledBy="work-heading" style={{ background: '#F7FAFA' }}>
+        {/*
+          72px IS the separator, and the number is chosen rather than picked. The
+          internal rhythm above it runs 20, 32, 14, 48, 44, so this is the widest
+          opening in the section by half again. A reader does not measure it,
+          they feel that nothing else here opens this wide, which is what a beat
+          is once a line and a tonal change have both been refused. The merge
+          removed 192px of section padding; this returns 72 of it.
+        */}
         <div
           style={{
+            marginTop: 72,
             display: 'flex',
             alignItems: 'flex-end',
             justifyContent: 'space-between',
@@ -550,22 +520,42 @@ export default function HomePage() {
             flexWrap: 'wrap',
           }}
         >
+          {/*
+            level 3, because a section has one h2 and it is the founder's line
+            above. The old heading id is RETIRED rather than moved onto this h3:
+            it was referenced at exactly two places, the Section and the h2 both
+            replaced here, so no skip link, anchor, test or nav entry loses a
+            target, and an id nothing references is dead wiring.
+
+            "Challenge to build to result" is not deleted, it moves to the lead,
+            where it does the job it was always doing, telling the reader what
+            shape a case study has, and adds back a line of header mass.
+          */}
           <SectionHead
             eyebrow="Selected work"
-            id="work-heading"
-            title="Challenge &rarr; build &rarr; result"
+            level={3}
+            title="The work behind those claims"
+            lead="Challenge &rarr; build &rarr; result"
           />
           <FLink href="/case-studies">Read the full case studies</FLink>
         </div>
         <div className="grid grid-3" style={{ marginTop: 32 }}>
           {homepageCaseStudies.map(cs => (
             <div key={cs.slug} className="tile">
-              {/* A <p>, not a <span>: `.tile span` is a 13px muted block written
-                  for StatTile's caption and `.tile b` a 26px brand numeral.
-                  Either would restyle this label. */}
+              {/* A p, not a span: `.tile span` is a 13px muted block for
+                  StatTile's caption and `.tile b` a 26px brand numeral. Either
+                  would restyle this label.
+
+                  15px, up from 12.5px, and this is the merge's most load-bearing
+                  number. The differentiator tiles directly above render .small
+                  at 14px under 16px titles, so at 12.5px the ONLY first-party
+                  evidence on the homepage was the SMALLEST type in the section,
+                  sitting under larger type. That inversion survived only because
+                  a boundary and a tint told the reader to look again. Both are
+                  gone, so the type has to carry it. */}
               <p
                 className="mono"
-                style={{ fontSize: 12.5, letterSpacing: '0.1em', color: 'var(--ink)', margin: 0 }}
+                style={{ fontSize: 15, letterSpacing: '0.08em', color: 'var(--ink)', margin: 0 }}
               >
                 {displayKicker(cs)}
               </p>
@@ -573,9 +563,6 @@ export default function HomePage() {
           ))}
         </div>
       </Section>
-
-
-      {/* ═════════════════ 04 · Start here (method + entry offer) ══════ */}
       {/*
         COLLAPSED 2026-09-15 on founder instruction, from three sections to one.
         "The method", "Start here" and "Commercial products" are now this.
