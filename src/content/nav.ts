@@ -18,7 +18,15 @@ export type NavItem = {
  *
  * The order is the one set by the 8 September 2026 implementation handoff:
  * Engineering | AI & Automation | Blockchain | Work | Insights | About, with
- * "Book an Engineering Conversation" as the call to action. Two things changed
+ * "Book a conversation" as the call to action. THE HANDOFF SPECIFIED "Book an
+ * Engineering Conversation" here; the founder moved the header to the lower rung
+ * on 2026-09-15, so the two CTA labels on this site are a deliberate LADDER and
+ * not an inconsistency to be tidied: the header and every page-level CTA invite
+ * a reader who does not yet know what they want, while the homepage close alone
+ * says "Book an Engineering Conversation" for a reader who knows the problem and
+ * not the fix. Before that change the header carried the UPPER rung on every
+ * page, so a cold visitor met it first, 200px above a hero carrying the lower
+ * one. Two things also changed
  * from the previous version and both were deliberate. AI moved to second and
  * is now labelled "AI & Automation", because the handoff makes it a first-class
  * buying route rather than something hidden inside Engineering or Blockchain.
@@ -43,7 +51,7 @@ export const primaryNav: NavItem[] = [
 
 export const primaryCta = {
   href: '/contact',
-  label: 'Book an Engineering Conversation',
+  label: 'Book a conversation',
 } as const;
 
 /**

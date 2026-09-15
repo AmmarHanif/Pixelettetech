@@ -122,9 +122,11 @@ export const ANALYTICS_EVENTS = {
   SEND_US_A_BRIEF_INTENT: 'send_us_a_brief_intent',
 
   /**
-   * A booked-conversation CTA was pressed: the header CTA, section 14's
-   * primary "Book an Engineering Conversation", the shared closing CTA, or a
-   * case-study "Book a conversation". `surface` says which.
+   * A booked-conversation CTA was pressed. `surface` says which, and it is the
+   * only thing that can tell them apart: the header, the hero and every
+   * page-level CTA all read "Book a conversation", while the homepage close
+   * alone reads "Book an Engineering Conversation". That pair is a deliberate
+   * ladder, so do not collapse the surfaces when reading this event.
    */
   BOOK_CONVERSATION_CTA: 'book_conversation_cta',
 
