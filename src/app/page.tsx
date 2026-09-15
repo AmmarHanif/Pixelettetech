@@ -174,40 +174,72 @@ const differentiators = [
 /**
  * The three the homepage renders, and the ORDER IS LOAD-BEARING.
  *
- * The gap paragraph above names three failures in sequence — the work around
- * the model was never redesigned, the data it needs was never made reachable,
- * nobody owns whether it still works next quarter. These three answer those
- * three IN THE SAME ORDER. That rhyme is what carries a reader from problem to
- * answer, and it is doing the job the deleted second h2 and the deleted origin
- * paragraph were doing with 48 words between them. Reordering this array breaks
- * the section without breaking the build, so do not sort it.
+ * The order is an engagement arc: how we take the brief, what we choose to
+ * build with, what happens after launch. It also keeps the anchors of an
+ * earlier and stronger pattern — the gap paragraph above names three failures
+ * in sequence, and the FIRST and LAST tiles still answer its first and last
+ * ("the work was never redesigned" -> product thinking; "nobody owns whether it
+ * still works next quarter" -> built to keep operating). The paragraph ends on
+ * "next quarter" and so does this row.
  *
- * Six were rendering here until 2026-09-15 — the array below is the handoff
- * record and keeps all six. The three not rendered were each already published
- * on this same page or one click from it, so the cut removes duplication rather
- * than positions:
+ * THE MIDDLE MAPPING IS GONE AND THIS IS NOT A 3/3 RHYME ANY MORE. It was one
+ * until 2026-09-15, when 'AI-native where useful' returned on founder
+ * instruction; it answers none of the three named failures, so it takes the
+ * middle slot, which is the weakest position in a 3-up. Reordering still breaks
+ * the section without breaking the build, so do not sort this array.
  *
- *  - 'Governance route available' → `CertifiedHandoff variant="compact"`, this
+ * It replaced 'Engineering before theatre', which is NOT the swap originally
+ * specified — that named 'Built to keep operating', and it was wrong. Two
+ * reasons, recorded so the swap is not reversed later:
+ *  - 'Built to keep operating' is the tightest of the three answers ("owns"
+ *    against "remain inside the same engineering relationship"). Cutting it
+ *    would have broken the pattern at its strongest point.
+ *  - 'Engineering before theatre' argued substance over presentation ~90px
+ *    below a blockquote that argues it harder: "An AI practice with no
+ *    engineering underneath it is essentially a slide deck." Same claim twice
+ *    on one screen, spending one of only three tiles.
+ *
+ * CONSEQUENCE: that blockquote is now the section's ONLY carrier of the
+ * substance-over-theatre argument. If it is ever trimmed, this position leaves
+ * the homepage entirely. Trim the quote and you must restore a tile.
+ *
+ * Six were rendering here until 2026-09-15 — the array above is the handoff
+ * record and keeps all six, and the handoff itself prints them as two blocks of
+ * three. Block one is what rendered after the merge; 'AI-native where useful'
+ * heads block two, so its return is a PROMOTION across that grouping, made on
+ * founder instruction about his own deck. The four not rendered:
+ *
+ *  - 'Governance route available' -> `CertifiedHandoff variant="compact"`, this
  *    page, section 12, in the accreditation-safe wording claims.ts requires.
- *  - 'Blockchain depth' → /blockchain's hero: "Pixelette began as a blockchain
+ *  - 'Blockchain depth' -> /blockchain's hero: "Pixelette began as a blockchain
  *    studio and it remains our deepest specialism", under an h1 dated "since
  *    2018". Stronger than this tile and on the page that owns the claim.
  *    VERIFIED AT SOURCE, because the first survival citation offered for it was
  *    the DECENTRALISE card, which says something else — "a specialist tool, not
  *    a default answer" is restraint, not heritage.
- *  - 'AI-native where useful' → the weakest of the three, and recorded as such
- *    rather than dressed up. AUTOMATE carries the capability; the RESTRAINT
- *    applied to AI is only carried obliquely, by "earns its place" on the
- *    DECENTRALISE headline and in the hero. If one comes back, it is this one —
- *    swapped for 'Built to keep operating', never added as a fourth, which
- *    would break both the three-answers rhyme and the 3-up grid.
+ *  - 'Engineering before theatre' -> the blockquote above, same section. Its
+ *    sentence is homepage-only and dies with it; grep confirms "theatre",
+ *    "before the demo" and "production readiness" appear nowhere else in src.
+ *    The ARGUMENT survives on the same screen; the enumerated craft list
+ *    (architecture, integration, testing, production readiness) does NOT, and
+ *    that is accepted rather than glossed — this section argues, it does not
+ *    scope, and scope belongs to the BUILD card above and to /engineering. If
+ *    the homepage is ever said to have gone vague about what engineering means,
+ *    THIS CUT IS THE CAUSE, and the fix is /engineering, not a fourth tile.
+ *  - 'AI-native where useful' -> RETURNED 2026-09-15. It had been the honest
+ *    loss: AUTOMATE carries the capability, but the RESTRAINT applied to AI
+ *    exists nowhere else on the site. Every published "earns its place" is
+ *    about blockchain (/blockchain, /blockchain/tokenisation, the DECENTRALISE
+ *    headline). This tile is the only place the site applies that discipline to
+ *    AI itself. None of the six appear in llms.txt, so a tile cut here leaves
+ *    the site outright rather than surviving on a machine-readable surface.
  *
  * Throws at module load rather than silently rendering a short row, the same
  * way `homepageCaseStudies` fails closed on a slug.
  */
 const homepageDifferentiators = [
   'Product thinking, not ticket delivery',
-  'Engineering before theatre',
+  'AI-native where useful',
   'Built to keep operating',
 ].map(title => {
   const found = differentiators.find(item => item.t === title);
