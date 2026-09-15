@@ -16,7 +16,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'AI Value Baseline',
   description:
-    'Four weeks, fixed price, £6,000 to £12,000. We instrument two or three processes, measure what they cost today, and write the business case for finance.',
+    'Four weeks, fixed price, £6,000 to £12,000. We instrument two or three processes, measure what they cost today, and write the business case for your exec team.',
   path: '/ai-engineering/ai-value-baseline',
 });
 

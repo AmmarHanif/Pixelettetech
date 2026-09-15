@@ -584,7 +584,7 @@ export default function AiEngineeringPage() {
         }
       >
         We instrument two or three of your processes, measure what they actually cost today, and hand
-        you a costed roadmap with the business case written for finance. If the numbers do not support
+        you a costed roadmap with the business case written for your exec team. If the numbers do not support
         going further, we tell you that.
       </ClosingCta>
     </>

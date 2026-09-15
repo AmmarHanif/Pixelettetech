@@ -666,10 +666,33 @@ export default function HomePage() {
               <li>Two to three processes instrumented and measured</li>
               <li>Measurement left running, and yours to keep</li>
               <li>Prioritised opportunity map with a costed roadmap</li>
-              {/* Was "Board-ready business case naming what it displaces".
-                  "Board-ready" renders nowhere else on this site, and "what it
-                  displaces" is the vague form of a published line. This is the
-                  baseline page's own inclusions wording, verbatim. */}
+              {/*
+                Was "Board-ready business case naming what it displaces". This is
+                the product page's own inclusions wording, verbatim
+                (ai-value-baseline/page.tsx), so the homepage and the page it
+                links to now agree.
+
+                CORRECTED 2026-09-15, comment only. This used to claim
+                "'Board-ready' renders nowhere else on this site — it exists only
+                inside a JSON-LD description string". THAT WAS FALSE and was
+                written here without opening the files. "Board-ready" renders in
+                VISIBLE copy at ai-engineering/page.tsx (the inclusions list and
+                an FAQ answer) and in llms.txt.
+
+                So this deliverable is phrased THREE ways across the site:
+                  - "Business case naming the budget line it displaces"
+                    (product page, and now here)
+                  - "Board-ready business case naming what it displaces"
+                    (ai-engineering inclusions)
+                  - "a board-ready business case naming the budget line it
+                    displaces" (ai-engineering FAQ; llms.txt has a fourth short
+                    form)
+                That divergence PRE-DATES this change and is not a CFO/finance
+                issue — a board is broader than finance, so it was out of scope
+                for that repair. It is recorded as an open item rather than
+                fixed here, because rewriting two other pages' copy was not
+                asked for.
+              */}
               <li>Business case naming the budget line it displaces</li>
             </ul>
           </div>
