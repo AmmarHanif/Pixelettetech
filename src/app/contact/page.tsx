@@ -89,12 +89,15 @@ export default function ContactPage() {
       <div className="hero-glow" style={{ padding: '80px 0 56px' }}>
         <div className="wrap">
           <Eyebrow>Contact</Eyebrow>
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '18ch' }}>
-            Tell us the process that annoys you most
+          <h1 className="h1" style={{ marginTop: 24, maxWidth: '22ch' }}>
+            Tell us what you are trying to build or change
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
-            Four questions and a reply address. One of us replies, not a sequence. If Value Discovery is not
-            the right next step we will say so on the call.
+            Some people arrive knowing exactly what is broken. Others only know that something is.
+            Both are worth the same conversation: what the problem really is, which route resolves
+            it, and what has to happen first. Four questions and a reply address. One of us replies,
+            not a sequence. If Value Discovery is not the right next step we will say so on the
+            call.
           </p>
         </div>
       </div>
@@ -149,7 +152,7 @@ export default function ContactPage() {
           </div>
 
           <div className="card" style={{ padding: 36 }}>
-            <h3 className="h3">Book a conversation</h3>
+            <h3 className="h3">Start with what you know</h3>
             <p className="small" style={{ marginTop: 10 }}>
               Four questions. One of us replies within one working day.
             </p>
