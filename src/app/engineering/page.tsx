@@ -160,7 +160,7 @@ export default function EngineeringPage() {
         <div className="wrap">
           <Eyebrow>Engineering</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '18ch' }}>
-            We build software that has to keep working
+            We build software that stays in service
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Web platforms, mobile applications, custom software and integration, delivered since{' '}

@@ -190,7 +190,7 @@ export default function BaselinePage() {
       </Section>
 
       <ClosingCta title="Start with Value Discovery">
-        No procurement cycle, no discovery call ladder. Tell us the process that annoys you most and
+        No procurement cycle, no discovery call ladder. Tell us the process you want to change and
         we will tell you whether it is measurable.
       </ClosingCta>
     </>
