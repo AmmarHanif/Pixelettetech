@@ -837,15 +837,15 @@ export default function HomePage() {
       <Section labelledBy="close-heading" style={{ background: '#F7FAFA' }}>
         <div className="split split--cta">
           <div>
-            <Eyebrow>Homepage close</Eyebrow>
+            <Eyebrow>The next step</Eyebrow>
             <h2 className="h2" id="close-heading" style={{ marginTop: 18 }}>
-              Bring us the problem, not the specification
+              If you know the problem, we can help you engineer the fix
             </h2>
             <p className="body" style={{ marginTop: 20 }}>
-              Tell us what needs to change — a product that needs building, a workflow that needs
-              automating, a system that needs modernising, or a blockchain use case that needs
-              testing. We’ll help you map the right engineering route and the evidence needed to
-              know whether it worked.
+              You may already be able to name the problem precisely. The harder part is usually
+              which route actually resolves it, what it depends on and what has to happen first.
+              That is what this conversation is for. We work through the options with you, say which
+              one we would start with and why, and agree what evidence would show it had worked.
             </p>
             <div className="btn-row" style={{ marginTop: 32 }}>
               <Cta
@@ -870,17 +870,17 @@ export default function HomePage() {
                   surface: ANALYTICS_SURFACES.HOMEPAGE_CLOSE,
                 })}
               >
-                Send Us a Brief
+                Send us the details
               </Cta>
             </div>
             <p className="small" style={{ marginTop: 20 }}>
-              No specification required. Tell us what you are trying to change in your own words —
-              and if a brief, requirements document, process map or architecture note already
-              exists, say so and we will ask for it when we reply.
+              No specification required. Being clear on the problem is enough to start. If a brief,
+              requirements document, process map or architecture note already exists, say so and we
+              will ask for it when we reply.
             </p>
             <p className="src" style={{ marginTop: 18 }}>
-              No obligation. If the answer is “do not build this yet”, we should be willing to say
-              so.
+              No obligation. If the honest answer is that you should not build this yet, we will
+              say so.
             </p>
           </div>
           {/*
