@@ -4,7 +4,6 @@ import { ArrowRight } from '@/components/Icons';
 import { LiveDiagram } from '@/components/LiveDiagram';
 import {
   CertifiedHandoff,
-  ClientLogos,
   ValueModelCards,
 } from '@/components/sections';
 import {
@@ -399,101 +398,27 @@ export default function HomePage() {
         Nothing else in the register is VERIFIED, and nothing else shows.
       */}
       {/*
-        CLIENT NAMES MOVED ABOVE THE CERTIFICATE BLOCK, 2026-09-14.
-        They are the fastest credibility signal on the page and sat underneath
-        114 words of certificate detail. No copy change, same seven names,
-        same gate.
+      {/*
+        CLIENT ROW AND VERIFIED PROOF SECTION REMOVED 2026-09-15, on founder
+        instruction, pointing at both blocks on the live page.
+
+        What went: the seven-name TRUSTED BY row, and the VERIFIED PROOF
+        section carrying the claims-register statement plus the demoted
+        certificate line added the day before.
+
+        NOTHING IS WITHDRAWN FROM THE SITE and no gate changed. The seven
+        names are still APPROVED in src/content/clients.ts and still render on
+        /ai-engineering through the same accessor, so this is a homepage
+        composition decision rather than a permissions one - withdraw a
+        permission there and the name leaves everywhere at once, which is still
+        the only mechanism that should remove one.
+
+        The evidence-gate statement and both certificates remain published in
+        full on /certifications and /security-and-data, with number, issuing
+        body, accrediting body and expiry - which is where a reviewer goes and
+        what llms.txt instructs any reader to cite. The homepage no longer
+        states the gate; the pages that hold the evidence still do.
       */}
-      {/* Client wordmarks, behind the approval gate in
-          `src/content/clients.ts` — a gate that has now been answered. All
-          seven rows there read APPROVED on the founder's decision of
-          2026-09-11 ("Keep them — I'm confident we have the basis"), so
-          `approvedClients()` returns exactly the seven names this line
-          renders. `ClientLogos` reads `approvedClients()`, and the render
-          is unchanged either way because every row is APPROVED — the
-          accessor and the raw array hold the same seven names, in the same
-          order.
-
-          CORRECTED 2026-09-11, comment only. What follows is a correction,
-          not a deletion. This comment used to read: "Held behind an approval
-          gate in `src/content/clients.ts`, which records every name as
-          UNCONFIRMED and raises the permission question to the founder rather
-          than answering it silently. That decision belongs to that file, and
-          is left as it stands." Both halves are now false. No row is
-          UNCONFIRMED: all seven moved to APPROVED on 2026-09-11. And the
-          question is no longer raised but answered — the founder was asked
-          whether the seven names rendering with no recorded permission should
-          be hidden or kept, and kept them.
-
-          What has NOT changed is where the record lives. The decision still
-          belongs to `src/content/clients.ts` and is written down there and
-          nowhere else, so this page continues to assert no permission of its
-          own. Read that file's gate note before quoting this one: what exists
-          is a founder decision of 2026-09-11, NOT a per-client release
-          document, and no such document exists in this repository. Nor does
-          the decision reach the eighth name — 'Akashic Knowing' in
-          `additionalClients` stays UNCONFIRMED, because he was not asked about
-          it, and nothing imports that array.
-
-          Nothing rendered by this line changed on 2026-09-11: the same seven
-          names rendered before the decision and after it. Nothing is owed from
-          this paragraph.
-
-          CORRECTED AGAIN 2026-09-11, later the same day, comment only. The
-          opening paragraph used to end: "`ClientLogos` still reads `clients`
-          directly, which is why the render is unchanged either way." The
-          conclusion was right and is kept — this line renders the same seven
-          names it always did — but the reason given for it was overtaken the
-          same day. `ClientLogos` was switched onto `approvedClients()`, so
-          "still reads `clients` directly" is no longer true of it and can no
-          longer be the reason for anything.
-
-          The render is unchanged for a different and better reason: all seven
-          rows are APPROVED, so the accessor returns the same seven names the
-          raw array did. That reason is contingent where the old one was
-          structural, and the difference is the point of the switch — this
-          line is now fail-closed. Withdraw a permission and the name leaves
-          this page in that one edit; withdraw all seven and `ClientLogos`
-          renders nothing rather than an empty frame. Measured by building it
-          on 2026-09-11, not assumed.
-
-          Nothing else in this comment moves. The record still lives in
-          `src/content/clients.ts`, this page still asserts no permission of
-          its own, and nothing is owed from this paragraph either. */}
-      <ClientLogos tight />
-
-      <Section labelledBy="proof-heading">
-        <SectionHead
-          eyebrow="Verified proof"
-          id="proof-heading"
-          title="Built for real operating environments"
-          lead="Every number, badge and accreditation on this site is either verified, held for evidence, or not published. Where a claim is held, nothing is shown in its place."
-        />
-        <div style={{ marginTop: 30 }}>
-        {/*
-          CERTIFICATE REGISTER DEMOTED TO A LINE, 2026-09-14.
-
-          <TrustStrip /> rendered both certificates in full here - number,
-          holder, issuing body, accrediting body, expiry and recertification,
-          about 114 words of it - immediately above the client names, which are
-          the faster credibility signal and were buried under it. The same
-          detail is published verbatim on /certifications and /security-and-data,
-          which is where a reviewer actually goes.
-
-          NOT compressed into a bare "ISO 27001 certified" badge, and that is a
-          rule rather than a preference: llms.txt instructs any reader never to
-          restate one of these certificates without its number and expiry. So
-          the standards are named, and the link carries the reader to the full
-          detail. A badge with no route to the evidence would breach the
-          instruction this site publishes about itself.
-        */}
-        <p className="body" style={{ marginTop: 22, maxWidth: '72ch' }}>
-          ISO/IEC 27001:2022 and ISO 9001:2015 are certified, with certificate numbers, issuing
-          body and dates{' '}
-          <FLink href="/certifications">published in full</FLink>.
-        </p>
-        </div>
-      </Section>
 
 
       {/* ══════════════════ 03 · What are you trying to change? ══════════ */}
