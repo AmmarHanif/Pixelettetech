@@ -889,9 +889,29 @@ export const valueModel: ValueModelEntry[] = [
   {
     key: 'DECENTRALISE',
     icon: <ChainMark size={30} />,
-    headline: 'Blockchain is a specialist tool, not a default answer',
+    /*
+     * SHORTENED 2026-09-15 on founder instruction, to run the same length as the
+     * other three headlines.
+     *
+     * It read 'Blockchain is a specialist tool, not a default answer' - nine
+     * words against the others' four to seven, and visibly longer on the card.
+     *
+     * THE SENTENCE MOVED RATHER THAN BEING CUT, and that mattered: it was the
+     * ONLY place that positioning appeared in rendered copy anywhere on the
+     * site. The approved deck still carries it, but the deck does not render.
+     * Shortening the headline without relocating it would have deleted the
+     * blockchain-is-not-a-default position from the website entirely, which is
+     * the opposite of what a length edit should cost.
+     *
+     * 'Earns its place' is not new wording. It is already published on
+     * /blockchain and /blockchain/tokenisation, where the firm says it assesses
+     * whether a chain genuinely earns its place "including when the honest
+     * answer is that a conventional database would do the job", and in the
+     * homepage hero. Same position, the site's own phrase, six words.
+     */
+    headline: 'Blockchain where it earns its place',
     summary:
-      'Tokenisation, smart contracts, dApps and wallets, used where decentralisation solves a real problem.',
+      'A specialist tool, not a default answer. Tokenisation, smart contracts, dApps and wallets.',
     href: '/blockchain',
     linkLabel: 'Blockchain',
   },
