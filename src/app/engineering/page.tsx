@@ -343,10 +343,26 @@ export default function EngineeringPage() {
         one after it.
       */}
       <Section labelledBy="model-heading" style={{ background: '#F7FAFA' }}>
+        {/*
+            NOT the homepage's h2, which this used to repeat verbatim. That line
+            is a POSITIONING statement and it is right on the page that
+            introduces the company; on a hub the reader has already chosen, so
+            they need to know where they are in the set, not what the company is.
+            The same string was on all four pages until 2026-09-15.
+
+            The homepage instance is deliberately unchanged.
+
+            One string, used identically on /engineering, /ai-engineering and
+            /blockchain, so it carries no practice-specific word. It is also the
+            accessible name of this whole region -- SectionHead renders `title` as
+            the h2 whose id the wrapping Section points at -- so it has to mean
+            something read cold in a heading list, which "Where this sits" alone
+            would not.
+        */}
         <SectionHead
           eyebrow="Where this sits"
           id="model-heading"
-          title="One engineering company, four ways we create value"
+          title="This is one of four services"
           lead="Build is this page. Automate, Decentralise and Run are the other three."
         />
         <div style={{ marginTop: 36 }}>
