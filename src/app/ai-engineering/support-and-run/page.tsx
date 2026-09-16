@@ -136,13 +136,27 @@ export default function SupportAndRunPage() {
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
         <div className="wrap">
           <Eyebrow>Support & Run</Eyebrow>
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Somebody has to own whether it still works
+          {/*
+            REWRITTEN 2026-09-16. The founder could not tell what this page was
+            for, and the cause was NOT the order: the dashboard was already the
+            first thing after the hero. THE PAGE NEVER NAMED ITS OBJECT. "whether
+            IT still works", "what YOU SEE", "THE CONTRACT" all pointed at a
+            thing the page never stated, which is a named production system we
+            monitor and report on monthly.
+
+            The old h1 "Somebody has to own whether it still works" is not
+            deleted; it moves to the commitments section below, where it finally
+            has an antecedent. It is the strongest sentence on the page and it
+            was spending itself before the reader knew what it referred to.
+          */}
+          <h1 className="h1" style={{ marginTop: 24, maxWidth: '22ch' }}>
+            The monthly report that says whether your AI still works
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
-            You built it, or you bought it, or a platform vendor deployed it. Six months on, nobody
-            can tell you whether it is still accurate, still safe, still affordable or still being
-            used. We take that contract.
+            You built it, you bought it, or a platform vendor deployed it. A support and run
+            contract puts each named production system under continuous evaluation and sends you one
+            report a month: whether output quality has held, what it is costing, and what broke. The
+            panel below is that report, in the format you receive it.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Book a conversation</Cta>
@@ -176,11 +190,19 @@ export default function SupportAndRunPage() {
       </div>
 
       {/* ------------------------------------------------------- dashboard */}
+      {/*
+        "every day" was a contradiction, not a style choice: every other
+        statement on this page says the report is MONTHLY. And nothing above
+        this panel said what a reader was looking at, which is why the founder
+        asked what the dashboard was relating to. The lead is that missing
+        sentence.
+      */}
       <Section labelledBy="dash-heading" id="dashboard" style={{ background: '#F7FAFA' }}>
         <SectionHead
-          eyebrow="The dashboard"
+          eyebrow="The monthly report"
           id="dash-heading"
-          title="What you see, every day, without asking"
+          title="What the report tells you before you have to ask"
+          lead="A mock of our own reporting format, filled with sample data, for one AI system over one month. Pass rate is the share of sampled cases that met the agreed definition of correct. Cost per case is inference spend divided by the work done. The dip is a supplier changing model version without saying so, which is the kind of event this contract exists to catch."
         />
         <div style={{ marginTop: 36 }}>
           <OperatingDashboard />
@@ -193,9 +215,9 @@ export default function SupportAndRunPage() {
       {/* ----------------------------------------------------- commitments */}
       <Section labelledBy="commit-heading">
         <SectionHead
-          title="What the contract actually commits us to"
+          title="Somebody has to own whether it still works"
           id="commit-heading"
-          lead="No vague retainer. A severity model, response times, and a metric we report against whether it flatters us or not."
+          lead="That is what the contract is. No vague retainer: a severity model, response times, and a metric we report against whether it flatters us or not."
         />
         <PillRow
           items={['SEV-1 · 1 hr', 'SEV-2 · 4 hrs', 'SEV-3 · next working day']}
@@ -252,11 +274,26 @@ export default function SupportAndRunPage() {
             </div>
           ))}
         </div>
-        <p className="body" style={{ marginTop: 30, maxWidth: '76ch' }}>
-          We will take on systems we did not build, once a baseline tells us what we are inheriting.
-          Running what somebody else wrote is the clearest proof that this is a capability rather than
-          a warranty on our own work.
-        </p>
+      </Section>
+
+      {/*
+        LIFTED OUT OF PRICING 2026-09-16. This paragraph answers "will you run
+        something you did not build", which is not a question about price, and
+        it was stranded at the foot of the tiers where nobody arriving from the
+        nav or a sibling page would look for it.
+
+        Its second sentence is NOT reproduced here. "Running what somebody else
+        wrote is the clearest proof that this is a capability rather than a
+        warranty on our own work" is published verbatim in the FAQ below, and
+        was appearing twice on one page.
+      */}
+      <Section labelledBy="takeon-heading">
+        <SectionHead
+          eyebrow="How it starts"
+          id="takeon-heading"
+          title="It does not have to be something we built"
+          lead="We will take on systems we did not build, once a baseline tells us what we are inheriting."
+        />
       </Section>
 
       <Section labelledBy="faq-heading">
