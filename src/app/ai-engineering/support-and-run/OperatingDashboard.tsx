@@ -64,7 +64,7 @@ export function OperatingDashboard() {
           preserveAspectRatio="none"
           className="dash__svg"
           role="img"
-          aria-label="Evaluation pass rate over thirty days, staying above the ninety percent threshold apart from a dip on 18 August caused by a model version change that was rolled back in forty-one minutes."
+          aria-label="Sample data, not a client system. An illustrative evaluation pass rate over thirty days, staying above the ninety percent threshold apart from a dip on 18 August caused by a model version change that was rolled back in forty-one minutes."
         >
           <line
             x1="0"
