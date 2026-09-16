@@ -426,6 +426,33 @@ export const pressEmail = contactEmail;
  * `blockchain-volumes-and-chain-counts`). Naming what the practice can work
  * with is fine. Counting them and calling it production is not.
  */
+/**
+ * PUBLISHED, as a CAPABILITY list and not a delivery record. Read the
+ * distinction before editing either this array or the FAQ that renders it.
+ *
+ * The pill row that displayed these under the heading "The networks we work
+ * with" was removed on 2026-09-16: that heading asserted PAST DELIVERY, and
+ * checked against the `stack:` field of every published case study only three
+ * are evidenced - Hyperledger Fabric, Polkadot and Solidity/EVM work.
+ *
+ * The FAQ KEPT the list on founder instruction the same day - "so people know
+ * what we can work with" - and he was drawing a real distinction I had
+ * collapsed. What a practice CAN build on is a statement about competence, on
+ * which he is the authority. What it HAS delivered is a claim about engagements,
+ * which needs an engagement behind each name. The FAQ wording makes that
+ * explicit so a reader cannot take the list as a delivery record.
+ *
+ * SO: adding a chain here is a claim about capability, and it publishes
+ * immediately through the FAQ and its FAQPage JSON-LD. What was actually built
+ * where stays on the case studies - beyorch, chain-legal, fusio and
+ * smart-contractor all name their own stack.
+ *
+ * DO NOT RETYPE THIS LIST ANYWHERE. It was retyped once and the copies drifted:
+ * twenty-four names here against nineteen in the FAQ. The FAQ now composes its
+ * sentence from this array. And do NOT publish a COUNT of them - "Twenty-four
+ * chains and protocols in production use" was withdrawn from /blockchain as
+ * unevidenced, and a correct number reinstates the same claim.
+ */
 export const chains = [
   'Ethereum',
   'Binance Smart Chain',

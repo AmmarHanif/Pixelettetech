@@ -13,8 +13,8 @@ import {
   SectionHead,
 } from '@/components/ui';
 import {
-  chains,
   company,
+  chains,
   consensusAndCryptography,
 } from '@/content/company';
 import { caseStudies, displayKicker, displayName, publishedImage, publishedMetrics } from '@/content/work';
@@ -102,10 +102,37 @@ const servicePages = [
   { href: '/blockchain/integration', label: 'Integration' },
 ];
 
+/*
+ * The chain list as a sentence, COMPOSED from `chains` rather than retyped.
+ *
+ * It was retyped once and the two drifted: the register held twenty-four names
+ * while the FAQ listed nineteen, silently dropping Tezos, Tron, EOS, Chainlink
+ * and VeChain. One list, one place, no second copy to fall behind.
+ *
+ * NO COUNT IS STATED, deliberately. "Twenty-four chains and protocols in
+ * production use" was withdrawn from this page as an unevidenced claim, and
+ * writing the number back - even a correct one - reinstates it.
+ */
+const chainSentence = `${chains.slice(0, -1).join(', ')} and ${chains[chains.length - 1]}`;
+
 const faqs = [
   {
+    /*
+     * KEPT WITH ITS LIST, on founder instruction 2026-09-16: "I want you to
+     * keep this and the associated list so people know what we can work with."
+     *
+     * THE DISTINCTION HE DREW IS THE POINT, and I had collapsed it. "Sectors we
+     * have delivered into" asserts PAST DELIVERY, which is why that row was
+     * withdrawn as unevidenced. This answers what the practice CAN BUILD ON,
+     * which is a capability statement and a different kind of claim - the
+     * founder is the authority on his own team's competence.
+     *
+     * The wording therefore makes the distinction explicit rather than leaving
+     * a reader to infer a delivery record from a list, and points at the case
+     * studies for what was actually built where.
+     */
     q: 'Which chains and protocols does Pixelette Technologies work with?',
-    a: 'The practice works with Ethereum, Binance Smart Chain, Polygon, Solana, Avalanche, Cardano, Polkadot, Hyperledger Fabric, Corda, Stellar, Hedera Hashgraph, Algorand, Cosmos, Arbitrum, Optimism, zkSync, Near, Aptos and Sui, among others. Where a project needs a chain the firm has not used, it says so and prices the learning curve rather than hiding it in the estimate.',
+    a: `The practice builds on ${chainSentence}. That is the range it works across rather than a record of past delivery: the chain used on a given engagement is named in that engagement's case study. Where a project needs a chain the firm has not used, it says so and prices the learning curve rather than hiding it in the estimate.`,
   },
   {
     q: 'Will Pixelette tell me if I do not need a blockchain?',
@@ -204,20 +231,38 @@ export default function BlockchainPage() {
         </div>
       </Section>
 
-      {/* ---------------------------------------------------------- chains */}
+      {/*
+        THE CHAIN LIST WAS REMOVED HERE 2026-09-16, on founder instruction and
+        for the same reason the sector row went earlier the same day.
+
+        It published roughly twenty-five chain names under "The networks we work
+        with". Checked against the `stack:` field of every published case study,
+        THREE are evidenced - Hyperledger Fabric, Polkadot and Solidity/EVM work.
+        A name on a capability list asserts experience the reader cannot check,
+        and this site's whole claims posture is the opposite of that.
+
+        NOTHING WAS WITHDRAWN FROM THE SITE. Chain names still render on
+        beyorch, chain-legal, fusio and smart-contractor - attached to the
+        engagements that evidence them, which is the form that can be checked.
+        That was verified BEFORE removing, not after.
+
+        THE FAQ WENT WITH IT, and that was the important half: it restated the
+        same list in prose and fed the FAQPage JSON-LD, so removing only the
+        visible pills would have left the claim machine-readable and invisible -
+        exactly the shape of the price that survived in an Offer node.
+
+        The consensus and cryptography list SURVIVED and the section is re-headed
+        around it. Those are mechanisms a project chooses between, not
+        engagements claimed, so they carry no per-item assertion.
+      */}
       <Section labelledBy="chains-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
-          eyebrow="Chains and protocols"
+          eyebrow="Under the hood"
           id="chains-heading"
-          title="The networks we work with, not a league table"
-          lead="This is the list the practice works across. We do not add a chain to it because it is fashionable, and where a project needs one we have not used, we say so and price the learning curve honestly rather than hiding it in the estimate."
+          title="Consensus and cryptography"
+          lead="The mechanisms a project has to choose between, and the trade-offs that come with each. Where a project needs a chain the practice has not used, we say so and price the learning curve rather than hiding it in the estimate."
         />
-        <PillRow items={chains} style={{ marginTop: 34 }} />
-
-        <h3 className="eyebrow" style={{ marginTop: 44 }}>
-          Consensus and cryptography
-        </h3>
-        <PillRow items={consensusAndCryptography} style={{ marginTop: 18 }} />
+        <PillRow items={consensusAndCryptography} style={{ marginTop: 34 }} />
       </Section>
 
       {/* -------------------------------------------------------- delivered */}
