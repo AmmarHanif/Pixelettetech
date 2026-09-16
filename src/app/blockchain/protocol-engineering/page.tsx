@@ -73,7 +73,7 @@ const faqs = [
 
 export default function ProtocolEngineeringPage() {
   return (
-    <div className="theme-amber">
+    <div>
       <JsonLd
         data={serviceSchema({
           name: 'Layer 1 / Layer 2 & Protocol Engineering',
@@ -135,7 +135,7 @@ export default function ProtocolEngineeringPage() {
       </Section>
 
       {/* ---------------------------------------------------- capabilities */}
-      <Section labelledBy="pe-build-heading" style={{ background: '#FBF8F4' }}>
+      <Section labelledBy="pe-build-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
           title="What the work covers"
           id="pe-build-heading"

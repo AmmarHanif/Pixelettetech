@@ -74,7 +74,7 @@ const faqs = [
 
 export default function SmartContractsDappsPage() {
   return (
-    <div className="theme-amber">
+    <div>
       <JsonLd
         data={serviceSchema({
           name: 'Smart Contracts & dApps',
@@ -130,7 +130,7 @@ export default function SmartContractsDappsPage() {
       </Section>
 
       {/* ----------------------------------------------------- review words */}
-      <Section labelledBy="sc-review-heading" style={{ background: '#FBF8F4' }}>
+      <Section labelledBy="sc-review-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
           eyebrow="Review and testing, stated precisely"
           id="sc-review-heading"

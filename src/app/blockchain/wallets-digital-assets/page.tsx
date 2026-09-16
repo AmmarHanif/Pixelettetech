@@ -73,7 +73,7 @@ const faqs = [
 
 export default function WalletsDigitalAssetsPage() {
   return (
-    <div className="theme-amber">
+    <div>
       <JsonLd
         data={serviceSchema({
           name: 'Wallets & Digital-Asset Products',
@@ -132,7 +132,7 @@ export default function WalletsDigitalAssetsPage() {
       </Section>
 
       {/* ------------------------------------------------------- principles */}
-      <Section labelledBy="wal-princ-heading" style={{ background: '#FBF8F4' }}>
+      <Section labelledBy="wal-princ-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
           eyebrow="Four design principles"
           id="wal-princ-heading"

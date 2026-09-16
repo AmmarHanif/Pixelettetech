@@ -125,7 +125,7 @@ export default function BlockchainPage() {
   );
 
   return (
-    <div className="theme-amber">
+    <div>
       <JsonLd
         data={serviceSchema({
           name: 'Blockchain development',
@@ -205,7 +205,7 @@ export default function BlockchainPage() {
       </Section>
 
       {/* ---------------------------------------------------------- chains */}
-      <Section labelledBy="chains-heading" style={{ background: '#FBF8F4' }}>
+      <Section labelledBy="chains-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
           eyebrow="Chains and protocols"
           id="chains-heading"
@@ -287,11 +287,16 @@ export default function BlockchainPage() {
         marked, immediately before the section that argues the same point in
         prose, is the cheapest way to say so.
 
-        The tint is `#FBF8F4`, the amber-theme tint this page already uses for
-        the chains section, not a new colour; the brand border on the current
-        card resolves through `.theme-amber` for the same reason.
+        The tint is `#F7FAFA`, the same one the chains section above uses, not
+        a new colour; the brand border on the current card resolves through
+        `var(--brand)`.
+
+        BOTH CHANGED 2026-09-16 when the crimson practice theme was deleted. The
+        tint was `#FBF8F4`, a warm cream chosen to sit under crimson - left in
+        place under purple it would have read as a cast mismatch, so it moved
+        with the accent rather than being left behind.
       */}
-      <Section labelledBy="bc-model-heading" style={{ background: '#FBF8F4' }}>
+      <Section labelledBy="bc-model-heading" style={{ background: '#F7FAFA' }}>
         {/*
             NOT the homepage's h2, which this used to repeat verbatim. That line
             is a POSITIONING statement and it is right on the page that

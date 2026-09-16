@@ -51,14 +51,6 @@ const sectionByHref = new Map<string, NavSection>(
   navSections.map(section => [section.href, section]),
 );
 
-/**
- * The Blockchain practice ships in crimson everywhere else on the site — every
- * `/blockchain/**` page and the homepage door add `theme-amber` — so its
- * dropdown does too. Keyed off the section's own landing route rather than a
- * second list of routes that could drift out of step with the first.
- */
-const AMBER_SECTION = '/blockchain';
-
 /** A nav item with no dropdown: Work, Insights, About. */
 function TopLink({ item, className }: { item: NavItem; className?: string }) {
   if (item.external) {
@@ -85,8 +77,9 @@ function TopLink({ item, className }: { item: NavItem; className?: string }) {
  * trapped in a menu about it.
  */
 function SectionDropdown({ section }: { section: NavSection }) {
-  const panelClass =
-    section.href === AMBER_SECTION ? 'nav__drop-panel theme-amber' : 'nav__drop-panel';
+  /* No per-practice panel theme any more: `.theme-amber` was deleted on
+     2026-09-16 and Blockchain now uses the firm's purple like the rest. */
+  const panelClass = 'nav__drop-panel';
 
   return (
     <details className="nav__drop" name="pt-nav-section">

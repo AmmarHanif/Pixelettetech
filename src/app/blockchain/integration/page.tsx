@@ -73,7 +73,7 @@ const faqs = [
 
 export default function BlockchainIntegrationPage() {
   return (
-    <div className="theme-amber">
+    <div>
       <JsonLd
         data={serviceSchema({
           name: 'Blockchain Integration',
@@ -133,7 +133,7 @@ export default function BlockchainIntegrationPage() {
       </Section>
 
       {/* ------------------------------------------------------------ risks */}
-      <Section labelledBy="bi-risk-heading" style={{ background: '#FBF8F4' }}>
+      <Section labelledBy="bi-risk-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
           eyebrow="Four things a demonstration never shows you"
           id="bi-risk-heading"

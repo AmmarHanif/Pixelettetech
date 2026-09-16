@@ -987,8 +987,10 @@ export function ValueModelCards({
    * Marked three ways, each of them a primitive this site already has:
    * `aria-current="page"` on the card, which is the standard way to name the
    * current item in a set; the brand border colour, written as `var(--brand)`
-   * so it resolves to the amber of `.theme-amber` on /blockchain with no
-   * special case; and the small mono marker the homepage hero already uses for
+   * so it follows the firm's brand colour with no special case - it used to
+   * resolve to crimson inside `.theme-amber` on /blockchain, and that theme was
+   * deleted on 2026-09-16, which this component needed no change to survive;
+   * and the small mono marker the homepage hero already uses for
    * its SPECIALIST chip. No new colour, font or component.
    *
    * CORRECTED 2026-09-11, comment only. This used to describe `aria-current`

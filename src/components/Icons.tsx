@@ -2,7 +2,9 @@
  * Inline SVG icon set, ported from the design.
  *
  * All icons are `aria-hidden` and inherit `currentColor` so a themed section
- * (the amber Blockchain practice) recolours them without a second asset.
+ * would recolour them without a second asset. No practice theme exists now -
+ * the crimson Blockchain one was deleted on 2026-09-16 - but the inheritance is
+ * the right default regardless.
  */
 
 type IconProps = { size?: number; className?: string };

@@ -33,9 +33,10 @@
  *
  * COLOUR. Every value is a token from globals.css, referenced as a custom
  * property with the literal as a fallback, so a themed section recolours the
- * diagram without a second copy. Note the consequence: inside `.theme-amber` the
- * flow turns crimson. That is correct site behaviour, and this diagram's home
- * page is not themed.
+ * diagram without a second copy. There are no practice themes on this site any
+ * more - `.theme-amber` was deleted on 2026-09-16 - so the flow is brand purple
+ * everywhere. The custom-property indirection is kept anyway: it costs nothing
+ * and it is what would make a future theme work without touching this file.
  */
 
 type Callout = { chip: string; note: string };

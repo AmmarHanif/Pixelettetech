@@ -12,12 +12,17 @@
   --muted: #5d6b7d;
   --muted-2: #62707f;
 
-  /* Practice colours. Purple is the firm + Build; crimson is Blockchain.
-     Swapped from teal/amber 2026-09-03 on the founder's instruction. */
+  /* ONE brand colour, sitewide. Purple is the firm and every practice in it;
+     the crimson Blockchain theme was deleted 2026-09-16 on founder instruction
+     (see "practice themes" below).
+     --amber was dead even before that - nothing ever read `var(--amber)`, since
+     the deleted theme hardcoded its own value - so it is gone too.
+     --amber-ink is NOT a brand colour and never was: it is the CAUTION colour
+     for unfilled placeholders and empty work cards. Same hue, different job.
+     Do not fold it back into the palette. */
   --brand: #661a8f;
   --brand-hover: #511372;
   --brand-tint: #eadcf2;
-  --amber: #b3063c;
   --amber-ink: #b3063c;
 
   /* Surfaces and lines */
@@ -492,17 +497,28 @@ td {
   -webkit-overflow-scrolling: touch;
 }
 
-/* --------------------------------------------------- practice theme: amber */
+/* ------------------------------------------- practice themes: none, by choice
 
-/* The Blockchain practice keeps the same layout and swaps the accent, exactly
-   as the design does on page 06. */
-.theme-amber {
-  --brand: #b3063c;
-  --brand-hover: #8e052f;
-  --brand-tint: #f7d6e0;
-  --line-3: #e8cdd6;
-  --line-2: #edd8de;
-}
+   `.theme-amber` WAS HERE and is deleted, 2026-09-16, on founder instruction:
+   "Drop it - delete one CSS class and blockchain goes purple like everything
+   else." It overrode --brand to crimson across all seven /blockchain pages and
+   the nav dropdown.
+
+   WHY HE WAS RIGHT, beyond preference. It was the ONLY practice theme on the
+   site: Engineering and AI & Automation both used the firm's purple, so one
+   practice in four carried a colour. That does not read as a system, it reads
+   as an exception - which is exactly how he described it when he asked what was
+   going on.
+
+   NOTHING REPLACES IT. `ValueModelCards` and every other consumer already write
+   `var(--brand)`, so they resolve to purple with no special case. If a practice
+   accent is ever wanted again, give all four one or none - a single themed
+   practice is the state this deletion removed.
+
+   --amber-ink SURVIVES and is NOT this. It is the caution colour for unfilled
+   placeholders (.ph) and empty work cards, which is a different job that
+   happens to share a hue. Deleting it would have silently un-marked every
+   unfinished section on the legal pages. */
 
 /* ------------------------------------------------------------- dark panels */
 

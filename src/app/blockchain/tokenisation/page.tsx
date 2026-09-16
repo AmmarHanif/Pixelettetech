@@ -73,7 +73,7 @@ const faqs = [
 
 export default function TokenisationPage() {
   return (
-    <div className="theme-amber">
+    <div>
       <JsonLd
         data={serviceSchema({
           name: 'Tokenisation',
@@ -133,7 +133,7 @@ export default function TokenisationPage() {
       </Section>
 
       {/* -------------------------------------------------------- questions */}
-      <Section labelledBy="tok-q-heading" style={{ background: '#FBF8F4' }}>
+      <Section labelledBy="tok-q-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
           eyebrow="Before any architecture"
           id="tok-q-heading"
