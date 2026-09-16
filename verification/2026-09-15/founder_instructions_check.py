@@ -142,6 +142,53 @@ reds = [r for r in rm.get('redirects', []) if 'nextInternal' not in str(r.get('s
 check('Legacy redirects registered', len(reds) >= 10, '%d redirects' % len(reds))
 check('/industries exists', os.path.exists(A + 'industries.html'))
 
+
+# --- "Remove prices from the whole website" (2026-09-16) -------------------
+#
+# A STANDING RULE, so it gets a standing guard rather than a memory of having
+# done it once. His words: "remove prices from the whole website. I don't want
+# prices on the website."
+#
+# FAIL-CLOSED BY DESIGN. It does not hunt for known price strings - it
+# enumerates EVERY currency figure in the built output and requires each one to
+# be on a named allowlist. A new price added later is therefore a failure by
+# default, which is the opposite of the check that would have to be updated to
+# notice it. The previous price sweep needed three passes precisely because it
+# searched for what it already knew about.
+ALLOWED_FIGURES = {
+    # Third-party market stat, sourced to Thomson Reuters, owned by the
+    # industry pages. Not a price.
+    '£20bn',
+    # The Modern Slavery Act 2015 section 54(2)(b) turnover threshold. A
+    # statutory fact; removing it would break the legal page.
+    '£36 m',
+    # Cost per case in the SAMPLE operating dashboard - a client's inference
+    # cost in an explicitly illustrative mock, not a price for our services.
+    '£0.031', '£0.05',
+}
+
+price_failures = []
+currency = re.compile(r'(?:£|GBP\s?)[0-9][0-9,.]*\s*(?:bn|m|million|k)?')
+for f in glob.glob(A + '**/*.html', recursive=True) + ['public/llms.txt']:
+    if not os.path.exists(f):
+        continue
+    raw = io.open(f, encoding='utf-8', errors='replace').read()
+    for m in currency.finditer(raw):
+        if m.group(0).strip() not in ALLOWED_FIGURES:
+            price_failures.append('%s in %s' % (m.group(0).strip(), os.path.basename(f)))
+    # A price can be machine-readable while invisible on the page. The
+    # support-and-run Offer node published one for weeks with no figure in the
+    # visible copy of several linking pages.
+    if 'priceCurrency' in raw or '"price"' in raw:
+        price_failures.append('JSON-LD price node in %s' % os.path.basename(f))
+    low = raw.lower()
+    for phrase in ['from £', 'priced on application', 'on application', '/mo<', 'per month']:
+        if phrase in low:
+            price_failures.append('price phrasing "%s" in %s' % (phrase, os.path.basename(f)))
+
+check('Founder: no price anywhere on the site', not price_failures,
+      '; '.join(sorted(set(price_failures))[:3]) if price_failures else 'incl. no JSON-LD Offer')
+
 print('=' * 70)
 for passed, instruction, detail in checks:
     print('%s  %-48s %s' % ('PASS' if passed else 'FAIL', instruction, detail))

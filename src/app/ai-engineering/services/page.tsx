@@ -20,7 +20,7 @@ const primary = [
     title: 'Support & Run',
     href: '/ai-engineering/support-and-run',
     body: 'Continuous evaluation against acceptance thresholds, drift and regression detection, incident response with defined severities, model and prompt version control, inference cost management, and a quarterly improvement cycle.',
-    meta: ['Monthly retainer', 'From £1,500 / month', 'Extends an existing build'],
+    meta: ['Monthly retainer', 'Scoped per production system', 'Extends an existing build'],
     linkLabel: 'The run contract',
   },
 ];

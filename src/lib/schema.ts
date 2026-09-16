@@ -134,10 +134,18 @@ export function organizationSchema(published: PublishedOrgClaims = {}) {
       ...groupEntities.filter(entity => !entity.isThisEntity).map(entity => entity.href),
     ],
     /*
-     * Where the work is sold. GB rather than a list of cities: the published
-     * client profile is UK-headquartered organisations, and naming anything
-     * wider would contradict /ai-engineering and llms.txt — the same
-     * contradiction the homepage's broad-market block was deleted for.
+     * Where the work is sold. GB rather than a list of cities.
+     *
+     * The justification here USED TO BE that the published client profile was
+     * UK-headquartered organisations. That profile was removed sitewide on
+     * 2026-09-16, so that reasoning is gone and this value now rests on a
+     * plainer one: this is a UK company selling in the UK, and widening it
+     * would be asserting a commercial fact nobody has established.
+     *
+     * FLAGGED, because it is the last geographic constraint left on the site
+     * and it is machine-readable. If the firm does sell outside the UK, this is
+     * the line to change - but that is a commercial statement and the founder's
+     * to make, not a tidy-up.
      */
     areaServed: 'GB',
     /*

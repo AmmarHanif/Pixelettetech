@@ -404,19 +404,31 @@ export default function HomePage() {
 
         BROAD MARKET POSITIONING - four audience cards and ten sector names.
         Two faults in one block. It sold to startups, scale-ups, established
-        businesses, enterprise and public sector, which CONTRADICTS the client
-        profile published on /ai-engineering and in llms.txt: UK-headquartered,
-        GBP100m to GBP500m, sponsored by a COO, approved by a CFO, reviewed by
-        a CISO, with an explicit "who this is not for". A buyer who reads two
-        pages found two companies. And the ten sector names rendered as plain
-        spans with no destination while only two industry pages exist - ten
-        dead terms on the highest-authority page on the site.
+        businesses, enterprise and public sector, which CONTRADICTED the client
+        profile then published on /ai-engineering and in llms.txt. And the ten
+        sector names rendered as plain spans with no destination while only two
+        industry pages exist - ten dead terms on the highest-authority page on
+        the site.
 
-        DELETING IT DOES NOT DECIDE THE AUDIENCE. It removes the homepage's
-        contradiction of a position already published in two other places. If
-        the broad profile is the one the firm wants, the fix runs the other way
-        and /ai-engineering and llms.txt change instead - a larger decision, and
-        the founder's. Publishing both remains the only option that cannot work.
+        THE AUDIENCE DECISION WENT THE OTHER WAY, 2026-09-16, and this note is
+        updated rather than deleted because the reasoning above only makes sense
+        with its outcome attached.
+
+        This comment used to say: if the broad profile is the one the firm
+        wants, the fix runs the other way and /ai-engineering and llms.txt
+        change instead - a larger decision, and the founder's. HE TOOK IT. The
+        narrow profile (a revenue band, a country, three job titles and two
+        named sectors) is gone from /ai-engineering, from its FAQ and from
+        llms.txt, replaced by four problem shapes under "Where AI earns its
+        place" - situation filters rather than identity filters.
+
+        SO THERE IS NOTHING LEFT ON THIS PAGE TO RECONCILE. The homepage renders
+        no client profile at all; its "The gap" section is already problem-led
+        and agrees with the new position. The sector-name block is NOT being
+        reinstated: it was deleted for its own faults - CTA sprawl and ten dead
+        terms - and those faults are unchanged by the audience decision. If a
+        problem-led audience block is ever wanted here, it should be built as
+        one, not recovered from this one.
       */}
 
       {/* ═══════════ 04 · Build • Automate • Decentralise • Run ══════════ */}

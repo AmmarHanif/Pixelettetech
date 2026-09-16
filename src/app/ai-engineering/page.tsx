@@ -107,16 +107,15 @@ const services = [
   },
   {
     /*
-     * THE ONLY PRICE STRING LEFT ON THIS SITE, retained EXACTLY as it stood.
-     * The 6,000-12,000 band was removed sitewide on founder instruction; this
-     * one he is still actively deciding about, so it is not mine to remove,
-     * re-word or quietly relocate. If he does remove it, this row needs a
-     * replacement link label and nothing else changes.
+     * WAS "From GBP1,500 / month". He decided on 2026-09-16: "remove prices
+     * from the whole website. I don't want prices on the website." That closes
+     * the last open price question on this site - no figure now renders on any
+     * page, in any title tag, or in any JSON-LD Offer node.
      */
     tag: 'Run',
     title: 'Support & Run',
     href: '/ai-engineering/support-and-run',
-    linkLabel: 'From £1,500 / month',
+    linkLabel: 'What running it covers',
     body: 'We keep it running, AI included, under contract, with a monthly report showing what changed.',
   },
 ];

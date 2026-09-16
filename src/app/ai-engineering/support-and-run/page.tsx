@@ -5,7 +5,6 @@ import {
   Faqs,
   JsonLd,
   PillRow,
-  Placeholder,
   Section,
   SectionHead,
   SourceNote,
@@ -18,7 +17,7 @@ import { pageMetadata } from '@/lib/seo';
 import { OperatingDashboard } from './OperatingDashboard';
 
 export const metadata = pageMetadata({
-  title: 'AI Support & Run, from £1,500/mo',
+  title: 'AI Support & Run',
   description:
     'A monthly contract that owns whether your AI is still accurate, safe and affordable. Evaluation, drift detection, cost control and defined severities.',
   path: '/ai-engineering/support-and-run',
@@ -47,31 +46,39 @@ const commitments = [
   },
 ];
 
+/*
+ * PRICES REMOVED SITEWIDE 2026-09-16 on founder instruction: "remove prices
+ * from the whole website. I don't want prices on the website."
+ *
+ * The tiers themselves stayed. What a buyer needs here is the SCOPE of each
+ * level - how many production systems, which severities, what lands each
+ * quarter - and none of that was the number. Deleting the section would have
+ * thrown away the answer along with the price.
+ *
+ * HE KNOWS WHAT THIS COSTS HIM. The published band was the only thing
+ * qualifying a buyer before a call, and it is now gone from every page. He has
+ * said explicitly that a replacement qualifier is to be worked out later, so
+ * this is a known open position, not an oversight.
+ */
 const tiers = [
   {
     name: 'Watch',
-    price: '£1,500',
-    unit: '/mo',
     body: 'One production system. Monitoring, evaluation, monthly report, SEV-2 response.',
   },
   {
     name: 'Operate',
-    price: '£3,000',
-    unit: '/mo',
     body: 'Up to three systems. Adds SEV-1 response, cost optimisation and a quarterly improvement release.',
   },
   {
     name: 'Estate',
-    price: null,
-    unit: '',
     body: `Four or more systems, or a regulated environment needing named oversight. Audit and certification support is scoped separately with ${certified.name}.`,
   },
 ];
 
 const faqs = [
   {
-    q: 'How much does an AI support and run contract cost?',
-    a: 'Watch is £1,500 a month for one production system, covering monitoring, evaluation, a monthly report and SEV-2 response. Operate is £3,000 a month for up to three systems, adding SEV-1 response, cost optimisation and a quarterly improvement release. Estate, for four or more systems or a regulated environment, is priced on application.',
+    q: 'How is an AI support and run contract priced?',
+    a: 'Against the number of production systems under contract and the severity cover they need, not against headcount or hours. Watch covers one production system with monitoring, evaluation, a monthly report and SEV-2 response. Operate covers up to three systems and adds SEV-1 response, cost optimisation and a quarterly improvement release. Estate covers four or more systems, or a regulated environment needing named oversight. Every contract is scoped and quoted after a conversation.',
   },
   {
     q: 'What are the response times?',
@@ -120,7 +127,6 @@ export default function SupportAndRunPage() {
           description:
             'A monthly contract covering continuous evaluation, drift detection, inference cost control, incident response against defined severities, and a quarterly improvement release.',
           path: '/ai-engineering/support-and-run',
-          price: { low: 1500, currency: 'GBP', unit: 'MON' },
           serviceType: 'Managed AI operations',
         })}
       />
@@ -168,8 +174,8 @@ export default function SupportAndRunPage() {
               one section was noise. This moves them to the next question a
               reader actually has once they have seen the report.
             */}
-            <Cta href="#pricing" variant="secondary">
-              See what it costs
+            <Cta href="#levels" variant="secondary">
+              See the service levels
             </Cta>
           </div>
 
@@ -244,41 +250,24 @@ export default function SupportAndRunPage() {
       </Section>
 
       {/* --------------------------------------------------------- pricing */}
-      {/* `id` so the hero's "See what it costs" has somewhere to land. The
+      {/* `id` so the hero's "See the service levels" has somewhere to land. The
           dashboard Section above carries one for the same reason; targeting the
-          heading id instead would scroll past the eyebrow. */}
-      <Section labelledBy="pricing-heading" id="pricing" style={{ background: '#F7FAFA' }}>
+          heading id instead would scroll past the eyebrow.
+
+          WAS `id="pricing"` with the heading "Pricing", until prices came off
+          the site on 2026-09-16. The anchor was renamed with the section rather
+          than left pointing at a heading that no longer exists - a live link to
+          a dead id is the failure this page has already had once. */}
+      <Section labelledBy="levels-heading" id="levels" style={{ background: '#F7FAFA' }}>
         <SectionHead
-          title="Pricing"
-          id="pricing-heading"
-          lead="Priced against the cost of the incidents and the wasted spend, not against a headcount."
+          title="Service levels"
+          id="levels-heading"
+          lead="Scoped by the number of production systems under contract and the severity cover they need."
         />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
           {tiers.map(tier => (
             <div className="card" key={tier.name}>
               <span className="step__n">{tier.name}</span>
-              <p style={{ marginTop: 4 }}>
-                {tier.price ? (
-                  <>
-                    <b
-                      className="mono"
-                      style={{
-                        fontSize: 34,
-                        color: 'var(--brand)',
-                        fontWeight: 500,
-                        letterSpacing: '-0.02em',
-                      }}
-                    >
-                      {tier.price}
-                    </b>
-                    <span className="small" style={{ marginLeft: 6 }}>
-                      {tier.unit}
-                    </span>
-                  </>
-                ) : (
-                  <Placeholder>ON APPLICATION</Placeholder>
-                )}
-              </p>
               <p className="body" style={{ marginTop: 16, fontSize: 15 }}>
                 {tier.body}
               </p>

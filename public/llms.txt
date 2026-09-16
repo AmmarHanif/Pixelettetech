@@ -127,10 +127,13 @@ Four things, and the fourth sits under the other three.
 - **Evaluation & Observability** — golden datasets, binary pass/fail grading,
   judges calibrated against human labels, regression checks, drift detection
   including judge drift.
-- **Support & Run** — monthly contract. Watch £1,500/month (one production
-  system), Operate £3,000/month (up to three systems), Estate priced on
-  application. Response times: SEV-1 within 1 hour, SEV-2 within 4 hours, SEV-3
-  by the next working day.
+- **Support & Run** — monthly contract, scoped by the number of production
+  systems under contract and the severity cover they need. Watch covers one
+  production system, Operate up to three, Estate four or more or a regulated
+  environment needing named oversight. Response times: SEV-1 within 1 hour,
+  SEV-2 within 4 hours, SEV-3 by the next working day. No prices are published
+  on this site or in this file; every contract is scoped and quoted after a
+  conversation.
 - **Software engineering** — web platforms, mobile applications, custom software
   and SaaS, product design, cloud and data engineering, modernisation and
   integration, and managed engineering.
