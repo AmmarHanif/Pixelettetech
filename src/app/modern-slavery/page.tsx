@@ -89,10 +89,34 @@ export const metadata = pageMetadata({
  * checked on 2026-09-14 against the founder's literals and match exactly:
  * "Pixelette Technologies Ltd" and sales@pixelettetech.com.
  *
- * ACTION OWED BEFORE THE STATEMENT IS TRUE: "it goes to our director" requires
- * the sales@ inbox to actually reach the director. It is a mail rule, not a
- * process, but until it is set up the line is unevidenced. Reported at
- * publication; his text stands as written.
+ * ACTION OWED BEFORE THE STATEMENT IS TRUE — SATISFIED 2026-09-14, and this
+ * entry is corrected rather than deleted so the sequence stays legible.
+ *
+ * It read: "'it goes to our director' requires the sales@ inbox to actually
+ * reach the director. It is a mail rule, not a process, but until it is set up
+ * the line is unevidenced. Reported at publication; his text stands as
+ * written." That was correct when written. The founder confirmed on
+ * 2026-09-14 that the forward is live, and the route is:
+ *
+ *   sales@pixelettetech.com -> SiteGround (filtering and mailbox)
+ *     -> forwarded to rana@pixelette.tech (Google Workspace)
+ *
+ * The recipient is the company's sole current officer on Companies House
+ * 11716825, which is what makes "our director" both singular and accurate. The
+ * sentence is now evidenced, on the founder's confirmation of his own mail
+ * configuration rather than on a routing test run from here.
+ *
+ * TWO CONSEQUENCES FOR OTHER PAGES, recorded here because they were found
+ * through this line and belong to whoever closes those gaps:
+ *
+ *  1. That forward puts every enquiry in three places, not one — the database
+ *     row, the SiteGround mailbox and the Google Workspace copy. A retention
+ *     statement that promises deletion after a period is false unless it says
+ *     which of the three it governs. /security-and-data's retention entry is
+ *     still a placeholder; it must be written by data class for that reason.
+ *  2. SiteGround and Google LLC are both subprocessors for enquiry data and
+ *     belong in the subprocessor register, which is also still a placeholder.
+ *     The register drafted elsewhere named only Vercel, Supabase and Resend.
  *
  * OPEN QUESTION PUT TO THE FOUNDER AT PUBLICATION, deliberately NOT actioned —
  * his wording is published as written: "We do not require or retain anyone's
@@ -121,7 +145,7 @@ export default function ModernSlaveryPage() {
       />
       <LegalPage
         eyebrow="Modern slavery"
-        title="Modern slavery and human trafficking."
+        title="Modern slavery and human trafficking"
         intro="Our position on modern slavery in our business and supply chain."
         lastReviewed="14 September 2026"
         sections={[
