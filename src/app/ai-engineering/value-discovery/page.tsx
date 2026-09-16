@@ -49,11 +49,11 @@ const faqs = [
     a: 'It is scoped to how many processes are in scope and how messy the data is, and quoted before the work starts. The price is quoted before the work starts, not after.',
   },
   {
-    q: 'How long does an Value Discovery take?',
+    q: 'How long does a Value Discovery take?',
     a: 'Four weeks from start to readout, covering two to three instrumented processes. No procurement cycle is required.',
   },
   {
-    q: 'What do I get at the end of an Value Discovery?',
+    q: 'What do I get at the end of a Value Discovery?',
     a: 'Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included.',
   },
   {
