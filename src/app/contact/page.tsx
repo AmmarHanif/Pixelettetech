@@ -188,8 +188,15 @@ export default function ContactPage() {
           <div className="card">
             <h3 className="h4">Public sector</h3>
             <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-              <b>AI DPS RM6200 registration in progress.</b> Direct award and further competition
-              both available once listed.
+              {/*
+                DIRECT AWARD CLAIM REMOVED 2026-09-16 on founder instruction. A
+                dynamic purchasing system operates by FURTHER COMPETITION among
+                listed suppliers; "direct award available" was not a description
+                of how RM6200 works. Do not reinstate it without authoritative
+                Crown Commercial Service evidence.
+              */}
+              <b>AI DPS RM6200 registration in progress.</b> Once listed, Pixelette can be
+              shortlisted through the DPS and invited into the relevant further competition.
             </p>
             <p style={{ marginTop: 16 }}>
               <FLink href="/certifications">Framework details</FLink>

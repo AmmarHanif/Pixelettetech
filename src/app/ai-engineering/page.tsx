@@ -60,7 +60,17 @@ import { pageMetadata } from '@/lib/seo';
  */
 
 export const metadata = pageMetadata({
-  title: 'AI engineering for UK businesses',
+  /*
+   * TITLE CHANGED 2026-09-16 on founder instruction, from "AI engineering for UK
+   * businesses". Two reasons, and the second is the one that matters: it named
+   * a geography in the single most weighted string on the page, and the market
+   * is deliberately not restricted by geography, industry or organisation size.
+   *
+   * `absoluteTitle` because the approved string already carries the company
+   * name; without it the root layout appends a second one.
+   */
+  absoluteTitle: true,
+  title: 'AI Engineering & Automation | Pixelette Technologies',
   description:
     'We engineer AI into the systems you already run, measure what it changes and keep it working. Start with a four-week Value Discovery.',
   path: '/ai-engineering',
@@ -200,17 +210,12 @@ const faqs = [
     q: 'What is a Value Discovery?',
     a: 'A four-week engagement. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.',
   },
-  {
-    /*
-     * PROFILE REMOVED 2026-09-16. This answer used to end with the same
-     * revenue-band, COO, CFO and CISO profile as the deleted audience section,
-     * so the page published the constraint twice and the FAQPage JSON-LD
-     * published it a third time to machines. The qualifying half - what this is
-     * not - is real, and is kept.
-     */
-    q: 'Who is Pixelette Technologies AI engineering not for?',
-    a: 'Organisations looking for developers by the day, a first AI experiment with no budget line behind it, or a supplier who will build something and leave. We sell the running of it, and that only works when someone owns the outcome.',
-  },
+  /*
+   * THE "who is this not for" FAQ WAS REMOVED HERE 2026-09-16, on founder
+   * instruction, and is DELIBERATELY NOT REPLACED with another exclusion list.
+   * Launch-clean-up: the page sells what we engineer; it does not need to spend
+   * a question telling a reader they might not qualify.
+   */
   {
     /*
      * Do not cut this one. Since the Certified dark panel was folded to a single
@@ -355,7 +360,7 @@ export default function AiEngineeringPage() {
           <SectionHead
             eyebrow="What we do"
             id="what-heading"
-            title="Five things we engineer. One we deliberately do not."
+            title="What we engineer"
           />
           <FLink href="/ai-engineering/services">All AI services</FLink>
         </div>
@@ -478,25 +483,19 @@ export default function AiEngineeringPage() {
             <SectionHead
               eyebrow="Proof"
               id="proof-heading"
-              title="One AI system, named, in production"
+              title="AI engineering in practice"
             />
             <FLink href="/case-studies">Read the full case studies</FLink>
           </div>
 
           {/*
-            THE SENTENCE THAT MAKES ONE STUDY READ AS CHOSEN RATHER THAN SOLE. A
-            single case study given a full-width set-piece reads as "the only one
-            we have" unless something says why it was selected, and that is the
-            one thing a layout cannot fix by itself.
-
-            It also replaced an h2 reading "Named clients. Named processes." -
-            plural clients standing over a single study.
+            THE SELECTION SENTENCE WAS REMOVED 2026-09-16 on founder
+            instruction. It read "We have other case studies. This is the one
+            where the subject is AI..." - an explanation of our own editorial
+            choice, which is the defensive narrative the launch pass is
+            stripping. The section heading now frames it and the work speaks for
+            itself.
           */}
-          <p className="small" style={{ marginTop: 16, maxWidth: '72ch' }}>
-            We have other case studies. This is the one where the subject is AI, the system is in
-            production, and the client is named.
-          </p>
-
           {/*
             Everything below resolves through the work.ts publication gate, so a
             study whose permission changes renders anonymised rather than leaking
@@ -581,11 +580,17 @@ export default function AiEngineeringPage() {
           level={3}
           lead="Alongside client work, Pixelette Technologies is developing proprietary AI systems designed to coordinate increasingly complex business workflows and functions. Selected programmes remain under private development and are discussed only where there is a genuine strategic, validation or commercial fit."
         />
+        {/*
+          THE PER-ROW "Under development" STATUS LABELS WERE REMOVED 2026-09-16
+          on founder instruction: these are areas of private applied R&D, not
+          four pre-launch products, and a status column invites a reader to ask
+          when each one ships. The ruled register stays - it is what makes this
+          read as a record rather than a teaser.
+        */}
         <div className="register">
           {developmentAreas.map(area => (
             <div className="reg-row" key={area}>
               <b>{area}</b>
-              <i>Under development</i>
             </div>
           ))}
         </div>

@@ -113,7 +113,15 @@ const engagementModels = [
 const faqs = [
   {
     q: 'Does AI really make a software build cheaper?',
-    a: 'It depends entirely on the codebase. Published evidence puts gains at roughly 35 to 40% on straightforward greenfield work and 10% or less on complex legacy code, and one randomised study found experienced developers were measurably slower with AI tools while believing they were faster. Pixelette quotes on which of those a project actually is: a new product gets the greenfield price, an estate built twelve years ago does not.',
+    /*
+     * The slowdown clause was removed from this ANSWER as well as from the body
+     * copy, 2026-09-16. Taking it out of the visible paragraph alone would have
+     * left the claim in the FAQPage JSON-LD - invisible to a reader and fully
+     * readable by an answer engine. That is the third time on this site that a
+     * claim survived removal inside an FAQ, after a price in an Offer node and a
+     * chain list. When copy comes out, check the FAQ in the same pass.
+     */
+    a: 'It depends entirely on the codebase. Published evidence puts gains at roughly 35 to 40% on straightforward greenfield work and 10% or less on complex legacy code. Pixelette quotes on which of those a project actually is: a new product gets the greenfield price, an estate built twelve years ago does not.',
   },
   {
     q: 'How does Pixelette Technologies price a build?',
@@ -244,9 +252,27 @@ export default function EngineeringPage() {
           </div>
           <div>
             <p className="body">
+              {/*
+                THE METR SLOWDOWN SENTENCE WAS REMOVED HERE 2026-09-16 on founder
+                instruction - "One randomised study found experienced developers
+                were measurably slower with AI tools while believing they were
+                faster." The point it served, that gains vary materially by task
+                and codebase, is carried by the two figures that remain and by
+                the paragraph below. It was a research caveat inside a sales
+                narrative, and the instruction was to cut it rather than add
+                another caveat to balance it.
+
+                FLAGGED, NOT SILENTLY CHANGED: the SourceNote below still reads
+                "DORA 2026 and METR". `SOURCES.doraMetr` is one combined string
+                with no per-figure breakdown, so it cannot be determined from
+                this repository whether METR backed the removed sentence alone or
+                also the surviving figures. The attribution is therefore left as
+                it stands - dropping METR risks under-attributing the two figures
+                that remain, which is the worse error. If the register can say
+                DORA alone supports them, narrow it.
+              */}
               Gains run at roughly <b>35 to 40% on straightforward greenfield work</b> and{' '}
-              <b>10% or less on complex legacy code</b>. One randomised study found experienced
-              developers were measurably slower with AI tools while believing they were faster.
+              <b>10% or less on complex legacy code</b>.
             </p>
             <p className="body" style={{ marginTop: 16 }}>
               So we quote on which of those your project actually is. A new product gets the

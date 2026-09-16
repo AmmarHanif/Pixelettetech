@@ -45,7 +45,13 @@ export const primaryNav: NavItem[] = [
   { href: '/ai-engineering', label: 'AI & Automation' },
   { href: '/blockchain', label: 'Blockchain' },
   { href: '/case-studies', label: 'Work' },
-  { href: '/insights', label: 'Insights' },
+  /* INSIGHTS WITHDRAWN FROM NAVIGATION 2026-09-16 for launch, on founder
+     instruction: "Do not launch the current unfinished Insights index."
+     Option A of the two he offered was FORCED rather than chosen - option B was
+     to show only finished, dated, authored content, and EVERY entry in
+     src/content/insights.ts has publishedOn: null and author: null, with no
+     /insights/[slug] route in existence. Option B would render an empty page.
+     Restore this line the day a piece is actually written, dated and signed. */
   { href: '/about', label: 'About' },
 ];
 
@@ -233,7 +239,8 @@ export const footerColumns: { heading: string; items: NavItem[] }[] = [
     items: [
       { href: '/about', label: 'About' },
       { href: '/case-studies', label: 'Work' },
-      { href: '/insights', label: 'Insights' },
+      /* Withdrawn for launch with the header entry above - an unfinished index
+         reachable from the footer is still an unfinished index shipped. */
       { href: '/security-and-data', label: 'Security & data' },
       { href: '/certifications', label: 'Certifications' },
       { href: '/contact', label: 'Contact' },
@@ -386,7 +393,9 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
    * the fix is to fill it, not to hide it. Until then the sitemap should describe
    * what is there.
    */
-  { path: '/insights', priority: 0.3, changeFrequency: 'yearly' },
+  /* /insights is out of the sitemap for launch: it is withdrawn from
+     navigation and noindexed, and asking search engines to crawl a page we are
+     deliberately not launching is the contradiction that gets it indexed. */
   { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/security-and-data', priority: 0.7, changeFrequency: 'monthly' },

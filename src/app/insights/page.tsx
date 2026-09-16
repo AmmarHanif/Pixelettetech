@@ -16,6 +16,11 @@ export const metadata = pageMetadata({
   description:
     'Our evaluation methodology, our reading of the regulation, and how we run AI in production. Written to be checked. Every claim cites its source.',
   path: '/insights',
+  /* NOINDEXED FOR LAUNCH 2026-09-16. The page is withdrawn from the header and
+     footer and dropped from the sitemap; without this a search engine that has
+     already seen the URL, or follows any stray link, indexes an index of seven
+     articles that do not exist. Remove this line the day real content ships. */
+  noIndex: true,
 });
 
 /** Renders a date, or a visible placeholder where one is not yet set. */
@@ -63,13 +68,11 @@ export default function InsightsPage() {
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Book a conversation</Cta>
-            {/* The board's second CTA. There is no mailing list wired up yet, so
-                this routes to the contact form — unlike a "Download" button with
-                no file, a subscription request is something a person can
-                actually fulfil. Tracked in GO-LIVE-CHECKLIST.md. */}
-            <Cta href="/contact" variant="secondary">
-              Subscribe
-            </Cta>
+            {/* SUBSCRIBE REMOVED 2026-09-16 on founder instruction: "Remove any
+                non-functional Subscribe CTA." There is no mailing list wired up,
+                and routing it to the contact form made the button honest without
+                making it true - a reader clicking Subscribe expects to be
+                subscribed, not to meet an enquiry form. */}
           </div>
         </div>
       </div>

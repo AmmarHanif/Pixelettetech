@@ -116,7 +116,7 @@ const faqs = [
   },
   {
     q: 'Is Pixelette Technologies on the AI DPS RM6200 framework?',
-    a: 'Registration is in progress and not yet complete. The site says registration is in progress rather than implying a listing that does not yet exist, because a buyer who checks and finds nothing does not come back.',
+    a: 'Registration is in progress and not yet complete. Once listed, Pixelette can be shortlisted through the dynamic purchasing system and invited into the relevant further competition.',
   },
 ];
 
@@ -339,9 +339,19 @@ export default function CertificationsPage() {
         <div className="card" style={{ marginTop: 32, maxWidth: '72ch' }}>
           <h3 className="h4">AI DPS RM6200</h3>
           <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-            <b>Registration in progress.</b> Once listed, direct award and further competition are
-            both available. We say registration is in progress rather than implying a listing that
-            does not yet exist, because a buyer who checks and finds nothing does not come back.
+            {/*
+              TWO CHANGES 2026-09-16, both founder-instructed.
+              (1) The direct-award claim is removed: a DPS operates by FURTHER
+                  COMPETITION among listed suppliers, so it was not a correct
+                  description of the route. Do not reinstate without
+                  authoritative Crown Commercial Service evidence.
+              (2) The sentence explaining WHY we phrase it this way is gone. This
+                  page is a procurement resource, not a record of our own
+                  editorial reasoning - demonstrate the discipline rather than
+                  narrate it.
+            */}
+            <b>Registration in progress.</b> Once listed, Pixelette can be shortlisted through the
+            DPS and invited into the relevant further competition.
           </p>
         </div>
       </Section>
