@@ -160,8 +160,16 @@ export default function SupportAndRunPage() {
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Book a conversation</Cta>
-            <Cta href="#dashboard" variant="secondary">
-              See a sample report
+            {/*
+              WAS "See a sample report" pointing at #dashboard, which is now the
+              very next thing on the page and about 200px below this button. With
+              /ai-engineering's door carrying that label instead, a reader arrives
+              here having just clicked those words, so repeating them to scroll
+              one section was noise. This moves them to the next question a
+              reader actually has once they have seen the report.
+            */}
+            <Cta href="#pricing" variant="secondary">
+              See what it costs
             </Cta>
           </div>
 
@@ -236,7 +244,10 @@ export default function SupportAndRunPage() {
       </Section>
 
       {/* --------------------------------------------------------- pricing */}
-      <Section labelledBy="pricing-heading" style={{ background: '#F7FAFA' }}>
+      {/* `id` so the hero's "See what it costs" has somewhere to land. The
+          dashboard Section above carries one for the same reason; targeting the
+          heading id instead would scroll past the eyebrow. */}
+      <Section labelledBy="pricing-heading" id="pricing" style={{ background: '#F7FAFA' }}>
         <SectionHead
           title="Pricing"
           id="pricing-heading"

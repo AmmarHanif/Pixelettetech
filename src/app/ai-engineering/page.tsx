@@ -214,8 +214,24 @@ export default function AiEngineeringPage() {
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Book a conversation</Cta>
+            {/*
+              WAS "See what we run", changed 2026-09-16. That promised WHOSE
+              systems we run, which is a client list this site is correctly
+              forbidden to show, so the label wrote a cheque the destination page
+              cannot cash. It also named the destination a third way, alongside
+              the nav's "Support & run" and that page's own heading.
+
+              "See a sample report" is not new wording: it is the label already
+              published on the destination page's own hero button, pointing at
+              the same panel. So the door and the page now use identical words,
+              and the reader clicks a phrase and lands on it.
+
+              "Sample" is load-bearing. That panel is a captioned MOCK. A label
+              promising "the report" would be the strongest wording on the site
+              sitting over its weakest evidence.
+            */}
             <Cta href="/ai-engineering/support-and-run" variant="secondary">
-              See what we run
+              See a sample report
             </Cta>
           </div>
 
