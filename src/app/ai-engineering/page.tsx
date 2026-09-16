@@ -399,18 +399,30 @@ export default function AiEngineeringPage() {
 
             The homepage instance is deliberately unchanged.
 
-            One string, used identically on /engineering, /ai-engineering and
-            /blockchain, so it carries no practice-specific word. It is also the
-            accessible name of this whole region -- SectionHead renders `title` as
-            the h2 whose id the wrapping Section points at -- so it has to mean
-            something read cold in a heading list, which "Where this sits" alone
-            would not.
+            PAGE-SPECIFIC SINCE 2026-09-16, deliberately. Until then the h2 read
+            "This is one of four services" -- one string on all three hubs, kept
+            identical so it could not drift. It bought that too dearly.
+            SectionHead renders `title` as the h2 whose id the wrapping Section
+            points at, so this string IS the accessible name of the whole
+            region, and "This is" has no referent read cold: in a heading list
+            it announced a position without saying which one. Naming the
+            practice here also lets the lead stop re-answering it, which removes
+            one of the three places this section stated the reader's position
+            (h2, lead, card marker). Two remain and both earn it.
+
+            "our" is not decoration. `groupBlurb` renders in the footer of this
+            very page and says "Pixelette Technologies is one of four companies
+            in Pixelette Group", so an unqualified "one of four" would appear
+            twice on one page against two different sets of four.
+
+            The h2 and `current` below must always name the same practice.
+            Nothing enforces that. Change one, change the other.
         */}
         <SectionHead
           eyebrow="Where this sits"
           id="ai-model-heading"
-          title="This is one of four services"
-          lead="Automate is this page. Build, Decentralise and Run are the other three."
+          title="Automate is one of our four services"
+          lead="Build, Decentralise and Run are the other three."
         />
         <div style={{ marginTop: 36 }}>
           <ValueModelCards current="AUTOMATE" />
