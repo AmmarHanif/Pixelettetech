@@ -386,23 +386,75 @@ export default function EngineeringPage() {
       <Section labelledBy="meet-heading">
         <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
           <div>
+            {/*
+              REWRITTEN 2026-09-16 on founder challenge, and one change here is a
+              CLAIMS fix rather than a copy one.
+
+              THE OLD h2 WAS AN UNSOURCED MARKET-PREVALENCE CLAIM. "Most builds
+              now have AI somewhere in them" asserts a proportion of the whole
+              market with nothing behind it, on a page where every other
+              quantified statement carries a SourceNote (see DORA/METR above).
+              It was also the accessible name of this region, since the Section
+              is labelledBy this heading, so it was the string most likely to be
+              lifted into a search snippet. Deleting it is an R41 gain.
+
+              THE EYEBROW WAS A RIDDLE. "Where the two halves meet" never
+              established what two halves; the only place the site says it is
+              /ai-engineering, calling Engineering "the larger half of what we
+              do" - so it resolved only for a reader arriving from the page that
+              did not need it. "After it ships" is this page's own vocabulary:
+              FAQ 3 below asks "What happens after the build ships?".
+
+              THE BODY OPENED ON A DANGLING REFERENCE. "When yours does" reached
+              back past the heading for its noun. The first sentence now names
+              its own subject.
+
+              THE LEFT COLUMN'S JOB CHANGED, and that was the real defect. It
+              used to narrate "AI appears, then we evaluate and monitor it" while
+              the right column's steps 03 and 04 narrate the same arc in
+              sequence - the same story twice, side by side, which is why the
+              left had nothing distinctive to open with and reached for a
+              statistic. Now: RIGHT answers "in what order", LEFT answers "who is
+              on the hook, under what contract, and what we do not do". That is
+              what makes the Certified sentence the point of the column rather
+              than a coda, since every step on the right is work we do ourselves.
+
+              THE CTA IS A LINK, NOT A BUTTON, AND NOT PURPLE. The founder asked
+              whether the pale box should be purple. It should not, but he was
+              right that it did not read as clickable: `variant="secondary"`
+              renders a transparent box with body-coloured text AND NO ARROW,
+              because ui.tsx gives arrows to primary only. An FLink renders brand
+              purple with an arrow - more visibly clickable - without spending
+              this page's primary button on a sideways move. /engineering
+              converts on "Scope a build", which holds the purple in the hero and
+              the closing CTA; a purple button here would be the only one between
+              them and would outrank both. It also matches the established
+              cross-practice pattern, published in both directions already: "Go
+              to Blockchain" on this page and "Go to Engineering" on
+              /ai-engineering.
+
+              THE LABEL NAMES THE DESTINATION THE WAY THE NAV DOES. /ai-engineering
+              IS the page the nav calls "AI & Automation". This CTA was the only
+              place on the site calling it "AI engineering" - one destination,
+              two names. Nothing enforces this; if the nav item is ever renamed,
+              source the label from nav.ts rather than retyping it here.
+            */}
             <SectionHead
-              eyebrow="Where the two halves meet"
+              eyebrow="After it ships"
               id="meet-heading"
-              title="Most builds now have AI somewhere in them"
+              title="We keep what we build working, including the AI in it"
             />
             <p className="body" style={{ marginTop: 20 }}>
-              When yours does, the same team that shipped it can evaluate it, monitor it and keep it
-              inside the boundaries you set. That is not an upsell, it is the reason we built the AI
-              capability in the first place: we were already being asked to keep this stuff working.
-              Where a customer or a regulator wants formal governance around it, Pixelette Certified
-              can scope the requirement and support the route to independent assessment.
+              The software and the AI inside it sit on one support contract rather than two. The
+              team that wrote the code is the team that evaluates it, monitors it and keeps it
+              inside the boundaries you set. That is not an upsell. We built the AI capability
+              because we were already being asked to keep this stuff working. Where a customer or a
+              regulator wants formal governance around the AI, Pixelette Certified can scope the
+              requirement and support the route to independent assessment.
             </p>
-            <div style={{ marginTop: 28 }}>
-              <Cta href="/ai-engineering" variant="secondary">
-                See AI engineering
-              </Cta>
-            </div>
+            <p style={{ marginTop: 28 }}>
+              <FLink href="/ai-engineering">Go to AI &amp; Automation</FLink>
+            </p>
           </div>
 
           <div>
