@@ -113,7 +113,7 @@ const engagementModels = [
 const faqs = [
   {
     q: 'Does AI really make a software build cheaper?',
-    a: 'It depends entirely on the codebase. Published evidence puts gains at roughly 35 to 40% on straightforward greenfield work and 10% or less on complex legacy code, and one randomised study found experienced developers were measurably slower with AI tools while believing they were faster. Pixelette quotes on which of those a project actually is: a new product gets the greenfield price, a twelve-year-old estate does not.',
+    a: 'It depends entirely on the codebase. Published evidence puts gains at roughly 35 to 40% on straightforward greenfield work and 10% or less on complex legacy code, and one randomised study found experienced developers were measurably slower with AI tools while believing they were faster. Pixelette quotes on which of those a project actually is: a new product gets the greenfield price, an estate built twelve years ago does not.',
   },
   {
     q: 'How does Pixelette Technologies price a build?',
@@ -250,8 +250,8 @@ export default function EngineeringPage() {
             </p>
             <p className="body" style={{ marginTop: 16 }}>
               So we quote on which of those your project actually is. A new product gets the
-              greenfield price. A twelve-year-old estate does not, and any supplier promising
-              otherwise will find the difference in your change requests.
+              greenfield price. An estate built twelve years ago does not, and any supplier
+              promising otherwise will find the difference in your change requests.
             </p>
             <SourceNote>DORA 2026 and METR, 2025–2026</SourceNote>
           </div>
