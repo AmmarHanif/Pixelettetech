@@ -430,8 +430,8 @@ export default function SecurityDataPage() {
         */}
         <p className="small" style={{ marginTop: 26, fontStyle: 'italic' }}>
           {positions.some(p => p.body === null)
-            ? 'Unfilled entries are shown rather than hidden. This page is read by security reviewers, and a confident-sounding answer we have not verified is worse to them than a visible gap.'
-            : 'Every entry above is answered. Where one is not, we show the gap rather than hide it — this page is read by security reviewers, and a confident-sounding answer we have not verified is worse to them than a visible gap.'}
+            ? 'Unfilled entries are shown rather than hidden.'
+            : 'Every entry above is answered. Where one is not, we show the gap rather than hide it.'}
         </p>
       </Section>
 

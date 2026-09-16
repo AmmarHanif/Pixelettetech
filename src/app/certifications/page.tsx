@@ -104,7 +104,7 @@ const faqs = [
    */
   {
     q: 'Does Pixelette Technologies publish its certifications?',
-    a: `Two of them, in full. ISO/IEC 27001:2022 under certificate AMER800409, and ISO 9001 under certificate AMER37046 — both held by ${company.legalName} and both issued by Americo Quality Standards Registech Pvt. Ltd, which the certificates record as accredited by the United Accreditation Foundation. Each is published with its certificate number, its issuing body and its dates, because the standing rule on this site is that a certification, badge, award or rating is published only where there is evidence for the precise claim, for the precise legal entity, and where a reader can check it. Everything else in the register on this page is held back. The certificate documents themselves are not published; the detail goes direct to a reviewer on request.`,
+    a: `Two of them, in full. ISO/IEC 27001:2022 under certificate AMER800409, and ISO 9001 under certificate AMER37046 — both held by ${company.legalName} and both issued by Americo Quality Standards Registech Pvt. Ltd, which the certificates record as accredited by the United Accreditation Foundation. Each is published with its certificate number, its issuing body and its dates, because the standing rule on this site is that a certification, badge, award or rating is published only where there is evidence for the precise claim, for the precise legal entity, and where a reader can check it. No other certification, badge, award or rating is published. The certificate documents themselves are not published; the detail goes direct to a reviewer on request.`,
   },
   {
     q: 'Does Pixelette Technologies hold ISO/IEC 42001?',
