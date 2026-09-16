@@ -3,11 +3,9 @@ import Link from 'next/link';
 import { AiMark, BuildMark, Database, Gauge, Measure, TrendChart } from '@/components/Icons';
 import {
   CertifiedHandoff,
-  ClientLogos,
   ClosingCta,
   Testimonials,
   ValueModelCards,
-  VerificationTable,
 } from '@/components/sections';
 import {
   CheckList,
@@ -26,7 +24,6 @@ import { caseStudies, displayKicker, displayName, publishedImage, publishedMetri
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
-import { LiveDiagram } from '@/components/LiveDiagram';
 
 /*
  * Claims sweep, 2026-09-08 (WP6).
@@ -63,6 +60,13 @@ import { LiveDiagram } from '@/components/LiveDiagram';
  * the `certified-cross-sell` row of src/content/claims.ts. Re-verified
  * 2026-09-11 by reading both files and by grepping src/ for the two strings.
  * NOTHING IS OWED FROM THIS PARAGRAPH AND NOTHING HERE IS BLOCKING.
+ *
+ * FOOTNOTE 2026-09-16: this page no longer renders `LiveDiagram` at all. The
+ * method section was removed as duplication of the homepage, so the sentence
+ * above about /ai-engineering and /method/live being unable to drift apart now
+ * concerns only the homepage and /method/live. The quoted paragraph's reference
+ * to "the method section below" is a quotation of superseded text and is left
+ * as written.
  *
  * Corrected in place rather than quietly removed, because leaving it stale
  * has already cost this project a round: an agent read it, believed it over
@@ -177,7 +181,17 @@ function gapSources(): string[] {
 }
 
 export default function AiEngineeringPage() {
-  const proof = caseStudies.filter(c => ['lytics', 'blockguard'].includes(c.slug));
+  /*
+   * LYTICS ONLY since 2026-09-16. The other study here was blockchain work, not
+   * AI, and it was standing as the proof on an AI page. Lytics IS AI: a
+   * production sentiment-classification system that analysts stopped overriding.
+   *
+   * The founder's read was that NEITHER belonged. One did, and saying so was
+   * the point: cutting both would have stripped this page of its only
+   * first-party evidence, which is the mistake the homepage nearly made.
+   * Everything else here is third-party research about the market.
+   */
+  const proof = caseStudies.filter(c => ['lytics'].includes(c.slug));
   const sources = gapSources();
 
   return (
@@ -245,7 +259,15 @@ export default function AiEngineeringPage() {
         </div>
       </div>
 
-      <ClientLogos heading="Clients" tight />
+      {/*
+        THE CLIENT ROW WAS REMOVED HERE 2026-09-16, on founder instruction:
+        none of those names are AI clients.
+
+        `ClientLogos` renders the WHOLE approved client list, so this page was
+        showing seven names because the component exists, not because any of them
+        belong to the subject. It rendered NOWHERE ELSE on the site, so nothing
+        is lost and no other page changes.
+      */}
 
       {/* ------------------------------------------------------------- gap */}
       <Section labelledBy="gap-heading" style={{ background: '#F7FAFA' }}>
@@ -445,24 +467,20 @@ export default function AiEngineeringPage() {
         </div>
       </Section>
 
-      {/* ---------------------------------------------------------- method */}
-      <Section labelledBy="method-heading" style={{ background: '#F7FAFA' }}>
-        <SectionHead
-          eyebrow="The method"
-          id="method-heading"
-          title="LIVE: land, integrate, verify, evolve"
-        />
-        <div style={{ marginTop: 40 }}>
-          {/* Board 04 carries the compact variant: stages mapped to the service
-              that delivers each, on a pilot-to-production rail. */}
-          <LiveDiagram variant="compact" />
-        </div>
-        <div style={{ marginTop: 34 }}>
-          <Cta href="/method/live" variant="secondary">
-            See how LIVE works
-          </Cta>
-        </div>
-      </Section>
+      {/*
+        THE LIVE SECTION WAS REMOVED HERE 2026-09-16, on founder instruction and
+        a standing one: "I ask for duplication to be removed from any of the
+        pages of the Pixelette Technologies website."
+
+        `LiveDiagram variant="compact"` was rendering identically on the homepage
+        and here, and the full variant has its own page at /method/live. Three
+        renders of one diagram, two of them the same. The homepage tells the
+        story for a first-time visitor and /method/live owns it in full, so this
+        instance was the one with no distinct job.
+
+        A reader on this page still reaches the method: the "Start here" section
+        at the foot names LIVE in prose and links to /method/live.
+      */}
 
       {/* ----------------------------------------------------------- proof */}
       <Section labelledBy="proof-heading">
@@ -529,10 +547,20 @@ export default function AiEngineeringPage() {
         </div>
       </Section>
 
-      {/* ---------------------------------------------------- verification */}
-      <Section labelledBy="verify-heading">
-        <VerificationTable />
-      </Section>
+      {/*
+        THE VERIFICATION TABLE WAS REMOVED HERE 2026-09-16, on founder
+        instruction. He asked what it was doing on an AI page and the honest
+        answer is nothing.
+
+        It headed "Every claim on this page resolves to a link" and then showed
+        ISO 9001 and ISO 27001 certificates. Those are COMPANY-WIDE
+        certifications, not AI credentials, and they are already published on
+        /certifications and /security-and-data, which own them. The
+        security-review statistic above them is a claim about enterprise BUYING
+        PROCESS, not about AI.
+
+        Nothing is lost: the table renders on the two pages whose subject it is.
+      */}
 
       {/* ------------------------------------------------- who we work with */}
       <Section labelledBy="who-heading" style={{ background: '#F7FAFA' }}>

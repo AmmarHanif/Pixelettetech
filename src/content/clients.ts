@@ -142,9 +142,27 @@ export type Client = {
 /**
  * The seven names the founder kept on 2026-09-11.
  *
- * These are the rows that render, through `ClientLogos` on `/` and
- * `/ai-engineering`. Every one of them is covered by that decision, and by
- * nothing else — see the gate note above for what that does and does not buy.
+ * THESE ROWS CURRENTLY RENDER NOWHERE. Corrected 2026-09-16; the previous
+ * sentence here said they render "through `ClientLogos` on `/` and
+ * `/ai-engineering`", and both of those went:
+ *
+ *   2026-09-15  the founder deleted the client row from the HOMEPAGE.
+ *   2026-09-16  he deleted it from `/ai-engineering` too, because none of
+ *               these are AI clients and the row was arguing for AI work with
+ *               non-AI evidence.
+ *
+ * `ClientLogos` now has no caller anywhere in `src/app`, so the seven approved
+ * names are published on no page of this site. THE PERMISSIONS ARE STILL GOOD
+ * AND THE ARRAY IS DELIBERATELY KEPT: the founder's 2026-09-11 decision cleared
+ * these names, that clearance does not lapse because the row was removed, and
+ * re-obtaining it later would be pointless work. What he removed is a placement,
+ * not a permission.
+ *
+ * So do NOT read the empty render as a signal to delete this array, and do NOT
+ * read it as licence to put the row back somewhere else to "use" it — a name
+ * with permission is not an instruction to publish it. Every one of these is
+ * covered by that decision and by nothing else; see the gate note above for
+ * what that does and does not buy.
  */
 export const clients: Client[] = [
   { name: 'gowalkies', logo: '/logos/gowalkies.png', permission: 'APPROVED' },

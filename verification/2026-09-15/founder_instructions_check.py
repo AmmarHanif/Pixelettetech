@@ -70,7 +70,19 @@ check('  ...and in the schema h1 + tagline',
 check('Client row removed from homepage', 'gowalkies' not in main_txt)
 check('Verified-proof section removed', 'Built for real operating environments' not in main_txt)
 ai_txt, _ = visible(A + 'ai-engineering.html')
-check('  ...nothing withdrawn: names still on /ai-engineering', 'gowalkies' in ai_txt)
+# INVERTED 2026-09-16, and the inversion is the record of a real consequence.
+#
+# This check was written on 2026-09-15 to prove that removing the client row
+# from the HOMEPAGE withdrew nothing from the SITE: the same names still
+# rendered on /ai-engineering, so the founder's instruction cost reach on one
+# page rather than deleting the names.
+#
+# On 2026-09-16 he had them removed from /ai-engineering too, because none of
+# them are AI clients. `ClientLogos` rendered in exactly one place, so THE SEVEN
+# APPROVED CLIENT NAMES ARE NOW PUBLISHED NOWHERE ON THE SITE. That is his
+# decision, taken knowingly after being told, and this assertion now guards the
+# new intent instead of the old one.
+check('Founder: client names withdrawn from /ai-engineering too', 'gowalkies' not in ai_txt)
 cert_txt, _ = visible(A + 'certifications.html')
 check('  ...certificates still published in full', 'AMER800409' in cert_txt)
 
