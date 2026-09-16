@@ -147,7 +147,7 @@ export default function OpengraphImage() {
             AI built to work
           </div>
           <div style={{ fontSize: 62, lineHeight: 1.1, color: '#661a8f', letterSpacing: '-0.02em' }}>
-            Blockchain where it earns its place
+            Blockchain used where it counts
           </div>
         </div>
 

@@ -273,7 +273,14 @@ export default function HomePage() {
           */}
             <span style={{ display: 'block' }}>Software engineered to last</span>
             <span style={{ display: 'block' }}>AI built to work</span>
-            <span style={{ display: 'block' }}>Blockchain where it earns its place</span>
+            {/*
+              WAS "Blockchain where it earns its place", which I put here on
+              2026-09-16 and which was already the DECENTRALISE card's headline
+              VERBATIM about 600px below. The phrase appeared FOUR times on this
+              one page: here, the lead under it, that card, and a differentiator
+              tile. Two of the four were in the hero block, so both went.
+            */}
+            <span style={{ display: 'block' }}>Blockchain used where it counts</span>
           </h1>
           {/*
             HERO TRIMMED 2026-09-14, on the external homepage audit.
@@ -301,9 +308,12 @@ export default function HomePage() {
             commercial engines for the first screen.
           */}
           <p className="lead" style={{ margin: '24px auto 0', maxWidth: '54ch' }}>
+            {/* The trailing clause - "Blockchain is a specialist practice, used where it
+                earns its place" - was cut rather than reworded. The h1 directly above now
+                carries the selectivity, so restating it one line later was the lead arguing
+                with its own headline. */}
             We design, build and run software products, AI systems and intelligent workflows.
-            Engineering is the foundation. Blockchain is a specialist practice, used where it earns
-            its place.
+            Engineering is the foundation.
           </p>
 
           <div className="btn-row" style={{ marginTop: 36, justifyContent: 'center' }}>
