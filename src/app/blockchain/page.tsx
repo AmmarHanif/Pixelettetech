@@ -13,7 +13,6 @@ import {
   SectionHead,
 } from '@/components/ui';
 import {
-  blockchainSectors,
   chains,
   company,
   consensusAndCryptography,
@@ -149,7 +148,7 @@ export default function BlockchainPage() {
         <div className="wrap">
           <Eyebrow>Blockchain</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Tokenisation and decentralised systems, since {company.incorporated}.
+            Tokenisation and decentralised systems, since {company.incorporated}
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Pixelette began as a blockchain studio and it remains our deepest specialism:
@@ -191,7 +190,7 @@ export default function BlockchainPage() {
         <SectionHead
           title="What we build"
           id="bc-build-heading"
-          lead="End-to-end delivery, from the consulting engagement that decides whether a chain is the right answer through to the review and testing that let you ship."
+          lead="From the consulting engagement that decides whether a chain is the right answer, through to the review and testing that let you ship."
         />
         <div className="grid grid-3" style={{ marginTop: 40 }}>
           {capabilities.map(cap => (
@@ -334,40 +333,63 @@ export default function BlockchainPage() {
 
       {/* ------------------------------------------------------ why it maps */}
       <Section labelledBy="why-bc-heading">
-        <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
-          <div>
-            <SectionHead
-              eyebrow="Why this matters beyond crypto"
-              id="why-bc-heading"
-              title="Auditable systems are the same problem twice"
-            />
-            <p className="body" style={{ marginTop: 20 }}>
-              Building where every action is permanent, publicly verifiable and reviewed by
-              adversaries teaches a discipline that most software teams never have to learn: prove it
-              behaved correctly, to somebody who assumes it did not.
-            </p>
-            <p className="body" style={{ marginTop: 16 }}>
-              That is now exactly what an enterprise asks about an AI system. The audit trail, the
-              decision boundary, the evidence. Our AI engineering work is that same competence pointed
-              at a newer problem, which is why the two sit in one firm. Where a programme needs
-              formal governance or a route to independent assessment at the end of it, that is
-              Pixelette Certified’s work to scope and coordinate, not ours.
-            </p>
-            <div style={{ marginTop: 28 }}>
-              <Cta href="/ai-engineering" variant="secondary">
-                See AI engineering
-              </Cta>
-            </div>
-          </div>
+        {/*
+          THE SECTOR PILL ROW WAS REMOVED HERE 2026-09-16, and this is a claims
+          matter rather than a design one.
 
-          <div>
-            <Eyebrow>Sectors we have delivered into</Eyebrow>
-            <PillRow items={blockchainSectors} style={{ marginTop: 20 }} />
-            <p className="body" style={{ marginTop: 28, fontSize: 15 }}>
-              Tokenisation questions increasingly come from regulated buyers rather than from
-              crypto-native ones. Those conversations tend to start with custody, reporting and audit
-              rather than with the chain, and we are set up for that.
-            </p>
+          It published "Sectors we have delivered into" over twelve names:
+          financial services, insurance, healthcare, retail, logistics, energy,
+          manufacturing, public sector, telecom, hospitality, food and beverage,
+          entertainment. Checked against every case study in src/content/work.ts,
+          TEN OF THE TWELVE have no supporting engagement in this repository at
+          all, and the two that are arguable - financial services and healthcare
+          - are arguable as ENGINEERING work, not as blockchain delivery, which
+          is what this page's heading asserts.
+
+          IT WAS NEVER IN THE CLAIMS REGISTER. src/content/claims.ts holds no
+          sector row, so the gate that exists to stop exactly this never saw it:
+          the register catches figures, and a list of twelve nouns carries no
+          digit. Same blind spot as a market claim sitting in a heading.
+
+          The founder raised it himself and offered the remedy - "if that can't
+          be verified, is it better we just take this section out?" It cannot be
+          verified from anything here, so it is out. If the engagements did
+          happen, the route back is evidence per sector, not a shorter list.
+
+          The regulated-buyer paragraph SURVIVED and moved into the column
+          below; it was the only load-bearing content in the block, and it says
+          something about who asks rather than about where we have worked. The
+          two-column grid went with the pills: a `grid grid-2` left holding one
+          child renders at half width with an empty track beside it, which is a
+          defect this repository has already shipped once.
+        */}
+        <div style={{ maxWidth: '72ch' }}>
+          <SectionHead
+            eyebrow="Why this matters beyond crypto"
+            id="why-bc-heading"
+            title="Auditable systems are the same problem twice"
+          />
+          <p className="body" style={{ marginTop: 20 }}>
+            Building where every action is permanent, publicly verifiable and reviewed by
+            adversaries teaches a discipline that most software teams never have to learn: prove it
+            behaved correctly, to somebody who assumes it did not.
+          </p>
+          <p className="body" style={{ marginTop: 16 }}>
+            That is now exactly what an enterprise asks about an AI system. The audit trail, the
+            decision boundary, the evidence. Our AI engineering work is that same competence pointed
+            at a newer problem, which is why the two sit in one firm. Where a programme needs
+            formal governance or a route to independent assessment at the end of it, that is
+            Pixelette Certified’s work to scope and coordinate, not ours.
+          </p>
+          <p className="body" style={{ marginTop: 16 }}>
+            Tokenisation questions increasingly come from regulated buyers rather than from
+            crypto-native ones. Those conversations tend to start with custody, reporting and audit
+            rather than with the chain, and we are set up for that.
+          </p>
+          <div style={{ marginTop: 28 }}>
+            <Cta href="/ai-engineering" variant="secondary">
+              See AI engineering
+            </Cta>
           </div>
         </div>
       </Section>

@@ -462,6 +462,31 @@ export const consensusAndCryptography = [
   'Distributed ledger',
 ] as const;
 
+/**
+ * UNPUBLISHED SINCE 2026-09-16, and deliberately kept rather than deleted.
+ *
+ * These twelve rendered on /blockchain under the heading "Sectors we have
+ * delivered into". Checked against every case study in src/content/work.ts,
+ * TEN OF THE TWELVE have no supporting engagement anywhere in this repository,
+ * and the two that are arguable - financial services and healthcare - are
+ * arguable as engineering work rather than as blockchain delivery, which is
+ * what that heading asserted.
+ *
+ * WHY THE GATE DID NOT CATCH IT. src/content/claims.ts has no sector row, so
+ * this was never assessed at all. The register is built around figures, and a
+ * list of twelve nouns carries no digit - the same blind spot that lets a
+ * market claim sit unnoticed in a heading.
+ *
+ * The founder raised it himself and proposed the remedy: "if that can't be
+ * verified, is it better we just take this section out?" It cannot be verified
+ * from anything here, so it is out.
+ *
+ * NOTHING IMPORTS THIS ARRAY NOW. It stays because the list may well be TRUE -
+ * absence of evidence in this repository is not evidence of absence - and
+ * re-typing it later from memory would be worse than keeping it here with its
+ * status attached. THE ROUTE BACK IS EVIDENCE PER SECTOR, registered in
+ * claims.ts, not a shorter list published on the same basis as this one.
+ */
 export const blockchainSectors = [
   'Financial services',
   'Insurance',
