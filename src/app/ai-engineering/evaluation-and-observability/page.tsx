@@ -89,9 +89,8 @@ export default function EvaluationPage() {
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Book a conversation</Cta>
-            <Cta href="/insights" variant="secondary">
-              Read the methodology
-            </Cta>
+            {/* Secondary CTA into /insights removed 2026-09-16 with the page's
+                withdrawal from launch. The primary stands alone. */}
           </div>
         </div>
       </div>

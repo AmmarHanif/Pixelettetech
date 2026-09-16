@@ -2305,17 +2305,23 @@ button.btn[disabled] {
    things that exist; a teaser announces things that are coming.
    The status mark is IDENTICAL on all four rows on purpose: four
    different statuses would invite ranking and start a launch narrative. */
+/* 520, not 760, and a single column - corrected 2026-09-16 after a design
+   review. Removing the per-row status label was right, but the CONTAINER was not
+   brought in to match: each row stayed a 760px grid holding one ~200px label,
+   with a `minmax(0,1fr) auto` template and a 24px gap for a second cell that no
+   longer exists. A 760px rule under a 200px label is what sends a reader's eye
+   looking for the missing column, and that - not the copy - was the only thing
+   making the section read as unfinished rather than as restraint. */
 .ai-pg .register {
   margin-top: 56px;
   border-top: 1px solid var(--line);
-  max-width: 760px;
+  max-width: 520px;
 }
 
 .ai-pg .reg-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
   align-items: baseline;
-  gap: 24px;
   padding: 22px 0;
   border-bottom: 1px solid var(--line);
 }

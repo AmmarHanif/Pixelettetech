@@ -549,7 +549,7 @@ export default function HomePage() {
             <div key={item.t} className="tile">
               {/* 16px overrides `.tile b`, a 26px mono brand numeral for
                   StatTile. Without it these titles render as statistics. */}
-              <b style={{ fontSize: 16 }}>{item.t}</b>
+              <b style={{ fontSize: 16, lineHeight: 1.3 }}>{item.t}</b>
               <p className="small" style={{ marginTop: 8 }}>
                 {item.d}
               </p>

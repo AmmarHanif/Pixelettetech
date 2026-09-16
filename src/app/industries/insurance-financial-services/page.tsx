@@ -155,29 +155,22 @@ export default function InsuranceFsPage() {
         </div>
       </Section>
 
-      <Section labelledBy="fs-work-heading">
-        <SectionHead eyebrow="Sector work" id="fs-work-heading" title="Published as it is measured" />
-        <div className="grid grid-3" style={{ marginTop: 36 }}>
-          {[0, 1, 2].map(i => (
-            <div className="work-card work-card--empty" key={i}>
-              <MediaSlot label="Case study image" />
-              <span className="mono work-card__kicker">
-                <Placeholder>CLIENT</Placeholder>
-              </span>
-              <h3 className="h4" style={{ marginTop: 10 }}>
-                <Placeholder>NAMED PROCESS AND RESULT</Placeholder>
-              </h3>
-              <p className="small" style={{ marginTop: 10 }}>
-                <Placeholder>MEASURED FIGURE</Placeholder>
-              </p>
-            </div>
-          ))}
-        </div>
-        <p className="small" style={{ marginTop: 24, fontStyle: 'italic' }}>
-          Placeholders stay visible until a real engagement fills them. We do not use stock case
-          studies.
-        </p>
-      </Section>
+      {/*
+        THE "Sector work / Published as it is measured" SECTION WAS DELETED HERE
+        2026-09-16. It mapped three empty work cards whose only content was
+        placeholders, plus the line "Placeholders stay visible until a real
+        engagement fills them. We do not use stock case studies."
+
+        Once placeholders began rendering nothing, what shipped was a live
+        heading over three dashed grey image boxes with nothing beneath them, and
+        a sentence referring to placeholders that were no longer there - a
+        section that read as having failed to load, and a self-contradiction
+        underneath it.
+
+        It went rather than being repaired because there is nothing to repair
+        with: no sector case study exists to put in it. The route back is a
+        published case study, not a boarded section.
+      */}
 
       <Section labelledBy="faq-heading">
         <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />

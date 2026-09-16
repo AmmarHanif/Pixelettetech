@@ -230,31 +230,37 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
 
                 {/* Shown when there is something to say, or where the design
                     boards the section and it is still waiting on the client. */}
-                {detail.next || cs.pendingQuote ? (
+                {/* WAS `detail.next || cs.pendingQuote`: the section was boarded
+                    while it waited on the client and filled with a placeholder.
+                    Once placeholders rendered nothing on 2026-09-16 that left a
+                    serif h2 over an empty paragraph. The heading now appears
+                    only where there is a sentence for it. */}
+                {detail.next ? (
                   <>
                     <h2 className="h2" style={{ marginTop: 48 }}>
                       What happened next
                     </h2>
                     <p className="body" style={{ marginTop: 18 }}>
-                      {detail.next ?? (
-                        <Placeholder>
-                          RUN CONTRACT STATUS, OR WHAT THE CLIENT DID AFTERWARDS
-                        </Placeholder>
-                      )}
+                      {detail.next}
                     </p>
                   </>
                 ) : null}
 
-                {cs.pendingQuote ? (
-                  <blockquote className="card" style={{ marginTop: 40 }}>
-                    <p className="quote">
-                      <Placeholder>CLIENT QUOTE, WITH SIGN-OFF</Placeholder>
-                    </p>
-                    <footer className="small" style={{ marginTop: 18 }}>
-                      <Placeholder>NAME</Placeholder>, <Placeholder>ROLE</Placeholder>, {name}
-                    </footer>
-                  </blockquote>
-                ) : null}
+                {/*
+                  THE PENDING-QUOTE CARD IS GONE, 2026-09-16, and it was the
+                  worst thing on the site. Its footer placed two literal ", "
+                  separators between three children, two of which were
+                  placeholders. When placeholders began rendering nothing the
+                  separators stayed - they are JSX text - so a bordered, shadowed
+                  card shipped containing an empty quote and the visible string
+                  ", , Lytics".
+
+                  THE LESSON, because I missed it: after suppressing a leaf,
+                  check the SIBLINGS around it, not just whether its container is
+                  empty. I checked for empty blockquote, dd and footer elements,
+                  found none, and called it clean. Punctuation between two
+                  suppressed children is not an empty container.
+                */}
               </>
             ) : (
               <>
@@ -317,8 +323,16 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   <dd>{detail.duration}</dd>
                 </>
               ) : null}
-              <dt>Stack</dt>
-              <dd>{detail?.stack ?? <Placeholder>STACK</Placeholder>}</dd>
+              {/* Same rule as Duration above, founder decision 2026-09-01:
+                  where it is not on record the ROW IS OMITTED rather than shown
+                  as an empty value. Eleven of twenty-nine studies have no stack
+                  and were rendering a mono "STACK" label over nothing. */}
+              {detail?.stack ? (
+                <>
+                  <dt>Stack</dt>
+                  <dd>{detail.stack}</dd>
+                </>
+              ) : null}
             </dl>
             <hr className="rule" style={{ margin: '22px 0 18px' }} />
             <p>

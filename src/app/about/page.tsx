@@ -136,12 +136,16 @@ export default function AboutPage() {
         <Faqs items={faqs} />
       </Section>
 
-      <ClosingCta
-        title="Want to test whether we know what we are talking about?"
-        ctaHref="/insights"
-        ctaLabel="Read the methodology"
-      >
-        Read the methodology first. It is free, it is detailed, and it will tell you more than a
+      {/*
+        RE-POINTED 2026-09-16. This was /about's ONLY closing action and it sent
+        the reader to /insights, which was withdrawn from launch the same day -
+        so the page had no route to /contact at all and its last instruction was
+        to visit a page we had taken down. Falls back to the ClosingCta defaults,
+        which are /contact and "Book a conversation", as eight other call sites
+        already use. Re-point it at the methodology the day Insights ships.
+      */}
+      <ClosingCta title="Want to test whether we know what we are talking about?">
+        Bring us a problem you have already tried to solve. A conversation will tell you more than a
         capability deck.
       </ClosingCta>
     </>
