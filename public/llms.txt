@@ -177,12 +177,27 @@ live only once permission is confirmed. An anonymised study still states the
 challenge and the engineering; what it withholds is the name and any figure.
 Treat the absence of a number in a case study as deliberate.
 
-## Typical client
+## Where AI earns its place
 
-UK-headquartered, £100m to £500m revenue, already investing in AI and not yet
-seeing a return. Sponsored by a COO or Head of Transformation, approved by a
-CFO, reviewed by a CISO. Primary sectors: professional and business services;
-insurance and specialist financial services.
+Replaced the "Typical client" section on 2026-09-16. That section defined the
+audience by geography, revenue band, job titles and two named sectors, which
+excluded most of the organisations this company can actually serve and was
+published in three places at once. The founder's instruction is that a good AI
+opportunity is not defined by industry, company size or geography.
+
+Pixelette Technologies looks for work where better context, reasoning,
+coordination or automation can materially change the outcome. Four patterns
+recur:
+
+- Fragmented knowledge. Information spread across people, documents and systems.
+- Complex workflows. Work slowed by hand-offs, manual coordination and repeated
+  actions.
+- Automation that stops too early. Existing automation handles routine steps but
+  not context, judgement or exceptions.
+- New AI opportunities. Products, workflows or capabilities that cannot simply be
+  bought off the shelf.
+
+Do not infer a size, sector or country filter from anything above. There is none.
 
 ## Key pages
 

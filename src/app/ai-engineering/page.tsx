@@ -1,12 +1,7 @@
 import Link from 'next/link';
 
-import { AiMark, BuildMark, Database, Gauge, Measure, TrendChart } from '@/components/Icons';
-import {
-  CertifiedHandoff,
-  ClosingCta,
-  Testimonials,
-  ValueModelCards,
-} from '@/components/sections';
+import { AiSystemDiagram } from '@/components/AiSystemDiagram';
+import { ClosingCta, ValueModelCards } from '@/components/sections';
 import {
   CheckList,
   Cta,
@@ -19,124 +14,182 @@ import {
   SectionHead,
   SourceNote,
 } from '@/components/ui';
+import { certified } from '@/content/company';
 import { gapStats } from '@/content/sources';
-import { caseStudies, displayKicker, displayName, publishedImage, publishedMetrics } from '@/content/work';
+import {
+  caseStudies,
+  displayKicker,
+  displayName,
+  publishedDetail,
+  publishedImage,
+} from '@/content/work';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
-
 /*
- * Claims sweep, 2026-09-08 (WP6).
+ * REBUILT 2026-09-16 on a founder instruction to simplify rather than add:
+ * "focus on simplification, visual quality and positioning, not adding more
+ * narrative", and "the finished page should feel shorter and stronger".
  *
- * Removed from this page: the ISO 9001 and ISO 27001 badge tiles, the Clutch
- * rating tile, the "countries delivered in" tile, and "with its own lead
- * auditors" from the FAQ — which also fed the FAQPage JSON-LD, so the held
- * claim was machine-readable as well as visible. All are HELD in
- * src/content/claims.ts. The Certified wording is now the handoff's own
- * section 12 language: scope, coordinate, and support the route to
- * independent assessment.
+ * WHAT THE DESIGN REVIEW FOUND, AND IT WAS NOT THE COPY. The page did not read
+ * as service copy because of its words. It read that way because of its
+ * GEOMETRY: sixteen bordered cards, nine identical 96px bands, nine hairlines,
+ * and ONE heading size doing the work of eight. Uniform texture is what "flat"
+ * means. So most of this rewrite REMOVES a treatment rather than adding one,
+ * and the rhythm now has three tiers instead of one (globals.css, .ai-pg).
  *
- * CLOSED 2026-09-11. What follows is a correction, not a deletion.
+ * REMOVED HERE, each for a stated reason:
+ *  - Testimonials. The component takes no filter and inherits a GLOBAL featured
+ *    pair, so nothing made those voices AI clients. That is the same defect the
+ *    founder had removed from this page earlier the same day when the client
+ *    row went. It still renders on /about and /engineering, so no voice leaves
+ *    the site - checked before removing, not after.
+ *  - The "Came for a build rather than for AI?" card. It linked to
+ *    /engineering; the BUILD card in ValueModelCards links to /engineering
+ *    about 300px away, in different words. The canonical one stayed.
+ *  - The Certified dark panel, folded to one composed line.
+ *  - The two "gap" paragraphs. The FIGURES stayed: the h1 is a claim about the
+ *    market, and they are the only third-party citation on the page.
+ *  - The audience section, replaced by "Where AI earns its place".
  *
- * This paragraph used to read: "Still owed and NOT fixable from this file,
- * confirmed by rendering this page and reading the HTML: `LiveDiagram`
- * (./LiveDiagram.tsx, rendered by the method section below and by
- * /method/live) says 'Certification of it sits with Pixelette Certified' and
- * labels its evidence layer 'certified separately by Pixelette Certified'.
- * Both assert that a Group company issues certificates, which is what the
- * handoff's ACCREDITATION-SAFE RULE forbids until the exact legal entity and
- * status are verified. That file is outside this work package. Raised as a
- * blocking finding."
- *
- * It was true when it was written and it stopped being true on 2026-09-08,
- * when LiveDiagram was fixed in the same sweep. That file now imports
- * `certified` from src/content/company.ts and composes a single string,
- * GOVERNANCE_ROUTE, from `certified.name` and `certified.positioningLine`.
- * Both the compact and the full variant render that one string, so
- * /ai-engineering and /method/live can no longer drift apart, and its own
- * comment block records the old wording and the fix. Neither unsafe sentence
- * survives anywhere in src/ as rendered copy: the only occurrences left are
- * quotations kept deliberately as history — here, in LiveDiagram.tsx, and in
- * the `certified-cross-sell` row of src/content/claims.ts. Re-verified
- * 2026-09-11 by reading both files and by grepping src/ for the two strings.
- * NOTHING IS OWED FROM THIS PARAGRAPH AND NOTHING HERE IS BLOCKING.
- *
- * FOOTNOTE 2026-09-16: this page no longer renders `LiveDiagram` at all. The
- * method section was removed as duplication of the homepage, so the sentence
- * above about /ai-engineering and /method/live being unable to drift apart now
- * concerns only the homepage and /method/live. The quoted paragraph's reference
- * to "the method section below" is a quotation of superseded text and is left
- * as written.
- *
- * Corrected in place rather than quietly removed, because leaving it stale
- * has already cost this project a round: an agent read it, believed it over
- * the file it describes, and re-raised a finding that had been closed for
- * three days. The next reader should meet the history and its closure
- * together, in the place the false claim used to sit. A comment that asserts
- * an open defect is load-bearing; when the defect closes, the comment is a
- * defect of its own.
- *
- * What is still genuinely open is a founder fact rather than a code change,
- * and it lives in claims.ts, not here: `certified-cross-sell` is status
- * 'HELD', and moving it to VERIFIED needs the exact legal entity and status.
- * Nothing on this page asserts it either way, which is the correct state for
- * as long as it is held.
- *
- * `CertifiedHandoff variant="compact"` carried the same defect and was fixed
- * in src/components/sections.tsx while this sweep was running; it now renders
- * `certified.positioningLine` and `certified.blurb`, which are the handoff's
- * section 12 wording. Verified in the rendered output, not assumed.
+ * WHAT LEFT WITH THE AUDIENCE SECTION and is not replaced anywhere on this
+ * page: the only two links to /industries/*. That routing gap is real and is
+ * the founder's to close. A sector row was deliberately NOT invented here,
+ * because re-adding sector links is how "not by industry" quietly becomes "by
+ * industry" again.
  */
+
 export const metadata = pageMetadata({
   title: 'AI engineering for UK businesses',
   description:
-    'We engineer AI into the software you already run, measure what it changes and keep it working. Start with a four-week Value Discovery.',
+    'We engineer AI into the systems you already run, measure what it changes and keep it working. Start with a four-week Value Discovery.',
   path: '/ai-engineering',
 });
 
+/*
+ * Five capabilities as a ruled schedule rather than a card grid: the visual
+ * language of a scope document, not a service shop.
+ *
+ * THE ICONS ARE GONE ON PURPOSE. A row in a ruled schedule is a document line,
+ * not a navigational object, and the five marks did not distinguish these five
+ * services to any reader - they cost 32px and a purple accent each and returned
+ * nothing. The founder's earlier "keep the icons" instruction was about the
+ * four PRACTICE marks on tiles elsewhere, and those are untouched.
+ */
 const services = [
   {
-    tag: 'Run',
-    icon: <Gauge size={32} />,
-    title: 'Support & Run',
-    href: '/ai-engineering/support-and-run',
-    linkLabel: 'From £1,500 / month',
-    body: 'We keep running what we built, AI components included. Somebody has to own whether it is still working, still affordable and still accurate. Under contract, with a monthly report showing the delta.',
-    large: true,
-  },
-  {
     tag: 'Build',
-    icon: <AiMark size={32} />,
     title: 'Production AI Systems',
     href: '/ai-engineering/production-ai-systems',
     linkLabel: 'See how we build',
-    body: 'AI embedded in a named workflow, with the workflow redesigned around it. Human-in-the-loop by default, agentic only where it earns it, and reversible when it does not.',
-    large: true,
-  },
-  {
-    tag: 'Measure',
-    icon: <Measure size={32} />,
-    title: 'Value Discovery',
-    href: '/ai-engineering/value-discovery',
-    linkLabel: 'What the four weeks covers',
-    body: 'Four weeks. We instrument the process, measure what it costs today, and write the business case your exec team will approve.',
+    body: 'AI inside a named workflow, with the workflow redesigned around it. Human in the loop by default.',
   },
   {
     tag: 'Ready',
-    icon: <Database size={32} />,
     title: 'Data & Integration',
     href: '/ai-engineering/data-and-integration',
     linkLabel: 'What we build',
-    body: 'Entitlement-aware access, context layers, MCP integration into your systems of record, and the observability to know it works.',
+    body: 'Entitlement-aware access to your systems of record, and the context layer that makes them usable by a model.',
+  },
+  {
+    tag: 'Measure',
+    title: 'Value Discovery',
+    href: '/ai-engineering/value-discovery',
+    linkLabel: 'What the four weeks covers',
+    body: 'Four weeks. We instrument the process, measure what it costs today, and write the business case.',
   },
   {
     tag: 'Prove',
-    icon: <TrendChart size={32} />,
     title: 'Evaluation & Observability',
     href: '/ai-engineering/evaluation-and-observability',
     linkLabel: 'How we measure',
-    body: 'Test sets, regression checks and monitoring, so you find out that output quality has moved before your users and your regulator do.',
+    body: 'Test sets, regression checks and monitoring, so you see output quality move before your users do.',
   },
+  {
+    /*
+     * THE ONLY PRICE STRING LEFT ON THIS SITE, retained EXACTLY as it stood.
+     * The 6,000-12,000 band was removed sitewide on founder instruction; this
+     * one he is still actively deciding about, so it is not mine to remove,
+     * re-word or quietly relocate. If he does remove it, this row needs a
+     * replacement link label and nothing else changes.
+     */
+    tag: 'Run',
+    title: 'Support & Run',
+    href: '/ai-engineering/support-and-run',
+    linkLabel: 'From £1,500 / month',
+    body: 'We keep it running, AI included, under contract, with a monthly report showing what changed.',
+  },
+];
+
+/*
+ * Four problem shapes, not four audiences. The founder's wording, verbatim.
+ *
+ * These REPLACE a section that defined the reader by two named sectors, a
+ * revenue band, a country and three job titles - four filters that stacked
+ * multiplicatively, so a reader had to pass all four. Those were IDENTITY
+ * filters (who you are) where these are SITUATION filters (what is true of you
+ * now), and identity filters turn away people who would fit.
+ */
+const concepts = [
+  {
+    label: 'Fragmented knowledge',
+    line: 'Information spread across people, documents and systems.',
+  },
+  {
+    label: 'Complex workflows',
+    line: 'Work slowed by hand-offs, manual coordination and repeated actions.',
+  },
+  {
+    label: 'Automation that stops too early',
+    line: 'Existing automation handles routine steps but not context, judgement or exceptions.',
+  },
+  {
+    label: 'New AI opportunities',
+    line: 'Products, workflows or capabilities that cannot simply be bought off the shelf.',
+  },
+];
+
+const principles = [
+  { n: '01', label: 'Problem first', line: 'Start with the outcome, not the model.' },
+  {
+    n: '02',
+    label: 'Model agnostic',
+    line: 'Use the right large language model (LLM), model or combination of models for the task.',
+  },
+  {
+    n: '03',
+    label: 'Controlled autonomy',
+    line: 'Define clearly what AI can recommend, execute or escalate to a person.',
+  },
+  {
+    n: '04',
+    label: 'Measure what matters',
+    line: 'Evaluate usefulness, reliability and operational improvement before increasing autonomy.',
+  },
+];
+
+/*
+ * Development AREAS, not products. Deliberately generic, and that is the point.
+ *
+ * NOTHING IN THIS LIST MAY EVER BECOME SPECIFIC. No codename, no screenshot, no
+ * architecture, no feature list, no price, no date, no roadmap, no per-row link
+ * and no per-row call to action - not here, not in an alt attribute, not in an
+ * aria-label, not in a CSS class name, not in metadata. A leak check enforces
+ * this against the BUILT output, because a codename can reach a reader through
+ * a meta description or a JSON-LD blob without ever appearing in visible copy.
+ * That check lives in the vault beside this repo rather than inside it, so the
+ * control against publishing those names is not itself what puts them into a
+ * repository whose purpose is public output.
+ *
+ * The status mark is IDENTICAL on all four rows on purpose. Four different
+ * statuses would invite ranking, and ranking is the beginning of a launch
+ * narrative.
+ */
+const developmentAreas = [
+  'Commercial intelligence',
+  'Marketing intelligence',
+  'Organisational intelligence',
+  'Professional workflow intelligence',
 ];
 
 const faqs = [
@@ -149,10 +202,23 @@ const faqs = [
     a: 'A four-week engagement. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.',
   },
   {
+    /*
+     * PROFILE REMOVED 2026-09-16. This answer used to end with the same
+     * revenue-band, COO, CFO and CISO profile as the deleted audience section,
+     * so the page published the constraint twice and the FAQPage JSON-LD
+     * published it a third time to machines. The qualifying half - what this is
+     * not - is real, and is kept.
+     */
     q: 'Who is Pixelette Technologies AI engineering not for?',
-    a: 'Organisations looking for developers by the day, a first AI experiment with no budget line behind it, or a supplier who will build something and leave. The typical client is a UK-headquartered business with £100m to £500m revenue, already investing in AI and not yet seeing the return, sponsored by a COO or Head of Transformation, approved by a CFO and reviewed by a CISO.',
+    a: 'Organisations looking for developers by the day, a first AI experiment with no budget line behind it, or a supplier who will build something and leave. We sell the running of it, and that only works when someone owns the outcome.',
   },
   {
+    /*
+     * Do not cut this one. Since the Certified dark panel was folded to a single
+     * line, this answer is the machine-readable home of a boundary that is
+     * accreditation-sensitive: the firm that builds a system is not the firm
+     * that assesses it.
+     */
     q: 'Does Pixelette Technologies audit or certify the AI it builds?',
     a: 'No, and it does not offer to. Where a programme needs formal governance, certification readiness, privacy or security-assurance support, Pixelette Certified — a separate practice in the same group — can scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment. Independent assurance stays independent: the firm that builds a system is not the firm that assesses it.',
   },
@@ -161,20 +227,11 @@ const faqs = [
 /**
  * The attribution line under the gap figures, derived rather than indexed.
  *
- * 2026-09-08 (WP13). This read used to be `gapStats[0]!.source`. The non-null
- * assertion is invisible to `tsc --noEmit` — an empty array type-checks
- * perfectly against it — so the compiler stayed green while the page threw
- * "TypeError: Cannot read properties of undefined (reading 'source')" the
- * moment the register behind it emptied. That is not hypothetical: it is what
- * happened to `runStats` on /ai-engineering/support-and-run this morning, when
- * three figures citing an unnameable publisher were held and the identical
- * `[0]!` read took the page down.
- *
- * Deriving the line removes the index, so there is no assertion left for a
- * future edit to falsify. It also closes a quieter fault: if the two figures
- * ever come from two studies, `[0]` would attribute both to whichever happened
- * to be first. Both rows cite McKinsey today, so the de-duplicated set is one
- * string and the rendered output is unchanged.
+ * This read used to be gapStats[0]!.source. The non-null assertion is invisible
+ * to `tsc --noEmit` - an empty array type-checks perfectly against it - so the
+ * compiler stayed green while the page threw the moment the register behind it
+ * emptied. Deriving the line removes the index, so there is no assertion left
+ * for a future edit to falsify.
  */
 function gapSources(): string[] {
   return Array.from(new Set(gapStats.map(stat => stat.source)));
@@ -182,20 +239,19 @@ function gapSources(): string[] {
 
 export default function AiEngineeringPage() {
   /*
-   * LYTICS ONLY since 2026-09-16. The other study here was blockchain work, not
-   * AI, and it was standing as the proof on an AI page. Lytics IS AI: a
-   * production sentiment-classification system that analysts stopped overriding.
+   * LYTICS ONLY. The other study here was blockchain work, not AI, and it was
+   * standing as the proof on an AI page. Lytics IS AI: a production
+   * sentiment-classification system that analysts stopped overriding.
    *
    * The founder's read was that NEITHER belonged. One did, and saying so was
    * the point: cutting both would have stripped this page of its only
-   * first-party evidence, which is the mistake the homepage nearly made.
-   * Everything else here is third-party research about the market.
+   * first-party evidence.
    */
-  const proof = caseStudies.filter(c => ['lytics'].includes(c.slug));
-  const sources = gapSources();
+  const lytics = caseStudies.find(c => c.slug === 'lytics');
+  const detail = lytics ? publishedDetail(lytics) : undefined;
 
   return (
-    <>
+    <div className="ai-pg">
       <JsonLd
         data={serviceSchema({
           name: 'AI engineering',
@@ -216,125 +272,78 @@ export default function AiEngineeringPage() {
       {/* ------------------------------------------------------------ hero */}
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
         <div className="wrap">
-          <Eyebrow>AI engineering · part of Build</Eyebrow>
+          {/*
+            WAS "part of Build", corrected 2026-09-16. ValueModelCards
+            current="AUTOMATE" further down THIS PAGE marks it as Automate, and
+            that same section lists Build as one of the OTHER three. The page
+            contradicted itself; this was the stale half.
+          */}
+          <Eyebrow>AI engineering · part of Automate</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
             Most companies have bought AI. Very few are getting paid for it.
           </h1>
-          <p className="lead" style={{ marginTop: 24 }}>
-            We engineer AI into the software UK mid-market businesses already run, measure what it
-            changes, and keep it working. Governance around that AI, and the route to independent
-            assessment where one is needed, sit with Pixelette Certified, our group practice, not
-            with us.
+          {/*
+            Shortened from a three-clause sentence that ended on the Certified
+            governance hand-off - necessary wording, but inert, and sitting in
+            the second most valuable line on the page directly under a 64px
+            headline. It now appears once, at the foot of the capabilities
+            section, composed from its single source.
+
+            "UK mid-market businesses" also went: that is audience by geography
+            and size, and it contradicts the instruction that this page must
+            read for a broad range of organisations.
+          */}
+          <p className="lead" style={{ marginTop: 24, maxWidth: '46ch' }}>
+            We engineer AI into the systems an organisation already runs, measure what it changes,
+            and keep it working in production.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Book a conversation</Cta>
             {/*
-              WAS "See what we run", changed 2026-09-16. That promised WHOSE
-              systems we run, which is a client list this site is correctly
-              forbidden to show, so the label wrote a cheque the destination page
-              cannot cash. It also named the destination a third way, alongside
-              the nav's "Support & run" and that page's own heading.
-
-              "See a sample report" is not new wording: it is the label already
-              published on the destination page's own hero button, pointing at
-              the same panel. So the door and the page now use identical words,
-              and the reader clicks a phrase and lands on it.
-
-              "Sample" is load-bearing. That panel is a captioned MOCK. A label
-              promising "the report" would be the strongest wording on the site
-              sitting over its weakest evidence.
+              "Sample" is load-bearing: the panel this points at is a captioned
+              MOCK, and a label promising "the report" would be the strongest
+              wording on the site sitting over its weakest evidence.
             */}
             <Cta href="/ai-engineering/support-and-run" variant="secondary">
               See a sample report
             </Cta>
           </div>
-
-          {/* The four-tile badge row that stood here (ISO 9001, ISO 27001, the
-              Clutch rating and a "countries delivered in" tile that rendered
-              blank once `company.countriesDelivered` was emptied) is gone: all
-              four are HELD in src/content/claims.ts. Nothing replaces it,
-              because this hero already runs straight into the client strip and
-              then into two sourced figures — the proof below is real, and the
-              badges were the weakest thing on the screen. */}
         </div>
       </div>
 
+      {/* ------------------------------------------- evidence band (folded) */}
       {/*
-        THE CLIENT ROW WAS REMOVED HERE 2026-09-16, on founder instruction:
-        none of those names are AI clients.
+        All that survives of the old "gap" section. The two paragraphs went: one
+        restated the h1 in longer form, the other pre-empted "Where AI earns its
+        place" below. The FIGURES stayed, because the h1 is a claim about the
+        market and these are the only third-party citation on the page - cutting
+        them would leave the site's boldest sentence as its least supported one.
+        They also appear in FAQ 1, which feeds the FAQPage JSON-LD, so the
+        visible page and the machine-readable answer stay in agreement.
 
-        `ClientLogos` renders the WHOLE approved client list, so this page was
-        showing seven names because the component exists, not because any of them
-        belong to the subject. It rendered NOWHERE ELSE on the site, so nothing
-        is lost and no other page changes.
+        No card treatment: bordered, shadowed boxes would make two statistics
+        look like a product grid and re-import the weight this fold removed.
       */}
-
-      {/* ------------------------------------------------------------- gap */}
-      <Section labelledBy="gap-heading" style={{ background: '#F7FAFA' }}>
-        {/* Two columns while there are figures to put in the right one, a
-            single full-width column when there are not. `grid-2` is
-            `repeat(2, minmax(0, 1fr))`, so keeping it with one child would
-            hold half the section open as empty space beside a squeezed
-            paragraph — the broken layout the handoff's DEVELOPER RULE forbids
-            when a claim is absent. With today's non-empty register this
-            evaluates to exactly the class string it always had. */}
-        <div
-          className={gapStats.length > 0 ? 'grid grid-2' : 'grid'}
-          style={{ gap: 56, alignItems: 'start' }}
-        >
-          <div>
-            <SectionHead
-              eyebrow="The gap"
-              id="gap-heading"
-              title="Your people feel faster. Your P&L does not."
-            />
-            <p className="body" style={{ marginTop: 20 }}>
-              Almost every organisation now has AI somewhere. Very few can point at a line in the
-              accounts and say what it changed. The gap is not the model. It is that the work around
-              the model was never redesigned, the data it needs was never made reachable, and nobody
-              owns whether it still works next quarter.
-            </p>
-            <p className="body" style={{ marginTop: 16 }}>
-              <b>That gap is the whole of our business.</b>
-            </p>
+      {gapStats.length > 0 && (
+        <Section flush tight className="sec--tint">
+          <div className="ev-band">
+            {gapStats.map(stat => (
+              <div className="ev-fig" key={stat.label}>
+                <b>{stat.value}</b>
+                <span>{stat.label}</span>
+              </div>
+            ))}
           </div>
+          <div style={{ marginTop: 24 }}>
+            {gapSources().map(source => (
+              <SourceNote key={source}>{source}</SourceNote>
+            ))}
+          </div>
+        </Section>
+      )}
 
-          {/* The cards and their attribution are one unit: the column appears
-              whole or not at all. An empty `.grid` here is not a neutral no-op
-              — it is a second grid track holding open an empty band beside the
-              prose. */}
-          {gapStats.length > 0 ? (
-            <div className="grid" style={{ gap: 16 }}>
-              {gapStats.map(stat => (
-                <div className="card" key={stat.value}>
-                  <b
-                    className="mono"
-                    style={{
-                      fontSize: 44,
-                      fontWeight: 500,
-                      color: 'var(--brand)',
-                      letterSpacing: '-0.03em',
-                      lineHeight: 1,
-                      display: 'block',
-                    }}
-                  >
-                    {stat.value}
-                  </b>
-                  <p className="body" style={{ marginTop: 14, fontSize: 15 }}>
-                    {stat.label}
-                  </p>
-                </div>
-              ))}
-              {sources.length > 0 ? (
-                <SourceNote style={{ marginTop: 0 }}>{sources.join(' · ')}</SourceNote>
-              ) : null}
-            </div>
-          ) : null}
-        </div>
-      </Section>
-
-      {/* ------------------------------------------------------ what we do */}
-      <Section labelledBy="what-heading">
+      {/* ---------------------------------------------------- capabilities */}
+      <Section labelledBy="what-heading" flush>
         <div
           style={{
             display: 'flex',
@@ -347,274 +356,278 @@ export default function AiEngineeringPage() {
           <SectionHead
             eyebrow="What we do"
             id="what-heading"
-            title="Five things we do, and one we deliberately do not"
+            title="Five things we engineer. One we deliberately do not."
           />
           <FLink href="/ai-engineering/services">All AI services</FLink>
         </div>
 
-        <div className="grid grid-2" style={{ marginTop: 40 }}>
-          {services
-            .filter(s => s.large)
-            .map(s => (
-              <Link key={s.href} href={s.href} className="card service-card">
-                <span className="step__n">{s.tag}</span>
-                <span className="icon-slot icon-slot--stacked" aria-hidden>
-                  {s.icon}
-                </span>
-                <h3 className="h3">{s.title}</h3>
-                <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-                  {s.body}
-                </p>
-                <div style={{ flexGrow: 1 }} />
-                <p className="flink" style={{ marginTop: 16, color: 'var(--brand)' }}>
-                  {s.linkLabel} →
-                </p>
-              </Link>
-            ))}
+        <div className="sched">
+          {services.map(s => (
+            <div className="sched-row" key={s.href}>
+              <span className="tag">{s.tag}</span>
+              <div>
+                <h3 className="h4">{s.title}</h3>
+                <p>{s.body}</p>
+              </div>
+              <FLink href={s.href}>{s.linkLabel}</FLink>
+            </div>
+          ))}
         </div>
 
-        <div className="grid grid-3" style={{ marginTop: 18 }}>
-          {services
-            .filter(s => !s.large)
-            .map(s => (
-              <Link key={s.href} href={s.href} className="card service-card">
-                <span className="step__n">{s.tag}</span>
-                <h3 className="h4" style={{ marginTop: 4 }}>
-                  {s.title}
-                </h3>
-                <p className="body" style={{ marginTop: 10, fontSize: 14.5 }}>
-                  {s.body}
-                </p>
-                <div style={{ flexGrow: 1 }} />
-                <p className="flink" style={{ marginTop: 14, color: 'var(--brand)', fontSize: 14 }}>
-                  {s.linkLabel} →
-                </p>
-              </Link>
-            ))}
-        </div>
+        {/*
+          The "one we deliberately do not", as a single line rather than the dark
+          panel that used to carry it.
 
-        {/* Cross-link to the other practice, plus the thing we hand away. */}
-        <div className="grid grid-2" style={{ marginTop: 40, alignItems: 'stretch' }}>
-          <div className="card" style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ color: 'var(--brand)', display: 'inline-flex', marginBottom: 16 }} aria-hidden>
-              <BuildMark size={26} />
-            </span>
-            <h3 className="h3">Came for a build rather than for AI?</h3>
-            <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-              Web platforms, mobile applications, custom software and integration. The larger half of
-              what we do.
-            </p>
-            <div style={{ flexGrow: 1 }} />
-            <p style={{ marginTop: 18 }}>
-              <FLink href="/engineering">Go to Engineering</FLink>
-            </p>
+          COMPOSED, NEVER RETYPED. certified.positioningLine is
+          accreditation-safe wording with exactly one home; it already replaced a
+          stronger claim once, and a hand-typed second copy is precisely how that
+          displaced claim comes back. FAQ 4 keeps the machine-readable version,
+          and the footer group band keeps the outbound link.
+        */}
+        <p className="small" style={{ marginTop: 40 }}>
+          {certified.positioningLine} <FLink href="/assurance">Who does what</FLink>
+        </p>
+      </Section>
+
+      {/* ----------------------------------------- where AI earns its place */}
+      <Section labelledBy="fit-heading">
+        {/*
+          The eyebrow does real work: it tells the reader before they read a word
+          that this is not an industry list, which is the whole point of the
+          replacement.
+        */}
+        <SectionHead
+          eyebrow="Fit, not sector"
+          id="fit-heading"
+          title="Where AI earns its place"
+          lead="We do not define a good AI opportunity by industry or company size. We look for work where better context, reasoning, coordination or automation can materially change the outcome."
+        />
+        {/*
+          Four items, NOT four cards. Four bordered boxes here would reinstate,
+          two sections later, exactly the treatment the schedule above removed -
+          and on the lightest content on the page. A rule and a measure carry it.
+        */}
+        <div className="concepts">
+          {concepts.map(c => (
+            <div className="concept" key={c.label}>
+              <b>{c.label}</b>
+              <span>{c.line}</span>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ---------------------------------------- AI is more than the model */}
+      <Section labelledBy="anatomy-heading" flush className="sec--tint sec--t1">
+        <SectionHead
+          eyebrow="Anatomy"
+          id="anatomy-heading"
+          title="AI is more than the model"
+          lead="Production AI depends on the systems around the model — context, data, tools, permissions, evaluation and human control."
+        />
+        {/*
+          An ILLUSTRATIVE architecture, drawn from first principles and labelled
+          as illustrative twice inside the artwork itself. It depicts no system
+          that exists, and it must never be allowed to drift towards one.
+
+          Every label is real selectable text rather than a path, so it is
+          indexable, reflowable and readable by a screen reader, and the spine
+          reflows from horizontal to vertical by container query rather than
+          forcing the page to scroll sideways.
+        */}
+        <div style={{ marginTop: 64 }}>
+          <AiSystemDiagram />
+        </div>
+      </Section>
+
+      {/* ------------------------------------------------------- principles */}
+      <Section labelledBy="approach-heading" flush tight>
+        <SectionHead
+          eyebrow="How we work"
+          id="approach-heading"
+          title="How we approach AI engineering"
+        />
+        {/*
+          2x2, not four across: four columns gives roughly 260px tracks and four
+          ragged lines. One sentence each, and no introductory paragraph - a
+          paragraph introducing four one-line principles is the padding the brief
+          bans.
+        */}
+        <div className="principles">
+          {principles.map(p => (
+            <div className="principle" key={p.n}>
+              <i>{p.n}</i>
+              <b style={{ marginTop: 6 }}>{p.label}</b>
+              <span>{p.line}</span>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ------------------------------------------------------------ proof */}
+      {lytics && detail && (
+        <Section labelledBy="proof-heading" flush className="sec--t1-close">
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+              gap: 24,
+              flexWrap: 'wrap',
+            }}
+          >
+            <SectionHead
+              eyebrow="Proof"
+              id="proof-heading"
+              title="One AI system, named, in production"
+            />
+            <FLink href="/case-studies">Read the full case studies</FLink>
           </div>
-          <CertifiedHandoff variant="compact" />
+
+          {/*
+            THE SENTENCE THAT MAKES ONE STUDY READ AS CHOSEN RATHER THAN SOLE. A
+            single case study given a full-width set-piece reads as "the only one
+            we have" unless something says why it was selected, and that is the
+            one thing a layout cannot fix by itself.
+
+            It also replaced an h2 reading "Named clients. Named processes." -
+            plural clients standing over a single study.
+          */}
+          <p className="small" style={{ marginTop: 16, maxWidth: '72ch' }}>
+            We have other case studies. This is the one where the subject is AI, the system is in
+            production, and the client is named.
+          </p>
+
+          {/*
+            Everything below resolves through the work.ts publication gate, so a
+            study whose permission changes renders anonymised rather than leaking
+            a name and a logo-bearing image.
+
+            NO METRIC SLOT, deliberately. All four Lytics figures are HELD
+            against the claims register, so publishedMetrics returns nothing and
+            any layout reserving space for a number would render a hole.
+            Prominence comes from scale and composition instead - which is the
+            honest way round, because inventing a figure to fill that hole is the
+            exact failure the register exists to prevent.
+          */}
+          <div style={{ marginTop: 40 }}>
+            <span className="mono work-card__kicker">{displayKicker(lytics)}</span>
+            <h3 className="h3" style={{ marginTop: 12, maxWidth: '24ch' }}>
+              {lytics.title}
+            </h3>
+          </div>
+
+          <Link
+            href={`/case-studies/${lytics.slug}`}
+            className="work-card"
+            style={{ display: 'block', marginTop: 28 }}
+          >
+            <MediaSlot
+              label={lytics.imageLabel}
+              src={publishedImage(lytics)}
+              alt={`${displayName(lytics)} — ${lytics.title}`}
+            />
+          </Link>
+
+          {/*
+            Three steps left to right, which is what the arrows in the
+            instruction meant. The previous two-column split ran the image about
+            280px shorter than the text beside it and left the left half of the
+            block empty - found by reading the render, not the markup.
+          */}
+          <div className="cs-cols">
+            {[
+              { label: 'Challenge', body: detail.problem },
+              { label: 'What we engineered', body: detail.built },
+              { label: 'Outcome', body: detail.measured },
+            ].map(col => (
+              <div key={col.label}>
+                <span className="tag">{col.label}</span>
+                <p>{col.body}</p>
+              </div>
+            ))}
+          </div>
+
+          <p style={{ marginTop: 36 }}>
+            <FLink href={`/case-studies/${lytics.slug}`}>Read the full case study</FLink>
+          </p>
+        </Section>
+      )}
+
+      {/* ------------------------------------------- private AI development */}
+      {/*
+        A REGISTER, NOT A TEASER, and that distinction is the whole design.
+
+        Teaser marketing has a fixed set of CONCEALMENT devices - blur, locks,
+        redaction, "coming soon", a waitlist - and every one of them promises a
+        reveal. These are DOCUMENTARY devices instead: a ruled register, one
+        repeated status mark, no dates, no counts, no per-row link. A register
+        records things that EXIST; a teaser announces things that are COMING.
+
+        The section is therefore the quietest on the page, not the loudest: the
+        heading is under-scaled, and there is no card, no tint and no dark band.
+        It is distinct by RESTRAINT rather than by contrast, because a dramatic
+        full-bleed treatment here would be the visual grammar of a launch, which
+        is the one thing this section must not be.
+
+        The large interval of white above it is the biggest on the page and is
+        doing narrative work: it is the pause between "here is our proof" and
+        "here is what we are not going to show you". Do not close it up.
+      */}
+      <Section labelledBy="private-heading" flush className="sec--register">
+        <SectionHead
+          eyebrow="Beyond client delivery"
+          id="private-heading"
+          title="Private AI development"
+          level={3}
+          lead="Alongside client work, Pixelette Technologies is developing proprietary AI systems designed to coordinate increasingly complex business workflows and functions. Selected programmes remain under private development and are discussed only where there is a genuine strategic, validation or commercial fit."
+        />
+        <div className="register">
+          {developmentAreas.map(area => (
+            <div className="reg-row" key={area}>
+              <b>{area}</b>
+              <i>Under development</i>
+            </div>
+          ))}
         </div>
+        {/*
+          A TEXT LINK, NOT A BUTTON. A filled button here is the visual grammar
+          of a product launch, and this section exists to say the opposite. The
+          label is the founder's own and routes to the ordinary contact path.
+        */}
+        <p style={{ marginTop: 40 }}>
+          <FLink href="/contact">Discuss a strategic AI opportunity</FLink>
+        </p>
       </Section>
 
       {/* -------------------------------------------------- where this sits */}
       {/*
-        Build • Automate • Decentralise • Run, reintroduced (2026-09-11); see
-        the note on /engineering for why the model now reaches the hubs at all.
+        Moved to the foot 2026-09-16. It is an orientation and exit device, not
+        an argument: at position four it interrupted the page mid-case and
+        invited the reader to leave before they had a reason to stay. At the foot
+        it is an exit ramp for a reader who has decided this is not their
+        practice, which is what it is for.
 
-        It lands immediately after the two cross-link cards above, because those
-        cards raise the "where does this sit?" question one destination at a
-        time — Engineering, and Certified — and then leave it half answered.
-        The four cards answer it completely, and mark Automate as the one the
-        reader is already in. Deliberately not tinted: `The method` below is
-        tinted and two tinted bands in a row would break the page's rhythm,
-        whereas two white sections in sequence is the rhythm this site already
-        uses (Proof and the verification table, further down, are both white).
+        The h2 and `current` below must always name the same practice. Nothing
+        enforces that. Change one, change the other.
+
+        The old comment here said this section was deliberately left untinted
+        because "The method" below it was tinted. That constraint is stale - the
+        method section was removed on 2026-09-16.
       */}
-      <Section labelledBy="ai-model-heading">
-        {/*
-            NOT the homepage's h2, which this used to repeat verbatim. That line
-            is a POSITIONING statement and it is right on the page that
-            introduces the company; on a hub the reader has already chosen, so
-            they need to know where they are in the set, not what the company is.
-            The same string was on all four pages until 2026-09-15.
-
-            The homepage instance is deliberately unchanged.
-
-            PAGE-SPECIFIC SINCE 2026-09-16, deliberately. Until then the h2 read
-            "This is one of four services" -- one string on all three hubs, kept
-            identical so it could not drift. It bought that too dearly.
-            SectionHead renders `title` as the h2 whose id the wrapping Section
-            points at, so this string IS the accessible name of the whole
-            region, and "This is" has no referent read cold: in a heading list
-            it announced a position without saying which one. Naming the
-            practice here also lets the lead stop re-answering it, which removes
-            one of the three places this section stated the reader's position
-            (h2, lead, card marker). Two remain and both earn it.
-
-            "our" is not decoration. `groupBlurb` renders in the footer of this
-            very page and says "Pixelette Technologies is one of four companies
-            in Pixelette Group", so an unqualified "one of four" would appear
-            twice on one page against two different sets of four.
-
-            The h2 and `current` below must always name the same practice.
-            Nothing enforces that. Change one, change the other.
-        */}
+      <Section labelledBy="sits-heading" tight>
         <SectionHead
           eyebrow="Where this sits"
-          id="ai-model-heading"
+          id="sits-heading"
           title="Automate is one of our four services"
           lead="Build, Decentralise and Run are the other three."
         />
-        <div style={{ marginTop: 36 }}>
+        <div style={{ marginTop: 32 }}>
           <ValueModelCards current="AUTOMATE" />
         </div>
       </Section>
 
-      {/*
-        THE LIVE SECTION WAS REMOVED HERE 2026-09-16, on founder instruction and
-        a standing one: "I ask for duplication to be removed from any of the
-        pages of the Pixelette Technologies website."
-
-        `LiveDiagram variant="compact"` was rendering identically on the homepage
-        and here, and the full variant has its own page at /method/live. Three
-        renders of one diagram, two of them the same. The homepage tells the
-        story for a first-time visitor and /method/live owns it in full, so this
-        instance was the one with no distinct job.
-
-        A reader on this page still reaches the method: the "Start here" section
-        at the foot names LIVE in prose and links to /method/live.
-      */}
-
-      {/* ----------------------------------------------------------- proof */}
-      <Section labelledBy="proof-heading">
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'space-between',
-            gap: 24,
-            flexWrap: 'wrap',
-          }}
-        >
-          <SectionHead
-            eyebrow="Proof"
-            id="proof-heading"
-            title="Named clients. Named processes. No invented numbers."
-          />
-          <FLink href="/case-studies">Read the full case studies</FLink>
-        </div>
-
-        {/* Through the work.ts publication gate. The client name, the kicker,
-            the client's own screenshot and the figures all resolve through the
-            accessors, so a PENDING study dropped into `proof` above renders
-            anonymised instead of leaking a name and a logo-bearing image. */}
-        <div className="grid grid-3" style={{ marginTop: 36 }}>
-          {proof.map(cs => {
-            const metrics = publishedMetrics(cs).slice(0, 2);
-            return (
-              <Link key={cs.slug} href={`/case-studies/${cs.slug}`} className="work-card">
-                <MediaSlot
-                  label={cs.imageLabel}
-                  src={publishedImage(cs)}
-                  alt={`${displayName(cs)} — ${cs.title}`}
-                />
-                {/* Internal work is labelled "Internal" here, as the board has
-                    it. Falling back to the sector would quietly drop the
-                    disclosure the design put on this card on purpose, so the
-                    internal branch is kept and only the name goes through the
-                    gate. */}
-                <span className="mono work-card__kicker">
-                  {cs.internal ? `${displayName(cs)} · Internal` : displayKicker(cs)}
-                </span>
-                <h3 className="h4" style={{ marginTop: 10 }}>
-                  {cs.title}
-                </h3>
-                {metrics.length > 0 ? (
-                  <div className="work-card__metrics">
-                    {metrics.map(m => (
-                      <span key={m.label}>
-                        <b
-                          className={m.pending ? 'ph' : undefined}
-                          style={m.pending ? { fontSize: 17 } : undefined}
-                        >
-                          {m.value}
-                        </b>
-                        <span>{m.shortLabel ?? m.label}</span>
-                      </span>
-                    ))}
-                  </div>
-                ) : null}
-              </Link>
-            );
-          })}
-        </div>
-      </Section>
-
-      {/*
-        THE VERIFICATION TABLE WAS REMOVED HERE 2026-09-16, on founder
-        instruction. He asked what it was doing on an AI page and the honest
-        answer is nothing.
-
-        It headed "Every claim on this page resolves to a link" and then showed
-        ISO 9001 and ISO 27001 certificates. Those are COMPANY-WIDE
-        certifications, not AI credentials, and they are already published on
-        /certifications and /security-and-data, which own them. The
-        security-review statistic above them is a claim about enterprise BUYING
-        PROCESS, not about AI.
-
-        Nothing is lost: the table renders on the two pages whose subject it is.
-      */}
-
-      {/* ------------------------------------------------- who we work with */}
-      <Section labelledBy="who-heading" style={{ background: '#F7FAFA' }}>
-        <SectionHead
-          eyebrow="Who we work with"
-          id="who-heading"
-          title="Two sectors, one profile, and an honest note on who this is not for"
-        />
-
-        <div className="grid grid-3" style={{ marginTop: 40 }}>
-          <div className="card">
-            <h3 className="h4">Professional & business services</h3>
-            <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-              Your clients now expect AI-enabled quality improvement. 78% say it matters. 7% say they
-              are getting it. We close that gap and give you the evidence to show it.
-            </p>
-            <SourceNote>Thomson Reuters Future of Professionals 2026</SourceNote>
-            <p style={{ marginTop: 14 }}>
-              <FLink href="/industries/professional-services">Sector work</FLink>
-            </p>
-          </div>
-
-          <div className="card">
-            <h3 className="h4">Insurance & specialist financial services</h3>
-            <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-              Nearly half of regulated firms report only partial understanding of the AI systems they
-              already run. We make them explainable, monitored and defensible.
-            </p>
-            <SourceNote>Bank of England / FCA AI survey</SourceNote>
-            <p style={{ marginTop: 14 }}>
-              <FLink href="/industries/insurance-financial-services">Sector work</FLink>
-            </p>
-          </div>
-
-          <div className="card" style={{ background: '#FBF8F4', borderColor: '#edd8de' }}>
-            <h3 className="h4">Who this is not for</h3>
-            <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-              Organisations looking for developers by the day, a first AI experiment with no budget
-              line behind it, or a supplier who will build something and leave. We sell the running of
-              it, and that only works when someone owns the outcome.
-            </p>
-          </div>
-        </div>
-
-        <p className="small" style={{ marginTop: 30, maxWidth: '80ch' }}>
-          Typical client: £100m to £500m revenue, UK-headquartered, already investing in AI and not
-          yet seeing the return. Sponsored by a COO or Head of Transformation, approved by a CFO,
-          reviewed by a CISO.
-        </p>
-      </Section>
-
-      <Testimonials heading="Voices" />
-
-      {/* ------------------------------------------------------------ close */}
+      {/* ------------------------------------------------------------- FAQs */}
       <Section labelledBy="faq-heading">
         <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
@@ -629,7 +642,9 @@ export default function AiEngineeringPage() {
             <h3 className="h3" style={{ marginTop: 16 }}>
               Value Discovery
             </h3>
-            <p className="small" style={{ marginTop: 14 }}>Four weeks, start to readout.</p>
+            <p className="small" style={{ marginTop: 14 }}>
+              Four weeks, start to readout.
+            </p>
             <div style={{ marginTop: 22 }}>
               <CheckList
                 items={[
@@ -645,10 +660,9 @@ export default function AiEngineeringPage() {
           </div>
         }
       >
-        We instrument two or three of your processes, measure what they actually cost today, and hand
-        you a costed roadmap with the business case written for your exec team. If the numbers do not support
-        going further, we tell you that.
+        We instrument two or three of your processes, measure what they cost today, and write the
+        business case. If the numbers do not support going further, we say so.
       </ClosingCta>
-    </>
+    </div>
   );
 }

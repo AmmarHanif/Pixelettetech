@@ -2076,3 +2076,303 @@ button.btn[disabled] {
     display: none;
   }
 }
+
+/* =====================================================================
+   /ai-engineering — page-scoped treatment, added 2026-09-16
+
+   WHY THESE ARE CLASSES AND NOT INLINE STYLES. Every padding value below
+   has a smaller counterpart at <=860px, and an inline style cannot be
+   overridden by a media query. This file already records that lesson at
+   .grid (216-221); repeating the mistake here would silently ship the
+   desktop rhythm to every phone.
+
+   The page reads as service copy because of its GEOMETRY, not its words:
+   sixteen bordered cards, nine identical 96px bands, nine hairlines and
+   one heading size used eight times. Uniform texture is what "flat"
+   means. Most of what follows therefore REMOVES a treatment rather than
+   adding one.
+   ===================================================================== */
+
+/* Page scope. --tint replaces #F7FAFA, a cyan-cast near-white left over
+   from the teal identity retired on 2026-09-03, which sits badly under a
+   purple brand. Scoped to this page and reversible; not a new token.
+   Contrast floor on this ground is --muted-2 at 4.68:1 (AA). */
+.ai-pg {
+  --tint: #f7f5f9;
+}
+
+.ai-pg .sec--tint {
+  background: var(--tint);
+}
+
+/* Three rhythm tiers instead of nine identical bands. Tier 1 is a breath
+   and is spent only three times: the diagram, the case study, and the
+   private-development register. */
+.ai-pg .sec--t1 {
+  padding: 160px 0;
+}
+
+.ai-pg .sec--t1-close {
+  padding: 160px 0 112px;
+}
+
+/* The 256px of white between the case study and the register is the
+   largest interval on the page and it is doing narrative work: it is the
+   pause between "here is our proof" and "here is what we are not going
+   to show you". It is meant to look empty. Do not close it up. */
+.ai-pg .sec--register {
+  padding: 144px 0 160px;
+}
+
+@media (max-width: 860px) {
+  .ai-pg .sec--t1 {
+    padding: 96px 0;
+  }
+  .ai-pg .sec--t1-close {
+    padding: 96px 0 72px;
+  }
+  .ai-pg .sec--register {
+    padding: 88px 0 96px;
+  }
+}
+
+/* ---- evidence band: two figures, no card ---------------------------- */
+/* Bordered, shadowed cards would make two statistics look like a product
+   grid and re-import the weight that folding the gap section removed. */
+.ai-pg .ev-band {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.ai-pg .ev-fig {
+  flex: 1 1 260px;
+  padding-left: 28px;
+  border-left: 1px solid var(--line);
+}
+
+.ai-pg .ev-fig b {
+  display: block;
+  font-family: var(--mono);
+  font-size: clamp(34px, 4.4vw, 44px);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--brand);
+}
+
+.ai-pg .ev-fig span {
+  display: block;
+  margin-top: 12px;
+  max-width: 34ch;
+  font-size: 15px;
+  color: var(--body);
+}
+
+/* ---- capabilities as a ruled schedule, not a card grid -------------- */
+/* The visual language of a scope document. Icons are deliberately absent:
+   a row in a ruled schedule is a document line, not a navigational
+   object, and the five marks did not distinguish five services to any
+   reader. The four PRACTICE marks elsewhere on the site are untouched. */
+.ai-pg .sched {
+  margin-top: 48px;
+  border-top: 1px solid var(--line);
+}
+
+.ai-pg .sched-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ai-pg .sched-row > .tag {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+
+.ai-pg .sched-row h3 {
+  margin: 0 0 6px;
+}
+
+.ai-pg .sched-row p {
+  margin: 0;
+  max-width: 46ch;
+  font-size: 15px;
+  color: var(--body);
+}
+
+@media (max-width: 720px) {
+  .ai-pg .sched-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* ---- "where AI earns its place": four items, NOT four cards --------- */
+/* Four bordered boxes here would reinstate, two sections later, exactly
+   the treatment the schedule above just removed — and on the lightest
+   content on the page. A rule and a measure carry it instead. */
+.ai-pg .concepts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+  margin-top: 48px;
+}
+
+.ai-pg .concept {
+  padding-top: 20px;
+  border-top: 2px solid var(--brand-tint);
+}
+
+.ai-pg .concept b {
+  display: block;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.ai-pg .concept span {
+  display: block;
+  margin-top: 8px;
+  max-width: 42ch;
+  font-size: 15px;
+  color: var(--body);
+}
+
+/* ---- four principles, 2x2 ------------------------------------------ */
+/* Not four across: that gives ~260px tracks and four ragged lines. */
+.ai-pg .principles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 44px 56px;
+  margin-top: 32px;
+}
+
+.ai-pg .principle b {
+  display: block;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.ai-pg .principle span {
+  display: block;
+  margin-top: 8px;
+  max-width: 44ch;
+  font-size: 15px;
+  color: var(--body);
+}
+
+.ai-pg .principle i {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--muted-2);
+}
+
+@media (max-width: 720px) {
+  .ai-pg .concepts,
+  .ai-pg .principles {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* ---- private development: a register, not a teaser ------------------ */
+/* Teaser marketing has a fixed set of CONCEALMENT devices — blur, locks,
+   redaction, "coming soon" — and every one of them promises a reveal.
+   These are DOCUMENTARY devices instead: a ruled register, one repeated
+   status mark, no dates, no counts, no per-row link. A register records
+   things that exist; a teaser announces things that are coming.
+   The status mark is IDENTICAL on all four rows on purpose: four
+   different statuses would invite ranking and start a launch narrative. */
+.ai-pg .register {
+  margin-top: 56px;
+  border-top: 1px solid var(--line);
+  max-width: 760px;
+}
+
+.ai-pg .reg-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ai-pg .reg-row b {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.ai-pg .reg-row span {
+  display: block;
+  margin-top: 6px;
+  max-width: 48ch;
+  font-size: 14.5px;
+  color: var(--muted);
+}
+
+.ai-pg .reg-row i {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .ai-pg .reg-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* ---- case study: image above, three steps beneath --------------------
+   WAS `.split--wide-left`, changed 2026-09-16 after looking at the render
+   rather than at the markup. The image column ran about 280px shorter
+   than the text column beside it, so the left half of the block ended in
+   a large dead area - and the narrow right-hand column could not express
+   "Challenge -> What we engineered -> Outcome" as the three-step flow the
+   founder asked for. Stacking gives the screenshot real prominence and
+   lets the three steps read left to right, which is what the arrows in
+   his instruction meant. */
+.ai-pg .cs-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  margin-top: 44px;
+}
+
+.ai-pg .cs-cols p {
+  margin-top: 10px;
+  font-size: 15px;
+  color: var(--body);
+}
+
+@media (max-width: 860px) {
+  .ai-pg .cs-cols {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* .tag was scoped to `.sched-row > .tag` only, so the case-study step labels
+   introduced later rendered as unstyled body text. Generalised, with the
+   schedule rule left in place because it is the same treatment. */
+.ai-pg .tag {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
