@@ -112,7 +112,7 @@ export default function AboutPage() {
           <SectionHead
             eyebrow="Policy exposure"
             id="policy-heading"
-            title="Stated precisely, because the precision is the point"
+            title="A shareholding in Big Innovation Centre"
           />
           <div>
             <p className="body">

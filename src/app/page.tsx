@@ -251,9 +251,29 @@ export default function HomePage() {
         <div className="wrap center">
           <Eyebrow>Software engineering • AI &amp; automation • Blockchain</Eyebrow>
           <h1 className="h1" style={{ marginTop: 26, fontSize: 'clamp(36px, 4.6vw, 54px)' }}>
-            <span style={{ display: 'block' }}>Engineering that ships</span>
-            <span style={{ display: 'block' }}>Chains that hold</span>
-            <span style={{ display: 'block' }}>AI built into both</span>
+          {/*
+            HERO REWRITTEN 2026-09-16 on founder instruction, for immediate
+            comprehension. It read "Engineering that ships / Chains that hold /
+            AI built into both".
+
+            "Chains that hold" was a pun a reader has to decode before they know
+            it means blockchain, and "AI built into both" only works if you are
+            still holding the two lines above it. Each line now names its own
+            subject.
+
+            HIS WORDING, WITHOUT THE FULL STOPS HE WROTE IT WITH. He had full
+            stops removed from this h1 on 2026-09-15 and check 1 of the
+            acceptance suite enforces it. Rendering three block lines without
+            terminal punctuation satisfies both instructions; if he wants the
+            stops back, the check inverts with a recorded reason.
+
+            THIS STRING LIVES IN THREE PLACES: here, the social card in
+            opengraph-image.tsx, and `company.tagline` in company.ts which feeds
+            the schema. All three move together or the site contradicts itself.
+          */}
+            <span style={{ display: 'block' }}>Software engineered to last</span>
+            <span style={{ display: 'block' }}>AI built to work</span>
+            <span style={{ display: 'block' }}>Blockchain where it earns its place</span>
           </h1>
           {/*
             HERO TRIMMED 2026-09-14, on the external homepage audit.

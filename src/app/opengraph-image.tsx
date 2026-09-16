@@ -141,13 +141,13 @@ export default function OpengraphImage() {
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ fontSize: 62, lineHeight: 1.1, color: '#0A0A0A', letterSpacing: '-0.02em' }}>
-            Engineering that ships
+            Software engineered to last
           </div>
           <div style={{ fontSize: 62, lineHeight: 1.1, color: '#0A0A0A', letterSpacing: '-0.02em' }}>
-            Chains that hold
+            AI built to work
           </div>
           <div style={{ fontSize: 62, lineHeight: 1.1, color: '#661a8f', letterSpacing: '-0.02em' }}>
-            AI built into both
+            Blockchain where it earns its place
           </div>
         </div>
 
