@@ -2551,8 +2551,31 @@ export function displayCardCta(cs: CaseStudy): string {
  * build when that happens, so the second line should never be needed.
  */
 export function publishedMetrics(cs: CaseStudy): WorkMetric[] {
+  /*
+   * TIGHTENED 2026-09-16 for launch. The filter was `status !== 'HELD'` alone,
+   * which withheld evidence-gated figures but let an UNMEASURED one straight
+   * through - and nine case studies carry a metric whose VALUE is the literal
+   * string "[MEASURED RESULT]" with the label "pending write-up". Those
+   * rendered as public body text on every one of those pages and on the work
+   * index: eighteen placeholder strings on the detail pages alone.
+   *
+   * The gate was built to answer "is there evidence for this figure?" and had
+   * no answer for "is there a figure at all?". A metric marked `pending`, or
+   * NOT_MEASURED, is not a figure being withheld - it is an empty slot, and an
+   * empty slot should render NOTHING rather than announce itself.
+   *
+   * This is deliberately surgical rather than an allowlist rewrite. The status
+   * vocabulary in this file is wider than it looks - HOLD, DO_NOT_INVENT, READY
+   * and READY_SUBJECT_TO_PERMISSION all currently pass - and narrowing to
+   * VERIFIED only would blank metrics that legitimately publish today. That is
+   * a content review, not a launch fix. Measured before and after: the four
+   * complete studies keep every tile they had.
+   */
   const released = (cs.internalEvidence?.heldMetrics ?? []).filter(m => m.status === 'VERIFIED');
-  return [...cs.metrics.filter(m => m.status !== 'HELD'), ...released];
+  const publishable = cs.metrics.filter(
+    m => m.status !== 'HELD' && m.status !== 'NOT_MEASURED' && !('pending' in m && m.pending),
+  );
+  return [...publishable, ...released];
 }
 
 /**

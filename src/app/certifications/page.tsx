@@ -228,7 +228,25 @@ export default function CertificationsPage() {
         */}
         {badgeClaim ? (
           <p className="src" style={{ marginTop: 26 }}>
-            Claims register, {badgeClaim.id}: {badgeClaim.publicationInstruction}
+            {/*
+              WAS: "Claims register, {badgeClaim.id}: {badgeClaim.publicationInstruction}",
+              which printed our internal claim id and our own instruction to
+              ourselves - "HOLD - Publish only with current certificate for exact
+              legal entity, scope and validity." Removed for launch 2026-09-16:
+              this page is a procurement resource, not internal project
+              documentation.
+
+              THE SUBSTANCE IS KEPT as a public principle, because the discipline
+              it describes is exactly why the certificates above are credible.
+              The governed instruction stays in claims.ts, which still gates
+              everything.
+
+              FOR REVIEW: this sentence is no longer COMPOSED from
+              publicationInstruction, so the two can drift. If the register's
+              test changes, change this sentence with it.
+            */}
+            A certification is published on this page only where a current certificate names the
+            legal entity, the scope and the validity dates.
             {releasedCertificates.length > 0 ? (
               <>
                 {' '}

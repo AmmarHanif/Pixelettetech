@@ -95,11 +95,35 @@ export function Placeholder({
   children: ReactNode;
   intentional?: boolean;
 }) {
-  return (
-    <span className="ph" {...(intentional ? {} : { 'data-placeholder': 'true' })}>
-      [{children}]
-    </span>
-  );
+  /*
+   * UNFILLED PLACEHOLDERS RENDER NOTHING FROM 2026-09-16, for launch.
+   *
+   * They were publishing INTERNAL EDITORIAL INSTRUCTIONS as public body copy:
+   * "[ RUN CONTRACT STATUS, OR WHAT THE CLIENT DID AFTERWARDS ]",
+   * "[ CLIENT QUOTE, WITH SIGN-OFF ]", "[ NAME ]", "[ ROLE ]", "[ CLIENT ]",
+   * "[ MEASURED FIGURE ]". The founder's instruction is explicit: no internal
+   * instruction, development note or unpublished-content marker may remain
+   * publicly visible.
+   *
+   * THE DISCIPLINE THIS SERVED IS NOT ABANDONED, ONLY MOVED. The rule was that
+   * a gap stays visible until a real engagement fills it, so nobody invents a
+   * client, a figure or a date to make a section look finished. That rule now
+   * lives where it belongs - in the source, the claims register and the launch
+   * marker sweep - rather than on the page in front of a buyer. Showing a
+   * prospect the scaffolding proves honesty to nobody who was not already
+   * reading the HTML.
+   *
+   * `intentional` is UNCHANGED and still renders: it is the "your engagement
+   * here" invitation on the work index, which borrows the idiom on purpose and
+   * is real published copy rather than an unfilled gap.
+   *
+   * WATCH FOR EMPTY CONTAINERS. Returning null can leave an orphaned heading or
+   * an empty quote frame where a placeholder was the only child. Those are
+   * fixed at their call sites, not here.
+   */
+  if (!intentional) return null;
+
+  return <span className="ph">[{children}]</span>;
 }
 
 /** Attribution line. Every statistic on the site is followed by one. */
