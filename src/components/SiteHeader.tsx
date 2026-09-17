@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { BrandLogo } from '@/components/BrandLogo';
+import { NavDropdown } from '@/components/NavDropdown';
 import { ArrowRight, ArrowUpRight } from '@/components/Icons';
 import { company } from '@/content/company';
 import { navSections, primaryCta, primaryNav } from '@/content/nav';
@@ -76,33 +77,21 @@ function TopLink({ item, className }: { item: NavItem; className?: string }) {
  * something a visitor has to guess at. Nobody who wants /engineering ends up
  * trapped in a menu about it.
  */
-function SectionDropdown({ section }: { section: NavSection }) {
-  /* No per-practice panel theme any more: `.theme-amber` was deleted on
-     2026-09-16 and Blockchain now uses the firm's purple like the rest. */
-  const panelClass = 'nav__drop-panel';
-
-  return (
-    <details className="nav__drop" name="pt-nav-section">
-      <summary className="nav__drop-summary">{section.label}</summary>
-      <div className={panelClass}>
-        <Link href={section.href} className="nav__drop-hub">
-          <span className="nav__drop-hub-label">
-            {section.label} overview
-            <ArrowRight size={15} />
-          </span>
-          <span className="nav__drop-hub-summary">{section.summary}</span>
-        </Link>
-        <ul className="nav__drop-list">
-          {section.items.map(item => (
-            <li key={item.href}>
-              <Link href={item.href}>{item.label}</Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </details>
-  );
-}
+/*
+ * THE DESKTOP DROPDOWN MOVED TO src/components/NavDropdown.tsx on 2026-09-17,
+ * on founder instruction that the submenus should open on HOVER rather than on
+ * a click. It had to become a client island to do that compliantly: hover-
+ * revealed content must be dismissible without moving the pointer (WCAG 2.1
+ * SC 1.4.13), which means an Escape handler, which means JavaScript.
+ *
+ * What moved is ONLY the desktop bar. The mobile panel's disclosure below is
+ * untouched and still has no client JavaScript at all, so a phone keeps the tap
+ * behaviour by construction rather than by a media query.
+ *
+ * The new component is still a native <details>/<summary>: click, keyboard and
+ * the pre-hydration fallback all survive. See the file for how each of the three
+ * SC 1.4.13 conditions is met.
+ */
 
 /**
  * The same section inside the mobile panel: a nested disclosure, so the
@@ -139,7 +128,7 @@ export function SiteHeader() {
   const desktopNav = primaryNav.map(item => {
     const section = sectionByHref.get(item.href);
     return section ? (
-      <SectionDropdown key={item.href} section={section} />
+      <NavDropdown key={item.href} section={section} />
     ) : (
       <TopLink key={item.href} item={item} />
     );

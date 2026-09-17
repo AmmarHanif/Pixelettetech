@@ -598,13 +598,22 @@ td {
   color: var(--brand) !important;
 }
 
-/* Capability dropdowns. Native <details>, exactly like the mobile disclosure
-   below, so they open from the keyboard, carry an expanded state into the
-   accessibility tree, and work before hydration. Deliberately not a :hover
-   menu: hover-revealed content has to be dismissible without moving the
-   pointer (WCAG 2.1 SC 1.4.13) and that needs JavaScript this header does not
-   have. Chevron and its 0.15s motion are the .nav-toggle chevron below, at
-   the smaller size the 15px nav type takes. */
+/* Capability dropdowns. Still native <details>, exactly like the mobile
+   disclosure below, so they open from the keyboard, carry an expanded state
+   into the accessibility tree, and work before hydration.
+
+   THEY NOW ALSO OPEN ON HOVER, changed 2026-09-17 on founder instruction. This
+   comment used to end "Deliberately not a :hover menu: hover-revealed content
+   has to be dismissible without moving the pointer (WCAG 2.1 SC 1.4.13) and
+   that needs JavaScript this header does not have." That reasoning was right,
+   which is why the hover is NOT done in CSS here: src/components/NavDropdown.tsx
+   is a client island that adds an Escape handler and a 140ms close delay, so
+   the dismissible and hoverable conditions are actually met rather than
+   ignored. Do not reimplement this as a `:hover` rule in this file - that is
+   the version that fails.
+
+   Chevron and its 0.15s motion are the .nav-toggle chevron below, at the
+   smaller size the 15px nav type takes. */
 .nav__drop {
   position: relative;
 }
