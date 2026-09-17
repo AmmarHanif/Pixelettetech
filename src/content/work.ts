@@ -1040,6 +1040,21 @@ export const caseStudies: CaseStudy[] = [
      * non-quantified wording.
      */
     slug: 'accessible-intelligence-assessment',
+    /*
+     * AIA IS THE PRODUCT. DiverSCInnova IS THE CLIENT ORGANISATION, and it is
+     * still gated — see `gatedNames` below and ADR-0036.
+     *
+     * When this study was confirmed on 2026-09-17, `detail.built` read "AIA, a
+     * gamified cognitive mapping tool FOR DiverSCInnova". That is published page
+     * copy, so confirming the study as it stood would have named a second
+     * organisation the founder was never asked about: "add them" was an answer
+     * about three images.
+     *
+     * So the release below covers 'AIA' alone and the phrase came out of the
+     * sentence. Do not add DiverSCInnova to `releasedNames` to make a copy edit
+     * easier — the build-time scan failing is the point, and naming that
+     * organisation is a founder decision nobody has taken.
+     */
     client: 'AIA',
     namePermission: 'CONFIRMED',
     releasedNames: [
