@@ -82,10 +82,27 @@ export const metadata: Metadata = {
    * PNG-in-ICO), which is what the previous file used and what every ICO
    * parser reads.
    *
-   * Known limit, recorded rather than glossed: the device is a canopy of
-   * detached squares, so at 16px the individual squares fall below a pixel and
-   * merge. The tree silhouette still reads; the squares do not. That is the
-   * artwork's own ceiling at that size, not the rasteriser's.
+   * THAT KNOWN LIMIT WAS HIT AND IS NOW FIXED, 2026-09-17. The note used to end
+   * here saying the 16px canopy merges into mush and that this was "the
+   * artwork's own ceiling at that size". Correct, and the founder duly reported
+   * the tab icon as an indistinct blob.
+   *
+   * A downscale could never have fixed it, so the 16px frame is now DRAWN ON
+   * THE PIXEL GRID rather than resampled: a solid crown silhouette, which is
+   * what makes it read at tab size, with purple square notches punched back in
+   * so the device's square motif survives. 32 and 48 are untouched and were
+   * verified pixel-identical to the previous file - the mark is unchanged
+   * everywhere it already worked.
+   *
+   * Two intermediate attempts are worth knowing about before anyone "tidies"
+   * this. Putting the canopy squares on a strict regular pitch read as a
+   * BUILDING, not a tree; the irregularity is the foliage. Scattering them
+   * freely lost the crown boundary and the trunk with it. The silhouette is
+   * what carries the shape at 16px; the squares are texture on top of it.
+   *
+   * The file is written by hand in verification/... rather than through
+   * Pillow's ICO writer, because that writer picks its own encoding and this
+   * file must stay uncompressed BGRA BMP.
    */
   icons: {
     icon: '/favicon.ico',
