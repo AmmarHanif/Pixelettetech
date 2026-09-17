@@ -1,73 +1,86 @@
 import Link from 'next/link';
 
-import { LegalPage } from '@/components/LegalPage';
 import { JsonLd } from '@/components/ui';
 import { company, contactEmail } from '@/content/company';
+import { ANALYTICS_ENABLED } from '@/lib/analytics';
 import { breadcrumbSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
-  title: 'Privacy Statement',
+  title: 'Privacy at Pixelette',
   description:
-    'What Pixelette Technologies collects through this website, why, who it is shared with, how long it is kept and your rights under UK GDPR.',
+    'How Pixelette Technologies uses, protects and manages personal information across our technology, services and business.',
   path: '/privacy',
 });
 
 /*
- * THE SINGLE PRIVACY NOTICE. Rewritten 2026-09-17 on founder instruction:
- * "Consolidate GDPR transparency requirements into one professionally drafted
- * Privacy Notice linked from the footer."
+ * THE PRIVACY STATEMENT. Rewritten 2026-09-17 to the founder's structure, and
+ * governed by the closing rule of his brief: "The policy must describe reality,
+ * not aspiration. Verify every factual statement against the website/code/
+ * configuration before preserving it."
  *
- * The decision and its consequences are recorded in ADR-0034 (layered privacy:
- * the security surface leaves the marketing site), which also names what this
- * change OWES: a procurement pack that does not exist yet, a retention period
- * that was chosen rather than found, and a legal review of this document.
+ * THE AUDIT CHANGED THE DOCUMENT RATHER THAN DECORATING IT. The brief asks for
+ * sections on an AI assistant, enquiry scoring, recruitment and subscriptions.
+ * NONE OF THOSE EXIST ON THIS SITE:
  *
- * WHAT THIS REPLACED, and why the replacement is shorter rather than longer.
- * The previous version ran to 634 lines and worked as a companion to
- * /security-and-data, which carried subprocessor tables, data residency, an
- * AI-governance position and incident-response commitments. Both that page and
- * /certifications were WITHDRAWN on the same instruction: detailed security
- * controls, ISO evidence, processor documentation and DPAs leave the marketing
- * site and are supplied during enterprise procurement. This notice therefore
- * has to stand alone, and it covers exactly what UK GDPR Article 13 requires of
- * a controller and nothing beyond it.
+ *   - No chat widget, assistant or LLM integration anywhere in `src/`. The only
+ *     matches for "assistant" are marketing copy about AI we BUILD for clients.
+ *   - No enquiry scoring. The form asks four qualifying QUESTIONS; no score is
+ *     computed, stored or acted on, and `contact_enquiries` has no score column.
+ *   - No careers or recruitment route.
+ *   - No mailing list. The Subscribe CTA was removed on 2026-09-16 precisely
+ *     because nothing was wired up behind it.
+ *   - No events or webinars.
+ *   - Social media is one outbound link to a LinkedIn page. No embeds, no
+ *     social pixels.
  *
- * THREE RULES THIS FILE FOLLOWS, all from the same instruction.
+ * The AI section is KEPT, because the founder is right that it is the section a
+ * reader of an AI company's privacy statement looks for. It says what is true:
+ * this website runs no assistant and makes no automated decisions. A section
+ * describing a system that does not exist is the exact failure the brief's
+ * closing rule names.
  *
- *  1. NO IMPLEMENTATION COMMENTARY OR DEVELOPMENT STATUS ON THE PAGE. The old
- *     version imported DELIVERY_CONNECTED and changed its prose according to
- *     whether the contact form's providers were wired up yet. That told a
- *     reader about our build state, which is not a transparency requirement and
- *     is not their business. This file imports no launch flag. Source comments
- *     like this one are fine; they do not render.
+ * VERIFIED IN CODE BEFORE BEING WRITTEN HERE:
+ *   - Storage and analytics: browser-measured. No cookies, no third-party
+ *     requests. One first-party key, `pt-analytics`. verification/2026-09-17/.
+ *   - Enquiry record: supabase/migrations/20260914120000 — name, company,
+ *     email, four answers, timestamp, source. Its own comment reads: "No IP
+ *     address, no user agent, no fingerprint of any kind."
+ *   - Providers: exactly three — Supabase and Resend by env var, Vercel as
+ *     host. No others anywhere in the repository.
+ *   - Retention: 24 months from last contact, carried from the previous
+ *     statement together with its admission that deletion is a rule we act on
+ *     rather than an automatic timer. That honesty is preserved deliberately.
  *
- *  2. CATEGORIES OF RECIPIENT, NOT A NAMED SUBPROCESSOR LIST. Article 13(1)(e)
- *     permits "recipients or categories of recipients", and the instruction
- *     forbids a standalone public Subprocessors page. Naming providers here
- *     would rebuild that page inside this one, and it would need re-editing
- *     every time a provider changed. Named detail goes to a reviewer under
- *     procurement, where it can be kept current against an actual contract.
+ * DELIBERATELY NOT ASSERTED, because the brief says not to preserve a claim
+ * merely because it appeared before:
+ *   - That every provider acts solely on our instructions and may not use the
+ *     data for its own purposes. That is a CONTRACTUAL position, not a code
+ *     fact. The previous statement asserted it flatly; this one states the role
+ *     they are engaged in and offers the terms, which is true either way.
+ *   - Any absolute claim about outbound marketing. What is claimed is scoped to
+ *     this website, which sends none. Whether the business markets outbound
+ *     elsewhere is not knowable from here and is flagged to the founder.
+ *   - Anything about AI providers and model training. There is no AI provider.
  *
- *  3. NO COOKIE BANNER, BECAUSE THERE IS NOTHING TO CONSENT TO. Measured on the
- *     built site on 17 September 2026 rather than assumed: document.cookie
- *     empty, localStorage / sessionStorage / IndexedDB all empty, no
- *     third-party script, stylesheet, image or iframe, and every network
- *     request same-origin with fonts served from our own domain. PECR reg. 6
- *     bites on storing or accessing information on a user's device; nothing
- *     here does. So the notice states the position and no consent mechanism is
- *     deployed.
- *
- *     DIARY, and it is the condition on that whole paragraph. Two things would
- *     falsify it. Analytics is present in the dependency tree and dormant; if
- *     it is ever switched on, this section must be revisited the same day even
- *     though the product is cookieless, because it introduces a third-party
- *     request. And this was measured on a local production build, not on the
- *     deployed host — platform features can set their own cookies, preview
- *     deployments especially. Re-measure against the live host before launch.
+ * LAYOUT. Nothing is collapsed behind a control. The brief permits expandable
+ * subsections on mobile but makes "the complete legal information must remain
+ * readily accessible" the overriding constraint, and collapsed legal text
+ * defeats find-in-page. The sticky section nav does the wayfinding instead and
+ * needs no JavaScript.
  */
 
-const REVIEW_DATE = '17 September 2026';
+const EFFECTIVE_DATE = '17 September 2026';
+const VERSION = '2.0';
+
+const NAV = [
+  { href: '#your-information', label: 'Your information' },
+  { href: '#ai-automation', label: 'AI & automation' },
+  { href: '#analytics', label: 'Analytics' },
+  { href: '#sharing-security', label: 'Sharing & security' },
+  { href: '#your-rights', label: 'Your rights' },
+  { href: '#contact', label: 'Contact' },
+];
 
 export default function PrivacyPage() {
   return (
@@ -75,231 +88,457 @@ export default function PrivacyPage() {
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'Privacy Statement', path: '/privacy' },
+          { name: 'Privacy at Pixelette', path: '/privacy' },
         ])}
       />
 
-      <LegalPage
-        eyebrow="Legal"
-        title="Privacy Statement"
-        intro={`This notice explains what ${company.name} collects through this website, why we collect it, who it is shared with, how long we keep it and what rights you have.`}
-        lastReviewed={REVIEW_DATE}
-        sections={[
-          {
-            heading: 'Who we are',
-            body: (
-              <p className="body" style={{ marginTop: 12 }}>
-                {company.legalName} is the controller for the personal information described in
-                this notice. We are registered in {company.registeredIn} at Companies House under
-                company number {company.crn}, with our registered office at {company.addressLine}.
-                For any question about this notice or about your personal information, contact us at{' '}
-                <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
-              </p>
-            ),
-          },
-          {
-            heading: 'What we collect',
-            body: (
-              <>
-                <p className="body" style={{ marginTop: 12 }}>
-                  We collect the information you choose to give us when you complete the enquiry
-                  form or email us. That is:
-                </p>
-                <ul className="body" style={{ marginTop: 12 }}>
-                  <li>your name, and your company name if you give one;</li>
-                  <li>your work email address;</li>
-                  <li>
-                    what you tell us about what you are trying to build or change, what exists
-                    today, any deadline, and what a successful result would look like; and
-                  </li>
-                  <li>anything else you include in your message or in later correspondence.</li>
-                </ul>
-                <p className="body" style={{ marginTop: 12 }}>
-                  We do not ask for special category data, and we ask you not to send it through
-                  this form. We do not buy personal information from third parties, and we do not
-                  build profiles of visitors to this site.
-                </p>
-              </>
-            ),
-          },
-          {
-            heading: 'Why we use it, and our lawful basis',
-            body: (
-              <>
-                <div className="table-scroll" style={{ marginTop: 12 }}>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th scope="col">Purpose</th>
-                        <th scope="col">Lawful basis</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>To read and reply to your enquiry</td>
-                        <td>
-                          Our legitimate interests in responding to a business enquiry you chose to
-                          send us
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          To discuss and scope work, and to take steps towards a contract if you
-                          ask us to
-                        </td>
-                        <td>Steps taken at your request before entering into a contract</td>
-                      </tr>
-                      <tr>
-                        <td>To keep a record of what was asked and what we answered</td>
-                        <td>
-                          Our legitimate interests in keeping an accurate record of our business
-                          dealings
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>To keep this site available and to prevent abuse of the form</td>
-                        <td>Our legitimate interests in the security of our own systems</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <p className="body" style={{ marginTop: 16 }}>
-                  We do not use your information to send marketing you did not ask for, and we do
-                  not sell it or share it for anyone else&rsquo;s marketing.
-                </p>
-              </>
-            ),
-          },
-          {
-            heading: 'Who we share it with',
-            body: (
-              <>
-                <p className="body" style={{ marginTop: 12 }}>
-                  Your enquiry is seen by the people at {company.name} who need to answer it. Beyond
-                  that, we share personal information with these categories of recipient:
-                </p>
-                <ul className="body" style={{ marginTop: 12 }}>
-                  <li>
-                    our website hosting and content delivery provider, which serves this site and
-                    processes the form submission;
-                  </li>
-                  <li>our database provider, which stores the enquiry;</li>
-                  <li>our email delivery provider, which sends the enquiry to us; and</li>
-                  <li>
-                    our professional advisers, and any regulator or other body we are required to
-                    disclose to by law.
-                  </li>
-                </ul>
-                <p className="body" style={{ marginTop: 12 }}>
-                  Each provider acts on our instructions as a processor under a written contract
-                  and may not use your information for its own purposes. If you are assessing us as
-                  a supplier and need the providers named, together with the contractual terms and
-                  transfer safeguards that apply to each, ask and we will send that detail to your
-                  reviewer.
-                </p>
-              </>
-            ),
-          },
-          {
-            heading: 'Where your information is processed',
-            body: (
-              <p className="body" style={{ marginTop: 12 }}>
-                Some of our providers are established outside the United Kingdom, principally in
-                the United States, so your information may be transferred there. Where that
-                happens, the transfer is covered by the UK International Data Transfer Agreement, or
-                by the UK Addendum to the European Commission&rsquo;s standard contractual clauses,
-                together with any additional measures the transfer requires. You can ask us which
-                mechanism applies to a particular provider.
-              </p>
-            ),
-          },
-          {
-            heading: 'How long we keep it',
-            body: (
-              <p className="body" style={{ marginTop: 12 }}>
-                If your enquiry does not lead to us working together, we keep it for 24 months from
-                our last contact with you and then delete it. We keep it that long because
-                enquiries commonly return after a funding round or a change of plan, and answering
-                you properly means knowing what was already discussed. If we do work together, the
-                information becomes part of the client record and is kept for as long as the
-                engagement continues and for six years afterwards, which is the period we may need
-                it for legal and tax purposes. You can ask us to delete it sooner.
-              </p>
-            ),
-          },
-          {
-            heading: 'Cookies and similar technologies',
-            body: (
-              <>
-                <p className="body" style={{ marginTop: 12 }}>
-                  This website sets no cookies. It loads no third-party scripts, fonts, images or
-                  embedded content, and it runs no advertising technology. There is no consent
-                  banner because there is nothing to consent to.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  One thing is stored on your device, and only if you use it: if you switch website
-                  analytics off under <strong>Privacy choices</strong> in the footer, we keep a
-                  single first-party preference so that your choice is respected on later visits. It
-                  holds one of two values, it identifies nobody, and it is never sent to us.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  Our <Link href="/cookies">Cookies and analytics</Link> page lists everything
-                  stored, what it is for and how long it lasts, and is written from an audit of the
-                  deployed site rather than from policy.
-                </p>
-              </>
-            ),
-          },
-          {
-            heading: 'Your rights',
-            body: (
-              <>
-                <p className="body" style={{ marginTop: 12 }}>
-                  Under UK data protection law you have the right to ask us for a copy of the
-                  personal information we hold about you, to have inaccurate information corrected,
-                  to have information deleted, to ask us to restrict how we use it, and to receive
-                  it in a portable format where that applies.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  Where we rely on our legitimate interests, you have the right to object, and we
-                  will stop unless we have compelling grounds to continue. You can object to direct
-                  marketing at any time and we will stop without exception.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  To exercise any of these rights, email{' '}
-                  <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. We will respond within one
-                  month. We do not charge for this, and we may ask you to confirm who you are
-                  before we release information.
-                </p>
-              </>
-            ),
-          },
-          {
-            heading: 'Complaints',
-            body: (
-              <p className="body" style={{ marginTop: 12 }}>
-                If you are unhappy with how we have handled your personal information, please tell
-                us first at <a href={`mailto:${contactEmail}`}>{contactEmail}</a> so we can put it
-                right. You also have the right to complain to the Information Commissioner&rsquo;s
-                Office, the UK supervisory authority, at{' '}
-                <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener noreferrer">
-                  ico.org.uk
-                </a>
-                , or by calling 0303 123 1113.
-              </p>
-            ),
-          },
-          {
-            heading: 'Changes to this notice',
-            body: (
-              <p className="body" style={{ marginTop: 12 }}>
-                We review this notice when what we do with personal information changes, and at
-                least once a year. The date it was last reviewed is shown at the foot of this page.
-              </p>
-            ),
-          },
-        ]}
-      />
+      <div className="hero-glow" style={{ padding: '72px 0 40px' }}>
+        <div className="wrap">
+          <h1 className="h1p" style={{ maxWidth: '18ch' }}>
+            Privacy at Pixelette
+          </h1>
+          <p className="lead" style={{ marginTop: 20, maxWidth: '54ch' }}>
+            How we use, protect and manage personal information across our technology, services and
+            business.
+          </p>
+          <p className="small" style={{ marginTop: 22 }}>
+            Privacy Statement · Effective {EFFECTIVE_DATE} · Version {VERSION}
+          </p>
+        </div>
+      </div>
+
+      <nav className="privacy-nav" aria-label="Privacy statement sections">
+        <div className="wrap">
+          <ul>
+            {NAV.map(item => (
+              <li key={item.href}>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
+      <div className="wrap">
+        <div className="privacy-doc">
+        <section id="your-information">
+          <h2 className="h3">About this statement, and about us</h2>
+          <p className="body">
+            This statement explains what {company.name} does with personal information: what we
+            collect, why we are allowed to hold it, who else touches it, how long we keep it and
+            what you can require of us. It covers this website and the ordinary course of dealing
+            with us as a client, supplier or contact.
+          </p>
+          <p className="body">
+            {company.legalName} is the controller for the information described here. We are
+            registered in {company.registeredIn} at Companies House under company number{' '}
+            {company.crn}, with our registered office at {company.addressLine}. Our VAT registration
+            number is {company.vat}.
+          </p>
+          <p className="body">
+            For anything in this statement, or about your information generally, write to{' '}
+            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. A person reads that address.
+          </p>
+          <p className="body">
+            One thing this statement does not cover: where we build or run a system for a client and
+            handle information on their behalf, the client decides what happens to it and we act on
+            their instructions. That arrangement is described in{' '}
+            <a href="#for-clients">work we do for clients</a> below.
+          </p>
+
+          <h2 className="h3">Information we collect</h2>
+          <p className="body">
+            We would rather hold less than more. The list below is short because the site is built
+            that way, not because it has been summarised.
+          </p>
+
+          <h3 className="h4">What you give us</h3>
+          <p className="body">
+            If you complete the enquiry form we receive your name, your company name if you give
+            one, your work email address, and your answers to four questions: what you are trying to
+            build or change, what exists today, whether there is a deadline, and what a successful
+            result would look like. If you email or call us instead, we have whatever you put in
+            that message and whatever follows in the conversation.
+          </p>
+          <p className="body">
+            As a client or supplier, we hold the business-contact details and correspondence needed
+            to run the engagement — the people we deal with, what was agreed, invoices and the
+            ordinary record of the work.
+          </p>
+
+          <h3 className="h4">What the site generates</h3>
+          <p className="body">
+            Serving a web page necessarily involves your device asking our host for it, and our host
+            keeps short-lived operational records of those requests in order to serve the site and
+            defend it from abuse. We do not build those records into a profile and we do not connect
+            them to an enquiry.
+          </p>
+          <p className="body">
+            Your enquiry is stored with the date it arrived and nothing else about your device.{' '}
+            <strong>
+              We do not record your IP address, your browser, your device or any fingerprint of it
+              alongside your enquiry.
+            </strong>{' '}
+            That is a property of how the form is built, not a policy we could quietly relax.
+          </p>
+
+          <h3 className="h4">Please do not send more than you need to</h3>
+          <p className="body">
+            An enquiry form is for telling us what you want built. Please do not use it to send
+            confidential material, credentials, health or other special-category information, or
+            personal information about other people who are not expecting it. If a conversation
+            genuinely needs that material, we will agree a proper route for it first.
+          </p>
+
+          <h3 className="h4">Where our information comes from</h3>
+          <p className="body">
+            For this website, everything we hold about you came from you. We do not buy personal
+            information for it, and we do not enrich what you send us from external databases or
+            data brokers.
+          </p>
+
+          <h3 className="h4">Things this website does not collect</h3>
+          <p className="body">
+            It is worth saying what is absent, because a privacy statement that only describes what
+            a site does leaves you guessing about the rest.
+          </p>
+          <p className="body">
+            <strong>Recruitment.</strong> We do not advertise roles or accept applications through
+            this website, and there is no careers form to submit a CV to. If you apply to us by
+            email we will hold your application to consider it and will tell you then how long we
+            keep it.
+          </p>
+          <p className="body">
+            <strong>Marketing and subscriptions.</strong> There is no newsletter, no mailing list
+            and nothing to subscribe to on this site, so there is no marketing list for you to join
+            or to be added to without asking. We do not run events or webinars from it either.
+          </p>
+          <p className="body">
+            <strong>Social media.</strong> We link to our LinkedIn page. That is an ordinary link:
+            there is no social plug-in, embed, share button or pixel anywhere on this site, so
+            visiting a page here tells no social network anything about you. If you follow that link
+            and interact with us there, that platform&rsquo;s own terms and privacy notice apply and
+            we see only what the platform shows us.
+          </p>
+
+          <h2 className="h3">How and why we use information</h2>
+          <div className="table-scroll" style={{ marginTop: 16 }}>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">What we do</th>
+                  <th scope="col">Why we are allowed to</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Read and answer your enquiry</td>
+                  <td>
+                    Our legitimate interests in replying to a business enquiry you chose to send us
+                  </td>
+                </tr>
+                <tr>
+                  <td>Scope work and take steps towards a contract at your request</td>
+                  <td>Steps taken before entering into a contract</td>
+                </tr>
+                <tr>
+                  <td>Deliver and administer an engagement, including invoicing</td>
+                  <td>Performance of our contract with you or your organisation</td>
+                </tr>
+                <tr>
+                  <td>Keep a record of what was asked and what we answered</td>
+                  <td>Our legitimate interests in an accurate record of our business dealings</td>
+                </tr>
+                <tr>
+                  <td>Keep the website available and prevent abuse of the form</td>
+                  <td>Our legitimate interests in the security of our own systems</td>
+                </tr>
+                <tr>
+                  <td>Meet tax, accounting and other legal obligations</td>
+                  <td>Compliance with a legal obligation</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="body" style={{ marginTop: 16 }}>
+            Where we rely on legitimate interests we have weighed them against your interests, and
+            you can object — see <a href="#your-rights">your rights</a>.
+          </p>
+          <p className="body">
+            <strong>We do not sell personal information</strong> and we do not share it for anyone
+            else&rsquo;s marketing. This website operates no mailing list, no subscription and no
+            automated marketing sequence: replying to your enquiry is the only thing we do with it.
+          </p>
+        </section>
+
+        <section id="ai-automation">
+          <h2 className="h3">AI and automated processing</h2>
+          <p className="body">
+            We build AI systems for a living, so it is fair to ask what this website does with AI.
+            The answer is nothing, and we would rather say so plainly than leave you assuming
+            otherwise.
+          </p>
+          <p className="body">
+            <strong>This website does not operate an AI assistant or chatbot.</strong> There is no
+            conversational interface here, so there is no conversation to retain and no prompt sent
+            to any model provider. No large language model receives anything you type into this
+            site.
+          </p>
+          <p className="body">
+            <strong>Your enquiry is not scored, ranked or profiled.</strong> The four questions on
+            the form exist so that a person can judge whether we are the right firm for the work and
+            prepare properly before replying. No system assigns you a rating, a priority or a
+            likelihood of anything, and nothing of that kind is stored.
+          </p>
+          <p className="body">
+            <strong>
+              No decision producing legal effects, or similarly significant effects, is made about
+              you by automated means on this website.
+            </strong>{' '}
+            Whether we reply, what we say, and whether we propose working together are decisions
+            made by people. Any commercial commitment comes from a person and is confirmed in
+            writing.
+          </p>
+          <p className="body">
+            If we introduce an assistant or any automated assessment of enquiries, we will describe
+            it here — what it receives, whether conversations are kept, and how to ask for human
+            review — before it goes live rather than afterwards.
+          </p>
+          <p className="body">
+            Separately: the AI systems we design and build for clients run in those clients&rsquo;
+            environments under their control, not here. Where we handle personal information in the
+            course of that work, see <a href="#for-clients">work we do for clients</a>.
+          </p>
+        </section>
+
+        <section id="analytics">
+          <h2 className="h3">Analytics, cookies and your privacy choices</h2>
+          <p className="body">
+            <strong>This website sets no cookies.</strong> You are not shown a cookie banner because
+            there is nothing to consent to. We load no third-party scripts, fonts, images or
+            embedded content — every file the site requests comes from our own domain.
+          </p>
+          <p className="body">
+            We run <strong>no advertising or remarketing technology, no cross-site tracking, no
+            session recording or heatmaps, and no profiling of individual visitors</strong>. We do
+            not share visitor data with advertising platforms and we do not match website behaviour
+            to a person or to a CRM record.
+          </p>
+          {ANALYTICS_ENABLED ? (
+            <p className="body">
+              We use limited analytics to produce aggregate statistics about how this website is
+              used, so that we can improve its performance and content. It is used for that and
+              nothing else.
+            </p>
+          ) : (
+            <p className="body">
+              <strong>No analytics are running on this website at present.</strong> No analytics
+              provider is loaded and no measurement is collected or sent. When we introduce
+              analytics it will be limited to aggregate statistics that help us understand and
+              improve this site, and this statement will name what is running before it runs.
+            </p>
+          )}
+
+          <h3 className="h4">Your privacy choices</h3>
+          <p className="body">
+            <strong>Privacy choices</strong> appears in the footer of every page. It opens only when
+            you select it — never on arrival — and lets you switch website analytics off, and back
+            on, whenever you like. Switching it off stops any further analytics immediately, for the
+            rest of that visit and on every visit afterwards.
+          </p>
+          <p className="body">
+            So that we can respect that choice we store one preference in your browser:{' '}
+            <code>pt-analytics</code>, holding either <code>on</code> or <code>off</code>. It is
+            written only if you use the control. It contains no identifier, no date and nothing
+            derived from you, and it is never sent to us — two visitors who both object store
+            exactly the same value, so it cannot be used to tell them apart. That is the only thing
+            this site stores on your device. Our <Link href="/cookies">Cookies and analytics</Link>{' '}
+            page lists it, what it is for and how long it lasts.
+          </p>
+        </section>
+
+        <section id="sharing-security">
+          <h2 className="h3">Who else handles it, and where it goes</h2>
+          <p className="body">
+            Your enquiry is read by the people here who need to answer it. Beyond that, three
+            providers are involved, and we name them rather than describing them vaguely:
+          </p>
+          <div className="table-scroll" style={{ marginTop: 16 }}>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Provider</th>
+                  <th scope="col">What it does</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Vercel</td>
+                  <td>Hosts and serves this website, and processes the form submission</td>
+                </tr>
+                <tr>
+                  <td>Supabase</td>
+                  <td>Runs the database the enquiry is saved into</td>
+                </tr>
+                <tr>
+                  <td>Resend</td>
+                  <td>Sends us the notification that an enquiry has arrived</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="body" style={{ marginTop: 16 }}>
+            Once an enquiry reaches us, our own email is carried by our mailbox provider in the
+            ordinary way of any business correspondence. We also share information with our
+            professional advisers, and with a regulator or other body where the law requires it.
+          </p>
+          <p className="body">
+            Each of the three above is engaged to process this information for us, for the purpose
+            described, under that provider&rsquo;s data processing terms. If you are assessing us as
+            a supplier and need the contractual position, the transfer safeguards or the current
+            list in writing, ask and we will send it to your reviewer.
+          </p>
+
+          <h3 className="h4">Transfers out of the United Kingdom</h3>
+          <p className="body">
+            Those providers are established outside the United Kingdom, including in the United
+            States, so your information is transferred out of the UK when it passes through them.
+            Their data processing terms bring in the European Commission&rsquo;s standard
+            contractual clauses together with the UK Addendum that adapts those clauses for UK
+            transfers, and those terms apply as part of the agreement governing our use of each
+            service. We are not relying on an adequacy decision for any of them. Ask and we will
+            tell you which mechanism applies to which provider.
+          </p>
+
+          <h3 className="h4">Security</h3>
+          <p className="body">
+            The site is served over an encrypted connection, enquiry data is encrypted in transit
+            and at rest by the providers above, and access is limited to the people who need it. The
+            database credential the website uses is scoped so that the site can add an enquiry and
+            cannot read the others back. We hold an ISO/IEC 27001 certified information security
+            management system; the standards and their validity dates are in the footer of every
+            page, and the certificate detail goes to a reviewer on request.
+          </p>
+          <p className="body">
+            Nobody can promise a system is impossible to break into, and we are not going to. What
+            we can tell you is what we do, which is above, and that if something did go wrong and
+            your information were affected we would tell you and the regulator where the law
+            requires it.
+          </p>
+
+          <h3 className="h4">How long we keep it</h3>
+          <p className="body">
+            We keep an enquiry for{' '}
+            <strong>24 months from the last time we were in contact with you about it</strong>, and
+            then delete it. If nothing follows your first message, the clock starts there. Deleting
+            is something we do, not something a machine does on a timer — we would rather tell you
+            that than leave you picturing an automatic expiry that does not exist. If you think we
+            are holding something past it, say so and we will check.
+          </p>
+          <p className="body">
+            You do not have to wait. Ask us to delete your enquiry at any point and we will, without
+            asking why. Where we have worked together, the record becomes part of the client file
+            and is kept for the engagement and for six years afterwards, which is the period we may
+            need it for legal and tax purposes.
+          </p>
+        </section>
+
+        <section id="for-clients">
+          <h2 className="h3">Work we do for clients</h2>
+          <p className="body">
+            Much of what we build handles personal information belonging to our clients&rsquo; own
+            customers, staff or users. In that work{' '}
+            <strong>the client is the controller and we are the processor</strong>: they decide what
+            the information is for and what may be done with it, and we act on their documented
+            instructions under the data processing terms in our contract with them.
+          </p>
+          <p className="body">
+            This statement does not govern that information and we are not the right people to ask
+            about it. If you are a customer or user of one of our clients and want to know what is
+            held about you, or to exercise a right over it, approach that organisation. If a request
+            reaches us instead we will pass it to them rather than act on it ourselves, because
+            acting on it is exactly what a processor must not do.
+          </p>
+        </section>
+
+        <section id="your-rights">
+          <h2 className="h3">Your rights</h2>
+          <p className="body">
+            Under UK data protection law you may ask us for a copy of the personal information we
+            hold about you, have inaccurate information corrected, have information deleted, ask us
+            to restrict how we use it, and receive it in a portable form where that applies.
+          </p>
+          <p className="body">
+            Where we rely on our legitimate interests you have the right to object, and we will stop
+            unless we have compelling grounds to continue. Where we rely on your consent you can
+            withdraw it at any time, which does not affect anything done before you did.{' '}
+            <strong>
+              You can object to direct marketing at any time and we will stop, without exception and
+              without asking for a reason.
+            </strong>
+          </p>
+          <p className="body">
+            To exercise any of these, email <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+            We will respond within one month. There is no charge. We may ask you to confirm who you
+            are before we release information, which protects you rather than us.
+          </p>
+
+          <h3 className="h4">Complaints</h3>
+          <p className="body">
+            If you are unhappy with how we have handled your information, tell us first at{' '}
+            <a href={`mailto:${contactEmail}`}>{contactEmail}</a> so that we can put it right. We
+            will acknowledge within 30 days, look into it and report the outcome.
+          </p>
+          <p className="body">
+            You also have the right to complain to the Information Commissioner&rsquo;s Office, the
+            UK supervisory authority, at{' '}
+            <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener noreferrer">
+              ico.org.uk
+            </a>{' '}
+            or on 0303 123 1113. You do not have to come to us first, though we would rather you
+            did.
+          </p>
+
+          <h3 className="h4">Children</h3>
+          <p className="body">
+            This is a business website and our services are sold to organisations. It is not
+            directed at children and we do not knowingly collect information about them. If you
+            believe a child has sent us something, tell us and we will delete it.
+          </p>
+
+          <h3 className="h4">Links to other sites</h3>
+          <p className="body">
+            Where we link out — to the other Pixelette Group companies, to our LinkedIn page, or to
+            a source we have cited — those sites have their own privacy practices and this statement
+            does not extend to them.
+          </p>
+
+          <h3 className="h4">Changes to this statement</h3>
+          <p className="body">
+            We review this statement when what we do with personal information changes, and at least
+            once a year. The effective date and version are at the top of this page. Where a change
+            materially affects you we will say so, rather than leaving you to notice a new date.
+          </p>
+        </section>
+
+        <section id="contact">
+          <h2 className="h3">Contact</h2>
+          <p className="body">
+            {company.legalName}
+            <br />
+            {company.addressLine}
+            <br />
+            Registered in {company.registeredIn}, company number {company.crn}
+            <br />
+            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+          </p>
+          <p className="body">
+            We have not appointed a statutory data protection officer, because we are not required
+            to. Privacy questions go to the address above and are answered by a person.
+          </p>
+          </section>
+        </div>
+      </div>
     </>
   );
 }
