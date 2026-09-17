@@ -80,7 +80,7 @@ export default function DataIntegrationPage() {
         <div className="wrap">
           <Eyebrow>Data & Integration</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            The AI cannot see your data. That is the real problem.
+            The AI cannot see your data. That is the real problem
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Independent survey after independent survey names the same blocker. Not model capability,

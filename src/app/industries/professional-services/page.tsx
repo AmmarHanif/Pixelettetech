@@ -257,7 +257,7 @@ export default function ProfessionalServicesPage() {
       <Section labelledBy="ps-gap-heading">
         <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
           <div>
-            <SectionHead title="The gap is not adoption. It is evidence." id="ps-gap-heading" />
+            <SectionHead title="The gap is not adoption. It is evidence" id="ps-gap-heading" />
             <p className="body" style={{ marginTop: 20 }}>
               Most firms in this sector have bought AI tools. Very few can walk a client through what
               changed, with a number. That is now a commercial risk rather than a technology one, and

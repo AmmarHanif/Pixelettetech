@@ -179,7 +179,7 @@ export default function CustomSoftwareSaasPage() {
             <SectionHead
               eyebrow="The distinction that costs money"
               id="css-prod-heading"
-              title="A prototype proves an idea. A product survives a Monday."
+              title="A prototype proves an idea. A product survives a Monday"
             />
             <p className="body" style={{ marginTop: 20 }}>
               A great deal of software is bought as a product and delivered as a prototype: the happy

@@ -104,7 +104,7 @@ export default function IndustriesPage() {
         </div>
       </Section>
 
-      <ClosingCta title="Your sector is not the interesting part. Your process is.">
+      <ClosingCta title="Your sector is not the interesting part. Your process is">
         Bring us the process that is costing you, and we will tell you what it would take to
         instrument it, whether your sector has a page here or not.
       </ClosingCta>

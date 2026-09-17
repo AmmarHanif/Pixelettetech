@@ -97,7 +97,7 @@ export default function BlockchainIntegrationPage() {
         <div className="wrap">
           <Eyebrow>Decentralise · Integration</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            The chain is one system among several. It has to talk to the rest.
+            The chain is one system among several. It has to talk to the rest
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Connect blockchain components to existing applications, data and off-chain systems.

@@ -51,7 +51,7 @@ export default function AboutPage() {
         <div className="wrap">
           <Eyebrow>About</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Since {company.incorporated}, shipping systems that stay in service.
+            Since {company.incorporated}, shipping systems that stay in service
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             {company.name} has built production software since {company.incorporated}: web

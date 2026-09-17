@@ -79,8 +79,22 @@ export default async function WorkPage({
       <div className="hero-glow" style={{ padding: '80px 0 56px' }}>
         <div className="wrap">
           <Eyebrow>Work</Eyebrow>
+          {/*
+            REWRITTEN 2026-09-17 on founder instruction: "give me a less
+            aggressive statement. Isn't this page about the case studies?"
+
+            Both halves of that were right. "Named clients. Named processes. No
+            invented numbers." argued with an accusation nobody had made - it
+            read as defensive, and a reader arriving at an index page has not
+            yet doubted anything. It also described our EVIDENCE POLICY rather
+            than the page, which is the index of the work itself.
+
+            The policy has not gone anywhere; it is the lead paragraph below,
+            where a reader who wants it will find it, stated rather than
+            asserted at them. The headline now says what the page is.
+          */}
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Named clients. Named processes. No invented numbers.
+            Selected work, and the engineering behind it
           </h1>
           {/* Rewritten twice on 2026-09-08, and the second time is the one that
               matters. The first rewrite still led with "shows the number before

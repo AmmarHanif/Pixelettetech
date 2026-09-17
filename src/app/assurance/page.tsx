@@ -1,6 +1,7 @@
 import { CertifiedHandoff } from '@/components/sections';
 import { Cta, Eyebrow, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { certified, company } from '@/content/company';
+import { asHeading } from '@/lib/copy';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -109,8 +110,12 @@ export default function AssurancePage() {
               front page and in the Certified handoff block, and three hand-typed
               copies of an accreditation-safe sentence is three chances to drift
               back into an unsafe one. */}
+          {/* asHeading, 2026-09-17: headlines carry no closing full stop, and
+              the stored sentence has to keep one for the five places it renders
+              as prose. Presentational difference, so it is applied here rather
+              than in company.ts. */}
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '24ch' }}>
-            {certified.positioningLine}
+            {asHeading(certified.positioningLine)}
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             {certified.blurb}

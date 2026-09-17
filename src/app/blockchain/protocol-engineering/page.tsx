@@ -100,7 +100,7 @@ export default function ProtocolEngineeringPage() {
         <div className="wrap">
           <Eyebrow>Decentralise · Protocol Engineering</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '22ch' }}>
-            A bespoke chain is rarely the answer. Occasionally it is the only one.
+            A bespoke chain is rarely the answer. Occasionally it is the only one
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Specialist network and protocol engineering, for the cases where a general-purpose chain

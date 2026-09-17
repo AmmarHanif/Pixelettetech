@@ -161,8 +161,13 @@ export default function AiServicesPage() {
             <span className="step__n" style={{ color: 'var(--mint)' }}>
               Not us · {certified.name}
             </span>
+            {/* Sentence case from 2026-09-17, on founder instruction. This one
+                is free text, not a service name: unlike "Production AI Systems"
+                or "Support & Run" it appears exactly once in the repository and
+                is not carried in nav, breadcrumbs or JSON-LD, so lowering it
+                changes a heading and nothing else. */}
             <h3 className="h3" style={{ color: 'var(--dark-head)' }}>
-              AI Assurance & Governance
+              AI assurance and governance
             </h3>
             {/*
               Was: "... Delivered by Pixelette Certified, a separate practice in

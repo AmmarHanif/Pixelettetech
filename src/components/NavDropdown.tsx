@@ -128,7 +128,26 @@ export function NavDropdown({ section }: { section: NavSection }) {
       >
         {section.label}
       </summary>
-      <div className="nav__drop-panel">
+      <div
+        className="nav__drop-panel"
+        /*
+         * CLOSE ON CHOOSING SOMETHING. Founder instruction 2026-09-17: the
+         * panel stayed open after clicking one of its links.
+         *
+         * It is a client-side <Link>, so there is no document load to reset the
+         * <details> element - the new page renders underneath a menu that is
+         * still open, which is what he saw. This is the price of the same
+         * client-side navigation that makes the site quick, and it needs paying
+         * explicitly.
+         *
+         * Listening on the panel rather than on each Link: one handler covers
+         * the hub link and every item, including any added later, and clicks on
+         * the panel's own padding are ignored by the anchor test.
+         */
+        onClick={e => {
+          if ((e.target as HTMLElement).closest('a')) close();
+        }}
+      >
         <Link href={section.href} className="nav__drop-hub">
           <span className="nav__drop-hub-label">
             {section.label} overview

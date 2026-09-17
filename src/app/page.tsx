@@ -535,7 +535,7 @@ export default function HomePage() {
         <SectionHead
           eyebrow="The gap"
           id="gap-heading"
-          title="Your people feel faster. Your P&amp;L does not."
+          title="Your people feel faster. Your P&amp;L does not"
         />
         <p className="body" style={{ marginTop: 20, maxWidth: '72ch' }}>
           Almost every organisation now has AI somewhere. Very few can point at a line in the

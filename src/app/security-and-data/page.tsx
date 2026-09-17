@@ -11,6 +11,7 @@ import {
 } from '@/components/ui';
 import { certified, company } from '@/content/company';
 import { DELIVERY_CONNECTED } from '@/content/launch';
+import { asHeading } from '@/lib/copy';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -459,7 +460,13 @@ export default function SecurityDataPage() {
               sells — is kept: it just says we will not assure our own build,
               rather than naming who audits.
             */}
-            <SectionHead eyebrow="Governance" id="gov-heading" title={certified.positioningLine} />
+            {/* asHeading, 2026-09-17: no closing full stop in a heading. The
+                stored sentence keeps its own, for the five prose sites. */}
+            <SectionHead
+              eyebrow="Governance"
+              id="gov-heading"
+              title={asHeading(certified.positioningLine)}
+            />
             <p className="body" style={{ marginTop: 20 }}>
               {company.name} engineers and runs the system. Where a programme needs formal
               governance, certification readiness, privacy or security-assurance support,{' '}

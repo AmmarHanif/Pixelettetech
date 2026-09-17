@@ -153,7 +153,7 @@ export default function PredictiveIntelligencePage() {
             <SectionHead
               eyebrow="Getting it used"
               id="pi-use-heading"
-              title="The hard part is not the model. It is the Tuesday."
+              title="The hard part is not the model. It is the Tuesday"
             />
             <p className="body" style={{ marginTop: 20 }}>
               A score only creates value when it appears in front of the person making the decision,
