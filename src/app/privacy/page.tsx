@@ -63,6 +63,11 @@ export const metadata = pageMetadata({
  *     elsewhere is not knowable from here and is flagged to the founder.
  *   - Anything about AI providers and model training. There is no AI provider.
  *
+ * Recorded as ADR-0038, which also names the shelf life of the scoping choice:
+ * the statement is accurate about the WEBSITE and silent about the BUSINESS,
+ * and the first outbound marketing campaign that points at this page
+ * invalidates that silence.
+ *
  * LAYOUT. Nothing is collapsed behind a control. The brief permits expandable
  * subsections on mobile but makes "the complete legal information must remain
  * readily accessible" the overriding constraint, and collapsed legal text
