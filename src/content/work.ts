@@ -823,7 +823,23 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'fusio',
     client: 'Fusio Wallet',
-    namePermission: 'PENDING',
+    namePermission: 'CONFIRMED',
+    releasedNames: [
+      {
+        name: 'Fusio Wallet',
+        approvedBy: 'The founder',
+        approvedOn: '2026-09-17',
+        basis:
+          'Asked whether to confirm permission for these three studies - which publishes the client name and the image together - or to leave them gated and replace the placeholder, he answered "add them". He had been shown, in the same message, that option one returns "names and images both". That decision is the entire basis for this release.',
+      },
+      {
+        name: 'Fusio',
+        approvedBy: 'The founder',
+        approvedOn: '2026-09-17',
+        basis:
+          'Asked whether to confirm permission for these three studies - which publishes the client name and the image together - or to leave them gated and replace the placeholder, he answered "add them". He had been shown, in the same message, that option one returns "names and images both". That decision is the entire basis for this release.',
+      },
+    ],
     anonymisedName: 'a FinTech wallet and financial-planning programme',
     anonymisedKicker:
       'FinTech product programme · Digital finance · Mobile, web and AI product engineering',
@@ -919,7 +935,30 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'ayni-gold',
     client: 'Ayni Gold',
-    namePermission: 'PENDING',
+    namePermission: 'CONFIRMED',
+    releasedNames: [
+      {
+        name: 'Ayni Gold',
+        approvedBy: 'The founder',
+        approvedOn: '2026-09-17',
+        basis:
+          'Asked whether to confirm permission for these three studies - which publishes the client name and the image together - or to leave them gated and replace the placeholder, he answered "add them". He had been shown, in the same message, that option one returns "names and images both". That decision is the entire basis for this release.',
+      },
+      {
+        name: 'Ayni',
+        approvedBy: 'The founder',
+        approvedOn: '2026-09-17',
+        basis:
+          'Asked whether to confirm permission for these three studies - which publishes the client name and the image together - or to leave them gated and replace the placeholder, he answered "add them". He had been shown, in the same message, that option one returns "names and images both". That decision is the entire basis for this release.',
+      },
+      {
+        name: 'AYNI',
+        approvedBy: 'The founder',
+        approvedOn: '2026-09-17',
+        basis:
+          'Asked whether to confirm permission for these three studies - which publishes the client name and the image together - or to leave them gated and replace the placeholder, he answered "add them". He had been shown, in the same message, that option one returns "names and images both". That decision is the entire basis for this release.',
+      },
+    ],
     anonymisedName: 'a real-world-asset gold tokenisation ecosystem',
     anonymisedKicker: 'Real-world asset tokenisation · Gold and commodities · Blockchain engineering',
     kicker: 'Ayni Gold · Gold and commodities · Blockchain engineering',
@@ -1002,7 +1041,16 @@ export const caseStudies: CaseStudy[] = [
      */
     slug: 'accessible-intelligence-assessment',
     client: 'AIA',
-    namePermission: 'PENDING',
+    namePermission: 'CONFIRMED',
+    releasedNames: [
+      {
+        name: 'AIA',
+        approvedBy: 'The founder',
+        approvedOn: '2026-09-17',
+        basis:
+          'Asked whether to confirm permission for these three studies - which publishes the client name and the image together - or to leave them gated and replace the placeholder, he answered "add them". He had been shown, in the same message, that option one returns "names and images both". That decision is the entire basis for this release.',
+      },
+    ],
     anonymisedName: 'an accessible cognitive-assessment platform',
     anonymisedKicker: 'Accessible assessment SaaS · Inclusive hiring · Production AI system',
     kicker: 'AIA · Inclusive hiring · Production AI system',
@@ -1022,7 +1070,7 @@ export const caseStudies: CaseStudy[] = [
       problem:
         'Organisations struggle to meet mandated hiring quotas for people with disabilities: assessing candidates with sensory, physical or intellectual impairments fairly is hard, and the compliance requirement makes getting it wrong expensive in both directions.',
       built:
-        'AIA, a gamified cognitive mapping tool for DiverSCInnova that assesses up to ten cognitive skills — focus, attention, logical reasoning among them — and produces detailed reports for inclusive hiring, role alignment and vocational guidance.',
+        'AIA, a gamified cognitive mapping tool that assesses up to ten cognitive skills — focus, attention, logical reasoning among them — and produces detailed reports for inclusive hiring, role alignment and vocational guidance.',
       delivery:
         'Accessibility research → product design → AI/model work → integrations → QA → deployment, across a seven-month programme.',
       measured:
