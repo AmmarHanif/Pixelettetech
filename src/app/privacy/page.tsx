@@ -16,6 +16,11 @@ export const metadata = pageMetadata({
  * "Consolidate GDPR transparency requirements into one professionally drafted
  * Privacy Notice linked from the footer."
  *
+ * The decision and its consequences are recorded in ADR-0034 (layered privacy:
+ * the security surface leaves the marketing site), which also names what this
+ * change OWES: a procurement pack that does not exist yet, a retention period
+ * that was chosen rather than found, and a legal review of this document.
+ *
  * WHAT THIS REPLACED, and why the replacement is shorter rather than longer.
  * The previous version ran to 634 lines and worked as a companion to
  * /security-and-data, which carried subprocessor tables, data residency, an

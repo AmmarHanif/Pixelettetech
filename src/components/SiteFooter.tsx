@@ -62,7 +62,8 @@ function publishedTrustBadges(): readonly string[] {
 /**
  * THE CERTIFICATION LEDGER. Founder instruction 2026-09-17: on the public site,
  * certification is limited to the verified ISO standards in the homepage and
- * footer ledger, with no supporting certificate narrative anywhere.
+ * footer ledger, with no supporting certificate narrative anywhere. Recorded as
+ * ADR-0034, which amends ADR-0012 and tightens ADR-0029.
  *
  * THIS REVERSES A RECORDED DECISION, so the decision is answered rather than
  * deleted. `src/content/company.ts` deliberately kept these pills empty, on the
