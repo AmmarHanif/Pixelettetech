@@ -183,64 +183,59 @@ export type PendingPage = {
  */
 export const PENDING_SPEC_PAGES: PendingPage[] = [];
 
+/*
+ * THE FOOTER COLUMNS, cut down 2026-09-17 on founder instruction: "I want all
+ * of those links clean. It's too busy a space."
+ *
+ * IT CARRIED 23 SERVICE LINKS, more than the rest of the footer put together,
+ * in three columns that reproduced the primary navigation. The header's
+ * dropdowns already carry 16 of those 23, so most of it was a second copy of
+ * the main menu competing with the first. Each section hub also lists its own
+ * children, so a reader who wants depth is one click from it either way.
+ *
+ * WHAT WAS CHECKED BEFORE CUTTING, because "the header has these too" was only
+ * true of 16 of them. Of the seven that were footer-only, six are linked from
+ * four or five pages inside their own section already and lose nothing.
+ *
+ * THE SEVENTH IS A REAL, ACCEPTED LOSS: /engineering#product-design was linked
+ * from NOWHERE else on the site, not even from /engineering's own page. The
+ * anchor and its content remain — Product design is a section of /engineering,
+ * which the Engineering link below points at — but the deep link to it is gone
+ * and a reader now reaches it by reading that page. It is a section, not a
+ * page; this file's own note records that it "has no page of its own and the
+ * handoff does not ask for one", so the fix is not to invent one.
+ *
+ * TWO COLUMNS, NOT FOUR. Three columns each holding a single link would put a
+ * heading above a link that says the same thing.
+ */
 export const footerColumns: { heading: string; items: NavItem[] }[] = [
   {
-    heading: 'AI & Automation',
+    heading: 'Services',
     items: [
-      { href: '/ai-engineering/agentic-ai-multi-agent', label: 'Agentic AI & multi-agent systems' },
-      { href: '/ai-engineering/workflow-automation', label: 'AI agents & workflow automation' },
-      { href: '/ai-engineering/llm-integration-rag', label: 'LLM integration & RAG' },
-      { href: '/ai-engineering/predictive-intelligence', label: 'Predictive intelligence' },
-      { href: '/ai-engineering/production-ai-systems', label: 'Production AI Systems' },
-      { href: '/ai-engineering/data-and-integration', label: 'Data & Integration' },
-      { href: '/ai-engineering/value-discovery', label: 'Value Discovery' },
-      {
-        href: '/ai-engineering/evaluation-and-observability',
-        label: 'Evaluation & observability',
-      },
-      { href: '/ai-engineering/services', label: 'All AI services' },
-      { href: '/ai-engineering/support-and-run', label: 'Support & run' },
-      { href: '/assurance', label: 'Assurance · who does what' },
+      { href: '/ai-engineering', label: 'AI & automation' },
+      { href: '/engineering', label: 'Engineering' },
+      { href: '/blockchain', label: 'Blockchain' },
     ],
   },
   {
-    heading: 'Engineering',
-    /* Repointed 2026-09-08 from section anchors to the dedicated service pages
-       the handoff asks for, now that those pages exist. Product design keeps
-       its anchor because it has no page of its own and the handoff does not
-       ask for one. The pages the dropdowns use and the pages the footer uses
-       are now the same pages. */
-    items: [
-      { href: '/engineering/custom-software-saas', label: 'Custom Software & SaaS' },
-      { href: '/engineering/web-platforms', label: 'Web platforms' },
-      { href: '/engineering/mobile-applications', label: 'Mobile applications' },
-      { href: '/engineering/modernisation-integration', label: 'Modernisation & integration' },
-      { href: '/engineering/cloud-data-engineering', label: 'Cloud & data engineering' },
-      { href: '/engineering/managed-engineering', label: 'Managed engineering / support' },
-      { href: '/engineering#product-design', label: 'Product design' },
-    ],
-  },
-  {
-    heading: 'Blockchain',
-    items: [
-      { href: '/blockchain/tokenisation', label: 'Tokenisation' },
-      /* Not "smart contracts & audit". The claims register holds the word
-         "audit" (claims.ts `smart-contract-audit`) until the precise audit
-         competence and scope is evidenced; "dApps" is the handoff's own label
-         for this page. */
-      { href: '/blockchain/smart-contracts-dapps', label: 'Smart contracts & dApps' },
-      { href: '/blockchain/wallets-digital-assets', label: 'Wallets & digital-asset products' },
-      { href: '/blockchain/integration', label: 'Blockchain integration' },
-      { href: '/blockchain/protocol-engineering', label: 'Layer 1, Layer 2 & protocol engineering' },
-    ],
-  },
-  {
-    heading: 'Company & trust',
+    /*
+     * "Company", not "Company & trust". The old heading was named when this
+     * column held Security & data and Certifications; both were withdrawn on
+     * 17 September (ADR-0034), so the heading was describing contents that no
+     * longer existed. Renaming it is a correction, not a preference.
+     *
+     * Order is About, Work, Contact deliberately: who we are, the proof, then
+     * how to reach us.
+     *
+     * Modern slavery stays in `legalNav` below rather than moving up here. That
+     * row is a set of compliance documents a reader goes to CHECK; these three
+     * are places a reader goes to LEARN or BUY. Mixing them makes this column
+     * do two jobs and makes the legal row look arbitrary.
+     */
+    heading: 'Company',
     items: [
       { href: '/about', label: 'About' },
       { href: '/case-studies', label: 'Work' },
-      /* Withdrawn for launch with the header entry above - an unfinished index
-         reachable from the footer is still an unfinished index shipped. */
       { href: '/contact', label: 'Contact' },
     ],
   },

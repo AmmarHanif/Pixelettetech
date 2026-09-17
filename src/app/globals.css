@@ -2500,20 +2500,28 @@ button.btn[disabled] {
 .site-footer__id {
   display: flex;
   flex-wrap: wrap;
-  /* Column gap, not a left margin on the separator: see the ::before note. */
-  gap: 2px 8px;
+  /* Whitespace IS the separator. 26px is wide enough to read as a break
+     between segments and narrow enough that the row still reads as one line
+     of fine print. */
+  gap: 4px 26px;
   font-weight: 400;
   opacity: 0.62;
   max-width: 76ch;
 }
-/* The 8px lives in the parent's column-gap, so the dot occupies the position
-   a letter would and a wrapped line starts flush with the one above it. A
-   left margin here indented every wrapped line by 8px plus the glyph. */
-.site-footer__id > span + span::before {
-  content: '·';
-  margin: 0 8px 0 0;
-  opacity: 0.55;
-}
+/* NO SEPARATOR GLYPH AT ALL, and this is the third attempt at this row.
+   
+   First it was a middot typed into the copy, which stranded at the END of a
+   wrapped line. Then a ::before, which fixed that and relocated the strand to
+   the BEGINNING of the line — the design review caught the 8px indent it
+   dragged with it, and removing the margin made the span flush. But a rendered
+   capture then showed what the DOM measurement could not: the span box was
+   flush and the dot was STILL the first mark on line two, reading as a stray
+   character against an otherwise clean footer.
+
+   No glyph can be told "do not begin a line". So the glyph goes. Whitespace
+   separates the segments, which is quieter, works identically at every width,
+   and needs no special case. The measurement that mattered here was a picture,
+   not a bounding box — the box was correct in every attempt. */
 
 /* DESIGN REVIEW 2, 2026-09-17. At phone width the disclosure cannot avoid
    wrapping, and no CSS can tell a separator that it is about to BEGIN a line —
@@ -2538,8 +2546,5 @@ button.btn[disabled] {
   .site-footer__id,
   .site-footer__id > span {
     display: block;
-  }
-  .site-footer__id > span + span::before {
-    content: none;
   }
 }

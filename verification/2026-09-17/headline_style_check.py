@@ -60,7 +60,6 @@ TITLE_CASE_ALLOWED = {
     'Value Discovery': 'named offer',
     'dApps and DeFi': 'proper nouns',
     'Layer 1, Layer 2 and DAOs': 'proper nouns',
-    'AI & Automation': 'navigation section name',
     'Privacy Notice': 'the name of a legal document, not a headline',
     # A mono design label plus its small badge, which the text extractor glues
     # together ("AUTOMATE" + "THIS PAGE"). Uppercase by design, not a headline.
