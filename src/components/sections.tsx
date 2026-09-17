@@ -401,8 +401,14 @@ export function CertifiedHandoff({
   ctaLabel?: string;
 }) {
   if (variant === 'compact') {
+    /*
+     * Padding lives in `.dark-panel--compact` rather than inline, changed
+     * 2026-09-17. An INLINE style beats any class, so while it sat on the div
+     * the full-bleed Certified band could not zero it and the band's text
+     * stayed indented 32px from the container it was supposed to align with.
+     */
     return (
-      <div className="dark-panel" style={{ padding: '30px 32px' }}>
+      <div className="dark-panel dark-panel--compact">
         {/* WHITE, not --mint, from 2026-09-17 on founder instruction. --mint is
             #d9b8f0, a light PURPLE, which read as a stray brand accent against
             the white body text of this panel rather than as part of it. Same

@@ -537,6 +537,13 @@ td {
   color: #ffffff;
 }
 
+/* Was an inline style on the compact variant. Moved here so a container can
+   override it - an inline style cannot be beaten by a class, which is exactly
+   what stopped the Certified band aligning its text to the page. */
+.dark-panel--compact {
+  padding: 30px 32px;
+}
+
 /* ------------------------------------------------------------------ header */
 
 .site-header {
@@ -2406,4 +2413,46 @@ button.btn[disabled] {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted-2);
+}
+
+/* =====================================================================
+   Certified band — full-bleed ground, contained content.
+
+   Added 2026-09-17 on founder instruction: "make it fully wide, the content
+   inside it should remain in the container like the other sections".
+
+   It was a rounded dark CARD sitting inside `.wrap`. This inverts that: the
+   dark ground now runs edge to edge while the text still aligns with every
+   other block on the page, which is the usual way a site marks a change of
+   register without breaking its measure.
+
+   THE PANEL'S OWN CHROME IS NEUTRALISED RATHER THAN THE COMPONENT FORKED. The
+   compact variant still renders `.dark-panel`, and it still carries its card
+   treatment everywhere else it is used - only inside this band does it drop the
+   background, border, radius and padding, because the band now supplies them.
+   One override here beats a second component or a `variant` nobody else wants.
+
+   SQUARE CORNERS, deliberately: a 12px radius at the viewport edge reads as a
+   card that has outgrown its container rather than as a band.
+   ===================================================================== */
+.certified-band {
+  background: linear-gradient(150deg, #04211f 0%, #080f0f 74%);
+  /* More top and bottom than the 30px the card carried, as asked. The band is
+     doing the spacing now, so the content needs room inside it. */
+  padding: 92px 0;
+  /* No bottom margin: the band meets the section below it directly. The top gap
+     is whatever the preceding section's own bottom padding gives, which is the
+     decrease that was asked for - it used to be that PLUS a 96px Section. */
+  margin: 0;
+}
+
+/* Two classes, so this beats `.dark-panel--compact` on specificity and the
+   content sits flush with `.wrap` - aligned with every other section rather
+   than inset by the card's own padding. */
+.certified-band .dark-panel {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
 }

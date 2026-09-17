@@ -837,20 +837,27 @@ export default function HomePage() {
         /ai-engineering/services earlier today.
       */}
       {/*
-        WRAPPED 2026-09-17. The compact variant returns a BARE `.dark-panel`
-        div with no container of its own, and this was the only call site that
-        did not supply one - the other renders it inside a Section already. So
-        on the homepage it went edge to edge while every other block on the page
-        sat inside `.wrap`, which is what the founder saw.
+        FULL-BLEED BAND, CONTAINED CONTENT — changed 2026-09-17 on founder
+        instruction, replacing the `Section flush` wrapper added earlier the
+        same day.
 
-        `Section flush` rather than a plain `<div className="wrap">`: it gives
-        the same 1160px container AND the page's own 96px vertical rhythm, and
-        `flush` suppresses the border-top so this does not gain a rule the
-        surrounding blocks do not have.
+        The history is worth keeping because it went both ways. The compact
+        variant returns a bare `.dark-panel` with no container, and this was the
+        only call site not supplying one, so it originally ran edge to edge with
+        its TEXT unaligned to the page. That was wrong. The first fix put the
+        whole card inside `.wrap`, which aligned the text but also shrank the
+        dark ground to 1160px. He wants the third thing: ground full width, text
+        in the container.
+
+        So the wrapper is now a plain <section> carrying the dark ground, with
+        `.wrap` inside it doing the measure. `.certified-band` in globals.css
+        also neutralises the panel's own card chrome, since the band supplies it.
       */}
-      <Section flush>
-        <CertifiedHandoff variant="compact" />
-      </Section>
+      <section className="certified-band">
+        <div className="wrap">
+          <CertifiedHandoff variant="compact" />
+        </div>
+      </section>
 
       {/* ═══════════════════════ 13 · Part of Pixelette Group ════════════ */}
       {/*
