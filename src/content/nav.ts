@@ -241,8 +241,6 @@ export const footerColumns: { heading: string; items: NavItem[] }[] = [
       { href: '/case-studies', label: 'Work' },
       /* Withdrawn for launch with the header entry above - an unfinished index
          reachable from the footer is still an unfinished index shipped. */
-      { href: '/security-and-data', label: 'Security & data' },
-      { href: '/certifications', label: 'Certifications' },
       { href: '/contact', label: 'Contact' },
     ],
   },
@@ -328,7 +326,7 @@ export const groupBlurb =
   'Pixelette Technologies is one of four companies in Pixelette Group, a UK technology group. Each company is engaged separately and none is a condition of another: we engineer it, and Certified helps you govern, evidence and prepare it for independent assessment.';
 
 export const legalNav: NavItem[] = [
-  { href: '/privacy', label: 'Privacy' },
+  { href: '/privacy', label: 'Privacy Notice' },
   { href: '/terms', label: 'Terms' },
   { href: '/modern-slavery', label: 'Modern slavery' },
   { href: '/accessibility', label: 'Accessibility' },
@@ -398,8 +396,6 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
      deliberately not launching is the contradiction that gets it indexed. */
   { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/security-and-data', priority: 0.7, changeFrequency: 'monthly' },
-  { path: '/certifications', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/terms', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/modern-slavery', priority: 0.3, changeFrequency: 'yearly' },

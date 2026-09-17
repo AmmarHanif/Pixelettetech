@@ -29,6 +29,23 @@ export const company = {
   name: 'Pixelette Technologies',
   shortName: 'Pixelette',
   crn: '11716825',
+  /**
+   * The PART OF THE UNITED KINGDOM in which the company is registered.
+   *
+   * Not decoration, and not a synonym for "England". S.I. 2015/17 reg. 25(2)(a)
+   * requires a company to disclose on its websites "the part of the United
+   * Kingdom in which it is registered", and the Companies Act 2006 offers
+   * exactly four: England and Wales, Wales, Scotland, and Northern Ireland.
+   *
+   * There is no "England" option. England and Wales is ONE legal jurisdiction,
+   * and Wales appears separately only because a company whose registered office
+   * is in Wales may elect to be registered as "Wales" specifically. This
+   * company's registered office is in London, so the part is England and Wales.
+   *
+   * It lives here because it was previously hand-typed into three files, which
+   * is three chances for someone to "correct" it to England.
+   */
+  registeredIn: 'England and Wales',
   incorporated: 2018,
   address: {
     street: '77 Fulham Palace Road',
@@ -113,6 +130,17 @@ export type Certification = {
   note?: string;
   verifyLabel: string;
   verifyUrl?: string;
+  /**
+   * The claims-register row this certificate publishes under, added 2026-09-17.
+   *
+   * PER-ROW GATING, not one gate for the set. The footer ledger used to hang
+   * off a single compound id covering ISO 9001, ISO 27001 AND Cyber Essentials
+   * Plus, so it was all-or-nothing: the two evidenced certificates could not
+   * reach the footer without the unevidenced third coming with them, which is
+   * why the pills were empty. Naming the row per certificate lets each one
+   * publish on its own evidence and keeps the gate fail-closed for the next.
+   */
+  claimId?: string;
   /** True when the certificate is held by Pixelette Certified, not by us. */
   heldByCertified?: boolean;
   /*
@@ -226,8 +254,11 @@ export const certificationRegister: Certification[] = [
        what is published, what is not, and how to ask for the document. It
        promises a page that exists rather than a register search that does
        not. */
+    /* verifyUrl removed 2026-09-17: /certifications was withdrawn on founder
+       instruction, and a label with no URL is this file's existing idiom for
+       "no public route". The detail is supplied during procurement. */
     verifyLabel: 'Detail on request',
-    verifyUrl: '/certifications',
+    claimId: 'iso-9001-certificate',
     published: true,
   },
   {
@@ -255,8 +286,9 @@ export const certificationRegister: Certification[] = [
     issued: '12 March 2026',
     validTo: '11 March 2027',
     recertification: '11 March 2029',
+    /* verifyUrl removed 2026-09-17, same reason as the row above. */
     verifyLabel: 'Detail on request',
-    verifyUrl: '/certifications',
+    claimId: 'iso-27001-certificate',
     published: true,
   },
   {

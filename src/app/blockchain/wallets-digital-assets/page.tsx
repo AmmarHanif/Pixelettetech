@@ -169,9 +169,6 @@ export default function WalletsDigitalAssetsPage() {
               the answer carries a regulatory question, that belongs with your advisers rather than
               with us.
             </p>
-            <p style={{ marginTop: 26 }}>
-              <FLink href="/security-and-data">Our security and data position</FLink>
-            </p>
           </div>
 
           <div>

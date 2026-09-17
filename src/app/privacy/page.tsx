@@ -1,311 +1,66 @@
-import Link from 'next/link';
-
 import { LegalPage } from '@/components/LegalPage';
 import { JsonLd } from '@/components/ui';
 import { company, contactEmail } from '@/content/company';
-import { DELIVERY_CONNECTED } from '@/content/launch';
 import { breadcrumbSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
-  title: 'Privacy',
+  title: 'Privacy Notice',
   description:
-    'What Pixelette Technologies collects through this website, why, and what rights you have under UK GDPR.',
+    'What Pixelette Technologies collects through this website, why, who it is shared with, how long it is kept and your rights under UK GDPR.',
   path: '/privacy',
 });
 
 /*
- * Scope of the 2026-09-07 revision: ONLY what a verified statutory provision
- * compels. Founder instruction was to change what the law requires and nothing
- * that is commercial judgment.
+ * THE SINGLE PRIVACY NOTICE. Rewritten 2026-09-17 on founder instruction:
+ * "Consolidate GDPR transparency requirements into one professionally drafted
+ * Privacy Notice linked from the footer."
  *
- * Each section below names the provision it discharges. Every provision was
- * read at legislation.gov.uk on 2026-09-07 and is in force on that date.
+ * WHAT THIS REPLACED, and why the replacement is shorter rather than longer.
+ * The previous version ran to 634 lines and worked as a companion to
+ * /security-and-data, which carried subprocessor tables, data residency, an
+ * AI-governance position and incident-response commitments. Both that page and
+ * /certifications were WITHDRAWN on the same instruction: detailed security
+ * controls, ISO evidence, processor documentation and DPAs leave the marketing
+ * site and are supplied during enterprise procurement. This notice therefore
+ * has to stand alone, and it covers exactly what UK GDPR Article 13 requires of
+ * a controller and nothing beyond it.
  *
- *  - Art 13(1)(a)  controller identity AND contact details
- *  - Art 13(1)(c)  purposes and legal basis, for EVERY processing operation
- *                  (server request logs were previously undisclosed entirely)
- *  - Art 13(1)(d)  the legitimate interests pursued, where Art 6(1)(f) is relied on
- *  - Art 13(1)(e)  recipients OR CATEGORIES of recipients
- *  - Art 13(1)(f)  the fact of transfer out of the UK, and how to obtain the
- *                  safeguards. Previously absent altogether
- *  - Art 13(2)(a)  retention period OR THE CRITERIA used to determine it
- *  - Art 13(2)(b)  the rights, stated accurately. Art 20 portability does NOT
- *                  arise on Art 6(1)(f) processing; the page previously granted it
- *  - Art 13(2)(ca) the right to complain to the controller under DPA 2018 s.164A
- *                  (inserted by DUAA 2025; in force 19 June 2026)
- *  - Art 13(2)(d)  the right to complain to the Commissioner under s.165
- *  - Art 13(2)(e)  whether providing the data is a statutory or contractual
- *                  requirement, and the consequences of not providing it
- *  - DPA 2018 s.164A(2)-(4)  the controller MUST facilitate complaints, acknowledge
- *                  within 30 days, respond and report the outcome
+ * THREE RULES THIS FILE FOLLOWS, all from the same instruction.
  *
- * SECOND PASS, same day. The founder then widened the instruction from "only
- * what the law compels" to full legal protection across the site, so three
- * things left alone in the first pass were completed:
+ *  1. NO IMPLEMENTATION COMMENTARY OR DEVELOPMENT STATUS ON THE PAGE. The old
+ *     version imported DELIVERY_CONNECTED and changed its prose according to
+ *     whether the contact form's providers were wired up yet. That told a
+ *     reader about our build state, which is not a transparency requirement and
+ *     is not their business. This file imports no launch flag. Source comments
+ *     like this one are fine; they do not render.
  *
- *  - the COOKIE section, closed from first-hand inspection of the served site
- *    and written against the PECR regime substituted on 5 February 2026 (see
- *    the note at that section);
- *  - the "last reviewed" date, now a real date because the page really was
- *    reviewed on it;
- *  - the ICO registration section, REMOVED rather than filled (see the note
- *    where it used to sit). Publishing it is not required, and the number held
- *    internally does not resolve on the ICO register.
+ *  2. CATEGORIES OF RECIPIENT, NOT A NAMED SUBPROCESSOR LIST. Article 13(1)(e)
+ *     permits "recipients or categories of recipients", and the instruction
+ *     forbids a standalone public Subprocessors page. Naming providers here
+ *     would rebuild that page inside this one, and it would need re-editing
+ *     every time a provider changed. Named detail goes to a reviewer under
+ *     procurement, where it can be kept current against an actual contract.
  *
- * Art 13(1)(b), the DPO's contact details, applies only "where applicable" and
- * no designation is recorded, so it is still not asserted either way.
+ *  3. NO COOKIE BANNER, BECAUSE THERE IS NOTHING TO CONSENT TO. Measured on the
+ *     built site on 17 September 2026 rather than assumed: document.cookie
+ *     empty, localStorage / sessionStorage / IndexedDB all empty, no
+ *     third-party script, stylesheet, image or iframe, and every network
+ *     request same-origin with fonts served from our own domain. PECR reg. 6
+ *     bites on storing or accessing information on a user's device; nothing
+ *     here does. So the notice states the position and no consent mechanism is
+ *     deployed.
  *
- * ONE PLACEHOLDER REMAINS AND IS DELIBERATE: the per-provider transfer
- * mechanism. Art 13(1)(f) is discharged as to the FACT of transfer and the means
- * of obtaining the safeguards, which is what was missing entirely. Naming the
- * mechanism requires knowing what is actually in place with the hosting
- * provider, and that is not a fact this file may guess at.
- *
- * Where a required fact is genuinely unknown, the legally permitted alternative
- * is used: CRITERIA in place of a retention period, CATEGORIES in place of named
- * recipients. Nothing is invented to fill a gap.
- *
- * FIELD LIST RE-STATED 2026-09-11. "What this site collects" used to read: "The
- * contact form collects your name, company, work email address and the
- * description of the process you write. Nothing else is collected through it,
- * and none of the fields are optional-but-tracked." That was accurate until the
- * contact form was rewritten earlier the same day. "Which process is costing you
- * most?" was removed and replaced by the handoff’s four qualifying questions,
- * and Company became optional, so the disclosure was one form behind the thing it
- * describes. An Art 13(1)(c) enumeration has to be re-read every time the field
- * set moves; this one is now written from the code rather than from memory of it
- * — src/app/contact/ContactForm.tsx for the labels and requiredness, and
- * src/app/contact/actions.ts for what is validated and forwarded. As at this
- * date: REQUIRED are name, work email, and "What are you trying to build or
- * change?"; OPTIONAL are company, "What exists today?", "Is there a deadline?"
- * and "What would a successful result look like?". The hidden anti-spam control
- * is disclosed rather than left for a reader to find in the markup and wonder
- * about; a filled one causes the submission to be dropped, and it is never
- * forwarded.
- *
- * "Whether you have to give it to us" was amended in the same pass. Three of the
- * controls now carry `required`, so a paragraph saying nothing is required could
- * not stand unqualified: it now separates our operational minimum from a legal
- * one. Art 13(2)(e) itself is unchanged — the requirement is still neither
- * statutory nor contractual.
- *
- * Nothing else moved, and that was checked rather than assumed. The recipients,
- * retention and transfer sections were re-read against actions.ts on the same
- * date and already agree with it: the action POSTs the submission to an endpoint
- * read at runtime from the CONTACT_WEBHOOK_URL environment variable (variable
- * name only, never a value) and this site stores nothing itself, which is what
- * "the service that delivers contact form submissions to our inbox" already
- * describes in CATEGORY terms. No processor is named here because none is named
- * in the code either, and the transfer placeholder below stays open for the same
- * reason it was opened.
- *
- * REVIEW DATE CORRECTED 2026-09-11. What follows is a correction, not a
- * deletion.
- *
- * `lastReviewed` below used to read "7 September 2026", and it was still reading
- * it after the amendment recorded immediately above had gone live. That left a
- * published privacy notice telling a reader it was last reviewed on the 7th
- * while its Article 13(1)(c) enumeration had been rewritten on the 11th. The
- * date is the one thing a reader checks to decide whether the rest can be
- * trusted, so a notice whose own date predates its substance is inaccurate
- * about precisely the claim it is there to support.
- *
- * The value is a REVIEW date, not a modified date, and the difference decided
- * what it should say. `LegalPage` prints it as "Last reviewed:", and /terms
- * states the same thing in its own copy: "The date at the top is the date it was
- * last reviewed." A modified date only says the text changed; a review date says
- * someone read the document and confirmed it current on that day. A review date
- * may therefore sit LATER than the last edit, because reading a page and
- * changing nothing is still a review. It can never sit EARLIER than the content
- * it certifies. That ordering is the invariant that broke, which is why the date
- * moves rather than the wording.
- *
- * 11 September is asserted on evidence and is BOUNDED by what was actually done
- * that day: the field enumeration was re-read against ContactForm.tsx and
- * actions.ts and rewritten, "Whether you have to give it to us" was amended, and
- * the recipients, retention and transfer sections were re-read against actions.ts
- * and confirmed to still agree with it. The statutory provisions themselves were
- * read at legislation.gov.uk on 2026-09-07, as recorded at the top of this
- * comment, and this pass did not reopen them. Nothing here claims a fresh legal
- * sign-off; it claims a documented re-read of the page against the code it
- * describes, which is what "last reviewed" asserts.
- *
- * THE OPEN ITEM IS UNAFFECTED. The per-provider transfer mechanism below is
- * still a placeholder, still deliberate, and still raises the amber "not yet
- * finalised" notice through `containsPlaceholder` in LegalPage. Moving a review
- * date does not close a gap, and this one is not closed.
- *
- * ==========================================================================
- * REWRITTEN 2026-09-14, because the architecture underneath this notice moved
- * on the same day. What follows supersedes the 2026-09-11 note above; that
- * note is left standing because the reasoning it records is what changed.
- *
- * Commit a3745f0 replaced the contact form's delivery path. It used to POST to
- * `CONTACT_WEBHOOK_URL`, a variable that was never set in any environment, so
- * nothing was ever stored anywhere by anybody. It now inserts the enquiry into
- * a Supabase table (supabase/migrations/20260914120000_create_contact_enquiries.sql)
- * and sends a notification through Resend (src/lib/enquiries.ts).
- *
- * That falsified the sentence recorded above — "this site stores nothing
- * itself" — and with it the Article 13(1)(e) analysis that followed from it. A
- * RECIPIENT CATEGORY came into existence that the section had no entry for at
- * all: storage. The old copy named three categories — the platform that hosts
- * the site, the provider that carries our email, and the service that delivered
- * form submissions to our inbox — and not one of them is a database. That was
- * the real defect this pass had to close, and it was invisible from the
- * placeholder list.
- *
- * ---------------------------------------------------------------------------
- * THE TIMING PROBLEM, AND WHY THIS FILE ANSWERS IT THE WAY IT DOES
- *
- * The code is written; the accounts are not. `SUPABASE_URL`,
- * `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY` and `CONTACT_NOTIFICATION_FROM`
- * are all unset, so `deliverEnquiry` returns `unconfigured` for both legs and
- * the visitor is told the form is not connected and asked to email instead.
- * Nothing is stored anywhere. "We store your enquiry in our database" is
- * therefore NOT YET TRUE, and publishing it would be the same defect as an
- * analytics disclosure written for a tracker that was never armed.
- *
- * Three ways to write that. This file takes the third.
- *
- *  1. DESCRIBE THE DESIGNED PROCESSING IN THE PRESENT TENSE. Rejected outright.
- *     It publishes a description of processing that is not happening.
- *
- *  2. DERIVE THE COPY FROM THE ENVIRONMENT — read the four variables at render
- *     time and pick the wording from them. Rejected, and because it is the
- *     tempting option the reasons are written down rather than assumed:
- *
- *       (a) This page is STATICALLY PRERENDERED. A `process.env` read resolves
- *           when the build runs, so setting a variable in the hosting dashboard
- *           without redeploying would leave the published notice stale and
- *           CONFIDENTLY WRONG — worse than the problem it was meant to solve,
- *           and silent.
- *       (b) A legal notice that changes what it says with no diff and no date
- *           cannot be audited. A data subject asking what was disclosed, and
- *           when, would have no answer, and neither would we.
- *       (c) It turns a published page into an oracle for whether a credential
- *           is set.
- *       (d) The variables gate the DEPLOYMENT, not the design, and they can be
- *           half-set. The copy would have to handle four states and still would
- *           not have described the arrangement.
- *
- *  3. DESCRIBE THE ARRANGEMENT, AND STATE ITS CURRENT STATE AS A FACT THE
- *     READER CAN CHECK. What this file does. The notice sets out what happens
- *     to an enquiry, and then says plainly — in both places where a reader
- *     could otherwise form a false belief — that the delivery path is not
- *     connected yet and that submitting today returns an error instead of
- *     storing anything. That claim is FALSIFIABLE BY THE READER in a single
- *     submission, which is what makes it honest rather than hedged.
- *
- *     Disclosing ahead is also the safer direction of error. Switching this on
- *     is four variables pasted into a dashboard: no code review, no diff, no
- *     publication step. A notice that only becomes true when somebody remembers
- *     to rewrite it means personal data starts being stored in an overseas
- *     database with no published disclosure at all. Written this way, the only
- *     edit owed on switch-on day is one constant, and the failure mode of
- *     forgetting is that this page UNDERSTATES what we do — never overstates
- *     it.
- *
- * `DELIVERY_CONNECTED` is that constant. Both branches are written out rather
- * than left to be composed under pressure on the day, and both are proven to
- * render rather than assumed to work.
- *
- * IT NOW LIVES IN src/content/launch.ts, AND THE DEBT RECORDED HERE IS PAID.
- * This used to be a local constant with a twin in
- * src/app/security-and-data/page.tsx, and this comment used to tell the reader
- * to remember to flip both. That was the whole problem: flip one, miss the
- * other, and two legal pages contradict each other about whether personal data
- * is being stored, with no way to notice from either page alone. Moved
- * 2026-09-14 to sit beside `SITE_IN_DEVELOPMENT`, the site's other go-live
- * switch. One constant cannot half-flip. The full reasoning — why it is not read
- * from `process.env`, and why the direction of error is deliberate — is in
- * launch.ts, which is now its single home.
- *
- * ---------------------------------------------------------------------------
- * RETENTION — the judgement in this pass that could most easily have become a
- * lie.
- *
- * The founder's decision is 24 months from LAST CONTACT, then deletion. Nothing
- * in the code deletes anything: the table has no TTL, there is no scheduled
- * job, there is no retention automation of any kind. Publishing "then deleted"
- * unqualified would commit the firm to a process that does not exist.
- *
- * So the period is published as A POLICY THE FIRM APPLIES, and the copy says in
- * terms that it is not a timer — because a reader who pictures automatic expiry
- * has been misled by omission just as surely as by a false sentence. Stating
- * that deletion is a human act is also what makes the promise auditable and
- * gives the reader a lever: if the date has passed, they can say so.
- *
- * The clock is stated explicitly, because 24 months from LAST CONTACT and 24
- * months from RECEIPT are different periods and a notice that does not say
- * which one it means has not disclosed a retention period at all.
- *
- * The automation remains OWED. It is an engineering item, not a disclosure: a
- * customer-facing notice is not the place to publish internal build state.
- *
- * One bound is deliberate. Work that comes out of an enquiry is excluded from
- * the 24 months, because without that exclusion this page would be publishing a
- * promise to destroy client engagement records at 24 months — a promise the
- * firm would not keep, which is the same defect pointing the other way.
- *
- * ---------------------------------------------------------------------------
- * TRANSFERS — the per-provider placeholder this file has carried since
- * 2026-09-07 is CLOSED.
- *
- * All three providers reach the same mechanism. Verified 2026-09-14 against
- * each provider's own published data processing agreement; the operative
- * wording of each is recorded here so the claim can be re-checked without
- * re-reading three documents:
- *
- *   Vercel   — "For data transfers from the United Kingdom, the UK IDTA will be
- *              deemed entered into (and incorporated into this Addendum by
- *              reference) together with the Standard Contractual Clauses."
- *   Supabase — a "UK Addendum" paragraph applying "to any transfer of Covered
- *              Data from Customer (as data exporter) to Supabase (as data
- *              importer)" where UK Data Protection Laws apply to the customer.
- *   Resend   — defines "UK SCCs" as "the EU SCCs, as amended by the UK
- *              Addendum", and states that "ex-UK Transfers are made pursuant to
- *              the UK SCCs, which are deemed entered into and incorporated into
- *              this DPA by reference".
- *
- * One route, so one paragraph. Three near-identical sentences would read as
- * three different answers.
- *
- * Three things the section deliberately does NOT say:
- *
- *   — It does not assert an ADEQUACY DECISION for any provider. None was
- *     verified, and Article 45A is not what any of the three relies on.
- *   — It does not claim we HOLD A SIGNED DOCUMENT. The whole point of all three
- *     quotations is that the terms are incorporated BY REFERENCE and nobody
- *     signs anything. "We will send you a copy of the safeguards" survives,
- *     because the clauses are published and pointing at them is what Article
- *     13(1)(f) asks for.
- *   — It does not sharpen the existing hedge "including in the United States"
- *     into "all three are established in the United States". The DPAs prove
- *     each is a data importer outside the UK; they do not prove where each is
- *     incorporated. Upgrading a safe hedge into an unverified fact is exactly
- *     the failure this file exists to avoid.
- *
- * ---------------------------------------------------------------------------
- * THE AMBER NOTICE ON THIS PAGE NOW STOPS FIRING, and that is correct rather
- * than a regression. `LegalPage.containsPlaceholder` raises it only while an
- * unfilled `<Placeholder>` remains, and the transfer mechanism was this page's
- * last one. `Placeholder` is therefore no longer imported here. The remaining
- * open item on this site — the hosting region — lives on /security-and-data,
- * is untouched, and still raises its own.
- *
- * `lastReviewed` moves to 14 September 2026, which is the date this content
- * changed. The invariant recorded on 2026-09-11 holds: a review date may sit
- * later than the last edit, never earlier than the content it certifies.
+ *     DIARY, and it is the condition on that whole paragraph. Two things would
+ *     falsify it. Analytics is present in the dependency tree and dormant; if
+ *     it is ever switched on, this section must be revisited the same day even
+ *     though the product is cookieless, because it introduces a third-party
+ *     request. And this was measured on a local production build, not on the
+ *     deployed host — platform features can set their own cookies, preview
+ *     deployments especially. Re-measure against the live host before launch.
  */
 
-/*
- * `DELIVERY_CONNECTED` is imported from src/content/launch.ts — see the note
- * above, and the full reasoning at its definition. There is no local copy here
- * on purpose: a second copy is what made flipping it a two-file job that could
- * be half-done.
- */
+const REVIEW_DATE = '17 September 2026';
 
 export default function PrivacyPage() {
   return (
@@ -313,236 +68,168 @@ export default function PrivacyPage() {
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'Privacy', path: '/privacy' },
+          { name: 'Privacy Notice', path: '/privacy' },
         ])}
       />
+
       <LegalPage
-        eyebrow="Privacy"
-        title="What we collect, and what we do with it"
-        intro="Short version: we use what you send us to reply to you. There is no marketing sequence, no mailing list, and nothing sold on."
-        lastReviewed="14 September 2026"
+        eyebrow="Legal"
+        title="Privacy Notice"
+        intro={`This notice explains what ${company.name} collects through this website, why we collect it, who it is shared with, how long we keep it and what rights you have.`}
+        lastReviewed={REVIEW_DATE}
         sections={[
           {
-            heading: 'Who the controller is',
+            heading: 'Who we are',
             body: (
               <p className="body" style={{ marginTop: 12 }}>
-                {company.legalName}, registered in England and Wales under company number{' '}
-                {company.crn}, at {company.addressLine}, is the data controller for personal data
-                collected through this website. You can reach us at{' '}
-                <a href={`mailto:${contactEmail}`}>{contactEmail}</a> or through the{' '}
-                <Link href="/contact">contact page</Link>.
+                {company.legalName} is the controller for the personal information described in
+                this notice. We are registered in {company.registeredIn} at Companies House under
+                company number {company.crn}, with our registered office at {company.addressLine}.
+                For any question about this notice or about your personal information, contact us at{' '}
+                <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
               </p>
             ),
           },
           {
-            heading: 'What this site collects',
+            heading: 'What we collect',
             body: (
               <>
                 <p className="body" style={{ marginTop: 12 }}>
-                  The contact form asks for your name and a work email address, so that there is
-                  someone to reply to and somewhere to send the reply, and for a description of what
-                  you are trying to build or change. It also asks four further things — your
-                  company, what exists today, whether there is a deadline, and what a successful
-                  result would look like — and none of those four are required. Leave one blank and
-                  it is simply left out of what reaches us.
+                  We collect the information you choose to give us when you complete the enquiry
+                  form or email us. That is:
                 </p>
+                <ul className="body" style={{ marginTop: 12 }}>
+                  <li>your name, and your company name if you give one;</li>
+                  <li>your work email address;</li>
+                  <li>
+                    what you tell us about what you are trying to build or change, what exists
+                    today, any deadline, and what a successful result would look like; and
+                  </li>
+                  <li>anything else you include in your message or in later correspondence.</li>
+                </ul>
                 <p className="body" style={{ marginTop: 12 }}>
-                  One field on that form is hidden from you on purpose. It is a spam trap: people
-                  never see it and automated scripts fill in every box they find, so if anything
-                  arrives in it we drop the submission. It asks nothing about you and it records nothing about you.
-                  Apart from that, the form collects nothing you have not typed into it, and no field
-                  quietly tracks you.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  What happens to it next: your enquiry is saved as a record in a database we run,
-                  and a copy is emailed to us so that a person sees it rather than a queue. Both of
-                  those run on outside providers, and we name all of them further down this page.
-                  Nothing else is done with it.
-                </p>
-                {DELIVERY_CONNECTED ? (
-                  <p className="body" style={{ marginTop: 12 }}>
-                    Both of those are connected and working today.
-                  </p>
-                ) : (
-                  <p className="body" style={{ marginTop: 12 }}>
-                    That is not switched on yet. The accounts behind it have not been set up, so at
-                    the moment the form cannot deliver anything at all: send it and you will get a
-                    message telling you it is not connected and asking you to email us instead, and
-                    nothing you typed is kept anywhere. You can check that for yourself in one
-                    submission. We have written this page for the arrangement as it will work rather
-                    than adding it afterwards, because the day it is switched on should not also be
-                    the day somebody has to remember to update the privacy notice.
-                  </p>
-                )}
-                <p className="body" style={{ marginTop: 12 }}>
-                  Separately, our hosting provider records the technical detail of every request made
-                  to this site: the IP address it came from, the page requested, the browser used and
-                  the time. That is how the site is served and kept secure. We do not use it to build
-                  a profile of you, and we do not combine it with anything else.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  This site loads no third-party fonts, trackers or advertising scripts. Typefaces are
-                  served from our own domain specifically so that visiting a page does not disclose
-                  your IP address to a third party.
+                  We do not ask for special category data, and we ask you not to send it through
+                  this form. We do not buy personal information from third parties, and we do not
+                  build profiles of visitors to this site.
                 </p>
               </>
             ),
           },
           {
-            heading: 'Why we are allowed to hold it',
+            heading: 'Why we use it, and our lawful basis',
             body: (
               <>
-                <p className="body" style={{ marginTop: 12 }}>
-                  We rely on legitimate interests, Article 6(1)(f) UK GDPR, for both. For the contact
-                  form, the interest is replying to a business enquiry you chose to send us, and
-                  keeping a record of what was asked and what we said for as long as that is of any
-                  use to either of us. For the request records, it is delivering this site and
-                  protecting it from abuse. In each case we have weighed that against your interests
-                  and concluded that a reply you asked for, a record of it, and a site that stays up,
-                  do not override them.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  You can object to either at any time, and we will stop unless we have compelling
-                  legitimate grounds to continue.
+                <div className="table-scroll" style={{ marginTop: 12 }}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th scope="col">Purpose</th>
+                        <th scope="col">Lawful basis</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>To read and reply to your enquiry</td>
+                        <td>
+                          Our legitimate interests in responding to a business enquiry you chose to
+                          send us
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          To discuss and scope work, and to take steps towards a contract if you
+                          ask us to
+                        </td>
+                        <td>Steps taken at your request before entering into a contract</td>
+                      </tr>
+                      <tr>
+                        <td>To keep a record of what was asked and what we answered</td>
+                        <td>
+                          Our legitimate interests in keeping an accurate record of our business
+                          dealings
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>To keep this site available and to prevent abuse of the form</td>
+                        <td>Our legitimate interests in the security of our own systems</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p className="body" style={{ marginTop: 16 }}>
+                  We do not use your information to send marketing you did not ask for, and we do
+                  not sell it or share it for anyone else&rsquo;s marketing.
                 </p>
               </>
             ),
           },
           {
-            heading: 'Whether you have to give it to us',
+            heading: 'Who we share it with',
+            body: (
+              <>
+                <p className="body" style={{ marginTop: 12 }}>
+                  Your enquiry is seen by the people at {company.name} who need to answer it. Beyond
+                  that, we share personal information with these categories of recipient:
+                </p>
+                <ul className="body" style={{ marginTop: 12 }}>
+                  <li>
+                    our website hosting and content delivery provider, which serves this site and
+                    processes the form submission;
+                  </li>
+                  <li>our database provider, which stores the enquiry;</li>
+                  <li>our email delivery provider, which sends the enquiry to us; and</li>
+                  <li>
+                    our professional advisers, and any regulator or other body we are required to
+                    disclose to by law.
+                  </li>
+                </ul>
+                <p className="body" style={{ marginTop: 12 }}>
+                  Each provider acts on our instructions as a processor under a written contract
+                  and may not use your information for its own purposes. If you are assessing us as
+                  a supplier and need the providers named, together with the contractual terms and
+                  transfer safeguards that apply to each, ask and we will send that detail to your
+                  reviewer.
+                </p>
+              </>
+            ),
+          },
+          {
+            heading: 'Where your information is processed',
             body: (
               <p className="body" style={{ marginTop: 12 }}>
-                No. Nothing on this site is a statutory or contractual requirement, and you are not
-                obliged to provide any of it. The form itself will not send without a name, a work
-                email address and a line about what you are trying to build or change, because
-                without those there is no-one to reply to and nothing to reply about — but that is
-                our own minimum, not a legal one, and everything else the form asks is optional. The
-                only consequence of not completing it at all is that we cannot reply to you, so you
-                may prefer to email us instead.
+                Some of our providers are established outside the United Kingdom, principally in
+                the United States, so your information may be transferred there. Where that
+                happens, the transfer is covered by the UK International Data Transfer Agreement, or
+                by the UK Addendum to the European Commission&rsquo;s standard contractual clauses,
+                together with any additional measures the transfer requires. You can ask us which
+                mechanism applies to a particular provider.
               </p>
             ),
           },
           {
             heading: 'How long we keep it',
             body: (
-              <>
-                <p className="body" style={{ marginTop: 12 }}>
-                  We keep an enquiry for 24 months and then delete it. The 24 months run from the
-                  last time we were in contact with you about it, not from the day it arrived — so if
-                  you write in and we exchange a few messages, the clock starts when that exchange
-                  ends rather than when it began. If nothing follows your first message, it starts
-                  there.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  Deleting it is something we do, not something a machine does on a timer. We would
-                  rather tell you that than leave you picturing an automatic expiry that does not
-                  exist: the 24 months are a rule we hold ourselves to and act on. So if you think we
-                  are still holding something past it, say so, and we will check and delete it.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  You do not have to wait for the 24 months either. Ask us to delete your enquiry at
-                  any point and we will, and you do not have to give a reason.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  If an enquiry turns into a piece of work, the records of that work are kept under
-                  the terms of that engagement rather than under this rule, which is about the
-                  enquiry itself. Request records are kept for the rolling period our hosting
-                  provider applies to them and are not separately retained by us.
-                </p>
-              </>
+              <p className="body" style={{ marginTop: 12 }}>
+                If your enquiry does not lead to us working together, we keep it for 24 months from
+                our last contact with you and then delete it. We keep it that long because
+                enquiries commonly return after a funding round or a change of plan, and answering
+                you properly means knowing what was already discussed. If we do work together, the
+                information becomes part of the client record and is kept for as long as the
+                engagement continues and for six years afterwards, which is the period we may need
+                it for legal and tax purposes. You can ask us to delete it sooner.
+              </p>
             ),
           },
           {
-            heading: 'Who else handles it',
+            heading: 'Cookies and similar technologies',
             body: (
-              <>
-                <p className="body" style={{ marginTop: 12 }}>
-                  Your enquiry is handled by us, and by three outside providers, which we name rather
-                  than describe: Vercel, which hosts and serves this website and holds the request
-                  records described above; Supabase, which runs the database your enquiry is saved
-                  into; and Resend, which sends us the notification that it has arrived. What each one
-                  does, and what happens if we ever change that list, is set out on our{' '}
-                  <Link href="/security-and-data">security and data page</Link>.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  {DELIVERY_CONNECTED
-                    ? 'All three are in use today.'
-                    : 'Vercel is in use today. Supabase and Resend are not connected yet, so nothing has reached either of them.'}{' '}
-                  Once an enquiry reaches us, our own email is carried by our mailbox provider, in the
-                  ordinary way that any business email is.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  Each of them acts on our instructions and none of them may use your data for their
-                  own purposes. We do not sell your data and we do not share it with anyone else. If
-                  we ever add a provider or swap one out, we will publish it on that page and give 30
-                  days&rsquo; notice before the change takes effect, so that you can object while it
-                  is still a proposal.
-                </p>
-              </>
-            ),
-          },
-          {
-            heading: 'When it leaves the UK',
-            body: (
-              <>
-                <p className="body" style={{ marginTop: 12 }}>
-                  Those providers are established outside the United Kingdom, including in the United
-                  States. Your data is therefore transferred out of the UK when it passes through
-                  them.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  All three are protected in the same way, so there is one answer here rather than
-                  three near-identical ones. Each provider&rsquo;s data processing terms bring in the
-                  standard contractual clauses issued by the European Commission for transfers out of
-                  the European Union, together with the UK Addendum that adapts those clauses for
-                  transfers out of the United Kingdom. Those terms apply by reference: they are part
-                  of the agreement that governs our use of each service and they take effect without
-                  anyone signing a separate document. We are not relying on a UK adequacy decision for
-                  any of them.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  You do not have to take our word for that. Each provider publishes those terms, so
-                  if you email <a href={`mailto:${contactEmail}`}>{contactEmail}</a> we will tell you
-                  which country each provider is in, point you at where its clauses are published, and
-                  send you a copy of the safeguards relied on.
-                </p>
-              </>
-            ),
-          },
-          {
-            /*
-             * Closed from evidence 2026-09-07, not from assumption. The served
-             * site was inspected directly: document.cookie empty, localStorage
-             * and sessionStorage empty, no third-party script, stylesheet, image
-             * or iframe, and every network request on the home, privacy and
-             * terms pages first-party, fonts included.
-             *
-             * The second paragraph is written against the CURRENT rule, not the
-             * old one. PECR reg. 6 was SUBSTITUTED on 5 February 2026 by the Data
-             * (Use and Access) Act 2025 s.112(2) (S.I. 2026/82 reg. 2(w)), and a
-             * new Schedule A1 was inserted carrying the consent gateway (para 2)
-             * and the exceptions, including collection for statistical purposes
-             * with a simple free means of objecting (para 5) and website
-             * appearance or functionality (para 6). Anything drafted before that
-             * date describes a regime that no longer exists.
-             */
-            heading: 'Cookies',
-            body: (
-              <>
-                <p className="body" style={{ marginTop: 12 }}>
-                  This site sets no cookies. It stores nothing on your device, reads nothing from it,
-                  and loads no third-party script that could. There is no consent banner because there
-                  is nothing to consent to.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  If that ever changes we will say so here first. Under the rules that have applied
-                  since 5 February 2026, some limited uses do not require your consent, such as
-                  measuring how the site is used in order to improve it, or remembering a display
-                  preference. They do still require us to tell you plainly what we are doing and to
-                  give you a simple, free way of objecting. We would do both on this page before
-                  setting anything.
-                </p>
-              </>
+              <p className="body" style={{ marginTop: 12 }}>
+                This website sets no cookies. It stores nothing on your device, it loads no
+                third-party scripts, fonts, images or embedded content, and it runs no analytics or
+                advertising technology. There is nothing for you to consent to or to opt out of,
+                which is why you are not asked. If that changes, this notice will say so before the
+                change is made.
+              </p>
             ),
           },
           {
@@ -550,83 +237,49 @@ export default function PrivacyPage() {
             body: (
               <>
                 <p className="body" style={{ marginTop: 12 }}>
-                  Under UK GDPR you have the right to ask us for a copy of the personal data we hold
-                  about you, to have inaccurate data corrected, to have data erased, to have our use
-                  of it restricted, and to object to our use of it.
+                  Under UK data protection law you have the right to ask us for a copy of the
+                  personal information we hold about you, to have inaccurate information corrected,
+                  to have information deleted, to ask us to restrict how we use it, and to receive
+                  it in a portable format where that applies.
                 </p>
                 <p className="body" style={{ marginTop: 12 }}>
-                  Because we rely on legitimate interests rather than on your consent or on a
-                  contract, the right to data portability under Article 20 does not apply to this
-                  processing. We would rather tell you that than list a right you cannot use.
+                  Where we rely on our legitimate interests, you have the right to object, and we
+                  will stop unless we have compelling grounds to continue. You can object to direct
+                  marketing at any time and we will stop without exception.
                 </p>
                 <p className="body" style={{ marginTop: 12 }}>
-                  To exercise any of these, email{' '}
-                  <a href={`mailto:${contactEmail}`}>{contactEmail}</a> or use the{' '}
-                  <Link href="/contact">contact page</Link>. We will not charge you, and we will reply
-                  within one month.
+                  To exercise any of these rights, email{' '}
+                  <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. We will respond within one
+                  month. We do not charge for this, and we may ask you to confirm who you are
+                  before we release information.
                 </p>
               </>
             ),
           },
           {
-            heading: 'If you want to complain to us',
-            body: (
-              <>
-                <p className="body" style={{ marginTop: 12 }}>
-                  You have the right to complain to us directly if you think we have handled your
-                  personal data wrongly. Tell us and we will deal with it, rather than sending you
-                  elsewhere.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  Email <a href={`mailto:${contactEmail}`}>{contactEmail}</a> with &ldquo;Data
-                  protection complaint&rdquo; in the subject line, or write to Data Protection
-                  Complaints, {company.legalName}, {company.addressLine}. If you would rather not use
-                  email or post, say so through the <Link href="/contact">contact page</Link> and we
-                  will agree another route with you.
-                </p>
-                <p className="body" style={{ marginTop: 12 }}>
-                  We will acknowledge your complaint within 30 days of receiving it, look into it,
-                  keep you posted on progress, and tell you the outcome. That is what section 164A of
-                  the Data Protection Act 2018 requires of us, and we would do it anyway.
-                </p>
-              </>
-            ),
-          },
-          {
-            heading: 'If you want to complain to the regulator',
+            heading: 'Complaints',
             body: (
               <p className="body" style={{ marginTop: 12 }}>
-                You also have the right to complain to the Information Commissioner under section 165
-                of the Data Protection Act 2018, at any time, at ico.org.uk, by telephone on 0303 123
-                1113, or at Information Commissioner&rsquo;s Office, Wycliffe House, Water Lane,
-                Wilmslow, Cheshire SK9 5AF. Complaining to us first is usually faster, and it does not
-                affect your right to go to the Commissioner.
+                If you are unhappy with how we have handled your personal information, please tell
+                us first at <a href={`mailto:${contactEmail}`}>{contactEmail}</a> so we can put it
+                right. You also have the right to complain to the Information Commissioner&rsquo;s
+                Office, the UK supervisory authority, at{' '}
+                <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener noreferrer">
+                  ico.org.uk
+                </a>
+                , or by calling 0303 123 1113.
               </p>
             ),
           },
-          /*
-           * The "ICO registration" section was REMOVED on 2026-09-07 rather than
-           * filled. Two reasons, in order of weight:
-           *
-           * 1. No provision requires a controller to publish its ICO registration
-           *    number on its website. Paying the data protection fee under the
-           *    Data Protection (Charges and Information) Regulations 2018 is a
-           *    statutory obligation; advertising the number is not.
-           *
-           * 2. The number recorded internally for this company, ZB259622, DOES
-           *    NOT RESOLVE on the ICO register of fee payers as at 2026-09-07.
-           *    That negative is admissible: the register's reference search was
-           *    first proved working against a known-good reference (ZC007349,
-           *    which returned its entry), and only then did ZB259622 return no
-           *    entry. Publishing a registration number that a reader cannot
-           *    verify would be worse than publishing none, and is exactly the
-           *    "verify link that does not resolve" defect flagged elsewhere on
-           *    this site.
-           *
-           * The underlying registration question is a live matter for the
-           * founder and is recorded outside this file. Nothing is asserted here
-           * either way.
-           */
+          {
+            heading: 'Changes to this notice',
+            body: (
+              <p className="body" style={{ marginTop: 12 }}>
+                We review this notice when what we do with personal information changes, and at
+                least once a year. The date it was last reviewed is shown at the foot of this page.
+              </p>
+            ),
+          },
         ]}
       />
     </>

@@ -29,6 +29,14 @@ export const metadata = pageMetadata({
  * The security-questionnaire answer said certificate documents were "verifiable
  * on the public registers". Three things were wrong with that in one sentence.
  *
+ * SUPERSEDED 2026-09-17: /security-and-data and /certifications were both
+ * WITHDRAWN on founder instruction, and the answer below no longer points at
+ * either. Detailed security controls, ISO evidence and processor documentation
+ * leave the marketing site and are supplied during enterprise procurement. The
+ * history is kept because the failure it records is still live: an answer that
+ * routes a security reviewer to something that is not there loses the deal the
+ * answer exists to win. That is now true of a withdrawn page, not a placeholder.
+ *
  *  1. It contradicted /certifications, which — rewritten the same day under the
  *     handoff's ACCREDITATION-SAFE RULE — says the opposite: we send what we can
  *     evidence direct to a reviewer "rather than pointing you at a register
@@ -70,7 +78,7 @@ const faqs = [
   },
   {
     q: 'Where do I find answers for a security questionnaire?',
-    a: 'Start with our security and data page. It sets out how we handle client data, our position on AI and client data, and our incident-response commitments, and it marks the entries that are not published yet rather than quietly leaving them out. Certification is deliberately separate: a certification appears on this site only with a current certificate for this exact legal entity, its scope and its validity, so our certifications page sets out what is published, what is held back and what would release each one. If your review needs certificate detail, ask and we will send what we can evidence direct to your reviewer.',
+    a: 'Send us the questionnaire and we will complete it. Data handling, AI governance, incident response, control detail and certificate evidence go direct to your reviewer rather than being published on this site. Tell us what your review needs and who it should go to, and we will send what we can evidence.',
   },
 ];
 
@@ -144,8 +152,8 @@ export default function ContactPage() {
               <div>
                 <b style={{ display: 'block', fontSize: 15 }}>Security questionnaires</b>
                 <span className="small" style={{ display: 'block', marginTop: 6 }}>
-                  Start with our <Link href="/security-and-data">security and data page</Link>, then
-                  ask us for anything your review still needs.
+                  Send yours over and we will complete it. Control detail and certificate
+                  evidence go direct to your reviewer.
                 </span>
               </div>
             </div>
@@ -176,12 +184,9 @@ export default function ContactPage() {
                 offered is certificate detail direct to a reviewer. */}
             <h3 className="h4">Procurement and security</h3>
             <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
-              How we handle client data, our AI governance position and our incident-response
-              commitments are published rather than sent on request. Certificate detail goes direct
-              to your reviewer.
-            </p>
-            <p style={{ marginTop: 16 }}>
-              <FLink href="/security-and-data">Security & data page</FLink>
+              Data handling, AI governance, incident response, control detail and certificate
+              evidence go direct to your reviewer. Tell us what your review needs and who it should
+              go to.
             </p>
           </div>
 
@@ -197,9 +202,6 @@ export default function ContactPage() {
               */}
               <b>AI DPS RM6200 registration in progress.</b> Once listed, Pixelette can be
               shortlisted through the DPS and invited into the relevant further competition.
-            </p>
-            <p style={{ marginTop: 16 }}>
-              <FLink href="/certifications">Framework details</FLink>
             </p>
           </div>
 

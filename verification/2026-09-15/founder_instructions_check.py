@@ -83,8 +83,36 @@ ai_txt, _ = visible(A + 'ai-engineering.html')
 # decision, taken knowingly after being told, and this assertion now guards the
 # new intent instead of the old one.
 check('Founder: client names withdrawn from /ai-engineering too', 'gowalkies' not in ai_txt)
-cert_txt, _ = visible(A + 'certifications.html')
-check('  ...certificates still published in full', 'AMER800409' in cert_txt)
+# REVERSED 2026-09-17, and the reversal is the point of keeping this here.
+# This assertion used to read `'AMER800409' in cert_txt` — it REQUIRED the
+# certificate number to be published in full on /certifications. The founder
+# then withdrew both /certifications and /security-and-data and capped public
+# certification at the ISO standards and their validity dates in the footer
+# ledger, with all supporting detail supplied during procurement instead.
+#
+# So the check is inverted rather than deleted. Deleting it would have left the
+# site free to drift back, and an assertion that once demanded the opposite is
+# the clearest possible record that this was a decision and not an omission.
+# Swept across EVERY built page and llms.txt, not just the two that are gone,
+# because the detail was reachable from several surfaces.
+leaks = []
+for f in glob.glob(A + '**/*.html', recursive=True) + ['public/llms.txt']:
+    body = io.open(f, encoding='utf-8', errors='replace').read()
+    for token in ('AMER800409', 'AMER37046', 'Americo Quality',
+                  'Statement of Applicability version'):
+        if token in body:
+            leaks.append('%s in %s' % (token, os.path.basename(f)))
+check('Founder: certificate detail withdrawn from the public site',
+      not leaks, '; '.join(leaks[:3]) if leaks else 'no number, body or SoA anywhere')
+
+# The other half of the same instruction: the ledger must still be THERE. A
+# guard that only checks for absence is satisfied by deleting everything, which
+# is the failure mode that would quietly drop certification off the site.
+foot, _ = visible(A + 'index.html')
+check('  ...but the ISO ledger still publishes both standards',
+      'ISO 27001:2022' in foot and 'ISO 9001:2015' in foot)
+check('  ...each with its validity date, never a bare badge',
+      '11 March 2027' in foot and '1 January 2027' in foot)
 
 # --- Homepage audit, its own acceptance table -----------------------------
 sections = len(re.findall(r'<section[^>]*>', home_html))
@@ -131,7 +159,7 @@ for f in glob.glob(A + '**/*.html', recursive=True):
 check('FAQ answers all visible (was 89 hidden)', hid == 0, '%d hidden of %d' % (hid, tot))
 
 ph = 0
-for p in ['privacy', 'security-and-data', 'terms', 'modern-slavery', 'assurance']:
+for p in ['privacy', 'terms', 'modern-slavery', 'assurance']:
     f = A + p + '.html'
     if os.path.exists(f):
         ph += io.open(f, encoding='utf-8', errors='replace').read().count('data-placeholder')

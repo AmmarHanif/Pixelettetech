@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { BrandLogo } from '@/components/BrandLogo';
 import { ArrowUpRight } from '@/components/Icons';
 import { isPublishable } from '@/content/claims';
-import { company, trustBadges } from '@/content/company';
+import { certifications, company, trustBadges } from '@/content/company';
 import { footerColumns, groupBlurb, groupEntities, legalNav } from '@/content/nav';
 
 /**
@@ -60,6 +60,40 @@ function publishedTrustBadges(): readonly string[] {
 }
 
 /**
+ * THE CERTIFICATION LEDGER. Founder instruction 2026-09-17: on the public site,
+ * certification is limited to the verified ISO standards in the homepage and
+ * footer ledger, with no supporting certificate narrative anywhere.
+ *
+ * THIS REVERSES A RECORDED DECISION, so the decision is answered rather than
+ * deleted. `src/content/company.ts` deliberately kept these pills empty, on the
+ * reasoning that "a pill carries none of them" — none of the certificate
+ * number, the issuing body or the dates — and that a bare badge is therefore
+ * not checkable. That reasoning was sound, and it is the reason each row here
+ * carries its EXPIRY DATE beside the standard.
+ *
+ * A date is not narrative. It is one short qualifier, and it answers the exact
+ * objection the old note raised: the single fact that stops a badge outliving
+ * its certificate. The certificate number, issuing body, scope and Statement of
+ * Applicability are gone from the public site entirely and are supplied during
+ * procurement, which is the rest of the same instruction.
+ *
+ * GATED PER ROW, not on the old compound id. `TRUST_BADGE_CLAIM_ID` above
+ * governs a claim class naming ISO 9001, ISO 27001 AND Cyber Essentials Plus,
+ * and no certificate has ever been produced for the third — so gating the
+ * ledger on it would have meant publishing all three or none. Each row now
+ * names its own register row and fails closed if that row is not VERIFIED, so
+ * Cyber Essentials Plus cannot ride in on the other two.
+ *
+ * A row with no `validTo` does not render. That is the same fail-closed rule
+ * the old note was protecting, expressed as code rather than as a warning.
+ */
+function publishedCertifications() {
+  return certifications.filter(
+    cert => cert.claimId !== undefined && cert.validTo !== undefined && isPublishable(cert.claimId),
+  );
+}
+
+/**
  * Site footer.
  *
  * Rendered from `footerColumns` so it cannot drift from the sitemap. Every
@@ -75,6 +109,7 @@ function publishedTrustBadges(): readonly string[] {
  */
 export function SiteFooter() {
   const badges = publishedTrustBadges();
+  const certs = publishedCertifications();
   const columns = footerColumns.filter(col => col.items.length > 0);
 
   return (
@@ -92,6 +127,21 @@ export function SiteFooter() {
                   </span>
                 ))}
               </div>
+            ) : null}
+
+            {/* The certification ledger. Standard and validity, nothing else —
+                the guard wraps the container so an empty register leaves no
+                stray flex box, which is the same rule the pill row above
+                follows. */}
+            {certs.length > 0 ? (
+              <ul className="cert-ledger">
+                {certs.map(cert => (
+                  <li key={cert.standard}>
+                    <span className="cert-ledger__std">{cert.standard}</span>
+                    <span className="cert-ledger__to">Valid to {cert.validTo}</span>
+                  </li>
+                ))}
+              </ul>
             ) : null}
           </div>
 
@@ -173,10 +223,33 @@ export function SiteFooter() {
             "VAT registration number ." Nothing else in this block is optional —
             a company cannot withhold its registered number or office. */}
         <div className="site-footer__legal">
-          <p>
-            {company.legalName}, registered in England and Wales at Companies House,
-            company number {company.crn}. Registered office: {company.addressLine}.
-            {company.vat ? ` VAT registration number ${company.vat}.` : ''}
+          {/* RESTYLED 2026-09-17: "understated and visually integrated".
+              It was one bold, high-contrast run-on sentence that read as a
+              statement rather than as the fine print it is. Now it is a quiet
+              labelled row at the footer's ordinary text weight.
+
+              Every statutory element is still here and each is now NAMED,
+              which is what the disclosure rules actually ask for: S.I. 2015/17
+              reg. 25(2) wants the part of the UK, the registered number and the
+              registered office; E-Commerce Regs 2002 reg. 6(1)(d) and PoSR 2009
+              reg. 8(1)(d) want the register named as well, and reg. 6(1)(g) /
+              8(1)(g) the VAT number. Quieter typography, not less disclosure.
+
+              `company.registeredIn` rather than a typed "England and Wales":
+              the same string was hand-written in three files, which is three
+              chances for someone to shorten it to England. There is no such
+              registration - see the note on that constant.
+
+              The VAT segment stays conditional for the reason it always was:
+              those regulations require it WHERE the trader is VAT registered,
+              so an empty value must produce no segment rather than a dangling
+              "VAT ". Nothing else here is optional. */}
+          <p className="site-footer__id">
+            <span>{company.legalName}</span>
+            <span>Registered in {company.registeredIn}</span>
+            <span>Company number {company.crn}</span>
+            <span>Registered office {company.addressLine}</span>
+            {company.vat ? <span>VAT {company.vat}</span> : null}
           </p>
           {legalNav.length > 0 ? (
             <p style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>

@@ -256,9 +256,16 @@ export function ContactForm() {
 
           <div>
             <SubmitButton />
+            {/* JUST-IN-TIME NOTICE, founder wording verbatim, 2026-09-17.
+                Article 13 wants the information given AT THE POINT OF
+                COLLECTION, so this sits with the submit button rather than
+                relying on a footer link the reader has already scrolled past.
+                It is deliberately two sentences: what we do with it, and where
+                the full account is. Do not expand it — the detail belongs in
+                the Privacy Notice, and a long notice here gets skipped. */}
             <p className="small" style={{ marginTop: 18, fontSize: 12.5 }}>
-              We will use this to reply to your enquiry. Nothing else, and no sequence.{' '}
-              <Link href="/privacy">Privacy</Link>.
+              We use the information you provide to respond to your enquiry. See our{' '}
+              <Link href="/privacy">Privacy Notice</Link> for more information.
             </p>
           </div>
         </div>

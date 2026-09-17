@@ -2456,3 +2456,54 @@ button.btn[disabled] {
   padding: 0;
   box-shadow: none;
 }
+
+/* ----------------------------------------------- certification ledger (footer)
+   Founder instruction 2026-09-17: certification on the public site is limited
+   to the verified ISO standards in the ledger, with no supporting narrative.
+   Understated by design — it sits under the footer blurb as a quiet two-line
+   record, not as a trust badge row shouting for attention. */
+.cert-ledger {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+}
+.cert-ledger li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cert-ledger__std {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--dark-head, #fff);
+}
+.cert-ledger__to {
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+/* ------------------------------------------- statutory disclosure (footer)
+   Founder instruction 2026-09-17: the legal footer should be understated and
+   visually integrated. It was bold and high-contrast, which made a piece of
+   fine print compete with the navigation above it.
+
+   Segments are separated by a middot drawn with ::before rather than typed
+   into the copy, so the separator never survives into a screen reader, never
+   strands at the end of a wrapped line, and never appears when a conditional
+   segment (VAT) renders nothing. */
+.site-footer__id {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 0;
+  font-weight: 400;
+  opacity: 0.62;
+  max-width: 76ch;
+}
+.site-footer__id > span + span::before {
+  content: '·';
+  margin: 0 8px;
+  opacity: 0.55;
+}
