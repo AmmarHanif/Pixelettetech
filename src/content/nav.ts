@@ -183,6 +183,27 @@ export type PendingPage = {
  */
 export const PENDING_SPEC_PAGES: PendingPage[] = [];
 
+/**
+ * The legal and compliance documents.
+ *
+ * MOVED INTO THE FOOTER'S COMPANY COLUMN ON 2026-09-17, founder instruction,
+ * reversing the placement decided earlier the same day. It is composed into
+ * `footerColumns` below rather than listed there by hand, so this stays the one
+ * place a legal page is added and it cannot appear in one surface and not the
+ * other.
+ *
+ * The earlier reasoning — that these are documents a reader goes to CHECK while
+ * About, Work and Contact are places a reader goes to LEARN or BUY — is kept
+ * here rather than deleted, because it is still the argument for the ORDER
+ * below: navigation first, documents after.
+ */
+export const legalNav: NavItem[] = [
+  { href: '/privacy', label: 'Privacy Notice' },
+  { href: '/terms', label: 'Terms' },
+  { href: '/modern-slavery', label: 'Modern slavery' },
+  { href: '/accessibility', label: 'Accessibility' },
+];
+
 /*
  * THE FOOTER COLUMNS, cut down 2026-09-17 on founder instruction: "I want all
  * of those links clean. It's too busy a space."
@@ -229,19 +250,28 @@ export const footerColumns: { heading: string; items: NavItem[] }[] = [
      * 17 September (ADR-0034), so the heading was describing contents that no
      * longer existed. Renaming it is a correction, not a preference.
      *
-     * Order is About, Work, Contact deliberately: who we are, the proof, then
-     * how to reach us.
+     * THE LEGAL DOCUMENTS MOVED IN HERE on founder instruction, 2026-09-17,
+     * reversing the placement decided earlier the same day. They used to sit in
+     * their own row beside the statutory disclosure at the foot of the footer.
      *
-     * Modern slavery stays in `legalNav` below rather than moving up here. That
-     * row is a set of compliance documents a reader goes to CHECK; these three
-     * are places a reader goes to LEARN or BUY. Mixing them makes this column
-     * do two jobs and makes the legal row look arbitrary.
+     * The reasoning that put them there was that a reader goes to those
+     * documents to CHECK something, while About, Work and Contact are places
+     * they go to LEARN or BUY. That distinction did not survive contact with
+     * the actual page: with the service columns cut to three hub links, the row
+     * at the bottom was carrying four links under no heading at all, which read
+     * as leftovers rather than as a set. Under a heading, in one column, they
+     * are findable.
+     *
+     * ORDER STILL CARRIES THE DISTINCTION: navigation first, documents after.
+     * Composed from `legalNav` rather than retyped, so adding a legal page in
+     * one place puts it here automatically.
      */
     heading: 'Company',
     items: [
       { href: '/about', label: 'About' },
       { href: '/case-studies', label: 'Work' },
       { href: '/contact', label: 'Contact' },
+      ...legalNav,
     ],
   },
 ];
@@ -325,12 +355,6 @@ export const groupEntities: GroupEntity[] = [
 export const groupBlurb =
   'Pixelette Technologies is one of four companies in Pixelette Group, a UK technology group. Each company is engaged separately and none is a condition of another: we engineer it, and Certified helps you govern, evidence and prepare it for independent assessment.';
 
-export const legalNav: NavItem[] = [
-  { href: '/privacy', label: 'Privacy Notice' },
-  { href: '/terms', label: 'Terms' },
-  { href: '/modern-slavery', label: 'Modern slavery' },
-  { href: '/accessibility', label: 'Accessibility' },
-];
 
 /**
  * Every indexable route, with its sitemap weighting. The sitemap route reads

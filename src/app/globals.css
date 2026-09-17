@@ -910,9 +910,19 @@ td {
   margin-bottom: 12px;
 }
 
+/* THE TRACK COUNT MUST MATCH `footerColumns.length` IN src/content/nav.ts.
+   It declared four link tracks while the data supplied four columns; the
+   footer was cut to TWO on 2026-09-17 (ADR-0035) and the two empty tracks
+   still took their share of the row, leaving roughly 590px of dead space at
+   the right-hand edge and making the footer look truncated rather than
+   deliberate.
+
+   This is a genuine coupling between a stylesheet and a data file, so it is
+   stated rather than left to be rediscovered: ADD OR REMOVE A COLUMN IN
+   nav.ts AND THIS NUMBER CHANGES WITH IT. */
 .site-footer__grid {
   display: grid;
-  grid-template-columns: 1.6fr repeat(4, minmax(0, 1fr));
+  grid-template-columns: 1.6fr repeat(2, minmax(0, 1fr));
   gap: 40px 28px;
 }
 

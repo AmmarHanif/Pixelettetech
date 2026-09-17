@@ -4,7 +4,7 @@ import { BrandLogo } from '@/components/BrandLogo';
 import { ArrowUpRight } from '@/components/Icons';
 import { isPublishable } from '@/content/claims';
 import { certifications, company, trustBadges } from '@/content/company';
-import { footerColumns, groupBlurb, groupEntities, legalNav } from '@/content/nav';
+import { footerColumns, groupBlurb, groupEntities } from '@/content/nav';
 
 /**
  * The claims register row that governs the footer badge pills.
@@ -252,15 +252,14 @@ export function SiteFooter() {
             <span>Registered office {company.addressLine}</span>
             {company.vat ? <span>VAT {company.vat}</span> : null}
           </p>
-          {legalNav.length > 0 ? (
-            <p style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
-              {legalNav.map(item => (
-                <Link key={item.href} href={item.href}>
-                  {item.label}
-                </Link>
-              ))}
-            </p>
-          ) : null}
+          {/* The legal-document links used to sit here, beside the statutory
+              disclosure. They moved into the Company column on 2026-09-17
+              (founder instruction) and are composed there from the same
+              `legalNav` constant — so they are NOT rendered twice, and this
+              block is gone rather than hidden.
+
+              What is left in this row is the statutory disclosure alone, which
+              now has the full width instead of sharing it. */}
         </div>
       </div>
     </footer>
