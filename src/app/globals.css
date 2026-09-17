@@ -2708,4 +2708,12 @@ button.btn[disabled] {
   .privacy-panel {
     margin-bottom: 12px;
   }
+  /* MEASURED, NOT ASSUMED: the toggle came out 49x31 at 375px. That clears
+     WCAG 2.5.8 (24x24) but sits under the 44px comfortable touch target, on
+     the one control a visitor uses to exercise an objection. Widened by
+     padding rather than a fixed height so the label still centres if the
+     wording changes. */
+  .privacy-toggle button {
+    padding: 12px 22px;
+  }
 }

@@ -33,6 +33,10 @@ import { analyticsAllowed } from '@/lib/privacy';
  * `AnalyticsEvents.tsx` will see. Defence in depth, and the call-site gate is
  * also what protects any future provider that has no `beforeSend`.
  *
+ * Recorded as ADR-0037, which generalises it: when a third-party library both
+ * accepts your calls AND acts on its own, gating your calls governs only your
+ * half. Find the seam the library cannot bypass.
+ *
  * CHECKED PER EVENT, never captured. A visitor who switches the control off
  * mid-visit is respected on the very next event rather than on their next page
  * load — `analyticsAllowed()` reads storage each time it is called.
