@@ -699,10 +699,11 @@ td {
   color: var(--brand-hover);
 }
 
+/* Plain text since 2026-09-17: the inline-flex and 7px gap existed only to
+   seat an arrow icon beside the label, and the icon is gone. Left as a flex
+   container it would still apply a gap to nothing. */
 .nav__drop-hub-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
+  display: block;
 }
 
 .nav__drop-hub-summary {

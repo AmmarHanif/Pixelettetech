@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
-import { ArrowRight } from '@/components/Icons';
 import type { NavSection } from '@/content/nav';
 
 /**
@@ -149,10 +148,11 @@ export function NavDropdown({ section }: { section: NavSection }) {
         }}
       >
         <Link href={section.href} className="nav__drop-hub">
-          <span className="nav__drop-hub-label">
-            {section.label} overview
-            <ArrowRight size={15} />
-          </span>
+          {/* No arrow icon. Founder instruction 2026-09-17: the arrows come
+              out of the menu. "overview" already says where the link goes, and
+              a chevron on one link inside a panel of plain links reads as
+              decoration rather than as a signal. */}
+          <span className="nav__drop-hub-label">{section.label} overview</span>
           <span className="nav__drop-hub-summary">{section.summary}</span>
         </Link>
         <ul className="nav__drop-list">
