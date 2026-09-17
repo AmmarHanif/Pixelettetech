@@ -1033,7 +1033,10 @@ td {
   display: flex;
   flex-wrap: wrap;
   gap: 12px 24px;
-  align-items: center;
+  /* baseline, not center: the disclosure wraps to two lines and the legal nav
+     is one, so centring floated the nav between the two baselines and aligned
+     it with neither. */
+  align-items: baseline;
   justify-content: space-between;
   font-size: 12.5px;
 }
@@ -2497,13 +2500,46 @@ button.btn[disabled] {
 .site-footer__id {
   display: flex;
   flex-wrap: wrap;
-  gap: 2px 0;
+  /* Column gap, not a left margin on the separator: see the ::before note. */
+  gap: 2px 8px;
   font-weight: 400;
   opacity: 0.62;
   max-width: 76ch;
 }
+/* The 8px lives in the parent's column-gap, so the dot occupies the position
+   a letter would and a wrapped line starts flush with the one above it. A
+   left margin here indented every wrapped line by 8px plus the glyph. */
 .site-footer__id > span + span::before {
   content: '·';
-  margin: 0 8px;
+  margin: 0 8px 0 0;
   opacity: 0.55;
+}
+
+/* DESIGN REVIEW 2, 2026-09-17. At phone width the disclosure cannot avoid
+   wrapping, and no CSS can tell a separator that it is about to BEGIN a line —
+   the capture showed three consecutive lines each opening with a hanging dot,
+   reading as a half-finished bullet list against an otherwise flush-left
+   footer. So the separator is removed where it can only strand, and the
+   segments stack.
+
+   Every statutory element stays visible on the page. That is the constraint
+   that cannot be traded away for layout: this is a disclosure requirement
+   (S.I. 2015/17 reg. 25(2)), so nothing here may be hidden, collapsed behind a
+   control, or moved to another page.
+
+   IT LIVES HERE, DIRECTLY AFTER THE BASE RULES, AND NOT IN THE 560px BLOCK
+   FURTHER UP THE FILE. That is where it was written first, and it silently did
+   nothing: these base rules are appended at the END of the stylesheet, so at
+   equal specificity they win on source order and the parent stayed `flex` with
+   the dots still rendering. Measured in the DOM rather than assumed from the
+   media query — `display` computed as `flex` and `::before` content as "·".
+   Moving a rule earlier in this file can therefore disarm it. */
+@media (max-width: 560px) {
+  .site-footer__id,
+  .site-footer__id > span {
+    display: block;
+  }
+  .site-footer__id > span + span::before {
+    content: none;
+  }
 }

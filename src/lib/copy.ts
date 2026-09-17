@@ -18,6 +18,16 @@
  * sentence and the full stop is doing its ordinary job. Two of them are
  * headings, on /assurance and /security-and-data.
  *
+ * UPDATED 2026-09-17, counted rather than reasoned about. /security-and-data
+ * AND /certifications were both withdrawn, and they were one heading and one
+ * prose site respectively — so it is now FIVE sites: four prose
+ * (/ai-engineering, /blockchain/smart-contracts-dapps, the `CertifiedHandoff`
+ * panel and the LIVE diagram) and ONE heading, on /assurance.
+ *
+ * The helper stays. One heading still needs it, and the reason it exists is
+ * unchanged: the stored sentence must keep the full stop its prose sites
+ * depend on.
+ *
  * SO THE CANONICAL STRING MUST NOT CHANGE. Editing the full stop out of
  * company.ts would fix two headings and silently produce five run-on sentences
  * in body copy elsewhere — and that string is deliberately imported rather than

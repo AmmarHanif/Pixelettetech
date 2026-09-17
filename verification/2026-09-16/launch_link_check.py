@@ -75,6 +75,44 @@ for f in sorted(glob.glob(os.path.join(APP, '**/*.html'), recursive=True)):
         if not resolves(target):
             broken.setdefault(target, set()).add(page)
 
+# ---------------------------------------------------------------------------
+# PUBLIC TEXT FILES, added 2026-09-17 after this check missed a live defect.
+#
+# /.well-known/security.txt carried a `Policy:` field pointing at
+# /security-and-data, a page that had just been withdrawn. Nothing here looked
+# at it, because this check walked rendered HTML and security.txt is a served
+# machine-readable file that no page links to. llms.txt had the same exposure
+# and two dead route references in it.
+#
+# The lesson is the one /case-studies already taught this repository: a check
+# that reads only one KIND of artefact is blind to whatever is published in
+# another. Absolute URLs on our own host are resolved as routes, because that
+# is how these files are written.
+# ---------------------------------------------------------------------------
+PUBLIC_TEXT = sorted(glob.glob('public/*.txt') + glob.glob('public/.well-known/*'))
+SELF_HOST = re.compile(r'https?://' + re.escape('pixelettetech.com') + r'(/[^\s\'"<>)\]]*)?')
+
+for pf in PUBLIC_TEXT:
+    raw_txt = io.open(pf, encoding='utf-8', errors='replace').read()
+    where = pf.replace(os.sep, '/')
+    for m in SELF_HOST.finditer(raw_txt):
+        # Strip SENTENCE punctuation before the route is resolved. These files
+        # are prose, so a URL is routinely followed by a full stop or a comma,
+        # and the first run of this loop reported "/security-and-data." and
+        # "/case-studies," as broken routes. That is the check misreading its
+        # own input, not a defect on the site — and a check that cries wolf on
+        # ordinary prose gets switched off, which would put the real blind spot
+        # straight back.
+        target = (m.group(1) or '/').split('#')[0].split('?')[0]
+        target = target.rstrip('.,;:!').rstrip('/') or '/'
+        if target.startswith('/_next'):
+            continue
+        if re.search(r'\.[a-z0-9]{2,5}$', target, re.I) and target not in WELL_KNOWN:
+            continue
+        checked += 1
+        if not resolves(target):
+            broken.setdefault(target, set()).add(where)
+
 print('=' * 74)
 if broken:
     for t, srcs in sorted(broken.items()):

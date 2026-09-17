@@ -38,8 +38,10 @@ const SITE_ID = `${SITE_URL}/#website`;
  * NOT PASSED. That is a decision, not an oversight, and it is recorded here
  * because the next reader will otherwise treat it as a loose end.
  *
- * Two certificates are now published in human copy on /security-and-data and
- * /certifications, in the verification table and in public/llms.txt: ISO/IEC
+ * SUPERSEDED 2026-09-17: /security-and-data and /certifications were withdrawn
+ * and the verification table with them. What is published in human copy is now
+ * the footer ledger — standard plus expiry date — and public/llms.txt. The
+ * paragraph below describes the position as it stood on 14 September: ISO/IEC
  * 27001:2022 (AMER800409) and ISO 9001 (AMER37046). No caller passes them into
  * `hasCredential`, for the reason this file's own header gives about retracted
  * claims surviving in machine-readable markup. These certificates carry dated

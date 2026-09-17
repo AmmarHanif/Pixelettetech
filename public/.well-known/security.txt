@@ -19,6 +19,14 @@ Canonical: https://pixelettetech.com/.well-known/security.txt
 # concerns personal data the response follows the breach-notification route set
 # out at https://pixelettetech.com/privacy rather than an informal reply.
 #
-# The published security position, including subprocessors, retention and the
-# certification register, is at https://pixelettetech.com/security-and-data.
-Policy: https://pixelettetech.com/security-and-data
+# There is no Policy field, and that is deliberate rather than an omission.
+# Policy is optional under RFC 9116; only Contact and Expires are mandatory.
+# It used to point at /security-and-data, which was WITHDRAWN on 17 September
+# 2026 when detailed security controls, ISO evidence and processor
+# documentation moved out of the marketing site and into enterprise
+# procurement. Repointing it at /privacy would be worse than dropping it: that
+# is a privacy notice, not a vulnerability disclosure policy, and a Policy
+# field that resolves to the wrong kind of document misleads a finder more
+# than an absent optional field does.
+#
+# If a public disclosure policy is ever written, add the field back here.
