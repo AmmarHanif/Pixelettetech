@@ -836,7 +836,21 @@ export default function HomePage() {
         as highest risk and the same construction removed from
         /ai-engineering/services earlier today.
       */}
-      <CertifiedHandoff variant="compact" />
+      {/*
+        WRAPPED 2026-09-17. The compact variant returns a BARE `.dark-panel`
+        div with no container of its own, and this was the only call site that
+        did not supply one - the other renders it inside a Section already. So
+        on the homepage it went edge to edge while every other block on the page
+        sat inside `.wrap`, which is what the founder saw.
+
+        `Section flush` rather than a plain `<div className="wrap">`: it gives
+        the same 1160px container AND the page's own 96px vertical rhythm, and
+        `flush` suppresses the border-top so this does not gain a rule the
+        surrounding blocks do not have.
+      */}
+      <Section flush>
+        <CertifiedHandoff variant="compact" />
+      </Section>
 
       {/* ═══════════════════════ 13 · Part of Pixelette Group ════════════ */}
       {/*

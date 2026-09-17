@@ -403,7 +403,11 @@ export function CertifiedHandoff({
   if (variant === 'compact') {
     return (
       <div className="dark-panel" style={{ padding: '30px 32px' }}>
-        <span style={{ color: 'var(--mint)', display: 'inline-flex', marginBottom: 16 }} aria-hidden>
+        {/* WHITE, not --mint, from 2026-09-17 on founder instruction. --mint is
+            #d9b8f0, a light PURPLE, which read as a stray brand accent against
+            the white body text of this panel rather than as part of it. Same
+            change on the outbound link below and on the full variant's link. */}
+        <span style={{ color: 'var(--dark-head)', display: 'inline-flex', marginBottom: 16 }} aria-hidden>
           <Shield size={26} />
         </span>
         {/* Reworded 2026-09-08 under the handoff's ACCREDITATION-SAFE RULE.
@@ -427,7 +431,7 @@ export function CertifiedHandoff({
             href={certified.url}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: 'var(--mint)', display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            style={{ color: 'var(--dark-head)', display: 'inline-flex', alignItems: 'center', gap: 6 }}
           >
             pixelettecertified.com
             <ArrowUpRight size={13} />
@@ -520,7 +524,7 @@ export function CertifiedHandoff({
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              color: 'var(--mint)',
+              color: 'var(--dark-head)',
               display: 'inline-flex',
               alignItems: 'center',
               gap: 7,
