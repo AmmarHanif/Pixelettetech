@@ -207,6 +207,11 @@ export const PENDING_SPEC_PAGES: PendingPage[] = [];
  *
  * TWO COLUMNS, NOT FOUR. Three columns each holding a single link would put a
  * heading above a link that says the same thing.
+ *
+ * Recorded as ADR-0035. It also names the consequence: the header dropdowns are
+ * now the ONLY sitewide route into the deep service pages, and each hub page is
+ * the only footer route into its section — so a hub that stops listing its
+ * children becomes a dead end rather than a duplicate.
  */
 export const footerColumns: { heading: string; items: NavItem[] }[] = [
   {
