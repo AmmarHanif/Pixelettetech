@@ -185,7 +185,16 @@ export default function CookiesPage() {
                 <li>No advertising, remarketing or conversion tracking pixel of any kind.</li>
                 <li>No session recording, heatmaps or replay of individual visits.</li>
                 <li>No cross-site tracking, and no sharing of visitor data with advertisers.</li>
-                <li>No profiling, demographic inference or matching to a CRM record.</li>
+                {/* Scoped to VISITORS explicitly, 2026-09-17. Unqualified, "no
+                    matching to a CRM record" could be read as contradicting the
+                    business-development wording in the Privacy Statement, which
+                    permits business contact information from public and
+                    professional sources. These are different things: this list
+                    is about what the WEBSITE does to a visitor. */}
+                <li>
+                  No profiling of visitors, no demographic inference, and we do not match your
+                  visit to a CRM record.
+                </li>
               </ul>
             ),
           },

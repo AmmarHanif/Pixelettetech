@@ -19,9 +19,32 @@ export const metadata = pageMetadata({
  * not aspiration. Verify every factual statement against the website/code/
  * configuration before preserving it."
  *
- * THE AUDIT CHANGED THE DOCUMENT RATHER THAN DECORATING IT. The brief asks for
- * sections on an AI assistant, enquiry scoring, recruitment and subscriptions.
- * NONE OF THOSE EXIST ON THIS SITE:
+ * SUPERSEDED IN PART, 2026-09-17, by three FINAL DRAFTING DECISIONS from the
+ * founder. The audit below still records what the codebase contains, and it has
+ * not changed — but the page no longer describes only that, and the difference
+ * is his decision rather than an oversight:
+ *
+ *   - RECRUITMENT AND EVENTS are now covered in conditional terms ("if you
+ *     apply", "if you register"). That is accurate whether or not a programme
+ *     exists, and his instruction forbids implying that one does.
+ *   - BUSINESS DEVELOPMENT wording now permits business contact information
+ *     obtained from public, professional or business sources. The previous
+ *     draft's "everything we hold about you came from you" was removed on his
+ *     explicit instruction. DO NOT REINSTATE IT.
+ *   - THE AI SECTION NOW DESCRIBES A WEBSITE ASSISTANT. **There is no assistant
+ *     in this codebase** — see the audit below, which was run twice and reported
+ *     to him twice. He issued the wording knowing that. The statement therefore
+ *     describes functionality this build does not ship, and must not go live
+ *     before the assistant does. Recorded in
+ *     PRIVACY-STATEMENT-CONFIRMATIONS.md as the first item.
+ *
+ * His instruction was not to reopen these "unless required to remove a direct
+ * contradiction elsewhere in the document", so the old absolute statements were
+ * removed rather than argued with.
+ *
+ * THE AUDIT AS RUN. The brief originally asked for sections on an AI assistant,
+ * enquiry scoring, recruitment and subscriptions. AT THE TIME OF THE AUDIT NONE
+ * OF THOSE EXISTED ON THIS SITE:
  *
  *   - No chat widget, assistant or LLM integration anywhere in `src/`. The only
  *     matches for "assistant" are marketing copy about AI we BUILD for clients.
@@ -195,35 +218,40 @@ export default function PrivacyPage() {
             genuinely needs that material, we will agree a proper route for it first.
           </p>
 
-          <h3 className="h4">Where our information comes from</h3>
+          <h3 className="h4">Recruitment and events</h3>
           <p className="body">
-            For this website, everything we hold about you came from you. We do not buy personal
-            information for it, and we do not enrich what you send us from external databases or
-            data brokers.
+            If you apply for a role with {company.name}, we may process the information you provide
+            as part of your application, together with information reasonably required to assess
+            your application and, where relevant, complete pre-employment checks.
+          </p>
+          <p className="body">
+            If you register for an event, webinar, briefing or other session we organise, we may
+            process your registration details and, where relevant, information about your
+            attendance.
           </p>
 
-          <h3 className="h4">Things this website does not collect</h3>
+          <h3 className="h4">Social media</h3>
           <p className="body">
-            It is worth saying what is absent, because a privacy statement that only describes what
-            a site does leaves you guessing about the rest.
+            We link to our LinkedIn page. That is an ordinary link: there is no social plug-in,
+            embed, share button or pixel anywhere on this site, so visiting a page here tells no
+            social network anything about you. If you follow that link and interact with us there,
+            that platform&rsquo;s own terms and privacy notice apply and we see only what the
+            platform shows us.
+          </p>
+
+          <h3 className="h4">Business development and marketing</h3>
+          <p className="body">
+            We may use business contact information provided directly to us, or obtained from
+            appropriate public, professional or business sources, to identify organisations and
+            individuals who may have a legitimate interest in our services.
           </p>
           <p className="body">
-            <strong>Recruitment.</strong> We do not advertise roles or accept applications through
-            this website, and there is no careers form to submit a CV to. If you apply to us by
-            email we will hold your application to consider it and will tell you then how long we
-            keep it.
-          </p>
-          <p className="body">
-            <strong>Marketing and subscriptions.</strong> There is no newsletter, no mailing list
-            and nothing to subscribe to on this site, so there is no marketing list for you to join
-            or to be added to without asking. We do not run events or webinars from it either.
-          </p>
-          <p className="body">
-            <strong>Social media.</strong> We link to our LinkedIn page. That is an ordinary link:
-            there is no social plug-in, embed, share button or pixel anywhere on this site, so
-            visiting a page here tells no social network anything about you. If you follow that link
-            and interact with us there, that platform&rsquo;s own terms and privacy notice apply and
-            we see only what the platform shows us.
+            Where personal information is involved, we process it in accordance with applicable
+            data-protection and electronic-marketing requirements.{' '}
+            <strong>You can object to direct marketing at any time and we will respect that
+            request.</strong>{' '}
+            <strong>We do not sell personal information</strong>, and we do not share it with third
+            parties for their own marketing.
           </p>
 
           <h2 className="h3">How and why we use information</h2>
@@ -270,44 +298,32 @@ export default function PrivacyPage() {
             you can object — see <a href="#your-rights">your rights</a>.
           </p>
           <p className="body">
-            <strong>We do not sell personal information</strong> and we do not share it for anyone
-            else&rsquo;s marketing. This website operates no mailing list, no subscription and no
-            automated marketing sequence: replying to your enquiry is the only thing we do with it.
+            Business development and marketing, including where business contact information is
+            obtained from public or professional sources, is described under{' '}
+            <a href="#your-information">information we collect</a> rather than repeated here.
           </p>
         </section>
 
         <section id="ai-automation">
-          <h2 className="h3">AI and automated processing</h2>
+          <h2 className="h3">AI and technology providers</h2>
           <p className="body">
-            We build AI systems for a living, so it is fair to ask what this website does with AI.
-            The answer is nothing, and we would rather say so plainly than leave you assuming
-            otherwise.
+            We use third-party AI and technology providers to operate our website assistant and
+            related functionality. Information submitted through the assistant may be processed by
+            those providers where necessary to deliver the service, subject to our applicable
+            service arrangements and data-protection obligations.
           </p>
           <p className="body">
-            <strong>This website does not operate an AI assistant or chatbot.</strong> There is no
-            conversational interface here, so there is no conversation to retain and no prompt sent
-            to any model provider. No large language model receives anything you type into this
-            site.
-          </p>
-          <p className="body">
-            <strong>Your enquiry is not scored, ranked or profiled.</strong> The four questions on
-            the form exist so that a person can judge whether we are the right firm for the work and
-            prepare properly before replying. No system assigns you a rating, a priority or a
-            likelihood of anything, and nothing of that kind is stored.
+            The assistant is an AI system and may make mistakes. Its responses do not constitute
+            professional advice, a binding quotation, an offer or a commitment by {company.name}.{' '}
+            <strong>Material commercial commitments are confirmed by a person.</strong>
           </p>
           <p className="body">
             <strong>
               No decision producing legal effects, or similarly significant effects, is made about
-              you by automated means on this website.
+              you by automated means.
             </strong>{' '}
             Whether we reply, what we say, and whether we propose working together are decisions
-            made by people. Any commercial commitment comes from a person and is confirmed in
-            writing.
-          </p>
-          <p className="body">
-            If we introduce an assistant or any automated assessment of enquiries, we will describe
-            it here — what it receives, whether conversations are kept, and how to ask for human
-            review — before it goes live rather than afterwards.
+            made by people.
           </p>
           <p className="body">
             Separately: the AI systems we design and build for clients run in those clients&rsquo;
@@ -476,11 +492,9 @@ export default function PrivacyPage() {
           <p className="body">
             Where we rely on our legitimate interests you have the right to object, and we will stop
             unless we have compelling grounds to continue. Where we rely on your consent you can
-            withdraw it at any time, which does not affect anything done before you did.{' '}
-            <strong>
-              You can object to direct marketing at any time and we will stop, without exception and
-              without asking for a reason.
-            </strong>
+            withdraw it at any time, which does not affect anything done before you did. The right
+            to object to direct marketing is absolute and is set out under{' '}
+            <a href="#your-information">business development and marketing</a>.
           </p>
           <p className="body">
             To exercise any of these, email <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.

@@ -10,90 +10,97 @@ therefore need a person to confirm before this is published.
 
 ---
 
-## A. Things the brief asked for that DO NOT EXIST on this site
+## A. THE ONE THING THAT BLOCKS PUBLICATION
 
-The brief specifies sections on an AI assistant, enquiry scoring, recruitment
-and subscriptions. **None of them exist in this codebase**, so the statement
-says so rather than describing them.
+### The statement describes a website assistant. This build does not have one.
 
-| Asked for | What the audit found |
-|---|---|
-| Website AI assistant / LLM | **None.** No chat widget, assistant or model integration anywhere in `src/`. The only matches for "assistant" are marketing copy about AI we build for clients. |
-| AI conversation retention | **Not applicable** — there are no conversations. |
-| AI provider, and model-training terms | **No provider.** The brief says not to claim anything about training without verifying the contract; there is no contract because there is no provider. |
-| Enquiry scoring / prioritisation / profiling | **None.** The form asks four qualifying *questions*; no score is computed, stored or acted on, and `contact_enquiries` has no score column. |
-| Recruitment via the website | **No careers route** and no application form. |
-| Subscriptions / mailing list | **None.** The Subscribe CTA was removed on 16 September 2026 because nothing was wired up behind it. |
-| Events / webinars | **None.** |
+Founder decision of 17 September 2026 replaced the AI section with wording that
+opens: *"We use third-party AI and technology providers to operate our website
+assistant and related functionality."*
 
-**→ Confirm:** if any of these exist *elsewhere* — on the live WordPress site at
-pixelettetech.com, on another Group property, or as something about to launch —
-the statement needs a section for it and I need the details. As written, it
-describes this website only.
+**There is no assistant in this codebase.** No chat widget, no conversational
+interface, no model integration anywhere in `src/`. That was audited twice and
+reported to the founder twice; the wording was issued with that knowledge, so it
+is his decision and it has been implemented as given rather than argued with.
+
+**The consequence, stated plainly:** as it stands, the Privacy Statement
+describes functionality the site does not ship. A visitor reading it will look
+for an assistant and not find one.
+
+**→ Before this page goes live, one of these must be true:**
+
+1. the assistant ships, and this section is checked against what it actually
+   does — what it receives, whether conversations are retained, which provider;
+   **or**
+2. the assistant exists on another Pixelette property that this statement is
+   also intended to cover, and the scope line at the top says so; **or**
+3. the section is put back into the conditional form ("if we introduce an
+   assistant…"), which is a one-paragraph change.
+
+Related, and deliberately absent: **enquiry scoring**. The instruction says to
+preserve the scoring explanation *"if that functionality remains part of the
+website"*. It does not exist — the contact form asks four qualifying questions
+and computes nothing — so no scoring text was written. If scoring is built, that
+section is owed.
+
+Also per instruction: **no AI provider is named**, and **no claim is made about
+providers not using information for model training**. Both were removed.
 
 ---
 
 ## B. Claims that are commercially or contractually true or false, and I cannot tell
 
-### 1. Outbound marketing — flagged in the brief, and it matters
+### 1. Business development and marketing — now permissive, and that is the decision
 
-The brief specifically asks whether "We do not send marketing to people who have
-not asked for it" would contradict actual business practice.
+The restrictive wording is **gone** on founder instruction. Removed entirely:
+"everything we hold about you came from you", "we do not buy personal
+information", "we do not enrich from external databases or data brokers", and
+"this website operates no mailing list… replying to your enquiry is the only
+thing we do with it."
 
-**The statement does not make that claim.** What it says is scoped to this
-website: no mailing list, no subscription, no automated marketing sequence, and
-"replying to your enquiry is the only thing we do with it." That is verified
-true of the website.
+The statement now says business contact information may be **obtained from
+appropriate public, professional or business sources**, processed under
+data-protection and electronic-marketing requirements, with an absolute right to
+object to direct marketing. **We do not sell personal information** is retained.
 
-**→ Confirm:** does Pixelette Technologies conduct B2B outbound marketing —
-LinkedIn outreach, cold email, purchased or scraped contact data? If so, the
-statement needs a section covering it: the lawful basis (normally legitimate
-interests for B2B), where the data comes from, and the objection route. Leaving
-it silent is defensible for a *website* statement, but not if a recipient of
-outbound marketing is pointed at this page.
+**→ Confirm:** that outbound practice actually matches this — in particular the
+lawful basis relied on (normally legitimate interests for B2B), that PECR is
+satisfied for electronic marketing, and that an objection genuinely stops
+contact across every channel and list.
 
 ### 2. Provider roles and contractual terms
 
 The statement says the three providers are "engaged to process this information
 for us, for the purpose described, under that provider's data processing terms."
 
-**It deliberately does NOT say** — as the previous version did — that each acts
-solely on our instructions and may not use the data for their own purposes.
-That is a **contractual** position, not a code fact, and the brief says not to
-preserve it unless it is supported.
+It deliberately does **not** claim each acts solely on our instructions and may
+not use the data for its own purposes. That is a contractual position, not a
+code fact.
 
-**→ Confirm:** that a DPA is actually in force with **Vercel**, **Supabase** and
-**Resend**; that each is engaged as a *processor* rather than an independent
-controller for this purpose; and that the transfer mechanism named (SCCs plus UK
-Addendum) is the one that actually applies to each.
+**→ Confirm:** that a DPA is in force with **Vercel**, **Supabase** and
+**Resend**; that each is a *processor* rather than an independent controller for
+this purpose; and that SCCs plus the UK Addendum is the mechanism that actually
+applies. If an AI provider is added, it joins this list.
 
 ### 3. The mailbox provider
 
-The statement mentions "our mailbox provider" without naming it, because it
-appears nowhere in the codebase.
+Mentioned but not named, because it appears nowhere in the codebase.
 
-**→ Confirm:** who carries Pixelette email, where it is hosted, and whether it
-should be named alongside the other three.
+**→ Confirm:** who carries Pixelette email and whether it should be named.
 
-### 4. Data sources
+### 4. Recruitment and events
 
-The statement says: "For this website, everything we hold about you came from
-you. We do not buy personal information for it, and we do not enrich what you
-send us from external databases or data brokers." The scoping to *this website*
-is deliberate.
+Now written conditionally — "if you apply", "if you register" — which is
+accurate whether or not a programme exists, and does not imply one does.
 
-**→ Confirm:** whether the business more broadly acquires contact data from
-Sales Navigator, lead vendors, scraped sources or enrichment tools. If it does,
-the wording needs widening honestly rather than left to imply otherwise.
+**→ Confirm:** that applications are handled as described, including
+pre-employment checks, and that a retention period for unsuccessful applicants
+is decided. The statement does not state one.
 
 ### 5. Client-work processor position
 
-Section "Work we do for clients" states the client is controller and Pixelette
-is processor, acting on documented instructions under the DPA in the contract.
-
-**→ Confirm:** that client contracts actually contain those processor terms. The
-distinction is correct in principle and was in the previous statement, but I
-cannot see a contract.
+**→ Confirm:** that client contracts contain the processor terms the "Work we do
+for clients" section describes.
 
 ---
 

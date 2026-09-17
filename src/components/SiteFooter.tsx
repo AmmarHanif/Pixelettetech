@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Fragment } from 'react';
 
 import { BrandLogo } from '@/components/BrandLogo';
 import { PrivacyChoices } from '@/components/PrivacyChoices';
@@ -155,34 +156,40 @@ export function SiteFooter() {
               <h2>{col.heading}</h2>
               <ul className="site-footer__list">
                 {col.items.map(item => (
-                  <li key={item.href + item.label}>
-                    {item.external ? (
-                      <a href={item.href} target="_blank" rel="noopener noreferrer">
-                        {item.label}
-                        <ArrowUpRight size={11} />
-                      </a>
-                    ) : (
-                      <Link href={item.href}>{item.label}</Link>
-                    )}
-                  </li>
-                ))}
-                {/*
-                  "Privacy choices" sits with the other legal links because it
-                  belongs to the same group for a reader, but it is a BUTTON and
-                  not a route - it opens a panel, so there is nothing to link to
-                  and nothing to put in the sitemap.
+                  <Fragment key={item.href + item.label}>
+                    <li>
+                      {item.external ? (
+                        <a href={item.href} target="_blank" rel="noopener noreferrer">
+                          {item.label}
+                          <ArrowUpRight size={11} />
+                        </a>
+                      ) : (
+                        <Link href={item.href}>{item.label}</Link>
+                      )}
+                    </li>
+                    {/*
+                      "Privacy choices" is a BUTTON, not a route — it opens a
+                      panel, so there is nothing to link to and nothing to put in
+                      the sitemap. It is rendered here rather than added to
+                      `legalNav`, because that array is typed as navigation items
+                      with an href and inventing a fake one would put a dead URL
+                      into the sitemap and the link checker.
 
-                  Appended here rather than added to `legalNav`, because that
-                  array is typed as navigation items with an href and inventing
-                  a fake one would put a dead URL into the sitemap and the link
-                  checker. The founder's brief lists the three together:
-                  Privacy Statement | Cookies & analytics | Privacy choices.
-                */}
-                {col.heading === 'Company' ? (
-                  <li>
-                    <PrivacyChoices />
-                  </li>
-                ) : null}
+                      POSITIONED AFTER /cookies, NOT APPENDED TO THE COLUMN. The
+                      founder's brief lists the three as one group — Privacy
+                      Statement | Cookies & analytics | Privacy choices — and
+                      appending it to the end separated it from the other two by
+                      Terms, Modern slavery and Accessibility. Anchoring it to
+                      the item it belongs beside keeps the group together however
+                      the rest of the column is reordered.
+                    */}
+                    {item.href === '/cookies' ? (
+                      <li>
+                        <PrivacyChoices />
+                      </li>
+                    ) : null}
+                  </Fragment>
+                ))}
               </ul>
             </div>
           ))}
