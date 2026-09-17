@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { BrandLogo } from '@/components/BrandLogo';
+import { PrivacyChoices } from '@/components/PrivacyChoices';
 import { ArrowUpRight } from '@/components/Icons';
 import { isPublishable } from '@/content/claims';
 import { certifications, company, trustBadges } from '@/content/company';
@@ -165,6 +166,23 @@ export function SiteFooter() {
                     )}
                   </li>
                 ))}
+                {/*
+                  "Privacy choices" sits with the other legal links because it
+                  belongs to the same group for a reader, but it is a BUTTON and
+                  not a route - it opens a panel, so there is nothing to link to
+                  and nothing to put in the sitemap.
+
+                  Appended here rather than added to `legalNav`, because that
+                  array is typed as navigation items with an href and inventing
+                  a fake one would put a dead URL into the sitemap and the link
+                  checker. The founder's brief lists the three together:
+                  Privacy Statement | Cookies & analytics | Privacy choices.
+                */}
+                {col.heading === 'Company' ? (
+                  <li>
+                    <PrivacyChoices />
+                  </li>
+                ) : null}
               </ul>
             </div>
           ))}

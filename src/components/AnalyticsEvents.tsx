@@ -3,6 +3,7 @@
 import { track } from '@vercel/analytics/react';
 import { useEffect } from 'react';
 
+import { analyticsAllowed } from '@/lib/privacy';
 import {
   ANALYTICS_EVENTS,
   DETAIL_ATTRIBUTE,
@@ -48,6 +49,26 @@ export function AnalyticsEvents() {
      * exactly one event per click.
      */
     const onActivate = (event: MouseEvent) => {
+      /*
+       * THE VISITOR'S OBJECTION, CHECKED FIRST AND AT EVENT TIME.
+       *
+       * Founder instruction 2026-09-17: switching analytics off must stop
+       * transmission immediately.
+       *
+       * AT THE TOP, NOT BESIDE EACH `track()`. This handler has TWO senders -
+       * the normal one at the foot, and the UNKNOWN_EVENT report on the
+       * early-return path for an undeclared event name. Gating the senders
+       * individually is what I did first, and it left that second one firing
+       * for a visitor who had opted out. One gate at the entry covers every
+       * exit from this function, including any added later.
+       *
+       * AT EVENT TIME, not around the `useEffect`: a gate on the effect is
+       * evaluated once at mount, so a visitor who objects mid-visit would keep
+       * being measured until they navigated. That is not "immediately", and it
+       * is invisible in testing to anyone who reloads before checking.
+       */
+      if (!analyticsAllowed()) return;
+
       // Right-click opens a context menu rather than following the link.
       if (event.button === 2) return;
 

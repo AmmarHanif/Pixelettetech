@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { LegalPage } from '@/components/LegalPage';
 import { JsonLd } from '@/components/ui';
 import { company, contactEmail } from '@/content/company';
@@ -5,7 +7,7 @@ import { breadcrumbSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
-  title: 'Privacy Notice',
+  title: 'Privacy Statement',
   description:
     'What Pixelette Technologies collects through this website, why, who it is shared with, how long it is kept and your rights under UK GDPR.',
   path: '/privacy',
@@ -73,13 +75,13 @@ export default function PrivacyPage() {
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'Privacy Notice', path: '/privacy' },
+          { name: 'Privacy Statement', path: '/privacy' },
         ])}
       />
 
       <LegalPage
         eyebrow="Legal"
-        title="Privacy Notice"
+        title="Privacy Statement"
         intro={`This notice explains what ${company.name} collects through this website, why we collect it, who it is shared with, how long we keep it and what rights you have.`}
         lastReviewed={REVIEW_DATE}
         sections={[
@@ -228,13 +230,24 @@ export default function PrivacyPage() {
           {
             heading: 'Cookies and similar technologies',
             body: (
-              <p className="body" style={{ marginTop: 12 }}>
-                This website sets no cookies. It stores nothing on your device, it loads no
-                third-party scripts, fonts, images or embedded content, and it runs no analytics or
-                advertising technology. There is nothing for you to consent to or to opt out of,
-                which is why you are not asked. If that changes, this notice will say so before the
-                change is made.
-              </p>
+              <>
+                <p className="body" style={{ marginTop: 12 }}>
+                  This website sets no cookies. It loads no third-party scripts, fonts, images or
+                  embedded content, and it runs no advertising technology. There is no consent
+                  banner because there is nothing to consent to.
+                </p>
+                <p className="body" style={{ marginTop: 12 }}>
+                  One thing is stored on your device, and only if you use it: if you switch website
+                  analytics off under <strong>Privacy choices</strong> in the footer, we keep a
+                  single first-party preference so that your choice is respected on later visits. It
+                  holds one of two values, it identifies nobody, and it is never sent to us.
+                </p>
+                <p className="body" style={{ marginTop: 12 }}>
+                  Our <Link href="/cookies">Cookies and analytics</Link> page lists everything
+                  stored, what it is for and how long it lasts, and is written from an audit of the
+                  deployed site rather than from policy.
+                </p>
+              </>
             ),
           },
           {

@@ -6,6 +6,7 @@ import { useActionState, useEffect, useRef } from 'react';
 import { useFormStatus } from 'react-dom';
 
 import { ANALYTICS_ENABLED, ANALYTICS_EVENTS, ANALYTICS_SURFACES } from '@/lib/analytics';
+import { analyticsAllowed } from '@/lib/privacy';
 
 import { submitContact, type ContactState } from './actions';
 
@@ -169,6 +170,13 @@ export function ContactForm() {
   const reported = useRef(false);
   useEffect(() => {
     if (!ANALYTICS_ENABLED) return;
+    /* The visitor's objection, checked here as well as in the delegated click
+       listener. This event does not come through that listener - a form
+       submission reports its own success - so gating one and not the other
+       would leave exactly one analytics event still firing for a visitor who
+       had switched analytics off, on the page where they are most likely to
+       have opened the panel. */
+    if (!analyticsAllowed()) return;
     if (state.status !== 'success') return;
     if (reported.current) return;
     reported.current = true;

@@ -1,7 +1,7 @@
-import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import { IBM_Plex_Mono, Newsreader, Outfit } from 'next/font/google';
 
+import { GatedAnalytics } from '@/components/GatedAnalytics';
 import { AnalyticsEvents } from '@/components/AnalyticsEvents';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
@@ -104,9 +104,24 @@ export const metadata: Metadata = {
    * Pillow's ICO writer, because that writer picks its own encoding and this
    * file must stay uncompressed BGRA BMP.
    */
+  /*
+   * VERSIONED, AND THE QUERY IS THE WHOLE POINT.
+   *
+   * Browsers cache a favicon far more aggressively than a normal asset - often
+   * past a hard refresh, and the tab icon can survive for days. The 16px art
+   * was redrawn on 2026-09-17 and the founder still saw the old one, because
+   * the filename had not changed and his browser never re-requested it.
+   *
+   * That is a local annoyance today and a real one at launch: every returning
+   * visitor would keep the previous icon indefinitely. A version token makes
+   * the URL new, so the cache has nothing to match.
+   *
+   * BUMP `v` WHENEVER EITHER FILE CHANGES. Editing the artwork without
+   * touching this number ships a change nobody sees.
+   */
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: '/favicon.ico?v=2',
+    apple: '/apple-touch-icon.png?v=2',
   },
   openGraph: {
     type: 'website',
@@ -175,7 +190,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         */}
         {ANALYTICS_ENABLED ? (
           <>
-            <Analytics />
+            <GatedAnalytics />
             <AnalyticsEvents />
           </>
         ) : null}

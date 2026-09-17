@@ -2584,3 +2584,128 @@ button.btn[disabled] {
     text-align: left;
   }
 }
+
+/* ------------------------------------------------- privacy choices (footer)
+   Founder instruction 2026-09-17: no cookie banner, no consent wall, no
+   automatic pop-up. A discreet control the visitor opens when they want it.
+
+   The trigger is a <button> styled to sit in the footer link list without
+   announcing itself as different - it is in the same group as the legal links
+   for a reader, so it should not look like a call to action. */
+.privacy-trigger {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.privacy-trigger:hover,
+.privacy-trigger:focus-visible {
+  text-decoration: underline;
+}
+
+/* Native <dialog>: Escape, focus containment and focus return are the
+   browser's job, not ours. The backdrop is kept almost to nothing so the panel
+   reads as a drawer rather than as an interruption. */
+.privacy-panel {
+  border: 0;
+  padding: 0;
+  max-width: 420px;
+  width: calc(100% - 32px);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 24px 64px rgba(16, 4, 24, 0.28);
+  margin: auto auto 24px auto; /* sits low, like a drawer, not centred */
+}
+.privacy-panel::backdrop {
+  background: rgba(16, 4, 24, 0.24);
+}
+.privacy-panel__inner {
+  padding: 24px 24px 22px;
+}
+.privacy-panel__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.privacy-panel__head h2 {
+  font-size: 17px;
+  margin: 0;
+}
+.privacy-panel__close {
+  background: none;
+  border: 0;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 0 2px;
+}
+.privacy-panel__close:hover {
+  color: var(--ink);
+}
+.privacy-panel__sub {
+  font-size: 13px;
+  margin: 18px 0 0;
+}
+.privacy-panel__body,
+.privacy-panel__state,
+.privacy-panel__note {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+.privacy-panel__state {
+  color: var(--ink);
+}
+.privacy-panel__control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.privacy-toggle {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.privacy-toggle button {
+  font: inherit;
+  font-size: 12.5px;
+  padding: 6px 16px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+/* aria-pressed is the state, so the styling keys off it rather than off a
+   class - the accessible state and the visible state cannot disagree. */
+.privacy-toggle button[aria-pressed='true'] {
+  background: var(--brand);
+  color: #fff;
+}
+.privacy-toggle button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.privacy-panel__link {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 13px;
+}
+
+@media (max-width: 560px) {
+  .privacy-panel {
+    margin-bottom: 12px;
+  }
+}

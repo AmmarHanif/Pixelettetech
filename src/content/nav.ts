@@ -198,7 +198,14 @@ export const PENDING_SPEC_PAGES: PendingPage[] = [];
  * below: navigation first, documents after.
  */
 export const legalNav: NavItem[] = [
-  { href: '/privacy', label: 'Privacy Notice' },
+  /*
+   * "Privacy Statement", renamed from "Privacy Notice" on 2026-09-17. It is the
+   * same document; the founder's privacy-and-analytics brief names it that way
+   * three times, and a footer link that disagrees with the page it opens is the
+   * kind of small inconsistency a procurement reviewer notices.
+   */
+  { href: '/privacy', label: 'Privacy Statement' },
+  { href: '/cookies', label: 'Cookies & analytics' },
   { href: '/terms', label: 'Terms' },
   { href: '/modern-slavery', label: 'Modern slavery' },
   { href: '/accessibility', label: 'Accessibility' },
@@ -421,6 +428,7 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
   { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' },
+  { path: '/cookies', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/terms', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/modern-slavery', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/accessibility', priority: 0.3, changeFrequency: 'yearly' },
