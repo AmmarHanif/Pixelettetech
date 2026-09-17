@@ -2507,6 +2507,24 @@ button.btn[disabled] {
    into the copy, so the separator never survives into a screen reader, never
    strands at the end of a wrapped line, and never appears when a conditional
    segment (VAT) renders nothing. */
+/* The right-hand group of the statutory disclosure.
+   
+   `margin-left: auto` rather than the parent's `justify-content`, and the
+   difference matters when the row wraps. Under `space-between` a flex line
+   holding ONE item puts it at flex-start, so as soon as the two groups stopped
+   fitting on one line the second would have dropped to the left — which is the
+   layout this change exists to get away from. An auto margin absorbs the free
+   space on whatever line the item lands on, so it sits right whether it shares
+   a line or has one to itself.
+
+   `text-align: right` so the group's own internal wrap stays flush to the same
+   edge rather than ragging away from it. */
+.site-footer__id--end {
+  margin-left: auto;
+  text-align: right;
+  justify-content: flex-end;
+}
+
 .site-footer__id {
   display: flex;
   flex-wrap: wrap;
@@ -2556,5 +2574,12 @@ button.btn[disabled] {
   .site-footer__id,
   .site-footer__id > span {
     display: block;
+  }
+  /* Stacked, so both groups read as one left-aligned block. Pushing the second
+     to the right here would put half the disclosure against the opposite
+     gutter from the other half. */
+  .site-footer__id--end {
+    margin-left: 0;
+    text-align: left;
   }
 }

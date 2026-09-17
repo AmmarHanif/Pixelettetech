@@ -245,10 +245,24 @@ export function SiteFooter() {
               those regulations require it WHERE the trader is VAT registered,
               so an empty value must produce no segment rather than a dangling
               "VAT ". Nothing else here is optional. */}
+          {/* SPLIT INTO TWO GROUPS, 2026-09-17, founder instruction: the second
+              line sits to the right.
+
+              It reads as one disclosure and is still one continuous statement —
+              the split is where the line was already breaking, so nothing is
+              reordered and nothing is hidden. Identity and registration on the
+              left; where to find us and the VAT number on the right.
+
+              WHY THIS ONLY BECAME POSSIBLE NOW: this row used to hold the legal
+              nav on its right-hand side. That moved into the Company column
+              earlier today, which left the right side empty and the disclosure
+              stranded on the left of a full-width row. */}
           <p className="site-footer__id">
             <span>{company.legalName}</span>
             <span>Registered in {company.registeredIn}</span>
             <span>Company number {company.crn}</span>
+          </p>
+          <p className="site-footer__id site-footer__id--end">
             <span>Registered office {company.addressLine}</span>
             {company.vat ? <span>VAT {company.vat}</span> : null}
           </p>
