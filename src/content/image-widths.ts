@@ -8,7 +8,7 @@
  * on the site renders these DOWN and is genuinely sharp.
  *
  * `heroMaxWidth` below turns each width into the widest the hero may render it,
- * so no image is ever stretched more than 1.2x.
+ * so no image is ever stretched past its own resolution.
  *
  * REGENERATE THIS FILE whenever an image in public/work is added or replaced.
  * It is a measurement with a date on it, not a constant: if a file is swapped
@@ -52,9 +52,13 @@ export const imageWidths: Record<string, number> = {
 /**
  * The widest the case-study hero may render an image, in CSS px.
  *
- * 1.2 is a TOLERANCE, not a measurement: it is roughly where upscaling stops
- * being obvious on the UI text these images are made of. Stated as the rule of
- * thumb it is.
+ * 1.0, changed from 1.2 on 2026-09-18 after the founder asked for a clear
+ * recommendation. 1.2 was a tolerance borrowed from advice, and a tolerance is
+ * the right shape when you are trading sharpness for presence. Here there is
+ * nothing to trade: the founder has ruled out re-capture and fresh consent, so
+ * these files are final, and the only question left is whether the site renders
+ * them as well as they can be rendered. 1.0 is that. Anything above it is
+ * choosing avoidable softness on the page whose job is evidence.
  *
  * Returns undefined for an unknown src, which lets the hero fall back to the
  * full column rather than collapsing to nothing. An unmeasured image rendering
@@ -66,5 +70,5 @@ export const imageWidths: Record<string, number> = {
 export function heroMaxWidth(src: string | undefined): number | undefined {
   if (!src) return undefined;
   const intrinsic = imageWidths[src];
-  return intrinsic === undefined ? undefined : Math.round(intrinsic * 1.2);
+  return intrinsic === undefined ? undefined : intrinsic;
 }

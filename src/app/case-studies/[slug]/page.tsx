@@ -163,8 +163,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             on the page is below the fold and stays lazy. */}
         {/* maxWidth added 2026-09-18. This slot renders at 1110 CSS px in the
             full column and the source images are 346 to 699 px wide, so it was
-            upscaling every one of them. The cap holds each image to 1.2x its own
-            resolution. The hero is narrower as a result, and that is the trade:
+            upscaling every one of them. The cap holds each image to its own native
+            resolution, so none is stretched at all. The hero is narrower as a result, and that is the trade:
             a smaller sharp image rather than a full-width soft one. */}
         <MediaSlot
           label={cs.imageLabel}
