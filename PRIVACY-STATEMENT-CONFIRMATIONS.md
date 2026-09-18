@@ -145,6 +145,56 @@ These are promises to a reader that only a person can stand behind.
 
 ## E. One legal point, stated plainly
 
+### 9. Whether the enquiry path the statement describes is actually live
+
+**Raised 2026-09-18** by the founder asking what Vercel, Supabase and Resend had
+to do with the statement at all. Checking the answer surfaced something larger
+than the question.
+
+The statement tells a reader their enquiry is written into a Supabase database
+and that Resend notifies us it arrived. **In this repository that does not
+happen.** There is no environment file, so both delivery legs in
+`src/lib/enquiries.ts` return `unconfigured`, and `src/app/contact/actions.ts`
+shows the visitor an honest refusal instead of accepting the submission:
+
+> Our contact form is not currently connected. Please email ... so your enquiry
+> reaches a person.
+
+The code is behaving correctly. The disclosure is the part that is ahead of it.
+Whether the DEPLOYED site has those credentials set is a Vercel dashboard fact
+that cannot be read from the repository, and it is the same open item as the
+contact-form environment variables.
+
+**-> Confirm:** whether the deployed contact form is connected to Supabase and
+Resend.
+
+- **If it is**, the paragraph is accurate and nothing changes.
+- **If it is not**, the statement currently describes processing that does not
+  occur, which is the exact inversion of the instruction it was drafted under:
+  describe reality, not aspiration. The paragraph then needs to say enquiries
+  arrive by email until delivery is connected, and switch over when it is.
+
+**Related defect, not blocking.** `DELIVERY_CONNECTED` in `src/content/launch.ts`
+is declared and referenced nowhere else in `src`. It reads like the control that
+governs this and is not wired to anything. Wire it or delete it; leaving a flag
+that looks load-bearing and is not is how the next person gets this wrong.
+
+### 10. Whether to name the providers at all, or describe them by category
+
+The founder's question also raises a commercial choice that is not a legal one.
+Naming processors is the stronger position and is what enterprise procurement
+asks for, and the statement promises it a paragraph earlier ("we name them
+rather than describing them vaguely"). The lawful alternative is to describe
+them by category and send the named list to a reviewer on request, which the
+document already offers.
+
+Cost of naming: it publishes the stack. Vercel is inferable from response
+headers in any case; Supabase and Resend are not otherwise discoverable.
+
+**-> Confirm:** keep the names, or move both paragraphs to categories. They must
+move together; naming them in one paragraph and not the other is worse than
+either choice.
+
 **This document has not had a legal review.** It is a legal document published
 in the company's name, drafted to the UK GDPR Article 13/14 structure by an
 engineer, not a solicitor. Everything factual in it was verified against the
