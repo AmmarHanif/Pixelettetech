@@ -118,9 +118,17 @@ offers.
 Cost of naming: it publishes the stack. Vercel is inferable from response
 headers in any case; Supabase and Resend are not otherwise discoverable.
 
-**-> Confirm:** keep the names, or move to categories. Both the processors table
-and the transfers paragraph must move together; naming them in one and not the
-other is worse than either choice.
+**CONFIRMED 2026-09-18 by the founder: keep the names as they are.** The
+question was about understanding why those three appear in a privacy notice at
+all, not an objection to naming them. No change to the document; the processors
+table and the transfers paragraph both continue to name Vercel, Supabase and
+Resend.
+
+This item stays on the list rather than being deleted, because the decision is
+worth having on record: if a future reviewer proposes moving to categories, the
+answer is that naming was considered and kept. Both passages must still move
+together if that is ever revisited; naming them in one and not the other is
+worse than either choice.
 
 ---
 
