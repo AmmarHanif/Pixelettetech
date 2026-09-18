@@ -267,16 +267,30 @@ export function MediaSlot({
    * Defaults to false so every existing call site keeps the behaviour it had.
    */
   priority = false,
+  /**
+   * Cap the rendered width so the image is never blown up past its own
+   * resolution. Optional and undefined by default, so every call site that does
+   * not pass it renders exactly what it rendered before.
+   *
+   * Added 2026-09-18. Only the case-study hero needs it: at 1110 CSS px it was
+   * upscaling a 675px source by 1.64x, while every card surface on the site
+   * renders the same files DOWN and is already sharp.
+   */
+  maxWidth,
 }: {
   label: string;
   src?: string;
   alt?: string;
   ratio?: string;
   priority?: boolean;
+  maxWidth?: number;
 }) {
   if (src) {
     return (
-      <div className="slot slot--media" style={{ aspectRatio: ratio }}>
+      <div
+        className="slot slot--media"
+        style={{ aspectRatio: ratio, maxWidth, marginInline: maxWidth ? 'auto' : undefined }}
+      >
         {/* Plain <img>: these are pre-sized static exports, and skipping the
             optimiser keeps the site deployable to any static host. */}
         <img
