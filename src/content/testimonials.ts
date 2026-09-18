@@ -231,6 +231,57 @@ import { clutch } from '@/content/company';
  * like it worked, and this file's own rule — that a stranger can open and read
  * the review — has quietly stopped being true.
  *
+ * ---------------------------------------------------------------------------
+ * CORRECTED 18 September 2026. ITEM 1 BELOW WAS WRONG, AND SO WAS THE DECISION
+ * THAT RESTED ON IT. ALL SIX ROWS ARE NOW PERMALINKS AND NONE OF THEM DECAYS.
+ * ---------------------------------------------------------------------------
+ *
+ * Item 1 refused the /go-to-review/ form because it "needs a per-review UUID",
+ * this repository held exactly one, and "a UUID cannot be reasoned out". The
+ * first half is the error: the UUID is not per-review, it is the COMPANY's.
+ * The same value, 258ba1ac-898a-4a98-8359-19cf91fc3ced, appears inside all ten
+ * reviews rendered on the profile page, and the second path segment is simply
+ * the review id this file already held for every row.
+ *
+ * Nor did it have to be derived at all. Clutch PUBLISHES the finished permalink
+ * in each review's own Share control:
+ *
+ *   <button class="profile-review__share-button"
+ *           data-url="https://clutch.co/go-to-review/<company-uuid>/<review-id>">
+ *
+ * So the address was sitting in the markup of the page the anchors already
+ * pointed at, one attribute away, for the whole time this note said it was
+ * unavailable. The lesson is the ordinary one: the blocker was never tested,
+ * only reasoned about, and the reasoning was plausible and wrong.
+ *
+ * WHY THE PERMALINK IS ACTUALLY DURABLE, observed rather than assumed. It is a
+ * server-side redirect that COMPUTES the page the review currently sits on:
+ *
+ *   /go-to-review/<uuid>/255279  ->  /profile/pixelette-technologies-0?page=2#review-255279
+ *
+ * An anchor hopes its review is on the page that loads. A permalink asks the
+ * server where the review is now, so new reviews move the answer instead of
+ * breaking it. That is the whole difference.
+ *
+ * EACH ONE WAS OPENED, 18 September 2026, and landed on its own review:
+ *
+ *   255279  Content Marketing for Renewable Energy Company              -> ?page=2
+ *   275026  Blockchain & Gold-Backed Tokens Dev for Blockchain Company   -> ?page=2
+ *   158221  Blockchain Dev, Web Design & Dev for NFT Art Marketplace     -> page 1
+ *   365839  Smart Contract Development & Blockchain for IT Services Co   -> ?page=2
+ *   178359  Web Development for Healthcare Company                       -> page 1
+ *   341615  Social Media Marketing for Financial Services Company        -> ?page=2
+ *
+ * That discharges the "a stranger can open and read each review" rule for all
+ * six rows, and it discharges gate item 1. What it does NOT discharge is the
+ * separate re-read of the aggregate rating and review count behind
+ * `clutch.published`; the profile showed 24 reviews on this visit, which is a
+ * data point and not that verification.
+ *
+ * The text below is preserved as written, including the reasoning that was
+ * wrong, because the file's own rule is that a record is corrected in place and
+ * not quietly rewritten.
+ *
  * WHAT WAS CONSIDERED, and what was refused.
  *
  *   1. Build /go-to-review/<uuid>/<id> addresses for the other five, like the
@@ -348,8 +399,8 @@ export const testimonials: Testimonial[] = [
     role: 'Managing Director, WindWorkX Industry',
     initials: 'DE',
     rating: 5,
-    url: 'https://clutch.co/profile/pixelette-technologies-0?sort_by=date_desc#review-255279',
-    linkKind: 'PROFILE_ANCHOR',
+    url: 'https://clutch.co/go-to-review/258ba1ac-898a-4a98-8359-19cf91fc3ced/255279',
+    linkKind: 'PERMALINK',
     publication: 'PUBLISHED',
   },
   {
@@ -358,8 +409,8 @@ export const testimonials: Testimonial[] = [
     role: 'CEO, The BlockGuard Technologies',
     initials: 'AB',
     rating: 5,
-    url: 'https://clutch.co/profile/pixelette-technologies-0?sort_by=date_desc#review-275026',
-    linkKind: 'PROFILE_ANCHOR',
+    url: 'https://clutch.co/go-to-review/258ba1ac-898a-4a98-8359-19cf91fc3ced/275026',
+    linkKind: 'PERMALINK',
     publication: 'PUBLISHED',
   },
   {
@@ -368,8 +419,8 @@ export const testimonials: Testimonial[] = [
     role: 'Co-Founder, Buttersmiles Marketplace',
     initials: 'MK',
     rating: 5,
-    url: 'https://clutch.co/profile/pixelette-technologies-0#review-158221',
-    linkKind: 'PROFILE_ANCHOR',
+    url: 'https://clutch.co/go-to-review/258ba1ac-898a-4a98-8359-19cf91fc3ced/158221',
+    linkKind: 'PERMALINK',
     publication: 'PUBLISHED',
   },
   {
@@ -403,8 +454,8 @@ export const testimonials: Testimonial[] = [
     role: 'CEO, IT services company',
     initials: 'IT',
     rating: 5,
-    url: 'https://clutch.co/profile/pixelette-technologies-0?sort_by=date_desc#review-365839',
-    linkKind: 'PROFILE_ANCHOR',
+    url: 'https://clutch.co/go-to-review/258ba1ac-898a-4a98-8359-19cf91fc3ced/365839',
+    linkKind: 'PERMALINK',
     publication: 'PUBLISHED',
   },
   {
@@ -413,8 +464,8 @@ export const testimonials: Testimonial[] = [
     role: 'Executive, Healthcare Company',
     initials: 'HC',
     rating: 5,
-    url: 'https://clutch.co/profile/pixelette-technologies-0#review-178359',
-    linkKind: 'PROFILE_ANCHOR',
+    url: 'https://clutch.co/go-to-review/258ba1ac-898a-4a98-8359-19cf91fc3ced/178359',
+    linkKind: 'PERMALINK',
     publication: 'PUBLISHED',
   },
 ];
