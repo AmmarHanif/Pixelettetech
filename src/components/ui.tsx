@@ -289,7 +289,23 @@ export function MediaSlot({
     return (
       <div
         className="slot slot--media"
-        style={{ aspectRatio: ratio, maxWidth, marginInline: maxWidth ? 'auto' : undefined }}
+        style={{
+          aspectRatio: ratio,
+          /* +2 for the slot's border. `.slot--media` is border-box, so without
+             it the <img> content box lands ~2px narrower than the source and
+             the browser resamples the whole image to fit.
+
+             EXACT 1:1 IS NOT REACHABLE THIS WAY, and the +2 does not claim it.
+             A 1px CSS border snaps to one DEVICE pixel, so its used width is
+             DPR-dependent: measured 0.571px per side at DPR 1.75, which lands
+             the image at 675.86 against a 675px source. That is 0.13% and
+             invisible. Getting true 1:1 would mean dropping the border on the
+             capped slot or capping the <img> rather than its container, and
+             neither is worth it for a tenth of a percent when the change that
+             mattered was 1.64x to 1.0x. */
+          maxWidth: maxWidth === undefined ? undefined : maxWidth + 2,
+          marginInline: maxWidth ? 'auto' : undefined,
+        }}
       >
         {/* Plain <img>: these are pre-sized static exports, and skipping the
             optimiser keeps the site deployable to any static host. */}
