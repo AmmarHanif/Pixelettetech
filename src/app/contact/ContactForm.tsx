@@ -241,7 +241,7 @@ export function ContactForm() {
             label={QUESTIONS.deadline}
             maxLength={200}
             optional
-            hint="A date, a quarter, or “not yet” — whatever you know."
+            hint="Whatever you know: a date, a quarter, or “not yet”."
             error={err.deadline}
           />
 

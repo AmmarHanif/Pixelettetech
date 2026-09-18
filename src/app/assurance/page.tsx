@@ -29,7 +29,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Assurance and AI governance',
   description:
-    'We engineer it. Pixelette Certified helps you govern and evidence it — certification readiness, assurance support, and the route to independent assessment.',
+    'We engineer it. Pixelette Certified helps you govern and evidence it: certification readiness, assurance support, and the route to independent assessment.',
   path: '/assurance',
 });
 
@@ -79,7 +79,7 @@ const reasons = [
 const faqs = [
   {
     q: 'Does Pixelette Technologies issue ISO certificates?',
-    a: `No. Neither ${company.name} nor ${certified.name} issues a certificate, and neither makes a certification decision — that sits with an independent assessment. ${certified.name} helps scope the requirement, prepare the management system and the supporting evidence, coordinate appropriately credentialed specialists, and support the route to independent assessment where required.`,
+    a: `No. Neither ${company.name} nor ${certified.name} issues a certificate, and neither makes a certification decision. That sits with an independent assessment. ${certified.name} helps scope the requirement, prepare the management system and the supporting evidence, coordinate appropriately credentialed specialists, and support the route to independent assessment where required.`,
   },
   {
     q: 'Why are building and governing split across two practices?',

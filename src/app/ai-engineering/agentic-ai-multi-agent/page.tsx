@@ -21,7 +21,7 @@ const capabilities = [
   },
   {
     title: 'Multi-agent coordination',
-    body: 'Where a task genuinely splits — research, drafting, checking, execution — agents with distinct responsibilities and a defined protocol between them, rather than one prompt pretending to be a team.',
+    body: 'Where a task genuinely splits into research, drafting, checking and execution, agents with distinct responsibilities and a defined protocol between them, rather than one prompt pretending to be a team.',
   },
   {
     title: 'State, memory and recovery',
@@ -63,7 +63,7 @@ const ladder = [
 const faqs = [
   {
     q: 'What is a multi-agent system, in practical terms?',
-    a: 'A design in which distinct components each hold a defined responsibility — for example gathering information, drafting, checking, and executing — and communicate through a defined protocol. It is worth the extra complexity only where the task genuinely splits along those lines. Where it does not, a single agent, or a deterministic workflow with one model call in it, is cheaper, faster and easier to audit.',
+    a: 'A design in which distinct components each hold a defined responsibility, for example gathering information, drafting, checking and executing, and communicate through a defined protocol. It is worth the extra complexity only where the task genuinely splits along those lines. Where it does not, a single agent, or a deterministic workflow with one model call in it, is cheaper, faster and easier to audit.',
   },
   {
     q: 'How do you decide how much autonomy an agent should have?',
@@ -179,7 +179,7 @@ export default function AgenticAiPage() {
               Agentic architecture earns its cost when the path genuinely varies from case to case
               and the system has to choose among tools to get through it. When the steps are known
               and stable, the same outcome is available from a deterministic workflow with a model
-              call inside it — cheaper to run, faster, and very much easier to explain to whoever
+              call inside it. That is cheaper to run, faster, and very much easier to explain to whoever
               asks why it did what it did.
             </p>
             <p className="body" style={{ marginTop: 16 }}>

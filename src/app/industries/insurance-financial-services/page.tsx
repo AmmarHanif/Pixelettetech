@@ -31,7 +31,7 @@ const opportunities = [
   },
   {
     title: 'Back-office exceptions',
-    body: 'Mismatches, missing data and anything that fell out of the happy path — the queue that quietly consumes an operations team.',
+    body: 'Mismatches, missing data and anything that fell out of the happy path: the queue that quietly consumes an operations team.',
   },
   {
     title: 'Regulated correspondence',
@@ -57,7 +57,7 @@ const defensibility = [
 const faqs = [
   {
     q: 'How well do regulated firms understand the AI they already run?',
-    a: 'Nearly half of regulated firms report only partial understanding of the AI systems already in use across their business, according to the Bank of England and FCA AI survey. The exposure is rarely the model itself — it is the absence of lineage, monitoring and a defined escalation boundary around it.',
+    a: 'Nearly half of regulated firms report only partial understanding of the AI systems already in use across their business, according to the Bank of England and FCA AI survey. The exposure is rarely the model itself. It is the absence of lineage, monitoring and a defined escalation boundary around it.',
   },
   /*
    * Was: "... Formal AI governance, ISO/IEC 42001 and audit are delivered by
@@ -73,7 +73,7 @@ const faqs = [
    */
   {
     q: 'Does Pixelette Technologies provide regulatory sign-off for AI in financial services?',
-    a: 'No. Pixelette Technologies engineers the system and provides the technical evidence: lineage, evaluation results, drift monitoring and incident records. Sign-off is not ours to give. Where a programme needs formal governance, certification readiness or assurance support, Pixelette Certified — a separate company in the same group — can help scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment.',
+    a: 'No. Pixelette Technologies engineers the system and provides the technical evidence: lineage, evaluation results, drift monitoring and incident records. Sign-off is not ours to give. Where a programme needs formal governance, certification readiness or assurance support, Pixelette Certified, a separate company in the same group, can help scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment.',
   },
   {
     q: 'Will an AI system in a regulated process make decisions automatically?',
@@ -106,7 +106,7 @@ export default function InsuranceFsPage() {
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Nearly half of regulated firms report only partial understanding of the AI systems they
-            already run. We make them explainable, monitored and defensible — and leave the
+            already run. We make them explainable, monitored and defensible, and leave the
             assurance route to Pixelette Certified rather than grading our own work.
           </p>
           <SourceNote>Bank of England / FCA AI survey</SourceNote>

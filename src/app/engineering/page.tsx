@@ -129,7 +129,7 @@ const faqs = [
   },
   {
     q: 'What happens after the build ships?',
-    a: 'A typical path runs fixed-scope build, then a monthly support-and-run contract, then AI added to a process inside it — baselined first so the change is measurable — then evaluation and monitoring reported monthly on drift, cost and incidents.',
+    a: 'A typical path runs fixed-scope build, then a monthly support-and-run contract, then AI added to a process inside it, baselined first so the change is measurable, then evaluation and monitoring reported monthly on drift, cost and incidents.',
   },
 ];
 
@@ -331,7 +331,7 @@ export default function EngineeringPage() {
                 <MediaSlot
                   label={cs.imageLabel}
                   src={publishedImage(cs)}
-                  alt={`${displayName(cs)} — ${cs.title}`}
+                  alt={`${displayName(cs)}: ${cs.title}`}
                 />
                 <span className="mono work-card__kicker">{displayKicker(cs)}</span>
                 <h3 className="h4" style={{ marginTop: 10 }}>

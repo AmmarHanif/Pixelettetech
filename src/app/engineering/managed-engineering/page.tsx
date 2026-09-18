@@ -55,7 +55,7 @@ const shapes = [
 const faqs = [
   {
     q: 'What does managed engineering include?',
-    a: 'Monitoring and incident response with a defined severity scale and a named responder, a predictable release cadence against an agreed backlog, security patching and dependency currency, performance and cost optimisation, roadmap delivery, and ownership of the operational tasks — backups, restores, access reviews and documentation — that only become visible when they have been neglected.',
+    a: 'Monitoring and incident response with a defined severity scale and a named responder, a predictable release cadence against an agreed backlog, security patching and dependency currency, performance and cost optimisation, roadmap delivery, and ownership of the operational tasks, such as backups, restores, access reviews and documentation, that only become visible when they have been neglected.',
   },
   {
     q: 'Will you support a system you did not build?',

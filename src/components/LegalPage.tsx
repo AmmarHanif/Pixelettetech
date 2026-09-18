@@ -103,7 +103,7 @@ export function LegalPage({
             Registered office {company.addressLine} · VAT {company.vat}
           </p>
           <p className="small" style={{ marginTop: 8 }}>
-            Last reviewed: {lastReviewed ?? <Placeholder>DATE — set at legal sign-off</Placeholder>}
+            Last reviewed: {lastReviewed ?? <Placeholder>DATE: set at legal sign-off</Placeholder>}
           </p>
         </div>
       </div>

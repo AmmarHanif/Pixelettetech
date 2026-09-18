@@ -63,7 +63,7 @@ const faqs = [
   },
   {
     q: 'Are most "agentic" products actually agentic?',
-    a: 'No. 17% of organisations have deployed AI agents, over 40% of agentic projects are forecast to be cancelled by the end of 2027 on cost, unclear value or inadequate controls, and of the thousands of vendors claiming agentic capability Gartner assesses roughly 130 as genuinely agentic. Much of what is sold as agentic should be a deterministic workflow with one model call in it — cheaper, faster and auditable.',
+    a: 'No. 17% of organisations have deployed AI agents, over 40% of agentic projects are forecast to be cancelled by the end of 2027 on cost, unclear value or inadequate controls, and of the thousands of vendors claiming agentic capability Gartner assesses roughly 130 as genuinely agentic. Much of what is sold as agentic should be a deterministic workflow with one model call in it, which is cheaper, faster and auditable.',
   },
   {
     q: 'What ships alongside a production AI system?',

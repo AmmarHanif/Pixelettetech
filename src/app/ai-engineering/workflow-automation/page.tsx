@@ -133,7 +133,7 @@ export default function WorkflowAutomationPage() {
             </p>
             <p className="body" style={{ marginTop: 16 }}>
               So the sequence runs measure, simplify, automate deterministically, and only then
-              introduce a model — for the judgement, extraction or language handling that rules
+              introduce a model for the judgement, extraction or language handling that rules
               genuinely cannot do.
             </p>
             <p style={{ marginTop: 26 }}>

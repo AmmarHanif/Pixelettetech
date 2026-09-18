@@ -110,7 +110,7 @@ export default function CookiesPage() {
                         <td>
                           Remembers whether you have switched website analytics off, so your choice
                           is respected on later visits. It holds one of two values and nothing else
-                          &mdash; no identifier, no date, nothing derived from you.
+                          There is no identifier, no date and nothing derived from you.
                         </td>
                         <td>
                           Until you clear your browser storage, or switch analytics back on. It is

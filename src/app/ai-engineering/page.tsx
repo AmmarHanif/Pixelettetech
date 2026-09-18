@@ -204,7 +204,7 @@ const developmentAreas = [
 const faqs = [
   {
     q: 'Why can so few organisations show a return on AI?',
-    a: 'Because the work around the model was never redesigned, the data it needs was never made reachable, and nobody owns whether it still works next quarter. Around 80% of individual AI users report they are more productive, while only 37% of organisations can attribute any EBIT impact to it — a figure unchanged year on year (McKinsey State of AI, August 2026, n=1,719).',
+    a: 'Because the work around the model was never redesigned, the data it needs was never made reachable, and nobody owns whether it still works next quarter. Around 80% of individual AI users report they are more productive, while only 37% of organisations can attribute any EBIT impact to it, a figure unchanged year on year (McKinsey State of AI, August 2026, n=1,719).',
   },
   {
     q: 'What is a Value Discovery?',
@@ -224,7 +224,7 @@ const faqs = [
      * that assesses it.
      */
     q: 'Does Pixelette Technologies audit or certify the AI it builds?',
-    a: 'No, and it does not offer to. Where a programme needs formal governance, certification readiness, privacy or security-assurance support, Pixelette Certified — a separate practice in the same group — can scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment. Independent assurance stays independent: the firm that builds a system is not the firm that assesses it.',
+    a: 'No, and it does not offer to. Where a programme needs formal governance, certification readiness, privacy or security-assurance support, Pixelette Certified, a separate practice in the same group, can scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment. Independent assurance stays independent: the firm that builds a system is not the firm that assesses it.',
   },
 ];
 
@@ -427,7 +427,7 @@ export default function AiEngineeringPage() {
           eyebrow="Anatomy"
           id="anatomy-heading"
           title="AI is more than the model"
-          lead="Production AI depends on the systems around the model — context, data, tools, permissions, evaluation and human control."
+          lead="Production AI depends on the systems around the model: context, data, tools, permissions, evaluation and human control."
         />
         {/*
           An ILLUSTRATIVE architecture, drawn from first principles and labelled
@@ -523,7 +523,7 @@ export default function AiEngineeringPage() {
             <MediaSlot
               label={lytics.imageLabel}
               src={publishedImage(lytics)}
-              alt={`${displayName(lytics)} — ${lytics.title}`}
+              alt={`${displayName(lytics)}: ${lytics.title}`}
             />
           </Link>
 

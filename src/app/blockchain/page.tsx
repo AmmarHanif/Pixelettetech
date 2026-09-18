@@ -297,7 +297,7 @@ export default function BlockchainPage() {
                 <MediaSlot
                   label={cs.imageLabel}
                   src={publishedImage(cs)}
-                  alt={`${displayName(cs)} — ${cs.title}`}
+                  alt={`${displayName(cs)}: ${cs.title}`}
                 />
                 <span className="mono work-card__kicker">{displayKicker(cs)}</span>
                 <h3 className="h4" style={{ marginTop: 10 }}>

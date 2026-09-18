@@ -59,7 +59,7 @@ const opportunities = [
    */
   {
     title: 'Bid and proposal cycle',
-    body: 'Repetitive assembly against a deadline, with a win-rate already attached to it — which makes the before and after unusually easy to measure.',
+    body: 'Repetitive assembly against a deadline, with a win-rate already attached to it, which makes the before and after unusually easy to measure.',
   },
   {
     title: 'Knowledge and precedent retrieval',
@@ -112,7 +112,7 @@ const faqs = [
   },
   {
     q: 'What separates firms that get value from AI from those that do not?',
-    a: 'A named strategy. Firms with one reach their expected value 66% of the time; firms without one, 22% (Thomson Reuters Future of Professionals 2026). The gap in this sector is not adoption — most firms have bought the tools — it is being able to walk a client through what changed, with a number.',
+    a: 'A named strategy. Firms with one reach their expected value 66% of the time; firms without one, 22% (Thomson Reuters Future of Professionals 2026). The gap in this sector is not adoption, because most firms have bought the tools. It is being able to walk a client through what changed, with a number.',
   },
 ];
 

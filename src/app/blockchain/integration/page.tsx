@@ -171,7 +171,7 @@ export default function BlockchainIntegrationPage() {
             </p>
             <p className="body" style={{ marginTop: 16 }}>
               So the boundary is the architecture. We push everything else off-chain, where it is
-              cheaper, faster, private by default and possible to correct — and we are explicit about
+              cheaper, faster, private by default and possible to correct, and we are explicit about
               which properties you give up when something moves in either direction.
             </p>
             <p style={{ marginTop: 26 }}>

@@ -72,8 +72,8 @@ export default function IndustriesPage() {
           </h1>
           <p className="lead" style={{ marginTop: 24, maxWidth: '68ch' }}>
             Two sectors have a page here because two sectors have work behind them. We engineer for
-            others — the engagements on our work index cover digital assets, health, legal and
-            fintech — but a sector page should mean a published position rather than a label, so
+            others, and the engagements on our work index cover digital assets, health, legal
+            and fintech. But a sector page should mean a published position rather than a label, so
             this list stays short until the next one earns a page.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>

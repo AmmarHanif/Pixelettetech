@@ -172,7 +172,7 @@ export function LiveDiagram({ variant = 'full' }: { variant?: 'compact' | 'full'
         ))}
       </ol>
 
-      <p className="live__loop mono">Feedback loop — Evolve returns to Land</p>
+      <p className="live__loop mono">Feedback loop: Evolve returns to Land</p>
 
       {/* The label is a 10px uppercase mono slot on one line, so it holds the
           layer name only and the route goes in the body beneath it, where

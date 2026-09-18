@@ -100,7 +100,7 @@ import { company } from '@/content/company';
  * by the same rule as src/components/BrandLogo.tsx, so the lockup is never
  * stretched and never disagrees with the header.
  */
-export const alt = `${company.name} — ${company.tagline}`;
+export const alt = `${company.name}: ${company.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 

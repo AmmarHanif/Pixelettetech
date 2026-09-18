@@ -38,10 +38,10 @@ export default function NotFound() {
       </div>
       <ul style={{ listStyle: 'none', padding: 0, marginTop: 44, display: 'grid', gap: 10 }}>
         <li>
-          <FLink href="/engineering">Engineering — web, mobile and custom software</FLink>
+          <FLink href="/engineering">Engineering: web, mobile and custom software</FLink>
         </li>
         <li>
-          <FLink href="/blockchain">Blockchain — tokenisation and decentralised systems</FLink>
+          <FLink href="/blockchain">Blockchain: tokenisation and decentralised systems</FLink>
         </li>
         <li>
           <FLink href="/ai-engineering">AI engineering</FLink>

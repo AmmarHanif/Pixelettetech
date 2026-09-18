@@ -192,7 +192,7 @@ export default async function WorkPage({
                   <MediaSlot
                     label={cs.imageLabel}
                     src={publishedImage(cs)}
-                    alt={`${displayName(cs)} — ${cs.title}`}
+                    alt={`${displayName(cs)}: ${cs.title}`}
                   />
                   <span className="mono work-card__kicker">{displayKicker(cs)}</span>
                   <h3 className="h3" style={{ marginTop: 12 }}>
@@ -236,7 +236,7 @@ export default async function WorkPage({
 
       <ClosingCta title="Want the evidence behind a result?">
         Ask and we will walk you through the architecture, the evaluation approach and the
-        measurement behind any result on this page — including the figures we are not yet
+        measurement behind any result on this page, including the figures we are not yet
         publishing, and what it would take to publish them.
       </ClosingCta>
     </>

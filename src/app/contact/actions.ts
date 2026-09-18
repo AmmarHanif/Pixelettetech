@@ -73,7 +73,7 @@ const MAX = {
  * enquiry actually reached something durable.
  */
 const MESSAGES = {
-  SUCCESS: 'Thank you. One of us will reply within one working day — not a sequence.',
+  SUCCESS: 'Thank you. One of us will reply within one working day, not a sequence.',
   UNCONFIGURED: `Our contact form is not currently connected. Please email ${contactEmail} so your enquiry reaches a person.`,
   FAILED: `We could not send that just now. Please email ${contactEmail} rather than retrying, so your enquiry is not lost.`,
 } as const;

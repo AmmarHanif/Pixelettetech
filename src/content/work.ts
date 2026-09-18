@@ -583,7 +583,7 @@ const HELD_FIGURES_EVIDENCE_BASIS =
  * all — confirmed from its built page, which contains no such section.
  */
 const WITHDRAWN_FIGURES_EVIDENCE_BASIS =
-  'This write-up is drawn from Pixelette’s own project records for the engagement, and the client is named with permission. The outcome figures that once accompanied it were withdrawn from publication at source and are not repeated here or held for later release — a withdrawn figure is not a pending one. What is published is the challenge, the engineering and the stack.';
+  'This write-up is drawn from Pixelette’s own project records for the engagement, and the client is named with permission. The outcome figures that once accompanied it were withdrawn from publication at source and are not repeated here or held for later release. A withdrawn figure is not a pending one. What is published is the challenge, the engineering and the stack.';
 
 export const caseStudies: CaseStudy[] = [
   /*
@@ -747,7 +747,7 @@ export const caseStudies: CaseStudy[] = [
     cardCta: 'Read the 2Connect case study',
     detail: {
       problem:
-        'Professional networks can create high volumes of connections without enough relevance. The product needed to understand what users want, what they can offer and whether two professionals are likely to create value for one another — while keeping matching scalable, privacy-aware and commercially usable.',
+        'Professional networks can create high volumes of connections without enough relevance. The product needed to understand what users want, what they can offer and whether two professionals are likely to create value for one another, while keeping matching scalable, privacy-aware and commercially usable.',
       built:
         'Pixelette designed and developed the AI architecture and MVP route around structured onboarding, professional-profile intelligence, persona/vector creation, compatibility scoring, AI-assisted matchmaking, controlled agent-to-agent interaction, feedback-led refinement, dashboards and B2B event/API integration routes.',
       delivery:
@@ -1085,7 +1085,7 @@ export const caseStudies: CaseStudy[] = [
       problem:
         'Organisations struggle to meet mandated hiring quotas for people with disabilities: assessing candidates with sensory, physical or intellectual impairments fairly is hard, and the compliance requirement makes getting it wrong expensive in both directions.',
       built:
-        'AIA, a gamified cognitive mapping tool that assesses up to ten cognitive skills — focus, attention, logical reasoning among them — and produces detailed reports for inclusive hiring, role alignment and vocational guidance.',
+        'AIA, a gamified cognitive mapping tool that assesses up to ten cognitive skills, among them focus, attention and logical reasoning, and produces detailed reports for inclusive hiring, role alignment and vocational guidance.',
       delivery:
         'Accessibility research → product design → AI/model work → integrations → QA → deployment, across a seven-month programme.',
       measured:
@@ -1097,7 +1097,7 @@ export const caseStudies: CaseStudy[] = [
       evidenceBasis: GATED_EVIDENCE_BASIS,
       anonymised: {
         built:
-          'A gamified cognitive mapping tool that assesses up to ten cognitive skills — focus, attention, logical reasoning among them — and produces detailed reports for inclusive hiring, role alignment and vocational guidance.',
+          'A gamified cognitive mapping tool that assesses up to ten cognitive skills, among them focus, attention and logical reasoning, and produces detailed reports for inclusive hiring, role alignment and vocational guidance.',
       },
     },
     internalEvidence: {
@@ -1176,7 +1176,7 @@ export const caseStudies: CaseStudy[] = [
       built:
         'A scraping and classification pipeline rebuilt for real-time throughput, with the sentiment models moved into the ingest path rather than bolted on afterwards, and capacity headroom designed for source growth rather than the source count on the day.',
       measured:
-        'Sentiment analysis error rates fell and AI-based scraping efficiency improved, and the rebuilt pipeline took on a materially wider set of monitored sources while holding real-time responsiveness — headroom designed in, rather than a source count fixed on the day. The figures behind each of those movements are held for evidence.',
+        'Sentiment analysis error rates fell and AI-based scraping efficiency improved, and the rebuilt pipeline took on a materially wider set of monitored sources while holding real-time responsiveness. Headroom was designed in, rather than a source count fixed on the day. The figures behind each of those movements are held for evidence.',
       next: null,
       stack: 'Python, TensorFlow, React, Node.js, AWS',
       duration: 'Six months',
@@ -1667,7 +1667,7 @@ export const caseStudies: CaseStudy[] = [
       built:
         'A blockchain-backed transaction platform combining smart contracts, real-time verification and a decentralised ledger, so that each step in a transaction is verifiable rather than attested.',
       measured:
-        'Legal transactions completed faster, and — the part that matters more — practitioners adopted the system rather than working around it, because a legal system nobody trusts does not get used. Both figures are held for evidence.',
+        'Legal transactions completed faster and, the part that matters more, practitioners adopted the system rather than working around it, because a legal system nobody trusts does not get used. Both figures are held for evidence.',
       next: null,
       stack: 'Solidity, Hardhat, Web3.js, Node.js, IPFS, Moralis',
       duration: null,
@@ -1976,7 +1976,7 @@ export const caseStudies: CaseStudy[] = [
       problem:
         'Traditional financial systems make it hard for investors to track assets and act quickly: manual processes, intermediaries and limited transparency all raise risk exposure and erode confidence.',
       built:
-        'A blockchain-powered investment platform integrating smart contracts, automated financial processes and secure tokenomics — real-time asset tracking, instant transactions, and security designed in rather than added on.',
+        'A blockchain-powered investment platform integrating smart contracts, automated financial processes and secure tokenomics: real-time asset tracking, instant transactions, and security designed in rather than added on.',
       measured:
         'The engagement’s outcome figures were withdrawn from publication and are not repeated here.',
       next: null,
@@ -2012,7 +2012,7 @@ export const caseStudies: CaseStudy[] = [
       problem:
         'Generic wellness programmes fail because they do not adapt: without personalised guidance, motivation fades and progress tracking becomes a chore rather than a habit.',
       built:
-        'An AI-powered wellness platform that adapts to each user’s health goals and daily routines — machine learning over health data with real-time feedback, delivering customised fitness, nutrition and mental wellbeing plans with AI-driven coaching.',
+        'An AI-powered wellness platform that adapts to each user’s health goals and daily routines, using machine learning over health data with real-time feedback, delivering customised fitness, nutrition and mental wellbeing plans with AI-driven coaching.',
       measured:
         'Engagement rose, driven by interactive tracking and personalised recommendations; users held on to their wellness routines beyond the first months; and the stress-management features brought reported anxiety levels down. The engagement, retention and anxiety figures are all held for evidence.',
       next: null,
@@ -2091,7 +2091,7 @@ export const caseStudies: CaseStudy[] = [
       problem:
         'Ragnar Trading Limited needed an entire ecosystem from scratch: a token transaction system that worked efficiently, and a platform intuitive enough that people new to digital assets could adopt it without a learning curve.',
       built:
-        'Ragnar Token ($RAG), an ERC-20 token on Ethereum designed for transactions and capital raising, alongside a web platform with real-time price tracking and transaction history — the familiarity of traditional banking with the flexibility of crypto.',
+        'Ragnar Token ($RAG), an ERC-20 token on Ethereum designed for transactions and capital raising, alongside a web platform with real-time price tracking and transaction history, bringing the familiarity of traditional banking with the flexibility of crypto.',
       measured:
         'A share of platform visitors went on to become token holders, and buying or swapping the token runs as one uninterrupted flow rather than a multi-step exercise. The conversion rate and the transaction time are held for evidence.',
       next: null,
@@ -2162,9 +2162,9 @@ export const caseStudies: CaseStudy[] = [
       problem:
         'Manual contract processes meant delays, human error and compliance risk: contracts needed continuous oversight, costs rose with every intermediary, and enforcement depended on records that could be disputed.',
       built:
-        'A blockchain-integrated smart contract management system that automates execution with real-time tracking and tamper-proof records — contracts created, executed and monitored with complete transparency, and automated validation replacing manual checking.',
+        'A blockchain-integrated smart contract management system that automates execution with real-time tracking and tamper-proof records: contracts created, executed and monitored with complete transparency, and automated validation replacing manual checking.',
       measured:
-        'Contract execution time came down, automated validation took manual processing errors out of the loop, management costs fell and legal professionals adopted the system — with audit trails produced automatically in support of regulatory compliance rather than reconstructed for it. The execution-time, error, cost and adoption figures are all held for evidence.',
+        'Contract execution time came down, automated validation took manual processing errors out of the loop, management costs fell and legal professionals adopted the system, with audit trails produced automatically in support of regulatory compliance rather than reconstructed for it. The execution-time, error, cost and adoption figures are all held for evidence.',
       next: null,
       stack: 'Solidity, Hyperledger Fabric, Web3.js, IPFS, PostgreSQL, AWS',
       duration: null,

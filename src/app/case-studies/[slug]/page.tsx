@@ -161,7 +161,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         {/* `priority`: this is the hero, directly under the h1, and is the
             likely LCP element on all 29 case-study pages. Every other MediaSlot
             on the page is below the fold and stays lazy. */}
-        <MediaSlot label={cs.imageLabel} src={image} alt={`${name} — ${cs.title}`} priority />
+        <MediaSlot label={cs.imageLabel} src={image} alt={`${name}: ${cs.title}`} priority />
 
         <div className="split split--wide-left" style={{ marginTop: 56 }}>
           <div>
@@ -294,8 +294,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   */}
                   <Placeholder>
                     {cs.namePermission === 'PENDING'
-                      ? 'FULL WRITE-UP PENDING CLIENT SIGN-OFF — problem, what we built, how it is measured'
-                      : 'FULL WRITE-UP PENDING — problem, what we built, how it is measured'}
+                      ? 'FULL WRITE-UP PENDING CLIENT SIGN-OFF: problem, what we built, how it is measured'
+                      : 'FULL WRITE-UP PENDING: problem, what we built, how it is measured'}
                   </Placeholder>
                 </p>
               </>
@@ -390,7 +390,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               <MediaSlot
                 label={o.imageLabel}
                 src={publishedImage(o)}
-                alt={`${displayName(o)} — ${o.title}`}
+                alt={`${displayName(o)}: ${o.title}`}
               />
               <span className="mono work-card__kicker">{displayKicker(o)}</span>
               <h3 className="h4" style={{ marginTop: 10 }}>
@@ -403,7 +403,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
 
       <ClosingCta title="Want the evidence behind a result?">
         Ask and we will walk you through the architecture, the evaluation approach and the
-        measurement behind any result on this page — including the figures we are not yet
+        measurement behind any result on this page, including the figures we are not yet
         publishing, and what it would take to publish them.
       </ClosingCta>
     </>

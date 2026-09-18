@@ -165,7 +165,7 @@ export default function ModernSlaveryPage() {
             body: (
               <p className="body" style={{ marginTop: 12 }}>
                 We are a UK software engineering firm. What we buy in is cloud infrastructure,
-                software licences and professional services — no manufacturing, no raw materials.
+                software licences and professional services, with no manufacturing and no raw materials.
                 Our exposure is in people, not goods: engineering and support work is done by our
                 own employed and contracted staff, in the UK and overseas.
               </p>

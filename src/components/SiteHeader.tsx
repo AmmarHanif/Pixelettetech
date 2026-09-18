@@ -146,7 +146,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="wrap site-header__inner">
-        <Link href="/" className="brandmark" aria-label={`${company.name} — home`}>
+        <Link href="/" className="brandmark" aria-label={`${company.name} home`}>
           <BrandLogo height={32} />
         </Link>
 

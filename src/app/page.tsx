@@ -77,7 +77,7 @@ const differentiators = [
   },
   {
     t: 'AI-native where useful',
-    d: 'AI can be part of the product, the workflow and the delivery process — but only where it earns its place.',
+    d: 'AI can be part of the product, the workflow and the delivery process, but only where it earns its place.',
   },
   {
     t: 'Blockchain depth',
@@ -652,7 +652,7 @@ export default function HomePage() {
               <MediaSlot
                 label={cs.imageLabel}
                 src={publishedImage(cs)}
-                alt={`${displayName(cs)} — ${cs.title}`}
+                alt={`${displayName(cs)}: ${cs.title}`}
               />
               <h3 className="h4">{displayName(cs)}</h3>
               <p className="body work-card__line">{cs.title}</p>

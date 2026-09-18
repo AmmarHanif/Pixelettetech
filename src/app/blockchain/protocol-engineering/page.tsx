@@ -59,7 +59,7 @@ const tests = [
 const faqs = [
   {
     q: 'When is a bespoke chain or Layer 2 actually justified?',
-    a: 'When a general-purpose chain demonstrably fails a specific requirement — throughput, cost per transaction, privacy, governance, finality guarantees or control over upgrades — and the alternatives have been exhausted. Absent a named failure of that kind, an existing chain, an app-specific rollup or a permissioned network will usually meet the requirement for a fraction of the standing cost.',
+    a: 'When a general-purpose chain demonstrably fails a specific requirement: throughput, cost per transaction, privacy, governance, finality guarantees or control over upgrades, and the alternatives have been exhausted. Absent a named failure of that kind, an existing chain, an app-specific rollup or a permissioned network will usually meet the requirement for a fraction of the standing cost.',
   },
   {
     q: 'What is the real cost of running your own network?',
@@ -183,7 +183,7 @@ export default function ProtocolEngineeringPage() {
             <p className="body" style={{ marginTop: 20 }}>
               Protocol work is engineering under adversarial conditions: every action is permanent,
               publicly visible, and reviewed by people trying to break it for profit. That teaches a
-              discipline most software teams never have to learn — proving a system behaved
+              discipline most software teams never have to learn, which is proving a system behaved
               correctly to somebody who assumes it did not.
             </p>
             <p className="body" style={{ marginTop: 16 }}>

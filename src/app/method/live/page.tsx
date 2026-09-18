@@ -46,7 +46,7 @@ const faqs = [
   },
   {
     q: 'Why does every engagement have to start with a measured baseline?',
-    a: 'Because you cannot price an outcome nobody has counted. Of 979 generative and agentic use cases analysed in 2026, generic productivity cases ran 54% in proof of concept against 19% in production, while narrow process-performance cases ran 8% in proof of concept against 27% in production — the healthiest ratio in the dataset (HFS Research, May 2026). Engagements that start vaguely do not finish.',
+    a: 'Because you cannot price an outcome nobody has counted. Of 979 generative and agentic use cases analysed in 2026, generic productivity cases ran 54% in proof of concept against 19% in production, while narrow process-performance cases ran 8% in proof of concept against 27% in production, the healthiest ratio in the dataset (HFS Research, May 2026). Engagements that start vaguely do not finish.',
   },
 ];
 
