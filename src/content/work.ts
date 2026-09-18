@@ -369,6 +369,20 @@ export type CaseStudyDetail = CaseStudyNarrative & {
    */
   stack?: string;
   duration: string | null;
+  /**
+   * NOT RENDERED ANYWHERE, since 2026-09-18.
+   *
+   * This described the architecture diagram a case study would carry, and its
+   * only consumer was a MediaSlot with no `src` on the case-study page, which
+   * therefore rendered a dashed "[ LABEL ]" placeholder rather than a diagram.
+   * The founder had that removed: a labelled empty box announces a gap instead
+   * of holding a space for one, and it shows an internal content note to a
+   * client.
+   *
+   * The strings are kept because they describe artwork that may still be
+   * commissioned, and they remain in the claim scanner's sweep. If a diagram is
+   * ever produced, render it WITH a src; do not reinstate the empty slot.
+   */
   architectureLabel: string;
   /**
    * Name-free variants of any narrative field whose approved wording carries a

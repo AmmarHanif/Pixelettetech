@@ -185,9 +185,24 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   {detail.built}
                 </p>
 
-                <div style={{ marginTop: 32 }}>
-                  <MediaSlot label={detail.architectureLabel} ratio="16 / 7" />
-                </div>
+                {/*
+                  REMOVED 2026-09-18 on founder instruction: "remove this type
+                  of grid from them. We shouldn't have this information in
+                  there."
+
+                  This was a MediaSlot with no `src`, and it never had one, so
+                  it could only ever render the dashed placeholder box reading
+                  "[ PLATFORM ARCHITECTURE ]" or similar. Twenty of the
+                  twenty-nine case studies carried one. A labelled empty box
+                  does not hold a space for a diagram, it announces that a
+                  diagram is missing, and it puts an internal content note in
+                  front of a client.
+
+                  DO NOT RESTORE IT AS A PLACEHOLDER. If real architecture
+                  artwork is ever produced, add it to public/work, give the case
+                  study a field holding the filename, and render the slot WITH a
+                  src so the empty branch is unreachable.
+                */}
 
                 {detail.delivery ? (
                   <>
@@ -335,10 +350,21 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               ) : null}
             </dl>
             <hr className="rule" style={{ margin: '22px 0 18px' }} />
-            <p>
-              <FLink href="/contact">Request the technical note</FLink>
-            </p>
-            <div style={{ marginTop: 14 }}>
+            {/*
+              "Request the technical note" removed 2026-09-18 on founder
+              instruction: "we can't share the technical note with people. So why
+              would we have this option about requesting the technical note?"
+
+              It rendered on all 29 case studies and offered a document that
+              cannot be sent, which is a promise the company would have to break
+              or fudge on every request. It also pointed at /contact, the same
+              destination as the button below it, so it was a second route to one
+              place presented as a different offer.
+
+              The button STAYS, and deliberately: a reader deep in a case study
+              should not have to return to the homepage to act.
+            */}
+            <div>
               <Cta
                 href="/contact"
                 analytics={analyticsAttrs(ANALYTICS_EVENTS.BOOK_CONVERSATION_CTA, {
