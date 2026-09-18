@@ -888,7 +888,12 @@ td {
   padding: 72px 0 40px;
 }
 
-.site-footer a {
+/* The Privacy choices trigger is a <button>, not an <a>, so it matched NONE of
+   this and rendered at the inherited 16px against 14px links, with a different
+   line box. Naming it here rather than restating the values on `.privacy-trigger`
+   means the two cannot drift apart again. */
+.site-footer a,
+.site-footer .privacy-trigger {
   color: var(--dark-text);
   font-size: 14px;
   display: inline-flex;
@@ -896,7 +901,8 @@ td {
   min-height: 34px;
 }
 
-.site-footer a:hover {
+.site-footer a:hover,
+.site-footer .privacy-trigger:hover {
   color: var(--dark-head);
 }
 
@@ -2596,7 +2602,15 @@ button.btn[disabled] {
   background: none;
   border: 0;
   padding: 0;
-  font: inherit;
+  /* `font-family`, NOT the `font` shorthand. `font: inherit` also sets
+     font-size, which inherited the 16px body size and made this button render
+     larger than the links beside it. A button only needs the family reset; its
+     size comes from the footer rule above. */
+  font-family: inherit;
+  /* A button does not inherit line-height - the user agent sets `normal` - so
+     without this it computed differently from the links beside it even once the
+     font-size matched. */
+  line-height: inherit;
   color: inherit;
   cursor: pointer;
   text-align: left;
@@ -2795,4 +2809,18 @@ button.btn[disabled] {
   background: var(--tint, #f5f3f7);
   padding: 1px 5px;
   border-radius: 4px;
+}
+
+/* ------------------------------------------- selected work (homepage cards)
+   The homepage reuses `.work-card` from /case-studies. These two rules are the
+   only difference: the homepage card carries a one-line descriptor and puts its
+   discipline label at the FOOT rather than above the name, which is the order
+   the founder picked from the rendered options. */
+.work-card__line {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.work-card__kicker--foot {
+  margin-top: 12px;
 }

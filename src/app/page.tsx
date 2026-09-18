@@ -1,4 +1,6 @@
 
+import Link from 'next/link';
+
 import { LiveDiagram } from '@/components/LiveDiagram';
 import {
   CertifiedHandoff,
@@ -9,6 +11,7 @@ import {
   Eyebrow,
   FLink,
   JsonLd,
+  MediaSlot,
   Section,
   SectionHead,
   SourceNote,
@@ -16,7 +19,7 @@ import {
 } from '@/components/ui';
 import { certified } from '@/content/company';
 import { gapStats } from '@/content/sources';
-import { displayKicker, homepageCaseStudies } from '@/content/work';
+import { displayName, homepageCaseStudies, publishedImage } from '@/content/work';
 import {
   ANALYTICS_EVENTS,
   ANALYTICS_SURFACES,
@@ -604,27 +607,57 @@ export default function HomePage() {
           />
           <FLink href="/case-studies">Read the full case studies</FLink>
         </div>
+        {/*
+          REBUILT 2026-09-18 on founder instruction, after he was shown three
+          rendered options and chose this one. It fixed THREE defects, only one
+          of which he had named:
+
+          1. THE TYPE. Each tile was a single `.mono` line carrying the whole
+             kicker. Nothing else on this site sets body copy in the mono face,
+             which is exactly why it read as foreign. The kicker survives as a
+             small brand-coloured label, which is what mono is FOR here.
+
+          2. NO IMAGE, ON THE ONE SECTION THAT HAD ARTWORK TO SHOW. All three
+             studies carry a published screenshot, and this section - the only
+             first-party evidence on the page - was rendering none of it.
+
+          3. THE CARDS WERE NOT LINKS. They were plain divs. A reader could see
+             the proof and not reach it, and nothing reported the dead end.
+
+          REUSES `work-card` RATHER THAN A NEW HOMEPAGE PATTERN. That class
+          already carries the link reset, the media slot spacing and the
+          brand-border hover, and it is what /case-studies uses - so the two
+          surfaces now read as one system instead of two takes on the same idea.
+
+          `publishedImage` and `displayName` rather than the raw fields: the name
+          gate still governs both, so a study returning to PENDING loses its
+          image and its name here automatically and MediaSlot prints its
+          placeholder instead of a broken frame.
+
+          `cs.title` as the descriptor, not new copy. It is approved wording that
+          already renders on the case study itself, and none of the three titles
+          contains a client name - checked - so it is safe whatever the gate says.
+        */}
         <div className="grid grid-3" style={{ marginTop: 32 }}>
           {homepageCaseStudies.map(cs => (
-            <div key={cs.slug} className="tile">
-              {/* A p, not a span: `.tile span` is a 13px muted block for
-                  StatTile's caption and `.tile b` a 26px brand numeral. Either
-                  would restyle this label.
-
-                  15px, up from 12.5px, and this is the merge's most load-bearing
-                  number. The differentiator tiles directly above render .small
-                  at 14px under 16px titles, so at 12.5px the ONLY first-party
-                  evidence on the homepage was the SMALLEST type in the section,
-                  sitting under larger type. That inversion survived only because
-                  a boundary and a tint told the reader to look again. Both are
-                  gone, so the type has to carry it. */}
-              <p
-                className="mono"
-                style={{ fontSize: 15, letterSpacing: '0.08em', color: 'var(--ink)', margin: 0 }}
-              >
-                {displayKicker(cs)}
-              </p>
-            </div>
+            <Link
+              key={cs.slug}
+              href={`/case-studies/${cs.slug}`}
+              className="work-card"
+              {...analyticsAttrs(ANALYTICS_EVENTS.CASE_STUDY_OPENED, {
+                surface: ANALYTICS_SURFACES.HOMEPAGE_SELECTED_WORK,
+                detail: cs.slug,
+              })}
+            >
+              <MediaSlot
+                label={cs.imageLabel}
+                src={publishedImage(cs)}
+                alt={`${displayName(cs)} — ${cs.title}`}
+              />
+              <h3 className="h4">{displayName(cs)}</h3>
+              <p className="body work-card__line">{cs.title}</p>
+              <span className="mono work-card__kicker work-card__kicker--foot">{cs.service}</span>
+            </Link>
           ))}
         </div>
       </Section>

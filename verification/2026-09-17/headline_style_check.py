@@ -54,6 +54,12 @@ TITLE_CASE_ALLOWED = {
     # Proper nouns: entities, named frameworks, named stages and named offers.
     'Part of Pixelette Group': 'group entity name',
     'A shareholding in Big Innovation Centre': 'organisation name',
+    # Client names, which became HEADINGS on 2026-09-18 when the homepage work
+    # cards were rebuilt. They are proper nouns and they publish under a name
+    # permission recorded in work.ts - ADR-0036. Expect this list to grow by one
+    # entry each time a client is named; that is the gate working, not drift.
+    'Fusio Wallet': 'client name, published under a recorded permission',
+    'Ayni Gold': 'client name, published under a recorded permission',
     'AI DPS RM6200': 'Crown Commercial framework name',
     'Start at LAND': 'LAND is a named delivery stage',
     'Start with Value Discovery': 'Value Discovery is the named offer',
