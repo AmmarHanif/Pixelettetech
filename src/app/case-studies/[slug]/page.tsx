@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { ClosingCta } from '@/components/sections';
 import {
   Cta,
   Eyebrow,
@@ -427,11 +426,26 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         </div>
       </Section>
 
-      <ClosingCta title="Want the evidence behind a result?">
-        Ask and we will walk you through the architecture, the evaluation approach and the
-        measurement behind any result on this page, including the figures we are not yet
-        publishing, and what it would take to publish them.
-      </ClosingCta>
+      {/*
+        The closing CTA was REMOVED 2026-09-18 on founder instruction. It read
+        "Want the evidence behind a result?" and offered to walk a reader through
+        the architecture, the evaluation approach and the measurement behind any
+        result on the page, including the figures held behind the evidence gate.
+
+        "We don't want to give this kind of information because it's client
+        specific information and we don't have permission from clients to give
+        this level of detail."
+
+        The point generalises and is worth keeping: the evidence gate exists
+        because that material needs a client's permission, so an offer to supply
+        it privately hands over exactly what the gate withholds publicly. THE
+        OFFER IS THE DISCLOSURE. Any replacement close here must route to a
+        conversation without naming what will be shown in it.
+
+        Nothing was put in its place. A case study still carries "Book a
+        conversation" in its aside, and the index carries one in its hero, so
+        neither page is left without a route to contact.
+      */}
     </>
   );
 }
