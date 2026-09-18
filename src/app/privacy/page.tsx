@@ -190,7 +190,7 @@ export default function PrivacyPage() {
           </p>
           <p className="body">
             As a client or supplier, we hold the business-contact details and correspondence needed
-            to run the engagement — the people we deal with, what was agreed, invoices and the
+            to run the engagement: the people we deal with, what was agreed, invoices and the
             ordinary record of the work.
           </p>
 
@@ -295,7 +295,7 @@ export default function PrivacyPage() {
           </div>
           <p className="body" style={{ marginTop: 16 }}>
             Where we rely on legitimate interests we have weighed them against your interests, and
-            you can object — see <a href="#your-rights">your rights</a>.
+            you can object. See <a href="#your-rights">your rights</a>.
           </p>
           <p className="body">
             Business development and marketing, including where business contact information is
@@ -337,7 +337,7 @@ export default function PrivacyPage() {
           <p className="body">
             <strong>This website sets no cookies.</strong> You are not shown a cookie banner because
             there is nothing to consent to. We load no third-party scripts, fonts, images or
-            embedded content — every file the site requests comes from our own domain.
+            embedded content. Every file the site requests comes from our own domain.
           </p>
           <p className="body">
             We run <strong>no advertising or remarketing technology, no cross-site tracking, no
@@ -363,7 +363,7 @@ export default function PrivacyPage() {
           <h3 className="h4">Your privacy choices</h3>
           <p className="body">
             <strong>Privacy choices</strong> appears in the footer of every page. It opens only when
-            you select it — never on arrival — and lets you switch website analytics off, and back
+            you select it, never on arrival, and lets you switch website analytics off, and back
             on, whenever you like. Switching it off stops any further analytics immediately, for the
             rest of that visit and on every visit afterwards.
           </p>
@@ -371,7 +371,7 @@ export default function PrivacyPage() {
             So that we can respect that choice we store one preference in your browser:{' '}
             <code>pt-analytics</code>, holding either <code>on</code> or <code>off</code>. It is
             written only if you use the control. It contains no identifier, no date and nothing
-            derived from you, and it is never sent to us — two visitors who both object store
+            derived from you, and it is never sent to us. Two visitors who both object store
             exactly the same value, so it cannot be used to tell them apart. That is the only thing
             this site stores on your device. Our <Link href="/cookies">Cookies and analytics</Link>{' '}
             page lists it, what it is for and how long it lasts.
@@ -421,14 +421,37 @@ export default function PrivacyPage() {
           </p>
 
           <h3 className="h4">Transfers out of the United Kingdom</h3>
+          {/*
+              REWRITTEN 2026-09-18 on founder challenge: "Those providers are
+              established outside the United Kingdom... I am not sure that makes
+              sense." It did not, for three reasons.
+
+              "Those" was a back-reference sitting directly under its own
+              heading, with the mailbox provider and our professional advisers
+              named in between - and the sticky nav jumps a reader straight here,
+              so the antecedent was often off screen entirely.
+
+              Worse, the causation was wrong. Where a company is INCORPORATED is
+              not what makes a restricted transfer; a United States company can
+              hold your data in London. What makes it one is where the data is
+              processed and who can reach it. The old sentence gave a false
+              reason for a conclusion that happens to be correct, which is
+              exactly the sort of thing a procurement reviewer notices.
+
+              The real reason is the one now stated: nothing in our configuration
+              pins a region, so we cannot tell you the data stays here. Checked
+              2026-09-18 - no region is set in vercel.json, next.config or any
+              client setup.
+          */}
           <p className="body">
-            Those providers are established outside the United Kingdom, including in the United
-            States, so your information is transferred out of the UK when it passes through them.
-            Their data processing terms bring in the European Commission&rsquo;s standard
-            contractual clauses together with the UK Addendum that adapts those clauses for UK
-            transfers, and those terms apply as part of the agreement governing our use of each
-            service. We are not relying on an adequacy decision for any of them. Ask and we will
-            tell you which mechanism applies to which provider.
+            Vercel, Supabase and Resend are United States companies, and we have not restricted the
+            regions in which they process this information, so you should assume your enquiry is
+            handled outside the United Kingdom. Under UK data protection law that is a restricted
+            transfer, and it needs a safeguard. The safeguard is in each provider&rsquo;s data
+            processing terms: the European Commission&rsquo;s standard contractual clauses together
+            with the UK Addendum that adapts those clauses for UK transfers. We are not relying on
+            an adequacy decision for any of them. If you are assessing us as a supplier, ask and we
+            will send your reviewer the transfer terms for each provider.
           </p>
 
           <h3 className="h4">Security</h3>
@@ -452,7 +475,7 @@ export default function PrivacyPage() {
             We keep an enquiry for{' '}
             <strong>24 months from the last time we were in contact with you about it</strong>, and
             then delete it. If nothing follows your first message, the clock starts there. Deleting
-            is something we do, not something a machine does on a timer — we would rather tell you
+            is something we do, not something a machine does on a timer. We would rather tell you
             that than leave you picturing an automatic expiry that does not exist. If you think we
             are holding something past it, say so and we will check.
           </p>
@@ -527,9 +550,9 @@ export default function PrivacyPage() {
 
           <h3 className="h4">Links to other sites</h3>
           <p className="body">
-            Where we link out — to the other Pixelette Group companies, to our LinkedIn page, or to
-            a source we have cited — those sites have their own privacy practices and this statement
-            does not extend to them.
+            We link to the other Pixelette Group companies, to our LinkedIn page, and to sources we
+            have cited. Those sites have their own privacy practices and this statement does
+            not extend to them.
           </p>
 
           <h3 className="h4">Changes to this statement</h3>
