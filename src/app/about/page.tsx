@@ -239,7 +239,12 @@ export default function AboutPage() {
 
       {/* -------------------------------------------- what we build today */}
       <Section labelledBy="today-heading" style={{ background: '#F7FAFA' }}>
-        <SectionHead eyebrow="Capability" id="today-heading" title="What we build today" />
+        {/* "What we build today" collided with the first card. The heading used
+            "build" as the verb covering all four, and then the first of four
+            peers claimed it as its own name, two inches below. Founder spotted
+            it on review 2026-09-18. One word changed, so the sentence shape and
+            the rhythm against "Our evolution" are untouched. */}
+        <SectionHead eyebrow="Capability" id="today-heading" title="What we do today" />
         <div className="grid grid-4" style={{ marginTop: 40 }}>
           {today.map(t => (
             <Link className="card" href={t.href} key={t.key}>
