@@ -2888,22 +2888,27 @@ button.btn[disabled] {
    into brand as it descends, with five plain statements hung off it. No cards,
    no borders, no icons, no links, and nothing between the rows but air. */
 .evo {
-  --evo-gutter: 30px;
+  --evo-gutter: 34px;
   --evo-rail-x: 4px;
   --evo-node-c: 11px;
 
   list-style: none;
   margin: 0;
   /* LOAD-BEARING. globals.css gives every ol an 18px padding-left; leaving it
-     shifts the whole rail and every measurement below is then wrong. */
+     shifts the whole rail and every measurement below is then wrong. The rows
+     carry their own left padding, so this must be exactly zero. */
   padding: 0;
 }
 
+/* Block flow, NOT grid. A two-track grid put the label in the rail gutter,
+   because the row has two children and the first track is the 30px strip the
+   rail lives in. The rail and the nodes are absolutely positioned against the
+   row, so they never needed a track of their own: the gutter is padding, the
+   label and the statement stack, and there is no slot for anything to fall
+   into by accident. */
 .evo__row {
   position: relative;
-  display: grid;
-  grid-template-columns: var(--evo-gutter) minmax(0, 1fr);
-  column-gap: 22px;
+  padding-left: var(--evo-gutter);
   padding-bottom: 42px;
 }
 
@@ -3067,11 +3072,10 @@ button.btn[disabled] {
 
 @media (max-width: 560px) {
   .evo {
-    --evo-gutter: 22px;
+    --evo-gutter: 26px;
   }
 
   .evo__row {
-    column-gap: 18px;
     padding-bottom: 32px;
   }
 }
