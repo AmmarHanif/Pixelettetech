@@ -22,7 +22,6 @@ import {
 } from '@/content/work';
 import { ANALYTICS_EVENTS, ANALYTICS_SURFACES, analyticsAttrs } from '@/lib/analytics';
 import { breadcrumbSchema, caseStudySchema } from '@/lib/schema';
-import { heroMaxWidth } from '@/content/image-widths';
 import { pageMetadata } from '@/lib/seo';
 
 export function generateStaticParams() {
@@ -161,18 +160,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         {/* `priority`: this is the hero, directly under the h1, and is the
             likely LCP element on all 29 case-study pages. Every other MediaSlot
             on the page is below the fold and stays lazy. */}
-        {/* maxWidth added 2026-09-18. This slot renders at 1110 CSS px in the
-            full column and the source images are 346 to 699 px wide, so it was
-            upscaling every one of them. The cap holds each image to its own native
-            resolution, so none is stretched at all. The hero is narrower as a result, and that is the trade:
-            a smaller sharp image rather than a full-width soft one. */}
-        <MediaSlot
-          label={cs.imageLabel}
-          src={image}
-          alt={`${name}: ${cs.title}`}
-          maxWidth={heroMaxWidth(image)}
-          priority
-        />
+        <MediaSlot label={cs.imageLabel} src={image} alt={`${name}: ${cs.title}`} priority />
 
         <div className="split split--wide-left" style={{ marginTop: 56 }}>
           <div>
