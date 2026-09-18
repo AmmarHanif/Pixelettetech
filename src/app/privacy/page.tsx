@@ -442,11 +442,21 @@ export default function PrivacyPage() {
               pins a region, so we cannot tell you the data stays here. Checked
               2026-09-18 - no region is set in vercel.json, next.config or any
               client setup.
+
+              SECOND PASS, same day. The first rewrite opened with a claim that
+              the three providers are United States companies. That is the SAME
+              defect this comment criticises, reintroduced one sentence later:
+              where a provider is incorporated is not what causes a transfer. It
+              was also unverified, and not safely so, because at least one of the
+              three has contracted through a Singapore entity in the past, which
+              would have made the sentence simply false on a legal page. The
+              clause was doing no work and is gone. What remains is the part that
+              is checkable and that actually causes the transfer.
           */}
           <p className="body">
-            Vercel, Supabase and Resend are United States companies, and we have not restricted the
-            regions in which they process this information, so you should assume your enquiry is
-            handled outside the United Kingdom. Under UK data protection law that is a restricted
+            We have not restricted the regions in which Vercel, Supabase and Resend process this
+            information, so you should assume your enquiry is handled outside the United Kingdom,
+            including in the United States. Under UK data protection law that is a restricted
             transfer, and it needs a safeguard. The safeguard is in each provider&rsquo;s data
             processing terms: the European Commission&rsquo;s standard contractual clauses together
             with the UK Addendum that adapts those clauses for UK transfers. We are not relying on
