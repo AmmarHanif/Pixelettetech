@@ -26,7 +26,14 @@ export type NavItem = {
  * says "Book an Engineering Conversation" for a reader who knows the problem and
  * not the fix. Before that change the header carried the UPPER rung on every
  * page, so a cold visitor met it first, 200px above a hero carrying the lower
- * one. Two things also changed
+ * one. A THIRD RUNG ARRIVED 2026-09-18 with the About
+ * rework, which the founder's brief specifies twice: /about's hero and its
+ * closing CTA both say "Start a conversation". It is recorded here rather than
+ * silently absorbed, because this comment is the reason nobody tidies the other
+ * two into agreement, and a third label that is not described here reads as
+ * exactly the drift the ladder exists to prevent. If it should spread beyond
+ * /about, or fold back into "Book a conversation", that is a decision to take
+ * once across the site rather than page by page. Two things also changed
  * from the previous version and both were deliberate. AI moved to second and
  * is now labelled "AI & Automation", because the handoff makes it a first-class
  * buying route rather than something hidden inside Engineering or Blockchain.

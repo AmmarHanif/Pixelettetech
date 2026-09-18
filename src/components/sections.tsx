@@ -183,13 +183,43 @@ export function ClientLogos({
   );
 }
 
-/** Verified client voices. Each one links to the review it came from. */
+/**
+ * Verified client voices. Each one links to the review it came from.
+ *
+ * TWO CALL SITES: /about and /engineering. A change here reaches both.
+ *
+ * The standing source note under the grid was removed 2026-09-18 on founder
+ * instruction for the About rework: "Remove explanatory text such as 'Each
+ * review above links to the review it came from.'" It narrated what the cards
+ * already show, which is the kind of copy that makes a page read as though it
+ * is explaining itself rather than presenting evidence. Each card now carries
+ * "Verified review on Clutch" and nothing else.
+ *
+ * The `clutch.published` branch SURVIVES. That one is not explanatory: it is
+ * the aggregate rating and review count, a separate held claim that returns the
+ * day someone re-reads the live profile. Deleting the whole conditional would
+ * have removed the route that claim comes back through, which is not what was
+ * asked for and would not have been noticed until it was wanted.
+ */
 export function Testimonials({
   items = featuredTestimonials,
   heading = 'Client voices',
+  variant = 'card',
 }: {
   items?: Testimonial[];
   heading?: string;
+  /**
+   * `card` is the original treatment and the default, so every call site that
+   * does not pass this renders exactly what it rendered before.
+   *
+   * `plain` drops the box and separates the two quotes with a hairline instead.
+   * Added 2026-09-18 for /about, where this block lands directly beneath the
+   * four capability cards: two bordered grids in succession read as one
+   * texture, and on this site a bordered box means "this is a link", which a
+   * quote is not. The serif quote at 21px does not need a container to carry
+   * weight, and the founder asked for these to be prominent but simple.
+   */
+  variant?: 'card' | 'plain';
 }) {
   /*
    * The zero guard (added 2026-09-08).
@@ -217,9 +247,16 @@ export function Testimonials({
   return (
     <Section labelledBy="voices-heading">
       <Eyebrow id="voices-heading">{heading}</Eyebrow>
-      <div className="grid grid-2" style={{ marginTop: 32 }}>
+      <div
+        className={variant === 'plain' ? 'grid grid-2 tm-plain-grid' : 'grid grid-2'}
+        style={{ marginTop: 32 }}
+      >
         {items.map(t => (
-          <figure className="card" key={t.url} style={{ margin: 0 }}>
+          <figure
+            className={variant === 'plain' ? 'tm-plain' : 'card'}
+            key={t.url}
+            style={{ margin: 0 }}
+          >
             <div
               style={{ display: 'flex', gap: 3, color: 'var(--brand)', marginBottom: 18 }}
               aria-label={`${t.rating} out of 5`}
@@ -249,14 +286,26 @@ export function Testimonials({
                   {t.role}
                 </span>
               </span>
+              {/*
+                minHeight is the WCAG 2.5.8 target floor. Every other control on
+                this site carries it and this one did not. At 390px the
+                figcaption wraps and this link lands on its own line, where a
+                20px-tall target is the entire hit area.
+              */}
               <a
                 href={t.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="small"
-                style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                style={{
+                  marginLeft: 'auto',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 5,
+                  minHeight: 44,
+                }}
               >
-                Verify on Clutch
+                Verified review on Clutch
                 <ArrowUpRight size={12} />
               </a>
             </figcaption>
@@ -288,15 +337,7 @@ export function Testimonials({
           </a>
           .
         </SourceNote>
-      ) : (
-        <SourceNote>
-          Each review above links to the review it came from.{' '}
-          <a href={clutch.profileUrl} target="_blank" rel="noopener noreferrer">
-            Full profile on Clutch
-          </a>
-          .
-        </SourceNote>
-      )}
+      ) : null}
     </Section>
   );
 }
