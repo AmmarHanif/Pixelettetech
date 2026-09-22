@@ -51,6 +51,24 @@ export const primaryNav: NavItem[] = [
   { href: '/engineering', label: 'Engineering' },
   { href: '/ai-automation', label: 'AI & Automation' },
   { href: '/blockchain', label: 'Blockchain' },
+  /*
+   * ADDED 2026-09-22 on founder instruction: the Run service gets a top-level
+   * entry after Blockchain, and its menu text is just "Support".
+   *
+   * THIS IS A DELIBERATE EXCEPTION TO THE RENAME BRIEF, recorded rather than
+   * left to be found. That brief said the service must not be "abbreviated
+   * differently in different areas of the site", and this abbreviates it: the
+   * Engineering dropdown carries the same href as "Support & Continuous
+   * Improvement" while this reads "Support". The founder asked for the short
+   * form here specifically, and a thirty-two character item in a six-item
+   * primary nav is a different constraint from a dropdown row. Do not "fix"
+   * one to match the other without asking him.
+   *
+   * It renders as a plain link, not a dropdown, because SiteHeader resolves
+   * dropdowns by matching this href against navSections and this href has no
+   * section. No component change was needed.
+   */
+  { href: '/engineering/support-continuous-improvement', label: 'Support' },
   { href: '/case-studies', label: 'Work' },
   /* INSIGHTS WITHDRAWN FROM NAVIGATION 2026-09-16 for launch, on founder
      instruction: "Do not launch the current unfinished Insights index."
