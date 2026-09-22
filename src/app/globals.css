@@ -2161,7 +2161,7 @@ button.btn[disabled] {
 }
 
 /* =====================================================================
-   /ai-engineering — page-scoped treatment, added 2026-09-16
+   /ai-automation — page-scoped treatment, added 2026-09-16
 
    WHY THESE ARE CLASSES AND NOT INLINE STYLES. Every padding value below
    has a smaller counterpart at <=860px, and an inline style cannot be

@@ -192,7 +192,7 @@ export default function ProtocolEngineeringPage() {
               in one firm.
             </p>
             <div className="btn-row" style={{ marginTop: 28 }}>
-              <Cta href="/ai-engineering" variant="secondary">
+              <Cta href="/ai-automation" variant="secondary">
                 See AI &amp; automation
               </Cta>
             </div>

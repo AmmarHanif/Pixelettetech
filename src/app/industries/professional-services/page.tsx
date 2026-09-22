@@ -98,7 +98,7 @@ const faqs = [
      * machine-readably as well as visibly. The other "one in five" in this
      * codebase is not the same claim and does not rescue it: it is "fewer than
      * one in five organisations tracks ROI on AI" on
-     * /ai-engineering/value-discovery, from a different Thomson Reuters study
+     * /ai-automation/value-discovery, from a different Thomson Reuters study
      * (February 2026, n=1,500+).
      *
      * To restore it: add it to `professionalServicesStats` with the study,
@@ -127,7 +127,7 @@ const faqs = [
  * holds figures back, and an empty one throws "TypeError: Cannot read
  * properties of undefined (reading 'source')" at render while `tsc --noEmit`
  * stays green, because a non-null assertion is exactly a promise not to check.
- * The same line on /ai-engineering/support-and-run took that page down this
+ * The same line on /ai-automation/support-and-run took that page down this
  * morning when its three figures were held for an unnameable publisher.
  *
  * The false statement. "four" was typed into the copy. Hold any one of the

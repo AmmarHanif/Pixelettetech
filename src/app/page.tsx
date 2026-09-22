@@ -301,7 +301,7 @@ export default function HomePage() {
             to action anywhere else on this site — not in the nav, not on a
             service page, not in llms.txt. A primary CTA that exists only on the
             homepage is one the rest of the site cannot reinforce. "Book a value
-            baseline" is the conversion action /ai-engineering, /contact and
+            baseline" is the conversion action /ai-automation, /contact and
             llms.txt all already name, and it is the one with a published price
             behind it.
 
@@ -402,7 +402,7 @@ export default function HomePage() {
 
         NOTHING IS WITHDRAWN FROM THE SITE and no gate changed. The seven
         names are still APPROVED in src/content/clients.ts and still render on
-        /ai-engineering through the same accessor, so this is a homepage
+        /ai-automation through the same accessor, so this is a homepage
         composition decision rather than a permissions one - withdraw a
         permission there and the name leaves everywhere at once, which is still
         the only mechanism that should remove one.
@@ -438,7 +438,7 @@ export default function HomePage() {
         BROAD MARKET POSITIONING - four audience cards and ten sector names.
         Two faults in one block. It sold to startups, scale-ups, established
         businesses, enterprise and public sector, which CONTRADICTED the client
-        profile then published on /ai-engineering and in llms.txt. And the ten
+        profile then published on /ai-automation and in llms.txt. And the ten
         sector names rendered as plain spans with no destination while only two
         industry pages exist - ten dead terms on the highest-authority page on
         the site.
@@ -448,10 +448,10 @@ export default function HomePage() {
         with its outcome attached.
 
         This comment used to say: if the broad profile is the one the firm
-        wants, the fix runs the other way and /ai-engineering and llms.txt
+        wants, the fix runs the other way and /ai-automation and llms.txt
         change instead - a larger decision, and the founder's. HE TOOK IT. The
         narrow profile (a revenue band, a country, three job titles and two
-        named sectors) is gone from /ai-engineering, from its FAQ and from
+        named sectors) is gone from /ai-automation, from its FAQ and from
         llms.txt, replaced by four problem shapes under "Where AI earns its
         place" - situation filters rather than identity filters.
 
@@ -492,7 +492,7 @@ export default function HomePage() {
         The machine-readable llms.txt sided with the inner pages. The front page
         was the least-evidenced surface on an otherwise well-sourced site.
 
-        Copy and figures are lifted verbatim from /ai-engineering, including the
+        Copy and figures are lifted verbatim from /ai-automation, including the
         attribution, and the figures come from `gapStats` rather than being
         retyped - so a corrected citation reaches both pages, and a figure
         withdrawn from the register disappears from both. `published` is already
@@ -528,7 +528,7 @@ export default function HomePage() {
         mistaken for a section break.
 
         THE TINT MOVED TO THE WHOLE SECTION, and it is not a new treatment:
-        /ai-engineering already renders this headline, this paragraph, these
+        /ai-automation already renders this headline, this paragraph, these
         gapStats figures and this attribution inside a #F7FAFA section. Two
         pages sharing the content now share its ground. It also keeps the page
         alternating white, tint, white, tint, white, and gives the nine white
@@ -727,7 +727,7 @@ export default function HomePage() {
         {/*
           "CFO" replaced 2026-09-15 on founder instruction — he does not accept
           that finance always signs off, and the chief exec often does. "Exec
-          team" is not new wording: /ai-engineering/value-discovery already
+          team" is not new wording: /ai-automation/value-discovery already
           publishes "Readout to your exec team, and the deck is yours".
 
           The FRAMING, not just the headline, was finance-led: the body said "the
@@ -789,7 +789,7 @@ export default function HomePage() {
               If the numbers do not support going further, we tell you that.
             </p>
             <div className="btn-row" style={{ marginTop: 28 }}>
-              <Cta href="/ai-engineering/value-discovery">See what is included</Cta>
+              <Cta href="/ai-automation/value-discovery">See what is included</Cta>
             </div>
           </div>
           <div className="card" style={{ padding: 28 }}>
@@ -858,7 +858,7 @@ export default function HomePage() {
         paragraph ran three times across the site with the homepage getting the
         longest version of it.
 
-        `variant="compact"` is what /engineering, /ai-engineering and /blockchain
+        `variant="compact"` is what /engineering, /ai-automation and /blockchain
         already render. Using it here means the homepage is no longer the odd one
         out, and no fourth wording of this handoff enters the codebase.
 
@@ -872,7 +872,7 @@ export default function HomePage() {
         rather than a loss: they put ISO 42001 and Cyber Essentials on the
         homepage as bare pills, which is the presentation `claims.ts` singles out
         as highest risk and the same construction removed from
-        /ai-engineering/services earlier today.
+        /ai-automation/services earlier today.
       */}
       {/*
         FULL-BLEED BAND, CONTAINED CONTENT — changed 2026-09-17 on founder

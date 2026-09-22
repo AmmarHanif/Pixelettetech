@@ -7,7 +7,7 @@ export const metadata = pageMetadata({
   title: 'AI Agents & Workflow Automation',
   description:
     'Automate repetitive or high-friction business processes across systems, data and human approvals, with the current cost measured before anything is changed.',
-  path: '/ai-engineering/workflow-automation',
+  path: '/ai-automation/workflow-automation',
 });
 
 const capabilities = [
@@ -67,15 +67,15 @@ export default function WorkflowAutomationPage() {
           name: 'AI Agents & Workflow Automation',
           description:
             'Automation of repetitive and high-friction business processes across systems, data and human approvals, baselined before and measured after.',
-          path: '/ai-engineering/workflow-automation',
+          path: '/ai-automation/workflow-automation',
           serviceType: 'Business process automation',
         })}
       />
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'AI & Automation', path: '/ai-engineering' },
-          { name: 'Workflow Automation', path: '/ai-engineering/workflow-automation' },
+          { name: 'AI & Automation', path: '/ai-automation' },
+          { name: 'Workflow Automation', path: '/ai-automation/workflow-automation' },
         ])}
       />
       <JsonLd data={faqSchema(faqs)} />
@@ -94,7 +94,7 @@ export default function WorkflowAutomationPage() {
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Map the workflow</Cta>
-            <Cta href="/ai-engineering" variant="secondary">
+            <Cta href="/ai-automation" variant="secondary">
               All AI &amp; automation
             </Cta>
           </div>
@@ -137,7 +137,7 @@ export default function WorkflowAutomationPage() {
               genuinely cannot do.
             </p>
             <p style={{ marginTop: 26 }}>
-              <FLink href="/ai-engineering/value-discovery">Start with Value Discovery</FLink>
+              <FLink href="/ai-automation/value-discovery">Start with Value Discovery</FLink>
             </p>
           </div>
 
@@ -192,7 +192,7 @@ export default function WorkflowAutomationPage() {
               work. It has moved it somewhere nobody is looking.
             </p>
             <div className="btn-row" style={{ marginTop: 28 }}>
-              <Cta href="/ai-engineering/evaluation-and-observability" variant="secondary">
+              <Cta href="/ai-automation/evaluation-and-observability" variant="secondary">
                 How we measure it
               </Cta>
             </div>

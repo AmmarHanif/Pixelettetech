@@ -106,7 +106,7 @@ export default function InsightsPage() {
             <div
               style={{ marginTop: 28, display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}
             >
-              <Cta href="/ai-engineering/evaluation-and-observability">Read the methodology</Cta>
+              <Cta href="/ai-automation/evaluation-and-observability">Read the methodology</Cta>
               <span className="small">
                 <Placeholder>PLANNED: our eval in inspect_evals</Placeholder>
               </span>

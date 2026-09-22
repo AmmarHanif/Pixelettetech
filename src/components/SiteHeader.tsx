@@ -100,7 +100,7 @@ function TopLink({ item, className }: { item: NavItem; className?: string }) {
  *
  * Seventeen, corrected 2026-09-08: it read "sixteen", which counted the
  * directories created that session and missed
- * `/ai-engineering/evaluation-and-observability`, which already existed. The
+ * `/ai-automation/evaluation-and-observability`, which already existed. The
  * number is `navSections` in `src/content/nav.ts` — Engineering 6, AI &
  * Automation 6, Blockchain 5 — every one of which has a `page.tsx` on disk.
  * The three section landing pages are additional and are rendered above the

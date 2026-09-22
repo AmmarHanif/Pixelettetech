@@ -73,7 +73,7 @@ export const metadata = pageMetadata({
   title: 'AI Engineering & Automation | Pixelette Technologies',
   description:
     'We engineer AI into the systems you already run, measure what it changes and keep it working. Start with a four-week Value Discovery.',
-  path: '/ai-engineering',
+  path: '/ai-automation',
 });
 
 /*
@@ -90,28 +90,28 @@ const services = [
   {
     tag: 'Build',
     title: 'Production AI Systems',
-    href: '/ai-engineering/production-ai-systems',
+    href: '/ai-automation/production-ai-systems',
     linkLabel: 'See how we build',
     body: 'AI inside a named workflow, with the workflow redesigned around it. Human in the loop by default.',
   },
   {
     tag: 'Ready',
     title: 'Data & Integration',
-    href: '/ai-engineering/data-and-integration',
+    href: '/ai-automation/data-and-integration',
     linkLabel: 'What we build',
     body: 'Entitlement-aware access to your systems of record, and the context layer that makes them usable by a model.',
   },
   {
     tag: 'Measure',
     title: 'Value Discovery',
-    href: '/ai-engineering/value-discovery',
+    href: '/ai-automation/value-discovery',
     linkLabel: 'What the four weeks covers',
     body: 'Four weeks. We instrument the process, measure what it costs today, and write the business case.',
   },
   {
     tag: 'Prove',
     title: 'Evaluation & Observability',
-    href: '/ai-engineering/evaluation-and-observability',
+    href: '/ai-automation/evaluation-and-observability',
     linkLabel: 'How we measure',
     body: 'Test sets, regression checks and monitoring, so you see output quality move before your users do.',
   },
@@ -124,7 +124,7 @@ const services = [
      */
     tag: 'Run',
     title: 'Support & Run',
-    href: '/ai-engineering/support-and-run',
+    href: '/ai-automation/support-and-run',
     linkLabel: 'What running it covers',
     body: 'We keep it running, AI included, under contract, with a monthly report showing what changed.',
   },
@@ -261,14 +261,14 @@ export default function AiEngineeringPage() {
           name: 'AI engineering',
           description:
             'Production AI systems, data and integration, evaluation and observability, and support and run for AI in production.',
-          path: '/ai-engineering',
+          path: '/ai-automation',
           serviceType: 'Artificial intelligence engineering',
         })}
       />
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'AI engineering', path: '/ai-engineering' },
+          { name: 'AI engineering', path: '/ai-automation' },
         ])}
       />
       <JsonLd data={faqSchema(faqs)} />
@@ -308,7 +308,7 @@ export default function AiEngineeringPage() {
               MOCK, and a label promising "the report" would be the strongest
               wording on the site sitting over its weakest evidence.
             */}
-            <Cta href="/ai-engineering/support-and-run" variant="secondary">
+            <Cta href="/ai-automation/support-and-run" variant="secondary">
               See a sample report
             </Cta>
           </div>
@@ -362,7 +362,7 @@ export default function AiEngineeringPage() {
             id="what-heading"
             title="What we engineer"
           />
-          <FLink href="/ai-engineering/services">All AI services</FLink>
+          <FLink href="/ai-automation/services">All AI services</FLink>
         </div>
 
         <div className="sched">

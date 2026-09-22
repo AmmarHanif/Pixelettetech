@@ -454,7 +454,7 @@ export default function EngineeringPage() {
 
               THE EYEBROW WAS A RIDDLE. "Where the two halves meet" never
               established what two halves; the only place the site says it is
-              /ai-engineering, calling Engineering "the larger half of what we
+              /ai-automation, calling Engineering "the larger half of what we
               do" - so it resolved only for a reader arriving from the page that
               did not need it. "After it ships" is this page's own vocabulary:
               FAQ 3 below asks "What happens after the build ships?".
@@ -485,16 +485,16 @@ export default function EngineeringPage() {
               them and would outrank both. It also matches the established
               cross-practice pattern, published in both directions already: "Go
               to Blockchain" on this page and "Go to Engineering" on
-              /ai-engineering.
+              /ai-automation.
 
               HALF THAT CITATION EXPIRED 2026-09-22: the founder removed "Go to
               Blockchain" from the capability card above, so the pattern now runs
-              between this page and /ai-engineering only. The reasoning for THIS
+              between this page and /ai-automation only. The reasoning for THIS
               link is unaffected - it never rested on the Blockchain one, which
               was corroboration rather than cause - but a comment citing a link
               that no longer exists would send the next reader looking for it.
 
-              THE LABEL NAMES THE DESTINATION THE WAY THE NAV DOES. /ai-engineering
+              THE LABEL NAMES THE DESTINATION THE WAY THE NAV DOES. /ai-automation
               IS the page the nav calls "AI & Automation". This CTA was the only
               place on the site calling it "AI engineering" - one destination,
               two names. Nothing enforces this; if the nav item is ever renamed,
@@ -514,7 +514,7 @@ export default function EngineeringPage() {
               requirement and support the route to independent assessment.
             </p>
             <p style={{ marginTop: 28 }}>
-              <FLink href="/ai-engineering">Go to AI &amp; Automation</FLink>
+              <FLink href="/ai-automation">Go to AI &amp; Automation</FLink>
             </p>
           </div>
 

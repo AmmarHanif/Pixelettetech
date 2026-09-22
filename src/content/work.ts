@@ -202,7 +202,7 @@ export type UnmeasuredMetric = WorkMetricBase & {
    * compiler keeps the two in step rather than the invariant catching it later.
    *
    * @deprecated Retained only because three practice pages outside this module
-   * (/ai-engineering, /blockchain, /engineering) still read `m.pending` to pick
+   * (/ai-automation, /blockchain, /engineering) still read `m.pending` to pick
    * the placeholder styling. Delete it once those pages read the status.
    */
   pending: true;

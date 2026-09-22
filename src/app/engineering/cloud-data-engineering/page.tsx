@@ -182,7 +182,7 @@ export default function CloudDataEngineeringPage() {
               ever pointed at the result.
             </p>
             <p style={{ marginTop: 26 }}>
-              <FLink href="/ai-engineering/data-and-integration">
+              <FLink href="/ai-automation/data-and-integration">
                 Data &amp; integration for AI
               </FLink>
             </p>

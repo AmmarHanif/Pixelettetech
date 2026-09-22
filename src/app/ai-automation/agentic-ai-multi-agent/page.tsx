@@ -7,7 +7,7 @@ export const metadata = pageMetadata({
   title: 'Agentic AI & Multi-Agent Systems',
   description:
     'Single- and multi-agent systems that plan, call tools, coordinate steps and operate within defined controls, with autonomy introduced as an engineered decision.',
-  path: '/ai-engineering/agentic-ai-multi-agent',
+  path: '/ai-automation/agentic-ai-multi-agent',
 });
 
 const capabilities = [
@@ -83,17 +83,17 @@ export default function AgenticAiPage() {
           name: 'Agentic AI & Multi-Agent Systems',
           description:
             'Single- and multi-agent systems that plan, call tools, coordinate steps and operate within defined controls, with traceability and human approval points.',
-          path: '/ai-engineering/agentic-ai-multi-agent',
+          path: '/ai-automation/agentic-ai-multi-agent',
           serviceType: 'Agentic AI system development',
         })}
       />
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'AI & Automation', path: '/ai-engineering' },
+          { name: 'AI & Automation', path: '/ai-automation' },
           {
             name: 'Agentic AI & Multi-Agent Systems',
-            path: '/ai-engineering/agentic-ai-multi-agent',
+            path: '/ai-automation/agentic-ai-multi-agent',
           },
         ])}
       />
@@ -114,7 +114,7 @@ export default function AgenticAiPage() {
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Map the workflow</Cta>
-            <Cta href="/ai-engineering" variant="secondary">
+            <Cta href="/ai-automation" variant="secondary">
               All AI &amp; automation
             </Cta>
           </div>
@@ -187,7 +187,7 @@ export default function AgenticAiPage() {
               the complicated one.
             </p>
             <p style={{ marginTop: 26 }}>
-              <FLink href="/ai-engineering/production-ai-systems">
+              <FLink href="/ai-automation/production-ai-systems">
                 How we build production AI
               </FLink>
             </p>
@@ -206,7 +206,7 @@ export default function AgenticAiPage() {
               agent third. Reversing it produces a demonstration rather than a system.
             </p>
             <div className="btn-row" style={{ marginTop: 28 }}>
-              <Cta href="/ai-engineering/data-and-integration" variant="secondary">
+              <Cta href="/ai-automation/data-and-integration" variant="secondary">
                 Data &amp; integration
               </Cta>
             </div>

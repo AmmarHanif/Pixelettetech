@@ -11,14 +11,14 @@ export const metadata = pageMetadata({
   title: 'AI engineering services',
   description:
     'Five services from the engineers who build the rest of your system: Value Discovery, Data & Integration, Production AI, Evaluation, and Support & Run.',
-  path: '/ai-engineering/services',
+  path: '/ai-automation/services',
 });
 
 const primary = [
   {
     n: '04',
     title: 'Support & Run',
-    href: '/ai-engineering/support-and-run',
+    href: '/ai-automation/support-and-run',
     body: 'Continuous evaluation against acceptance thresholds, drift and regression detection, incident response with defined severities, model and prompt version control, inference cost management, and a quarterly improvement cycle.',
     meta: ['Monthly retainer', 'Scoped per production system', 'Extends an existing build'],
     linkLabel: 'The run contract',
@@ -29,28 +29,28 @@ const secondary = [
   {
     n: '01',
     title: 'Value Discovery',
-    href: '/ai-engineering/value-discovery',
+    href: '/ai-automation/value-discovery',
     body: 'The entry point. Four weeks. Instrument the process, measure it, write the case.',
     meta: 'Quoted before we start',
   },
   {
     n: '02',
     title: 'Data & Integration',
-    href: '/ai-engineering/data-and-integration',
+    href: '/ai-automation/data-and-integration',
     body: 'The enabling layer named as the top barrier by KPMG, Deloitte and the UK government alike. Access, entitlements, context, observability.',
     meta: 'Fixed-scope phases',
   },
   {
     n: '03',
     title: 'Production AI Systems',
-    href: '/ai-engineering/production-ai-systems',
+    href: '/ai-automation/production-ai-systems',
     body: 'The build, with the workflow redesigned around it. Agentic patterns only where the task genuinely needs planning and tool use.',
     meta: 'Outcome-linked where evidenced',
   },
   {
     n: '05',
     title: 'Evaluation & Observability',
-    href: '/ai-engineering/evaluation-and-observability',
+    href: '/ai-automation/evaluation-and-observability',
     body: 'Test sets, regression checks and monitoring, so output quality moving is something you detect rather than something your users report.',
     meta: 'Built into every engagement',
   },
@@ -69,8 +69,8 @@ export default function AiServicesPage() {
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'AI engineering', path: '/ai-engineering' },
-          { name: 'Services', path: '/ai-engineering/services' },
+          { name: 'AI engineering', path: '/ai-automation' },
+          { name: 'Services', path: '/ai-automation/services' },
         ])}
       />
       {/*

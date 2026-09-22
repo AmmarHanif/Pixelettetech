@@ -44,7 +44,7 @@ export default function NotFound() {
           <FLink href="/blockchain">Blockchain: tokenisation and decentralised systems</FLink>
         </li>
         <li>
-          <FLink href="/ai-engineering">AI engineering</FLink>
+          <FLink href="/ai-automation">AI engineering</FLink>
         </li>
         <li>
           <FLink href="/case-studies">Work</FLink>

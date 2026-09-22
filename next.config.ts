@@ -55,7 +55,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     const moved: { from: string; to: string }[] = [
       // Service pages: the slug changed, the offer did not.
-      { from: '/ai-development-services', to: '/ai-engineering' },
+      { from: '/ai-development-services', to: '/ai-automation' },
       { from: '/blockchain-development-services', to: '/blockchain' },
       { from: '/custom-software-development-services', to: '/engineering/custom-software-saas' },
       { from: '/web-development-services', to: '/engineering/web-platforms' },
@@ -66,7 +66,7 @@ const nextConfig: NextConfig = {
       // the destination is the same document under a new URL. The old path
       // carries priority 0.9 in the sitemap, the second-highest on the site, so
       // shipping the rename without this would drop the strongest AI-section URL.
-      { from: '/ai-engineering/ai-value-baseline', to: '/ai-engineering/value-discovery' },
+      { from: '/ai-engineering/ai-value-baseline', to: '/ai-automation/value-discovery' },
       /*
        * Renamed 2026-09-22 on founder instruction, same shape as the line
        * above: Managed Engineering became Support & Continuous Improvement and
@@ -102,6 +102,32 @@ const nextConfig: NextConfig = {
        * be in the way of it.
        */
       { source: '/method', destination: '/method/live', permanent: false },
+      /*
+       * /ai-engineering became /ai-automation on founder instruction,
+       * 2026-09-22, aligning the slug with the name the nav has always used.
+       * Twelve routes moved together - the hub and eleven children - so one
+       * wildcard covers them rather than twelve entries that could drift apart.
+       *
+       * ORDER MATTERS AND THIS MUST STAY LAST. Redirects are evaluated in
+       * sequence, and `moved` above contains /ai-engineering/ai-value-baseline,
+       * whose destination is value-discovery rather than the same slug under a
+       * new parent. Hoist this wildcard above it and that entry never runs: the
+       * wildcard would send it to /ai-automation/ai-value-baseline, which does
+       * not exist.
+       *
+       * The parent needs its own line because `:path*` does not match the empty
+       * remainder for a source with a trailing segment.
+       */
+      {
+        source: '/ai-engineering',
+        destination: '/ai-automation',
+        permanent: true,
+      },
+      {
+        source: '/ai-engineering/:path*',
+        destination: '/ai-automation/:path*',
+        permanent: true,
+      },
     ];
   },
 

@@ -7,7 +7,7 @@ export const metadata = pageMetadata({
   title: 'Production AI Systems',
   description:
     'AI built into a named business process, with the process redesigned around it. Agentic only where the task earns it. Human review by default.',
-  path: '/ai-engineering/production-ai-systems',
+  path: '/ai-automation/production-ai-systems',
 });
 
 const processes = [
@@ -79,15 +79,15 @@ export default function ProductionAiPage() {
           name: 'Production AI Systems',
           description:
             'AI embedded in a named business process with the workflow redesigned around it, shipped with an evaluation suite, acceptance thresholds, escalation design and a runbook.',
-          path: '/ai-engineering/production-ai-systems',
+          path: '/ai-automation/production-ai-systems',
           serviceType: 'AI system development',
         })}
       />
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'AI engineering', path: '/ai-engineering' },
-          { name: 'Production AI Systems', path: '/ai-engineering/production-ai-systems' },
+          { name: 'AI engineering', path: '/ai-automation' },
+          { name: 'Production AI Systems', path: '/ai-automation/production-ai-systems' },
         ])}
       />
       <JsonLd data={faqSchema(faqs)} />

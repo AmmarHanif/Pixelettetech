@@ -175,7 +175,7 @@ export const runStatsRegister: readonly UnattributedStat[] = [
  * The published view. Empty today, by decision rather than by omission.
  *
  * CONSUMER STATUS, 2026-09-08 (was "KNOWN CONSUMER BREAK", fixed the same day).
- * The single consumer, src/app/ai-engineering/support-and-run/page.tsx, read
+ * The single consumer, src/app/ai-automation/support-and-run/page.tsx, read
  * `runStats[0]!.source` and threw "TypeError: Cannot read properties of
  * undefined (reading 'source')" the moment this view emptied, with
  * `tsc --noEmit` green throughout — a non-null assertion is precisely a promise
@@ -188,7 +188,7 @@ export const runStatsRegister: readonly UnattributedStat[] = [
  * Verified 2026-09-08 by rendering that page with this view empty and with it
  * populated, not by reading the source. Nothing is outstanding against this
  * file. Two sibling pages carried the identical `[0]!` shape and were fixed the
- * same way on the same day: /ai-engineering (`gapStats`) and
+ * same way on the same day: /ai-automation (`gapStats`) and
  * /industries/professional-services (`professionalServicesStats`).
  *
  * The rule this leaves behind: a register that can legitimately empty must not

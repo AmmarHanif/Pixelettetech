@@ -7,7 +7,7 @@ export const metadata = pageMetadata({
   title: 'LLM Integration & RAG',
   description:
     'Add model intelligence to existing products and knowledge environments with retrieval, permissions and grounded context, rather than a chat box bolted to the side.',
-  path: '/ai-engineering/llm-integration-rag',
+  path: '/ai-automation/llm-integration-rag',
 });
 
 const capabilities = [
@@ -79,15 +79,15 @@ export default function LlmIntegrationRagPage() {
           name: 'LLM Integration & RAG',
           description:
             'Model intelligence added to existing products and knowledge environments with retrieval, entitlement-aware permissions, grounded context and citations.',
-          path: '/ai-engineering/llm-integration-rag',
+          path: '/ai-automation/llm-integration-rag',
           serviceType: 'LLM integration and retrieval-augmented generation',
         })}
       />
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'AI & Automation', path: '/ai-engineering' },
-          { name: 'LLM Integration & RAG', path: '/ai-engineering/llm-integration-rag' },
+          { name: 'AI & Automation', path: '/ai-automation' },
+          { name: 'LLM Integration & RAG', path: '/ai-automation/llm-integration-rag' },
         ])}
       />
       <JsonLd data={faqSchema(faqs)} />
@@ -106,7 +106,7 @@ export default function LlmIntegrationRagPage() {
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Add AI to a product</Cta>
-            <Cta href="/ai-engineering" variant="secondary">
+            <Cta href="/ai-automation" variant="secondary">
               All AI &amp; automation
             </Cta>
           </div>
@@ -171,7 +171,7 @@ export default function LlmIntegrationRagPage() {
               you can hold to a threshold.
             </p>
             <p style={{ marginTop: 26 }}>
-              <FLink href="/ai-engineering/evaluation-and-observability">
+              <FLink href="/ai-automation/evaluation-and-observability">
                 How we grade output quality
               </FLink>
             </p>
@@ -190,7 +190,7 @@ export default function LlmIntegrationRagPage() {
               larger part of the work rather than presenting it as a preliminary.
             </p>
             <div className="btn-row" style={{ marginTop: 28 }}>
-              <Cta href="/ai-engineering/data-and-integration" variant="secondary">
+              <Cta href="/ai-automation/data-and-integration" variant="secondary">
                 Data &amp; integration
               </Cta>
             </div>

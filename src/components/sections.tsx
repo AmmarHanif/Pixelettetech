@@ -47,7 +47,7 @@ export function ClientLogos({
    *
    * So the guard stands on its own merits. Unguarded, an empty list left a
    * "Trusted by" label sitting over an empty `<ul>`, inside a bordered 128px
-   * section, on the homepage and on /ai-engineering — an orphan heading, an
+   * section, on the homepage and on /ai-automation — an orphan heading, an
    * empty container and a stray separator in one. Exactly what the handoff's
    * DEVELOPER RULE forbids: "the absence of a badge must not leave a broken
    * layout".
@@ -379,7 +379,7 @@ export function Testimonials({
  * FROM THIS PARAGRAPH AND NOTHING HERE IS BLOCKING.
  *
  * Corrected in place rather than quietly deleted, for the reason the same
- * correction in `src/app/ai-engineering/page.tsx` gives: a comment that states
+ * correction in `src/app/ai-automation/page.tsx` gives: a comment that states
  * a displaced policy as current reads as authority to the next person editing
  * the file, and this is the most widely imported component file in the
  * repository. The history is what stops the sentence being reintroduced.
@@ -760,7 +760,7 @@ export const valueModel: ValueModelEntry[] = [
     headline: 'AI put to work',
     summary:
       'Agents and workflow automation for manual processes, and AI inside products that already exist.',
-    href: '/ai-engineering',
+    href: '/ai-automation',
     linkLabel: 'AI & Automation',
   },
   {

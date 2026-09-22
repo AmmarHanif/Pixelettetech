@@ -437,7 +437,7 @@ export default function BlockchainPage() {
             rather than with the chain, and we are set up for that.
           </p>
           <div style={{ marginTop: 28 }}>
-            <Cta href="/ai-engineering" variant="secondary">
+            <Cta href="/ai-automation" variant="secondary">
               See AI engineering
             </Cta>
           </div>

@@ -204,7 +204,7 @@ export default function SupportContinuousImprovementPage() {
               and it is documented separately rather than folded silently into a support contract.
             </p>
             <p style={{ marginTop: 26 }}>
-              <FLink href="/ai-engineering/support-and-run">See the AI run contract</FLink>
+              <FLink href="/ai-automation/support-and-run">See the AI run contract</FLink>
             </p>
           </div>
 

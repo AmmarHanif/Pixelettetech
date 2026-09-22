@@ -95,7 +95,7 @@ const EVIDENCE_ARTEFACTS =
  * certificates, which the handoff's ACCREDITATION-SAFE RULE forbids unless the
  * exact legal entity and status have been verified — and `claims.ts`
  * (`certified-cross-sell`) records that they have not been. Because this file
- * is rendered by /ai-engineering and by /method/live, the unsafe form was
+ * is rendered by /ai-automation and by /method/live, the unsafe form was
  * published on two pages from one string.
  *
  * Composed from `certified` in src/content/company.ts rather than retyped, so
@@ -105,7 +105,7 @@ const EVIDENCE_ARTEFACTS =
  * place, imported twice.
  *
  * The leading clause names the entity in full because the diagram has to stand
- * on its own. /ai-engineering introduces Pixelette Certified twice before this
+ * on its own. /ai-automation introduces Pixelette Certified twice before this
  * point and /method/live never introduces it at all, and a component cannot see
  * the copy around it — writing the short form here and relying on the host page
  * to have explained it is exactly the coupling that leaves one page reading

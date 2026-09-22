@@ -20,7 +20,7 @@ export const metadata = pageMetadata({
   title: 'AI Support & Run',
   description:
     'A monthly contract that owns whether your AI is still accurate, safe and affordable. Evaluation, drift detection, cost control and defined severities.',
-  path: '/ai-engineering/support-and-run',
+  path: '/ai-automation/support-and-run',
 });
 
 const commitments = [
@@ -126,15 +126,15 @@ export default function SupportAndRunPage() {
           name: 'AI Support & Run',
           description:
             'A monthly contract covering continuous evaluation, drift detection, inference cost control, incident response against defined severities, and a quarterly improvement release.',
-          path: '/ai-engineering/support-and-run',
+          path: '/ai-automation/support-and-run',
           serviceType: 'Managed AI operations',
         })}
       />
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'AI engineering', path: '/ai-engineering' },
-          { name: 'Support & Run', path: '/ai-engineering/support-and-run' },
+          { name: 'AI engineering', path: '/ai-automation' },
+          { name: 'Support & Run', path: '/ai-automation/support-and-run' },
         ])}
       />
       <JsonLd data={faqSchema(faqs)} />
@@ -169,7 +169,7 @@ export default function SupportAndRunPage() {
             {/*
               WAS "See a sample report" pointing at #dashboard, which is now the
               very next thing on the page and about 200px below this button. With
-              /ai-engineering's door carrying that label instead, a reader arrives
+              /ai-automation's door carrying that label instead, a reader arrives
               here having just clicked those words, so repeating them to scroll
               one section was noise. This moves them to the next question a
               reader actually has once they have seen the report.

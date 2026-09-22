@@ -185,7 +185,7 @@ export default function WebPlatformsPage() {
               boundaries you set.
             </p>
             <div style={{ marginTop: 28 }}>
-              <Cta href="/ai-engineering" variant="secondary">
+              <Cta href="/ai-automation" variant="secondary">
                 See AI &amp; automation
               </Cta>
             </div>

@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
   title: 'Value Discovery',
   description:
     'Four weeks. We instrument two or three of your processes, measure what they cost today, and hand you a costed roadmap and the business case for your exec team.',
-  path: '/ai-engineering/value-discovery',
+  path: '/ai-automation/value-discovery',
 });
 
 const weeks = [
@@ -70,15 +70,15 @@ export default function BaselinePage() {
           name: 'Value Discovery',
           description:
             'A four-week engagement that instruments two or three processes, measures their current cost, and produces a costed roadmap and board-ready business case.',
-          path: '/ai-engineering/value-discovery',
+          path: '/ai-automation/value-discovery',
           serviceType: 'AI consulting',
         })}
       />
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'AI engineering', path: '/ai-engineering' },
-          { name: 'Value Discovery', path: '/ai-engineering/value-discovery' },
+          { name: 'AI engineering', path: '/ai-automation' },
+          { name: 'Value Discovery', path: '/ai-automation/value-discovery' },
         ])}
       />
       <JsonLd data={faqSchema(faqs)} />

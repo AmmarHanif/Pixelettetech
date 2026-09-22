@@ -10,7 +10,7 @@ export const metadata = pageMetadata({
   title: 'Data & Integration for AI',
   description:
     'Entitlement-aware retrieval, context and semantic layers, MCP integration to systems of record, lineage and provenance, and legacy enablement.',
-  path: '/ai-engineering/data-and-integration',
+  path: '/ai-automation/data-and-integration',
 });
 
 const capabilities = [
@@ -63,15 +63,15 @@ export default function DataIntegrationPage() {
           name: 'Data & Integration for AI',
           description:
             'Entitlement-aware retrieval, context and semantic layers, MCP integration to systems of record, lineage and provenance, and legacy enablement.',
-          path: '/ai-engineering/data-and-integration',
+          path: '/ai-automation/data-and-integration',
           serviceType: 'Data integration',
         })}
       />
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'AI engineering', path: '/ai-engineering' },
-          { name: 'Data & Integration', path: '/ai-engineering/data-and-integration' },
+          { name: 'AI engineering', path: '/ai-automation' },
+          { name: 'Data & Integration', path: '/ai-automation/data-and-integration' },
         ])}
       />
       <JsonLd data={faqSchema(faqs)} />

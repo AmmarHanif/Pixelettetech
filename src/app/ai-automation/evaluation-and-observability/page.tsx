@@ -7,7 +7,7 @@ export const metadata = pageMetadata({
   title: 'AI Evaluation & Observability',
   description:
     'Golden datasets graded pass or fail, judges calibrated against human labels, regression checks, and drift detection including judge drift.',
-  path: '/ai-engineering/evaluation-and-observability',
+  path: '/ai-automation/evaluation-and-observability',
 });
 
 const practices = [
@@ -60,17 +60,17 @@ export default function EvaluationPage() {
           name: 'AI Evaluation & Observability',
           description:
             'Golden datasets, binary pass-or-fail grading, judge calibration against human labels, regression checks and drift detection for AI systems in production.',
-          path: '/ai-engineering/evaluation-and-observability',
+          path: '/ai-automation/evaluation-and-observability',
           serviceType: 'AI evaluation and monitoring',
         })}
       />
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'AI engineering', path: '/ai-engineering' },
+          { name: 'AI engineering', path: '/ai-automation' },
           {
             name: 'Evaluation & Observability',
-            path: '/ai-engineering/evaluation-and-observability',
+            path: '/ai-automation/evaluation-and-observability',
           },
         ])}
       />
@@ -128,7 +128,7 @@ export default function EvaluationPage() {
               instrumented into every engagement rather than sold as an afterthought.
             </p>
             <p style={{ marginTop: 26 }}>
-              <FLink href="/ai-engineering/support-and-run">See what we report monthly</FLink>
+              <FLink href="/ai-automation/support-and-run">See what we report monthly</FLink>
             </p>
           </div>
           <CertifiedHandoff variant="compact" />

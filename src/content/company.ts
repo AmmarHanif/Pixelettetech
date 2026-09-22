@@ -83,7 +83,7 @@ export const company = {
    * The key survives, empty, only so that the pages still printing this tile
    * keep compiling; an empty string renders nothing rather than an unverified
    * number. Those call sites should drop the tile:
-   * about/page.tsx, engineering/page.tsx, ai-engineering/page.tsx and the
+   * about/page.tsx, engineering/page.tsx, ai-automation/page.tsx and the
    * TrustStrip in components/sections.tsx. To publish a figure again, name the
    * countries and the engagements that put the company in them, then move the
    * register row to VERIFIED.

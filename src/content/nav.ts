@@ -49,7 +49,7 @@ export type NavItem = {
  */
 export const primaryNav: NavItem[] = [
   { href: '/engineering', label: 'Engineering' },
-  { href: '/ai-engineering', label: 'AI & Automation' },
+  { href: '/ai-automation', label: 'AI & Automation' },
   { href: '/blockchain', label: 'Blockchain' },
   { href: '/case-studies', label: 'Work' },
   /* INSIGHTS WITHDRAWN FROM NAVIGATION 2026-09-16 for launch, on founder
@@ -119,18 +119,18 @@ export const engineeringSection: NavSection = {
 };
 
 export const aiAutomationSection: NavSection = {
-  href: '/ai-engineering',
+  href: '/ai-automation',
   label: 'AI & Automation',
   summary:
     'AI agents, workflow orchestration, model/LLM integration, RAG, predictive systems and intelligent automation.',
   items: [
-    { href: '/ai-engineering/agentic-ai-multi-agent', label: 'Agentic AI & Multi-Agent Systems' },
-    { href: '/ai-engineering/workflow-automation', label: 'AI Agents & Workflow Automation' },
-    { href: '/ai-engineering/llm-integration-rag', label: 'LLM Integration & RAG' },
-    { href: '/ai-engineering/predictive-intelligence', label: 'Predictive Intelligence' },
-    { href: '/ai-engineering/language-speech-vision', label: 'NLP / Speech / Vision' },
+    { href: '/ai-automation/agentic-ai-multi-agent', label: 'Agentic AI & Multi-Agent Systems' },
+    { href: '/ai-automation/workflow-automation', label: 'AI Agents & Workflow Automation' },
+    { href: '/ai-automation/llm-integration-rag', label: 'LLM Integration & RAG' },
+    { href: '/ai-automation/predictive-intelligence', label: 'Predictive Intelligence' },
+    { href: '/ai-automation/language-speech-vision', label: 'NLP / Speech / Vision' },
     {
-      href: '/ai-engineering/evaluation-and-observability',
+      href: '/ai-automation/evaluation-and-observability',
       label: 'AI Integration, Evaluation & Observability',
     },
   ],
@@ -255,7 +255,7 @@ export const footerColumns: { heading: string; items: NavItem[] }[] = [
   {
     heading: 'Services',
     items: [
-      { href: '/ai-engineering', label: 'AI & automation' },
+      { href: '/ai-automation', label: 'AI & automation' },
       { href: '/engineering', label: 'Engineering' },
       { href: '/blockchain', label: 'Blockchain' },
     ],
@@ -401,19 +401,19 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
   { path: '/blockchain/wallets-digital-assets', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/blockchain/integration', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/blockchain/protocol-engineering', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/ai-engineering', priority: 0.9, changeFrequency: 'monthly' },
+  { path: '/ai-automation', priority: 0.9, changeFrequency: 'monthly' },
   /* The handoff's AI & Automation service pages, same rule. */
-  { path: '/ai-engineering/agentic-ai-multi-agent', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/ai-engineering/workflow-automation', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/ai-engineering/llm-integration-rag', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/ai-engineering/predictive-intelligence', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/ai-engineering/language-speech-vision', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/ai-engineering/services', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/ai-engineering/value-discovery', priority: 0.9, changeFrequency: 'monthly' },
-  { path: '/ai-engineering/data-and-integration', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/ai-engineering/production-ai-systems', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/ai-engineering/support-and-run', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/ai-engineering/evaluation-and-observability', priority: 0.7, changeFrequency: 'monthly' },
+  { path: '/ai-automation/agentic-ai-multi-agent', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/ai-automation/workflow-automation', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/ai-automation/llm-integration-rag', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/ai-automation/predictive-intelligence', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/ai-automation/language-speech-vision', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/ai-automation/services', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/ai-automation/value-discovery', priority: 0.9, changeFrequency: 'monthly' },
+  { path: '/ai-automation/data-and-integration', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/ai-automation/production-ai-systems', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/ai-automation/support-and-run', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/ai-automation/evaluation-and-observability', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/method/live', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/assurance', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/industries', priority: 0.6, changeFrequency: 'yearly' },

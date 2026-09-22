@@ -29,7 +29,7 @@ export const metadata = pageMetadata({
  *     was not an option, so the rung now exists.
  *
  *  3. Both sector pages sit at sitemap priority 0.8 and were reachable only
- *     from /ai-engineering and from each other. Two commercial pages one hop off
+ *     from /ai-automation and from each other. Two commercial pages one hop off
  *     a single hub is a thin internal-link position for their weighting.
  *
  * WHAT THIS PAGE DELIBERATELY IS NOT. It does not invent sector coverage. The

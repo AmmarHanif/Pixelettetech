@@ -7,7 +7,7 @@ export const metadata = pageMetadata({
   title: 'NLP, Speech & Vision',
   description:
     'Extraction, classification, sentiment, speech and image or video intelligence, built where the use case supports it and graded against a definition of correct.',
-  path: '/ai-engineering/language-speech-vision',
+  path: '/ai-automation/language-speech-vision',
 });
 
 const capabilities = [
@@ -79,15 +79,15 @@ export default function LanguageSpeechVisionPage() {
           name: 'NLP, Speech & Vision',
           description:
             'Document extraction, classification, sentiment and theme analysis, speech to text, image and video intelligence and multilingual handling.',
-          path: '/ai-engineering/language-speech-vision',
+          path: '/ai-automation/language-speech-vision',
           serviceType: 'Natural language, speech and computer vision engineering',
         })}
       />
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'AI & Automation', path: '/ai-engineering' },
-          { name: 'NLP, Speech & Vision', path: '/ai-engineering/language-speech-vision' },
+          { name: 'AI & Automation', path: '/ai-automation' },
+          { name: 'NLP, Speech & Vision', path: '/ai-automation/language-speech-vision' },
         ])}
       />
       <JsonLd data={faqSchema(faqs)} />
@@ -106,7 +106,7 @@ export default function LanguageSpeechVisionPage() {
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Book a conversation</Cta>
-            <Cta href="/ai-engineering" variant="secondary">
+            <Cta href="/ai-automation" variant="secondary">
               All AI &amp; automation
             </Cta>
           </div>
@@ -184,12 +184,12 @@ export default function LanguageSpeechVisionPage() {
               than asserted.
             </p>
             <div className="btn-row" style={{ marginTop: 28 }}>
-              <Cta href="/ai-engineering/value-discovery" variant="secondary">
+              <Cta href="/ai-automation/value-discovery" variant="secondary">
                 Start with Value Discovery
               </Cta>
             </div>
             <p style={{ marginTop: 26 }}>
-              <FLink href="/ai-engineering/evaluation-and-observability">
+              <FLink href="/ai-automation/evaluation-and-observability">
                 How we grade output quality
               </FLink>
             </p>

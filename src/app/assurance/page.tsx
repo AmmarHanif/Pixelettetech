@@ -127,7 +127,7 @@ export default function AssurancePage() {
             <Cta href={certified.url} external>
               Explore {certified.name}
             </Cta>
-            <Cta href="/ai-engineering" variant="secondary">
+            <Cta href="/ai-automation" variant="secondary">
               See how we build AI
             </Cta>
           </div>

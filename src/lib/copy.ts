@@ -12,7 +12,7 @@
  *
  * `certified.positioningLine` in `src/content/company.ts` is an
  * accreditation-safe sentence taken verbatim from the handoff, and it renders
- * in SEVEN places. Five of them are prose — /ai-engineering, /certifications,
+ * in SEVEN places. Five of them are prose — /ai-automation, /certifications,
  * /blockchain/smart-contracts-dapps, the `CertifiedHandoff` panel and the LIVE
  * diagram's governance route — where it sits mid-paragraph after another
  * sentence and the full stop is doing its ordinary job. Two of them are
@@ -21,7 +21,7 @@
  * UPDATED 2026-09-17, counted rather than reasoned about. /security-and-data
  * AND /certifications were both withdrawn, and they were one heading and one
  * prose site respectively — so it is now FIVE sites: four prose
- * (/ai-engineering, /blockchain/smart-contracts-dapps, the `CertifiedHandoff`
+ * (/ai-automation, /blockchain/smart-contracts-dapps, the `CertifiedHandoff`
  * panel and the LIVE diagram) and ONE heading, on /assurance.
  *
  * The helper stays. One heading still needs it, and the reason it exists is

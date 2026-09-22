@@ -7,7 +7,7 @@ export const metadata = pageMetadata({
   title: 'Predictive Intelligence',
   description:
     'Forecasting, scoring, recommendation and decision-support systems built around business data, with thresholds, monitoring and a decision they actually change.',
-  path: '/ai-engineering/predictive-intelligence',
+  path: '/ai-automation/predictive-intelligence',
 });
 
 const capabilities = [
@@ -79,15 +79,15 @@ export default function PredictiveIntelligencePage() {
           name: 'Predictive Intelligence',
           description:
             'Forecasting, scoring, recommendation, anomaly detection and decision-support systems built around business data and monitored for decay.',
-          path: '/ai-engineering/predictive-intelligence',
+          path: '/ai-automation/predictive-intelligence',
           serviceType: 'Predictive analytics and decision support',
         })}
       />
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'AI & Automation', path: '/ai-engineering' },
-          { name: 'Predictive Intelligence', path: '/ai-engineering/predictive-intelligence' },
+          { name: 'AI & Automation', path: '/ai-automation' },
+          { name: 'Predictive Intelligence', path: '/ai-automation/predictive-intelligence' },
         ])}
       />
       <JsonLd data={faqSchema(faqs)} />
@@ -106,7 +106,7 @@ export default function PredictiveIntelligencePage() {
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Book a conversation</Cta>
-            <Cta href="/ai-engineering" variant="secondary">
+            <Cta href="/ai-automation" variant="secondary">
               All AI &amp; automation
             </Cta>
           </div>
@@ -167,7 +167,7 @@ export default function PredictiveIntelligencePage() {
               you will get in the first year.
             </p>
             <p style={{ marginTop: 26 }}>
-              <FLink href="/ai-engineering/production-ai-systems">
+              <FLink href="/ai-automation/production-ai-systems">
                 How we put systems into a process
               </FLink>
             </p>

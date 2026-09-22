@@ -166,7 +166,7 @@ export default function SmartContractsDappsPage() {
           precedent that only binds where the wording is identical is not a
           precedent. The site already has an accreditation-safe form of the same
           separation-of-duties point in published copy — "the firm that builds a
-          system is not the firm that assesses it", in the /ai-engineering FAQ —
+          system is not the firm that assesses it", in the /ai-automation FAQ —
           so nothing commercial is lost by dropping this variant. And checklist
           item 14 says "all", which is a word with no residual in it.
 

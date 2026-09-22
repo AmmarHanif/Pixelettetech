@@ -211,7 +211,7 @@ Do not infer a size, sector or country filter from anything above. There is none
 Overview and practices
 - https://pixelettetech.com/ — what the company builds and how to start
 - https://pixelettetech.com/engineering — software engineering practice
-- https://pixelettetech.com/ai-engineering — AI & automation practice
+- https://pixelettetech.com/ai-automation — AI & automation practice
 - https://pixelettetech.com/blockchain — blockchain practice
 
 Engineering services
@@ -223,17 +223,17 @@ Engineering services
 - https://pixelettetech.com/engineering/support-continuous-improvement
 
 AI & automation services
-- https://pixelettetech.com/ai-engineering/services — all AI services
-- https://pixelettetech.com/ai-engineering/value-discovery — the entry engagement
-- https://pixelettetech.com/ai-engineering/agentic-ai-multi-agent
-- https://pixelettetech.com/ai-engineering/workflow-automation
-- https://pixelettetech.com/ai-engineering/llm-integration-rag
-- https://pixelettetech.com/ai-engineering/predictive-intelligence
-- https://pixelettetech.com/ai-engineering/language-speech-vision
-- https://pixelettetech.com/ai-engineering/data-and-integration
-- https://pixelettetech.com/ai-engineering/production-ai-systems
-- https://pixelettetech.com/ai-engineering/evaluation-and-observability
-- https://pixelettetech.com/ai-engineering/support-and-run
+- https://pixelettetech.com/ai-automation/services — all AI services
+- https://pixelettetech.com/ai-automation/value-discovery — the entry engagement
+- https://pixelettetech.com/ai-automation/agentic-ai-multi-agent
+- https://pixelettetech.com/ai-automation/workflow-automation
+- https://pixelettetech.com/ai-automation/llm-integration-rag
+- https://pixelettetech.com/ai-automation/predictive-intelligence
+- https://pixelettetech.com/ai-automation/language-speech-vision
+- https://pixelettetech.com/ai-automation/data-and-integration
+- https://pixelettetech.com/ai-automation/production-ai-systems
+- https://pixelettetech.com/ai-automation/evaluation-and-observability
+- https://pixelettetech.com/ai-automation/support-and-run
 
 Blockchain services
 - https://pixelettetech.com/blockchain/tokenisation

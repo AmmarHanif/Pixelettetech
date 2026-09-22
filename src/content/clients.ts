@@ -99,7 +99,7 @@
  *     What it changed on the page: nothing, and that was measured rather than
  *     assumed. The seven APPROVED rows are the whole of `clients`, so the
  *     accessor returns the same names in the same order, and `/` and
- *     `/ai-engineering` render byte-identical HTML across the switch.
+ *     `/ai-automation` render byte-identical HTML across the switch.
  *
  *     What it changed permanently: this gate is fail-closed, which it was not
  *     before. A row set back to UNCONFIRMED now leaves both pages in that one
@@ -144,10 +144,10 @@ export type Client = {
  *
  * THESE ROWS CURRENTLY RENDER NOWHERE. Corrected 2026-09-16; the previous
  * sentence here said they render "through `ClientLogos` on `/` and
- * `/ai-engineering`", and both of those went:
+ * `/ai-automation`", and both of those went:
  *
  *   2026-09-15  the founder deleted the client row from the HOMEPAGE.
- *   2026-09-16  he deleted it from `/ai-engineering` too, because none of
+ *   2026-09-16  he deleted it from `/ai-automation` too, because none of
  *               these are AI clients and the row was arguing for AI work with
  *               non-AI evidence.
  *
