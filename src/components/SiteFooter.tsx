@@ -140,8 +140,26 @@ export function SiteFooter() {
               <ul className="cert-ledger">
                 {certs.map(cert => (
                   <li key={cert.standard}>
-                    <span className="cert-ledger__std">{cert.standard}</span>
-                    <span className="cert-ledger__to">Valid to {cert.validTo}</span>
+                    {/* The badge is decorative and sits BESIDE the facts, never
+                        in place of them. Its alt is empty because the standard
+                        and the validity date are already adjacent text: an alt
+                        repeating "ISO 9001" would make a screen reader announce
+                        the same certificate twice. */}
+                    {cert.badge ? (
+                      <img
+                        className="cert-ledger__badge"
+                        src={cert.badge}
+                        alt=""
+                        width={46}
+                        height={46}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : null}
+                    <span className="cert-ledger__text">
+                      <span className="cert-ledger__std">{cert.standard}</span>
+                      <span className="cert-ledger__to">Valid to {cert.validTo}</span>
+                    </span>
                   </li>
                 ))}
               </ul>

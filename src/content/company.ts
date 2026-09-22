@@ -141,6 +141,20 @@ export type Certification = {
    * publish on its own evidence and keeps the gate fail-closed for the next.
    */
   claimId?: string;
+  /**
+   * Path to the certification badge image, added 2026-09-22 on founder
+   * instruction.
+   *
+   * OPTIONAL, and a row without one renders exactly as it did before. The badge
+   * is rendered BESIDE the standard and the validity date, never instead of
+   * them: the objection recorded against `trustBadges` below is to a badge
+   * standing alone, evidencing nothing. Beside the ledger, the checkable facts
+   * are still on the page.
+   *
+   * Do not use this to refill `trustBadges`. That is a different presentation
+   * and it stays empty.
+   */
+  badge?: string;
   /** True when the certificate is held by Pixelette Certified, not by us. */
   heldByCertified?: boolean;
   /*
@@ -259,6 +273,7 @@ export const certificationRegister: Certification[] = [
        "no public route". The detail is supplied during procurement. */
     verifyLabel: 'Detail on request',
     claimId: 'iso-9001-certificate',
+    badge: '/certifications/iso-9001.png',
     published: true,
   },
   {
@@ -289,6 +304,7 @@ export const certificationRegister: Certification[] = [
     /* verifyUrl removed 2026-09-17, same reason as the row above. */
     verifyLabel: 'Detail on request',
     claimId: 'iso-27001-certificate',
+    badge: '/certifications/iso-27001.png',
     published: true,
   },
   {

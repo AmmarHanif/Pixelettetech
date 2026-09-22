@@ -3133,3 +3133,37 @@ button.btn[disabled] {
   }
 }
 
+
+/* ------------------------------------------ certification badges (footer)
+   Founder instruction 2026-09-22: "add badges in footer".
+
+   The li was a vertical stack of standard-over-date. It becomes a row of
+   badge-then-that-stack, so the badge sits BESIDE the facts rather than above
+   or instead of them. The text keeps its original vertical rhythm, now inside
+   .cert-ledger__text, so nothing about the ledger's own typography changes.
+
+   46px is not a taste choice. The source badges are 91px, so at 46 a device
+   pixel ratio of 2 asks for 92 and gets 91: effectively exact. Rendering them
+   larger would visibly soften artwork for which there is no larger original.
+   If bigger badges are ever wanted, they need new files, not new CSS. */
+.cert-ledger li {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.cert-ledger__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cert-ledger__badge {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 auto;
+  /* The artwork is blue on transparent and sits on the dark purple footer,
+     where it reads but is not bright. A touch of lift, not a glow. */
+  opacity: 0.95;
+}
