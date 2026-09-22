@@ -145,7 +145,7 @@ export function SiteFooter() {
       <div className="wrap">
         <div className="site-footer__grid">
           <div className="site-footer__brand">
-            <BrandLogo variant="white" height={34} className="site-footer__logo" />
+            <BrandLogo variant="white" height={38} className="site-footer__logo" />
             {company.description ? <p>{company.description}</p> : null}
             {badges.length > 0 ? (
               <div className="pill-row" style={{ marginTop: 20 }}>

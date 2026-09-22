@@ -99,6 +99,48 @@ import { company } from '@/content/company';
  * 32px default the site header uses, and the width is derived from the viewBox
  * by the same rule as src/components/BrandLogo.tsx, so the lockup is never
  * stretched and never disagrees with the header.
+ *
+ * ---------------------------------------------------------------------------
+ * 2026-09-22. The founder supplied a NEW lockup and asked for it in the main
+ * menu. It is a different artwork, not a recolour: the wordmark is set
+ * "Pixelette" rather than "PIXELETTE", and the trunk and base bar are slate
+ * (#353b3b) where they were crimson (#b3063c). The canopy purple is unchanged.
+ *
+ * This card reads the artwork off disk, so it followed the header. Three things
+ * had to change with it, none of them cosmetic:
+ *
+ * 1. SOURCE AND MIME. It is now public/pixelette-logo.png and a
+ *    `data:image/png` URI. The paragraph above rejects a PNG here because the
+ *    only one available was drawn on an opaque white ground and would have
+ *    shown as a patch on this gradient. That reasoning was about THAT file: the
+ *    new lockup is transparent, so the objection does not carry over. Verified
+ *    by building the card and looking at it - Satori resolves the PNG data URI
+ *    and the mark sits on the gradient with no plate behind it.
+ *
+ * 2. ASPECT. The old artwork was 187 x 52 (3.596); this one is 691 x 240
+ *    (2.879). LOGO_WIDTH now derives from 691 x 240. Left on the old constant
+ *    the mark would have been stretched horizontally by about 25%.
+ *
+ * 3. HEIGHT, 80 -> 90. Not a preference. A reader registers the wordmark's cap
+ *    height, and at a common 240px box this lockup's cap height is 87px against
+ *    the old one's 98px, because its tree is proportionally taller. Matching the
+ *    previous optical weight needs 1.126x the box, which is also what moved the
+ *    header from 32 to 36 and keeps this card at the same 2.5x the header that
+ *    the 80px height was chosen for.
+ *
+ * Layout, re-measured on the built PNG rather than carried over: children now
+ * measure 90 + 3 * 62 * 1.1 + 21 * 1.2 = 319.8px in the 486px content box,
+ * leaving 83.1px in each space-between gap. The headline's first line moved
+ * from y=250 to y=254; the footer is unmoved at y 535..555. The lockup's ink
+ * occupies y 72..161 and x 80..338, filling its 72..162 box exactly, where the
+ * old artwork carried internal padding and sat at 73..150 inside the same box.
+ * Nothing overlaps, with 166px of slack before anything could clip.
+ *
+ * NOT changed here, and still on the old artwork: favicon.ico,
+ * apple-touch-icon.png and pixelette-logo-1024.png (the Organization.logo
+ * raster). scripts/build_icons.py generates all three by lifting path data
+ * verbatim out of the two SVGs, so it cannot consume a PNG. Regenerating them
+ * needs an SVG of the new lockup.
  */
 export const alt = `${company.name}: ${company.tagline}`;
 export const size = { width: 1200, height: 630 };
@@ -109,14 +151,14 @@ export const contentType = 'image/png';
  * once per card. `process.cwd()` is the project root during `next build`, which
  * is the only time this runs.
  */
-const LOGO_DATA_URI = `data:image/svg+xml;base64,${readFileSync(
-  join(process.cwd(), 'public', 'pixelette-logo.svg'),
+const LOGO_DATA_URI = `data:image/png;base64,${readFileSync(
+  join(process.cwd(), 'public', 'pixelette-logo.png'),
 ).toString('base64')}`;
 
-/** Settled by looking at two real builds; see the layout note above. */
-const LOGO_HEIGHT = 80;
-/** Same derivation as BrandLogo: the artwork's own viewBox is 187 x 52. */
-const LOGO_WIDTH = Math.round((LOGO_HEIGHT * 187) / 52);
+/** Settled by looking at real builds; see the layout note above. */
+const LOGO_HEIGHT = 90;
+/** Same derivation as BrandLogo: the artwork's own size is 691 x 240. */
+const LOGO_WIDTH = Math.round((LOGO_HEIGHT * 691) / 240);
 
 export default function OpengraphImage() {
   return new ImageResponse(
