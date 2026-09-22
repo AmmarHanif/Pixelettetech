@@ -189,6 +189,30 @@ These are promises to a reader that only a person can stand behind.
    here could not drive page scroll, so the jump-to-section behaviour was not
    observed. Worth thirty seconds of a human scrolling the page.
 
+6. **The statement says we link to LinkedIn. The site does not.** Found
+   2026-09-22 when the founder asked where the social links were: there are
+   **zero** clickable links to LinkedIn, or to any social network, across all 50
+   built pages. `company.linkedin` exists and is used in exactly one place,
+   `schema.ts`, which puts it in the Organization graph's `sameAs` array. That is
+   machine-readable only: it tells a search engine the page belongs to Pixelette
+   and gives a visitor nothing to click. It accounts for all 50 occurrences in
+   the built HTML.
+
+   The statement asserts the link twice, in the Social media section and again in
+   the closing outbound-links paragraph: "We link to our LinkedIn page. That is
+   an ordinary link: there is no social plug-in..."
+
+   The direction of the error is benign — the statement describes MORE outbound
+   contact with a social network than the site actually has, not less, so nobody
+   is under-informed about tracking. It is still a factual statement in a legal
+   document about something the site does not do, which is the same class as
+   item 2 above.
+
+   **-> Decide:** add a LinkedIn link to the footer, which makes the statement
+   true and gives visitors the route the company presumably wants, or strike the
+   two sentences. Only LinkedIn exists in the codebase; any other network would
+   need its URL supplied.
+
 ---
 
 ## E. One legal point, stated plainly
