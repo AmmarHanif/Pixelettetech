@@ -1664,8 +1664,12 @@ export function publishedDetail(cs: CaseStudy): CaseStudyDetail | undefined {
 }
 
 /**
- * The three selected-work case studies for the homepage, in the handoff's
- * order: 2Connect, then Fusio Wallet, then Ayni Gold.
+ * The three selected-work case studies for the homepage.
+ *
+ * The handoff's order was 2Connect, Fusio Wallet, Ayni Gold. Founder instruction
+ * 2026-09-22 replaced the third with BlockGuard: "Home page case study Ayni gold
+ * with blockguard". Ayni Gold is not withdrawn - it keeps its own case study and
+ * its card on /case-studies - it simply no longer leads the homepage.
  *
  * AIA is deliberately not here. The handoff keeps it "as a strong fourth proof
  * point rather than a homepage lead", so it appears on /case-studies with the
@@ -1677,7 +1681,7 @@ export function publishedDetail(cs: CaseStudy): CaseStudyDetail | undefined {
  * a hardcoded slug that no longer matches anything renders an empty section
  * rather than an error.
  */
-const HOMEPAGE_SLUGS = ['2connect', 'fusio', 'ayni-gold'] as const;
+const HOMEPAGE_SLUGS = ['2connect', 'fusio', 'blockguard'] as const;
 
 export const homepageCaseStudies: CaseStudy[] = HOMEPAGE_SLUGS.map(slug => {
   const cs = getCaseStudy(slug);
