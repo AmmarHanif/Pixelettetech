@@ -332,24 +332,41 @@ export function LinkedInMark({ size = 18, className }: IconProps) {
   );
 }
 
+/**
+ * Facebook, the solid lowercase "f" alone — no surrounding disc.
+ *
+ * CHANGED 2026-09-22 on founder instruction, with a reference image of the bare
+ * letter mark. This reverses the note above: the previous glyph was Facebook's
+ * official solid-disc mark, and the disc is what carried most of its ink weight.
+ * The founder asked for the letter only, so the standard facebook-f outline is
+ * used on its native 320x512 grid, filled with currentColor.
+ */
 export function FacebookMark({ size = 18, className }: IconProps) {
   return (
-    <svg {...base(size)} viewBox="0 0 24 24" className={className}>
+    <svg {...base(size)} viewBox="0 0 320 512" className={className}>
       <path
         fill="currentColor"
-        d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.49-3.91 3.77-3.91 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.89h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"
+        d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
       />
     </svg>
   );
 }
 
+/**
+ * Instagram, the OUTLINE glyph — rounded square, lens circle, top-right dot.
+ *
+ * CHANGED 2026-09-22 on founder instruction, with a reference image of the
+ * outlined mark. This reverses the note above for this one icon: it was the
+ * filled camera before. Drawn as strokes so it inherits currentColor; the dot
+ * is a filled circle because a 1.3px point reads cleaner than a zero-length
+ * line.
+ */
 export function InstagramMark({ size = 18, className }: IconProps) {
   return (
     <svg {...base(size)} viewBox="0 0 24 24" className={className}>
-      <path
-        fill="currentColor"
-        d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 1.98c-3.14 0-3.51.01-4.75.07-1.15.05-1.77.24-2.18.4-.55.22-.94.47-1.35.88-.41.41-.66.8-.88 1.35-.16.41-.35 1.03-.4 2.18-.06 1.24-.07 1.61-.07 4.75s.01 3.51.07 4.75c.05 1.15.24 1.77.4 2.18.22.55.47.94.88 1.35.41.41.8.66 1.35.88.41.16 1.03.35 2.18.4 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c1.15-.05 1.77-.24 2.18-.4.55-.22.94-.47 1.35-.88.41-.41.66-.8.88-1.35.16-.41.35-1.03.4-2.18.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.05-1.15-.24-1.77-.4-2.18-.22-.55-.47-.94-.88-1.35-.41-.41-.8-.66-1.35-.88-.41-.16-1.03-.35-2.18-.4-1.24-.06-1.61-.07-4.75-.07zm0 3.37a4.49 4.49 0 110 8.98 4.49 4.49 0 010-8.98zm0 7.4a2.91 2.91 0 100-5.82 2.91 2.91 0 000 5.82zm5.72-7.6a1.05 1.05 0 11-2.1 0 1.05 1.05 0 012.1 0z"
-      />
+      <rect x="2.5" y="2.5" width="19" height="19" rx="5.4" stroke="currentColor" strokeWidth="2" />
+      <circle cx="12" cy="12" r="4.6" stroke="currentColor" strokeWidth="2" />
+      <circle cx="17.6" cy="6.4" r="1.35" fill="currentColor" />
     </svg>
   );
 }

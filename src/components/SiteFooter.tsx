@@ -27,30 +27,20 @@ import { footerColumns, groupBlurb, groupEntities } from '@/content/nav';
  * footer accessibility defect there is.
  */
 /*
- * THE SIZES ARE NOT ALL 18, AND THAT IS THE POINT.
+ * All four are set to 18, changed 2026-09-22 on founder instruction.
  *
- * These four are the authentic brand glyphs, and the brands do not draw them to
- * a common weight. Rendered at a common 240px box and counting ink: Facebook
- * 42.5%, LinkedIn 24.6%, X 22.3%, Instagram 19.7%. Facebook's official mark is
- * a SOLID DISC and the other three are open letterforms, so at an equal box it
- * carried 2.16x the mass of the lightest and pulled the eye off the row.
- *
- * Equal box is not equal weight. Facebook is set to 15 and Instagram trimmed to
- * 17 - Instagram's glyph has the tallest ink box of the four (213/240 against
- * LinkedIn's 180), so left at 18 it led the row on size while trailing it on
- * weight.
- *
- * Corrected by size rather than by redrawing. Stroking Facebook's own path was
- * tried and rejected: it turns the f into a hollow shape that stops reading as
- * the mark, which is exactly the objection Icons.tsx already records against
- * outlining a brand glyph. Equalising ink AREA outright was also rejected - it
- * puts Facebook at 14.4 and it then reads as undersized, trading one visible
- * inconsistency for another.
+ * The earlier row deliberately sized them unequally (Facebook 15, Instagram 17)
+ * to even out ink weight, because Facebook was then a solid disc and Instagram a
+ * filled camera. Both were restyled that day to the founder's reference images —
+ * Facebook to the bare letter "f", Instagram to the outline glyph — so the two
+ * heaviest marks are now the lightest, and the earlier per-glyph trims no longer
+ * describe the shapes on the page. A common 18 is the honest default for the new
+ * set; the glyphs themselves carry what difference remains.
  */
 const socialLinks = [
   { label: 'LinkedIn', href: company.linkedin, icon: <LinkedInMark size={18} /> },
-  { label: 'Facebook', href: company.social.facebook, icon: <FacebookMark size={15} /> },
-  { label: 'Instagram', href: company.social.instagram, icon: <InstagramMark size={17} /> },
+  { label: 'Facebook', href: company.social.facebook, icon: <FacebookMark size={18} /> },
+  { label: 'Instagram', href: company.social.instagram, icon: <InstagramMark size={18} /> },
   { label: 'X', href: company.social.x, icon: <XMark size={18} /> },
 ];
 

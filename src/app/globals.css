@@ -3179,22 +3179,28 @@ button.btn[disabled] {
    overlap. */
 .site-footer__social {
   list-style: none;
-  margin: 22px 0 0;
+  /* Founder brief 2026-09-22: row sits 3px under the text above it, and the
+     marks are set tight — the gap between them is 0. */
+  margin: 3px 0 0;
   padding: 0;
   display: flex;
-  gap: 6px;
-  margin-left: -10px; /* pull the first target's padding back to the grid edge */
+  gap: 0;
+  margin-left: -6px; /* pull the first mark's box back to the grid edge */
 }
 
 .site-footer__social a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  /* Boxes narrowed from 44px so gap:0 actually reads tight; height keeps a
+     comfortable target. */
+  width: 30px;
+  height: 36px;
   border-radius: 8px;
-  color: var(--dark-text, #fff);
-  opacity: 0.72;
+  /* Full white, per the brief. The row used to sit at 0.72 so the marks read
+     slightly grey; they are pure white now and dim only on hover. */
+  color: #fff;
+  opacity: 1;
   transition: opacity 0.15s ease, background-color 0.15s ease;
 }
 
