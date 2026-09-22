@@ -208,10 +208,27 @@ These are promises to a reader that only a person can stand behind.
    document about something the site does not do, which is the same class as
    item 2 above.
 
-   **-> Decide:** add a LinkedIn link to the footer, which makes the statement
-   true and gives visitors the route the company presumably wants, or strike the
-   two sentences. Only LinkedIn exists in the codebase; any other network would
-   need its URL supplied.
+   **RESOLVED the same day.** The founder chose to add the links, and named
+   Facebook, Instagram and X as well. All four now render in the footer on 50 of
+   50 pages, so both sentences in the statement are true as written: the site
+   links to the LinkedIn page, as an ordinary link, with no plug-in and no
+   social pixel. The Social media section needs no edit.
+
+   The URLs were READ from the footer of the company's own live site rather
+   than inferred from handle patterns, which is the rule `schema.ts` sets for
+   its `sameAs` array. The LinkedIn value that read returned matched the one
+   already in `company.ts` exactly, which is a useful check that the set is the
+   real one. All four also joined `sameAs`.
+
+   **One thing the statement may now understate.** It describes social media as
+   "one outbound link to a LinkedIn page". There are four outbound links. The
+   substance is unchanged — still ordinary links, still no plug-ins, still no
+   pixels, so nothing about tracking has altered — but the wording counts one
+   where there are four. A one-word fix whenever the statement is next opened;
+   not urgent, because it understates rather than overstates.
+
+   YouTube also exists on the live footer and was deliberately not added,
+   because it was not asked for. Its URL is recorded in `company.ts`.
 
 ---
 
