@@ -26,11 +26,32 @@ import { footerColumns, groupBlurb, groupEntities } from '@/content/nav';
  * accessible name. An icon-only anchor announcing just "link" is the commonest
  * footer accessibility defect there is.
  */
+/*
+ * THE SIZES ARE NOT ALL 18, AND THAT IS THE POINT.
+ *
+ * These four are the authentic brand glyphs, and the brands do not draw them to
+ * a common weight. Rendered at a common 240px box and counting ink: Facebook
+ * 42.5%, LinkedIn 24.6%, X 22.3%, Instagram 19.7%. Facebook's official mark is
+ * a SOLID DISC and the other three are open letterforms, so at an equal box it
+ * carried 2.16x the mass of the lightest and pulled the eye off the row.
+ *
+ * Equal box is not equal weight. Facebook is set to 15 and Instagram trimmed to
+ * 17 - Instagram's glyph has the tallest ink box of the four (213/240 against
+ * LinkedIn's 180), so left at 18 it led the row on size while trailing it on
+ * weight.
+ *
+ * Corrected by size rather than by redrawing. Stroking Facebook's own path was
+ * tried and rejected: it turns the f into a hollow shape that stops reading as
+ * the mark, which is exactly the objection Icons.tsx already records against
+ * outlining a brand glyph. Equalising ink AREA outright was also rejected - it
+ * puts Facebook at 14.4 and it then reads as undersized, trading one visible
+ * inconsistency for another.
+ */
 const socialLinks = [
-  { label: 'LinkedIn', href: company.linkedin, icon: <LinkedInMark /> },
-  { label: 'Facebook', href: company.social.facebook, icon: <FacebookMark /> },
-  { label: 'Instagram', href: company.social.instagram, icon: <InstagramMark /> },
-  { label: 'X', href: company.social.x, icon: <XMark /> },
+  { label: 'LinkedIn', href: company.linkedin, icon: <LinkedInMark size={18} /> },
+  { label: 'Facebook', href: company.social.facebook, icon: <FacebookMark size={15} /> },
+  { label: 'Instagram', href: company.social.instagram, icon: <InstagramMark size={17} /> },
+  { label: 'X', href: company.social.x, icon: <XMark size={18} /> },
 ];
 
 /**
@@ -114,10 +135,33 @@ function publishedTrustBadges(): readonly string[] {
  *
  * A row with no `validTo` does not render. That is the same fail-closed rule
  * the old note was protecting, expressed as code rather than as a warning.
+ *
+ * AND AS OF 2026-09-22 THE DATE MUST ALSO BE IN THE FUTURE. The founder removed
+ * the visible "Valid to ..." line, which had been carrying the whole objection
+ * the note above answers: it was "the single fact that stops a badge outliving
+ * its certificate". A hidden expiry protects nobody, because the displayed date
+ * was the thing that made a lapse visible in the first place. So the expiry now
+ * gates the row instead of captioning it — a lapsed certificate stops rendering
+ * on its own, which is a stronger guarantee than a date a reader had to notice.
+ *
+ * Evaluated when the page is generated, so it is only as current as the last
+ * build. Both present certificates run to 2027 and any rebuild re-checks them,
+ * but a site left unbuilt past an expiry would still show the row: this reduces
+ * the exposure, it does not abolish it, and the honest place to say so is here.
+ *
+ * Parsed as an ISO date rather than by Date.parse on the display string, so a
+ * format change in the content file fails closed instead of silently producing
+ * NaN, which compares false and would drop every row without explanation.
  */
 function publishedCertifications() {
+  const today = new Date().toISOString().slice(0, 10);
   return certifications.filter(
-    cert => cert.claimId !== undefined && cert.validTo !== undefined && isPublishable(cert.claimId),
+    cert =>
+      cert.claimId !== undefined &&
+      cert.validTo !== undefined &&
+      cert.validToISO !== undefined &&
+      cert.validToISO >= today &&
+      isPublishable(cert.claimId),
   );
 }
 
@@ -165,25 +209,14 @@ export function SiteFooter() {
               <ul className="cert-ledger">
                 {certs.map(cert => (
                   <li key={cert.standard}>
-                    {/* The badge is decorative and sits BESIDE the facts, never
-                        in place of them. Its alt is empty because the standard
-                        and the validity date are already adjacent text: an alt
-                        repeating "ISO 9001" would make a screen reader announce
-                        the same certificate twice. */}
-                    {cert.badge ? (
-                      <img
-                        className="cert-ledger__badge"
-                        src={cert.badge}
-                        alt=""
-                        width={46}
-                        height={46}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    ) : null}
+                    {/* Standard only, per founder instruction 2026-09-22: the
+                        badge image and the "Valid to" line are both gone. The
+                        expiry still governs whether this row exists at all —
+                        see publishedCertifications — so what was a date a
+                        reader had to check is now a condition the build
+                        enforces. */}
                     <span className="cert-ledger__text">
                       <span className="cert-ledger__std">{cert.standard}</span>
-                      <span className="cert-ledger__to">Valid to {cert.validTo}</span>
                     </span>
                   </li>
                 ))}

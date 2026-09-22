@@ -205,8 +205,24 @@ export type Certification = {
   issuingBody?: string;
   /** Issue date on the certificate. */
   issued?: string;
-  /** Expiry date on the certificate. */
+  /** Expiry date on the certificate, as published copy. */
   validTo?: string;
+  /**
+   * The SAME expiry as `validTo`, in ISO 8601, for comparison rather than for
+   * display. Added 2026-09-22 when the footer stopped printing the date.
+   *
+   * The footer ledger now renders the standard alone, so the expiry no longer
+   * appears anywhere a reader could check it. It therefore has to be enforced
+   * instead: `publishedCertifications` drops any row whose expiry has passed.
+   * That comparison cannot be made against `validTo`, which is prose - parsing
+   * it depends on the runtime's locale handling and fails to NaN, and NaN
+   * compares false, so a format change would silently unpublish every
+   * certificate rather than raise anything.
+   *
+   * Keep the two in step. They are the same date written twice on purpose: one
+   * for a person, one for a machine.
+   */
+  validToISO?: string;
   /**
    * Recertification date on the certificate, where it states one.
    *
@@ -282,6 +298,7 @@ export const certificationRegister: Certification[] = [
       'Americo Quality Standards Registech Pvt. Ltd, which the certificate records as accredited by the United Accreditation Foundation',
     issued: '2 January 2026',
     validTo: '1 January 2027',
+    validToISO: '2027-01-01',
     recertification: '1 January 2029',
     /* Label without a URL was the old idiom for "no route"; this is a route,
        and it is the one ADR-0012 chose. /certifications is the page that says
@@ -320,6 +337,7 @@ export const certificationRegister: Certification[] = [
       'Americo Quality Standards Registech Pvt. Ltd, which the certificate records as accredited by the United Accreditation Foundation',
     issued: '12 March 2026',
     validTo: '11 March 2027',
+    validToISO: '2027-03-11',
     recertification: '11 March 2029',
     /* verifyUrl removed 2026-09-17, same reason as the row above. */
     verifyLabel: 'Detail on request',
