@@ -63,7 +63,7 @@ import { footerColumns, groupBlurb, groupEntities } from '@/content/nav';
 const socialLinks = [
   { label: 'LinkedIn', href: company.linkedin, icon: <LinkedInMark size={20} /> },
   { label: 'Facebook', href: company.social.facebook, icon: <FacebookMark size={26} /> },
-  { label: 'Instagram', href: company.social.instagram, icon: <InstagramMark size={18} /> },
+  { label: 'Instagram', href: company.social.instagram, icon: <InstagramMark size={15} /> },
   { label: 'X', href: company.social.x, icon: <XMark size={20} /> },
 ];
 
