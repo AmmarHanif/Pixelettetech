@@ -1,4 +1,4 @@
-import { ClosingCta } from '@/components/sections';
+import { ClosingCta, ValueModelCards } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
@@ -227,6 +227,34 @@ export default function SupportContinuousImprovementPage() {
               ))}
             </ol>
           </div>
+        </div>
+      </Section>
+
+      {/* --------------------------------------------------- where this sits */}
+      {/*
+        Added 2026-09-22 on founder instruction. The three sibling hubs -
+        /engineering, /ai-automation and /blockchain - have carried this section
+        since the four-service model was introduced; RUN was the only one of the
+        four whose page did not, so the card set pointed at a service the reader
+        could not navigate back from.
+
+        Wording follows the sibling pattern rather than being reinvented: the
+        page names itself and lists the other three in the order they appear in
+        the card row. Placement matches too - directly before the FAQs on all
+        three.
+
+        `current="RUN"` marks this card as the reader's own, which draws the
+        brand border and sets aria-current="page" on it.
+      */}
+      <Section labelledBy="sits-heading" tight>
+        <SectionHead
+          eyebrow="Where this sits"
+          id="sits-heading"
+          title="Run is one of our four services"
+          lead="Build, Automate and Decentralise are the other three."
+        />
+        <div style={{ marginTop: 32 }}>
+          <ValueModelCards current="RUN" />
         </div>
       </Section>
 
