@@ -3167,3 +3167,39 @@ button.btn[disabled] {
      where it reads but is not bright. A touch of lift, not a glow. */
   opacity: 0.95;
 }
+
+/* ------------------------------------------------- footer social links ----
+   Added 2026-09-22 on founder instruction. Sits after the certification
+   ledger, so the brand column reads identity, then evidence, then where else
+   the company is.
+
+   44px minimum target (WCAG 2.5.8), which is why the anchor is a 44px box with
+   an 18px glyph centred in it rather than an 18px anchor. The row is spaced by
+   gap rather than padding so the targets stay square and adjacent ones never
+   overlap. */
+.site-footer__social {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  display: flex;
+  gap: 6px;
+  margin-left: -10px; /* pull the first target's padding back to the grid edge */
+}
+
+.site-footer__social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  color: var(--dark-text, #fff);
+  opacity: 0.72;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.site-footer__social a:hover,
+.site-footer__social a:focus-visible {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.08);
+}

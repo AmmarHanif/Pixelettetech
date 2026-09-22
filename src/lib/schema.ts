@@ -131,6 +131,13 @@ export function organizationSchema(published: PublishedOrgClaims = {}) {
      */
     sameAs: [
       company.linkedin,
+      /* Added 2026-09-22 with the footer social links. These satisfy this
+         array's own rule rather than bending it: each was READ from the footer
+         of the company's own live site, not inferred from a handle pattern, and
+         the LinkedIn value that read returned matched the one above exactly. */
+      company.social.facebook,
+      company.social.instagram,
+      company.social.x,
       clutch.profileUrl,
       `https://find-and-update.company-information.service.gov.uk/company/${company.crn}`,
       ...groupEntities.filter(entity => !entity.isThisEntity).map(entity => entity.href),

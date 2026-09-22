@@ -3,10 +3,35 @@ import { Fragment } from 'react';
 
 import { BrandLogo } from '@/components/BrandLogo';
 import { PrivacyChoices } from '@/components/PrivacyChoices';
-import { ArrowUpRight } from '@/components/Icons';
+import {
+  ArrowUpRight,
+  FacebookMark,
+  InstagramMark,
+  LinkedInMark,
+  XMark,
+} from '@/components/Icons';
 import { isPublishable } from '@/content/claims';
 import { certifications, company, trustBadges } from '@/content/company';
 import { footerColumns, groupBlurb, groupEntities } from '@/content/nav';
+
+/**
+ * The social profiles rendered in the footer brand column.
+ *
+ * ORDER IS DELIBERATE: LinkedIn first, because it is the only one this site
+ * already asserted in its Organization graph and the only one the Privacy
+ * Statement names.
+ *
+ * Every entry carries a LABEL as well as a glyph. The anchor renders the glyph
+ * aria-hidden and the label as visually hidden text, so the link has a real
+ * accessible name. An icon-only anchor announcing just "link" is the commonest
+ * footer accessibility defect there is.
+ */
+const socialLinks = [
+  { label: 'LinkedIn', href: company.linkedin, icon: <LinkedInMark /> },
+  { label: 'Facebook', href: company.social.facebook, icon: <FacebookMark /> },
+  { label: 'Instagram', href: company.social.instagram, icon: <InstagramMark /> },
+  { label: 'X', href: company.social.x, icon: <XMark /> },
+];
 
 /**
  * The claims register row that governs the footer badge pills.
@@ -164,6 +189,31 @@ export function SiteFooter() {
                 ))}
               </ul>
             ) : null}
+
+            {/*
+              Social links, added 2026-09-22 on founder instruction. They sit
+              after the certification ledger so the brand column reads
+              identity, then evidence, then elsewhere-we-are.
+
+              Every one is an accessible NAME, not a decoration: the glyph is
+              aria-hidden and the label is visually hidden text, so a screen
+              reader announces "LinkedIn, link" rather than "link". An icon-only
+              anchor with no accessible name is the single most common footer
+              accessibility defect and it is trivially avoidable.
+
+              44px minimum target, per WCAG 2.5.8, which the rest of this site
+              already honours.
+            */}
+            <ul className="site-footer__social">
+              {socialLinks.map(s => (
+                <li key={s.label}>
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" title={s.label}>
+                    {s.icon}
+                    <span className="visually-hidden-heading">{s.label}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* A column with no links would render its mono heading over nothing,

@@ -93,6 +93,26 @@ export const company = {
   description:
     'UK software engineering since 2018. Web, mobile and custom software, blockchain systems, and the AI we build into both.',
   linkedin: 'https://www.linkedin.com/company/pixelettetechnologies/',
+  /**
+   * The company's other social profiles, added 2026-09-22 on founder
+   * instruction ("facebok instagram x").
+   *
+   * READ, NOT GUESSED. All four were read out of the footer of the company's
+   * own live site at pixelettetech.com on 2026-09-22. `schema.ts` warns that a
+   * sameAs "is an assertion that this URL is this entity, so a guessed URL
+   * pattern would be exactly the kind of unchecked claim this file exists to
+   * refuse" — and the LinkedIn value returned by that read was byte-identical
+   * to the one above, which is a useful check that the set is the real one.
+   *
+   * YouTube is on that footer too, at
+   * youtube.com/channel/UCikfbjKTZ22-J4utsb9pzNg, and is deliberately NOT here
+   * because it was not asked for. Adding it is one line plus one icon.
+   */
+  social: {
+    facebook: 'https://www.facebook.com/pixelette.technologies',
+    instagram: 'https://www.instagram.com/pixelettetechnologies/',
+    x: 'https://x.com/Pixelette__Tech',
+  },
 } as const;
 
 /**
