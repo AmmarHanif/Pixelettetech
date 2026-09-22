@@ -814,11 +814,19 @@ export const valueModel: ValueModelEntry[] = [
      * text flow instead of centring beside a two-line block. The stranded arrow
      * is fixed for any long label, not avoided by keeping labels short.
      *
-     * It also no longer diverges from the nav: both now read
+     * It also no longer diverges from the nav: both read
      * 'Support & Continuous Improvement', which the brief requires - the same
      * terminology everywhere, abbreviated differently nowhere.
+     *
+     * 'EXPLORE' WAS DROPPED 2026-09-22, founder decision. The brief specified
+     * 'Explore Support & Continuous Improvement' as the CTA, and it was shipped
+     * that way with one objection flagged rather than silently resolved: the
+     * three cards beside this one use bare service names, so the verb broke the
+     * set. He agreed. At 32 characters it still wraps at desktop, so the `wrap`
+     * treatment below is still doing the work - this shortened the CTA, not the
+     * service name, which is the line the brief drew.
      */
-    linkLabel: 'Explore Support & Continuous Improvement',
+    linkLabel: 'Support & Continuous Improvement',
     linkWraps: true,
   },
 ];

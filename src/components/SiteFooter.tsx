@@ -49,15 +49,22 @@ import { footerColumns, groupBlurb, groupEntities } from '@/content/nav';
  * 180, so 20 renders it at the same height as LinkedIn and X. Rendered at 15,
  * 20 and 22 side by side; 22 made it dominant again, 20 sits in the row.
  *
- * Instagram stays at 17 for the original reason, which is unchanged: its glyph
- * has the tallest ink box of the four (213/240), so at 18 it leads the row on
- * size while trailing it on weight.
+ * SCALED AGAIN 2026-09-22 against the founder's own reference image, after he
+ * said the icons were still not right. Measured from that image, tile for tile:
+ * his f is 1.16x the Instagram mark's HEIGHT. The row was running the f at
+ * 0.89x - the shortest ink of the four - which is why it read as weak.
+ *
+ * His reference shows only Instagram and Facebook, so its ratio cannot simply
+ * be adopted: the footer also carries LinkedIn and X, and at 26px the f towers
+ * over both. Rendered at 20, 22, 24 and 26 against all four. The row now runs
+ * 20 / 26 / 18 / 20 - every mark larger and the f leading at 1.09x - which
+ * carries his reference's weight without leaving the other two stranded.
  */
 const socialLinks = [
-  { label: 'LinkedIn', href: company.linkedin, icon: <LinkedInMark size={18} /> },
-  { label: 'Facebook', href: company.social.facebook, icon: <FacebookMark size={20} /> },
-  { label: 'Instagram', href: company.social.instagram, icon: <InstagramMark size={17} /> },
-  { label: 'X', href: company.social.x, icon: <XMark size={18} /> },
+  { label: 'LinkedIn', href: company.linkedin, icon: <LinkedInMark size={20} /> },
+  { label: 'Facebook', href: company.social.facebook, icon: <FacebookMark size={26} /> },
+  { label: 'Instagram', href: company.social.instagram, icon: <InstagramMark size={18} /> },
+  { label: 'X', href: company.social.x, icon: <XMark size={20} /> },
 ];
 
 /**

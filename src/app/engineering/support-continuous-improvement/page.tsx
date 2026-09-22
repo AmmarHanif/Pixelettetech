@@ -108,8 +108,22 @@ export default function SupportContinuousImprovementPage() {
               the service inside it. The brief is explicit that the two are not
               interchangeable, so the eyebrow names both rather than either. */}
           <Eyebrow>Run · Support &amp; Continuous Improvement</Eyebrow>
+          {/*
+              REPLACED 2026-09-22 on founder instruction. The previous headline
+              was "Production is a starting point, not a handover ceremony". His
+              objection, and it is right: it is flippant, it carries a negative
+              connotation, and it says nothing about why anyone would WANT this
+              service - it describes a mistake other people make rather than an
+              outcome the reader is buying.
+
+              The sibling service pages do use the contrastive "X, not Y" form,
+              so the form was not the problem; the tone and the absent benefit
+              were. This names the three things the service actually delivers,
+              which are the three the brief's own proposition leads with:
+              reliable, secure, continuously improving.
+            */}
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Production is a starting point, not a handover ceremony
+            Reliable, secure, and better every release
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
             Monitor, support, maintain and continuously improve live software after launch. From

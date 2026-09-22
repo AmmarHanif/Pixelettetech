@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import Link from 'next/link';
 
 import { Cloud, Cpu, Mobile, Pen, Shield, Window } from '@/components/Icons';
@@ -58,7 +59,24 @@ const servicePages = [
   },
 ];
 
-const capabilities = [
+type Capability = {
+  id: string;
+  icon: ReactNode;
+  title: string;
+  body: string;
+  /**
+   * Optional cross-practice link. None of the four carry one today - the
+   * founder removed "Go to Blockchain", which was the last - but the type is
+   * declared rather than inferred so the render guard below keeps compiling.
+   *
+   * Inferring it from the data made the component's contract track its content:
+   * emptying the last link narrowed the element type and produced three errors
+   * in a render nobody had touched.
+   */
+  link?: { href: string; label: string };
+};
+
+const capabilities: Capability[] = [
   {
     id: 'web-platforms',
     icon: <Window size={32} />,
@@ -88,7 +106,14 @@ const capabilities = [
     icon: <Shield size={32} />,
     title: 'Distributed & cryptographic systems',
     body: 'High-assurance distributed systems and cryptographic engineering. Tokenisation, smart contracts and chain work have their own practice.',
-    link: { href: '/blockchain', label: 'Go to Blockchain' },
+    /*
+     * The "Go to Blockchain" link was REMOVED on founder instruction,
+     * 2026-09-22 - the whole control, arrow included. `link` is optional and
+     * the three cards beside this one carry none, so the card now matches them.
+     *
+     * Blockchain is not orphaned by this: it keeps its place in the primary nav
+     * and in the RUN/BUILD/AUTOMATE/DECENTRALISE card set on the homepage.
+     */
   },
   {
     id: 'cloud-modernisation',
@@ -461,6 +486,13 @@ export default function EngineeringPage() {
               cross-practice pattern, published in both directions already: "Go
               to Blockchain" on this page and "Go to Engineering" on
               /ai-engineering.
+
+              HALF THAT CITATION EXPIRED 2026-09-22: the founder removed "Go to
+              Blockchain" from the capability card above, so the pattern now runs
+              between this page and /ai-engineering only. The reasoning for THIS
+              link is unaffected - it never rested on the Blockchain one, which
+              was corroboration rather than cause - but a comment citing a link
+              that no longer exists would send the next reader looking for it.
 
               THE LABEL NAMES THE DESTINATION THE WAY THE NAV DOES. /ai-engineering
               IS the page the nav calls "AI & Automation". This CTA was the only
