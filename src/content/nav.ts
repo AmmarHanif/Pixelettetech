@@ -111,7 +111,10 @@ export const engineeringSection: NavSection = {
     { href: '/engineering/mobile-applications', label: 'Mobile Applications' },
     { href: '/engineering/modernisation-integration', label: 'Modernisation & Integration' },
     { href: '/engineering/cloud-data-engineering', label: 'Cloud & Data Engineering' },
-    { href: '/engineering/managed-engineering', label: 'Managed Engineering / Support' },
+    {
+      href: '/engineering/support-continuous-improvement',
+      label: 'Support & Continuous Improvement',
+    },
   ],
 };
 
@@ -386,7 +389,11 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
   { path: '/engineering/mobile-applications', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/engineering/modernisation-integration', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/engineering/cloud-data-engineering', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/engineering/managed-engineering', priority: 0.8, changeFrequency: 'monthly' },
+  {
+    path: '/engineering/support-continuous-improvement',
+    priority: 0.8,
+    changeFrequency: 'monthly',
+  },
   { path: '/blockchain', priority: 0.9, changeFrequency: 'monthly' },
   /* The handoff's Blockchain service pages, same rule. */
   { path: '/blockchain/tokenisation', priority: 0.8, changeFrequency: 'monthly' },

@@ -709,6 +709,11 @@ export default function HomePage() {
            page: MANAGED ENGINEERING PARTNER is the RUN card, BUILD & LAUNCH is
            the BUILD card, and Rescue & Modernise is BUILD's "modernisation of
            systems you already run".
+           NAMES ONLY, 2026-09-22: the RUN card's service was renamed to Support
+           & Continuous Improvement and now links to
+           /engineering/support-continuous-improvement. The mapping above is
+           unchanged - it is a record of where each 2026-09-15 concept went, and
+           "Managed engineering partner" is quoted as the name it had then.
 
         ONE HONEST RESIDUAL, named rather than glossed: the deleted box said "a
         scoped product, AUTOMATION OR MODERNISATION programme with milestones,

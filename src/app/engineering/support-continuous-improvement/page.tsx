@@ -3,11 +3,21 @@ import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/compo
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
+/*
+ * Renamed from "Managed Engineering" on founder instruction, 2026-09-22, with
+ * the route moved from /engineering/managed-engineering. The old path is a 308
+ * in next.config.ts; it must not 404 and it must not stay indexable.
+ *
+ * TITLE IS THE BARE SERVICE NAME, not "... | Pixelette Technologies" as the
+ * brief suggested. The root layout already applies a "%s — Pixelette
+ * Technologies" template, so spelling the company name here would print it
+ * twice. The rendered title carries it either way, which is what was asked for.
+ */
 export const metadata = pageMetadata({
-  title: 'Managed Engineering & Support',
+  title: 'Support & Continuous Improvement',
   description:
-    'Monitoring, incident response, releases, optimisation and roadmap delivery after launch, as a continuing engineering capability rather than a one-off project.',
-  path: '/engineering/managed-engineering',
+    'Ongoing software support, monitoring, maintenance, optimisation and releases that keep live products reliable, secure and continuously improving.',
+  path: '/engineering/support-continuous-improvement',
 });
 
 const included = [
@@ -32,7 +42,7 @@ const included = [
     body: 'Product evolution against outcomes you set, with the work planned in the open and the trade-offs put in front of you rather than absorbed quietly.',
   },
   {
-    title: 'Ownership of the boring parts',
+    title: 'Operational ownership',
     body: 'Certificates, backups, restores that have been tested, access reviews, documentation that matches the system. Nobody asks for these until the week they matter.',
   },
 ];
@@ -43,7 +53,7 @@ const shapes = [
     body: 'We keep what we built working on a monthly contract, with defined response expectations and a report you can read without a translator.',
   },
   {
-    label: 'Managed engineering partner',
+    label: 'Continuous improvement partner',
     body: 'A continuing engineering capability against a roadmap and a quarterly outcome, for organisations that need capacity rather than another project.',
   },
   {
@@ -54,8 +64,8 @@ const shapes = [
 
 const faqs = [
   {
-    q: 'What does managed engineering include?',
-    a: 'Monitoring and incident response with a defined severity scale and a named responder, a predictable release cadence against an agreed backlog, security patching and dependency currency, performance and cost optimisation, roadmap delivery, and ownership of the operational tasks, such as backups, restores, access reviews and documentation, that only become visible when they have been neglected.',
+    q: 'What does support and continuous improvement include?',
+    a: 'Monitoring and incident response with a defined severity scale and a named responder, a predictable release cadence against an agreed backlog, security patching and dependency currency, performance and cost optimisation, roadmap delivery, and operational ownership of the tasks, such as backups, restores, access reviews and documentation, that only become visible when they have been neglected.',
   },
   {
     q: 'Will you support a system you did not build?',
@@ -67,23 +77,26 @@ const faqs = [
   },
 ];
 
-export default function ManagedEngineeringPage() {
+export default function SupportContinuousImprovementPage() {
   return (
     <>
       <JsonLd
         data={serviceSchema({
-          name: 'Managed Engineering & Support',
+          name: 'Support & Continuous Improvement',
           description:
             'Monitoring, incident response, releases, patching, optimisation and roadmap delivery for software in production, as a continuing engineering capability.',
-          path: '/engineering/managed-engineering',
-          serviceType: 'Managed software engineering and support',
+          path: '/engineering/support-continuous-improvement',
+          serviceType: 'Software support and continuous improvement',
         })}
       />
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
           { name: 'Engineering', path: '/engineering' },
-          { name: 'Managed Engineering', path: '/engineering/managed-engineering' },
+          {
+            name: 'Support & Continuous Improvement',
+            path: '/engineering/support-continuous-improvement',
+          },
         ])}
       />
       <JsonLd data={faqSchema(faqs)} />
@@ -91,17 +104,21 @@ export default function ManagedEngineeringPage() {
       {/* ------------------------------------------------------------ hero */}
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
         <div className="wrap">
-          <Eyebrow>Run · Managed Engineering</Eyebrow>
+          {/* Run is the lifecycle stage; Support & Continuous Improvement is
+              the service inside it. The brief is explicit that the two are not
+              interchangeable, so the eyebrow names both rather than either. */}
+          <Eyebrow>Run · Support &amp; Continuous Improvement</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
             Production is a starting point, not a handover ceremony
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
-            Operate, monitor, support and continually improve a product after launch. For
-            organisations that need a continuing technical capability rather than another one-off
-            project with a warranty period bolted to the end of it.
+            Monitor, support, maintain and continuously improve live software after launch. From
+            incidents and security updates to optimisation, planned releases and product
+            enhancements, we provide the ongoing engineering capability that keeps your product
+            reliable, secure and moving forward.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Discuss ongoing engineering</Cta>
+            <Cta href="/contact">Discuss ongoing support</Cta>
             <Cta href="/engineering" variant="secondary">
               All engineering
             </Cta>
@@ -206,7 +223,7 @@ export default function ManagedEngineeringPage() {
 
       <ClosingCta
         title="Something live that nobody owns?"
-        ctaLabel="Discuss ongoing engineering"
+        ctaLabel="Discuss ongoing support"
       >
         Tell us what is running, who currently looks after it, and what happens when it breaks at
         four on a Friday. That conversation usually settles the scope on its own.

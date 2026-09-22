@@ -52,7 +52,10 @@ const servicePages = [
   { href: '/engineering/custom-software-saas', label: 'Custom software & SaaS' },
   { href: '/engineering/modernisation-integration', label: 'Modernisation & integration' },
   { href: '/engineering/cloud-data-engineering', label: 'Cloud & data engineering' },
-  { href: '/engineering/managed-engineering', label: 'Managed engineering' },
+  {
+    href: '/engineering/support-continuous-improvement',
+    label: 'Support & Continuous Improvement',
+  },
 ];
 
 const capabilities = [

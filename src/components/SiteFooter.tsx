@@ -29,27 +29,33 @@ import { footerColumns, groupBlurb, groupEntities } from '@/content/nav';
 /*
  * THE SIZES ARE NOT ALL 18, AND THAT IS THE POINT.
  *
- * These four are the authentic brand glyphs, and the brands do not draw them to
- * a common weight. Rendered at a common 240px box and counting ink: Facebook
- * 42.5%, LinkedIn 24.6%, X 22.3%, Instagram 19.7%. Facebook's official mark is
- * a SOLID DISC and the other three are open letterforms, so at an equal box it
+ * These four are the authentic brand glyphs and the brands do not draw them to
+ * a common weight, so an equal box is not an equal mark.
+ *
+ * REVISED 2026-09-22 when Facebook became the bare f. Its size had been 15,
+ * which was an optical correction for the SOLID DISC it used to be: at a common
+ * 240px box that disc laid down 42.5% ink against Instagram's 19.7%, so it
  * carried 2.16x the mass of the lightest and pulled the eye off the row.
  *
- * Equal box is not equal weight. Facebook is set to 15 and Instagram trimmed to
- * 17 - Instagram's glyph has the tallest ink box of the four (213/240 against
- * LinkedIn's 180), so left at 18 it led the row on size while trailing it on
- * weight.
+ * Dropping the disc removed the thing being corrected for, and the correction
+ * then worked against itself. The bare f measures 12.4% - the LIGHTEST of the
+ * four, because an f is a narrow letter - and at 15px it read as an
+ * afterthought. A CORRECTION THAT OUTLIVES ITS CAUSE IS A NEW DEFECT.
  *
- * Corrected by size rather than by redrawing. Stroking Facebook's own path was
- * tried and rejected: it turns the f into a hollow shape that stops reading as
- * the mark, which is exactly the objection Icons.tsx already records against
- * outlining a brand glyph. Equalising ink AREA outright was also rejected - it
- * puts Facebook at 14.4 and it then reads as undersized, trading one visible
- * inconsistency for another.
+ * Re-measured: LinkedIn 24.6%, X 22.3%, Instagram 19.7%, Facebook 12.4%. Ink
+ * area alone would put the f at 22.7, but ink area is the wrong target for a
+ * letterform among marks - a narrow letter is supposed to be narrow. Matching
+ * ink HEIGHT is what makes it belong: its box is 161/240 against LinkedIn's
+ * 180, so 20 renders it at the same height as LinkedIn and X. Rendered at 15,
+ * 20 and 22 side by side; 22 made it dominant again, 20 sits in the row.
+ *
+ * Instagram stays at 17 for the original reason, which is unchanged: its glyph
+ * has the tallest ink box of the four (213/240), so at 18 it leads the row on
+ * size while trailing it on weight.
  */
 const socialLinks = [
   { label: 'LinkedIn', href: company.linkedin, icon: <LinkedInMark size={18} /> },
-  { label: 'Facebook', href: company.social.facebook, icon: <FacebookMark size={15} /> },
+  { label: 'Facebook', href: company.social.facebook, icon: <FacebookMark size={20} /> },
   { label: 'Instagram', href: company.social.instagram, icon: <InstagramMark size={17} /> },
   { label: 'X', href: company.social.x, icon: <XMark size={18} /> },
 ];
@@ -179,6 +185,21 @@ function publishedCertifications() {
  * container with a 20px top margin and no content, and it shipped on every page
  * the moment `trustBadges` was emptied.
  */
+/**
+ * The footer's group band is hidden, founder instruction 2026-09-22.
+ *
+ * A FLAG RATHER THAN A DELETION, and rather than emptying `groupEntities`.
+ * That array is also the source for `subOrganization` and part of `sameAs` in
+ * src/lib/schema.ts, so clearing it would take the four group companies out of
+ * the Organization structured data as well - changing what search and answer
+ * engines are told about the company, invisibly, off the back of a request to
+ * hide something in a footer.
+ *
+ * Gating the render leaves the schema, the content file and the separator guard
+ * below untouched, and putting the band back is one boolean.
+ */
+const SHOW_GROUP_BAND = false;
+
 export function SiteFooter() {
   const badges = publishedTrustBadges();
   const certs = publishedCertifications();
@@ -303,7 +324,7 @@ export function SiteFooter() {
             `.groupband` carries `margin-top: 56px`, `padding-top: 40px` and a
             `border-top` against the dark line. With no entities it would draw a
             rule across the footer under an orphan heading. */}
-        {groupEntities.length > 0 ? (
+        {SHOW_GROUP_BAND && groupEntities.length > 0 ? (
           <section className="groupband" aria-labelledby="group-heading">
             <div className="groupband__intro">
               <h2 id="group-heading">Part of Pixelette Group</h2>

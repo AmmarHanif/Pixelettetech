@@ -67,6 +67,20 @@ const nextConfig: NextConfig = {
       // carries priority 0.9 in the sitemap, the second-highest on the site, so
       // shipping the rename without this would drop the strongest AI-section URL.
       { from: '/ai-engineering/ai-value-baseline', to: '/ai-engineering/value-discovery' },
+      /*
+       * Renamed 2026-09-22 on founder instruction, same shape as the line
+       * above: Managed Engineering became Support & Continuous Improvement and
+       * the route moved with it. The document is the same one at a new address,
+       * so the mapping is a fact rather than a judgement, and `permanent` makes
+       * it a 308 so the old URL is dropped from the index instead of kept.
+       *
+       * The old path carried priority 0.8 in the sitemap; it has been replaced
+       * there by the new one, so there is exactly one indexable version.
+       */
+      {
+        from: '/engineering/managed-engineering',
+        to: '/engineering/support-continuous-improvement',
+      },
       // Company and legal pages: same document, shorter path.
       { from: '/about-us', to: '/about' },
       { from: '/contact-us', to: '/contact' },

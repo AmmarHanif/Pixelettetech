@@ -731,6 +731,12 @@ export type ValueModelEntry = {
   summary: string;
   href: string;
   linkLabel: string;
+  /**
+   * Opt this card's link into the wrapping treatment, for a `linkLabel` too
+   * long to sit on one line in a four-card grid. See the RUN entry: the arrow
+   * follows the last word instead of centring beside a two-line block.
+   */
+  linkWraps?: boolean;
 };
 
 export const valueModel: ValueModelEntry[] = [
@@ -791,27 +797,29 @@ export const valueModel: ValueModelEntry[] = [
     icon: <Gauge size={30} />,
     headline: 'Support that does not stop at launch',
     summary:
-      'Monitoring, optimisation and releases that keep the product improving, not just running.',
-    href: '/engineering/managed-engineering',
+      'Monitoring, maintenance, optimisation and releases that keep your product reliable, secure and improving.',
+    href: '/engineering/support-continuous-improvement',
     /*
-     * SHORTENED 2026-09-15 from 'Managed Engineering / Support', and this one
-     * KNOWINGLY DIVERGES from the nav, which the block comment above says these
-     * labels track. The divergence is the point, so record it rather than let a
-     * later reader "repair" it back:
+     * THE 2026-09-15 SHORTENING IS DELIBERATELY REVERSED HERE, 2026-09-22.
      *
-     *  - at 29 characters it wrapped onto two lines even at 1440px desktop,
-     *    stranding the link arrow beside the second line. 19 characters does not.
-     *  - 'Managed Engineering' is the form the destination page uses for ITSELF
-     *    — its eyebrow, its breadcrumb and its title all say it. The card now
-     *    names the page the way the page names itself.
-     *  - the slash was doing a nav job, disambiguating one dropdown row among
-     *    six. A card in a four-card set does not need it.
+     * That note said 'Managed Engineering / Support' was cut to 19 characters
+     * because at 29 it wrapped at 1440px and stranded the link arrow beside the
+     * second line. The observation was right and the arrow problem is real.
      *
-     * 'Support' is not lost from the card: it is the first word of the headline
-     * directly above, so the buyer's search term still sits on the card, in a
-     * sentence rather than a slash construction.
+     * This label is 40 characters and will certainly wrap. It stays anyway,
+     * because the founder brief renaming this service is explicit: if the
+     * approved name wraps badly, adjust the layout rather than shorten or alter
+     * the name. So the fix moved to where the defect actually was — `wrap` on
+     * FLink gives an inline-block link whose arrow follows the last word in the
+     * text flow instead of centring beside a two-line block. The stranded arrow
+     * is fixed for any long label, not avoided by keeping labels short.
+     *
+     * It also no longer diverges from the nav: both now read
+     * 'Support & Continuous Improvement', which the brief requires - the same
+     * terminology everywhere, abbreviated differently nowhere.
      */
-    linkLabel: 'Managed Engineering',
+    linkLabel: 'Explore Support & Continuous Improvement',
+    linkWraps: true,
   },
 ];
 
@@ -879,13 +887,20 @@ export function ValueModelCards({
             >
               {entry.icon}
             </span>
+            {/*
+              The "THIS PAGE" text marker was removed on founder instruction,
+              2026-09-22. The card still marks itself current twice over, so the
+              signal is intact: `aria-current="page"` above, which is the
+              mechanism a screen reader uses to place the reader, and the brand
+              border colour, which is the visual cue.
+
+              This closes the question the note above left open. That marker sat
+              in the accessibility tree - no aria-hidden, and inside the <h3> -
+              so the heading announced as "BUILD THIS PAGE". It now announces
+              "BUILD", with position carried by aria-current alone.
+            */}
             <h3 className="mono" style={{ fontSize: 13, letterSpacing: '0.1em', color: 'var(--ink)' }}>
               {entry.key}
-              {isCurrent ? (
-                <span className="mono" style={{ fontSize: 10, marginLeft: 8, opacity: 0.75 }}>
-                  THIS PAGE
-                </span>
-              ) : null}
             </h3>
             {/*
               Headline then one sentence. Two text layers, matching the shape of
@@ -905,7 +920,9 @@ export function ValueModelCards({
             </p>
             <div style={{ flexGrow: 1 }} />
             <div style={{ marginTop: 18 }}>
-              <FLink href={entry.href}>{entry.linkLabel}</FLink>
+              <FLink href={entry.href} wrap={entry.linkWraps}>
+                {entry.linkLabel}
+              </FLink>
             </div>
           </div>
         );

@@ -80,6 +80,13 @@ const ships = [
  *    is this set's 'Product team'. That page still uses the old label and is NOT
  *    changed here, because it is that page's own service name rather than a
  *    commercial-shape card. Flagged.
+ *
+ *    SUPERSEDED 2026-09-22. The last two sentences were true when written and
+ *    are not now. That page was renamed to Support & Continuous Improvement and
+ *    moved to /engineering/support-continuous-improvement; its 'Managed
+ *    engineering partner' label became 'Continuous improvement partner'. The
+ *    old path above is a 308, so it still resolves, but it is a redirect rather
+ *    than a route. The history above is left standing because it is history.
  */
 const routes = [
   {

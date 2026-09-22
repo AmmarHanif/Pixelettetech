@@ -332,12 +332,26 @@ export function LinkedInMark({ size = 18, className }: IconProps) {
   );
 }
 
+/**
+ * The BARE f, not the f-in-a-disc, per founder instruction 2026-09-22 with a
+ * reference image. The disc made this the only solid shape in a row of open
+ * letterforms and it dominated them.
+ *
+ * DERIVED FROM THE DISC PATH, NOT REDRAWN. That path went round the circle,
+ * dived in to trace the f's own outline, and came back round the circle:
+ *   M22 12.06 C.. S..          the circle, down to (10.44, 22)
+ *   v-7.03 .. V22              the f, ending at (13.56, 22)
+ *   c4.78-.76 8.44-4.92 ...z   the circle again
+ * Both feet land on y=22, so dropping the two arcs and closing with `z` leaves
+ * the authentic letterform. Nothing here was drawn from memory, which is what
+ * the note at the top of this section forbids.
+ */
 export function FacebookMark({ size = 18, className }: IconProps) {
   return (
     <svg {...base(size)} viewBox="0 0 24 24" className={className}>
       <path
         fill="currentColor"
-        d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.49-3.91 3.77-3.91 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.89h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z"
+        d="M10.44 22v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.49-3.91 3.77-3.91 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.89h2.78l-.44 2.91h-2.34V22z"
       />
     </svg>
   );

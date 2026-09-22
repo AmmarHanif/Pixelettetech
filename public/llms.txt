@@ -140,7 +140,7 @@ Four things, and the fourth sits under the other three.
   conversation.
 - **Software engineering** — web platforms, mobile applications, custom software
   and SaaS, product design, cloud and data engineering, modernisation and
-  integration, and managed engineering.
+  integration, and support and continuous improvement.
 - **Blockchain engineering** — asset tokenisation, smart contract development,
   review and testing, wallets and digital-asset products, dApps, exchanges,
   DeFi, DAOs, blockchain integration, and Layer 1/Layer 2 and protocol
@@ -220,7 +220,7 @@ Engineering services
 - https://pixelettetech.com/engineering/mobile-applications
 - https://pixelettetech.com/engineering/modernisation-integration
 - https://pixelettetech.com/engineering/cloud-data-engineering
-- https://pixelettetech.com/engineering/managed-engineering
+- https://pixelettetech.com/engineering/support-continuous-improvement
 
 AI & automation services
 - https://pixelettetech.com/ai-engineering/services — all AI services

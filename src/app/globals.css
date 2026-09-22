@@ -410,6 +410,35 @@ summary:focus-visible {
   font-weight: 500;
 }
 
+/*
+ * For a label too long for one line. The flex version centres the arrow beside
+ * the whole block, so a two-line label leaves it floating in the middle; this
+ * returns the arrow to the text flow, where it follows the last word.
+ *
+ * inline-block, not inline, so `min-height: 44px` above still applies and the
+ * WCAG 2.5.8 target survives. A two-line label clears 44px on its own, but the
+ * rule should not depend on the label staying long.
+ */
+.flink--wrap {
+  display: inline-block;
+  /*
+   * Symmetric padding, not min-height alone. inline-block has no align-items,
+   * so with `min-height: 44px` above the spare height all fell BELOW the text
+   * and the label sat 11px higher than every plain .flink beside it - measured
+   * on the built page, and visible as a misaligned row of links in a two-up
+   * grid. 24.8px line + 2 * 10px clears the 44px target and centres one line;
+   * a second line grows downward, which is what keeps the arrow on it.
+   *
+   * No line-height override: the neighbours inherit 24.8px and so should this.
+   */
+  padding-block: 10px;
+}
+
+.flink--wrap svg {
+  vertical-align: -1px;
+  margin-left: 7px;
+}
+
 .pill {
   display: inline-flex;
   align-items: center;
@@ -434,7 +463,9 @@ summary:focus-visible {
 
 .card {
   background: var(--paper);
-  border: 1px solid var(--line-2);
+  /* 2px, founder instruction 2026-09-22. .tile below keeps 1px: it is a
+     different component and was not in the instruction. */
+  border: 2px solid var(--line-2);
   border-radius: 12px;
   padding: 28px;
   box-shadow: var(--shadow-card);
@@ -3179,10 +3210,13 @@ button.btn[disabled] {
    overlap. */
 .site-footer__social {
   list-style: none;
-  margin: 22px 0 0;
+  /* 3px top and no gap, founder instruction 2026-09-22. The 44px targets stay:
+     they are the WCAG 2.5.8 minimum and butt against each other at gap 0, which
+     changes the spacing without shrinking what a finger has to hit. */
+  margin: 3px 0 0;
   padding: 0;
   display: flex;
-  gap: 6px;
+  gap: 0;
   margin-left: -10px; /* pull the first target's padding back to the grid edge */
 }
 
@@ -3193,8 +3227,12 @@ button.btn[disabled] {
   width: 44px;
   height: 44px;
   border-radius: 8px;
+  /* Full white, founder instruction 2026-09-22. --dark-text is already #ffffff;
+     it was the 0.72 that made these read as lilac rather than white. Hover now
+     signals through the background tint alone, since opacity has no headroom
+     left to move. */
   color: var(--dark-text, #fff);
-  opacity: 0.72;
+  opacity: 1;
   transition: opacity 0.15s ease, background-color 0.15s ease;
 }
 

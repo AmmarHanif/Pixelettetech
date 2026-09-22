@@ -217,23 +217,35 @@ export function FLink({
   children,
   external,
   analytics,
+  wrap,
 }: {
   href: string;
   children: ReactNode;
   external?: boolean;
   /** See `Cta`. Plain attributes, no handler, no client boundary. */
   analytics?: AnalyticsAttributes;
+  /**
+   * For a label too long to sit on one line in its container.
+   *
+   * The default `.flink` is inline-flex with `align-items: center`, so a label
+   * that wraps leaves the arrow floating beside the middle of a two-line block.
+   * `.flink--wrap` makes the link inline-block, which returns the arrow to the
+   * text flow so it follows the last word. Opt in, because every short label on
+   * the site is better served by the flex version's exact 7px gap.
+   */
+  wrap?: boolean;
 }) {
+  const className = wrap ? 'flink flink--wrap' : 'flink';
   if (external) {
     return (
-      <a className="flink" href={href} target="_blank" rel="noopener noreferrer" {...analytics}>
+      <a className={className} href={href} target="_blank" rel="noopener noreferrer" {...analytics}>
         {children}
         <ArrowUpRight size={13} />
       </a>
     );
   }
   return (
-    <Link className="flink" href={href} {...analytics}>
+    <Link className={className} href={href} {...analytics}>
       {children}
       <ArrowRight size={15} />
     </Link>

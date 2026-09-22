@@ -188,7 +188,9 @@ export default function MobileApplicationsPage() {
               rejection makes it urgent.
             </p>
             <p style={{ marginTop: 26 }}>
-              <FLink href="/engineering/managed-engineering">See managed engineering</FLink>
+              <FLink href="/engineering/support-continuous-improvement">
+                See support and continuous improvement
+              </FLink>
             </p>
           </div>
 
