@@ -71,7 +71,15 @@ const stages: Stage[] = [
     n: '04',
     letter: 'E',
     name: 'Evolve',
-    service: 'Support & run',
+    /*
+     * "Optional" added 2026-09-23 on founder instruction: as the last stage of
+     * a numbered rail this read as the automatic end of every engagement.
+     *
+     * `service` is rendered by the COMPACT variant only, which is the homepage
+     * sequence the instruction names. The full variant on /method/live renders
+     * `commercial` instead and is deliberately not touched here.
+     */
+    service: 'Optional Support & Continuous Improvement',
     line: 'Run it, watch it, cost it, improve it.',
     commercial: 'Retainer plus usage',
     items: [

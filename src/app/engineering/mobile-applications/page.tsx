@@ -6,7 +6,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Mobile Applications',
   description:
-    'Native iOS and Android and cross-platform builds, taken through store submission and kept maintained afterwards, as a product or part of a wider platform.',
+    'Native iOS and Android and cross-platform builds, taken through store submission, with ongoing maintenance available where required, as a product or part of a wider platform.',
   path: '/engineering/mobile-applications',
 });
 
@@ -96,8 +96,9 @@ export default function MobileApplicationsPage() {
             Mobile as a product, not a port of the website
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
-            Native iOS and Android and cross-platform builds, taken through store submission and kept
-            maintained afterwards. Mobile can be the whole product or one client of a wider platform;
+            Native iOS and Android and cross-platform builds, taken through store submission, with
+            ongoing maintenance available where required. Mobile can be the whole product or one
+            client of a wider platform;
             the architecture follows the product, not the other way round.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>

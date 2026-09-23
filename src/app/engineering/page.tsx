@@ -87,7 +87,7 @@ const capabilities: Capability[] = [
     id: 'mobile-applications',
     icon: <Mobile size={32} />,
     title: 'Mobile applications',
-    body: 'Native iOS and Android and cross-platform builds, taken through store submission and kept maintained afterwards.',
+    body: 'Native iOS and Android and cross-platform builds, taken through store submission, with ongoing maintenance available where required.',
   },
   {
     id: 'custom-software',
@@ -161,7 +161,12 @@ const faqs = [
   },
   {
     q: 'How does Pixelette Technologies price a build?',
-    a: 'Three commercial models: a fixed-scope build for a defined outcome with a fixed price and date; a standing product team against a roadmap and a quarterly outcome; and a monthly support-and-run contract covering the software and any AI built into it. The firm does not sell developers by the day.',
+    /* Corrected 2026-09-23: this listed the support arrangement as a third
+       standard commercial model with no indication it is optional, which is the
+       implication item 1 of the brief exists to remove. Missed on the first pass
+       because it phrases the offer differently from the sentence the brief
+       quoted. */
+    a: 'Two commercial models for delivery: a fixed-scope build for a defined outcome with a fixed price and date, and a standing product team against a roadmap and a quarterly outcome. After delivery, an optional support arrangement can cover the software and any AI built into it, if you want us to remain involved. The firm does not sell developers by the day.',
   },
   {
     q: 'What happens after the build ships?',
