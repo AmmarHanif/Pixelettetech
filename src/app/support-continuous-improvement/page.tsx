@@ -15,9 +15,14 @@ import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 /*
- * Renamed from "Managed Engineering" on founder instruction, 2026-09-22, with
- * the route moved from /engineering/managed-engineering. The old path is a 308
- * in next.config.ts; it must not 404 and it must not stay indexable.
+ * Renamed from "Managed Engineering" on founder instruction, 2026-09-22, then
+ * PROMOTED OUT OF /engineering to the top level on 2026-09-23, also on founder
+ * instruction: the live URL is now /support-continuous-improvement. Both older
+ * paths (/engineering/managed-engineering and /engineering/support-continuous-
+ * improvement) are 308s in next.config.ts straight to this one; they must not
+ * 404 and must not stay indexable. The breadcrumb still names Engineering as the
+ * category, because the service belongs to that practice even though its URL no
+ * longer nests under it.
  *
  * REBUILT 2026-09-23 to the founder's Support & Continuous Improvement brief.
  * The load-bearing distinction, kept throughout the page rather than restated:
@@ -36,7 +41,7 @@ export const metadata = pageMetadata({
   title: 'Support & Continuous Improvement',
   description:
     'Optional ongoing software support, maintenance, monitoring, optimisation and continuous improvement for products built by Pixelette or existing systems.',
-  path: '/engineering/support-continuous-improvement',
+  path: '/support-continuous-improvement',
 });
 
 /*
@@ -162,7 +167,7 @@ export default function SupportContinuousImprovementPage() {
           name: 'Support & Continuous Improvement',
           description:
             'Optional ongoing software support, monitoring, maintenance, security, optimisation, controlled releases and continuous improvement for products built by Pixelette or existing systems, shaped around what the client needs.',
-          path: '/engineering/support-continuous-improvement',
+          path: '/support-continuous-improvement',
           serviceType: 'Software support and continuous improvement',
         })}
       />
@@ -172,7 +177,7 @@ export default function SupportContinuousImprovementPage() {
           { name: 'Engineering', path: '/engineering' },
           {
             name: 'Support & Continuous Improvement',
-            path: '/engineering/support-continuous-improvement',
+            path: '/support-continuous-improvement',
           },
         ])}
       />

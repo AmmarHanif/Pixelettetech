@@ -68,7 +68,7 @@ export const primaryNav: NavItem[] = [
    * dropdowns by matching this href against navSections and this href has no
    * section. No component change was needed.
    */
-  { href: '/engineering/support-continuous-improvement', label: 'Support' },
+  { href: '/support-continuous-improvement', label: 'Support' },
   { href: '/case-studies', label: 'Work' },
   /* INSIGHTS WITHDRAWN FROM NAVIGATION 2026-09-16 for launch, on founder
      instruction: "Do not launch the current unfinished Insights index."
@@ -130,7 +130,7 @@ export const engineeringSection: NavSection = {
     { href: '/engineering/modernisation-integration', label: 'Modernisation & Integration' },
     { href: '/engineering/cloud-data-engineering', label: 'Cloud & Data Engineering' },
     {
-      href: '/engineering/support-continuous-improvement',
+      href: '/support-continuous-improvement',
       label: 'Support & Continuous Improvement',
     },
   ],
@@ -276,6 +276,9 @@ export const footerColumns: { heading: string; items: NavItem[] }[] = [
       { href: '/ai-automation', label: 'AI & automation' },
       { href: '/engineering', label: 'Engineering' },
       { href: '/blockchain', label: 'Blockchain' },
+      // The RUN service, added to the footer 2026-09-23. Short "Support" label
+      // matches the compact hub links beside it and the top-nav item.
+      { href: '/support-continuous-improvement', label: 'Support' },
     ],
   },
   {
@@ -408,7 +411,7 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
   { path: '/engineering/modernisation-integration', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/engineering/cloud-data-engineering', priority: 0.8, changeFrequency: 'monthly' },
   {
-    path: '/engineering/support-continuous-improvement',
+    path: '/support-continuous-improvement',
     priority: 0.8,
     changeFrequency: 'monthly',
   },

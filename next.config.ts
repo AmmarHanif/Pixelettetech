@@ -68,18 +68,26 @@ const nextConfig: NextConfig = {
       // shipping the rename without this would drop the strongest AI-section URL.
       { from: '/ai-engineering/ai-value-baseline', to: '/ai-automation/value-discovery' },
       /*
-       * Renamed 2026-09-22 on founder instruction, same shape as the line
-       * above: Managed Engineering became Support & Continuous Improvement and
-       * the route moved with it. The document is the same one at a new address,
-       * so the mapping is a fact rather than a judgement, and `permanent` makes
-       * it a 308 so the old URL is dropped from the index instead of kept.
+       * Support & Continuous Improvement: two moves, both landing on the final
+       * top-level URL so neither old address becomes a redirect chain.
        *
-       * The old path carried priority 0.8 in the sitemap; it has been replaced
-       * there by the new one, so there is exactly one indexable version.
+       * 1. Managed Engineering became Support & Continuous Improvement on
+       *    2026-09-22 (the document is the same at a new address).
+       * 2. On 2026-09-23, on founder instruction, the page was promoted out of
+       *    /engineering to the top level, /support-continuous-improvement.
+       *
+       * Both `from`s point straight at the final URL. `permanent` makes each a
+       * 308 so the old URLs are dropped from the index rather than kept, and the
+       * sitemap now carries only /support-continuous-improvement, so there is
+       * exactly one indexable version.
        */
       {
         from: '/engineering/managed-engineering',
-        to: '/engineering/support-continuous-improvement',
+        to: '/support-continuous-improvement',
+      },
+      {
+        from: '/engineering/support-continuous-improvement',
+        to: '/support-continuous-improvement',
       },
       // Company and legal pages: same document, shorter path.
       { from: '/about-us', to: '/about' },

@@ -808,7 +808,7 @@ export const valueModel: ValueModelEntry[] = [
     headline: 'Keep your product performing',
     summary:
       'Optional ongoing support, maintenance and improvement to keep your product reliable, secure and performing as intended.',
-    href: '/engineering/support-continuous-improvement',
+    href: '/support-continuous-improvement',
     /*
      * THE 2026-09-15 SHORTENING IS DELIBERATELY REVERSED HERE, 2026-09-22.
      *
