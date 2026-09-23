@@ -284,7 +284,7 @@ export default function AiEngineeringPage() {
           */}
           <Eyebrow>AI engineering · part of Automate</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            Most companies have adopted AI. Far fewer can show what it changed.
+            Most companies have adopted AI. Far fewer can show what it changed
           </h1>
           {/*
             Shortened from a three-clause sentence that ended on the Certified
