@@ -67,6 +67,7 @@ TITLE_CASE_ALLOWED = {
     'dApps and DeFi': 'proper nouns',
     'Layer 1, Layer 2 and DAOs': 'proper nouns',
     'Privacy at Pixelette': 'document title carrying the company name, not a headline',
+    'Built by Pixelette': 'Support & Continuous Improvement card, carries the company name',
     # A mono design label plus its small badge, which the text extractor glues
     # together ("AUTOMATE" + "THIS PAGE"). Uppercase by design, not a headline.
     'AUTOMATETHIS PAGE': 'mono section label, not a heading',

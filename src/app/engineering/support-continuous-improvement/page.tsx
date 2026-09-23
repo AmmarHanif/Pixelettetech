@@ -1,5 +1,16 @@
 import { ClosingCta, ValueModelCards } from '@/components/sections';
-import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
+import {
+  CheckList,
+  Cta,
+  Eyebrow,
+  FLink,
+  Faqs,
+  FeatureCard,
+  JsonLd,
+  Section,
+  SectionHead,
+} from '@/components/ui';
+import { Database, Gauge, Layers, Measure, Shield, TrendChart } from '@/components/Icons';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -7,6 +18,14 @@ import { pageMetadata } from '@/lib/seo';
  * Renamed from "Managed Engineering" on founder instruction, 2026-09-22, with
  * the route moved from /engineering/managed-engineering. The old path is a 308
  * in next.config.ts; it must not 404 and it must not stay indexable.
+ *
+ * REBUILT 2026-09-23 to the founder's Support & Continuous Improvement brief.
+ * The load-bearing distinction, kept throughout the page rather than restated:
+ * Pixelette delivers the commissioned product to spec, and RUN is OPTIONAL. If
+ * the client wants ongoing involvement, the arrangement ranges from maintaining
+ * the product at its agreed level through to active improvement. Nothing here
+ * may imply the product needs Pixelette after launch, or that improvement is
+ * compulsory, or vendor lock-in.
  *
  * TITLE IS THE BARE SERVICE NAME, not "... | Pixelette Technologies" as the
  * brief suggested. The root layout already applies a "%s — Pixelette
@@ -16,64 +35,122 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Support & Continuous Improvement',
   description:
-    'Ongoing software support, monitoring, maintenance, optimisation and releases that keep live products reliable, secure and continuously improving.',
+    'Optional ongoing software support, maintenance, monitoring, optimisation and continuous improvement for products built by Pixelette or existing systems.',
   path: '/engineering/support-continuous-improvement',
 });
 
-const included = [
+/*
+ * SECTION 2 cards. Six capabilities that CAN form part of an arrangement, not a
+ * mandatory bundle. Concise by design: one line each, an icon for scanning.
+ */
+const takeCareOf = [
   {
-    title: 'Monitoring and incident response',
-    body: 'Alerting on the paths that matter, a named responder, a defined severity scale and a written note after the event that goes into your own records.',
+    icon: <Gauge size={26} />,
+    title: 'Monitoring & support',
+    body: 'Detect, investigate and resolve issues before they become bigger problems.',
   },
   {
-    title: 'Releases and backlog delivery',
-    body: 'A predictable release cadence against an agreed backlog, so change is a routine event rather than an annual project with a business case attached.',
+    icon: <Shield size={26} />,
+    title: 'Security & maintenance',
+    body: 'Keep dependencies, patches and technical components current.',
   },
   {
-    title: 'Security patching and dependency currency',
-    body: 'Libraries, runtimes and platform versions kept current. Software ages whether or not anyone touches it, and the bill for ignoring that arrives all at once.',
+    icon: <TrendChart size={26} />,
+    title: 'Performance & optimisation',
+    body: 'Maintain and improve speed, reliability, infrastructure efficiency and cost where required.',
   },
   {
-    title: 'Performance and cost optimisation',
-    body: 'Where the system is slow, where it is expensive, and which of the two is actually worth engineering time this quarter.',
+    icon: <Layers size={26} />,
+    title: 'Releases & change',
+    body: 'Test and deploy agreed fixes, updates and improvements through controlled releases.',
   },
   {
-    title: 'Roadmap delivery',
-    body: 'Product evolution against outcomes you set, with the work planned in the open and the trade-offs put in front of you rather than absorbed quietly.',
+    icon: <Measure size={26} />,
+    title: 'Continuous improvement',
+    body: 'Where required, turn feedback, operational data and priorities into an ongoing improvement backlog.',
   },
   {
-    title: 'Operational ownership',
-    body: 'Certificates, backups, restores that have been tested, access reviews, documentation that matches the system. Nobody asks for these until the week they matter.',
+    icon: <Database size={26} />,
+    title: 'Technical ownership',
+    body: 'Maintain product knowledge, documentation and clear engineering accountability for the areas entrusted to us.',
   },
 ];
 
-const shapes = [
+/* SECTION 3 sequence: coverage -> service levels -> engineering capacity -> visibility. */
+const fitSteps = [
   {
-    label: 'Support and run',
-    body: 'We keep what we built working on a monthly contract, with defined response expectations and a report you can read without a translator.',
+    n: '01',
+    title: 'Support coverage',
+    body: 'Agree which products, systems and environments you want us to support.',
   },
   {
-    label: 'Continuous improvement partner',
-    body: 'A continuing engineering capability against a roadmap and a quarterly outcome, for organisations that need capacity rather than another project.',
+    n: '02',
+    title: 'Service levels',
+    body: 'Set appropriate support hours, priorities and response expectations.',
   },
   {
-    label: 'Take-on of an existing system',
-    body: 'We can support software we did not build, once an assessment has established what it is and what supporting it honestly requires.',
+    n: '03',
+    title: 'Engineering capacity',
+    body: 'Choose the level of ongoing engineering needed for maintenance, fixes, optimisation or improvements.',
   },
+  {
+    n: '04',
+    title: 'Review & reporting',
+    body: 'Maintain visibility over incidents, releases, performance and agreed improvement work.',
+  },
+];
+
+/* SECTION 5: compressed AI operations. Present only where a product includes AI. */
+const aiIndicators = [
+  { title: 'Model health', body: 'Monitor availability, latency, failures and operational behaviour.' },
+  {
+    title: 'Evaluations',
+    body: 'Track agreed quality measures as models, prompts and workflows change.',
+  },
+  { title: 'Guardrails', body: 'Maintain the controls and checks surrounding AI behaviour.' },
+  { title: 'Cost & performance', body: 'Monitor usage, latency and model-related operating costs.' },
+];
+
+const builtPoints = [
+  'Smooth transition from delivery to ongoing support',
+  'Existing technical knowledge retained',
+  'Maintenance, optimisation and improvements as required',
+];
+
+const livePoints = [
+  'Initial technical and operational assessment',
+  'Review of codebase, infrastructure and documentation',
+  'Clear onboarding and responsibility boundaries',
 ];
 
 const faqs = [
   {
     q: 'What does support and continuous improvement include?',
-    a: 'Monitoring and incident response with a defined severity scale and a named responder, a predictable release cadence against an agreed backlog, security patching and dependency currency, performance and cost optimisation, roadmap delivery, and operational ownership of the tasks, such as backups, restores, access reviews and documentation, that only become visible when they have been neglected.',
+    a: 'The scope is agreed around the product and what you need from us. It can include monitoring, incident support, maintenance, security updates, performance optimisation, releases and ongoing engineering improvements.',
   },
   {
-    q: 'Will you support a system you did not build?',
-    a: 'Yes, after an assessment. Taking on unfamiliar software without first establishing its architecture, test coverage, dependency posture and failure modes would mean quoting a support commitment against an unknown, which helps nobody.',
+    q: 'Is ongoing support required after Pixelette delivers a product?',
+    a: 'No. We deliver the commissioned product to the agreed specification. Ongoing support is an optional service if you want Pixelette to remain involved after delivery.',
   },
   {
-    q: 'Is this the same as hiring developers by the day?',
-    a: 'No. Dedicated engineering capacity can be structured where that is genuinely the right commercial model, but the default is an accountable engineering outcome: an agreed scope of responsibility, defined response expectations and reporting against the things you care about, rather than hours on a timesheet.',
+    q: 'Can you support software that Pixelette did not build?',
+    a: 'Yes. We can take responsibility for an existing product following an initial technical assessment of the application, infrastructure, documentation and current operating position.',
+  },
+  {
+    q: 'Is this just maintenance and bug fixing?',
+    a: 'It can be focused on maintaining reliability, security and performance, or it can extend to optimisation, controlled releases and ongoing improvements. The scope depends on what you need.',
+  },
+  {
+    q: 'Do you offer service levels and response times?',
+    a: 'Yes. Appropriate support hours, priorities and response expectations can be agreed as part of the support arrangement.',
+  },
+  {
+    q: 'Can you support AI-enabled products?',
+    a: 'Yes. Where relevant, the arrangement can include additional monitoring and operational controls for AI components, including model health, evaluations, guardrails, performance and cost.',
+  },
+  {
+    q: 'Do we need to commit to a large engineering team?',
+    a: 'No. The level of engineering capacity is agreed around the product and the amount of ongoing support, maintenance or improvement required.',
   },
 ];
 
@@ -84,7 +161,7 @@ export default function SupportContinuousImprovementPage() {
         data={serviceSchema({
           name: 'Support & Continuous Improvement',
           description:
-            'Monitoring, incident response, releases, patching, optimisation and roadmap delivery for software in production, as a continuing engineering capability.',
+            'Optional ongoing software support, monitoring, maintenance, security, optimisation, controlled releases and continuous improvement for products built by Pixelette or existing systems, shaped around what the client needs.',
           path: '/engineering/support-continuous-improvement',
           serviceType: 'Software support and continuous improvement',
         })}
@@ -104,32 +181,18 @@ export default function SupportContinuousImprovementPage() {
       {/* ------------------------------------------------------------ hero */}
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
         <div className="wrap">
-          {/* Run is the lifecycle stage; Support & Continuous Improvement is
-              the service inside it. The brief is explicit that the two are not
-              interchangeable, so the eyebrow names both rather than either. */}
+          {/* Run is the lifecycle stage; Support & Continuous Improvement is the
+              service inside it. The brief is explicit that the two are not
+              interchangeable, so the eyebrow names both. */}
           <Eyebrow>Run · Support &amp; Continuous Improvement</Eyebrow>
-          {/*
-              REPLACED 2026-09-22 on founder instruction. The previous headline
-              was "Production is a starting point, not a handover ceremony". His
-              objection, and it is right: it is flippant, it carries a negative
-              connotation, and it says nothing about why anyone would WANT this
-              service - it describes a mistake other people make rather than an
-              outcome the reader is buying.
-
-              The sibling service pages do use the contrastive "X, not Y" form,
-              so the form was not the problem; the tone and the absent benefit
-              were. This names the three things the service actually delivers,
-              which are the three the brief's own proposition leads with:
-              reliable, secure, continuously improving.
-            */}
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Reliable, secure, and better every release
+          <h1 className="h1" style={{ marginTop: 24, maxWidth: '22ch' }}>
+            Reliable, secure and performing as intended
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
-            Monitor, support, maintain and continuously improve live software after launch. From
-            incidents and security updates to optimisation, planned releases and product
-            enhancements, we provide the ongoing engineering capability that keeps your product
-            reliable, secure and moving forward.
+            When you need ongoing support, we can keep your software reliable, secure and performing
+            as intended, with optimisation and continuous improvement where you want it. Whether we
+            built the product or are taking responsibility for an existing system, the arrangement is
+            shaped around what you need.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Discuss ongoing support</Cta>
@@ -137,138 +200,132 @@ export default function SupportContinuousImprovementPage() {
               All engineering
             </Cta>
           </div>
+          {/* Optional-service signals, kept visually secondary. Not buttons. */}
+          <p className="small" style={{ marginTop: 22, color: 'var(--muted)' }}>
+            Optional ongoing support · Flexible service levels · Products built by us or others
+          </p>
         </div>
       </div>
 
-      {/* -------------------------------------------------------- included */}
-      <Section labelledBy="me-included-heading">
+      {/* -------------------------------------------- what we take care of */}
+      <Section labelledBy="care-heading">
         <SectionHead
-          title="What the arrangement covers"
-          id="me-included-heading"
-          lead="Scoped per client, because a single internal tool and a customer-facing platform in a regulated environment are not the same commitment."
+          title="What we take care of"
+          id="care-heading"
+          lead="Ongoing support can be as focused or as comprehensive as the product requires. We agree what you want us to take responsibility for and shape the service around it."
         />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
-          {included.map(item => (
-            <div className="card" key={item.title}>
-              <h3 className="h4">{item.title}</h3>
-              <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
+          {takeCareOf.map(item => (
+            <FeatureCard key={item.title} icon={item.icon} title={item.title}>
+              {item.body}
+            </FeatureCard>
+          ))}
+        </div>
+      </Section>
+
+      {/* --------------------------------------------- support that fits */}
+      <Section labelledBy="fits-heading" style={{ background: '#F7FAFA' }}>
+        <SectionHead
+          eyebrow="Flexible by design"
+          id="fits-heading"
+          title="Support that fits the product"
+          lead="Every product and business needs a different level of ongoing support. We agree what you want us to take responsibility for, from maintaining the product at its agreed level through to optimisation and continued improvement."
+        />
+        <div className="grid grid-4" style={{ marginTop: 36 }}>
+          {fitSteps.map(step => (
+            <div className="tile" key={step.n}>
+              <span className="step__n">{step.n}</span>
+              <b style={{ fontSize: 15.5 }}>{step.title}</b>
+              <p className="small" style={{ marginTop: 8 }}>
+                {step.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ---------------------------------------- built by us or already live */}
+      <Section labelledBy="responsibility-heading">
+        <SectionHead
+          eyebrow="Taking responsibility"
+          id="responsibility-heading"
+          title="Built by Pixelette or already live, we can support it"
+          lead="Ongoing support does not have to begin with a Pixelette build. We can continue supporting products we have delivered or take responsibility for an existing product following an initial technical assessment."
+        />
+        <div className="grid grid-2" style={{ marginTop: 36, gap: 28 }}>
+          <div className="card">
+            <h3 className="h3">Built by Pixelette</h3>
+            <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
+              If you want us to remain involved after delivery, we can continue supporting the
+              product without losing the technical knowledge built up during development.
+            </p>
+            <div style={{ marginTop: 18 }}>
+              <CheckList items={builtPoints} />
+            </div>
+          </div>
+          <div className="card">
+            <h3 className="h3">Already live</h3>
+            <p className="body" style={{ marginTop: 12, fontSize: 15 }}>
+              If another team built the product, we begin by understanding what we are being asked to
+              support.
+            </p>
+            <div style={{ marginTop: 18 }}>
+              <CheckList items={livePoints} />
+            </div>
+          </div>
+        </div>
+        <p className="small" style={{ marginTop: 24, color: 'var(--muted)' }}>
+          Existing systems are subject to technical assessment before support responsibility is
+          agreed.
+        </p>
+      </Section>
+
+      {/* ------------------------------------------------ AI operations */}
+      <Section labelledBy="ai-heading" style={{ background: '#F7FAFA' }}>
+        <SectionHead
+          eyebrow="AI operations"
+          id="ai-heading"
+          title="AI-enabled products need additional operational care"
+          lead="Where a product includes AI, the support arrangement can extend beyond conventional software operations to help monitor how AI components behave, perform and evolve in production."
+        />
+        <div className="grid grid-4" style={{ marginTop: 36 }}>
+          {aiIndicators.map(item => (
+            <div className="tile" key={item.title}>
+              <b style={{ fontSize: 15.5 }}>{item.title}</b>
+              <p className="small" style={{ marginTop: 8 }}>
                 {item.body}
               </p>
             </div>
           ))}
         </div>
-      </Section>
-
-      {/* ---------------------------------------------------------- shapes */}
-      <Section labelledBy="me-shapes-heading" style={{ background: '#F7FAFA' }}>
-        <SectionHead
-          eyebrow="Three shapes"
-          id="me-shapes-heading"
-          title="Chosen around what you actually need owned"
-        />
-        <div className="grid grid-3" style={{ marginTop: 36 }}>
-          {shapes.map(shape => (
-            <div className="tile" key={shape.label} style={{ padding: '24px 26px' }}>
-              <span className="step__n">{shape.label}</span>
-              <p className="small" style={{ marginTop: 4 }}>
-                {shape.body}
-              </p>
-            </div>
-          ))}
-        </div>
-        <p className="body" style={{ marginTop: 30, maxWidth: '76ch' }}>
-          None of these is developers by the day. Dedicated capacity can be structured where that is
-          genuinely the right commercial model, but the default proposition is an accountable
-          engineering outcome with someone answerable for it. If what you want is bodies on a
-          timesheet, we are the wrong supplier and we will say so on the first call.
+        <p style={{ marginTop: 26 }}>
+          <FLink href="/ai-automation/support-and-run">See AI operations and run</FLink>
         </p>
       </Section>
 
-      {/* ---------------------------------------------------------- and AI */}
-      <Section labelledBy="me-ai-heading">
-        <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
-          <div>
-            <SectionHead
-              eyebrow="When there is AI in the product"
-              id="me-ai-heading"
-              title="Running a model is a different job from running a service"
-            />
-            <p className="body" style={{ marginTop: 20 }}>
-              Conventional software fails loudly. An AI component degrades quietly: the output is
-              still fluent, still fast, still returning two hundred, and gradually less correct.
-              Keeping it working means measuring output quality continuously, watching for drift,
-              and owning the inference cost as an operating line.
-            </p>
-            <p className="body" style={{ marginTop: 16 }}>
-              That is a specific run discipline with its own commitments and its own monthly report,
-              and it is documented separately rather than folded silently into a support contract.
-            </p>
-            <p style={{ marginTop: 26 }}>
-              <FLink href="/ai-automation/support-and-run">See the AI run contract</FLink>
-            </p>
-          </div>
-
-          <div>
-            <Eyebrow>A typical path</Eyebrow>
-            <ol style={{ listStyle: 'none', padding: 0, marginTop: 24, display: 'grid', gap: 14 }}>
-              {[
-                ['01', 'Build or take-on', 'A new product, or an assessment of an existing one'],
-                ['02', 'Stabilise', 'Monitoring, alerting, release path and the known defects'],
-                ['03', 'Operate', 'Incidents, patching, releases and the routine ownership'],
-                ['04', 'Improve', 'Roadmap delivery measured against the outcome, not the output'],
-              ].map(([n, t, d]) => (
-                <li key={n} className="tile" style={{ padding: '18px 22px' }}>
-                  <span className="step__n">{n}</span>
-                  <b style={{ fontSize: 15.5 }}>{t}</b>
-                  <p className="small" style={{ marginTop: 6 }}>
-                    {d}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </Section>
-
-      {/* --------------------------------------------------- where this sits */}
-      {/*
-        Added 2026-09-22 on founder instruction. The three sibling hubs -
-        /engineering, /ai-automation and /blockchain - have carried this section
-        since the four-service model was introduced; RUN was the only one of the
-        four whose page did not, so the card set pointed at a service the reader
-        could not navigate back from.
-
-        Wording follows the sibling pattern rather than being reinvented: the
-        page names itself and lists the other three in the order they appear in
-        the card row. Placement matches too - directly before the FAQs on all
-        three.
-
-        `current="RUN"` marks this card as the reader's own, which draws the
-        brand border and sets aria-current="page" on it.
-      */}
+      {/* --------------------------------------------- where this sits */}
       <Section labelledBy="sits-heading" tight>
         <SectionHead
-          eyebrow="Where this sits"
+          eyebrow="How we help"
           id="sits-heading"
           title="Run is one of our four services"
-          lead="Build, Automate and Decentralise are the other three."
+          lead="Build, automate, decentralise or keep your existing product performing."
         />
         <div style={{ marginTop: 32 }}>
           <ValueModelCards current="RUN" />
         </div>
       </Section>
 
+      {/* ------------------------------------------------------------- FAQ */}
       <Section labelledBy="faq-heading">
         <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 
-      <ClosingCta
-        title="Something live that nobody owns?"
-        ctaLabel="Discuss ongoing support"
-      >
-        Tell us what is running, who currently looks after it, and what happens when it breaks at
-        four on a Friday. That conversation usually settles the scope on its own.
+      <ClosingCta title="Keep your product performing" ctaLabel="Discuss ongoing support">
+        Whether you need dependable support for something already live or an engineering partner to
+        maintain and improve it over time, we can shape the right ongoing arrangement around your
+        product.
       </ClosingCta>
     </>
   );

@@ -795,9 +795,19 @@ export const valueModel: ValueModelEntry[] = [
   {
     key: 'RUN',
     icon: <Gauge size={30} />,
-    headline: 'Support that does not stop at launch',
+    /*
+     * REFRAMED 2026-09-23 on founder instruction. The prior headline, 'Support
+     * that does not stop at launch', framed the offer as a negation and read as
+     * something the client was locked into. This service is OPTIONAL, so the
+     * headline now leads on the outcome the client chooses, and the summary
+     * opens on "Optional" to make the voluntary framing explicit. The wording is
+     * the founder's approved grid-card copy from the 2026-09-23 rebuild brief;
+     * it is used everywhere this RUN card renders. No full stop, to match the
+     * other three cards and the headline style check.
+     */
+    headline: 'Keep your product performing',
     summary:
-      'Monitoring, maintenance, optimisation and releases that keep your product reliable, secure and improving.',
+      'Optional ongoing support, maintenance and improvement to keep your product reliable, secure and performing as intended.',
     href: '/engineering/support-continuous-improvement',
     /*
      * THE 2026-09-15 SHORTENING IS DELIBERATELY REVERSED HERE, 2026-09-22.
