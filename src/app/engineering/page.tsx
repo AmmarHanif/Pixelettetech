@@ -134,7 +134,15 @@ const engagementModels = [
   },
   {
     label: 'Support & run',
-    body: 'We keep what we built working, on a monthly contract. One contract covers the conventional software and any AI we built into it.',
+    /*
+     * REWORDED 2026-09-23, pre-launch brief section 1. The previous body -
+     * "We keep what we built working, on a monthly contract" - read as a
+     * standing commitment and implied a monthly contract was part of normal
+     * delivery. The approved commercial position is that the commissioned
+     * product is delivered to specification and the client does not have to
+     * retain Pixelette for it to operate; ongoing involvement is OPTIONAL.
+     */
+    body: 'If you want us to remain involved after delivery, we can provide ongoing support, maintenance and improvement under an agreed support arrangement. One arrangement covers the conventional software and any AI we built into it.',
   },
 ];
 
@@ -157,7 +165,7 @@ const faqs = [
   },
   {
     q: 'What happens after the build ships?',
-    a: 'A typical path runs fixed-scope build, then a monthly support-and-run contract, then AI added to a process inside it, baselined first so the change is measurable, then evaluation and monitoring reported monthly on drift, cost and incidents.',
+    a: 'A typical path runs fixed-scope build, then, if you want us to stay involved, an optional support arrangement, then AI added to a process inside it, baselined first so the change is measurable, then evaluation and monitoring reported on drift, cost and incidents.',
   },
 ];
 
@@ -503,15 +511,26 @@ export default function EngineeringPage() {
             <SectionHead
               eyebrow="After it ships"
               id="meet-heading"
-              title="We keep what we build working, including the AI in it"
+              title="Ongoing support when you need it"
             />
+            {/*
+              Section 1 of the pre-launch brief. The heading was "We keep what we
+              build working, including the AI in it", which asserted a standing
+              commitment rather than an option.
+
+              "That is not an upsell. We built the AI capability because we were
+              already being asked to keep this stuff working." also goes: it was
+              defending against an objection the new framing does not raise, and
+              section 7 asks for fewer of these constructions. The substantive
+              content - one team, and the Certified route to independent
+              assessment - is kept.
+            */}
             <p className="body" style={{ marginTop: 20 }}>
-              The software and the AI inside it sit on one support contract rather than two. The
-              team that wrote the code is the team that evaluates it, monitors it and keeps it
-              inside the boundaries you set. That is not an upsell. We built the AI capability
-              because we were already being asked to keep this stuff working. Where a customer or a
-              regulator wants formal governance around the AI, Pixelette Certified can scope the
-              requirement and support the route to independent assessment.
+              Where you want us to remain involved after delivery, one support arrangement can cover
+              the software and any AI capability within it. The team that wrote the code is the team
+              that evaluates it, monitors it and keeps it inside the boundaries you set. Where a
+              customer or a regulator wants formal governance around the AI, Pixelette Certified can
+              scope the requirement and support the route to independent assessment.
             </p>
             <p style={{ marginTop: 28 }}>
               <FLink href="/ai-automation">Go to AI &amp; Automation</FLink>
@@ -523,7 +542,14 @@ export default function EngineeringPage() {
             <ol style={{ listStyle: 'none', padding: 0, marginTop: 24, display: 'grid', gap: 14 }}>
               {[
                 ['01', 'Fixed-scope build', 'The platform, the app, the integration'],
-                ['02', 'Support & run', 'We keep it working on a monthly contract'],
+                /* Marked OPTIONAL, pre-launch brief section 1: as a bare
+                   step between build and the AI work it read as a mandatory
+                   stage after delivery. */
+                [
+                  '02',
+                  'Support & Continuous Improvement',
+                  'Optional. Ongoing support, maintenance and improvement if you want it',
+                ],
                 ['03', 'AI added to a process inside it', 'Baselined first, so the change is measurable'],
                 ['04', 'Evaluation and monitoring', 'Evaluation, drift, cost and incidents, reported monthly'],
               ].map(([n, t, d]) => (

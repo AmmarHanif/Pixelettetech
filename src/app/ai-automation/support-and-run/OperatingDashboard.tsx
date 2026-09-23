@@ -45,7 +45,10 @@ export function OperatingDashboard() {
             <span className="dash__metric-label mono">{m.label}</span>
             <b className={m.good ? 'dash__metric-value dash__metric-value--good' : 'dash__metric-value'}>
               {m.value}
-            </b>
+            </b>{' '}
+            {/* Real space: the value and note are separate blocks so they never
+                run together on screen, but JSX drops newline whitespace between
+                elements and textContent read "94.2%threshold 90%". */}
             <span className="dash__metric-note">{m.note}</span>
           </div>
         ))}

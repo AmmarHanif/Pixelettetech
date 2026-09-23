@@ -147,7 +147,10 @@ export default function CloudDataEngineeringPage() {
           eyebrow="Data"
           id="cde-data-heading"
           title="Pipelines, models and the integrations underneath them"
-          lead="The unglamorous layer that decides whether reporting, automation and any AI you later buy are possible at all."
+          /* "unglamorous" also appears on /engineering and
+             /engineering/custom-software-saas. The overview keeps it; this
+             page says it plainly. */
+          lead="The layer underneath that decides whether reporting, automation and any AI you later buy are possible at all."
         />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
           {data.map(item => (

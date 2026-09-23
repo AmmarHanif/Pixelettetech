@@ -192,7 +192,7 @@ export default function SupportAndRunPage() {
               <div className="grid grid-3" style={{ marginTop: 48 }}>
                 {runStats.map(stat => (
                   <div className="tile" key={stat.value}>
-                    <b>{stat.value}</b>
+                    <b>{stat.value}</b>{' '}
                     <span>{stat.label}</span>
                   </div>
                 ))}

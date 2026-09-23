@@ -108,7 +108,10 @@ const TODAY_COPY: Record<string, string> = {
   BUILD: 'Custom software and digital products.',
   AUTOMATE: 'AI systems, agents and workflow automation.',
   DECENTRALISE: 'Blockchain and distributed systems.',
-  RUN: 'Engineering, integration and ongoing evolution.',
+  /* Pre-launch brief section 5: RUN is the service CATEGORY; the service
+     inside it is Support & Continuous Improvement, and it is optional. The
+     previous wording named neither and read as automatic. */
+  RUN: 'Support & Continuous Improvement. Optional ongoing support, maintenance and improvement.',
 };
 
 const today = valueModel.map(entry => ({

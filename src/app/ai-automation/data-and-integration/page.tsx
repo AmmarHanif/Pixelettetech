@@ -36,7 +36,10 @@ const capabilities = [
   },
   {
     title: 'Legacy enablement',
-    body: 'The estate nobody wants to touch. AI coding gains are large on greenfield and close to nothing on complex legacy, which is precisely why this stays human work.',
+    /* Was "The estate nobody wants to touch", which renders verbatim as a
+       heading on /engineering/modernisation-integration. That page owns the
+       phrase; this one says the same thing in its own words. */
+    body: 'Long-lived systems that resist change. AI coding gains are large on greenfield and close to nothing on complex legacy, which is precisely why this stays human work.',
   },
 ];
 
@@ -97,7 +100,7 @@ export default function DataIntegrationPage() {
           <div className="grid grid-3" style={{ marginTop: 48 }}>
             {dataBarrierStats.map(stat => (
               <div className="tile" key={stat.value}>
-                <b>{stat.value}</b>
+                <b>{stat.value}</b>{' '}
                 <span>{stat.label}</span>
                 <span className="src" style={{ marginTop: 10, display: 'block' }}>
                   {stat.source}

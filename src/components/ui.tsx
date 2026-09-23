@@ -153,6 +153,11 @@ export function StatTile({
       >
         {value}
       </b>
+      {/* Real space, not layout: value and label are display:block so they
+          never run together on screen, but JSX drops newline whitespace
+          between elements, so textContent read '80%of individual AI
+          users'. Copy-paste and extraction tools use textContent. */}
+      {' '}
       <span>{label}</span>
     </div>
   );

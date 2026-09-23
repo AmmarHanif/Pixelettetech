@@ -99,7 +99,11 @@ const routes = [
   },
   {
     label: 'Support & run',
-    body: 'We keep what we built working, on a monthly contract. One contract covers the conventional software and any AI we built into it.',
+    /* Same correction as /engineering, pre-launch brief section 1: the old
+       wording implied ongoing responsibility by default. Fixed here too
+       because an identical sentence one click away carries the identical
+       implication. */
+    body: 'If you want us to remain involved after delivery, we can provide ongoing support, maintenance and improvement under an agreed support arrangement. One arrangement covers the conventional software and any AI we built into it.',
   },
 ];
 
@@ -165,7 +169,7 @@ export default function CustomSoftwareSaasPage() {
         <SectionHead
           title="What we build"
           id="css-build-heading"
-          lead="Product engineering, and the unglamorous structural work underneath it that decides whether the product survives its second year."
+          lead="Product engineering, and the structural work underneath it that decides whether the product survives its second year."
         />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
           {capabilities.map(cap => (
@@ -192,7 +196,7 @@ export default function CustomSoftwareSaasPage() {
               A great deal of software is bought as a product and delivered as a prototype: the happy
               path works, the demonstration is convincing, and the first real week of use exposes
               everything that was never built. Error handling, permissions, concurrency, migrations,
-              observability and the boring administrative screens are where a build either holds or
+              observability and the administrative screens are where a build either holds or
               does not.
             </p>
             <p className="body" style={{ marginTop: 16 }}>

@@ -23,7 +23,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Work and case studies',
   description:
-    'Every case study names the client where we are permitted to and states the engineering. Figures go up once the measurement basis and permission are confirmed.',
+    'A selection of products and systems engineered by Pixelette Technologies across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.',
   path: '/case-studies',
 });
 
@@ -104,13 +104,24 @@ export default async function WorkPage({
               presentation that misleads is a misleading action under DMCCA 2024
               s.226 even where each sentence is true. The gate is stated as the
               rule, because today it is the rule. */}
+          {/*
+            REPLACED 2026-09-23, pre-launch brief section 4. The previous lead
+            spent most of itself explaining why no numbers appear - "Figures are
+            a separate gate... none has cleared that gate yet... recorded, not
+            discarded" - which opened the portfolio by apologising for an
+            absence most readers had not noticed.
+
+            NOTHING ABOUT THE EVIDENCE DISCIPLINE CHANGED. The claims register
+            still gates every figure, no case study was edited, and the page
+            still publishes no numerical result. What changed is that the page
+            now opens with the work instead of with the caveat. The gate is
+            explained where someone would go looking for it rather than in the
+            first thing they read.
+          */}
           <p className="lead" style={{ marginTop: 24 }}>
-            Every case study on this site names the client where we are permitted to and states the
-            engineering. Figures are a separate gate: a numerical result goes up only once its
-            measurement basis and the client’s permission are both confirmed, and none has cleared
-            that gate yet. So what follows is the challenge, the work and the result without a number
-            on it. The figures are recorded, not discarded, and each one goes up when its evidence
-            does.
+            A selection of products and systems we have engineered across software, AI and
+            blockchain. Each case study focuses on the problem, the engineering and what was
+            delivered.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta

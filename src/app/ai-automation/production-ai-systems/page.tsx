@@ -25,7 +25,7 @@ const processes = [
   },
   {
     title: 'Back-office exceptions',
-    body: 'The queue nobody wants: mismatches, missing data, things that fell out of the happy path.',
+    body: 'The exception queue: mismatches, missing data, things that fell out of the happy path.',
   },
   {
     title: 'Underwriting support',

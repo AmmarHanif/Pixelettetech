@@ -237,7 +237,7 @@ export default function ProfessionalServicesPage() {
               <div className="grid grid-4" style={{ marginTop: 48 }}>
                 {professionalServicesStats.map(stat => (
                   <div className="tile" key={stat.value + stat.label}>
-                    <b>{stat.value}</b>
+                    <b>{stat.value}</b>{' '}
                     <span>{stat.shortLabel ?? stat.label}</span>
                   </div>
                 ))}
