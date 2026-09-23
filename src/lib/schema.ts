@@ -109,6 +109,25 @@ export function organizationSchema(published: PublishedOrgClaims = {}) {
       addressCountry: company.address.country,
     },
     /*
+     * Telephone, added 2026-09-23 with the founder's supplied numbers. Until
+     * today the site published none, so an answer engine asking "how do I reach
+     * this company" had only an email address.
+     *
+     * `telephone` is the HEADQUARTERS number, because this property belongs to
+     * the Organization whose `address` above is the registered office; pairing a
+     * UK address with a US number would assert something false. The US office is
+     * published as a separate `location`, which is the property schema.org
+     * defines for a place the organisation operates from, rather than a second
+     * `address` - an Organization has one address and any number of locations.
+     */
+    telephone: company.offices[0].tel,
+    location: company.offices.slice(1).map(office => ({
+      '@type': 'Place',
+      name: office.label,
+      address: { '@type': 'PostalAddress', streetAddress: office.addressLines.join(', ') },
+      telephone: office.tel,
+    })),
+    /*
      * A profile link is an identity signal, not a rating assertion, so it is
      * safe while the score itself sits behind the evidence gate.
      *

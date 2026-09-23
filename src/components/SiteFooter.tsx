@@ -61,10 +61,10 @@ import { footerColumns, groupBlurb, groupEntities } from '@/content/nav';
  * carries his reference's weight without leaving the other two stranded.
  */
 const socialLinks = [
-  { label: 'LinkedIn', href: company.linkedin, icon: <LinkedInMark size={20} /> },
+  { label: 'LinkedIn', href: company.linkedin, icon: <LinkedInMark size={17} /> },
+  { label: 'X', href: company.social.x, icon: <XMark size={20} /> },
   { label: 'Facebook', href: company.social.facebook, icon: <FacebookMark size={26} /> },
   { label: 'Instagram', href: company.social.instagram, icon: <InstagramMark size={15} /> },
-  { label: 'X', href: company.social.x, icon: <XMark size={20} /> },
 ];
 
 /**

@@ -290,6 +290,19 @@ export function Mail({ size = 20, className }: IconProps) {
   );
 }
 
+export function Phone({ size = 20, className }: IconProps) {
+  return (
+    <svg {...base(size)} viewBox="0 0 24 24" className={className}>
+      <path
+        d="M21 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.8 19.8 0 011.12 4.18 2 2 0 013.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L7.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0121 16.92z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function Pin({ size = 20, className }: IconProps) {
   return (
     <svg {...base(size)} viewBox="0 0 24 24" className={className}>
@@ -321,12 +334,28 @@ export function Star({ size = 14, className }: IconProps) {
    an approximation of someone else's logo; the filled glyph is the mark. They
    still inherit currentColor, so they recolour with their container. */
 
+/**
+ * THE BOXED "in", per founder instruction 2026-09-23: "the proper LinkedIn icon
+ * ie the 'in' in a square box". This REPLACES the bare glyph that was here.
+ *
+ * `fillRule="evenodd"` is load-bearing. The letters sit inside the square as
+ * separate subpaths, so evenodd renders them as genuine HOLES. Filling them
+ * with a colour instead would bake the background in, and this mark is used on
+ * the dark footer today and could be used on a light surface tomorrow.
+ *
+ * NOTE FOR WHOEVER BALANCES THIS ROW NEXT. A filled square carries far more ink
+ * than an open letterform at the same box, which is exactly why the founder had
+ * the Facebook disc reduced to a bare f on 2026-09-22 (see below). This mark is
+ * therefore sized DOWN against the others rather than matched to them; the
+ * sizes in SiteFooter are set from measured ink coverage, not from the box.
+ */
 export function LinkedInMark({ size = 18, className }: IconProps) {
   return (
     <svg {...base(size)} viewBox="0 0 24 24" className={className}>
       <path
         fill="currentColor"
-        d="M6.94 5.5a2.06 2.06 0 11-4.12 0 2.06 2.06 0 014.12 0zM3.2 21.5h3.5V8.9H3.2v12.6zM9.3 8.9h3.35v1.73h.05c.47-.85 1.6-1.75 3.3-1.75 3.53 0 4.18 2.2 4.18 5.06v7.56h-3.5v-6.7c0-1.6-.03-3.66-2.29-3.66-2.29 0-2.64 1.74-2.64 3.54v6.82H9.3V8.9z"
+        fillRule="evenodd"
+        d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0zM7.119 20.452H3.555V9h3.564v11.452zM5.337 7.433a2.062 2.062 0 110-4.125 2.062 2.062 0 010 4.125zm15.115 13.019h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286z"
       />
     </svg>
   );

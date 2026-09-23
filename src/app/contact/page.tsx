@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Mail, Pin, Shield } from '@/components/Icons';
+import { Mail, Phone, Pin } from '@/components/Icons';
 import { Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { company, contactEmail, pressEmail } from '@/content/company';
 import { breadcrumbSchema, contactPageSchema, faqSchema } from '@/lib/schema';
@@ -19,7 +19,7 @@ import { ContactForm } from './ContactForm';
 export const metadata = pageMetadata({
   title: 'Contact',
   description:
-    'Four questions and a reply address. One of us replies, not a sequence. If Value Discovery is not the right next step we will say so on the call.',
+    'Tell us what you are trying to build or change. One of us replies, not a sequence. If Value Discovery is not the right next step we will say so on the call.',
   path: '/contact',
 });
 
@@ -103,9 +103,9 @@ export default function ContactPage() {
           <p className="lead" style={{ marginTop: 24 }}>
             Some people arrive knowing exactly what is broken. Others only know that something is.
             Both are worth the same conversation: what the problem really is, which route resolves
-            it, and what has to happen first. Four questions and a reply address. One of us replies,
-            not a sequence. If Value Discovery is not the right next step we will say so on the
-            call.
+            it, and what has to happen first. Tell us what you know and leave the rest blank. One
+            of us replies, not a sequence. If Value Discovery is not the right next step we will say
+            so on the call.
           </p>
         </div>
       </div>
@@ -117,19 +117,42 @@ export default function ContactPage() {
 
         <div className="split split--wide-right">
           <div className="stack-24">
-            <div style={{ display: 'flex', gap: 14 }}>
-              <span style={{ color: 'var(--brand)', flexShrink: 0, marginTop: 2 }} aria-hidden>
-                <Pin size={20} />
-              </span>
-              <div>
-                <b style={{ display: 'block', fontSize: 15 }}>{company.legalName}</b>
-                <address className="small" style={{ fontStyle: 'normal', marginTop: 6 }}>
-                  {company.address.street}
-                  <br />
-                  {company.address.locality} {company.address.postalCode}
-                </address>
+            {/*
+              * Both offices, added 2026-09-23 on founder instruction, rendered
+              * from `company.offices` rather than typed here so a changed
+              * number moves in one place. The UK entry is labelled
+              * Headquarters, which is what he asked for; the statutory
+              * "registered office" line in the footer still reads
+              * `company.addressLine` and is deliberately untouched, because
+              * that disclosure is about the registered office specifically.
+              */}
+            {company.offices.map(office => (
+              <div key={office.label} style={{ display: 'flex', gap: 14 }}>
+                <span style={{ color: 'var(--brand)', flexShrink: 0, marginTop: 2 }} aria-hidden>
+                  <Pin size={20} />
+                </span>
+                <div>
+                  <b style={{ display: 'block', fontSize: 15 }}>
+                    {office.label === 'Headquarters'
+                      ? `${company.legalName} — Headquarters`
+                      : office.label}
+                  </b>
+                  <address className="small" style={{ fontStyle: 'normal', marginTop: 6 }}>
+                    {office.addressLines.map(line => (
+                      <span key={line} style={{ display: 'block' }}>
+                        {line}
+                      </span>
+                    ))}
+                  </address>
+                  <span className="small" style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 8 }}>
+                    <span style={{ color: 'var(--brand)', flexShrink: 0 }} aria-hidden>
+                      <Phone size={15} />
+                    </span>
+                    <a href={`tel:${office.tel}`}>{office.telDisplay}</a>
+                  </span>
+                </div>
               </div>
-            </div>
+            ))}
 
             <div style={{ display: 'flex', gap: 14 }}>
               <span style={{ color: 'var(--brand)', flexShrink: 0, marginTop: 2 }} aria-hidden>
@@ -139,31 +162,13 @@ export default function ContactPage() {
                 <b style={{ display: 'block', fontSize: 15 }}>
                   <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
                 </b>
-                <span className="small" style={{ display: 'block', marginTop: 6 }}>
-                  Replies within one working day
-                </span>
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: 14 }}>
-              <span style={{ color: 'var(--brand)', flexShrink: 0, marginTop: 2 }} aria-hidden>
-                <Shield size={20} />
-              </span>
-              <div>
-                <b style={{ display: 'block', fontSize: 15 }}>Security questionnaires</b>
-                <span className="small" style={{ display: 'block', marginTop: 6 }}>
-                  Send yours over and we will complete it. Control detail and certificate
-                  evidence go direct to your reviewer.
-                </span>
-              </div>
-            </div>
           </div>
 
           <div className="card" style={{ padding: 36 }}>
-            <h3 className="h3">Start with what you know</h3>
-            <p className="small" style={{ marginTop: 10 }}>
-              Four questions. One of us replies within one working day.
-            </p>
+            <h3 className="h3">Let&rsquo;s get started</h3>
             <div style={{ marginTop: 28 }}>
               <ContactForm />
             </div>

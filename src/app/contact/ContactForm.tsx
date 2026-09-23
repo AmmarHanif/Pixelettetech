@@ -19,7 +19,7 @@ const initialState: ContactState = { status: 'idle', message: '' };
  * (`design/handoff-2026-09-08/IMPLEMENTATION-COPY.txt`), and the homepage close
  * already published them verbatim as its "What we will ask" card
  * (`src/app/page.tsx`). Until 2026-09-11 this form asked four different
- * questions — Name, Company, Work email, "Which process is costing you most?"
+ * questions — Name, Company, Your contact email, "Which process is costing you most?"
  * — so a visitor was told what would be asked and then met something else. The
  * spec's four are the authority, so the form moved.
  *
@@ -212,7 +212,7 @@ export function ContactForm() {
 
           <Field
             name="email"
-            label="Work email"
+            label="Your contact email"
             type="email"
             autoComplete="email"
             maxLength={200}

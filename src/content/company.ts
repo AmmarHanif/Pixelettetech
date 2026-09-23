@@ -56,6 +56,38 @@ export const company = {
   },
   addressLine: '77 Fulham Palace Road, London W6 8JA',
   /**
+   * The company's offices and telephone numbers, added 2026-09-23 on founder
+   * instruction. Before this the site published NO telephone number at all.
+   *
+   * SUPPLIED BY THE FOUNDER VERBATIM. The digits are exactly as he gave them:
+   * +44 2045188226 and +1 7732709034. `telDisplay` only inserts spaces for
+   * reading and changes no digit; `tel` is digits-only for the href, which is
+   * what RFC 3966 wants. Nothing here was looked up, reformatted to a assumed
+   * national convention, or "corrected".
+   *
+   * `address` and `addressLine` ABOVE REMAIN THE REGISTERED OFFICE and are what
+   * schema.ts and the footer's statutory line publish. That is deliberate:
+   * S.I. 2015/17 reg. 25 requires the address of the REGISTERED OFFICE
+   * specifically, not "an address the company uses". The UK entry below is the
+   * same building described commercially as the headquarters; the US entry is
+   * NOT a registered office and must never be substituted into that statutory
+   * line, or the site stops satisfying the disclosure.
+   */
+  offices: [
+    {
+      label: 'Headquarters',
+      addressLines: ['77 Fulham Palace Road', 'London W6 8JA', 'United Kingdom'],
+      tel: '+442045188226',
+      telDisplay: '+44 20 4518 8226',
+    },
+    {
+      label: 'United States',
+      addressLines: ['6305 Naples Blvd', 'Naples, FL 34109', 'USA'],
+      tel: '+17732709034',
+      telDisplay: '+1 773 270 9034',
+    },
+  ],
+  /**
    * VAT registration number.
    *
    * Verified at HMRC's "Check a UK VAT number" service on 2026-09-07: 432237717
@@ -91,7 +123,7 @@ export const company = {
   countriesDelivered: '',
   tagline: 'Software engineered to last · AI built to work · Blockchain used where it counts',
   description:
-    'UK software engineering since 2018. Web, mobile and custom software, blockchain systems, and the AI we build into both.',
+    'UK software engineering since 2018. We design, build and support software, AI and automation, and blockchain solutions that help businesses operate smarter, faster and more secure.',
   linkedin: 'https://www.linkedin.com/company/pixelettetechnologies/',
   /**
    * The company's other social profiles, added 2026-09-22 on founder
