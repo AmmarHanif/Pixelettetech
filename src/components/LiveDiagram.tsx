@@ -81,7 +81,12 @@ const stages: Stage[] = [
      */
     service: 'Optional Support & Continuous Improvement',
     line: 'Run it, watch it, cost it, improve it.',
-    commercial: 'Retainer plus usage',
+    /*
+     * "Optional" added 2026-09-23 on founder instruction. This column asserted a
+     * retainer as the commercial model of the final stage, which reads as the
+     * default ending of every engagement rather than a choice.
+     */
+    commercial: 'Optional, retainer plus usage',
     items: [
       'Evaluation harness',
       'Drift & judge-drift watch',

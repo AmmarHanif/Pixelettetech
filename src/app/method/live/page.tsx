@@ -35,14 +35,19 @@ const stages = [
     doing: 'Run it, watch it, cost it, improve it',
     getting:
       'Monthly operating report with the delta, quarterly improvement release, annual model review',
-    commercial: 'Retainer plus usage',
+    /*
+     * "Optional" added 2026-09-23 on founder instruction. This column asserted a
+     * retainer as the commercial model of the final stage, which reads as the
+     * default ending of every engagement rather than a choice.
+     */
+    commercial: 'Optional, retainer plus usage',
   },
 ];
 
 const faqs = [
   {
     q: 'What does LIVE stand for?',
-    a: 'Land, integrate, verify, evolve. Land measures the current state and produces the business case. Integrate makes the data reachable, permissioned and observable. Verify builds the system and proves it against agreed thresholds. Evolve runs it, watches it, costs it and improves it under a monthly contract.',
+    a: 'Land, integrate, verify, evolve. Land measures the current state and produces the business case. Integrate makes the data reachable, permissioned and observable. Verify builds the system and proves it against agreed thresholds. Evolve runs it, watches it, costs it and improves it, optionally, if you want us to stay involved after delivery.',
   },
   {
     q: 'Why does every engagement have to start with a measured baseline?',
