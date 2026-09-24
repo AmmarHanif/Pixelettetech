@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { Testimonials } from '@/components/sections';
+import { publishedTestimonials } from '@/content/testimonials';
 import {
   Cta,
   Eyebrow,
@@ -243,6 +245,30 @@ export default async function WorkPage({
           </div>
         )}
       </Section>
+
+      {/*
+        CLIENT REVIEWS, added 2026-09-24 on founder instruction, from a
+        screenshot of the previous site's "Clients love us" carousel.
+
+        BUILT FROM THIS REPOSITORY'S DATA, NOT FROM THE SCREENSHOT. That
+        screenshot credits one review to "CEO, System Soft Technologies"; the row
+        here was corrected on 2026-09-14 to "CEO, IT services company" because
+        Clutch's own review names no such company and the attribution came from
+        the previous site rather than from the source. Rendering the screenshot
+        would have republished a withdrawn client name beside a verify link that
+        contradicts it.
+
+        THE 4.8 / 24 REVIEWS AGGREGATE IS DELIBERATELY ABSENT. company.ts holds
+        it at `published: false` pending a re-read of the live profile, and
+        releasing it is a founder decision, not this section's to take. Every
+        individual review here is third-party and checkable by its own link,
+        which is why they can ship while the aggregate cannot.
+
+        `publishedTestimonials()` is fail-closed: a row set to WITHHELD leaves
+        this section immediately, and the component returns null on zero rather
+        than rendering an empty band.
+      */}
+      <Testimonials heading="What clients say" items={publishedTestimonials()} />
 
       {/*
         The closing CTA was REMOVED 2026-09-18 on founder instruction. It read
