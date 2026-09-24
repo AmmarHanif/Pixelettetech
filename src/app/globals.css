@@ -3560,3 +3560,65 @@ button.btn[disabled] {
     padding: 28px;
   }
 }
+
+/* ---------------------------------------------------- testimonial slider --
+   Added 2026-09-24 on founder instruction: the reviews under the case studies
+   become a slider, as the previous site had.
+
+   CSS SCROLL-SNAP, NOT A JAVASCRIPT CAROUSEL. It swipes natively on touch and
+   scrolls on a trackpad, it cannot fail to hydrate, and it degrades to a plain
+   horizontal scroller rather than to a stack. The site already uses this idiom
+   for `.privacy-nav` and `.ins-filter`; a second, heavier mechanism for the same
+   behaviour would be the redesign the standing instruction rules out.
+
+   THE AFFORDANCE IS THE PEEK. Cards are sized so the next one is partly visible
+   at every width, which is what tells a desktop reader the row scrolls. Arrows
+   would need JavaScript and would still need the peek to be discoverable. */
+
+.tm-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* Bleed to the gutter so the row reads as continuing past the edge rather
+     than as clipped, then pad back so the first card aligns with the text
+     above it. The right padding is what lets the LAST card snap flush. */
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  padding-block: 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tm-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* The focus ring belongs on the row, because the row is what takes focus. */
+.tm-slider:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 4px;
+}
+
+.tm-slide {
+  /* 380px is the card's comfortable width; the 86vw floor is what produces the
+     peek on a phone, where a full-width card would hide the fact that more
+     exist. */
+  flex: 0 0 min(380px, 86vw);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+/* A quote is a block of prose, so cards in a row are rarely the same height.
+   Pushing the caption down aligns every name and link across the row. */
+.tm-slide > figcaption {
+  margin-top: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-slider {
+    scroll-behavior: auto;
+  }
+}

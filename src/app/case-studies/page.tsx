@@ -268,7 +268,11 @@ export default async function WorkPage({
         this section immediately, and the component returns null on zero rather
         than rendering an empty band.
       */}
-      <Testimonials heading="What clients say" items={publishedTestimonials()} />
+      <Testimonials
+        heading="What clients say"
+        items={publishedTestimonials()}
+        variant="slider"
+      />
 
       {/*
         The closing CTA was REMOVED 2026-09-18 on founder instruction. It read

@@ -219,7 +219,7 @@ export function Testimonials({
    * quote is not. The serif quote at 21px does not need a container to carry
    * weight, and the founder asked for these to be prominent but simple.
    */
-  variant?: 'card' | 'plain';
+  variant?: 'card' | 'plain' | 'slider';
 }) {
   /*
    * The zero guard (added 2026-09-08).
@@ -248,12 +248,30 @@ export function Testimonials({
     <Section labelledBy="voices-heading">
       <Eyebrow id="voices-heading">{heading}</Eyebrow>
       <div
-        className={variant === 'plain' ? 'grid grid-2 tm-plain-grid' : 'grid grid-2'}
+        className={
+          variant === 'plain'
+            ? 'grid grid-2 tm-plain-grid'
+            : variant === 'slider'
+              ? 'tm-slider'
+              : 'grid grid-2'
+        }
         style={{ marginTop: 32 }}
+        /*
+         * A scroll container is not keyboard-reachable on its own. These three
+         * attributes make the row focusable and announce what it is, so a
+         * keyboard user can scroll it with the arrow keys. Each card still
+         * carries its own focusable verify link, so the reviews are reachable
+         * by Tab whether or not anyone touches the scroller.
+         */
+        {...(variant === 'slider'
+          ? { tabIndex: 0, role: 'group', 'aria-label': 'Client reviews, scrollable' }
+          : {})}
       >
         {items.map(t => (
           <figure
-            className={variant === 'plain' ? 'tm-plain' : 'card'}
+            className={
+              variant === 'plain' ? 'tm-plain' : variant === 'slider' ? 'card tm-slide' : 'card'
+            }
             key={t.url}
             style={{ margin: 0 }}
           >
