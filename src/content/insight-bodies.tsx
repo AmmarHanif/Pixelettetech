@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
+import Link from 'next/link';
 
 import { DecisionFlow, TwoOutcomes } from '@/components/AgentArticleVisuals';
-import { EvaluationGateDiagram } from '@/components/InsightVisuals';
+import { ReleaseDecision } from '@/components/EvaluationArticleVisuals';
 
 /**
  * Article bodies, keyed by slug.
@@ -48,6 +49,30 @@ const MCKINSEY =
 const ANTHROPIC = 'https://www.anthropic.com/engineering/building-effective-agents';
 const UBISOFT =
   'https://news.ubisoft.com/en-us/article/3mWlITIuWuu0MoVuR6o8ps/ubisoft-reveals-teammates-an-ai-experiment-to-change-the-game';
+
+/*
+ * The evaluation piece's references. Each was confirmed to resolve at the exact
+ * address below before it was linked.
+ *
+ * NONE OF THESE IS A PASS MARK, and the article has to keep saying so. NIST's
+ * framework is voluntary and structural, the NCSC guidelines cover the secure
+ * development lifecycle, and the OWASP list enumerates risks. They inform the
+ * criteria for a particular use; none of them certifies a system, and Pixelette
+ * holds no certification against any of them.
+ *
+ * THE OWASP LINK IS THE 2025 EDITION, which is the one supplied with this copy
+ * and which resolves. A 2026 edition now exists at
+ * genai.owasp.org/resource/owasp-genai-llm-top-10-2026/ and is flagged rather
+ * than swapped in, because changing a cited source is the author's call.
+ */
+const NIST = 'https://www.nist.gov/itl/ai-risk-management-framework';
+const NCSC =
+  'https://www.ncsc.gov.uk/collection/guidelines-secure-ai-system-development';
+const OWASP = 'https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/';
+const ANTHROPIC_EVALS =
+  'https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents';
+const OPENAI_EVALS =
+  'https://developers.openai.com/api/docs/guides/evaluation-best-practices';
 
 export const INSIGHT_BODIES: Record<string, () => ReactNode> = {
   /* ------------------------------------------------------------ article 1 */
@@ -228,136 +253,180 @@ export const INSIGHT_BODIES: Record<string, () => ReactNode> = {
   'how-we-evaluate-ai-systems': () => (
     <>
       <p className="body">
-        Most AI evaluation produces a number between one and five. Almost nobody can say
-        what they would do differently at 3.4 rather than 3.8. We grade pass or fail
-        instead, because the purpose of an evaluation is not to describe a system. It is
-        to decide something.
+        A client does not commission an AI system simply to receive a promising
+        demonstration or a score out of five. They need to know what the system is allowed
+        to do, how it behaves on the tasks it will actually encounter and what happens
+        when it gets something wrong.
+      </p>
+      <p className="body">
+        That question cannot be answered with one number. An average may be useful for
+        comparing versions, but it can conceal a failure that matters far more than
+        several successful routine tasks. At some point, the client and delivery team need
+        a decision: does this version meet the agreed requirements for the job and level
+        of autonomy proposed, or does it need more work?
+      </p>
+      <p className="body">
+        That is what pass or fail means in our approach. The decision is simple to
+        understand. The evaluation behind it is detailed.
       </p>
 
-      <h2 className="h3">The problem with a score out of five</h2>
+      <h2 className="h3">Define the job before setting the test</h2>
       <p className="body">
-        A score has three failure modes that a threshold does not. It averages away the
-        cases that matter, so a system that is excellent on the common path and dangerous
-        on the rare one lands comfortably in the middle. It has no decision attached, so
-        the conversation after the result is about whether the number is good rather than
-        whether to ship. And it moves, so a later run scoring 3.6 instead of 3.7 invites
-        an argument about noise rather than a judgement about readiness.
+        Evaluation begins when we establish what the system is meant to do. We need to
+        understand its users, the information it may access, the actions it may take, the
+        conditions in which it will operate and the circumstances in which it must stop or
+        ask a person.
       </p>
-      <Pull>A grade you cannot act on is a description, not an evaluation.</Pull>
       <p className="body">
-        A binary outcome forces the useful argument to happen before the build rather than
-        after it. To say pass or fail you must first say what passing means, and that
-        conversation is where most of the value is. Teams that cannot agree a threshold in
-        advance almost never agree on the result afterwards.
+        We then agree what success and unacceptable failure mean for that particular use.
+        Response quality, speed and cost may matter. So may factual support, permissions,
+        reliability and the ability to recognise uncertainty. The criteria should reflect
+        the consequences of getting something wrong, not just what is easy to measure.
       </p>
-
-      <h2 className="h3">Evidence, test, measure, decide</h2>
       <p className="body">
-        Our evaluations run as a pipeline, and a system has to clear every stage. Nothing
-        is averaged across stages, because a failure in one is not compensated by strength
-        in another.
-      </p>
-      <EvaluationGateDiagram />
-
-      <h3 className="h4">Evidence</h3>
-      <p className="body">
-        Real tasks and real data, drawn from the process the system will actually run.
-        Synthetic test sets flatter systems, because the person who wrote the test and the
-        person who wrote the prompt share the same assumptions about what a question looks
-        like. We build the set from work that has already happened, including the cases
-        that went wrong, and we hold some of it back so it cannot be optimised against.
+        This follows the problem first approach set out on our{' '}
+        <Link href="/ai-automation">AI and Automation page</Link>. The task and the
+        evaluation method should be understood before choosing a model or deciding how
+        much autonomy to give the system.
       </p>
 
-      <h3 className="h4">Test</h3>
+      <h2 className="h3">An illustrative client decision</h2>
       <p className="body">
-        Execution against that set under production conditions: the same retrieval, the
-        same permissions, the same latency and cost budget. An evaluation run with wider
-        access or a longer timeout than production is measuring a system nobody will
-        operate.
+        Imagine a client asking us to develop an AI assistant for its customer service
+        team. It should use authorised order records and approved policies to draft
+        answers about deliveries and returns. An employee will review each draft before it
+        is sent.
+      </p>
+      <p className="body">
+        Together, we would define the proposed job and its boundaries. A useful answer
+        must address the customer&rsquo;s question and rely on the correct records. The
+        assistant must ask for clarification when essential details are missing. It must
+        not reveal another customer&rsquo;s information, invent a returns policy or issue
+        a refund.
+      </p>
+      <p className="body">
+        The test set would include ordinary enquiries alongside incomplete messages,
+        conflicting records, unusual requests and attempts to make the assistant act
+        outside its permissions. We would look at the answer and the steps used to produce
+        it.
+      </p>
+      <p className="body">
+        Suppose the assistant produces strong drafts for most enquiries but, in one test,
+        includes details from the wrong customer&rsquo;s order. Its average quality score
+        might still look impressive. That version fails the agreed criteria for the
+        proposed use because it crossed a critical permission boundary.
+      </p>
+      <p className="body">
+        The next step is to investigate the failure, correct the system and run the
+        relevant tests again. A later version might pass for producing drafts that an
+        employee reviews. That would not mean it had passed for sending replies or issuing
+        refunds without approval. Those are different jobs and require different controls
+        and evidence.
       </p>
 
-      <h3 className="h4">Measure</h3>
+      <ReleaseDecision />
+
+      <h2 className="h3">What we measure beneath the decision</h2>
       <p className="body">
-        We record five things, and we report them separately rather than combining them
-        into an index.
+        A pass or fail decision should be supported by results the client can inspect.
+        Depending on the system, we would examine:
       </p>
       <ul className="art-list">
         <li>
-          <strong>Task success.</strong> Did it produce the right outcome, judged against
-          the definition agreed before the run.
+          <strong>Task results.</strong> Did it complete the job defined for each test?
         </li>
         <li>
-          <strong>Grounding.</strong> Can every material claim be traced to a source the
-          system actually retrieved.
+          <strong>Evidence.</strong> Are important claims supported by the information it
+          was permitted to retrieve?
         </li>
         <li>
-          <strong>Permission adherence.</strong> Did it ever surface something the
-          requesting user was not entitled to see. This one is scored as any failure is a
-          failure.
+          <strong>Permissions and actions.</strong> Did it respect access limits and
+          approval points?
         </li>
         <li>
-          <strong>Failure shape.</strong> Not how often it failed, but how. A system that
-          declines when uncertain is operationally different from one that guesses
-          confidently at the same rate.
+          <strong>Failure behaviour.</strong> Did it ask for help, decline or stop
+          appropriately when information was missing or the request was outside its scope?
         </li>
         <li>
-          <strong>Cost and latency.</strong> Measured at the same time, because a system
-          that passes on quality and fails on economics has still failed.
+          <strong>Performance.</strong> Were response time, reliability and operating cost
+          acceptable for the intended use?
         </li>
       </ul>
-
-      <h3 className="h4">Decide</h3>
       <p className="body">
-        Pass or fail against the thresholds set before the run, with the failures
-        enumerated. A pass with known limitations is recorded as a pass with known
-        limitations, and those limitations go into the operating documentation rather than
-        into a footnote nobody reads.
+        We would report these separately. A strong result in one area should not silently
+        cancel a serious failure in another. The client should be able to see what passed,
+        what failed and why the decision was reached.
       </p>
 
-      <h2 className="h3">Failure analysis beats aggregate accuracy</h2>
+      <h2 className="h3">How external guidance informs the criteria</h2>
       <p className="body">
-        The most useful output of an evaluation is not the headline rate. It is the list of
-        what went wrong, grouped by cause. Twenty failures with one root cause is a
-        fixable afternoon. Twenty failures with twenty causes is a system that is not ready,
-        even if both produce the same accuracy figure.
+        The criteria come from the client&rsquo;s intended use, agreed requirements,
+        applicable law and assessed risks. External guidance helps us structure the work;
+        it does not provide a universal score that makes every AI system ready for
+        release.
       </p>
       <p className="body">
-        This is also where a score out of five does the most damage: it makes those two
-        situations look identical.
-      </p>
-
-      <h2 className="h3">On using a model to judge a model</h2>
-      <p className="body">
-        Using an LLM as a judge is practical and we use it, with two conditions. It is
-        calibrated against human labels on a sample before it is trusted, and that
-        calibration is rechecked, because a judge drifts exactly as the system it is
-        judging does. An uncalibrated judge does not measure quality. It measures
-        agreement between two models that share a great deal of training.
+        Depending on the project, relevant references include the{' '}
+        <Ext href={NIST}>NIST AI Risk Management Framework</Ext>, the{' '}
+        <Ext href={NCSC}>
+          UK National Cyber Security Centre&rsquo;s guidelines for secure AI system
+          development
+        </Ext>{' '}
+        and the <Ext href={OWASP}>OWASP Top 10 for LLM applications</Ext>. Data
+        protection, sector requirements and the client&rsquo;s own policies may add
+        further criteria.
       </p>
       <p className="body">
-        Where a judgement is contested, expensive or regulated, a person makes it.
-      </p>
-
-      <h2 className="h3">Evaluation is a standing check, not a launch gate</h2>
-      <p className="body">
-        The most common failure we see is an evaluation performed once, before go-live,
-        and never again. Everything it depended on then moves: the model is updated
-        underneath you, the data changes shape, the process is altered by the people doing
-        it, and the questions users ask drift as they learn what the system is good at.
-      </p>
-      <p className="body">
-        So the evaluation set is a maintained asset, re-run on a schedule and after any
-        material change, with the results kept where somebody is accountable for reading
-        them. That is the difference between a system that was working and a system that
-        is working.
+        This matters because an assistant drafting low risk internal text, an agent acting
+        on customer accounts and an AI system supporting a consequential decision should
+        not all face an identical release test.
       </p>
 
-      <h2 className="h3">Why we publish this</h2>
+      <h2 className="h3">Why a score alone is not the decision</h2>
       <p className="body">
-        Because it is a reasonable thing to be asked for, and because a supplier who cannot
-        describe how they would know their own system had stopped working is telling you
-        something. If you are commissioning AI work from anyone, this is a fair question to
-        put to them before the build rather than after it.
+        Scores remain useful. We may use them to compare versions, detect regressions or
+        see whether changes improve a particular measure. Some outputs also require
+        informed human judgement rather than a mechanical check. Automated assessment can
+        help at scale, provided its conclusions are checked against suitable human review.
+      </p>
+      <p className="body">
+        The release decision has a different purpose. It asks whether the system has met
+        the agreed requirements for its defined job. A high average cannot authorise an
+        action that the system was never approved to take. Nor should several successful
+        routine answers excuse a critical failure involving the wrong customer&rsquo;s
+        data.
+      </p>
+      <p className="body">
+        A pass means the evidence supports the specified use under the stated conditions.
+        It does not mean the system will never make a mistake. A fail identifies what
+        needs to change before that use can proceed.
+      </p>
+
+      <h2 className="h3">Evaluation continues after launch</h2>
+      <p className="body">
+        Prelaunch testing is essential, but real usage can reveal cases that the original
+        tests missed. Once a system is operating, its owners need a way to review errors,
+        user feedback, changes in data and changes to the underlying model or workflow.
+      </p>
+      <p className="body">
+        The test set should evolve as those cases emerge. A material change to the system
+        or its permitted actions may require the release decision to be revisited.
+        Monitoring and improvement are part of operating the system, consistent with the
+        approach described on our{' '}
+        <Link href="/ai-automation">AI and Automation page</Link>.
+      </p>
+
+      <h2 className="h3">What a client should be able to ask us</h2>
+      <p className="body">
+        A client should be able to ask what the system was tested against, which failures
+        would block release, what a pass permits it to do and who is responsible when it
+        needs attention. We should be able to give clear answers backed by the evaluation
+        results.
+      </p>
+      <p className="body">
+        That is the value of pass or fail. It turns detailed testing into an
+        understandable decision about a specific use, while keeping the evidence and
+        limitations visible.
       </p>
     </>
   ),
@@ -381,19 +450,45 @@ export const INSIGHT_SOURCES: Record<
   'where-ai-agents-should-work': [
     {
       label:
-        'McKinsey, The state of AI in 2026: on the road to ROI — AI adoption, reported operating-profit impact, workflow redesign and measurement',
+        'McKinsey, The state of AI in 2026: on the road to ROI: AI adoption, reported operating-profit impact, workflow redesign and measurement',
       href: MCKINSEY,
     },
     {
       label:
-        'Anthropic, Building effective agents — fixed workflows, agents and appropriate complexity',
+        'Anthropic, Building effective agents: fixed workflows, agents and appropriate complexity',
       href: ANTHROPIC,
     },
     {
       label:
-        'Ubisoft, Ubisoft reveals Teammates: an AI experiment to change the game — the playable experiment and its creative boundaries',
+        'Ubisoft, Ubisoft reveals Teammates: an AI experiment to change the game: the playable experiment and its creative boundaries',
       href: UBISOFT,
     },
   ],
-  'how-we-evaluate-ai-systems': [],
+  'how-we-evaluate-ai-systems': [
+    {
+      label:
+        'NIST, AI Risk Management Framework: a voluntary framework for building trustworthiness into AI design, development and evaluation',
+      href: NIST,
+    },
+    {
+      label:
+        'UK National Cyber Security Centre, Guidelines for secure AI system development: secure design, development, deployment, and operation and maintenance',
+      href: NCSC,
+    },
+    {
+      label:
+        'OWASP, Top 10 for LLM applications (2025): the risk classes to design criteria against, including sensitive information disclosure and excessive agency',
+      href: OWASP,
+    },
+    {
+      label:
+        'Anthropic, Demystifying evals for AI agents: tasks with defined inputs and success criteria, transcript review and failure analysis',
+      href: ANTHROPIC_EVALS,
+    },
+    {
+      label:
+        'OpenAI, Evaluation best practices: evaluations designed for the specific task, automated scoring and calibration against human judgement',
+      href: OPENAI_EVALS,
+    },
+  ],
 };

@@ -203,23 +203,25 @@ export const insights: Insight[] = [
     status: 'published',
     slug: 'how-we-evaluate-ai-systems',
     category: 'Methodology',
-    title:
-      'How we evaluate AI systems, and why we grade pass or fail rather than one to five',
+    title: 'How we evaluate AI systems, and why we use pass or fail',
     seoTitle: 'How we evaluate AI systems',
     summary:
-      'Our evaluation methodology uses real-world tasks, evidence and failure analysis to judge whether an AI system is ready for production. We explain how we test, what we measure and why a binary outcome is more useful than a score.',
+      'Before an AI system performs a job for a client, there must be a clear answer to a practical question: has it met the requirements for this particular use? Here is how we would reach that decision, what we measure along the way and why an overall score cannot make the decision on its own.',
+    seoDescription:
+      'How we would decide whether an AI system has met the agreed requirements for a defined job, what we measure along the way and why a score cannot decide alone.',
     publishedOn: '2026-09-24',
-    readingMinutes: 5,
+    readingMinutes: 6,
     attribution: { kind: 'editorial', technicallyReviewedBy: null },
     serviceBridge: {
-      heading: 'Building AI that has to work in production?',
-      body: 'Evaluation is part of how we engineer AI systems, not a final check added at the end. Pixelette can help design, build, evaluate and operate AI systems against clearly defined production requirements.',
+      heading: 'Building AI that has to work in practice?',
+      body: 'Pixelette Technologies can help define the job, design and build the system, agree how it will be evaluated and establish the controls needed for its intended use. We can then verify the result before launch and improve it as the system is used.',
       links: [
-        { href: '/ai-automation', label: 'Explore AI & Automation' },
+        { href: '/ai-automation', label: 'Explore AI and Automation' },
         {
           href: '/ai-automation/evaluation-and-observability',
-          label: 'Explore Evaluation & Observability',
+          label: 'Explore Evaluation and Observability',
         },
+        { href: '/contact', label: 'Talk to Pixelette Technologies' },
       ],
     },
   },
