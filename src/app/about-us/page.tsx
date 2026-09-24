@@ -53,7 +53,7 @@ export const metadata = pageMetadata({
   title: 'About the firm',
   description:
     'Since 2018, Pixelette Technologies has designed and built production software, digital platforms and increasingly sophisticated AI systems for organisations that need technology to work beyond the demo.',
-  path: '/about',
+  path: '/about-us',
 });
 
 const glance = [
@@ -127,7 +127,7 @@ export default function AboutPage() {
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'About', path: '/about' },
+          { name: 'About', path: '/about-us' },
         ])}
       />
 

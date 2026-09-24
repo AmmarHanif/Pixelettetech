@@ -100,7 +100,7 @@ export const primaryNav: NavItem[] = [
    * them to live at. Until then the menu item leads to a dead end.
    */
   { href: '/insights', label: 'Insights' },
-  { href: '/about', label: 'About' },
+  { href: '/about-us', label: 'About' },
 ];
 
 export const primaryCta = {
@@ -257,7 +257,7 @@ export const legalNav: NavItem[] = [
    */
   { href: '/privacy', label: 'Privacy Statement' },
   { href: '/cookies', label: 'Cookies & analytics' },
-  { href: '/terms', label: 'Terms' },
+  { href: '/terms-condition', label: 'Terms' },
   { href: '/modern-slavery', label: 'Modern slavery' },
   { href: '/accessibility', label: 'Accessibility' },
 ];
@@ -329,7 +329,7 @@ export const footerColumns: { heading: string; items: NavItem[] }[] = [
      */
     heading: 'Company',
     items: [
-      { href: '/about', label: 'About' },
+      { href: '/about-us', label: 'About' },
       { href: '/case-studies', label: 'Work' },
       { href: '/contact', label: 'Contact' },
       ...legalNav,
@@ -502,11 +502,11 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
      are not written yet — reachable by a person, invisible to a crawler. The
      line to remove is `noIndex: true` in insights/page.tsx, and the day to
      remove it is the day real articles ship, not before. */
-  { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
+  { path: '/about-us', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/cookies', priority: 0.3, changeFrequency: 'yearly' },
-  { path: '/terms', priority: 0.3, changeFrequency: 'yearly' },
+  { path: '/terms-condition', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/modern-slavery', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/accessibility', priority: 0.3, changeFrequency: 'yearly' },
 ];

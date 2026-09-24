@@ -96,10 +96,26 @@ const nextConfig: NextConfig = {
         to: '/support-continuous-improvement',
       },
       // Company and legal pages: same document, shorter path.
-      { from: '/about-us', to: '/about' },
       { from: '/contact-us', to: '/contact' },
       { from: '/privacy-policy', to: '/privacy' },
-      { from: '/terms-conditions', to: '/terms' },
+      /*
+       * REVERSED 2026-09-24 on founder instruction. These two pages MOVED to the
+       * previous site's own paths, so the entries that used to point at the short
+       * paths now point the other way; left as they were they would have been
+       * self-referential loops.
+       *
+       * The short paths get the redirect because they have been live on the
+       * preview and may be linked from anywhere it was shared.
+       *
+       * /terms-conditions, the PLURAL, is the previous site's real URL and the
+       * one carrying inbound history. /terms-condition, the singular, is a
+       * misspelling the old domain itself redirected - and is now the canonical
+       * path here, on the founder's explicit choice, made with that consequence
+       * stated. Both old spellings land on it.
+       */
+      { from: '/about', to: '/about-us' },
+      { from: '/terms', to: '/terms-condition' },
+      { from: '/terms-conditions', to: '/terms-condition' },
     ];
     return [
       ...moved.map(({ from, to }) => ({
