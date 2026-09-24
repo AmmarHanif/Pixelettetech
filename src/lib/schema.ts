@@ -505,6 +505,55 @@ export function caseStudySchema(cs: CaseStudy) {
   };
 }
 
+/**
+ * Article structured data for an Insights piece (§15 of the Insights brief).
+ *
+ * EVERY FIELD HERE IS REQUIRED BY THE CALLER, which is the point. `datePublished`
+ * and the author are not optional and have no default, so this cannot emit an
+ * Article claiming a publication date the site does not actually hold — the same
+ * reason `PublishedInsight` makes them required in content/insights.ts. Google
+ * treats `author` as an entity assertion, and an invented one is exactly the
+ * fabrication §12 forbids.
+ *
+ * `dateModified` is passed ONLY where a substantive revision genuinely happened.
+ * Emitting it as a copy of `datePublished` would be harmless to a parser and
+ * dishonest to a reader, and emitting today's date to look fresh is the practice
+ * §9 explicitly rules out.
+ */
+export function articleSchema(input: {
+  headline: string;
+  description: string;
+  path: string;
+  datePublished: string;
+  dateModified?: string;
+  /** The display name of whoever the site is prepared to stand behind. */
+  authorName: string;
+  /** Present only where a named person actually reviewed the piece. */
+  reviewedByName?: string;
+}) {
+  const url = `${SITE_URL}${input.path}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: input.headline,
+    description: input.description,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    url,
+    datePublished: input.datePublished,
+    ...(input.dateModified ? { dateModified: input.dateModified } : {}),
+    author: { '@type': 'Organization', name: input.authorName },
+    publisher: {
+      '@type': 'Organization',
+      name: company.legalName,
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/pixelette-logo-1024.png` },
+    },
+    ...(input.reviewedByName
+      ? { reviewedBy: { '@type': 'Person', name: input.reviewedByName } }
+      : {}),
+  };
+}
+
 export function contactPageSchema() {
   return {
     '@context': 'https://schema.org',

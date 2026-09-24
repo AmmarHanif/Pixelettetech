@@ -483,26 +483,25 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
    * the fix is to fill it, not to hide it. Until then the sitemap should describe
    * what is there.
    */
-  /* /insights is STILL out of the sitemap, but BOTH REASONS THIS NOTE GAVE ARE
-     NOW WRONG, so it is corrected rather than left standing.
+  /* /insights is out of the sitemap. ONE HALF OF THE ORIGINAL NOTE IS NOW WRONG
+     AND THE OTHER HALF IS RIGHT, and an earlier attempt to correct this got the
+     second half wrong too, so both are stated plainly here.
 
-     It said the page is "withdrawn from navigation": it is not, since
-     2026-09-24, on founder instruction — it is now a primary nav item on every
-     page. And it said the page is "noindexed": it is not, page-specifically.
-     The only noindex it carries comes from SITE_IN_DEVELOPMENT in lib/seo.ts,
-     which noindexes EVERY page and lifts for all of them on launch day. Nothing
-     in insights/page.tsx sets noIndex.
+     WRONG NOW: it said the page is "withdrawn from navigation". It is not, since
+     2026-09-24, on founder instruction — it is a primary nav item on every page.
 
-     So the live position, stated plainly for whoever reads this next: the day
-     SITE_IN_DEVELOPMENT goes false, this page becomes indexable thin content —
-     seven headlines, no bodies, no dates, no authors, no article route — linked
-     from the primary navigation of every page on the site. Sitemap absence does
-     not prevent that; Google indexes what it can reach, and it can reach this
-     from everywhere.
+     STILL TRUE: it said the page is "noindexed". It IS. `insights/page.tsx`
+     passes `noIndex: true` to pageMetadata, set 2026-09-16 for exactly this
+     reason. A correction written earlier on 2026-09-24 claimed no page-level
+     noindex existed; that claim came from a case-sensitive search for "noindex"
+     against a field spelled `noIndex`, which returned a clean false negative.
+     It is withdrawn. Do not act on it.
 
-     THE TWO HONEST OPTIONS, neither of which is a department decision: write the
-     pieces, or add noIndex to insights/page.tsx until they exist. Flagged to the
-     founder 2026-09-24. */
+     SO THE LIVE POSITION: the page is linked from every page's navigation and is
+     explicitly noindexed, which is the correct state for an index of pieces that
+     are not written yet — reachable by a person, invisible to a crawler. The
+     line to remove is `noIndex: true` in insights/page.tsx, and the day to
+     remove it is the day real articles ship, not before. */
   { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' },

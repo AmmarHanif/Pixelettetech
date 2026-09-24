@@ -3255,3 +3255,308 @@ button.btn[disabled] {
   opacity: 1;
   background: rgba(255, 255, 255, 0.08);
 }
+
+/* ======================================================= insights hub ======
+   Added 2026-09-24 for the rebuilt Insights page. NO NEW DESIGN LANGUAGE: every
+   colour, border and radius below is an existing token, and the editorial feel
+   comes from scale and space rather than from new furniture. The brief's first
+   instruction was "DO NOT redesign the website".
+
+   THE FILTER IS CSS ONLY. Radios sit before the grid inside `.ins-scope`, and
+   each checked radio hides the cards that do not match it via a sibling
+   selector. No JavaScript, so it cannot fail to hydrate, costs nothing to load,
+   and keeps working with scripting off. On a page whose subject is engineering
+   restraint, a filter that needed a bundle would be a poor advertisement.
+
+   The radios are visually hidden but NOT `display: none`, so they stay
+   focusable: the chips are a real radio group, reachable by Tab and navigable
+   with arrow keys. */
+
+.ins-scope {
+  position: relative;
+}
+
+.ins-radio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ins-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  border: 0;
+  padding: 0;
+  margin: 0 0 40px;
+  /* fieldset defaults to `min-inline-size: min-content`, unlike every other
+     block element. Without these two the element refuses to be narrower than
+     its widest content - all seven chips in a row - and on a phone it forces
+     the layout viewport open instead of scrolling. Measured at 375px: 839px
+     wide, ~460px of page-level horizontal scroll. */
+  min-inline-size: 0;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.ins-chip {
+  display: inline-block;
+  padding: 9px 16px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 13px;
+  line-height: 1.2;
+  color: var(--muted);
+  background: var(--paper);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.ins-chip:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+/* Selected chip. Tint rather than a solid fill, so a row of chips does not
+   compete with the headline above it. */
+#ins-cat-all:checked ~ .ins-filter label[for="ins-cat-all"],
+#ins-cat-0:checked ~ .ins-filter label[for="ins-cat-0"],
+#ins-cat-1:checked ~ .ins-filter label[for="ins-cat-1"],
+#ins-cat-2:checked ~ .ins-filter label[for="ins-cat-2"],
+#ins-cat-3:checked ~ .ins-filter label[for="ins-cat-3"],
+#ins-cat-4:checked ~ .ins-filter label[for="ins-cat-4"],
+#ins-cat-5:checked ~ .ins-filter label[for="ins-cat-5"] {
+  background: var(--brand-tint);
+  border-color: var(--brand);
+  color: var(--brand-hover);
+}
+
+/* Keyboard focus has to land on the CHIP, because the input it belongs to is
+   invisible. Without this the radio group is operable but silent. */
+#ins-cat-all:focus-visible ~ .ins-filter label[for="ins-cat-all"],
+#ins-cat-0:focus-visible ~ .ins-filter label[for="ins-cat-0"],
+#ins-cat-1:focus-visible ~ .ins-filter label[for="ins-cat-1"],
+#ins-cat-2:focus-visible ~ .ins-filter label[for="ins-cat-2"],
+#ins-cat-3:focus-visible ~ .ins-filter label[for="ins-cat-3"],
+#ins-cat-4:focus-visible ~ .ins-filter label[for="ins-cat-4"],
+#ins-cat-5:focus-visible ~ .ins-filter label[for="ins-cat-5"] {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ---- the filtering itself -------------------------------------------------
+   One rule per category. The featured block carries a data-cat too, so a
+   filtered view does not leave a Quantum feature sitting above an Engineering
+   list. */
+#ins-cat-0:checked ~ .ins-grid .ins-card:not([data-cat="Engineering"]),
+#ins-cat-0:checked ~ .ins-featured:not([data-cat="Engineering"]),
+#ins-cat-1:checked ~ .ins-grid .ins-card:not([data-cat="AI & Automation"]),
+#ins-cat-1:checked ~ .ins-featured:not([data-cat="AI & Automation"]),
+#ins-cat-2:checked ~ .ins-grid .ins-card:not([data-cat="Blockchain"]),
+#ins-cat-2:checked ~ .ins-featured:not([data-cat="Blockchain"]),
+#ins-cat-3:checked ~ .ins-grid .ins-card:not([data-cat="Quantum & Emerging Tech"]),
+#ins-cat-3:checked ~ .ins-featured:not([data-cat="Quantum & Emerging Tech"]),
+#ins-cat-4:checked ~ .ins-grid .ins-card:not([data-cat="Security"]),
+#ins-cat-4:checked ~ .ins-featured:not([data-cat="Security"]),
+#ins-cat-5:checked ~ .ins-grid .ins-card:not([data-cat="Regulation"]),
+#ins-cat-5:checked ~ .ins-featured:not([data-cat="Regulation"]) {
+  display: none;
+}
+
+/* ---- empty state ----------------------------------------------------------
+   Rendered once per category that currently has no cards, and revealed only
+   when that category is selected. Which categories are empty is known at build
+   time, so this needs no :has() and no counting - the page emits an element
+   only where one is needed. A filter that silently empties the page reads as a
+   bug, which is the whole reason this exists. */
+.ins-empty {
+  display: none;
+  margin-top: 8px;
+  color: var(--muted);
+}
+
+#ins-cat-0:checked ~ .ins-empty[data-for="ins-cat-0"],
+#ins-cat-1:checked ~ .ins-empty[data-for="ins-cat-1"],
+#ins-cat-2:checked ~ .ins-empty[data-for="ins-cat-2"],
+#ins-cat-3:checked ~ .ins-empty[data-for="ins-cat-3"],
+#ins-cat-4:checked ~ .ins-empty[data-for="ins-cat-4"],
+#ins-cat-5:checked ~ .ins-empty[data-for="ins-cat-5"] {
+  display: block;
+}
+
+/* ---- featured ------------------------------------------------------------ */
+
+.ins-featured {
+  margin-bottom: 56px;
+}
+
+.ins-featured__card {
+  padding: 44px;
+  margin-top: 16px;
+}
+
+.ins-featured__title {
+  margin-top: 18px;
+  max-width: 26ch;
+}
+
+.ins-featured__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ins-featured__title a:hover {
+  color: var(--brand);
+}
+
+.ins-featured__summary {
+  margin-top: 20px;
+  max-width: 68ch;
+}
+
+.ins-featured__foot {
+  margin-top: 30px;
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ins-featured__state {
+  margin-top: 24px;
+  color: var(--muted);
+}
+
+/* ---- the card grid ------------------------------------------------------- */
+
+.ins-latest-heading {
+  margin-bottom: 30px;
+}
+
+.ins-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.ins-card__title {
+  margin-top: 14px;
+}
+
+.ins-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ins-card__title a:hover {
+  color: var(--brand);
+}
+
+.ins-card__summary {
+  margin-top: 12px;
+  font-size: 14.5px;
+}
+
+/* Pushes the metadata to the bottom so a row of cards of unequal summary length
+   still aligns its dates. */
+.ins-card__meta {
+  margin-top: auto;
+  padding-top: 18px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* "In preparation" is a state, not an unfilled gap, so it does NOT wear the
+   amber placeholder treatment - that idiom means "someone still has to supply
+   this" and the content audit counts it. */
+.ins-card__state {
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 11.5px;
+}
+
+.ins-card__cta {
+  margin-top: 14px;
+}
+
+.ins-note {
+  margin-top: 30px;
+  color: var(--muted);
+  max-width: 72ch;
+}
+
+/* ---- explore by topic ---------------------------------------------------- */
+
+.ins-collections {
+  margin-top: 36px;
+  gap: 20px;
+}
+
+.ins-collection__title {
+  margin-top: 14px;
+  max-width: 24ch;
+}
+
+.ins-collection__body {
+  margin-top: 12px;
+  font-size: 14.5px;
+}
+
+.ins-collection__note {
+  margin-top: 10px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.ins-collection__cta {
+  margin-top: 20px;
+}
+
+/* ---- article page -------------------------------------------------------- */
+
+.ins-article__body {
+  max-width: 68ch;
+}
+
+.ins-article__meta {
+  margin-top: 26px;
+  color: var(--muted);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.ins-article__sources li {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* ---- mobile --------------------------------------------------------------
+   Chips scroll sideways rather than wrapping to three rows and pushing the
+   page down, which is the idiom `.privacy-nav` already uses on this site. The
+   brief asks for the filter to stay usable "without creating awkward
+   wrapping". */
+@media (max-width: 700px) {
+  .ins-filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Bleed to the gutter edges so the row reads as scrollable rather than
+       clipped, then pad back so the first chip still aligns with the text. */
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+  }
+  .ins-filter::-webkit-scrollbar {
+    display: none;
+  }
+  .ins-chip {
+    flex: 0 0 auto;
+  }
+  .ins-featured__card {
+    padding: 28px;
+  }
+}
