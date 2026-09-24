@@ -41,13 +41,19 @@ const nextConfig: NextConfig = {
    *    commercial decision and it should be taken against Search Console data,
    *    which this repository does not have. A sitemap proves what a site
    *    publishes, not what performs.
-   *  - SEVEN PATHS WHOSE SERVICE WAS DROPPED — /ui-ux-design-services,
-   *    /quantum-development-services, /ar-vr-development-services,
-   *    /startup-funding, /clutch, /pixelette-research and
-   *    /cancellation-refund-policy. Each needs a decision between the nearest
-   *    honest destination and a deliberate 410 Gone. Redirecting a dropped
-   *    service to a page that does not offer it is a worse answer than a clean
-   *    404, so none is guessed here.
+   *  - SIX PATHS WHOSE SERVICE WAS DROPPED — /ui-ux-design-services,
+   *    /quantum-development-services, /startup-funding, /clutch,
+   *    /pixelette-research and /cancellation-refund-policy. Each needs a
+   *    decision between the nearest honest destination and a deliberate 410
+   *    Gone. Redirecting a dropped service to a page that does not offer it is
+   *    a worse answer than a clean 404, so none is guessed here.
+   *
+   *    WAS SEVEN. /ar-vr-development-services LEFT THIS LIST 2026-09-24: the
+   *    founder had the service migrated back from the previous site, at that
+   *    same path, so it resolves again and needs no redirect and no 410. The
+   *    count is corrected here rather than left reading seven with six names
+   *    under it, because a stale count is the kind of thing a later reader
+   *    trusts without recounting.
    *
    * Do not treat this block as the finished redirect map. It is the half that
    * could be written without asking anyone.

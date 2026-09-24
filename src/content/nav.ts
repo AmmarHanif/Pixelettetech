@@ -52,6 +52,18 @@ export const primaryNav: NavItem[] = [
   { href: '/ai-automation', label: 'AI & Automation' },
   { href: '/blockchain', label: 'Blockchain' },
   /*
+   * AR/VR MIGRATED BACK 2026-09-24 on founder instruction, from the previous
+   * site. next.config.ts had listed /ar-vr-development-services among the paths
+   * "WHOSE SERVICE WAS DROPPED"; the service is offered again, so the path is
+   * live again and needs no redirect.
+   *
+   * The href keeps the PREVIOUS SITE'S path rather than taking a
+   * /engineering/... slug, which the founder chose so existing inbound links
+   * land without a hop. It is the only top-level service path here; do not copy
+   * the shape for a new service.
+   */
+  { href: '/ar-vr-development-services', label: 'AR / VR' },
+  /*
    * ADDED 2026-09-22 on founder instruction: the Run service gets a top-level
    * entry after Blockchain, and its menu text is just "Support".
    *
@@ -70,13 +82,24 @@ export const primaryNav: NavItem[] = [
    */
   { href: '/support-continuous-improvement', label: 'Support' },
   { href: '/case-studies', label: 'Work' },
-  /* INSIGHTS WITHDRAWN FROM NAVIGATION 2026-09-16 for launch, on founder
-     instruction: "Do not launch the current unfinished Insights index."
-     Option A of the two he offered was FORCED rather than chosen - option B was
-     to show only finished, dated, authored content, and EVERY entry in
-     src/content/insights.ts has publishedOn: null and author: null, with no
-     /insights/[slug] route in existence. Option B would render an empty page.
-     Restore this line the day a piece is actually written, dated and signed. */
+  /*
+   * INSIGHTS RESTORED TO THE NAVIGATION 2026-09-24 on founder instruction,
+   * BEFORE ITS OWN RESTORE CONDITION WAS MET. That is deliberate and his call,
+   * and it is recorded here rather than tidied away.
+   *
+   * It was withdrawn on 2026-09-16 on his instruction - "Do not launch the
+   * current unfinished Insights index" - and the note then said to restore it
+   * "the day a piece is actually written, dated and signed". Measured again on
+   * 2026-09-24, that day has not arrived: all seven entries in
+   * src/content/insights.ts still carry publishedOn: null and author: null, and
+   * there is still no /insights/[slug] route, so the index lists seven headlines
+   * that cannot be opened. He was shown that and chose to add the item anyway.
+   *
+   * THE WORK THIS STILL OWES, unchanged from the original note: a written body,
+   * a publishedOn date and a named author for each piece, and a [slug] route for
+   * them to live at. Until then the menu item leads to a dead end.
+   */
+  { href: '/insights', label: 'Insights' },
   { href: '/about', label: 'About' },
 ];
 
@@ -415,6 +438,9 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
     priority: 0.8,
     changeFrequency: 'monthly',
   },
+  /* AR/VR, migrated back 2026-09-24. Top-level because it keeps the previous
+     site's own path; see the primaryNav note above. */
+  { path: '/ar-vr-development-services', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/blockchain', priority: 0.9, changeFrequency: 'monthly' },
   /* The handoff's Blockchain service pages, same rule. */
   { path: '/blockchain/tokenisation', priority: 0.8, changeFrequency: 'monthly' },
@@ -457,9 +483,26 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
    * the fix is to fill it, not to hide it. Until then the sitemap should describe
    * what is there.
    */
-  /* /insights is out of the sitemap for launch: it is withdrawn from
-     navigation and noindexed, and asking search engines to crawl a page we are
-     deliberately not launching is the contradiction that gets it indexed. */
+  /* /insights is STILL out of the sitemap, but BOTH REASONS THIS NOTE GAVE ARE
+     NOW WRONG, so it is corrected rather than left standing.
+
+     It said the page is "withdrawn from navigation": it is not, since
+     2026-09-24, on founder instruction — it is now a primary nav item on every
+     page. And it said the page is "noindexed": it is not, page-specifically.
+     The only noindex it carries comes from SITE_IN_DEVELOPMENT in lib/seo.ts,
+     which noindexes EVERY page and lifts for all of them on launch day. Nothing
+     in insights/page.tsx sets noIndex.
+
+     So the live position, stated plainly for whoever reads this next: the day
+     SITE_IN_DEVELOPMENT goes false, this page becomes indexable thin content —
+     seven headlines, no bodies, no dates, no authors, no article route — linked
+     from the primary navigation of every page on the site. Sitemap absence does
+     not prevent that; Google indexes what it can reach, and it can reach this
+     from everywhere.
+
+     THE TWO HONEST OPTIONS, neither of which is a department decision: write the
+     pieces, or add noIndex to insights/page.tsx until they exist. Flagged to the
+     founder 2026-09-24. */
   { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' },

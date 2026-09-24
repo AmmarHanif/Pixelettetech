@@ -2110,6 +2110,26 @@ button.btn[disabled] {
   .grid-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  /*
+   * THE DESKTOP NAV GIVES WAY HERE, NOT AT 860px, SINCE 2026-09-24.
+   *
+   * The primary nav went from six items to eight that day (AR/VR and Insights),
+   * and the row's intrinsic width is now 978px. While these two rules sat in the
+   * 860px block the row stayed on screen from 861px up, wider than the viewport,
+   * and the PAGE scrolled sideways - 18px of overflow at 960, 38px at 940, 78px
+   * at 900. Small tablets and narrow laptop windows, not an edge case.
+   *
+   * 1000px leaves 22px of headroom over the 978px row. THAT HEADROOM IS THE
+   * WHOLE MARGIN: a ninth item, or a longer label on an existing one, puts the
+   * band back. Re-measure across widths before adding either, rather than
+   * checking one screen.
+   */
+  .nav {
+    display: none;
+  }
+  .nav-mobile {
+    display: block;
+  }
 }
 
 @media (max-width: 860px) {
@@ -2125,12 +2145,6 @@ button.btn[disabled] {
   .grid-2,
   .grid-3 {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .nav {
-    display: none;
-  }
-  .nav-mobile {
-    display: block;
   }
 }
 
