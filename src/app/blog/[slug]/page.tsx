@@ -59,7 +59,9 @@ type Resolved = {
   reviewer?: string;
   historical: boolean;
   body: React.ReactNode;
-  sources: { label: string; href: string }[];
+  /** `href` is optional: a citation we can name but not link is still a citation. */
+  sources: { label: string; href?: string }[];
+  serviceBridge?: PublishedInsight['serviceBridge'];
   relatedService?: { href: string; label: string };
   related: { slug: string; title: string; summary: string; eyebrow: string }[];
 };
@@ -129,6 +131,7 @@ function resolve(slug: string): Resolved | null {
       body: <Body />,
       sources: INSIGHT_SOURCES[insight.slug] ?? [],
       relatedService: insight.relatedService,
+      serviceBridge: insight.serviceBridge,
       related,
     };
   }
@@ -297,11 +300,17 @@ export default async function InsightArticlePage({
           <div className="ins-article__body" style={{ marginTop: 44 }}>
             <h2 className="h4">Sources</h2>
             <ul className="ins-article__sources" style={{ marginTop: 14 }}>
+              {/* A citation without a verified URL renders as text rather than as a
+                  link to a guess. content/insight-bodies.tsx explains why. */}
               {item.sources.map(s => (
-                <li key={s.href}>
-                  <a href={s.href} rel="noopener noreferrer" target="_blank">
-                    {s.label}
-                  </a>
+                <li key={s.label}>
+                  {s.href ? (
+                    <a href={s.href} rel="noopener noreferrer" target="_blank">
+                      {s.label}
+                    </a>
+                  ) : (
+                    s.label
+                  )}
                 </li>
               ))}
             </ul>
@@ -312,6 +321,27 @@ export default async function InsightArticlePage({
           <p style={{ marginTop: 40 }}>
             <FLink href={item.relatedService.href}>{item.relatedService.label}</FLink>
           </p>
+        ) : null}
+
+        {/*
+          The service bridge: two links and a sentence, set apart from the
+          article rather than tacked onto its last paragraph, so a reader can
+          see where the writing stops and the offer starts.
+        */}
+        {item.serviceBridge ? (
+          <aside className="art-bridge">
+            <h2 className="h4">{item.serviceBridge.heading}</h2>
+            <p className="body" style={{ marginTop: 12 }}>
+              {item.serviceBridge.body}
+            </p>
+            <p className="art-bridge__links">
+              {item.serviceBridge.links.map(l => (
+                <FLink href={l.href} key={l.href}>
+                  {l.label}
+                </FLink>
+              ))}
+            </p>
+          </aside>
         ) : null}
       </Section>
 

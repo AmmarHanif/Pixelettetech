@@ -1,162 +1,107 @@
 import Link from 'next/link';
 
-import { ClosingCta } from '@/components/sections';
-import { Cta, Eyebrow, FLink, JsonLd, Section, SectionHead } from '@/components/ui';
 import {
-  FILTER_CATEGORIES,
-  archive,
-  featuredInsight,
-  isPublished,
-  listedInsights,
-  publishedInsights,
-  type Insight,
-} from '@/content/insights';
+  AgentScopeDiagram,
+  EvaluationGateDiagram,
+  EvaluationGateStack,
+  ThemeMark,
+} from '@/components/InsightVisuals';
+import { ClosingCta } from '@/components/sections';
+import { Eyebrow, FLink, JsonLd, Section, SectionHead } from '@/components/ui';
+import { archive, publishedInsights } from '@/content/insights';
 import { breadcrumbSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 /*
- * The Insights hub, rebuilt 2026-09-24 to the founder's brief.
+ * Insights.
  *
- * NO NEW DESIGN LANGUAGE. Every section here is built from the components and
- * tokens the rest of the site already uses — Section, SectionHead, Eyebrow, Cta,
- * FLink, .card, .tile, .grid-3, .h1/.h2/.h4, .lead, .body, .small. The brief's
- * first instruction is "DO NOT redesign the website", so the editorial feel
- * comes from scale, spacing and restraint rather than from new furniture. The
- * only additions to globals.css are the filter chips and the card rhythm, both
- * of which reuse existing colour and border tokens.
+ * REBUILT 2026-09-24 FOR LAUNCH, around two published pieces.
  *
- * NOTHING IS PUBLISHED YET, AND THE PAGE IS BUILT AROUND THAT RATHER THAN
- * AGAINST IT. Every card renders its real state: a pipeline piece shows its
- * category, headline and standfirst and says "In preparation" where a published
- * one shows a date, a reading time and a link. No pipeline card is clickable,
- * because §4 and §20 both forbid an article link that leads nowhere, and the
- * cheapest way to honour that is to make the link conditional on the type rather
- * than on someone remembering.
+ * THE DESIGN PROBLEM WAS NOT "TWO ARTICLES IS TOO FEW". It was that the previous
+ * version rendered the whole editorial pipeline as cards marked "In preparation",
+ * so the page advertised its own emptiness: eight promises and nothing to read.
+ * Two substantial pieces given real scale read as a selection. Eight cards, two
+ * of which work, read as a site that has not been finished.
  *
- * THE PAGE STAYS `noIndex` UNTIL SOMETHING IS PUBLISHED. That line was set on
- * 2026-09-16 and is deliberately kept: an index of ten commissioned headlines is
- * exactly the thin content §15 and §17 are written to prevent, and it is now
- * linked from every page's navigation, so it would be found. Remove it in the
- * same commit that publishes the first real article — the condition is stated at
- * the line itself.
+ * SO QUANTITY IS REMOVED AND SIGNIFICANCE IS ADDED. No card grid, no filter
+ * chips, no empty states, no "coming soon". The two pieces get editorial splits
+ * with bespoke diagrams; everything after them is orientation rather than
+ * inventory.
+ *
+ * THE FILTER IS GONE, NOT HIDDEN. With two articles a category control does
+ * nothing except demonstrate that there is nothing to filter. The pipeline data
+ * still exists in content/insights.ts because it is a real editorial plan; it
+ * simply is not rendered. When six or eight pieces exist this page can grow a
+ * library again, and nothing here prevents that: adding a third published
+ * article needs no change to this file.
+ *
+ * `noIndex` IS REMOVED. It was set with a comment saying to remove it once the
+ * first piece shipped, and two have. The site-wide SITE_IN_DEVELOPMENT flag in
+ * content/launch.ts still holds every page back until launch, which is the one
+ * control that should do that job.
  */
 
 export const metadata = pageMetadata({
   title: 'Insights',
   description:
-    'Practical thinking on software engineering, AI, automation, blockchain and the technologies shaping what comes next.',
+    'Practical thinking on software engineering, AI, automation, security and emerging technology, written for people who build, buy and use technology in the real world.',
   path: '/insights',
-  /*
-   * KEPT, and the reason has changed. It was set 2026-09-16 because the page was
-   * withdrawn from the navigation. It is now IN the navigation (founder
-   * instruction 2026-09-24), so the reason is no longer "nobody can reach it" —
-   * it is that nothing here is written yet. Ten commissioned headlines with no
-   * bodies is the thin content §15 forbids, and the page is now reachable from
-   * every page on the site, so a crawler would find it.
-   *
-   * REMOVE THIS LINE IN THE SAME COMMIT THAT PUBLISHES THE FIRST ARTICLE, not
-   * before and not separately. `publishedInsights.length > 0` is the condition.
-   */
-  noIndex: true,
 });
 
-/* ------------------------------------------------------------------ cards -- */
-
-/**
- * One article card. Published pieces link and carry their metadata; pipeline
- * pieces render the same shape and say what they are.
- *
- * The category lives on `data-cat` because the filter below is CSS-only and
- * selects on it. Keeping it as a data attribute rather than a class means the
- * category string stays the single source of truth for the chip, the card label
- * and the filter rule at once.
- */
-function InsightCard({ item }: { item: Insight }) {
-  const published = isPublished(item);
-
-  const meta = published ? (
-    <>
-      <time dateTime={item.publishedOn}>
-        {new Date(item.publishedOn).toLocaleDateString('en-GB', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-        })}
-      </time>
-      {' · '}
-      {item.readingMinutes} min read
-    </>
-  ) : (
-    /* Not a placeholder awaiting a value — a true statement of where the piece
-       is. §17: show what exists, and say so. */
-    <span className="ins-card__state">In preparation</span>
-  );
-
-  return (
-    <article className="card ins-card" data-cat={item.category}>
-      <Eyebrow>{item.category}</Eyebrow>
-      <h3 className="h4 ins-card__title">
-        {published ? (
-          <Link href={`/blog/${item.slug}`}>{item.title}</Link>
-        ) : (
-          item.title
-        )}
-      </h3>
-      <p className="body ins-card__summary">{item.summary}</p>
-      <p className="small ins-card__meta">{meta}</p>
-      {published ? (
-        <p className="ins-card__cta">
-          <FLink href={`/blog/${item.slug}`}>Read article</FLink>
-        </p>
-      ) : null}
-    </article>
-  );
-}
-
-/* ------------------------------------------------------------------- page -- */
-
-const collections = [
+/** The four areas we write about. Deliberately NOT links: see the section note. */
+const THEMES = [
   {
-    eyebrow: 'Engineering',
-    title: 'Building software that survives production.',
-    body: 'Architecture, cloud, integration, performance and what happens after launch.',
-    href: '/engineering',
-    cta: 'Explore Engineering',
+    kind: 'engineering' as const,
+    title: 'Engineering',
+    body: 'How software survives contact with the real world.',
   },
   {
-    eyebrow: 'AI & Automation',
-    title: 'Moving AI from demonstration to operation.',
-    body: 'Agents, workflows, retrieval, evaluation and production AI.',
-    href: '/ai-automation',
-    cta: 'Explore AI & Automation',
+    kind: 'ai' as const,
+    title: 'AI & Automation',
+    body: 'Where AI earns its place, and where it doesn’t.',
   },
   {
-    eyebrow: 'Blockchain',
-    title: 'Where decentralisation earns its place.',
-    body: 'Practical applications, infrastructure, security and when not to use blockchain.',
-    href: '/blockchain',
-    cta: 'Explore Blockchain',
+    kind: 'security' as const,
+    title: 'Security & Regulation',
+    body: 'What technology teams need to prepare for next.',
   },
   {
-    eyebrow: 'Emerging Technology',
-    title: "What we're watching next.",
-    body: 'Quantum computing, post-quantum security and technologies approaching commercial relevance.',
-    /*
-     * The only one of the four with no service section behind it, deliberately.
-     * §7: this section "must NOT imply Pixelette has extensive delivery history
-     * in every emerging technology discussed". The other three point at a
-     * service we sell; this one points back at the reading, which is what it
-     * actually is. The note under it says so rather than leaving a reader to
-     * infer parity with the others.
-     */
-    href: '#latest-thinking',
-    cta: 'Explore Emerging Technology',
-    note: 'Analysis and exploration rather than a delivery record.',
+    kind: 'emerging' as const,
+    title: 'Emerging Technology',
+    body: 'What’s becoming possible, and what’s still hype.',
   },
 ];
 
+/*
+ * Explore by topic. Three point at a practice we actually sell.
+ *
+ * EMERGING TECHNOLOGY DOES NOT, and is not a link. The brief is explicit that it
+ * must not imply quantum is an established Pixelette service, and it is not one:
+ * the claim is held and /quantum-development-services returns 404 by decision.
+ * A link to a hub that does not exist, or to a service we do not currently sell,
+ * would assert exactly what the instruction rules out. It stays as a labelled
+ * area of interest until there is somewhere honest to send a reader.
+ */
+const TOPICS = [
+  { label: 'Engineering', href: '/engineering' },
+  { label: 'AI & Automation', href: '/ai-automation' },
+  { label: 'Blockchain', href: '/blockchain' },
+  { label: 'Emerging Technology', href: null },
+];
+
+const METHODOLOGY_SLUG = 'how-we-evaluate-ai-systems';
+const FEATURE_SLUG = 'where-ai-agents-should-work';
+
+const longDate = (iso: string) =>
+  new Date(iso).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
 export default function InsightsPage() {
-  const hasPublished = publishedInsights.length > 0;
+  const feature = publishedInsights.find(i => i.slug === FEATURE_SLUG);
+  const method = publishedInsights.find(i => i.slug === METHODOLOGY_SLUG);
 
   return (
     <>
@@ -167,245 +112,199 @@ export default function InsightsPage() {
         ])}
       />
 
-      {/* ------------------------------------------------------------- hero */}
-      <div className="hero-glow" style={{ padding: '80px 0 56px' }}>
+      {/* ---------------------------------------------------------- 1. hero */}
+      <div className="hero-glow" style={{ padding: '92px 0 64px' }}>
         <div className="wrap">
-          <Eyebrow>Insights</Eyebrow>
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Ideas for building what comes next.
-          </h1>
-          <p className="lead" style={{ marginTop: 24, maxWidth: '62ch' }}>
-            Practical thinking on software engineering, AI, automation, blockchain and the
-            technologies shaping what comes next.
-          </p>
-          {/*
-            NO CTA HERE, on instruction (§2): "Do NOT put a large Book a
-            conversation CTA immediately underneath the hero. This is an
-            editorial page." The conversation is offered at the foot of the page
-            once the reader has had something to read.
-          */}
+          <div className="ins-hero">
+            <div>
+              <Eyebrow>Insights</Eyebrow>
+              <h1 className="h1" style={{ marginTop: 24, maxWidth: '16ch' }}>
+                Ideas for building what comes next.
+              </h1>
+              <p className="lead" style={{ marginTop: 26, maxWidth: '58ch' }}>
+                Practical thinking on software engineering, AI, automation, security and
+                emerging technology, written for people who build, buy and use technology in
+                the real world.
+              </p>
+            </div>
+            {/* A quiet typographic statement rather than a second call to action.
+                The brief asks for no CTA in the hero, and a hero that asks for
+                nothing is what lets the featured piece below carry the page. */}
+            <p className="ins-hero__statement">
+              Clear thinking.
+              <br />
+              Real experience.
+              <br />
+              <span>A more useful tomorrow.</span>
+            </p>
+          </div>
         </div>
       </div>
 
-      {/*
-        ------------------------------------------------------- filter + grid
-        One scope element wraps the radios, the chips and the grid, because the
-        filter is CSS-only: the rules select the grid as a SIBLING of the checked
-        radio. No JavaScript, so it cannot fail to hydrate and costs nothing to
-        load — and on a page whose own subject is engineering restraint, a filter
-        that needs a bundle would be a poor advertisement.
-
-        The radios are visually hidden but focusable, so the chips are reachable
-        by keyboard and arrow-navigable as a normal radio group.
-      */}
-      <Section labelledBy="latest-heading" style={{ paddingTop: 8 }}>
-        <div className="ins-scope">
-          {FILTER_CATEGORIES.map((cat, i) => (
-            <input
-              key={cat}
-              type="radio"
-              name="ins-cat"
-              id={`ins-cat-${i}`}
-              className="ins-radio"
-              defaultChecked={false}
-            />
-          ))}
-          <input
-            type="radio"
-            name="ins-cat"
-            id="ins-cat-all"
-            className="ins-radio"
-            defaultChecked
-          />
-
-          <fieldset className="ins-filter">
-            <legend className="visually-hidden-heading">Filter insights by topic</legend>
-            <label className="ins-chip" htmlFor="ins-cat-all">
-              All
-            </label>
-            {FILTER_CATEGORIES.map((cat, i) => (
-              <label className="ins-chip" key={cat} htmlFor={`ins-cat-${i}`}>
-                {cat}
-              </label>
-            ))}
-          </fieldset>
-
-          {/* --------------------------------------------------- featured */}
-          {featuredInsight ? (
-            <div className="ins-featured" data-cat={featuredInsight.category}>
+      {/* ------------------------------------------------------ 2. featured */}
+      {feature ? (
+        <Section labelledBy="featured-heading" style={{ paddingTop: 16 }}>
+          <div className="ins-feature">
+            <div className="ins-feature__copy">
               <Eyebrow>Featured insight</Eyebrow>
-              <article className="card ins-featured__card">
-                <Eyebrow>{featuredInsight.category}</Eyebrow>
-                <h2 className="h2 ins-featured__title">
-                  {isPublished(featuredInsight) ? (
-                    <Link href={`/blog/${featuredInsight.slug}`}>
-                      {featuredInsight.title}
-                    </Link>
-                  ) : (
-                    featuredInsight.title
-                  )}
-                </h2>
-                <p className="body ins-featured__summary">{featuredInsight.summary}</p>
-                {isPublished(featuredInsight) ? (
-                  <div className="ins-featured__foot">
-                    <Cta href={`/blog/${featuredInsight.slug}`}>Read the insight</Cta>
-                    <span className="small">
-                      <time dateTime={featuredInsight.publishedOn}>
-                        {new Date(featuredInsight.publishedOn).toLocaleDateString('en-GB', {
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric',
-                        })}
-                      </time>
-                      {' · '}
-                      {featuredInsight.readingMinutes} min read
-                    </span>
-                  </div>
-                ) : (
-                  /* The brief names this piece as the featured example and, in
-                     the same breath, forbids a clickable article that leads to
-                     an empty page. So it is featured, and it is honest about
-                     not being written. */
-                  <p className="small ins-featured__state">
-                    <span className="ins-card__state">In preparation</span> · this piece is
-                    commissioned and not yet published, so there is nothing to open yet.
-                  </p>
-                )}
-              </article>
+              <p className="ins-feature__cat">{feature.category}</p>
+              <h2 className="h2 ins-feature__title" id="featured-heading">
+                <Link href={`/blog/${feature.slug}`}>{feature.title}</Link>
+              </h2>
+              <p className="body ins-feature__excerpt">{feature.summary}</p>
+              <p className="small ins-feature__meta">
+                <time dateTime={feature.publishedOn}>{longDate(feature.publishedOn)}</time>
+                <span aria-hidden>·</span>
+                <span>{feature.readingMinutes} min read</span>
+              </p>
+              <p style={{ marginTop: 26 }}>
+                <FLink href={`/blog/${feature.slug}`}>Read article</FLink>
+              </p>
             </div>
-          ) : null}
-
-          {/* ---------------------------------------------- latest thinking */}
-          <h2 className="h2 ins-latest-heading" id="latest-heading">
-            Latest thinking
-          </h2>
-
-          <div className="grid grid-3 ins-grid" id="latest-thinking">
-            {listedInsights.map(item => (
-              <InsightCard item={item} key={item.slug} />
-            ))}
+            <div className="ins-feature__viz">
+              <AgentScopeDiagram note="From experimentation to real-world impact." />
+            </div>
           </div>
+        </Section>
+      ) : null}
 
-          {/*
-            One empty-state line per category that currently has NOTHING in it,
-            revealed by CSS when that chip is selected. Which categories are
-            empty is known at build time, so the page emits an element only
-            where one is needed and the CSS needs no counting.
-
-            This exists because a filter that silently empties the page reads as
-            a broken filter. Today it fires for Blockchain, which has no
-            commissioned piece yet; when one is written this renders nothing and
-            the rule has nothing to show.
-          */}
-          {FILTER_CATEGORIES.map((cat, i) =>
-            listedInsights.some(item => item.category === cat) ? null : (
-              <p className="small ins-empty" data-for={`ins-cat-${i}`} key={cat}>
-                Nothing on {cat.toLowerCase()} yet. Pieces appear here as they are written.
+      {/* ------------------------------------------------ 3. second feature */}
+      {method ? (
+        <Section labelledBy="second-heading" style={{ background: '#F7FAFA' }}>
+          {/* Reversed and on a tinted band, so the two features read as two
+              pieces rather than as a repeating template. */}
+          <div className="ins-feature ins-feature--reverse">
+            <div className="ins-feature__viz">
+              {/* The standing version: the horizontal one rendered as an 83px
+                  strip beside a 480px column, and would have repeated the
+                  methodology diagram lower down the page. */}
+              <EvaluationGateStack />
+            </div>
+            <div className="ins-feature__copy">
+              <p className="ins-feature__cat">{method.category}</p>
+              <h2 className="h2 ins-feature__title" id="second-heading">
+                <Link href={`/blog/${method.slug}`}>{method.title}</Link>
+              </h2>
+              <p className="body ins-feature__excerpt">{method.summary}</p>
+              <p className="small ins-feature__meta">
+                <time dateTime={method.publishedOn}>{longDate(method.publishedOn)}</time>
+                <span aria-hidden>·</span>
+                <span>{method.readingMinutes} min read</span>
               </p>
-            ),
-          )}
-
-          {!hasPublished ? (
-            <p className="small ins-note">
-              Every piece above is commissioned and not yet published. Each one appears with its
-              date, reading time and attribution when it has actually been written and reviewed,
-              and not before.
-            </p>
-          ) : null}
-        </div>
-      </Section>
-
-      {/* -------------------------------------------------- explore by topic */}
-      <Section labelledBy="collections-heading" style={{ background: '#F7FAFA' }}>
-        <SectionHead eyebrow="Explore by topic" id="collections-heading" title="Go deeper." />
-        <div className="grid grid-2 ins-collections">
-          {collections.map(c => (
-            <div className="card ins-collection" key={c.eyebrow}>
-              <Eyebrow>{c.eyebrow}</Eyebrow>
-              <h3 className="h4 ins-collection__title">{c.title}</h3>
-              <p className="body ins-collection__body">{c.body}</p>
-              {c.note ? <p className="small ins-collection__note">{c.note}</p> : null}
-              <p className="ins-collection__cta">
-                <FLink href={c.href}>{c.cta}</FLink>
+              <p style={{ marginTop: 26 }}>
+                <FLink href={`/blog/${method.slug}`}>Read the methodology</FLink>
               </p>
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
+      {/* ------------------------------------------- 4. what we think about */}
+      <Section labelledBy="themes-heading">
+        <SectionHead
+          eyebrow="What we’re thinking about"
+          id="themes-heading"
+          title="The areas we write about."
+        />
+        {/*
+          NOT ARTICLE CARDS, and not clickable. They describe subjects rather
+          than promising pieces, which is the whole point of replacing the "in
+          preparation" grid: this section can say what Pixelette thinks about
+          without implying an article exists for each one.
+        */}
+        <div className="grid grid-4 ins-themes" style={{ marginTop: 30 }}>
+          {THEMES.map(t => (
+            <div className="card ins-theme" key={t.title}>
+              <ThemeMark kind={t.kind} />
+              <h3 className="h4" style={{ marginTop: 18 }}>
+                {t.title}
+              </h3>
+              <p className="body ins-theme__body">{t.body}</p>
             </div>
           ))}
         </div>
       </Section>
 
-      {/* ----------------------------------------------------- methodology */}
-      {/*
-        §8: the evaluation methodology is NOT deleted, it moves down the page so
-        it reads as evidence of rigour rather than as the whole of Insights. The
-        destination is the service page that actually carries the methodology
-        today; the long-form write-up is itself still in the pipeline above.
-      */}
-      <Section labelledBy="methodology-heading">
-        <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
-          <div>
-            <SectionHead
-              eyebrow="Our methodology"
-              id="methodology-heading"
-              title="See how we test what we build."
-            />
-            <p className="body" style={{ marginTop: 20 }}>
-              Our approach to evaluating AI systems, evidence, reliability and production
-              readiness.
-            </p>
-          </div>
-          <div>
-            <p className="body" style={{ fontSize: 15 }}>
-              How we evaluate AI systems, and why we grade pass or fail rather than one to five.
-            </p>
-            <p style={{ marginTop: 22 }}>
-              <FLink href="/ai-automation/evaluation-and-observability">
-                Read the methodology
-              </FLink>
-            </p>
-          </div>
-        </div>
+      {/* ------------------------------------------------------ 5. go deeper */}
+      <Section labelledBy="deeper-heading" style={{ background: '#F7FAFA' }}>
+        <SectionHead eyebrow="Explore by topic" id="deeper-heading" title="Go deeper." />
+        <p className="body" style={{ marginTop: 18, maxWidth: '62ch' }}>
+          Explore more thinking, case studies and technical perspectives across the areas we
+          work in.
+        </p>
+        <ul className="ins-topics">
+          {TOPICS.map(t => (
+            <li key={t.label}>
+              {t.href ? (
+                <FLink href={t.href}>{t.label}</FLink>
+              ) : (
+                <span className="ins-topics__pending">
+                  {t.label}
+                  <span className="ins-topics__note">
+                    Analysis and exploration rather than a service we currently sell.
+                  </span>
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
       </Section>
 
-      {/* --------------------------------------------------------- archive */}
+      {/* ---------------------------------------------------- 6. methodology */}
+      {method ? (
+        <Section labelledBy="methodology-heading">
+          <SectionHead
+            eyebrow="Our methodology"
+            id="methodology-heading"
+            title="See how we test what we build."
+          />
+          <p className="body" style={{ marginTop: 18, maxWidth: '62ch' }}>
+            Our approach to evaluating AI systems, evidence, reliability and production
+            readiness.
+          </p>
+          <div style={{ marginTop: 34 }}>
+            <EvaluationGateDiagram captions />
+          </div>
+          <p style={{ marginTop: 28 }}>
+            <FLink href={`/blog/${method.slug}`}>Read the methodology</FLink>
+          </p>
+        </Section>
+      ) : null}
+
+      {/* -------------------------------------------------------- 7. archive */}
       <Section labelledBy="archive-heading" style={{ background: '#F7FAFA' }}>
         <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
           <div>
+            {/*
+              Visually secondary to the two features by position and by scale: a
+              level-3 heading in a two-column band rather than an editorial
+              split. The archive matters, and it is not current guidance.
+            */}
             <SectionHead
               eyebrow="From the archive"
               id="archive-heading"
+              level={3}
               title={archive.title}
             />
-            <p className="body" style={{ marginTop: 20 }}>
-              {archive.note}
-            </p>
           </div>
           <div>
+            <p className="body">{archive.note}</p>
             {archive.href ? (
-              <p>
-                <FLink href={archive.href}>Browse the archive</FLink>
+              <p style={{ marginTop: 22 }}>
+                <FLink href={archive.href}>Explore the archive</FLink>
               </p>
-            ) : (
-              /* §9 asks for a "Browse the archive →" CTA. The archive has no
-                 home in this build yet, and §20 forbids a link to an empty
-                 page, so the section states what it holds and where it is
-                 rather than offering a control that does nothing. Set
-                 `archive.href` in content/insights.ts the day it has a home. */
-              <p className="small">
-                The archive is held from the previous site and is not yet republished here.
-                Original publication dates are preserved, and anything no longer current will be
-                marked <strong>Historical article</strong> rather than quietly updated.
-              </p>
-            )}
+            ) : null}
           </div>
         </div>
       </Section>
 
-      {/* ------------------------------------------------------- final CTA */}
+      {/* ---------------------------------------------------- 8. closing CTA */}
       <ClosingCta
-        title="Judge how we think before deciding how we build."
         ctaLabel="Talk to us"
+        eyebrow="Let’s talk"
+        title="Judge how we think before deciding how we build."
       >
-        Explore our thinking, methodology and technical approach before starting a conversation.
+        Explore our thinking, methodology and experience before starting a conversation.
       </ClosingCta>
     </>
   );

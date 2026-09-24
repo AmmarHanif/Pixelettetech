@@ -69,6 +69,20 @@ type Base = {
 };
 
 /**
+ * The restrained contextual section at the end of an article.
+ *
+ * TWO LINKS AND A SENTENCE, not a sales block. An article that argues for
+ * narrowing scope and testing honestly, and then closes by selling hard,
+ * undermines the argument it just made. The shape is deliberately small so it
+ * cannot grow into a pitch without somebody noticing.
+ */
+export type ServiceBridge = {
+  heading: string;
+  body: string;
+  links: readonly { href: string; label: string }[];
+};
+
+/**
  * A piece that is actually written. Everything a reader-facing article needs is
  * REQUIRED here, so a half-finished entry cannot be marked published and quietly
  * render with gaps.
@@ -85,6 +99,8 @@ export type PublishedInsight = Base & {
   relatedService?: { href: string; label: string };
   /** Marked where the content is materially out of date (§9). */
   archived?: boolean;
+  /** The contextual service section at the end of the piece. */
+  serviceBridge?: ServiceBridge;
 };
 
 /** A commissioned concept. No date, no author, no body, and NOT clickable. */
@@ -118,21 +134,64 @@ export const insights: Insight[] = [
     summary:
       'Quantum computing is advancing rapidly, but the commercial opportunity is often misunderstood. We look at where quantum, AI and conventional computing could work together, and where today’s technology still wins.',
   },
+  /*
+   * THE TWO PUBLISHED PIECES, 2026-09-24.
+   *
+   * Both replace pipeline entries rather than joining them. The methodology
+   * concept kept its slug because the piece is the one that was commissioned;
+   * the agents piece supersedes `agentic-ai-or-workflow-automation`, which was
+   * the same argument under a comparison title, and two slugs for one article is
+   * exactly the inflation §17 forbids.
+   *
+   * ATTRIBUTION IS `editorial` WITH NO NAMED REVIEWER, which is one of the three
+   * shapes §12 authorises and is the honest one today. Naming a technical
+   * reviewer is a separate field somebody has to fill in on purpose, precisely
+   * so that a reviewer who did not review cannot be credited by default.
+   *
+   * `readingMinutes` IS MEASURED, not estimated: 1,054 and 905 words at 200 a
+   * minute.
+   */
   {
-    status: 'pipeline',
-    slug: 'how-we-evaluate-ai-systems',
-    category: 'Methodology',
-    title: 'How we evaluate AI systems, and why we grade pass or fail rather than one to five',
+    status: 'published',
+    slug: 'where-ai-agents-should-work',
+    category: 'AI & Automation',
+    title: 'AI agents are everywhere. The harder question is where they should actually work.',
     summary:
-      'Our evaluation methodology: error analysis, golden datasets, judge calibration against human labels, the failure modes of LLM-as-judge, and how we detect judge drift. Cited to primary sources rather than asserted.',
+      'AI agents can research, plan and take action. But real value comes from using them in the right places, with the right guardrails. We explore how to move from experimentation to useful, governed workflows.',
+    publishedOn: '2026-09-24',
+    readingMinutes: 6,
+    attribution: { kind: 'editorial', technicallyReviewedBy: null },
+    serviceBridge: {
+      heading: 'Thinking about where agents could work in your business?',
+      body: 'Pixelette designs and engineers agentic AI systems and workflow automation around real operational processes, from identifying the right use case through to integration, controls, evaluation and production deployment.',
+      links: [
+        { href: '/ai-automation/agentic-ai-multi-agent', label: 'Explore Agentic AI' },
+        { href: '/ai-automation/workflow-automation', label: 'Explore Workflow Automation' },
+      ],
+    },
   },
   {
-    status: 'pipeline',
-    slug: 'agentic-ai-or-workflow-automation',
-    category: 'AI & Automation',
-    title: 'Agentic AI vs workflow automation: which does your business actually need?',
+    status: 'published',
+    slug: 'how-we-evaluate-ai-systems',
+    category: 'Methodology',
+    title:
+      'How we evaluate AI systems, and why we grade pass or fail rather than one to five.',
     summary:
-      'A practical way to decide whether a workflow needs an agent, deterministic automation, or neither. Most processes that get an agent did not need one.',
+      'Our evaluation methodology uses real-world tasks, evidence and failure analysis to judge whether an AI system is ready for production. We explain how we test, what we measure and why a binary outcome is more useful than a score.',
+    publishedOn: '2026-09-24',
+    readingMinutes: 5,
+    attribution: { kind: 'editorial', technicallyReviewedBy: null },
+    serviceBridge: {
+      heading: 'Building AI that has to work in production?',
+      body: 'Evaluation is part of how we engineer AI systems, not a final check added at the end. Pixelette can help design, build, evaluate and operate AI systems against clearly defined production requirements.',
+      links: [
+        { href: '/ai-automation', label: 'Explore AI & Automation' },
+        {
+          href: '/ai-automation/evaluation-and-observability',
+          label: 'Explore Evaluation & Observability',
+        },
+      ],
+    },
   },
   {
     status: 'pipeline',
@@ -208,7 +267,7 @@ export const pipelineInsights: PipelineInsight[] = insights.filter(
  * Point it at a slug; the page renders whatever it finds and links it ONLY if
  * that piece is published.
  */
-export const FEATURED_SLUG = 'quantum-and-ai-where-they-meet';
+export const FEATURED_SLUG = 'where-ai-agents-should-work';
 
 export const featuredInsight: Insight | undefined = insights.find(
   i => i.slug === FEATURED_SLUG,
