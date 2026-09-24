@@ -3622,3 +3622,71 @@ button.btn[disabled] {
     scroll-behavior: auto;
   }
 }
+
+/* ------------------------------------------------- migrated archive body --
+   Added 2026-09-24 with the migration of the previous site's 36 articles.
+
+   SPACING LIVES HERE, NOT ON THE ELEMENTS. The renderer emits a few thousand
+   nodes across 36 articles; inline styles on each would be the same rule
+   repeated a few thousand times and impossible to adjust afterwards.
+
+   THE ARCHIVE READS AS THE REST OF THE SITE, deliberately. These are historical
+   articles, and the page says so at the top - but a second typographic system
+   for them would be the redesign the standing instruction rules out, and would
+   make the archive look like a different website rather than an older part of
+   this one. */
+.arc-body > * + * {
+  margin-top: 18px;
+}
+
+.arc-body h2,
+.arc-body h3 {
+  margin-top: 40px;
+}
+
+.arc-body h3 {
+  margin-top: 30px;
+}
+
+.arc-list {
+  padding-left: 22px;
+  list-style: disc;
+}
+
+.arc-list li {
+  margin-top: 10px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+/* The historical notice sits above the article and must not be skimmed past. */
+.arc-notice {
+  margin-top: 22px;
+  padding: 14px 18px;
+  border-left: 3px solid var(--amber-ink, #9a6a00);
+  background: #FFF9EC;
+  border-radius: 0 8px 8px 0;
+  max-width: 68ch;
+}
+
+/* ---- archive index ---- */
+.arc-group + .arc-group {
+  margin-top: 52px;
+}
+
+.arc-item {
+  padding: 20px 0;
+  border-top: 1px solid var(--line, #E3E9E9);
+}
+
+.arc-item__title {
+  margin-bottom: 6px;
+}
+
+.arc-item__meta {
+  color: var(--muted);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}

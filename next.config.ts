@@ -34,13 +34,13 @@ const nextConfig: NextConfig = {
    * WHAT IS DELIBERATELY NOT HERE, and why launching on this block alone still
    * loses traffic:
    *
-   *  - 41 BLOG URLS — 36 posts, 4 category pages and /blog itself. There is
-   *    nowhere to send them: /insights is a bare index with no article routes.
-   *    The options are to port the content, redirect them wholesale to /insights
-   *    and accept the loss of per-page relevance, or let them go. That is a
-   *    commercial decision and it should be taken against Search Console data,
-   *    which this repository does not have. A sitemap proves what a site
-   *    publishes, not what performs.
+   *  - THE 41 BLOG URLS ARE NO LONGER A REDIRECT PROBLEM. The 36 posts were
+   *    migrated on 2026-09-24 and republished on their ORIGINAL /blog/<slug>
+   *    paths, so they need no redirect: they resolve. The 4 category archives
+   *    and /blog itself point at /insights/archive, which is the page that now
+   *    lists what they listed. This replaced a wholesale `/blog/:path*` wildcard
+   *    that would have shadowed all 36 restored pages, since redirects are
+   *    evaluated before routing.
    *  - ONE PATH WHOSE SERVICE WAS DROPPED AND IS STILL UNDECIDED:
    *    /quantum-development-services. It needs a decision between the nearest
    *    honest destination and a deliberate 410 Gone, and that decision is
@@ -138,12 +138,18 @@ const nextConfig: NextConfig = {
        * hop. Filing them under /insights/<slug> would have cost 36 redirects for
        * a tidier path nobody searches for.
        *
-       * /blog was the previous site's INDEX, and its counterpart here is the
-       * hub, so it points there. It cannot be a page in its own right while
-       * /blog/[slug] exists without becoming a second index competing with
-       * /insights for the same content.
+       * /blog was the previous site's INDEX OF EXACTLY THESE 36 ARTICLES, and
+       * since 2026-09-24 that index exists again at /insights/archive, so that
+       * is where it points. It went to /insights until the migration, which
+       * answered "where did the blog go" with a page listing none of it. The
+       * archive page carries a prominent link to current thinking, so the
+       * reader who wanted the hub is one click away; the reader who wanted the
+       * article they remember is already there.
+       *
+       * It cannot be a page in its own right while /blog/[slug] exists without
+       * becoming a second index competing with /insights for the same content.
        */
-      { from: '/blog', to: '/insights' },
+      { from: '/blog', to: '/insights/archive' },
       /*
        * The previous site's dropped services and orphaned pages, destinations
        * given by the founder 2026-09-24. Each is `permanent` like the rest, so
@@ -187,30 +193,39 @@ const nextConfig: NextConfig = {
         permanent: true,
       })),
       /*
-       * EVERY OLD BLOG URL GOES TO THE INSIGHTS HUB. Founder instruction
-       * 2026-09-24, resolving the largest single block of dead links: 36 posts
-       * plus 4 category archives, all 404 until now.
+       * THE FOUR OLD CATEGORY ARCHIVES -> THE NEW ARCHIVE INDEX.
        *
-       * A WILDCARD RATHER THAN FORTY ENTRIES, because an enumeration already
-       * proved its own blind spot here: the category archives are absent from
-       * the previous site's sitemap, so a sitemap-derived list missed them and
-       * only a link crawl found them. Forty hand-written lines would have
-       * inherited that gap; `:path*` cannot.
+       * THESE FOUR ENTRIES REPLACE A `/blog/:path*` WILDCARD that stood here for
+       * part of 2026-09-24, and the reason it had to go is the whole reason this
+       * comment is long: NEXT EVALUATES REDIRECTS BEFORE ROUTING. Once the 36
+       * articles were migrated back onto their original /blog/<slug> paths, that
+       * wildcard stopped being a safety net and became the thing that hid them -
+       * all 36 would have 308'd to /insights and none would have been reachable.
+       * Worse, the test that proved the wildcard worked would have gone on
+       * passing, because "every /blog URL 308s to /insights" was its assertion.
        *
-       * `/blog` itself keeps its own entry in `moved` above, because `:path*`
-       * does not match the empty remainder for a source with a trailing
-       * segment. Placed before the /ai-engineering wildcard, whose comment
-       * requires it to stay last; the two sources do not overlap, so neither
-       * can shadow the other.
+       * ENUMERATION IS SAFE HERE, WHERE IT WAS NOT BEFORE. The wildcard was
+       * chosen originally because a sitemap-derived list had a proven blind
+       * spot: these four category pages are absent from the previous site's
+       * sitemap and only a link crawl found them. That blind spot is what these
+       * four lines close - they are the very URLs the enumeration missed, now
+       * named explicitly. The set is closed; no new category page can appear on
+       * a site that is no longer published.
        *
-       * WORTH KNOWING: /insights currently carries `noIndex`. A crawler follows
-       * this 308, finds noindex and drops the URL, so for SEARCH this is
-       * presently no better than the 404 it replaces. For a PERSON following an
-       * old link it is much better. It begins working for search the day the
-       * first article ships and the noIndex is removed - no change needed here
-       * when that happens.
+       * ANYTHING ELSE UNDER /blog now 404s through app/blog/not-found.tsx, which
+       * is the honest answer for a URL that never existed, and which tells the
+       * reader where the archive is instead of bouncing them silently.
        */
-      { source: '/blog/:path*', destination: '/insights', permanent: true },
+      ...[
+        'artificial-intelligence',
+        'blockchain-web3',
+        'mobile-web-design',
+        'software-development',
+      ].map(c => ({
+        source: `/blog/category/${c}`,
+        destination: '/insights/archive',
+        permanent: true,
+      })),
       /*
        * /method had no index and returned 404, so trimming the last segment off
        * /method/live dead-ended. A redirect rather than an index page: an index

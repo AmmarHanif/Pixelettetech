@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 import { SITE_URL } from '@/content/company';
+import { ARCHIVE_PATH, archiveArticles } from '@/content/archive';
 import { routes } from '@/content/nav';
 import { caseStudies, publishedDetail } from '@/content/work';
 
@@ -55,5 +56,40 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: publishedDetail(cs) ? 0.7 : 0.3,
   }));
 
-  return [...staticRoutes, ...workRoutes];
+  /*
+   * The migrated archive: 36 articles restored to their ORIGINAL /blog/<slug>
+   * paths on 2026-09-24, plus the index that lists them.
+   *
+   * THEY HAVE TO BE HERE OR THE MIGRATION IS HALF-DONE. The reason for putting
+   * them back on their original URLs rather than new ones is that links and
+   * search results already point there; a crawler still has to be told the
+   * pages exist again, and `routes` is the navigation list, which these are
+   * deliberately not on.
+   *
+   * PRIORITY 0.4, THE LOWEST ON THE SITE, and that is an honest statement
+   * rather than a modest one. This is historical material kept so that links
+   * resolve; it should not compete in the sitemap with the pages describing
+   * what the business currently sells. The index sits a little above them as
+   * the way in.
+   *
+   * No `lastModified`, for the same reason as everything above - and here the
+   * temptation is sharper, because a real publication date exists for each
+   * one. It is deliberately not emitted as `lastmod`: these articles were
+   * published in 2025 and republished here unchanged, so the honest answer to
+   * "when did this last change" is not a date this file can state.
+   */
+  const archiveRoutes = [
+    {
+      url: `${SITE_URL}${ARCHIVE_PATH}`,
+      changeFrequency: 'yearly' as const,
+      priority: 0.5,
+    },
+    ...archiveArticles.map(a => ({
+      url: `${SITE_URL}/blog/${a.slug}`,
+      changeFrequency: 'yearly' as const,
+      priority: 0.4,
+    })),
+  ];
+
+  return [...staticRoutes, ...workRoutes, ...archiveRoutes];
 }

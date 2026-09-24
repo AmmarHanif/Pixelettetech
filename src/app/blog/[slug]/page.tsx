@@ -1,8 +1,16 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { ArchiveBody } from '@/components/ArchiveBody';
 import { ClosingCta } from '@/components/sections';
 import { Eyebrow, FLink, JsonLd, Section } from '@/components/ui';
+import {
+  ARCHIVE_GROUPS,
+  type ArchiveArticle,
+  archiveArticles,
+  archiveBySlug,
+} from '@/content/archive';
+import { ARCHIVE_BODIES } from '@/content/archive/bodies';
 import { INSIGHT_BODIES, INSIGHT_SOURCES } from '@/content/insight-bodies';
 import {
   type Attribution,
@@ -13,35 +21,48 @@ import { articleSchema, breadcrumbSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 /*
- * The reusable Insights article template (§11 of the Insights brief).
+ * The article template, serving two kinds of article at the same path.
  *
- * IT BUILDS NOTHING TODAY, ON PURPOSE. `generateStaticParams` returns only
- * published pieces that also have a body, and there are none, so this route
- * emits zero pages and every /blog/<slug> is a 404. That is the brief's own
- * requirement — "never display a clickable article that leads to an empty page"
- * — enforced by the route rather than by remembering. The template exists so
- * that publishing the first piece is a content change, not a build.
+ * WHY ONE ROUTE AND NOT TWO. The 36 migrated articles were published at
+ * /blog/<slug> on the previous site and are restored to exactly those URLs, so
+ * the links, bookmarks and citations that already point at them resolve rather
+ * than redirect. New Insights pieces use the same path by the founder's
+ * instruction. Two routes cannot both own /blog/<slug>, so this one resolves
+ * against both sources and renders through a single normalised shape.
  *
- * THE DOUBLE CONDITION IS DELIBERATE. A piece must be `status: 'published'` AND
- * have a body registered. Either alone is a way to ship an empty article: a
- * status flipped before the writing is done, or a body written while the entry
- * still says pipeline. Requiring both means the two have to agree.
+ * THE DOUBLE CONDITION IS DELIBERATE, and survives the migration. A NEW piece
+ * must be `status: 'published'` AND have a body registered. Either alone is a
+ * way to ship an empty article: a status flipped before the writing is done, or
+ * a body written while the entry still says pipeline. Requiring both means the
+ * two have to agree. The archive is held to the same bar from the other
+ * direction - an entry with no harvested body does not resolve.
+ *
+ * AN ARCHIVE ARTICLE IS ALWAYS MARKED HISTORICAL. It is not a judgement about
+ * any individual piece; it is that all 36 were written in 2025 for a business
+ * that has since changed what it sells, and a reader deserves to know that
+ * before the first paragraph rather than after the last.
  */
 
 type Params = { slug: string };
 
-function resolve(slug: string): PublishedInsight | null {
-  const item = publishedInsights.find(i => i.slug === slug);
-  if (!item) return null;
-  if (!INSIGHT_BODIES[slug]) return null;
-  return item;
-}
-
-export function generateStaticParams(): Params[] {
-  return publishedInsights
-    .filter(i => INSIGHT_BODIES[i.slug])
-    .map(i => ({ slug: i.slug }));
-}
+/** What the page renders, whichever source the article came from. */
+type Resolved = {
+  slug: string;
+  eyebrow: string;
+  title: string;
+  summary: string;
+  publishedOn: string;
+  updatedOn?: string;
+  readingMinutes: number;
+  /** The name the site stands behind for this piece. */
+  authorName: string;
+  reviewer?: string;
+  historical: boolean;
+  body: React.ReactNode;
+  sources: { label: string; href: string }[];
+  relatedService?: { href: string; label: string };
+  related: { slug: string; title: string; summary: string; eyebrow: string }[];
+};
 
 /** The display name the site stands behind, per the three models in §12. */
 function attributionName(a: Attribution): string {
@@ -62,6 +83,99 @@ function reviewerName(a: Attribution): string | undefined {
   return undefined;
 }
 
+const groupLabel = (id: ArchiveArticle['group']) =>
+  ARCHIVE_GROUPS.find(g => g.id === id)?.label ?? 'Archive';
+
+function findInsight(slug: string): PublishedInsight | null {
+  const item = publishedInsights.find(i => i.slug === slug);
+  if (!item) return null;
+  if (!INSIGHT_BODIES[slug]) return null;
+  return item;
+}
+
+function resolve(slug: string): Resolved | null {
+  const insight = findInsight(slug);
+  if (insight) {
+    const Body = INSIGHT_BODIES[insight.slug]!;
+    /* Related: same category first, then anything else published. Only
+       published ones - a "related insight" that cannot be opened is the same
+       defect as a clickable pipeline card. */
+    const related = publishedInsights
+      .filter(i => i.slug !== insight.slug && INSIGHT_BODIES[i.slug])
+      .sort(
+        (a, b) =>
+          Number(b.category === insight.category) -
+          Number(a.category === insight.category),
+      )
+      .slice(0, 3)
+      .map(i => ({
+        slug: i.slug,
+        title: i.title,
+        summary: i.summary,
+        eyebrow: i.category,
+      }));
+
+    return {
+      slug: insight.slug,
+      eyebrow: insight.category,
+      title: insight.title,
+      summary: insight.summary,
+      publishedOn: insight.publishedOn,
+      updatedOn: insight.updatedOn,
+      readingMinutes: insight.readingMinutes,
+      authorName: attributionName(insight.attribution),
+      reviewer: reviewerName(insight.attribution),
+      historical: Boolean(insight.archived),
+      body: <Body />,
+      sources: INSIGHT_SOURCES[insight.slug] ?? [],
+      relatedService: insight.relatedService,
+      related,
+    };
+  }
+
+  const arc = archiveBySlug(slug);
+  if (!arc) return null;
+  const blocks = ARCHIVE_BODIES[slug];
+  if (!blocks || !blocks.length) return null;
+
+  /* Related within the archive only. An archive article must not hand a reader
+     off to current commercial pages as though it were current advice. */
+  const related = archiveArticles
+    .filter(a => a.slug !== arc.slug && a.group === arc.group)
+    .slice(0, 3)
+    .map(a => ({
+      slug: a.slug,
+      title: a.title,
+      summary: a.summary,
+      eyebrow: groupLabel(a.group),
+    }));
+
+  return {
+    slug: arc.slug,
+    eyebrow: groupLabel(arc.group),
+    title: arc.title,
+    summary: arc.summary,
+    publishedOn: arc.publishedOn,
+    readingMinutes: arc.readingMinutes,
+    authorName: arc.author,
+    historical: true,
+    body: <ArchiveBody blocks={blocks} />,
+    sources: [],
+    related,
+  };
+}
+
+export function generateStaticParams(): Params[] {
+  return [
+    ...publishedInsights
+      .filter(i => INSIGHT_BODIES[i.slug])
+      .map(i => ({ slug: i.slug })),
+    ...archiveArticles
+      .filter(a => ARCHIVE_BODIES[a.slug]?.length)
+      .map(a => ({ slug: a.slug })),
+  ];
+}
+
 const longDate = (iso: string) =>
   new Date(iso).toLocaleDateString('en-GB', {
     day: 'numeric',
@@ -72,7 +186,14 @@ const longDate = (iso: string) =>
 export async function generateMetadata({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const item = resolve(slug);
-  if (!item) return pageMetadata({ title: 'Insight', description: '', path: '/insights', noIndex: true });
+  if (!item) {
+    return pageMetadata({
+      title: 'Insight',
+      description: '',
+      path: '/insights',
+      noIndex: true,
+    });
+  }
 
   return pageMetadata({
     title: item.title,
@@ -81,7 +202,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }) 
     article: {
       publishedTime: item.publishedOn,
       modifiedTime: item.updatedOn,
-      authors: [attributionName(item.attribution)],
+      authors: [item.authorName],
     },
   });
 }
@@ -95,18 +216,6 @@ export default async function InsightArticlePage({
   const item = resolve(slug);
   if (!item) notFound();
 
-  const Body = INSIGHT_BODIES[item.slug]!;
-  const sources = INSIGHT_SOURCES[item.slug] ?? [];
-  const reviewer = reviewerName(item.attribution);
-
-  /* Related pieces: same category first, then anything else published. Only
-     published ones — a "related insight" that cannot be opened is the same
-     defect as a clickable pipeline card. */
-  const related = publishedInsights
-    .filter(i => i.slug !== item.slug && INSIGHT_BODIES[i.slug])
-    .sort((a, b) => Number(b.category === item.category) - Number(a.category === item.category))
-    .slice(0, 3);
-
   return (
     <>
       <JsonLd
@@ -116,8 +225,8 @@ export default async function InsightArticlePage({
           path: `/blog/${item.slug}`,
           datePublished: item.publishedOn,
           dateModified: item.updatedOn,
-          authorName: attributionName(item.attribution),
-          reviewedByName: reviewer,
+          authorName: item.authorName,
+          reviewedByName: item.reviewer,
         })}
       />
       <JsonLd
@@ -131,7 +240,7 @@ export default async function InsightArticlePage({
       {/* ------------------------------------------------------------ head */}
       <div className="hero-glow" style={{ padding: '80px 0 48px' }}>
         <div className="wrap">
-          <Eyebrow>{item.category}</Eyebrow>
+          <Eyebrow>{item.eyebrow}</Eyebrow>
           {/* The one H1 on the page (§15). */}
           <h1 className="h1" style={{ marginTop: 20, maxWidth: '26ch' }}>
             {item.title}
@@ -141,7 +250,7 @@ export default async function InsightArticlePage({
           </p>
 
           <div className="small ins-article__meta">
-            <span>{attributionName(item.attribution)}</span>
+            <span>{item.authorName}</span>
             <span aria-hidden>·</span>
             <time dateTime={item.publishedOn}>{longDate(item.publishedOn)}</time>
             {/* Shown only where a revision actually happened. */}
@@ -155,20 +264,23 @@ export default async function InsightArticlePage({
             ) : null}
             <span aria-hidden>·</span>
             <span>{item.readingMinutes} min read</span>
-            {reviewer ? (
+            {item.reviewer ? (
               <>
                 <span aria-hidden>·</span>
-                <span>Technically reviewed by {reviewer}</span>
+                <span>Technically reviewed by {item.reviewer}</span>
               </>
             ) : null}
           </div>
 
           {/* §9: material that is no longer current guidance says so at the top,
               where a reader sees it before the content, not in a footnote. */}
-          {item.archived ? (
-            <p className="small" style={{ marginTop: 22, color: 'var(--amber-ink)' }}>
-              <strong>Historical article.</strong> Retained for reference and technical context.
-              It reflects the position at the time of writing and is not current guidance.
+          {item.historical ? (
+            <p className="small arc-notice">
+              <strong>Historical article.</strong> Published on the previous Pixelette
+              Technologies site and retained for reference and technical context. It
+              reflects the position at the time of writing, and prices, product names and
+              technical recommendations in it are not current guidance.{' '}
+              <Link href="/insights">See current thinking</Link>.
             </p>
           ) : null}
         </div>
@@ -179,15 +291,13 @@ export default async function InsightArticlePage({
         <h2 className="visually-hidden-heading" id="article-body-heading">
           Article
         </h2>
-        <div className="ins-article__body">
-          <Body />
-        </div>
+        <div className="ins-article__body">{item.body}</div>
 
-        {sources.length ? (
+        {item.sources.length ? (
           <div className="ins-article__body" style={{ marginTop: 44 }}>
             <h2 className="h4">Sources</h2>
             <ul className="ins-article__sources" style={{ marginTop: 14 }}>
-              {sources.map(s => (
+              {item.sources.map(s => (
                 <li key={s.href}>
                   <a href={s.href} rel="noopener noreferrer" target="_blank">
                     {s.label}
@@ -206,15 +316,15 @@ export default async function InsightArticlePage({
       </Section>
 
       {/* -------------------------------------------------------- related */}
-      {related.length ? (
+      {item.related.length ? (
         <Section labelledBy="related-heading" style={{ background: '#F7FAFA' }}>
           <h2 className="h4" id="related-heading">
-            Related insights
+            {item.historical ? 'More from the archive' : 'Related insights'}
           </h2>
           <div className="grid grid-3" style={{ marginTop: 24 }}>
-            {related.map(r => (
+            {item.related.map(r => (
               <article className="card ins-card" key={r.slug}>
-                <Eyebrow>{r.category}</Eyebrow>
+                <Eyebrow>{r.eyebrow}</Eyebrow>
                 <h3 className="h4 ins-card__title">
                   <Link href={`/blog/${r.slug}`}>{r.title}</Link>
                 </h3>

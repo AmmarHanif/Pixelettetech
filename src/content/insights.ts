@@ -25,6 +25,8 @@
  * to fill in on purpose.
  */
 
+import { ARCHIVE_PATH } from './archive';
+
 /** The six the brief puts in the filter bar, plus two that have their own homes. */
 export type InsightCategory =
   | 'Engineering'
@@ -223,8 +225,19 @@ export const listedInsights: Insight[] = insights.filter(
  * says so plainly rather than offering a link to nowhere.
  */
 export const archive = {
-  title: 'Blockchain and distributed systems, 2018–2025',
-  note: 'Earlier thinking from Pixelette Technologies, retained for reference and technical context. Original publication dates are preserved; material that is no longer current guidance is marked as historical.',
-  /** Set when the archive has somewhere to live. Until then the card does not link. */
-  href: null as string | null,
+  title: 'Earlier writing, March to July 2025',
+  note: 'Thirty-six articles from the previous Pixelette Technologies site, covering AI, blockchain, software development and design. Retained so that links to them still resolve and the work is not lost. Original publication dates and bylines are preserved, and every article is marked as historical rather than current guidance.',
+  /**
+   * MIGRATED 2026-09-24. The articles now live at their ORIGINAL /blog/<slug>
+   * URLs, with an index at /insights/archive.
+   *
+   * THE TITLE AND NOTE WERE CORRECTED AT THE SAME TIME, because harvesting the
+   * articles made them checkable for the first time. The card previously said
+   * 'Blockchain and distributed systems, 2018-2025'; the measured range is
+   * 2025-03-03 to 2025-07-04, and the previous site's own categories split the
+   * 36 as 13 AI, 13 blockchain, 7 software development and 3 mobile and web
+   * design - so naming the archive after one of four subjects would have sent a
+   * reader looking for the AI material straight past it.
+   */
+  href: ARCHIVE_PATH as string | null,
 };
