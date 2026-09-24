@@ -66,6 +66,20 @@ const faqs = [
     a: 'Yes, and it is one of the most common engagements. Model or agent capability is integrated into an existing application, knowledge base or workflow while preserving the systems, permissions and controls already in place, rather than requiring the product to be rebuilt around the feature.',
   },
   {
+    /*
+     * Added 2026-09-24 on founder instruction. The previous site sold "AI
+     * chatbot development" and the word appeared nowhere on this build, so a
+     * reader arriving on the redirect from /ai-development-services with that
+     * word in mind found nothing that matched it.
+     *
+     * It is ONE placement rather than several, because the Insights brief's
+     * "do not keyword-stuff" applies to service pages too, and the answer is
+     * written to be useful rather than to carry the term.
+     */
+    q: 'Can you build a chatbot for our business?',
+    a: 'Usually what is wanted is not a chatbot in the 2017 sense but an assistant that answers from your own documents, records and policies, respects who is allowed to see what, and cites the passage it answered from. That is retrieval work rather than conversation design, and it is what this page describes. Where the need genuinely is a scripted flow over a handful of known questions, a simpler tool is cheaper and we will say so rather than build a model into it.',
+  },
+  {
     q: 'How do you stop a model answering from documents a user is not allowed to see?',
     a: 'By modelling permissions before the index is built, so entitlements are enforced at retrieval rather than applied afterwards in the application layer. Retrieval that respects who is allowed to see what is the part of enterprise RAG that most often decides whether a rollout goes ahead.',
   },
