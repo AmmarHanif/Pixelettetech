@@ -7,7 +7,11 @@ import { breadcrumbSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
-  title: 'Privacy at Pixelette',
+  /* "Privacy at Pixelette" rendered as "Privacy at Pixelette · Pixelette
+     Technologies" once the layout template was applied - the brand twice in one
+     title. It was always that way in <title>; it only became visible when
+     og:title started carrying the brand too on 2026-09-24. */
+  title: 'Privacy notice',
   description:
     'How Pixelette Technologies uses, protects and manages personal information across our technology, services and business.',
   path: '/privacy',

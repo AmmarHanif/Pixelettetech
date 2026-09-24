@@ -14,7 +14,7 @@ import { breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
-  title: 'AI for insurance and financial services',
+  title: 'AI for insurance and finance',
   description:
     'Nearly half of regulated firms only partly understand the AI they already run. We make it explainable, monitored and defensible for a supervisor.',
   path: '/industries/insurance-financial-services',

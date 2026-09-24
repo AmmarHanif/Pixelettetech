@@ -121,7 +121,22 @@ export function pageMetadata(input: {
       type: input.article ? 'article' : 'website',
       siteName: company.name,
       locale: 'en_GB',
-      title: input.title,
+      /*
+       * THE BRAND IS ADDED HERE EXPLICITLY. `title` above receives the root
+       * layout's "%s · Pixelette Technologies" template from Next, but
+       * OPENGRAPH DOES NOT INHERIT THAT TEMPLATE - so og:title shipped as the
+       * bare page name on every page that did not pass an absolute title. That
+       * was 47 of 51 pages, measured across the built output; an external audit
+       * caught two of them.
+       *
+       * `siteName` below is not a substitute: it is a separate field and
+       * several platforms render only og:title, so a card for this site read
+       * "Contact" or "Tokenisation" with no indication of whose it was.
+       *
+       * An absolute title is passed through untouched, because a page that
+       * bypasses the template has already decided its own full wording.
+       */
+      title: input.absoluteTitle ? input.title : `${input.title} · ${company.name}`,
       description: input.description,
       url,
       /*

@@ -767,7 +767,7 @@ export const caseStudies: CaseStudy[] = [
     service: 'Mobile, web and AI product engineering',
     title:
       'Bringing mobile, web, AI, financial planning and digital-asset functionality into one product programme',
-    metaTitle: 'Mobile, web and AI financial product',
+    metaTitle: 'Mobile, web and AI finance',
     summary:
       'A phased engineering programme across native iOS, Android and web, covering asset categorisation, financial-data aggregation, forecasting and AI recommendations.',
     /*
@@ -989,7 +989,7 @@ export const caseStudies: CaseStudy[] = [
     sector: 'HR technology',
     service: 'Production AI Systems',
     title: 'Gamified cognitive assessment for inclusive hiring',
-    metaTitle: 'Inclusive hiring: cognitive assessment',
+    metaTitle: 'Cognitive assessment for hiring',
     summary:
       'A science-backed assessment tool for candidates with auditory, visual or dual impairments — meeting diversity hiring quotas with evidence.',
     /* The $20k, 98% and 4.7/5 figures are HOLD in the evidence register. They
@@ -1071,7 +1071,7 @@ export const caseStudies: CaseStudy[] = [
     sector: 'Digital assets',
     service: 'Blockchain engineering',
     title: 'Fractional asset tokenisation with custody and compliance built in',
-    metaTitle: 'BlockGuard: governed asset tokenisation',
+    metaTitle: 'BlockGuard: asset tokenisation',
     summary:
       'Cryptographic and distributed-systems engineering for fractional asset tokenisation, delivered under documented security, access and change-control discipline.',
     /*

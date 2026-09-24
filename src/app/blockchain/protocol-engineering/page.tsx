@@ -4,7 +4,7 @@ import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
-  title: 'Layer 1 / Layer 2 protocol engineering',
+  title: 'Protocol engineering, L1 and L2',
   description:
     'Specialist network and protocol engineering where a bespoke chain or scaling layer is genuinely justified, including consensus, execution and node operations.',
   path: '/blockchain/protocol-engineering',

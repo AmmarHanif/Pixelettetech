@@ -51,7 +51,7 @@ import { pageMetadata } from '@/lib/seo';
  * assert no audit competence on our side.
  */
 export const metadata = pageMetadata({
-  title: 'Blockchain development and tokenisation',
+  title: 'Blockchain development',
   description:
     'Asset tokenisation, smart contract engineering and review, wallets, exchanges and dApps. A specialist blockchain practice, engineering since 2018.',
   path: '/blockchain',
