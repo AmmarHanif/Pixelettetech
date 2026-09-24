@@ -161,12 +161,18 @@ const faqs = [
   },
   {
     q: 'How does Pixelette Technologies price a build?',
-    /* Corrected 2026-09-23: this listed the support arrangement as a third
-       standard commercial model with no indication it is optional, which is the
-       implication item 1 of the brief exists to remove. Missed on the first pass
-       because it phrases the offer differently from the sentence the brief
-       quoted. */
-    a: 'Two commercial models for delivery: a fixed-scope build for a defined outcome with a fixed price and date, and a standing product team against a roadmap and a quarterly outcome. After delivery, an optional support arrangement can cover the software and any AI built into it, if you want us to remain involved. The firm does not sell developers by the day.',
+    /*
+     * Founder's own wording, supplied verbatim 2026-09-24.
+     *
+     * THE LOAD-BEARING PROPERTY, carried over from the correction this replaces:
+     * support must read as OPTIONAL and AFTER delivery, never as a third
+     * standard commercial model. The previous answer listed it as one and was
+     * corrected on 2026-09-23; his rewrite keeps the separation, so the
+     * constraint survives the change of voice. Anyone editing this answer again
+     * needs to preserve it - it is the commercial position the whole pre-launch
+     * pass existed to establish, not a stylistic preference.
+     */
+    a: 'We use two commercial models. For a clearly defined project, we agree the scope, outcome, price and delivery date upfront. For products that need to evolve over time, we provide a dedicated product team working to an agreed roadmap and quarterly outcomes. After delivery, ongoing support is optional and can cover the software and any AI within it. We price around what needs to be delivered, rather than selling developers by the day.',
   },
   {
     q: 'What happens after the build ships?',
