@@ -59,3 +59,7 @@ Thumbs.db
 # an ignore rule never untracks a file, and removing one is not this
 # script-hygiene change to make.
 __pycache__/
+
+# assistant test harness output (generated)
+.pix-test-build/
+tsconfig.pix-test.json

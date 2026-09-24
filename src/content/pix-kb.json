@@ -1,0 +1,949 @@
+{
+ "builtFrom": "src/app/**/page.tsx",
+ "counts": {
+  "pages": 41,
+  "faqs": 96,
+  "pointers": 3
+ },
+ "docs": [
+  {
+   "kind": "page",
+   "title": "About the firm",
+   "text": "Since 2018, Pixelette Technologies has designed and built production software, digital platforms and increasingly sophisticated AI systems for organisations that need technology to work beyond the demo.",
+   "path": "/about-us"
+  },
+  {
+   "kind": "page",
+   "title": "Accessibility",
+   "text": "How this website is built for accessibility, what we have tested, what we know is not perfect, and how to tell us when something does not work.",
+   "path": "/accessibility"
+  },
+  {
+   "kind": "page",
+   "title": "Agentic AI & Multi-Agent Systems",
+   "text": "Single- and multi-agent systems that plan, call tools, coordinate steps and operate within defined controls, with autonomy introduced as an engineered decision.",
+   "path": "/ai-automation/agentic-ai-multi-agent"
+  },
+  {
+   "kind": "faq",
+   "title": "What is a multi-agent system, in practical terms?",
+   "text": "A design in which distinct components each hold a defined responsibility, for example gathering information, drafting, checking and executing, and communicate through a defined protocol. It is worth the extra complexity only where the task genuinely splits along those lines. Where it does not, a single agent, or a deterministic workflow with one model call in it, is cheaper, faster and easier to audit.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi-Agent Systems"
+  },
+  {
+   "kind": "faq",
+   "title": "How do you decide how much autonomy an agent should have?",
+   "text": "Autonomy is treated as an engineered control decision rather than a selling point. Human oversight is the default wherever a decision is material. More autonomous operation is introduced only where the workflow, the risk level and measured evaluation evidence justify it, in defined steps: suggest, draft for approval, act within bounds, then act and report.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi-Agent Systems"
+  },
+  {
+   "kind": "faq",
+   "title": "How do you stop an agent doing something it should not?",
+   "text": "By constraining what it can reach rather than by asking it nicely. The tools, queries and APIs available to an agent are an explicit allow-list, arguments are validated, irreversible actions are gated behind human approval, and every step and tool call is recorded so the run can be reconstructed afterwards.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi-Agent Systems"
+  },
+  {
+   "kind": "page",
+   "title": "Data & Integration for AI",
+   "text": "Entitlement-aware retrieval, context and semantic layers, MCP integration to systems of record, lineage and provenance, and legacy enablement.",
+   "path": "/ai-automation/data-and-integration"
+  },
+  {
+   "kind": "faq",
+   "title": "What is the biggest barrier to getting value from enterprise AI?",
+   "text": "Data readiness and access, not model capability. 58% name data readiness and access as their number one barrier (KPMG 2026), 72% cite data quality as the top obstacle (Deloitte Private 2026), and three in four UK professional services firms are unready on data, orchestration and monitoring (GOV.UK 2026).",
+   "path": "/ai-automation/data-and-integration",
+   "page": "Data & Integration for AI"
+  },
+  {
+   "kind": "faq",
+   "title": "What is entitlement-aware retrieval?",
+   "text": "Retrieval that respects who is allowed to see what. Permissions are modelled first and the index is built second, so a model can reach the information it needs and nothing it should not. It is the part of enterprise RAG that most often stops a rollout.",
+   "path": "/ai-automation/data-and-integration",
+   "page": "Data & Integration for AI"
+  },
+  {
+   "kind": "faq",
+   "title": "Do you use MCP to connect to systems of record?",
+   "text": "Yes. MCP has effectively won as a connector standard for CRM, ERP, case management, document stores and internal APIs. The unsolved parts are identity, audit and gateway policy, which is where the engineering work actually sits.",
+   "path": "/ai-automation/data-and-integration",
+   "page": "Data & Integration for AI"
+  },
+  {
+   "kind": "page",
+   "title": "AI Evaluation & Observability",
+   "text": "Golden datasets graded pass or fail, judges calibrated against human labels, regression checks, and drift detection including judge drift.",
+   "path": "/ai-automation/evaluation-and-observability"
+  },
+  {
+   "kind": "faq",
+   "title": "Why grade AI output pass or fail rather than on a one-to-five scale?",
+   "text": "Because a five-point scale hides disagreement inside the middle three points, which makes regressions impossible to detect reliably. Binary grading against an agreed definition of correct forces the definition to be written down, and makes a change in quality visible the moment it happens.",
+   "path": "/ai-automation/evaluation-and-observability",
+   "page": "AI Evaluation & Observability"
+  },
+  {
+   "kind": "faq",
+   "title": "What is judge drift and why does it matter?",
+   "text": "Judge drift is movement in the behaviour of the model doing the grading, as opposed to drift in the input data or a silent version change by a supplier. It matters because it silently invalidates your quality measurements: the system looks stable while the instrument measuring it has moved.",
+   "path": "/ai-automation/evaluation-and-observability",
+   "page": "AI Evaluation & Observability"
+  },
+  {
+   "kind": "faq",
+   "title": "When should evaluation be built into an AI system?",
+   "text": "At the start. Evaluation designed in from day one is what makes an acceptance threshold enforceable and a support-and-run contract possible. Evaluation bolted on after an incident can only tell you what is happening now, not what changed.",
+   "path": "/ai-automation/evaluation-and-observability",
+   "page": "AI Evaluation & Observability"
+  },
+  {
+   "kind": "page",
+   "title": "NLP, Speech & Vision",
+   "text": "Extraction, classification, sentiment, speech and image or video intelligence, built where the use case supports it and graded against a definition of correct.",
+   "path": "/ai-automation/language-speech-vision"
+  },
+  {
+   "kind": "faq",
+   "title": "What language, speech and vision work do you take on?",
+   "text": "Document extraction, classification and routing, sentiment and theme analysis, speech to text with diarisation and summarisation, image and video intelligence, and multilingual handling. The qualifier that matters is whether the use case supports it: the task has to be defined tightly enough that a consistent correct answer exists.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
+   "kind": "faq",
+   "title": "How accurate will an extraction or classification system be?",
+   "text": "That cannot honestly be answered before it is measured on your own material, because performance on public benchmarks says little about performance on your forms, accents and photographs. The engagement establishes accuracy per class against a labelled set built from real cases, and the confidence threshold that routes uncertain output to a person is set from those results.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
+   "kind": "faq",
+   "title": "What happens to the cases the system is unsure about?",
+   "text": "They go to a person. Confidence-based routing is the primary control in this category: high-confidence output flows through, low-confidence output is queued for human review with the reason attached, and the volume in that queue is reported so the threshold can be tuned deliberately rather than discovered.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
+   "kind": "page",
+   "title": "LLM Integration & RAG",
+   "text": "Add model intelligence to existing products and knowledge environments with retrieval, permissions and grounded context, rather than a chat box bolted to the side.",
+   "path": "/ai-automation/llm-integration-rag"
+  },
+  {
+   "kind": "faq",
+   "title": "What is RAG and when is it the right approach?",
+   "text": "Retrieval-augmented generation means the model answers from passages retrieved out of your own content at the time of the question, rather than from what it absorbed in training. It is the right approach when answers must reflect current, organisation-specific material and must be checkable against a source, which covers most enterprise knowledge use cases.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "faq",
+   "title": "Can you add AI to a product we already have?",
+   "text": "Yes, and it is one of the most common engagements. Model or agent capability is integrated into an existing application, knowledge base or workflow while preserving the systems, permissions and controls already in place, rather than requiring the product to be rebuilt around the feature.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "faq",
+   "title": "Can you build a chatbot for our business?",
+   "text": "Usually what is wanted is not a chatbot in the 2017 sense but an assistant that answers from your own documents, records and policies, respects who is allowed to see what, and cites the passage it answered from. That is retrieval work rather than conversation design, and it is what this page describes. Where the need genuinely is a scripted flow over a handful of known questions, a simpler tool is cheaper and we will say so rather than build a model into it.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "faq",
+   "title": "How do you stop a model answering from documents a user is not allowed to see?",
+   "text": "By modelling permissions before the index is built, so entitlements are enforced at retrieval rather than applied afterwards in the application layer. Retrieval that respects who is allowed to see what is the part of enterprise RAG that most often decides whether a rollout goes ahead.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "page",
+   "title": "AI Engineering & Automation | Pixelette Technologies",
+   "text": "We engineer AI into the systems you already run, measure what it changes and keep it working. Start with a four-week Value Discovery.",
+   "path": "/ai-automation"
+  },
+  {
+   "kind": "faq",
+   "title": "Why can so few organisations show a return on AI?",
+   "text": "Because the work around the model was never redesigned, the data it needs was never made reachable, and nobody owns whether it still works next quarter. Around 80% of individual AI users report they are more productive, while only 37% of organisations can attribute any EBIT impact to it, a figure unchanged year on year (McKinsey State of AI, August 2026, n=1,719).",
+   "path": "/ai-automation",
+   "page": "AI Engineering & Automation | Pixelette Technologies"
+  },
+  {
+   "kind": "faq",
+   "title": "What is a Value Discovery?",
+   "text": "A four-week engagement. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.",
+   "path": "/ai-automation",
+   "page": "AI Engineering & Automation | Pixelette Technologies"
+  },
+  {
+   "kind": "faq",
+   "title": "Does Pixelette Technologies audit or certify the AI it builds?",
+   "text": "No, and it does not offer to. Where a programme needs formal governance, certification readiness, privacy or security-assurance support, Pixelette Certified, a separate practice in the same group, can scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment. Independent assurance stays independent: the firm that builds a system is not the firm that assesses it.",
+   "path": "/ai-automation",
+   "page": "AI Engineering & Automation | Pixelette Technologies"
+  },
+  {
+   "kind": "page",
+   "title": "Predictive Intelligence",
+   "text": "Forecasting, scoring, recommendation and decision-support systems built around business data, with thresholds, monitoring and a decision they actually change.",
+   "path": "/ai-automation/predictive-intelligence"
+  },
+  {
+   "kind": "faq",
+   "title": "What is predictive intelligence used for?",
+   "text": "Forecasting demand, revenue, capacity or workload; scoring risk, churn, conversion or priority; recommendation and personalisation; anomaly detection; and decision support that puts the prediction inside the workflow where the decision is actually taken.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "faq",
+   "title": "What does a predictive project need before it can start?",
+   "text": "Four things: a decision that would genuinely change as a result, historical data that recorded the outcome and not only the inputs, a threshold somebody is willing to own, and an accuracy target set against the current human baseline rather than against zero. Where any of those is missing, we say so before scoping a build.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "faq",
+   "title": "How do you keep a model accurate after it goes live?",
+   "text": "By monitoring for decay as a standing commitment: input drift, changing distributions and falling accuracy against held-out outcomes, with an agreed threshold below which the model is retrained or withdrawn. A predictive system that nobody is watching becomes confidently wrong rather than obviously broken.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "page",
+   "title": "Production AI Systems",
+   "text": "AI built into a named business process, with the process redesigned around it. Agentic only where the task earns it. Human review by default.",
+   "path": "/ai-automation/production-ai-systems"
+  },
+  {
+   "kind": "faq",
+   "title": "When should a workflow use an AI agent, and when should it not?",
+   "text": "Use an agent when the path genuinely varies per case, the system must choose among tools, and a wrong step is recoverable and reviewable. Do not use one when the process is stable, the steps are known, the output is regulated, or nobody can articulate what \"correct\" looks like well enough to grade it.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
+   "kind": "faq",
+   "title": "Are most \"agentic\" products actually agentic?",
+   "text": "No. 17% of organisations have deployed AI agents, over 40% of agentic projects are forecast to be cancelled by the end of 2027 on cost, unclear value or inadequate controls, and of the thousands of vendors claiming agentic capability Gartner assesses roughly 130 as genuinely agentic. Much of what is sold as agentic should be a deterministic workflow with one model call in it, which is cheaper, faster and auditable.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
+   "kind": "faq",
+   "title": "What ships alongside a production AI system?",
+   "text": "An evaluation suite with a 100+ example golden set graded pass or fail and a judge calibrated against human labels; acceptance thresholds agreed before the build; an escalation design defining what the system refuses to do alone; and a runbook so your own team can operate it.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
+   "kind": "page",
+   "title": "AI engineering services",
+   "text": "Five services from the engineers who build the rest of your system: Value Discovery, Data & Integration, Production AI, Evaluation, and Support & Run.",
+   "path": "/ai-automation/services"
+  },
+  {
+   "kind": "page",
+   "title": "AI Support & Run",
+   "text": "A monthly contract that owns whether your AI is still accurate, safe and affordable. Evaluation, drift detection, cost control and defined severities.",
+   "path": "/ai-automation/support-and-run"
+  },
+  {
+   "kind": "faq",
+   "title": "How is an AI support and run contract priced?",
+   "text": "Against the number of production systems under contract and the severity cover they need, not against headcount or hours. Watch covers one production system with monitoring, evaluation, a monthly report and SEV-2 response. Operate covers up to three systems and adds SEV-1 response, cost optimisation and a quarterly improvement release. Estate covers four or more systems, or a regulated environment needing named oversight. Every contract is scoped and quoted after a conversation.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
+  },
+  {
+   "kind": "faq",
+   "title": "What are the response times?",
+   "text": "SEV-1 within 1 hour, SEV-2 within 4 hours, SEV-3 by the next working day. Each incident gets a named responder, a rollback procedure and a written post-incident note for your audit trail.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
+  },
+  {
+   "kind": "faq",
+   "title": "Will Pixelette support an AI system it did not build?",
+   "text": "Yes, once a baseline establishes what is being inherited. Running what somebody else wrote is the clearest proof that this is a capability rather than a warranty on our own work.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
+  },
+  {
+   "kind": "faq",
+   "title": "What is judge drift?",
+   "text": "Movement in the behaviour of the model doing the grading, as distinct from drift in the input data or a silent model version change by a supplier. Almost nobody watches it, and it quietly invalidates your quality measurements when it happens.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
+  },
+  {
+   "kind": "page",
+   "title": "Value Discovery",
+   "text": "Four weeks. We instrument two or three of your processes, measure what they cost today, and hand you a costed roadmap and the business case for your exec team.",
+   "path": "/ai-automation/value-discovery"
+  },
+  {
+   "kind": "faq",
+   "title": "How is Value Discovery priced?",
+   "text": "It is scoped to how many processes are in scope and how messy the data is, and quoted before the work starts. The price is quoted before the work starts, not after.",
+   "path": "/ai-automation/value-discovery",
+   "page": "Value Discovery"
+  },
+  {
+   "kind": "faq",
+   "title": "How long does a Value Discovery take?",
+   "text": "Four weeks from start to readout, covering two to three instrumented processes. No procurement cycle is required.",
+   "path": "/ai-automation/value-discovery",
+   "page": "Value Discovery"
+  },
+  {
+   "kind": "faq",
+   "title": "What do I get at the end of a Value Discovery?",
+   "text": "Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included.",
+   "path": "/ai-automation/value-discovery",
+   "page": "Value Discovery"
+  },
+  {
+   "kind": "faq",
+   "title": "What if the numbers do not justify building anything?",
+   "text": "Pixelette says so in writing. You still own the measurement system whether or not you engage further.",
+   "path": "/ai-automation/value-discovery",
+   "page": "Value Discovery"
+  },
+  {
+   "kind": "page",
+   "title": "AI Agents & Workflow Automation",
+   "text": "Automate repetitive or high-friction business processes across systems, data and human approvals, with the current cost measured before anything is changed.",
+   "path": "/ai-automation/workflow-automation"
+  },
+  {
+   "kind": "faq",
+   "title": "What kinds of process are worth automating?",
+   "text": "Repetitive or high-friction processes that cross several systems, involve documents or structured data, and have a measurable current cost in time, cycle time or error rate. Processes that run rarely, change constantly, or carry a decision nobody can define well enough to grade are usually poor candidates, and we will say so.",
+   "path": "/ai-automation/workflow-automation",
+   "page": "AI Agents & Workflow Automation"
+  },
+  {
+   "kind": "faq",
+   "title": "Does workflow automation need AI?",
+   "text": "Frequently not. A large share of the value in a business process comes from deterministic integration and orchestration, which is cheaper to run and simpler to audit. A model is introduced where the work genuinely requires judgement, extraction or language handling that rules cannot do.",
+   "path": "/ai-automation/workflow-automation",
+   "page": "AI Agents & Workflow Automation"
+  },
+  {
+   "kind": "faq",
+   "title": "How do you prove an automation was worth it?",
+   "text": "By measuring the process before it is changed. The manual cost, cycle time, error rate or conversion baseline is instrumented first, so afterwards the comparison is against a recorded starting point rather than against a recollection of how bad things used to be.",
+   "path": "/ai-automation/workflow-automation",
+   "page": "AI Agents & Workflow Automation"
+  },
+  {
+   "kind": "page",
+   "title": "AR and VR Development",
+   "text": "Augmented and virtual reality built as products rather than demonstrations: interactive 3D environments, training simulations and spatial interfaces for web, mobile and headset.",
+   "path": "/ar-vr-development-services"
+  },
+  {
+   "kind": "faq",
+   "title": "Do these experiences run in a browser, or only in a headset?",
+   "text": "Both, and the target is chosen before anything is built rather than after. WebXR and browser-based 3D reach the widest audience with no install and no hardware, and suit anything a customer should be able to open from a link. Headset builds suit training and simulation, where the user is expected to arrive at the equipment. Mobile AR sits between the two and uses the device most people already carry.",
+   "path": "/ar-vr-development-services",
+   "page": "AR and VR Development"
+  },
+  {
+   "kind": "faq",
+   "title": "Do you handle both the design and the development?",
+   "text": "Yes. Concept, storyboarding, 3D modelling, interaction design, engineering and deployment are one engagement rather than a design phase handed to a separate build team. Immersive work suffers particularly badly from that split, because a layout that reads well on a board can be unusable once you are standing inside it.",
+   "path": "/ar-vr-development-services",
+   "page": "AR and VR Development"
+  },
+  {
+   "kind": "faq",
+   "title": "How long does an AR or VR build take?",
+   "text": "It depends on how much of the world has to be built rather than reused, how many systems it has to talk to, and whether the target is a browser, a phone or a headset. Asset creation is usually the long pole and is the part most often underestimated. We give a date at scoping, against a defined scope, rather than quoting a range before anyone has seen what is required.",
+   "path": "/ar-vr-development-services",
+   "page": "AR and VR Development"
+  },
+  {
+   "kind": "faq",
+   "title": "Can an immersive experience connect to our existing systems?",
+   "text": "Yes, and it usually should. A product configurator that does not read the live catalogue, or a training simulation that does not record completion against the learning record, becomes a demonstration nobody maintains. The integration work is part of the build.",
+   "path": "/ar-vr-development-services",
+   "page": "AR and VR Development"
+  },
+  {
+   "kind": "page",
+   "title": "Assurance and AI governance",
+   "text": "We engineer it. Pixelette Certified helps you govern and evidence it: certification readiness, assurance support, and the route to independent assessment.",
+   "path": "/assurance"
+  },
+  {
+   "kind": "pointer",
+   "title": "Does Pixelette Technologies issue ISO certificates?",
+   "text": null,
+   "path": "/assurance",
+   "page": "Assurance and AI governance"
+  },
+  {
+   "kind": "faq",
+   "title": "Why are building and governing split across two practices?",
+   "text": "Because a team that writes a system and then signs off that the system is safe has produced a marketing document, not an assurance opinion. Pixelette Technologies engineers it; Pixelette Certified helps you govern, evidence and prepare it for assurance. Every serious reviewer knows the difference.",
+   "path": "/assurance",
+   "page": "Assurance and AI governance"
+  },
+  {
+   "kind": "pointer",
+   "title": "Do I have to buy both?",
+   "text": null,
+   "path": "/assurance",
+   "page": "Assurance and AI governance"
+  },
+  {
+   "kind": "page",
+   "title": "Blockchain Integration",
+   "text": "Connect blockchain components to existing applications, data and off-chain systems, including indexing, identity mapping, settlement and reconciliation.",
+   "path": "/blockchain/integration"
+  },
+  {
+   "kind": "faq",
+   "title": "What does blockchain integration involve?",
+   "text": "Connecting on-chain components to the applications, data and off-chain systems a business already runs: deciding the boundary between chain and database, building the indexing layer that makes chain state readable at product speed, mapping addresses to customer records and permissions, handling settlement between chain and conventional rails, and reconciling chain state with application and finance records.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "faq",
+   "title": "Why do you need an indexing layer?",
+   "text": "Because querying a chain directly is slow and expensive, and applications and reports need data at product speed. An indexing layer reads chain events into a queryable read model, which is also what makes reconciliation, reporting and customer support practical.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "faq",
+   "title": "What are the main operational risks in integrating a chain?",
+   "text": "Treating apparent confirmation as final when it is probabilistic; designs that assume stable fees and confirmation times; cross-chain bridges, which have been among the most heavily exploited components in the field; and dependence on third-party node providers, indexers and price feeds that have outages like any other supplier.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "page",
+   "title": "Blockchain development",
+   "text": "Asset tokenisation, smart contract engineering and review, wallets, exchanges and dApps. A specialist blockchain practice, engineering since 2018.",
+   "path": "/blockchain"
+  },
+  {
+   "kind": "pointer",
+   "title": "Which chains and protocols does Pixelette Technologies work with?",
+   "text": null,
+   "path": "/blockchain",
+   "page": "Blockchain development"
+  },
+  {
+   "kind": "faq",
+   "title": "Will Pixelette tell me if I do not need a blockchain?",
+   "text": "Yes. The firm assesses whether a chain genuinely earns its place in a proposed mechanism, including when the honest answer is that a conventional database would do the job.",
+   "path": "/blockchain",
+   "page": "Blockchain development"
+  },
+  {
+   "kind": "faq",
+   "title": "What connects blockchain work to AI engineering?",
+   "text": "Both are the same problem: proving a system behaved correctly to somebody who assumes it did not. Building where every action is permanent, publicly verifiable and reviewed by adversaries teaches the audit trail, decision boundary and evidence discipline that enterprises now demand of AI systems.",
+   "path": "/blockchain",
+   "page": "Blockchain development"
+  },
+  {
+   "kind": "page",
+   "title": "Protocol engineering, L1 and L2",
+   "text": "Specialist network and protocol engineering where a bespoke chain or scaling layer is genuinely justified, including consensus, execution and node operations.",
+   "path": "/blockchain/protocol-engineering"
+  },
+  {
+   "kind": "faq",
+   "title": "When is a bespoke chain or Layer 2 actually justified?",
+   "text": "When a general-purpose chain demonstrably fails a specific requirement: throughput, cost per transaction, privacy, governance, finality guarantees or control over upgrades, and the alternatives have been exhausted. Absent a named failure of that kind, an existing chain, an app-specific rollup or a permissioned network will usually meet the requirement for a fraction of the standing cost.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "faq",
+   "title": "What is the real cost of running your own network?",
+   "text": "It is an operational commitment rather than a project. Validators have to be run or recruited, releases and coordinated upgrades managed, the network monitored and incidents handled, and governance maintained to agree changes. A new network also starts with no wallets, explorers, tooling or integrations, so everything a mature ecosystem provides has to be built or funded.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "faq",
+   "title": "Do you work on Layer 2 and rollups as well as Layer 1?",
+   "text": "Yes, and a scaling layer is frequently the better answer. A rollup can deliver the throughput and cost characteristics a project needs while inheriting settlement and much of the surrounding ecosystem from an established chain, which removes most of the sovereignty burden of a bespoke Layer 1.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "page",
+   "title": "Smart Contracts & dApps",
+   "text": "Programmable workflows and decentralised applications with testing, access controls and clear upgrade and ownership decisions, structured for independent review.",
+   "path": "/blockchain/smart-contracts-dapps"
+  },
+  {
+   "kind": "faq",
+   "title": "Do you audit smart contracts?",
+   "text": "No, and we are careful with the word. We design, write, test and document contracts, including adversarial testing and invariant checks, and we structure the work so an independent security review can be carried out efficiently. An audit is a separate engagement by an independent firm with its own competence and scope, and a supplier reviewing its own contracts is not assurance.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "faq",
+   "title": "Should a smart contract be upgradeable?",
+   "text": "It is a governance decision rather than a technical default. Upgradeability lets defects be fixed, and also means someone can change the rules after people have committed value under them. The decision should be explicit, documented, constrained by delays or multi-party control where the stakes justify it, and visible to whoever is relying on the contract.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "faq",
+   "title": "What does a dApp involve beyond the contracts?",
+   "text": "An interface, an indexing layer that makes chain state readable at usable speed, wallet connection and transaction-state handling, off-chain services for anything that should not be on-chain, and monitoring. The contracts are typically the smallest component and the least forgiving one.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "page",
+   "title": "Tokenisation",
+   "text": "Architecture and implementation for representing and managing real-world or digital assets on-chain, where the commercial and legal model genuinely supports it.",
+   "path": "/blockchain/tokenisation"
+  },
+  {
+   "kind": "faq",
+   "title": "What does Pixelette Technologies mean by tokenisation?",
+   "text": "Architecture and implementation for representing and managing real-world or digital assets on-chain, where the commercial and legal model supports it. That covers rights modelling, token standard and chain selection, issuance and lifecycle, custody, holder interfaces, and the reconciliation between on-chain positions and off-chain records.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "faq",
+   "title": "What has to be settled before a tokenisation build starts?",
+   "text": "What the token represents and who is obliged to honour it, the legal and commercial wrapper around it, who is permitted to hold and transfer it, and whether a conventional database would meet the requirement. Those four answers determine the architecture, and building ahead of them normally means rebuilding afterwards.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "faq",
+   "title": "Will you tell us if we do not need a blockchain?",
+   "text": "Yes. Blockchain is treated as a specialist tool rather than a default answer, and is used where ownership, programmability, verification, tokenisation or distributed trust creates a genuine advantage. Where a conventional system would do the job, that is the recommendation, including when it is the smaller piece of work.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "page",
+   "title": "Wallets & Digital-Asset Products",
+   "text": "User-facing wallet, portfolio and transaction experiences across mobile and web, designed around key management, recovery and irreversible actions.",
+   "path": "/blockchain/wallets-digital-assets"
+  },
+  {
+   "kind": "faq",
+   "title": "What is the difference between a custodial and a non-custodial wallet?",
+   "text": "In a custodial model the operator holds the keys and can act on the user’s behalf, which simplifies recovery and support but places the operator in a regulated position of responsibility. In a non-custodial model the user holds the keys, which removes that responsibility and removes the safety net with it. Multi-party approaches sit between the two. The choice is a risk and operating decision and should be made before the product is designed.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
+  },
+  {
+   "kind": "faq",
+   "title": "What is the hardest part of building a wallet?",
+   "text": "Recovery and transaction safety, not the chain interaction. A wallet is a key-management system with a product interface on it: what happens when a user loses a device, and how clearly the interface communicates an irreversible action before it is signed, determine whether the product is trustworthy.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
+  },
+  {
+   "kind": "faq",
+   "title": "Can a wallet be part of a wider product rather than a standalone app?",
+   "text": "Yes, and frequently it should be. Wallet, portfolio and transaction functionality is often one surface of a larger financial or platform programme across mobile and web, with the digital-asset capability sitting alongside conventional account, reporting and administration features rather than in a separate application.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
+  },
+  {
+   "kind": "page",
+   "title": "Work and case studies",
+   "text": "A selection of products and systems engineered by Pixelette Technologies across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
+   "path": "/case-studies"
+  },
+  {
+   "kind": "page",
+   "title": "Contact",
+   "text": "Tell us what you are trying to build or change. One of us replies, not a sequence. If Value Discovery is not the right next step we will say so on the call.",
+   "path": "/contact"
+  },
+  {
+   "kind": "faq",
+   "title": "Where do I find answers for a security questionnaire?",
+   "text": "Send us the questionnaire and we will complete it. Data handling, AI governance, incident response, control detail and certificate evidence go direct to your reviewer rather than being published on this site. Tell us what your review needs and who it should go to, and we will send what we can evidence.",
+   "path": "/contact",
+   "page": "Contact"
+  },
+  {
+   "kind": "page",
+   "title": "Cookies and analytics",
+   "text": "What this website stores on your device, what it measures, and how to object. Written from an audit of the deployed site rather than from policy.",
+   "path": "/cookies"
+  },
+  {
+   "kind": "page",
+   "title": "Cloud & Data Engineering",
+   "text": "Cloud architecture, environments and infrastructure as code, plus pipelines, warehousing, APIs and the integrations into existing systems of record.",
+   "path": "/engineering/cloud-data-engineering"
+  },
+  {
+   "kind": "faq",
+   "title": "Which cloud platforms do you work in?",
+   "text": "AWS, Azure and Google Cloud, with Kubernetes where the workload justifies it. The platform is usually a constraint set by the client rather than a preference we impose, and the architecture is designed around the product and its operating requirements either way.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "faq",
+   "title": "What is the difference between cloud engineering and data engineering here?",
+   "text": "Cloud engineering is where the system runs: environments, deployment, observability, resilience and cost. Data engineering is what moves through it: pipelines, warehousing, APIs, integration into systems of record, and the lineage that lets you defend a number. Most engagements need both, which is why they sit on one page.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "faq",
+   "title": "Do you do this work without also building the application?",
+   "text": "Yes. Cloud architecture, environment rebuilds, pipeline work and integration layers are all deliverable against an existing estate, and are a common first engagement where the application itself is sound but the infrastructure or data layer underneath it is not.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "page",
+   "title": "Custom Software & SaaS",
+   "text": "Multi-tenant SaaS, internal platforms and customer-facing products, designed and engineered from specification through to production rather than to a prototype.",
+   "path": "/engineering/custom-software-saas"
+  },
+  {
+   "kind": "faq",
+   "title": "What does Pixelette Technologies mean by custom software?",
+   "text": "A system that does not come off the shelf, plus the integration work that connects it to the systems that do. That covers multi-tenant SaaS products, internal operational platforms, customer-facing applications and the APIs and cloud architecture behind them.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "faq",
+   "title": "Can you start from an existing codebase rather than a blank sheet?",
+   "text": "Yes. Engagements start either from a blank sheet or from an inherited codebase. Where a system already exists, the usual first step is an independent technical assessment and architecture review before committing to further development.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "faq",
+   "title": "What do you hand over at the end of a build?",
+   "text": "A running system, the architecture decisions written down with their reasons, an automated test suite, a repeatable deployment path with a rollback, and a runbook so your own team can operate the product whether or not the support contract continues.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "page",
+   "title": "Mobile Applications",
+   "text": "Native iOS and Android and cross-platform builds, taken through store submission, with ongoing maintenance available where required, as a product or part of a wider platform.",
+   "path": "/engineering/mobile-applications"
+  },
+  {
+   "kind": "faq",
+   "title": "Do you build native or cross-platform mobile applications?",
+   "text": "Both, and the choice is made per product rather than by house preference. Native suits products that depend on platform behaviour, hardware, background execution or performance. Cross-platform suits products that are largely screens, data and forms where parity across both stores matters more than the last few per cent of native feel.",
+   "path": "/engineering/mobile-applications",
+   "page": "Mobile Applications"
+  },
+  {
+   "kind": "faq",
+   "title": "Can mobile be part of a wider platform programme?",
+   "text": "Yes. Mobile can be a standalone product or one client of a wider SaaS or platform programme across iOS, Android and web, with the architecture chosen around the product and its operating requirements rather than around a single device.",
+   "path": "/engineering/mobile-applications",
+   "page": "Mobile Applications"
+  },
+  {
+   "kind": "faq",
+   "title": "Do you handle App Store and Google Play submission?",
+   "text": "Yes. Store review requirements, privacy declarations, versioning and staged rollout are part of the build rather than a separate concern handed back to the client, and releases continue under a support arrangement afterwards.",
+   "path": "/engineering/mobile-applications",
+   "page": "Mobile Applications"
+  },
+  {
+   "kind": "page",
+   "title": "Modernisation & Integration",
+   "text": "Architecture and code review, incremental legacy replacement, API and integration layers, data migration and independent assessment of stalled builds.",
+   "path": "/engineering/modernisation-integration"
+  },
+  {
+   "kind": "faq",
+   "title": "Can you take over an existing or stalled build?",
+   "text": "Yes. The usual starting point is an independent technical assessment covering architecture, code health, security posture and delivery risk, together with a recovery plan and a cost of continuing, before anyone commits to further development.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "faq",
+   "title": "Should a legacy system be rewritten or modernised in place?",
+   "text": "Modernised in place, in most cases. A full rewrite spends its first year rebuilding functionality that already exists, against a moving target, with no route back. Incremental replacement keeps the current system live while capabilities move across one at a time, and every step is one you can stop at.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "faq",
+   "title": "Does AI make legacy modernisation cheaper?",
+   "text": "Much less than it makes greenfield work cheaper. Published evidence puts coding-assistant gains substantially lower on complex existing code, so a modernisation programme should not be priced as though a tool will absorb the difficulty. We quote on what the estate actually is.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "page",
+   "title": "Web, mobile and custom software",
+   "text": "Web platforms, mobile apps and custom software, built in the UK since 2018. Fixed-scope build, standing product team, or support and run.",
+   "path": "/engineering"
+  },
+  {
+   "kind": "faq",
+   "title": "Does AI really make a software build cheaper?",
+   "text": "It depends entirely on the codebase. Published evidence puts gains at roughly 35 to 40% on straightforward greenfield work and 10% or less on complex legacy code. Pixelette quotes on which of those a project actually is: a new product gets the greenfield price, an estate built twelve years ago does not.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "faq",
+   "title": "How does Pixelette Technologies price a build?",
+   "text": "We use two commercial models. For a clearly defined project, we agree the scope, outcome, price and delivery date upfront. For products that need to evolve over time, we provide a dedicated product team working to an agreed roadmap and quarterly outcomes. After delivery, ongoing support is optional and can cover the software and any AI within it. We price around what needs to be delivered, rather than selling developers by the day.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "faq",
+   "title": "What happens after the build ships?",
+   "text": "A typical path runs fixed-scope build, then, if you want us to stay involved, an optional support arrangement, then AI added to a process inside it, baselined first so the change is measurable, then evaluation and monitoring reported on drift, cost and incidents.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "page",
+   "title": "Web Platforms",
+   "text": "Customer portals, marketplaces, booking and workflow systems, internal tools, and the APIs and infrastructure behind them, built to carry a business.",
+   "path": "/engineering/web-platforms"
+  },
+  {
+   "kind": "faq",
+   "title": "What counts as a web platform rather than a website?",
+   "text": "A website presents information. A platform carries a process: accounts, permissions, transactions, workflow states, integrations and an administrative surface your own team operates. Portals, marketplaces, booking systems, case-management systems and internal tools are all platforms in that sense.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "faq",
+   "title": "Is accessibility included or charged separately?",
+   "text": "It is a build requirement, not an extra line. Keyboard operation, focus order, contrast and semantics are designed in and tested during the build, because retrofitting them into a finished interface costs considerably more than doing them once.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "faq",
+   "title": "Do you rebuild an existing platform or extend it?",
+   "text": "Either, and the decision should follow an assessment rather than a preference. Where an existing platform is sound, incremental replacement of the parts that are failing is usually cheaper and less risky than a full rebuild. Where it is not, we will say so and explain why.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "page",
+   "title": "AI for insurance and finance",
+   "text": "Nearly half of regulated firms only partly understand the AI they already run. We make it explainable, monitored and defensible for a supervisor.",
+   "path": "/industries/insurance-financial-services"
+  },
+  {
+   "kind": "faq",
+   "title": "How well do regulated firms understand the AI they already run?",
+   "text": "Nearly half of regulated firms report only partial understanding of the AI systems already in use across their business, according to the Bank of England and FCA AI survey. The exposure is rarely the model itself. It is the absence of lineage, monitoring and a defined escalation boundary around it.",
+   "path": "/industries/insurance-financial-services",
+   "page": "AI for insurance and finance"
+  },
+  {
+   "kind": "faq",
+   "title": "Does Pixelette Technologies provide regulatory sign-off for AI in financial services?",
+   "text": "No. Pixelette Technologies engineers the system and provides the technical evidence: lineage, evaluation results, drift monitoring and incident records. Sign-off is not ours to give. Where a programme needs formal governance, certification readiness or assurance support, Pixelette Certified, a separate company in the same group, can help scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment.",
+   "path": "/industries/insurance-financial-services",
+   "page": "AI for insurance and finance"
+  },
+  {
+   "kind": "faq",
+   "title": "Will an AI system in a regulated process make decisions automatically?",
+   "text": "Not by default. Human review is the default posture and agentic patterns are used only where the path genuinely varies, the system must choose among tools, and a wrong step is recoverable and reviewable. Where output is regulated, a deterministic workflow with one model call is usually the correct design.",
+   "path": "/industries/insurance-financial-services",
+   "page": "AI for insurance and finance"
+  },
+  {
+   "kind": "page",
+   "title": "Industries",
+   "text": "Where we have published sector-specific work: professional and business services, and insurance and specialist financial services.",
+   "path": "/industries"
+  },
+  {
+   "kind": "page",
+   "title": "AI for professional services",
+   "text": "78% of UK corporate clients call AI-enabled quality improvement essential. 7% say providers deliver it. We close that gap and give you the evidence.",
+   "path": "/industries/professional-services"
+  },
+  {
+   "kind": "faq",
+   "title": "Why are professional services clients asking what AI has done for them?",
+   "text": "78% of UK corporate clients say AI-enabled quality improvement is essential or very important, while only 7% say their providers are actually delivering it. Around £20bn of UK client revenue is under active reconsideration (Thomson Reuters Future of Professionals 2026, UK sample).",
+   "path": "/industries/professional-services",
+   "page": "AI for professional services"
+  },
+  {
+   "kind": "faq",
+   "title": "What separates firms that get value from AI from those that do not?",
+   "text": "A named strategy. Firms with one reach their expected value 66% of the time; firms without one, 22% (Thomson Reuters Future of Professionals 2026). The gap in this sector is not adoption, because most firms have bought the tools. It is being able to walk a client through what changed, with a number.",
+   "path": "/industries/professional-services",
+   "page": "AI for professional services"
+  },
+  {
+   "kind": "page",
+   "title": "Archive",
+   "text": "Articles published on the previous Pixelette Technologies site between March and July 2025, retained for reference. This material is historical and is not current guidance.",
+   "path": "/insights/archive"
+  },
+  {
+   "kind": "page",
+   "title": "Insights",
+   "text": "Practical thinking on software engineering, AI, automation, blockchain and the technologies shaping what comes next.",
+   "path": "/insights"
+  },
+  {
+   "kind": "page",
+   "title": "LIVE, our AI delivery method",
+   "text": "How we take AI from a pilot deck to an operation you can leave running. Four stages, each with a defined deliverable and a defined commercial model.",
+   "path": "/method/live"
+  },
+  {
+   "kind": "faq",
+   "title": "What does LIVE stand for?",
+   "text": "Land, integrate, verify, evolve. Land measures the current state and produces the business case. Integrate makes the data reachable, permissioned and observable. Verify builds the system and proves it against agreed thresholds. Evolve runs it, watches it, costs it and improves it, optionally, if you want us to stay involved after delivery.",
+   "path": "/method/live",
+   "page": "LIVE, our AI delivery method"
+  },
+  {
+   "kind": "faq",
+   "title": "Why does every engagement have to start with a measured baseline?",
+   "text": "Because you cannot price an outcome nobody has counted. Of 979 generative and agentic use cases analysed in 2026, generic productivity cases ran 54% in proof of concept against 19% in production, while narrow process-performance cases ran 8% in proof of concept against 27% in production, the healthiest ratio in the dataset (HFS Research, May 2026). Engagements that start vaguely do not finish.",
+   "path": "/method/live",
+   "page": "LIVE, our AI delivery method"
+  },
+  {
+   "kind": "page",
+   "title": "Modern slavery statement",
+   "text": "Pixelette Technologies’ voluntary statement on modern slavery and human trafficking in its business and supply chain.",
+   "path": "/modern-slavery"
+  },
+  {
+   "kind": "faq",
+   "title": "What does Pixelette Technologies do?",
+   "text": "We design, build, integrate and operate custom software, AI-powered products, automation and specialist blockchain systems. Engagements can start with discovery or with an existing product, process or codebase.",
+   "path": "/",
+   "page": "Home"
+  },
+  {
+   "kind": "faq",
+   "title": "Do you build AI agents and agentic workflows?",
+   "text": "We scope and build AI-agent and workflow-automation solutions where the process, data, controls and expected value justify them. More autonomous operation is introduced according to risk and measurable performance, rather than as a default.",
+   "path": "/",
+   "page": "Home"
+  },
+  {
+   "kind": "faq",
+   "title": "Can you add AI to an existing product or system?",
+   "text": "Yes. A common engagement is to integrate model or agent capabilities into an existing application, knowledge base or workflow while preserving the systems and controls already in place.",
+   "path": "/",
+   "page": "Home"
+  },
+  {
+   "kind": "faq",
+   "title": "Can you take over an existing or stalled build?",
+   "text": "Yes. We can start with an independent technical assessment, architecture/code review and recovery plan before committing to continued development.",
+   "path": "/",
+   "page": "Home"
+  },
+  {
+   "kind": "faq",
+   "title": "What happens after launch?",
+   "text": "Support can continue through monitoring, incident response, optimisation, releases, roadmap delivery and managed product engineering.",
+   "path": "/",
+   "page": "Home"
+  },
+  {
+   "kind": "page",
+   "title": "Privacy notice",
+   "text": "How Pixelette Technologies uses, protects and manages personal information across our technology, services and business.",
+   "path": "/privacy"
+  },
+  {
+   "kind": "page",
+   "title": "Support & Continuous Improvement",
+   "text": "Optional ongoing software support, maintenance, monitoring, optimisation and continuous improvement for products built by Pixelette or existing systems.",
+   "path": "/support-continuous-improvement"
+  },
+  {
+   "kind": "faq",
+   "title": "What does support and continuous improvement include?",
+   "text": "The scope is agreed around the product and what you need from us. It can include monitoring, incident support, maintenance, security updates, performance optimisation, releases and ongoing engineering improvements.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "faq",
+   "title": "Is ongoing support required after Pixelette delivers a product?",
+   "text": "No. We deliver the commissioned product to the agreed specification. Ongoing support is an optional service if you want Pixelette to remain involved after delivery.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "faq",
+   "title": "Can you support software that Pixelette did not build?",
+   "text": "Yes. We can take responsibility for an existing product following an initial technical assessment of the application, infrastructure, documentation and current operating position.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "faq",
+   "title": "Is this just maintenance and bug fixing?",
+   "text": "It can be focused on maintaining reliability, security and performance, or it can extend to optimisation, controlled releases and ongoing improvements. The scope depends on what you need.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "faq",
+   "title": "Do you offer service levels and response times?",
+   "text": "Yes. Appropriate support hours, priorities and response expectations can be agreed as part of the support arrangement.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "faq",
+   "title": "Can you support AI-enabled products?",
+   "text": "Yes. Where relevant, the arrangement can include additional monitoring and operational controls for AI components, including model health, evaluations, guardrails, performance and cost.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "faq",
+   "title": "Do we need to commit to a large engineering team?",
+   "text": "No. The level of engineering capacity is agreed around the product and the amount of ongoing support, maintenance or improvement required.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "page",
+   "title": "Terms",
+   "text": "Terms governing use of the Pixelette Technologies website.",
+   "path": "/terms-conditions"
+  }
+ ]
+}

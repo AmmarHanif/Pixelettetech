@@ -8,7 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "check-types": "tsc --noEmit --pretty"
+    "check-types": "tsc --noEmit --pretty",
+    "pix:build": "node scripts/build-pix-kb.mjs",
+    "pix:check": "node scripts/check-pix-kb.mjs",
+    "pix:test": "node scripts/test-pix.cjs"
   },
   "dependencies": {
     "@vercel/analytics": "2.0.1",

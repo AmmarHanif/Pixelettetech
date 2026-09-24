@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, Newsreader, Outfit } from 'next/font/google';
 
 import { GatedAnalytics } from '@/components/GatedAnalytics';
 import { AnalyticsEvents } from '@/components/AnalyticsEvents';
+import { SiteAssistant } from '@/components/SiteAssistant';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
 import { JsonLd } from '@/components/ui';
@@ -165,6 +166,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />
+        {/*
+          AFTER the footer in source order, so the whole page is reachable by
+          keyboard and by a screen reader before a floating control appears.
+          It stores nothing and calls nothing, so it sits outside the analytics
+          gate below: there is no consent question to ask about it.
+        */}
+        <SiteAssistant />
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />
         {/*
