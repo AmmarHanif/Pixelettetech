@@ -52,6 +52,8 @@ type Resolved = {
   title: string;
   /** Shorter label for <title> where the headline is too long. Falls back to it. */
   seoTitle?: string;
+  /** Shorter meta description where the standfirst is too long. Falls back to it. */
+  seoDescription?: string;
   summary: string;
   publishedOn: string;
   updatedOn?: string;
@@ -124,6 +126,7 @@ function resolve(slug: string): Resolved | null {
       eyebrow: insight.category,
       title: insight.title,
       seoTitle: insight.seoTitle,
+      seoDescription: insight.seoDescription,
       summary: insight.summary,
       publishedOn: insight.publishedOn,
       updatedOn: insight.updatedOn,
@@ -205,7 +208,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }) 
     /* The tab and search-result label, which may be shorter than the headline
        the page displays. The H1 below is always the full title. */
     title: item.seoTitle ?? item.title,
-    description: item.summary,
+    /* The standfirst is what the page shows; this is what a search result gets. */
+    description: item.seoDescription ?? item.summary,
     path: `/blog/${item.slug}`,
     article: {
       publishedTime: item.publishedOn,

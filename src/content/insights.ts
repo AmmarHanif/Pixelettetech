@@ -112,6 +112,16 @@ export type PublishedInsight = Base & {
    * to differ; a headline argues and a title label locates.
    */
   seoTitle?: string;
+  /**
+   * A shorter meta description, where the standfirst runs past what a search
+   * result displays.
+   *
+   * ADDED 2026-09-24 with the agents rewrite: its standfirst is 260 characters,
+   * which reads well at the top of the article and is cut off in a search
+   * result. Same separation as `seoTitle` - the page shows the full thing, the
+   * tab and the search result get a version that fits.
+   */
+  seoDescription?: string;
   /** The contextual service section at the end of the piece. */
   serviceBridge?: ServiceBridge;
 };
@@ -168,19 +178,24 @@ export const insights: Insight[] = [
     status: 'published',
     slug: 'where-ai-agents-should-work',
     category: 'AI & Automation',
-    title: 'AI agents are everywhere. The harder question is where they should actually work',
-    seoTitle: 'Where AI agents should work',
+    title: 'Where should AI agents actually work?',
+    /* 'Where should AI agents actually work?' builds a 62-character title once
+       the brand is appended. The short form keeps it to 53 and still reflects
+       the revised headline. */
+    seoTitle: 'Where should AI agents work?',
     summary:
-      'AI agents can research, plan and take action. But real value comes from using them in the right places, with the right guardrails. We explore how to move from experimentation to useful, governed workflows.',
+      'AI agents can improve a business process or create a more responsive experience in a digital product. The starting point is the same in either case: define the problem, decide what better looks like and establish whether an agent is the right way to get there.',
+    seoDescription:
+      'Define the problem and what better looks like before deciding whether an AI agent, fixed automation or conventional software is the right way to get there.',
     publishedOn: '2026-09-24',
     readingMinutes: 6,
     attribution: { kind: 'editorial', technicallyReviewedBy: null },
     serviceBridge: {
-      heading: 'Thinking about where agents could work in your business?',
-      body: 'Pixelette designs and engineers agentic AI systems and workflow automation around real operational processes, from identifying the right use case through to integration, controls, evaluation and production deployment.',
+      heading: 'Have an idea that needs to work in the real world?',
+      body: 'Pixelette Technologies designs and builds AI-enabled products and workflows around a defined purpose. We can help examine the problem, establish what success looks like and determine whether software, automation or an AI agent is the appropriate approach, then build, evaluate and improve the solution.',
       links: [
-        { href: '/ai-automation/agentic-ai-multi-agent', label: 'Explore Agentic AI' },
-        { href: '/ai-automation/workflow-automation', label: 'Explore Workflow Automation' },
+        { href: '/ai-automation', label: 'Explore AI and Automation' },
+        { href: '/contact', label: 'Talk to Pixelette Technologies' },
       ],
     },
   },

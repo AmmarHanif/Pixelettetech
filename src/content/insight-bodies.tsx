@@ -1,34 +1,32 @@
 import type { ReactNode } from 'react';
 
-import { AgentScopeDiagram, EvaluationGateDiagram } from '@/components/InsightVisuals';
-import { SOURCES } from '@/content/sources';
+import { DecisionFlow, TwoOutcomes } from '@/components/AgentArticleVisuals';
+import { EvaluationGateDiagram } from '@/components/InsightVisuals';
 
 /**
  * Article bodies, keyed by slug.
  *
- * TWO PUBLISHED PIECES, 2026-09-24. Both are written rather than stubbed: the
- * route resolves an article only when it is `status: 'published'` AND has a body
- * here, so a slug listed in one place and missing from the other returns 404
- * instead of an empty page.
+ * TWO PUBLISHED PIECES. The route resolves an article only when it is
+ * `status: 'published'` AND has a body here, so a slug listed in one place and
+ * missing from the other returns 404 rather than an empty page.
  *
- * SOURCES ARE CITED FROM content/sources.ts, NOT INVENTED. That register already
- * distinguishes figures whose attribution can be checked from figures whose
- * cannot, and the distinction bites here: the three agent statistics in it (54
- * incidents a year, 85 per cent without spend visibility, 11 per cent prepared
- * for 2027 scale) are exactly what an article about agents wants to open with,
- * and every one is `published: false` because its attribution names no
- * publisher. They are not used. What is used is the McKinsey adoption gap and
- * the HFS conversion data, both of which name a publisher, a date and a sample.
+ * THE AGENTS PIECE WAS REWRITTEN 2026-09-24 to the founder's revised copy, and
+ * the change is not only editorial. The earlier version opened by asserting that
+ * almost every organisation now has an AI agent, which the cited survey does not
+ * support: it reports AI USE, not agent deployment. The revision says what the
+ * survey says and no more.
  *
- * NO URLs ARE ATTACHED TO THE CITATIONS, deliberately. The register holds
- * publisher, title, date and sample size, which is enough to find a study; it
- * does not hold a verified link, and a plausible-looking URL that resolves to
- * the wrong page is worse than an attribution line a reader can search for.
+ * CITATIONS ARE NOW LINKS TO PRIMARY SOURCES, which is a change from the note
+ * that used to sit here. This file previously attached no URLs, because
+ * content/sources.ts holds publisher, title and date but no verified links, and
+ * a plausible link to the wrong page is worse than an attribution a reader can
+ * search for. The founder supplied three checked URLs with this copy, so the
+ * claims now carry them inline and again in a short sources list.
  *
- * TO PUBLISH A THIRD PIECE, three things change together and the types enforce
- * it: write the body here; set `status: 'published'` in content/insights.ts with
- * `publishedOn`, `readingMinutes` and an `attribution`; and add its sources
- * below. The Insights page needs no change to accommodate it.
+ * THE TWO SETTINGS ARE ILLUSTRATIVE AND NEITHER IS A CLIENT. The customer
+ * enquiry is a scenario; the game companion is Ubisoft's published experiment,
+ * described as theirs and as an experiment rather than a shipped feature.
+ * Nothing in either is a Pixelette result.
  */
 
 /** A pulled-out line. Used sparingly: it loses force if every section has one. */
@@ -36,185 +34,192 @@ function Pull({ children }: { children: ReactNode }) {
   return <p className="art-pull">{children}</p>;
 }
 
-/** An attribution under a figure, matching the pattern used across the site. */
-function Cite({ children }: { children: ReactNode }) {
-  return <p className="art-cite">{children}</p>;
+/** An outbound citation. Always new-tab, always rel-protected. */
+function Ext({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <a href={href} rel="noopener noreferrer" target="_blank">
+      {children}
+    </a>
+  );
 }
+
+const MCKINSEY =
+  'https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai';
+const ANTHROPIC = 'https://www.anthropic.com/engineering/building-effective-agents';
+const UBISOFT =
+  'https://news.ubisoft.com/en-us/article/3mWlITIuWuu0MoVuR6o8ps/ubisoft-reveals-teammates-an-ai-experiment-to-change-the-game';
 
 export const INSIGHT_BODIES: Record<string, () => ReactNode> = {
   /* ------------------------------------------------------------ article 1 */
   'where-ai-agents-should-work': () => (
     <>
       <p className="body">
-        Almost every organisation now has an AI agent somewhere. Far fewer can point at a
-        line in the accounts and say what it changed. That gap is not evidence that agents
-        do not work. It is evidence that the question most teams asked first was
-        <em> can we build one</em>, when the question that decides the outcome is
-        <em> where should it run</em>.
+        AI is in use across many organisations. That does not mean every organisation has
+        an AI agent, or that every deployment is improving the outcome it was meant to
+        address. In{' '}
+        <Ext href={MCKINSEY}>McKinsey&rsquo;s 2026 global survey</Ext>, nearly nine in ten
+        respondents reported regular AI use in at least one business function. Yet 37 per
+        cent attributed a positive impact on operating profit to AI, and 6 per cent met the
+        survey&rsquo;s definition of an AI high performer.
+      </p>
+      <p className="body">
+        Those figures do not tell us that the remaining organisations have failed. Benefits
+        may take time to appear and can be difficult to measure. They do, however, show why
+        adoption alone is a poor answer to the question that matters: what is changing for
+        the people using the product or doing the work?
+      </p>
+      <p className="body">
+        Before asking whether we can build an agent, we should ask what needs to improve,
+        what outcome we want and what is preventing that outcome today.
       </p>
 
-      <h2 className="h3">The adoption gap is real, and it is not about capability</h2>
+      <h2 className="h3">Start with the problem</h2>
       <p className="body">
-        Individual users report that AI makes them faster, and they are almost certainly
-        right. What has not followed is attributable organisational value. In the most
-        recent large survey, 80 per cent of individual users reported being more
-        productive, while only 37 per cent of organisations could attribute any EBIT
-        impact to AI at all, a figure unchanged year on year.
+        Consider a company that receives customer enquiries through its website and a
+        shared inbox. Before responding, an employee may need to identify the customer,
+        find previous correspondence, check an order record, work out who owns the request
+        and gather the information needed for a useful reply.
       </p>
-      <Cite>{SOURCES.mckinsey}</Cite>
       <p className="body">
-        A year of no movement in that second number is the interesting part. If the
-        constraint were model capability, the figure would have risen, because the models
-        plainly improved. It did not, which points at something structural: the work
-        around the model was never redesigned, the data it needed was never made
-        reachable, and nobody owned whether it still worked the following quarter.
+        The problem is not that the company lacks an AI agent. The problem is that
+        enquiries take too long to reach the right person with the right context. Some are
+        passed between teams; others require the same information to be entered twice.
       </p>
-
-      <h2 className="h3">What an agent actually is</h2>
       <p className="body">
-        Stripped of marketing, an agent is a system that can plan a sequence of steps,
-        reason about intermediate results, take actions against real systems, and produce
-        something a person or another system can use. The fourth part is where value is
-        created and the third is where risk is created, which is why the two have to be
-        designed together.
+        A sensible first step is to measure what happens now. How long does it take to
+        provide a useful first response? How many handoffs are involved? How often must
+        someone correct or repeat the work? The company can then define the improvement it
+        wants, such as faster responses without an increase in incorrect answers or
+        avoidable handoffs.
       </p>
-      <AgentScopeDiagram />
       <p className="body">
-        The distinction that matters is not agent against chatbot. It is whether the
-        system is permitted to <strong>act</strong>. A system that drafts a reply for a
-        person to send has a failure mode of wasted time. A system that sends the reply
-        has a failure mode of a sent reply. Both may be worth building. They are not the
-        same engineering problem and should not be governed identically.
+        That gives the project an outcome to work towards and a baseline against which to
+        judge it.
       </p>
 
-      <h2 className="h3">The evidence on where agents survive contact with production</h2>
+      <TwoOutcomes />
+
+      <h2 className="h3">Map the work before choosing the technology</h2>
       <p className="body">
-        There is a useful and slightly counterintuitive pattern in how AI use cases
-        convert from proof of concept to production. Broad productivity cases start
-        strongly and finish poorly. Narrow, process-specific cases start weakly and
-        finish far better.
+        Following several real enquiries from arrival to resolution may reveal different
+        kinds of work hidden inside what first looked like one process.
       </p>
-      <div className="art-figure">
-        <div className="art-figure__row">
-          <span className="art-figure__label">Generic productivity cases</span>
-          <span className="art-figure__value">54% proof of concept, 19% production</span>
-        </div>
-        <div className="art-figure__row">
-          <span className="art-figure__label">Narrow process-performance cases</span>
-          <span className="art-figure__value">8% proof of concept, 27% production</span>
-        </div>
-      </div>
-      <Cite>{SOURCES.hfs}</Cite>
       <p className="body">
-        Read those two rows in the right order and they describe a trap. The cases that
-        are easiest to start are the ones least likely to finish, because &ldquo;make the
-        team more productive&rdquo; has no owner, no threshold and no measurable before
-        state. The cases that are hardest to start are the ones most likely to finish,
-        because a named process already has a cost, a volume, an owner and a definition of
-        correct.
+        A fixed rule could route billing enquiries to the accounts team. A software
+        integration could remove the need to copy customer information between systems.
+        Neither step necessarily needs an AI agent.
+      </p>
+      <p className="body">
+        Other steps require more interpretation. A customer might describe a delivery
+        problem without an order number, or combine a technical question with a request to
+        change their account. A system may need to gather information from approved
+        sources, recognise what is missing and propose a suitable next step.
+      </p>
+      <p className="body">
+        That is where an agent becomes worth considering. It has a defined role in a
+        workflow, rather than being added simply because it can be built.{' '}
+        <Ext href={ANTHROPIC}>Anthropic&rsquo;s guidance on building effective agents</Ext>{' '}
+        distinguishes predetermined workflows from agents that dynamically choose their
+        next steps, and advises teams to use the simplest approach that can do the job.
+      </p>
+
+      <DecisionFlow />
+
+      <h2 className="h3">The outcome does not have to be productivity</h2>
+      <p className="body">
+        The same reasoning applies outside an office. A game studio might want a companion
+        character to respond to a player&rsquo;s choices and surroundings, rather than
+        repeat a fixed set of lines. Its desired outcome is a more engaging player
+        experience, not a reduction in administrative work.
+      </p>
+      <p className="body">
+        Ubisoft has explored this in <Ext href={UBISOFT}>Teammates</Ext>, a playable
+        experiment featuring an AI companion and other characters that respond to player
+        voice commands and events in the game. Ubisoft says its writers define the
+        characters, their motivations and the boundaries of the game world, while the AI
+        allows responses within those boundaries. It is an experiment, rather than evidence
+        that the approach has become a standard feature of released games.
+      </p>
+      <p className="body">
+        The design questions are specific to the experience. What should a character
+        remember? What can it say or do without breaking the story? How quickly must it
+        respond? Do players enjoy interacting with it more than they would with scripted
+        alternatives?
+      </p>
+      <p className="body">
+        In either setting, an agent earns its place by improving an outcome that matters to
+        its users. The measures differ, but the need to define and test them does not.
+      </p>
+
+      <h2 className="h3">Give the agent a job and a boundary</h2>
+      <p className="body">
+        For the customer enquiry example, an initial agent might read an incoming request,
+        retrieve relevant information the employee is authorised to see, identify missing
+        details and prepare a suggested response or routing decision. An employee would
+        review the suggestion before anything was sent or changed in the customer&rsquo;s
+        account.
+      </p>
+      <p className="body">
+        Suggesting a response carries a different level of risk from issuing a refund,
+        changing an address or making a contractual commitment. Each action needs
+        appropriate permissions and approval rules.
+      </p>
+      <p className="body">
+        The gaming example also needs boundaries, though for different reasons. A character
+        might improvise dialogue while remaining faithful to its role, the game&rsquo;s
+        story and the player&rsquo;s experience. More freedom is valuable only if the
+        experience still works as intended.
       </p>
       <Pull>
-        The question is not whether an agent can do the work. It is whether anyone can
-        tell afterwards if it did.
+        The appropriate level of autonomy follows from the task, its consequences and the
+        evidence gathered through testing. It should not be decided by how autonomous the
+        technology can appear in a demonstration.
       </Pull>
 
-      <h2 className="h3">Four tests for where an agent earns its place</h2>
+      <h2 className="h3">Decide what must be proven before launch</h2>
       <p className="body">
-        Before committing engineering effort, we put a candidate process through four
-        questions. A process that fails any of them is not necessarily a bad idea, but it
-        is a bad <em>first</em> idea.
+        Evaluation should be planned before selecting a model or building an agent. For the
+        enquiry workflow, that means recording the current response time, handoffs and
+        correction rate, then agreeing what results a redesigned process must achieve.
+      </p>
+      <p className="body">
+        The proposed system should be tested on routine and difficult cases: missing
+        customer details, conflicting records, requests outside its permissions and
+        situations where a person must decide. The team should examine response quality,
+        the information used, compliance with approval boundaries, time taken and operating
+        cost.
+      </p>
+      <p className="body">
+        A game studio would test different things. It could observe whether players
+        understand and enjoy the interaction, whether the character remains consistent,
+        whether responses arrive quickly enough and whether unexpected dialogue damages the
+        experience.
+      </p>
+      <p className="body">
+        If a system meets the requirements agreed for its use, it can be launched with
+        monitoring and clear ownership. If it does not, the team changes the design and
+        tests again. After launch, real use provides further evidence for improving the
+        experience or adjusting the agent&rsquo;s responsibilities.
+      </p>
+      <p className="body">
+        <Ext href={MCKINSEY}>McKinsey&rsquo;s survey</Ext> found that organisations
+        reporting the strongest AI outcomes were more likely to redesign workflows and have
+        defined processes for measuring impact. That is a useful lesson for business
+        deployments, although it does not guarantee that any individual agent will deliver
+        a financial return.
       </p>
 
-      <h3 className="h4">1. Is the process bounded?</h3>
+      <h2 className="h3">The question worth asking first</h2>
       <p className="body">
-        Can you describe where it starts, where it ends and what it touches? An
-        unbounded brief produces an unbounded system, and an unbounded system cannot be
-        evaluated because there is no complete list of what it is supposed to do.
-      </p>
-
-      <h3 className="h4">2. Is the output checkable?</h3>
-      <p className="body">
-        Somebody, or something, must be able to tell a good result from a bad one without
-        redoing the work. If verifying the output costs as much as producing it, the
-        automation has moved effort rather than removed it.
-      </p>
-
-      <h3 className="h4">3. Is the failure tolerable and reversible?</h3>
-      <p className="body">
-        Ask what happens on the worst day, not the average one. A misfiled document is
-        recoverable. A payment sent to the wrong counterparty, a message to a regulator,
-        or a record deleted from a system of record may not be. Where failure is
-        irreversible, the agent proposes and a person disposes.
-      </p>
-
-      <h3 className="h4">4. Does it have a named owner?</h3>
-      <p className="body">
-        Not a sponsor for the project, an owner for the running of it. Someone whose job
-        it is to look at what the system did last month and say whether it is still
-        acceptable. Systems without this do not fail loudly, they drift quietly.
-      </p>
-
-      <h2 className="h3">Where agents should not go first</h2>
-      <p className="body">
-        Three categories come up repeatedly and are usually better served by something
-        simpler.
-      </p>
-      <ul className="art-list">
-        <li>
-          <strong>Work that is already deterministic.</strong> If the rule can be written
-          down completely, write it down. A rules engine is cheaper, faster, auditable by
-          inspection, and does not need evaluating every quarter.
-        </li>
-        <li>
-          <strong>Work whose data is not reachable.</strong> Data readiness, not model
-          quality, is the barrier organisations name most often. An agent pointed at
-          inaccessible or untrustworthy data inherits every problem that data has and adds
-          confident phrasing to it.
-        </li>
-        <li>
-          <strong>Work where nobody can say what good looks like.</strong> If the team
-          cannot agree on the definition of a correct outcome before the build, they will
-          not agree on it afterwards, and the system will be judged on vibes.
-        </li>
-      </ul>
-      <Cite>Data readiness: {SOURCES.kpmg}; {SOURCES.deloitte}</Cite>
-
-      <h2 className="h3">Guardrails are architecture, not policy</h2>
-      <p className="body">
-        Guardrails written into a document are aspirations. Guardrails written into a
-        system are constraints. The four that do most of the work in practice:
-      </p>
-      <ul className="art-list">
-        <li>
-          <strong>Permission inheritance.</strong> The agent sees exactly what the person
-          it acts for is allowed to see, enforced at retrieval rather than by asking the
-          model to be discreet.
-        </li>
-        <li>
-          <strong>Evidence on every answer.</strong> A claim the system cannot cite back to
-          a source is a claim it should not make.
-        </li>
-        <li>
-          <strong>Explicit action boundaries.</strong> A short, enumerated list of what the
-          system may do, with everything outside it requiring a person. The list should be
-          readable by a non-engineer.
-        </li>
-        <li>
-          <strong>Standing evaluation.</strong> Not a launch gate. A recurring check, because
-          the model, the data and the process all move after go-live.
-        </li>
-      </ul>
-
-      <h2 className="h3">Where this leaves you</h2>
-      <p className="body">
-        The organisations getting value from agents are not the ones that adopted earliest
-        or bought the largest model. They are the ones that picked a process narrow enough
-        to measure, decided in advance what an acceptable result was, built the checks
-        before the capability, and gave somebody the job of looking at it every month.
+        An agent may be the right answer for part of a customer enquiry process or for a
+        new kind of interaction in a game. Fixed automation, conventional software or
+        carefully written scripts may be better for other parts.
       </p>
       <p className="body">
-        That is a less exciting answer than the demonstrations suggest. It is also the one
-        that shows up in the accounts.
+        Start by understanding the problem and defining the outcome. Then choose the
+        technology, boundaries and evaluation method that fit. The point is to build
+        something people can recognise as better, whether they are customers, employees or
+        players.
       </p>
     </>
   ),
@@ -238,9 +243,7 @@ export const INSIGHT_BODIES: Record<string, () => ReactNode> = {
         whether to ship. And it moves, so a later run scoring 3.6 instead of 3.7 invites
         an argument about noise rather than a judgement about readiness.
       </p>
-      <Pull>
-        A grade you cannot act on is a description, not an evaluation.
-      </Pull>
+      <Pull>A grade you cannot act on is a description, not an evaluation.</Pull>
       <p className="body">
         A binary outcome forces the useful argument to happen before the build rather than
         after it. To say pass or fail you must first say what passing means, and that
@@ -363,20 +366,34 @@ export const INSIGHT_BODIES: Record<string, () => ReactNode> = {
 /**
  * Sources for a piece, keyed by slug.
  *
- * `href` IS OPTIONAL AND MOSTLY ABSENT, on purpose. content/sources.ts holds
- * publisher, title, date and sample size, which is enough for a reader to find a
- * study. It does not hold verified URLs, and a link that looks right and resolves
- * to the wrong page is worse than a citation line somebody can search for.
+ * THESE NOW CARRY URLs, which they previously did not. content/sources.ts holds
+ * publisher, title and date but no verified links, and this file used to render
+ * attribution as plain text on the grounds that a plausible link to the wrong
+ * page is worse than a line a reader can search for. The founder supplied three
+ * checked URLs with the revised copy, so the reasoning no longer applies to
+ * these three: each is linked inline beside the claim it supports and again
+ * here.
  */
 export const INSIGHT_SOURCES: Record<
   string,
   { label: string; href?: string }[]
 > = {
   'where-ai-agents-should-work': [
-    { label: `Adoption and attributable value: ${SOURCES.mckinsey}` },
-    { label: `Proof-of-concept to production conversion: ${SOURCES.hfs}` },
-    { label: `Data readiness as the named barrier: ${SOURCES.kpmg}` },
-    { label: `Data quality as the top obstacle: ${SOURCES.deloitte}` },
+    {
+      label:
+        'McKinsey, The state of AI in 2026: on the road to ROI — AI adoption, reported operating-profit impact, workflow redesign and measurement',
+      href: MCKINSEY,
+    },
+    {
+      label:
+        'Anthropic, Building effective agents — fixed workflows, agents and appropriate complexity',
+      href: ANTHROPIC,
+    },
+    {
+      label:
+        'Ubisoft, Ubisoft reveals Teammates: an AI experiment to change the game — the playable experiment and its creative boundaries',
+      href: UBISOFT,
+    },
   ],
   'how-we-evaluate-ai-systems': [],
 };
