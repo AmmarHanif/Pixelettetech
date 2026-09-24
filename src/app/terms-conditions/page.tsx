@@ -9,7 +9,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Terms',
   description: 'Terms governing use of the Pixelette Technologies website.',
-  path: '/terms-condition',
+  path: '/terms-conditions',
 });
 
 /*
@@ -101,7 +101,7 @@ export default function TermsPage() {
       <JsonLd
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'Terms', path: '/terms-condition' },
+          { name: 'Terms', path: '/terms-conditions' },
         ])}
       />
       <LegalPage

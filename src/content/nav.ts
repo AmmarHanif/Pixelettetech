@@ -257,7 +257,7 @@ export const legalNav: NavItem[] = [
    */
   { href: '/privacy', label: 'Privacy Statement' },
   { href: '/cookies', label: 'Cookies & analytics' },
-  { href: '/terms-condition', label: 'Terms' },
+  { href: '/terms-conditions', label: 'Terms' },
   { href: '/modern-slavery', label: 'Modern slavery' },
   { href: '/accessibility', label: 'Accessibility' },
 ];
@@ -506,7 +506,7 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
   { path: '/contact', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/cookies', priority: 0.3, changeFrequency: 'yearly' },
-  { path: '/terms-condition', priority: 0.3, changeFrequency: 'yearly' },
+  { path: '/terms-conditions', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/modern-slavery', priority: 0.3, changeFrequency: 'yearly' },
   { path: '/accessibility', priority: 0.3, changeFrequency: 'yearly' },
 ];

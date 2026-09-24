@@ -107,15 +107,20 @@ const nextConfig: NextConfig = {
        * The short paths get the redirect because they have been live on the
        * preview and may be linked from anywhere it was shared.
        *
-       * /terms-conditions, the PLURAL, is the previous site's real URL and the
-       * one carrying inbound history. /terms-condition, the singular, is a
-       * misspelling the old domain itself redirected - and is now the canonical
-       * path here, on the founder's explicit choice, made with that consequence
-       * stated. Both old spellings land on it.
+       * Terms sits at /terms-conditions, the PLURAL - the previous site's real
+       * URL and the one carrying inbound history.
+       *
+       * IT BRIEFLY SAT AT THE SINGULAR. The founder first asked for
+       * /terms-condition, which is a misspelling the old domain itself
+       * redirected rather than a page it published; he was shown both with the
+       * consequence stated, chose the singular, then corrected himself within
+       * the hour. The singular is now a SOURCE rather than a destination, so
+       * both old spellings still land on one canonical page - the same property
+       * the first arrangement had, pointing the other way.
        */
       { from: '/about', to: '/about-us' },
-      { from: '/terms', to: '/terms-condition' },
-      { from: '/terms-conditions', to: '/terms-condition' },
+      { from: '/terms', to: '/terms-conditions' },
+      { from: '/terms-condition', to: '/terms-conditions' },
     ];
     return [
       ...moved.map(({ from, to }) => ({
