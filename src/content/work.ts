@@ -534,18 +534,6 @@ type CaseStudyFields = {
 export type CaseStudy = CaseStudyFields & NameGate;
 
 /**
- * What a gated case study says about its own evidence, in place of the client
- * name and the numbers it is not yet allowed to publish.
- *
- * One sentence, shared by all four, because it states the site's rule rather
- * than anything specific to an engagement. It is the handoff's publication
- * rule turned outward: we would rather tell a reader what is being withheld
- * and why than quietly present a thinner case study.
- */
-const GATED_EVIDENCE_BASIS =
-  'This write-up is drawn from Pixelette’s own project records for the engagement. Under the site’s publication rule the client name, logo, quotes and any numerical result go live only once permission and evidence are both confirmed, so what is published here is the challenge, the engineering and a non-quantified result.';
-
-/**
  * Where the figures carried across from the previous site came from, and why
  * that provenance is not evidence for them.
  *
@@ -560,39 +548,6 @@ const PREVIOUS_SITE_RECORD_BASIS =
  */
 const DESIGN_BOARD_BASIS =
   'The 2026 design file’s own case-study board. A board states the figure it was handed; it does not record how the figure was measured, over what period, or whether the client agreed to publish it. It is the same class of source as the previous site’s record and carries the same defects — board 05 attributes one engagement’s sales figures to an entirely different client, and board 06 publishes an impossible “170% retention”.';
-
-/**
- * What a case study says in place of the figures it is not yet allowed to
- * publish, rendered in the handoff’s “Tech and evidence” section.
- *
- * The companion to GATED_EVIDENCE_BASIS below, for the studies whose client is
- * named but whose numbers are not cleared. Telling a reader that a figure is
- * being withheld and why is a stronger page than quietly presenting a thinner
- * one, and it is the same argument the Work page makes at the top.
- */
-const HELD_FIGURES_EVIDENCE_BASIS =
-  'The figures for this engagement are recorded in Pixelette’s own project material and are held behind this site’s evidence gate. Under the publication rule set on 8 September 2026 a numerical result goes live only once its measurement basis and the client’s permission are both confirmed, so what is published here is the challenge, the engineering and the result without a number on it. The figures are kept, not discarded, and go up when the evidence does.';
-
-/**
- * For a study whose figures were WITHDRAWN at source rather than held pending
- * evidence. Added 2026-09-14 for Beyorch, which had no `evidenceBasis` at all.
- *
- * The distinction is this file's own, stated at Beyorch's `metrics: []`: "a
- * withdrawn figure is not a pending one". So neither existing constant fits.
- * GATED_EVIDENCE_BASIS says the client name goes live once permission is
- * confirmed, and Beyorch's name IS confirmed and published.
- * HELD_FIGURES_EVIDENCE_BASIS promises the figures "are kept, not discarded, and
- * go up when the evidence does" — which would be a promise this engagement
- * cannot keep, because the numbers were struck from the source record, not
- * parked behind a gate. Reusing it would have been the tidier-looking mistake.
- *
- * The consequence of having none was not cosmetic: the "Tech and evidence"
- * section renders only where `evidenceBasis` is set, so Beyorch was the one
- * detailed study on the site that silently published no evidence statement at
- * all — confirmed from its built page, which contains no such section.
- */
-const WITHDRAWN_FIGURES_EVIDENCE_BASIS =
-  'This write-up is drawn from Pixelette’s own project records for the engagement, and the client is named with permission. The outcome figures that once accompanied it were withdrawn from publication at source and are not repeated here or held for later release. A withdrawn figure is not a pending one. What is published is the challenge, the engineering and the stack.';
 
 export const caseStudies: CaseStudy[] = [
   {
@@ -727,23 +682,22 @@ export const caseStudies: CaseStudy[] = [
       duration: null,
       architectureLabel: 'Matchmaking and agent-interaction architecture',
       /*
-       * Moved off GATED_EVIDENCE_BASIS 2026-09-14, because that constant had
-       * become self-contradicting on this page.
+       * The reader-facing evidence-basis note was REMOVED from every case study
+       * on 2026-09-24, on founder instruction, along with the three constants
+       * that supplied it. Nothing about what is published changed: that field
+       * was an INPUT to the figure scanner below, never a condition of it, and
+       * the figures remain in internalEvidence.heldMetrics, still gated by the
+       * claims register.
        *
-       * It reads "the client name, logo, quotes and any numerical result go
-       * live only once permission and evidence are both confirmed" — printed on
-       * a page that names 2Connect in its title, its kicker and its body. The
-       * name permission was confirmed on 2026-09-11 and the name went live; the
-       * evidence statement underneath it went on describing the name as gated.
-       *
-       * HELD_FIGURES_EVIDENCE_BASIS is the constant written for exactly this
-       * state and its own docstring says so: "for the studies whose client is
-       * named but whose numbers are not cleared". The figures here are still
-       * gated — no match-accuracy or adoption percentage is published — which is
-       * what that wording describes, accurately, without also claiming the name
-       * is withheld.
+       * One finding from that note's history is kept because it is the sort of
+       * thing that gets reintroduced by whoever adds the next case study. The
+       * original wording said the client name goes live only once permission is
+       * confirmed — while printing on a page that named 2Connect in its title,
+       * kicker and body, the name permission having been confirmed on
+       * 2026-09-11. A boilerplate disclosure attached to every study will
+       * eventually contradict the study it sits on. If one is ever restored,
+       * it has to vary with what is actually withheld on that page.
        */
-      evidenceBasis: HELD_FIGURES_EVIDENCE_BASIS,
       anonymised: {
         measured:
           'The engagement moved the platform from concept and discovery into a structured AI product architecture and MVP development programme, with defined matching flows, a working development environment and later-phase product planning recorded in the project trail.',
@@ -852,7 +806,6 @@ export const caseStudies: CaseStudy[] = [
          row is omitted until a duration for this programme is on record. */
       duration: null,
       architectureLabel: 'Product and integration architecture',
-      evidenceBasis: GATED_EVIDENCE_BASIS,
     },
     internalEvidence: {
       publicationNote:
@@ -961,7 +914,6 @@ export const caseStudies: CaseStudy[] = [
          the reward link, not the toolchain. */
       duration: null,
       architectureLabel: 'Token, reward and treasury architecture',
-      evidenceBasis: GATED_EVIDENCE_BASIS,
       anonymised: {
         built:
           'Pixelette’s portfolio material documents an architecture around the project’s ERC-20 token, staking and PAXG-linked reward logic, vesting, investor dashboards, treasury views and administration capability for mining and finance operations.',
@@ -1059,7 +1011,6 @@ export const caseStudies: CaseStudy[] = [
       stack: 'React, Node.js, MongoDB, Stripe, OpenAI',
       duration: 'Seven months',
       architectureLabel: 'Assessment pipeline',
-      evidenceBasis: GATED_EVIDENCE_BASIS,
       anonymised: {
         built:
           'A gamified cognitive mapping tool that assesses up to ten cognitive skills, among them focus, attention and logical reasoning, and produces detailed reports for inclusive hiring, role alignment and vocational guidance.',
@@ -1146,7 +1097,6 @@ export const caseStudies: CaseStudy[] = [
       stack: 'Solidity, distributed systems, key management',
       duration: null,
       architectureLabel: 'Architecture diagram',
-      evidenceBasis: HELD_FIGURES_EVIDENCE_BASIS,
     },
     internalEvidence: {
       sourceBasis: PREVIOUS_SITE_RECORD_BASIS,
@@ -1229,7 +1179,6 @@ export const caseStudies: CaseStudy[] = [
       stack: 'Solidity, Hardhat, Web3.js, Node.js, IPFS, Go',
       duration: null,
       architectureLabel: 'Marketplace and contract architecture',
-      evidenceBasis: HELD_FIGURES_EVIDENCE_BASIS,
     },
     internalEvidence: {
       sourceBasis: PREVIOUS_SITE_RECORD_BASIS,
@@ -1307,7 +1256,6 @@ export const caseStudies: CaseStudy[] = [
       stack: 'Solidity, Truffle, ERC-1155, IPFS, Web3.js, Node.js, Moralis',
       duration: null,
       architectureLabel: 'Provenance and tokenisation architecture',
-      evidenceBasis: HELD_FIGURES_EVIDENCE_BASIS,
     },
     internalEvidence: {
       sourceBasis: PREVIOUS_SITE_RECORD_BASIS,
@@ -1402,7 +1350,6 @@ export const caseStudies: CaseStudy[] = [
          the build took. Founder-supplied duration only. */
       duration: null,
       architectureLabel: 'Custody architecture',
-      evidenceBasis: HELD_FIGURES_EVIDENCE_BASIS,
     },
     internalEvidence: {
       sourceBasis: DESIGN_BOARD_BASIS,
@@ -1479,7 +1426,6 @@ export const caseStudies: CaseStudy[] = [
       stack: 'Polkadot, Hyperledger, Go, C++, React',
       duration: null,
       architectureLabel: 'Platform architecture',
-      evidenceBasis: WITHDRAWN_FIGURES_EVIDENCE_BASIS,
     },
   },
   {
@@ -1515,7 +1461,6 @@ export const caseStudies: CaseStudy[] = [
       stack: 'Ethereum (ERC-20), web platform',
       duration: null,
       architectureLabel: 'Token and platform architecture',
-      evidenceBasis: HELD_FIGURES_EVIDENCE_BASIS,
     },
     internalEvidence: {
       sourceBasis: PREVIOUS_SITE_RECORD_BASIS,
