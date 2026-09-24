@@ -73,10 +73,6 @@ export const metadata = pageMetadata({
  */
 const faqs = [
   {
-    q: 'How quickly does Pixelette Technologies reply to an enquiry?',
-    a: 'Within one working day, from a person rather than an automated sequence. If Value Discovery is not the right next step, we say so on the call.',
-  },
-  {
     q: 'Where do I find answers for a security questionnaire?',
     a: 'Send us the questionnaire and we will complete it. Data handling, AI governance, incident response, control detail and certificate evidence go direct to your reviewer rather than being published on this site. Tell us what your review needs and who it should go to, and we will send what we can evidence.',
   },

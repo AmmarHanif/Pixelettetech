@@ -90,9 +90,9 @@ export default function AccessibilityPage() {
                   happened. You do not need to know the technical reason or name a guideline.
                 </p>
                 <p className="body" style={{ marginTop: 12 }}>
-                  We will reply within one working day, and if the fix is not quick we will tell you
-                  what we are doing and give you the information another way in the meantime. If you
-                  need anything on this site in a different format, ask and we will provide it.
+                  We will reply, and if the fix is not quick we will tell you what we are doing and
+                  give you the information another way in the meantime. If you need anything on this
+                  site in a different format, ask and we will provide it.
                 </p>
               </>
             ),
