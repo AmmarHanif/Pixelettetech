@@ -2,7 +2,7 @@
  "builtFrom": "src/app/**/page.tsx",
  "counts": {
   "pages": 41,
-  "faqs": 96,
+  "faqs": 98,
   "pointers": 3
  },
  "docs": [
@@ -344,37 +344,51 @@
   },
   {
    "kind": "page",
-   "title": "AR and VR Development",
-   "text": "Augmented and virtual reality built as products rather than demonstrations: interactive 3D environments, training simulations and spatial interfaces for web, mobile and headset.",
+   "title": "AR / VR & Immersive Applications",
+   "text": "AR, VR and immersive application engineering for training, simulation, visualisation, interactive products and spatial experiences.",
    "path": "/ar-vr-development-services"
   },
   {
    "kind": "faq",
-   "title": "Do these experiences run in a browser, or only in a headset?",
-   "text": "Both, and the target is chosen before anything is built rather than after. WebXR and browser-based 3D reach the widest audience with no install and no hardware, and suit anything a customer should be able to open from a link. Headset builds suit training and simulation, where the user is expected to arrive at the equipment. Mobile AR sits between the two and uses the device most people already carry.",
+   "title": "Do we need to know whether we need AR or VR?",
+   "text": "No. Start with the experience or problem you want to solve. We can help determine whether AR, VR, interactive 3D or a conventional application is the more appropriate approach.",
    "path": "/ar-vr-development-services",
-   "page": "AR and VR Development"
+   "page": "AR / VR & Immersive Applications"
   },
   {
    "kind": "faq",
-   "title": "Do you handle both the design and the development?",
-   "text": "Yes. Concept, storyboarding, 3D modelling, interaction design, engineering and deployment are one engagement rather than a design phase handed to a separate build team. Immersive work suffers particularly badly from that split, because a layout that reads well on a board can be unusable once you are standing inside it.",
+   "title": "Can you build for existing headsets and devices?",
+   "text": "Yes, where the required platform and use case are technically appropriate. The target devices are agreed during scoping.",
    "path": "/ar-vr-development-services",
-   "page": "AR and VR Development"
+   "page": "AR / VR & Immersive Applications"
   },
   {
    "kind": "faq",
-   "title": "How long does an AR or VR build take?",
-   "text": "It depends on how much of the world has to be built rather than reused, how many systems it has to talk to, and whether the target is a browser, a phone or a headset. Asset creation is usually the long pole and is the part most often underestimated. We give a date at scoping, against a defined scope, rather than quoting a range before anyone has seen what is required.",
+   "title": "Does an immersive application need AI?",
+   "text": "No. AI is optional. We use it only where capabilities such as computer vision, conversational interaction or intelligent assistance genuinely improve the application.",
    "path": "/ar-vr-development-services",
-   "page": "AR and VR Development"
+   "page": "AR / VR & Immersive Applications"
   },
   {
    "kind": "faq",
-   "title": "Can an immersive experience connect to our existing systems?",
-   "text": "Yes, and it usually should. A product configurator that does not read the live catalogue, or a training simulation that does not record completion against the learning record, becomes a demonstration nobody maintains. The integration work is part of the build.",
+   "title": "Can AR or VR integrate with our existing systems?",
+   "text": "Yes. Immersive applications can be engineered to work with existing APIs, data sources and business systems where required.",
    "path": "/ar-vr-development-services",
-   "page": "AR and VR Development"
+   "page": "AR / VR & Immersive Applications"
+  },
+  {
+   "kind": "faq",
+   "title": "Can you build a prototype before the full application?",
+   "text": "Yes. For many immersive projects, a focused prototype is a sensible way to validate the interaction, device choice and technical approach before committing to the complete build.",
+   "path": "/ar-vr-development-services",
+   "page": "AR / VR & Immersive Applications"
+  },
+  {
+   "kind": "faq",
+   "title": "Do we have to retain Pixelette after launch?",
+   "text": "No. We deliver the commissioned application to the agreed specification. Optional ongoing support, maintenance and improvement are available if you want us to remain involved.",
+   "path": "/ar-vr-development-services",
+   "page": "AR / VR & Immersive Applications"
   },
   {
    "kind": "page",

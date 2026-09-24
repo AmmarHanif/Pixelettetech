@@ -445,8 +445,10 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
     priority: 0.8,
     changeFrequency: 'monthly',
   },
-  /* AR/VR, migrated back 2026-09-24. Top-level because it keeps the previous
-     site's own path; see the primaryNav note above. */
+  /* AR/VR. The path is the PREVIOUS SITE'S rather than an /engineering/ slug,
+     so inbound links land without a hop - it is no longer a top-level nav item
+     (it moved under Engineering the same day); see the engineeringSection note
+     above. The route is unchanged either way. */
   { path: '/ar-vr-development-services', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/blockchain', priority: 0.9, changeFrequency: 'monthly' },
   /* The handoff's Blockchain service pages, same rule. */

@@ -50,6 +50,17 @@ const STOP = new Set([
   'of', 'in', 'on', 'at', 'to', 'for', 'with', 'from', 'by', 'as', 'about',
   'into', 'over', 'can', 'could', 'would', 'should', 'will', 'shall', 'may',
   'might', 'must', 'me', 'us', 'them', 'so', 'what', 'which', 'who', 'whom',
+  /*
+   * THE REST OF THE QUESTION WORDS, and their absence was a latent defect
+   * rather than a new one. 'what', 'which', 'who' and 'whom' were stopped;
+   * 'how', 'when', 'where' and 'why' were not, for no reason other than
+   * oversight. It surfaced when two FAQs were added elsewhere on the site
+   * and "How do you evaluate an AI system?" fell to coverage 0.695 against
+   * a 0.700 floor: every word carrying meaning matched, and the question
+   * word alone pushed it under. A word that only marks a sentence as a
+   * question should never be able to veto its answer.
+   */
+  'how', 'when', 'where', 'why', 'whose',
   'there', 'here', 'any', 'some', 'all', 'no', 'not', 'please', 'tell',
   /*
    * CONVERSATIONAL, NOT TOPICAL - a separate category from the grammar above,

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 
-import { Cloud, Cpu, Mobile, Pen, Shield, Window } from '@/components/Icons';
+import { Cloud, Cpu, Layers, Mobile, Pen, Shield, Window } from '@/components/Icons';
 import { ClosingCta, Testimonials, ValueModelCards } from '@/components/sections';
 import {
   Cta,
@@ -54,9 +54,16 @@ const servicePages = [
   { href: '/engineering/modernisation-integration', label: 'Modernisation & integration' },
   { href: '/engineering/cloud-data-engineering', label: 'Cloud & data engineering' },
   {
-    href: '/support-continuous-improvement',
-    label: 'Support & Continuous Improvement',
+    href: '/ar-vr-development-services',
+    label: 'AR / VR & Immersive Applications',
   },
+  /*
+   * SUPPORT & CONTINUOUS IMPROVEMENT WAS REMOVED FROM THIS LIST, 2026-09-24,
+   * the same correction made to the Engineering dropdown: it is a separate
+   * top-level service and was being presented as an Engineering one in two
+   * places at once. The page and the top-level nav item are untouched, and the
+   * "after delivery" copy elsewhere on this page still links to it.
+   */
 ];
 
 type Capability = {
@@ -120,6 +127,19 @@ const capabilities: Capability[] = [
     icon: <Cloud size={32} />,
     title: 'Cloud & modernisation',
     body: 'Migration, re-platforming and the unglamorous legacy work that most of the market quietly avoids.',
+  },
+  /*
+   * AR/VR ADDED 2026-09-24, the same day it moved out of the top-level
+   * navigation and under Engineering. It carries the only `link` in this set,
+   * because unlike the cards beside it the practice has a page of its own that
+   * a reader plainly wants next.
+   */
+  {
+    id: 'immersive',
+    icon: <Layers size={32} />,
+    title: 'AR / VR & immersive applications',
+    body: 'Immersive software for training, visualisation, interactive products and spatial experiences, engineered around the use case.',
+    link: { href: '/ar-vr-development-services', label: 'Explore AR / VR' },
   },
 ];
 
