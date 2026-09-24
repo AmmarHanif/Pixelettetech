@@ -14,7 +14,6 @@ import {
   SectionHead,
   SourceNote,
 } from '@/components/ui';
-import { company } from '@/content/company';
 import { caseStudies, displayKicker, displayName, publishedImage, publishedMetrics } from '@/content/work';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
@@ -234,13 +233,25 @@ export default function EngineeringPage() {
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
         <div className="wrap">
           <Eyebrow>Engineering</Eyebrow>
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '18ch' }}>
-            We build software that stays in service
+          {/*
+            24ch, not the old 18ch, because the headline grew from 38 characters
+            to 48. Measured at 1440 and 1024 by overriding max-width on the live
+            element and reading the real line rectangles: 18ch breaks it into
+            three lines with a short first line ("We engineer" / "software that
+            works" / "in the real world"), while 20ch, 22ch and 24ch all give the
+            same even two-line break after "that".
+
+            So the exact value is not load-bearing - anything from 20ch up does
+            this. 24ch is chosen for headroom if the wording is edited again, and
+            it is the top of the 18-24ch range the other hero headlines use.
+          */}
+          <h1 className="h1" style={{ marginTop: 24, maxWidth: '24ch' }}>
+            We engineer software that works in the real world
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
-            Web platforms, mobile applications, custom software and integration, delivered since{' '}
-            {company.incorporated}. This is still the larger part of our business and we are not
-            quiet about it.
+            From web platforms and mobile apps to custom software and complex integrations, we
+            design, build and improve technology around the people who use it and the systems it
+            must work with.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Scope a build</Cta>
