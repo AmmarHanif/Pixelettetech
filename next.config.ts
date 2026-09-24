@@ -41,12 +41,18 @@ const nextConfig: NextConfig = {
    *    commercial decision and it should be taken against Search Console data,
    *    which this repository does not have. A sitemap proves what a site
    *    publishes, not what performs.
-   *  - SIX PATHS WHOSE SERVICE WAS DROPPED — /ui-ux-design-services,
-   *    /quantum-development-services, /startup-funding, /clutch,
-   *    /pixelette-research and /cancellation-refund-policy. Each needs a
-   *    decision between the nearest honest destination and a deliberate 410
-   *    Gone. Redirecting a dropped service to a page that does not offer it is
-   *    a worse answer than a clean 404, so none is guessed here.
+   *  - ONE PATH WHOSE SERVICE WAS DROPPED AND IS STILL UNDECIDED:
+   *    /quantum-development-services. It needs a decision between the nearest
+   *    honest destination and a deliberate 410 Gone, and that decision is
+   *    whether quantum is still sold at all. Redirecting a dropped service to a
+   *    page that does not offer it is a worse answer than a clean 404, so it is
+   *    not guessed here.
+   *
+   *    WAS SEVEN, THEN SIX, NOW ONE. /ar-vr-development-services left the list
+   *    on 2026-09-24 when the service was migrated back. The other five left it
+   *    the same day when the founder gave a destination for each; they are in
+   *    the `moved` table below. The count is corrected each time rather than
+   *    left standing, because a stale count is trusted without recounting.
    *
    *    WAS SEVEN. /ar-vr-development-services LEFT THIS LIST 2026-09-24: the
    *    founder had the service migrated back from the previous site, at that
@@ -138,6 +144,41 @@ const nextConfig: NextConfig = {
        * /insights for the same content.
        */
       { from: '/blog', to: '/insights' },
+      /*
+       * The previous site's dropped services and orphaned pages, destinations
+       * given by the founder 2026-09-24. Each is `permanent` like the rest, so
+       * the old URL is dropped from the index rather than kept alive.
+       *
+       * The three engagement-model paths are the ones the comment above never
+       * listed: an audit found nine dropped paths where next.config named six.
+       * Outsourcing maps to Fixed-scope build and dedicated teams to Product
+       * team, both of which live on /engineering, and staff augmentation is the
+       * offer the site now explicitly declines - "we do not sell developers by
+       * the day" - so /engineering is where a reader of that old page should
+       * land to find out what is sold instead.
+       */
+      { from: '/dedicated-team-services', to: '/engineering' },
+      { from: '/it-outsourcing-services', to: '/engineering' },
+      { from: '/staff-augmentation-services', to: '/engineering' },
+      { from: '/ui-ux-design-services', to: '/engineering' },
+      { from: '/cancellation-refund-policy', to: '/terms-conditions' },
+      /*
+       * SECOND OPTION TAKEN, on his own wording, and cheap to change now.
+       * He wrote "rebuild, or /contact" for /clutch and "Holdings site, or
+       * /contact" for /startup-funding. The rebuild is item 17 and open; no
+       * Holdings URL has been supplied or verified and inventing one would be
+       * the kind of unchecked claim this project refuses. Both point at
+       * /contact until either is settled.
+       */
+      { from: '/clutch', to: '/contact' },
+      { from: '/startup-funding', to: '/contact' },
+      /*
+       * /insights currently carries noIndex, so this passes nothing to search -
+       * but a 404 passes nothing either, and a redirect is strictly better for
+       * a human following an old link to the research page. It improves on its
+       * own the day the first article ships and the noIndex comes off.
+       */
+      { from: '/pixelette-research', to: '/insights' },
     ];
     return [
       ...moved.map(({ from, to }) => ({
