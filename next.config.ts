@@ -121,6 +121,23 @@ const nextConfig: NextConfig = {
       { from: '/about', to: '/about-us' },
       { from: '/terms', to: '/terms-conditions' },
       { from: '/terms-condition', to: '/terms-conditions' },
+      /*
+       * ARTICLES LIVE AT /blog/<slug>, THE HUB AT /insights. Founder decision
+       * 2026-09-24, and the split is deliberate rather than an inconsistency
+       * nobody noticed.
+       *
+       * The previous site published its posts at /blog/<slug>. Keeping that path
+       * means each of the 36 archived posts republishes onto its ORIGINAL URL:
+       * no redirect for any of them, and every inbound link resolves with no
+       * hop. Filing them under /insights/<slug> would have cost 36 redirects for
+       * a tidier path nobody searches for.
+       *
+       * /blog was the previous site's INDEX, and its counterpart here is the
+       * hub, so it points there. It cannot be a page in its own right while
+       * /blog/[slug] exists without becoming a second index competing with
+       * /insights for the same content.
+       */
+      { from: '/blog', to: '/insights' },
     ];
     return [
       ...moved.map(({ from, to }) => ({

@@ -17,7 +17,7 @@ import { pageMetadata } from '@/lib/seo';
  *
  * IT BUILDS NOTHING TODAY, ON PURPOSE. `generateStaticParams` returns only
  * published pieces that also have a body, and there are none, so this route
- * emits zero pages and every /insights/<slug> is a 404. That is the brief's own
+ * emits zero pages and every /blog/<slug> is a 404. That is the brief's own
  * requirement — "never display a clickable article that leads to an empty page"
  * — enforced by the route rather than by remembering. The template exists so
  * that publishing the first piece is a content change, not a build.
@@ -77,7 +77,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }) 
   return pageMetadata({
     title: item.title,
     description: item.summary,
-    path: `/insights/${item.slug}`,
+    path: `/blog/${item.slug}`,
     article: {
       publishedTime: item.publishedOn,
       modifiedTime: item.updatedOn,
@@ -113,7 +113,7 @@ export default async function InsightArticlePage({
         data={articleSchema({
           headline: item.title,
           description: item.summary,
-          path: `/insights/${item.slug}`,
+          path: `/blog/${item.slug}`,
           datePublished: item.publishedOn,
           dateModified: item.updatedOn,
           authorName: attributionName(item.attribution),
@@ -124,7 +124,7 @@ export default async function InsightArticlePage({
         data={breadcrumbSchema([
           { name: 'Home', path: '/' },
           { name: 'Insights', path: '/insights' },
-          { name: item.title, path: `/insights/${item.slug}` },
+          { name: item.title, path: `/blog/${item.slug}` },
         ])}
       />
 
@@ -216,7 +216,7 @@ export default async function InsightArticlePage({
               <article className="card ins-card" key={r.slug}>
                 <Eyebrow>{r.category}</Eyebrow>
                 <h3 className="h4 ins-card__title">
-                  <Link href={`/insights/${r.slug}`}>{r.title}</Link>
+                  <Link href={`/blog/${r.slug}`}>{r.title}</Link>
                 </h3>
                 <p className="body ins-card__summary">{r.summary}</p>
               </article>

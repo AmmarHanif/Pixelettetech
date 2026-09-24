@@ -97,7 +97,7 @@ function InsightCard({ item }: { item: Insight }) {
       <Eyebrow>{item.category}</Eyebrow>
       <h3 className="h4 ins-card__title">
         {published ? (
-          <Link href={`/insights/${item.slug}`}>{item.title}</Link>
+          <Link href={`/blog/${item.slug}`}>{item.title}</Link>
         ) : (
           item.title
         )}
@@ -106,7 +106,7 @@ function InsightCard({ item }: { item: Insight }) {
       <p className="small ins-card__meta">{meta}</p>
       {published ? (
         <p className="ins-card__cta">
-          <FLink href={`/insights/${item.slug}`}>Read article</FLink>
+          <FLink href={`/blog/${item.slug}`}>Read article</FLink>
         </p>
       ) : null}
     </article>
@@ -238,7 +238,7 @@ export default function InsightsPage() {
                 <Eyebrow>{featuredInsight.category}</Eyebrow>
                 <h2 className="h2 ins-featured__title">
                   {isPublished(featuredInsight) ? (
-                    <Link href={`/insights/${featuredInsight.slug}`}>
+                    <Link href={`/blog/${featuredInsight.slug}`}>
                       {featuredInsight.title}
                     </Link>
                   ) : (
@@ -248,7 +248,7 @@ export default function InsightsPage() {
                 <p className="body ins-featured__summary">{featuredInsight.summary}</p>
                 {isPublished(featuredInsight) ? (
                   <div className="ins-featured__foot">
-                    <Cta href={`/insights/${featuredInsight.slug}`}>Read the insight</Cta>
+                    <Cta href={`/blog/${featuredInsight.slug}`}>Read the insight</Cta>
                     <span className="small">
                       <time dateTime={featuredInsight.publishedOn}>
                         {new Date(featuredInsight.publishedOn).toLocaleDateString('en-GB', {

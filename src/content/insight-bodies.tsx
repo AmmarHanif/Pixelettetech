@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
  * Article bodies, keyed by slug.
  *
  * EMPTY, AND THAT IS THE CURRENT TRUTH. Nothing in the Insights pipeline has
- * been written yet, so nothing appears here, and `/insights/[slug]` returns a
+ * been written yet, so nothing appears here, and `/blog/[slug]` returns a
  * 404 for every slug rather than rendering a shell. The brief is explicit twice
  * over: "never display a clickable article that leads to an empty page" (§4) and
  * "no unpublished article appears clickable" (§20).
