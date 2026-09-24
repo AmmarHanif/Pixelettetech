@@ -52,18 +52,6 @@ export const primaryNav: NavItem[] = [
   { href: '/ai-automation', label: 'AI & Automation' },
   { href: '/blockchain', label: 'Blockchain' },
   /*
-   * AR/VR MIGRATED BACK 2026-09-24 on founder instruction, from the previous
-   * site. next.config.ts had listed /ar-vr-development-services among the paths
-   * "WHOSE SERVICE WAS DROPPED"; the service is offered again, so the path is
-   * live again and needs no redirect.
-   *
-   * The href keeps the PREVIOUS SITE'S path rather than taking a
-   * /engineering/... slug, which the founder chose so existing inbound links
-   * land without a hop. It is the only top-level service path here; do not copy
-   * the shape for a new service.
-   */
-  { href: '/ar-vr-development-services', label: 'AR / VR' },
-  /*
    * ADDED 2026-09-22 on founder instruction: the Run service gets a top-level
    * entry after Blockchain, and its menu text is just "Support".
    *
@@ -152,10 +140,29 @@ export const engineeringSection: NavSection = {
     { href: '/engineering/mobile-applications', label: 'Mobile Applications' },
     { href: '/engineering/modernisation-integration', label: 'Modernisation & Integration' },
     { href: '/engineering/cloud-data-engineering', label: 'Cloud & Data Engineering' },
+    /*
+     * AR/VR MOVED HERE FROM THE TOP-LEVEL NAV, 2026-09-24 founder instruction:
+     * it is an Engineering capability, not a Pixelette business division, and
+     * carrying it at top level said otherwise.
+     *
+     * THE HREF IS DELIBERATELY NOT AN /engineering/... SLUG. It keeps the
+     * PREVIOUS SITE'S path so existing inbound links land without a hop, which
+     * the founder chose when the page was migrated back earlier the same day.
+     * It is the only item in any section whose href sits outside its section's
+     * path; do not "tidy" it to match the others without a redirect, and do not
+     * copy the shape for a new service.
+     */
     {
-      href: '/support-continuous-improvement',
-      label: 'Support & Continuous Improvement',
+      href: '/ar-vr-development-services',
+      label: 'AR / VR & Immersive Applications',
     },
+    /*
+     * SUPPORT & CONTINUOUS IMPROVEMENT WAS REMOVED FROM HERE, same instruction.
+     * It is a separate top-level service and was appearing in two places at
+     * once. The PAGE is untouched and still lives at
+     * /support-continuous-improvement; only this duplicate dropdown row went.
+     * The top-level "Support" item in `primaryNav` above is the one route to it.
+     */
   ],
 };
 
