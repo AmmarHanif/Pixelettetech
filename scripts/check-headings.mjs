@@ -27,6 +27,16 @@
  *
  * The migrated archive under content/archive is excluded: that is somebody
  * else's published writing and is not ours to restyle.
+ *
+ * KNOWN BLIND SPOT, stated rather than discovered later. This reads SOURCE
+ * LITERALS, so a heading passed as an expression - `title={archive.title}`,
+ * `title={group.label}`, `title={item.title}`, `title={s.label}`, all of which
+ * exist - is invisible to it. A data file could quietly supply a full stop and
+ * this would still report a clean site. The complete check is over the BUILT
+ * output after `next build`, which sees every heading whatever route its string
+ * took; that scan was run on 2026-09-24 across 90 pages and found none outside
+ * the migrated archive. Re-run it rather than trusting this alone when a
+ * heading's text comes from data.
  */
 import fs from 'node:fs';
 import path from 'node:path';
