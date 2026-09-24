@@ -50,6 +50,8 @@ type Resolved = {
   slug: string;
   eyebrow: string;
   title: string;
+  /** Shorter label for <title> where the headline is too long. Falls back to it. */
+  seoTitle?: string;
   summary: string;
   publishedOn: string;
   updatedOn?: string;
@@ -121,6 +123,7 @@ function resolve(slug: string): Resolved | null {
       slug: insight.slug,
       eyebrow: insight.category,
       title: insight.title,
+      seoTitle: insight.seoTitle,
       summary: insight.summary,
       publishedOn: insight.publishedOn,
       updatedOn: insight.updatedOn,
@@ -199,7 +202,9 @@ export async function generateMetadata({ params }: { params: Promise<Params> }) 
   }
 
   return pageMetadata({
-    title: item.title,
+    /* The tab and search-result label, which may be shorter than the headline
+       the page displays. The H1 below is always the full title. */
+    title: item.seoTitle ?? item.title,
     description: item.summary,
     path: `/blog/${item.slug}`,
     article: {

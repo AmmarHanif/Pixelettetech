@@ -99,6 +99,19 @@ export type PublishedInsight = Base & {
   relatedService?: { href: string; label: string };
   /** Marked where the content is materially out of date (§9). */
   archived?: boolean;
+  /**
+   * A shorter title for the <title> tag, where the editorial headline is too
+   * long to survive a search result.
+   *
+   * ADDED 2026-09-24 BECAUSE THESE TWO HEADLINES BUILT 106 AND 107 CHARACTER
+   * TITLES. The founder had six over-long page titles corrected earlier the same
+   * day, and shipping two more would have undone that instruction while
+   * technically following the brief, which supplied the headlines. So the
+   * headline stays exactly as written as the H1 and the on-page display, and
+   * only the browser-tab and search-result title is shortened. They are allowed
+   * to differ; a headline argues and a title label locates.
+   */
+  seoTitle?: string;
   /** The contextual service section at the end of the piece. */
   serviceBridge?: ServiceBridge;
 };
@@ -156,6 +169,7 @@ export const insights: Insight[] = [
     slug: 'where-ai-agents-should-work',
     category: 'AI & Automation',
     title: 'AI agents are everywhere. The harder question is where they should actually work.',
+    seoTitle: 'Where AI agents should work',
     summary:
       'AI agents can research, plan and take action. But real value comes from using them in the right places, with the right guardrails. We explore how to move from experimentation to useful, governed workflows.',
     publishedOn: '2026-09-24',
@@ -176,6 +190,7 @@ export const insights: Insight[] = [
     category: 'Methodology',
     title:
       'How we evaluate AI systems, and why we grade pass or fail rather than one to five.',
+    seoTitle: 'How we evaluate AI systems',
     summary:
       'Our evaluation methodology uses real-world tasks, evidence and failure analysis to judge whether an AI system is ready for production. We explain how we test, what we measure and why a binary outcome is more useful than a score.',
     publishedOn: '2026-09-24',
