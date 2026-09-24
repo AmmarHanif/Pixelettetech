@@ -118,7 +118,7 @@ export default function ArchiveIndexPage() {
         })}
       </Section>
 
-      <ClosingCta title="Judge how we think before deciding how we build." ctaLabel="Talk to us">
+      <ClosingCta title="Judge how we think before deciding how we build" ctaLabel="Talk to us">
         Explore our current thinking, methodology and technical approach before starting a
         conversation.
       </ClosingCta>

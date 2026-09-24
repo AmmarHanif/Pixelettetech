@@ -11,7 +11,8 @@
     "check-types": "tsc --noEmit --pretty",
     "pix:build": "node scripts/build-pix-kb.mjs",
     "pix:check": "node scripts/check-pix-kb.mjs",
-    "pix:test": "node scripts/test-pix.cjs"
+    "pix:test": "node scripts/test-pix.cjs",
+    "check:headings": "node scripts/check-headings.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "2.0.1",

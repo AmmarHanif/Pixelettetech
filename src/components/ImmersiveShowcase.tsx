@@ -42,19 +42,19 @@ const TABS: { id: DemoId; label: string; kicker: string }[] = [
 
 const META: Record<DemoId, { title: string; body: string }> = {
   spatial: {
-    title: 'Explore a space before it exists.',
+    title: 'Explore a space before it exists',
     body: 'A fictional workspace interior. Change viewpoint to move through it and inspect the layout, the way a client would review a space that has not been built yet.',
   },
   ar: {
-    title: 'See it in your world.',
+    title: 'See it in your world',
     body: 'A fictional pendant light placed into a room. Place it, turn it, and change its size, which is the interaction an AR product preview has to get right before anything else.',
   },
   training: {
-    title: 'Practise before it matters.',
+    title: 'Practise before it matters',
     body: 'A fictional inspection routine on fictional equipment. Step through a guided procedure the way a trainee would, with the system confirming each action before the next.',
   },
   product: {
-    title: 'Understand it from every angle.',
+    title: 'Understand it from every angle',
     body: 'A fictional engineered module. Turn it, move closer, and separate the components to see how they assemble.',
   },
 };

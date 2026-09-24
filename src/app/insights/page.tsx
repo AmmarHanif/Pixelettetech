@@ -119,7 +119,7 @@ export default function InsightsPage() {
             <div>
               <Eyebrow>Insights</Eyebrow>
               <h1 className="h1" style={{ marginTop: 24, maxWidth: '16ch' }}>
-                Ideas for building what comes next.
+                Ideas for building what comes next
               </h1>
               <p className="lead" style={{ marginTop: 26, maxWidth: '58ch' }}>
                 Practical thinking on software engineering, AI, automation, security and
@@ -204,7 +204,7 @@ export default function InsightsPage() {
         <SectionHead
           eyebrow="What we’re thinking about"
           id="themes-heading"
-          title="The areas we write about."
+          title="The areas we write about"
         />
         {/*
           NOT ARTICLE CARDS, and not clickable. They describe subjects rather
@@ -227,7 +227,7 @@ export default function InsightsPage() {
 
       {/* ------------------------------------------------------ 5. go deeper */}
       <Section labelledBy="deeper-heading" style={{ background: '#F7FAFA' }}>
-        <SectionHead eyebrow="Explore by topic" id="deeper-heading" title="Go deeper." />
+        <SectionHead eyebrow="Explore by topic" id="deeper-heading" title="Go deeper" />
         <p className="body" style={{ marginTop: 18, maxWidth: '62ch' }}>
           Explore more thinking, case studies and technical perspectives across the areas we
           work in.
@@ -256,7 +256,7 @@ export default function InsightsPage() {
           <SectionHead
             eyebrow="Our methodology"
             id="methodology-heading"
-            title="See how we test what we build."
+            title="See how we test what we build"
           />
           <p className="body" style={{ marginTop: 18, maxWidth: '62ch' }}>
             Our approach to evaluating AI systems, evidence, reliability and production
@@ -302,7 +302,7 @@ export default function InsightsPage() {
       <ClosingCta
         ctaLabel="Talk to us"
         eyebrow="Let’s talk"
-        title="Judge how we think before deciding how we build."
+        title="Judge how we think before deciding how we build"
       >
         Explore our thinking, methodology and experience before starting a conversation.
       </ClosingCta>

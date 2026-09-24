@@ -211,7 +211,7 @@ export default function ImmersiveApplicationsPage() {
             <div>
               <Eyebrow>Engineering / AR / VR &amp; Immersive Applications</Eyebrow>
               <h1 className="h1" style={{ marginTop: 22, maxWidth: '17ch' }}>
-                Build experiences people can step into.
+                Build experiences people can step into
               </h1>
               <p className="lead" style={{ marginTop: 24, maxWidth: '58ch' }}>
                 We design and engineer AR, VR and immersive applications for training,
@@ -241,7 +241,7 @@ export default function ImmersiveApplicationsPage() {
         <SectionHead
           eyebrow="Where it earns its place"
           id="earns-heading"
-          title="Some things are easier to experience than explain."
+          title="Some things are easier to experience than explain"
         />
         <p className="body" style={{ marginTop: 18, maxWidth: '68ch' }}>
           Immersive technology is useful when seeing, practising or interacting with something
@@ -263,7 +263,7 @@ export default function ImmersiveApplicationsPage() {
         <SectionHead
           eyebrow="Immersive showcase"
           id="showcase-heading"
-          title="Don’t just read about immersive. Try it."
+          title="Don’t just read about immersive. Try it"
         />
         <p className="body" style={{ marginTop: 18, maxWidth: '66ch' }}>
           Explore four capability demonstrations showing how immersive technology can be used to
@@ -280,7 +280,7 @@ export default function ImmersiveApplicationsPage() {
         <SectionHead
           eyebrow="Immersive engineering"
           id="build-heading"
-          title="From concept to working application."
+          title="From concept to working application"
         />
         <div className="grid grid-3" style={{ marginTop: 32 }}>
           {BUILD.map(b => (
@@ -294,7 +294,7 @@ export default function ImmersiveApplicationsPage() {
 
       {/* ---------------------------------------------------- §9 applications */}
       <Section labelledBy="apps-heading" style={{ background: '#F7FAFA' }}>
-        <SectionHead eyebrow="Applications" id="apps-heading" title="Built around the use case." />
+        <SectionHead eyebrow="Applications" id="apps-heading" title="Built around the use case" />
         <p className="body" style={{ marginTop: 18, maxWidth: '68ch' }}>
           These are applications we can engineer. They describe what immersive technology is
           suited to rather than a record of sectors already delivered.
@@ -315,7 +315,7 @@ export default function ImmersiveApplicationsPage() {
 
       {/* ------------------------------------------------- §10 use-case strip */}
       <Section labelledBy="ways-heading">
-        <SectionHead id="ways-heading" title="Different ways to step inside the experience." />
+        <SectionHead id="ways-heading" title="Different ways to step inside the experience" />
         <div className="imm-ways" style={{ marginTop: 32 }}>
           {WAYS.map(w => (
             <div className={`imm-way imm-way--${w.k}`} key={w.t}>
@@ -336,7 +336,7 @@ export default function ImmersiveApplicationsPage() {
         <SectionHead
           eyebrow="Engineering first"
           id="process-heading"
-          title="The experience is only useful if the product works."
+          title="The experience is only useful if the product works"
         />
         <div style={{ marginTop: 34 }}>
           <BuildProgression />
@@ -350,7 +350,7 @@ export default function ImmersiveApplicationsPage() {
             <SectionHead
               eyebrow="Built for the right environment"
               id="platform-heading"
-              title="The platform follows the experience."
+              title="The platform follows the experience"
             />
             <p className="body" style={{ marginTop: 18 }}>
               The right technology depends on where and how the application will be used. We design
@@ -383,7 +383,7 @@ export default function ImmersiveApplicationsPage() {
         <SectionHead
           eyebrow="When AI adds something"
           id="ai-heading"
-          title="Immersive applications can become intelligent too."
+          title="Immersive applications can become intelligent too"
         />
         <p className="body" style={{ marginTop: 18, maxWidth: '68ch' }}>
           Where the use case benefits from it, we can combine immersive applications with AI
@@ -411,7 +411,7 @@ export default function ImmersiveApplicationsPage() {
             <SectionHead
               eyebrow="Connected engineering"
               id="conn-heading"
-              title="Immersive is part of the product, not a separate technology island."
+              title="Immersive is part of the product, not a separate technology island"
             />
             <p className="body" style={{ marginTop: 18 }}>
               An immersive application can need the same foundations as any other digital product:
@@ -446,7 +446,7 @@ export default function ImmersiveApplicationsPage() {
       <ClosingCta
         ctaLabel="Discuss an immersive application"
         eyebrow="Have an idea?"
-        title="Make it something people can experience."
+        title="Make it something people can experience"
       >
         Tell us what you want people to see, practise, understand or interact with. We will help
         determine the right way to engineer it.

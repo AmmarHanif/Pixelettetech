@@ -370,7 +370,7 @@ export default async function InsightArticlePage({
         </Section>
       ) : null}
 
-      <ClosingCta title="Judge how we think before deciding how we build." ctaLabel="Talk to us">
+      <ClosingCta title="Judge how we think before deciding how we build" ctaLabel="Talk to us">
         Explore our thinking, methodology and technical approach before starting a conversation.
       </ClosingCta>
     </>

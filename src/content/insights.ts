@@ -168,7 +168,7 @@ export const insights: Insight[] = [
     status: 'published',
     slug: 'where-ai-agents-should-work',
     category: 'AI & Automation',
-    title: 'AI agents are everywhere. The harder question is where they should actually work.',
+    title: 'AI agents are everywhere. The harder question is where they should actually work',
     seoTitle: 'Where AI agents should work',
     summary:
       'AI agents can research, plan and take action. But real value comes from using them in the right places, with the right guardrails. We explore how to move from experimentation to useful, governed workflows.',
@@ -189,7 +189,7 @@ export const insights: Insight[] = [
     slug: 'how-we-evaluate-ai-systems',
     category: 'Methodology',
     title:
-      'How we evaluate AI systems, and why we grade pass or fail rather than one to five.',
+      'How we evaluate AI systems, and why we grade pass or fail rather than one to five',
     seoTitle: 'How we evaluate AI systems',
     summary:
       'Our evaluation methodology uses real-world tasks, evidence and failure analysis to judge whether an AI system is ready for production. We explain how we test, what we measure and why a binary outcome is more useful than a score.',
@@ -220,7 +220,7 @@ export const insights: Insight[] = [
     status: 'pipeline',
     slug: 'enterprise-retrieval-is-harder',
     category: 'AI & Automation',
-    title: 'RAG is easy to demo. Enterprise retrieval is harder.',
+    title: 'RAG is easy to demo. Enterprise retrieval is harder',
     summary:
       'Permissions, entitlement, evidence and evaluation are what separate a demonstration from a production retrieval system, and they are what stop rollouts.',
   },
