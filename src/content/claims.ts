@@ -209,10 +209,24 @@ export const claims: Claim[] = [
   {
     id: 'clutch-rating',
     label: 'Clutch aggregate rating and review count',
-    status: 'HELD',
-    publicationInstruction: 'HOLD — Verify live profile, current score and review count.',
+    status: 'VERIFIED',
+    /*
+     * The register refused this row without a `detail` and was right to. A
+     * VERIFIED row renders `label` as a badge and `detail` as the line beneath
+     * it, so a row without one publishes a bare score — which is the exact
+     * presentation this register exists to prevent, and the same shape as the
+     * "ISO 27001 certified" claim the site does not make.
+     *
+     * For a third-party rating the checkable substantiation is not a number, it
+     * is the DATE and the LINK: a score without them cannot be tested and ages
+     * silently.
+     */
+    detail:
+      '4.8 from 24 verified reviews on Clutch, last checked 24 September 2026. Quote it only with that date and a link to the profile; it is a third-party figure that moves.',
+    publicationInstruction:
+      'RELEASED 24 September 2026 on founder instruction, after the condition the hold itself set was met: the live profile was re-read that day and the figures confirmed. Re-verify before citing the score as current.',
     evidenceNote:
-      'The figures in src/content/company.ts (clutch) were read off the live profile on 2026-09-03. Corrected 8 September 2026: this note said "the rendered copy prints that date", which is no longer true — `clutch.published` is false, so the aggregate renders nowhere. Both sites that print it are behind that gate: the StatTile on /about (src/app/about/page.tsx) and the source note under the review row (`Testimonials` in src/components/sections.tsx, which falls back to a line pointing at the profile without a score). src/lib/schema.ts emits the profile URL as a `sameAs` identity signal and emits no `aggregateRating`. The individual review cards are a separate claim and still render, each linking to the review it came from. To publish the aggregate: re-read the live profile immediately before launch, re-date `lastVerified`, set `clutch.published`, and move this row on the same day — printing the read date beside the score is the practice the 7 September legal review judged sound under the DMCCA fake-review provisions.',
+      'RE-READ 24 September 2026: clutch.co/profile/pixelette-technologies-0 was opened and its own JSON-LD returned ratingValue 4.8 and reviewCount 24, confirming the stored figures are current rather than carried. The reader is shown that date beside the score. The earlier note follows. The figures in src/content/company.ts (clutch) were read off the live profile on 2026-09-03. Corrected 8 September 2026: this note said "the rendered copy prints that date", which is no longer true — `clutch.published` is false, so the aggregate renders nowhere. Both sites that print it are behind that gate: the StatTile on /about (src/app/about/page.tsx) and the source note under the review row (`Testimonials` in src/components/sections.tsx, which falls back to a line pointing at the profile without a score). src/lib/schema.ts emits the profile URL as a `sameAs` identity signal and emits no `aggregateRating`. The individual review cards are a separate claim and still render, each linking to the review it came from. To publish the aggregate: re-read the live profile immediately before launch, re-date `lastVerified`, set `clutch.published`, and move this row on the same day — printing the read date beside the score is the practice the 7 September legal review judged sound under the DMCCA fake-review provisions.',
   },
   {
     id: 'client-logos',

@@ -172,8 +172,19 @@ export const clutch = {
   ratingValue: 4.8,
   reviewCount: 24,
   profileUrl: 'https://clutch.co/profile/pixelette-technologies-0',
-  lastVerified: '2026-09-03',
-  published: false,
+  /*
+    * RE-READ FROM THE LIVE PROFILE 2026-09-24 and released on founder
+    * instruction. Its own JSON-LD returned ratingValue 4.8 and reviewCount 24,
+    * unchanged from the 2026-09-03 read, so the figures above are current
+    * rather than carried. Had they differed, the live values would have shipped.
+    *
+    * `lastVerified` is rendered to the reader beside the score, so it is not
+    * bookkeeping: it is the reader's means of judging how fresh the number is.
+    * Re-read the profile and move this date before anyone cites the score as
+    * current again.
+    */
+  lastVerified: '2026-09-24',
+  published: true,
 } as const;
 
 export type Certification = {
