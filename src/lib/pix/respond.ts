@@ -1,5 +1,5 @@
 import { contactEmail } from '@/content/company';
-import { MIN_COVERAGE, MIN_QUERY_TOKENS, search, tokenise } from './retrieve';
+import { MIN_COVERAGE, hasEnoughSignal, search } from './retrieve';
 import { CLAIM_GUARDS, RULES, publishableFacts } from './rules';
 import { isPublishable } from '@/content/claims';
 
@@ -91,14 +91,6 @@ export function respond(messageRaw: string): PixReply {
     }
   }
 
-  const tokens = tokenise(message);
-  if (tokens.length < MIN_QUERY_TOKENS) {
-    return {
-      via: 'ask-more',
-      text: 'Tell me a bit more and I will find the right page. What are you trying to build, or what do you want to know about how the firm works?',
-    };
-  }
-
   // -------------------------------------------------------- 3. claim guards
   for (const guard of CLAIM_GUARDS) {
     // Only guards a claim the register currently withholds. If it is released,
@@ -124,6 +116,21 @@ export function respond(messageRaw: string): PixReply {
         sourceLabel: fact.path ? labelForPath(fact.path) : undefined,
       };
     }
+  }
+
+  /*
+   * THE SIGNAL GATE SITS HERE, AFTER the rules, guards and facts rather than
+   * before them, and the order was wrong at first with a visible cost. Those
+   * three stages match on the raw message and need no token signal at all, so
+   * gating in front of them meant "What does Pixelette actually do?" was met
+   * with "tell me a bit more" - a question the facts layer answers directly.
+   * Only RETRIEVAL needs enough signal to rank on, so only retrieval is gated.
+   */
+  if (!hasEnoughSignal(message)) {
+    return {
+      via: 'ask-more',
+      text: 'Tell me a bit more and I will find the right page. What are you trying to build, or what do you want to know about how the firm works?',
+    };
   }
 
   // ---------------------------------------------------------- 5/6. retrieval

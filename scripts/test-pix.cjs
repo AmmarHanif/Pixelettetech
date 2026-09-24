@@ -257,6 +257,35 @@ for (const q of STARTERS) {
   if (note(`suggested question not answered: "${q}"`, ok, `via=${r.via}`)) startersOk += 1;
 }
 
+/*
+ * 10. SHORT BUT CLEAR QUESTIONS MUST BE ANSWERED; VAGUE ONES MUST NOT.
+ *
+ * ADDED AFTER "what is tokenisation" WAS ANSWERED WITH "tell me a bit more" on a
+ * live page. After stop words it is a single token, and the gate at the time was
+ * a word count. The count was never the thing that mattered: one rare word names
+ * a subject, one common word does not, and this pair of sets is what holds that
+ * distinction in place.
+ */
+const SHORT_CLEAR = [
+  'what is tokenisation',
+  'tokenisation',
+  'what is observability',
+  'agentic',
+];
+const VAGUE = ['work', 'help', 'hello', 'stuff'];
+let shortOk = 0;
+for (const q of SHORT_CLEAR) {
+  const r = respond(q);
+  const ok = r.via !== 'ask-more';
+  if (note(`short clear question deflected: "${q}"`, ok, `via=${r.via}`)) shortOk += 1;
+}
+let vagueOk = 0;
+for (const q of VAGUE) {
+  const r = respond(q);
+  const ok = r.via === 'ask-more' || r.via === 'no-answer' || r.via === 'rule';
+  if (note(`vague question answered anyway: "${q}"`, ok, `via=${r.via}: ${r.text.slice(0, 60)}`)) vagueOk += 1;
+}
+
 /* ---------------------------------------------------------------- report */
 
 const line = (label, got, want) =>
@@ -276,6 +305,8 @@ line('indexed FAQs answered from the KB', answered, faqDocs.length);
 line('  of which pre-empted by a guardrail', preempted, faqDocs.length);
 line('off-corpus questions refused', refused, OFF_CORPUS.length);
 line('suggested questions answered', startersOk, STARTERS.length);
+line('short clear questions answered', shortOk, SHORT_CLEAR.length);
+line('vague questions not answered', vagueOk, VAGUE.length);
 process.stdout.write(`  coverage floor in force                        ${MIN_COVERAGE}\n`);
 
 if (missed.length) {

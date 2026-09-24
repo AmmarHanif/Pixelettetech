@@ -176,7 +176,14 @@ export function publishableFacts(): { test: RegExp; reply: string; path?: string
   }
 
   facts.push({
-    test: /\b(who are you|what is pixelette|about the company|founded|established|based|where are you|registered|company number)\b/i,
+    /*
+     * "What does Pixelette do?" belongs HERE rather than to retrieval. The
+     * company name appears on nearly every page, so as a search term it
+     * discriminates nothing - which is why the question reached the assistant
+     * as an unanswerable one-word query. It is an identity question, and the
+     * identity answer is the right one.
+     */
+    test: /\b(who are you|what is pixelette|what do(es)? (you|pixelette|they)( actually)? do|what services|about the company|founded|established|based|where are you|registered|company number)\b/i,
     reply: `${company.name} is a UK software engineering firm, incorporated in ${company.incorporated} and registered in ${company.registeredIn} as ${company.legalName}, company number ${company.crn}.`,
     path: '/about-us',
   });

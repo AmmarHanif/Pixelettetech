@@ -51,6 +51,28 @@ const STOP = new Set([
   'into', 'over', 'can', 'could', 'would', 'should', 'will', 'shall', 'may',
   'might', 'must', 'me', 'us', 'them', 'so', 'what', 'which', 'who', 'whom',
   'there', 'here', 'any', 'some', 'all', 'no', 'not', 'please', 'tell',
+  /*
+   * CONVERSATIONAL, NOT TOPICAL - a separate category from the grammar above,
+   * and it was missing. "help" is genuinely RARE in this corpus, so the
+   * distinctiveness test correctly judged it a rare word and wrongly concluded
+   * it named a subject: typing "help" on its own returned a passage that
+   * happened to contain the word. Rarity measures how much a word narrows the
+   * corpus, not whether it means anything, and these words mean nothing here.
+   * Removing them also improves real questions: "can you help with mobile apps"
+   * reduces to the two words that matter.
+   */
+  'hello', 'hi', 'hey', 'help', 'thanks', 'thank', 'ok', 'okay', 'yes', 'yeah',
+  'sure', 'greetings', 'stuff', 'things',
+  /*
+   * FILLER ADVERBS, and these cost a real answer before they were listed.
+   * "What does Pixelette actually do?" reduced to `pixelette` + `actually`, and
+   * because coverage is a share of the question, the filler counted as half of
+   * what was being asked - so a question the site answers on its homepage fell
+   * below the floor. A word that changes the tone and not the meaning should not
+   * be able to veto a match.
+   */
+  'actually', 'really', 'just', 'basically', 'simply', 'exactly', 'quite',
+  'very', 'also', 'even', 'still', 'well', 'like', 'want', 'need', 'looking',
 ]);
 
 /**
@@ -227,8 +249,41 @@ export function search(query: string, limit = 3): Match[] {
  */
 export const MIN_COVERAGE = 0.7;
 
-/** A one-word query is not enough signal to answer on; ask for more. */
-export const MIN_QUERY_TOKENS = 2;
+/**
+ * Is there enough in this question to try to answer it at all?
+ *
+ * THIS REPLACES A WORD COUNT, which was wrong in a way only visible in use.
+ * The rule was "fewer than two content words, ask for more", and "what is
+ * tokenisation" reduces to the single token `tokenisation` - so one of the
+ * clearest questions a visitor could ask about a page the site devotes a whole
+ * section to was answered with "tell me a bit more".
+ *
+ * The count was never the thing that mattered. ONE RARE WORD IS A QUESTION;
+ * ONE COMMON WORD IS NOT. "Tokenisation" names a subject. "Work" does not, and
+ * answering it would mean picking one of a hundred passages that mention it.
+ * So a single-word question is accepted when that word is distinctive enough to
+ * point somewhere, measured against the corpus rather than guessed at.
+ */
+/*
+ * Swept like the coverage floor. Below 0.05 real one-word subjects start being
+ * refused ("tokenisation", "agentic"); at 0.2 the corpus is broad enough that
+ * near-empty words slip through. 0.05 to 0.15 all behave identically on the
+ * suite, so 0.1 is the middle of a flat band rather than an edge of it - which
+ * is the one case where taking the midpoint is the defensible move.
+ */
+const SINGLE_TOKEN_MAX_DF = 0.1;
+
+export function isDistinctive(token: string): boolean {
+  const df = DF.get(token) ?? 0;
+  return df > 0 && df <= INDEX.length * SINGLE_TOKEN_MAX_DF;
+}
+
+export function hasEnoughSignal(query: string): boolean {
+  const tokens = [...new Set(tokenise(query))];
+  if (!tokens.length) return false;
+  if (tokens.length >= 2) return true;
+  return isDistinctive(tokens[0]);
+}
 
 export const kbCounts = kb.counts as {
   pages: number;
