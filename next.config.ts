@@ -187,6 +187,31 @@ const nextConfig: NextConfig = {
         permanent: true,
       })),
       /*
+       * EVERY OLD BLOG URL GOES TO THE INSIGHTS HUB. Founder instruction
+       * 2026-09-24, resolving the largest single block of dead links: 36 posts
+       * plus 4 category archives, all 404 until now.
+       *
+       * A WILDCARD RATHER THAN FORTY ENTRIES, because an enumeration already
+       * proved its own blind spot here: the category archives are absent from
+       * the previous site's sitemap, so a sitemap-derived list missed them and
+       * only a link crawl found them. Forty hand-written lines would have
+       * inherited that gap; `:path*` cannot.
+       *
+       * `/blog` itself keeps its own entry in `moved` above, because `:path*`
+       * does not match the empty remainder for a source with a trailing
+       * segment. Placed before the /ai-engineering wildcard, whose comment
+       * requires it to stay last; the two sources do not overlap, so neither
+       * can shadow the other.
+       *
+       * WORTH KNOWING: /insights currently carries `noIndex`. A crawler follows
+       * this 308, finds noindex and drops the URL, so for SEARCH this is
+       * presently no better than the 404 it replaces. For a PERSON following an
+       * old link it is much better. It begins working for search the day the
+       * first article ships and the noIndex is removed - no change needed here
+       * when that happens.
+       */
+      { source: '/blog/:path*', destination: '/insights', permanent: true },
+      /*
        * /method had no index and returned 404, so trimming the last segment off
        * /method/live dead-ended. A redirect rather than an index page: an index
        * listing ONE child is padding, and /method/live is what the reader wants
