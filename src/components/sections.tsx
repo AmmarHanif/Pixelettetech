@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
+import { RouteSequence } from '@/components/ExperienceLayer';
 import { AiMark, ArrowUpRight, BuildMark, ChainMark, Gauge, Shield, Star } from '@/components/Icons';
 import { ProofStrip } from '@/components/ProofStrip';
 import { Cta, Eyebrow, FLink, Section, SourceNote } from '@/components/ui';
@@ -898,8 +899,21 @@ export function ValueModelCards({
    * decided here. Nothing else in this paragraph is owed.
    */
   current,
+  /**
+   * Render each route's internal sequence under its copy, with the dimensional
+   * behaviour that belongs to that route.
+   *
+   * OPT-IN, AND OFF BY DEFAULT, BECAUSE THIS COMPONENT IS ON FIVE PAGES. The
+   * homepage, /engineering, /ai-automation, /blockchain and
+   * /support-continuous-improvement all render it. Phase 1 of the experience
+   * layer is the homepage alone, so the sequence is passed there and nowhere
+   * else; the other four call sites render exactly the markup they rendered
+   * before this prop existed.
+   */
+  sequences = false,
 }: {
   current?: ValueModelEntry['key'];
+  sequences?: boolean;
 } = {}) {
   return (
     <div className="grid grid-4">
@@ -955,6 +969,7 @@ export function ValueModelCards({
               {entry.summary}
             </p>
             <div style={{ flexGrow: 1 }} />
+            {sequences ? <RouteSequence routeKey={entry.key} /> : null}
             <div style={{ marginTop: 18 }}>
               <FLink href={entry.href} wrap={entry.linkWraps}>
                 {entry.linkLabel}

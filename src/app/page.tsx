@@ -1,6 +1,7 @@
 
 import Link from 'next/link';
 
+import { LivingSystem } from '@/components/ExperienceLayer';
 import { LiveDiagram } from '@/components/LiveDiagram';
 import {
   CertifiedHandoff,
@@ -363,6 +364,24 @@ export default function HomePage() {
               Scope a build
             </Cta>
           </div>
+
+          {/*
+            EXPERIENCE LAYER, PHASE 1 — the hero's living system. Added
+            2026-09-26.
+
+            IT SITS UNDER THE BUTTONS, NOT BEHIND THE HEADLINE. The h1 is the
+            brand manifesto and the handoff protects it twice over; a visual
+            behind it would compete with the one line the audit called the best
+            on the page. Below the call to action it is the first thing a reader
+            meets after deciding not to click yet, which is where an explanation
+            belongs.
+
+            NO COPY IS ADDED. The three controls are the three subjects the h1
+            already names, and the visual restates the relationship between them
+            rather than asserting it in a new sentence — which is what the brief
+            asks for in terms ("Show the relationship visually").
+          */}
+          <LivingSystem />
         </div>
       </div>
 
@@ -477,8 +496,14 @@ export default function HomePage() {
           id="model-heading"
           title="One engineering company, four ways we create value"
         />
+        {/*
+          `sequences` is the experience layer's opt-in, Phase 1, homepage only.
+          The same component renders on /engineering, /ai-automation,
+          /blockchain and /support-continuous-improvement, and all four keep
+          their existing markup because the prop defaults to false.
+        */}
         <div style={{ marginTop: 36 }}>
-          <ValueModelCards />
+          <ValueModelCards sequences />
         </div>
       </Section>
 

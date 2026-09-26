@@ -5696,3 +5696,518 @@ button.btn[disabled] {
     font-size: 17px;
   }
 }
+
+/* ==========================================================================
+   EXPERIENCE LAYER - PHASE 1 (homepage)
+   Added 2026-09-26. The Pixelette spatial visual language.
+
+   ONE SET OF TOKENS FOR EVERY DIMENSIONAL SURFACE, so depth reads as a system
+   rather than as four separate effects. Nothing new is introduced to the
+   palette: the surfaces are the existing neutrals, the accent is the existing
+   brand purple, and depth comes from geometry and fine structural line rather
+   than from glow, neon or colour.
+
+   MOTION IS AN ENHANCEMENT ON TOP OF A COMPLETE STATIC STATE. Every visual
+   below is fully legible with no hover, no focus and no animation, because the
+   reduced-motion block at the foot of this file switches all of it off and the
+   result still has to explain itself.
+   ========================================================================== */
+
+:root {
+  /* the depth ramp: three elevations, used by every dimensional surface */
+  --depth-1: 30px;
+  /* 68px put the trust plane's projection on top of the hero's own controls:
+     a translateZ is projected UPWARD on screen once the scene is tilted back,
+     so depth costs vertical room above the plane, not just visual separation. */
+  --depth-2: 54px;
+  /* the one shared viewing angle, so separate visuals look like one world */
+  --tilt: 56deg;
+  --spin: -40deg;
+  --depth-line: rgba(10, 10, 10, 0.1);
+  --depth-fill: rgba(255, 255, 255, 0.72);
+  --depth-shadow: 0 18px 40px -22px rgba(10, 10, 10, 0.4);
+}
+
+/* ---- 1. hero: the living system ----------------------------------------- */
+.ls {
+  margin: 44px auto 0;
+  max-width: 620px;
+}
+
+.ls__controls {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ls__control {
+  display: inline-flex;
+}
+
+/* Visually hidden but focusable: the label is the visible control and the
+   focus ring is drawn on the label from :focus-visible on the input. */
+.ls__radio {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.ls__label {
+  cursor: pointer;
+  display: inline-block;
+  padding: 7px 15px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  font-size: 13px;
+  line-height: 1.2;
+  color: var(--muted);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.ls__label:hover {
+  border-color: var(--line-4);
+  color: var(--ink);
+}
+
+.ls__radio:checked + .ls__label {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-tint);
+}
+
+.ls__radio:focus-visible + .ls__label {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.ls__stage {
+  margin-top: 26px;
+  /* Sized to the ROTATED bounding box, measured rather than guessed: a 360px
+     square at rotateZ(-40deg) spans 360 x 1.41 = 507px wide and, after
+     rotateX(56deg), about 326px tall. The first version used a 420px scene in
+     a 300px stage, so the plane ran out of the bottom of its own container. */
+  height: 336px;
+  perspective: 1200px;
+  perspective-origin: 50% 42%;
+}
+
+.ls__scene {
+  position: relative;
+  width: 360px;
+  height: 360px;
+  margin: 0 auto;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--tilt)) rotateZ(var(--spin));
+}
+
+/* The three planes are SIBLINGS. A plane nested inside another and pushed
+   along its local Z would be painted behind that parent's own surface, present
+   in the DOM and never drawn. */
+.ls__plane {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: opacity 0.5s ease;
+}
+
+.ls__plane--base {
+  border: 1px solid var(--depth-line);
+  border-radius: 10px;
+  background:
+    linear-gradient(var(--depth-line) 1px, transparent 1px) 0 0 / 100% 12.5%,
+    linear-gradient(90deg, var(--depth-line) 1px, transparent 1px) 0 0 / 12.5% 100%,
+    var(--depth-fill);
+  box-shadow: var(--depth-shadow);
+}
+
+.ls__module {
+  position: absolute;
+  border: 1px solid var(--line-4);
+  border-radius: 5px;
+  background: #fff;
+}
+
+/* A minority of modules carry the accent, so the eye reads structure rather
+   than a uniform pattern. */
+.ls__module--edge {
+  border-color: var(--brand);
+  background: var(--brand-tint);
+}
+
+.ls__plane--signal {
+  transform: translateZ(var(--depth-1));
+  opacity: 0;
+}
+
+.ls__signals {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* The route exists whether or not a signal is on it. */
+.ls__wire {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 0.5;
+  stroke-linecap: round;
+  opacity: 0.3;
+}
+
+.ls__path {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-dasharray: 16 84;
+  stroke-dashoffset: 100;
+  opacity: 0.95;
+}
+
+.ls__plane--trust {
+  transform: translateZ(var(--depth-2));
+  opacity: 0;
+}
+
+/* Deliberately covers PART of the footprint. A verification layer over the
+   whole system would say the opposite of what the copy says. */
+/* Sits over the MIDDLE of the footprint, not the top edge. At the top it
+   projected clear of the base plane entirely and floated over the controls,
+   which read as a rendering fault rather than as a layer. */
+.ls__trust {
+  position: absolute;
+  left: 44%;
+  top: 20%;
+  width: 52%;
+  height: 54%;
+  border: 1px dashed var(--brand);
+  border-radius: 8px;
+  background: rgba(102, 26, 143, 0.06);
+}
+
+.ls__seal {
+  position: absolute;
+  left: 62%;
+  top: 38%;
+  width: 36px;
+  height: 36px;
+}
+
+.ls__sealRing,
+.ls__sealTick {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The state machine. :has() lets the checked radio reach a plane that is not
+   its sibling; where :has() is unsupported the page rests in the base state,
+   which is a complete and correct picture rather than a broken one. */
+.ls:has(#ls-ai:checked) .ls__plane--signal,
+.ls:has(#ls-blockchain:checked) .ls__plane--signal {
+  opacity: 1;
+}
+
+.ls:has(#ls-ai:checked) .ls__path,
+.ls:has(#ls-blockchain:checked) .ls__path {
+  animation: ls-travel 2.6s linear infinite;
+}
+
+.ls:has(#ls-blockchain:checked) .ls__plane--trust {
+  opacity: 1;
+}
+
+@keyframes ls-travel {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* A ROTATED SQUARE IS WIDER THAN ITS WIDTH, and transforms still contribute to
+   scrollable overflow even though they do not affect layout. At rotateZ(-40deg)
+   the bounding width is side x (|cos40| + |sin40|), about 1.41x - so the 420px
+   desktop scene spans 592px, measured, which is why `.ls` is capped at 620px.
+   The first mobile value was 300px, which spans 423px inside a 390px viewport:
+   Chrome grew the layout viewport to 414px to fit it, and the assertion on
+   innerWidth caught it. 236px spans about 333px and fits inside the gutters. */
+@media (max-width: 700px) {
+  .ls__stage {
+    height: 224px;
+  }
+
+  .ls__scene {
+    width: 236px;
+    height: 236px;
+  }
+
+  .ls__seal {
+    width: 26px;
+    height: 26px;
+  }
+
+  .ls__label {
+    padding: 6px 13px;
+    font-size: 12.5px;
+  }
+}
+
+/* ---- 2. the four routes, as sequences ----------------------------------- */
+/*
+   VERTICAL, BECAUSE FOUR LABELS DO NOT FIT ACROSS A CARD. The first version
+   laid the steps in a row. Inside a four-up grid the card gives about 178px of
+   content width, so four labels plus their connectors had roughly 35px each and
+   every one of them truncated: "Prod...", "Verif...", "Rele...". The labels ARE
+   the content, so an ellipsis is not a cosmetic problem. Down the card each
+   label has the full width and none of them wrap.
+*/
+.rs {
+  position: relative;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.rs__steps {
+  list-style: none;
+  display: grid;
+  gap: 9px;
+  padding-left: 2px;
+}
+
+.rs__step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  transition: transform 0.35s ease;
+}
+
+/* The connector runs between one dot and the next, so it is drawn from the
+   dot's own column rather than from the edge of the row. */
+.rs__step + .rs__step::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: -9px;
+  width: 1px;
+  height: 9px;
+  background: var(--line-4);
+}
+
+.rs__dot {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--line-4);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.rs__label {
+  font-size: 11.5px;
+  line-height: 1.3;
+  color: var(--muted-2);
+  transition: color 0.3s ease;
+}
+
+/* The card is the trigger, so the sequence answers hover and keyboard focus
+   landing on the card's own link. */
+.card:hover .rs__dot,
+.card:focus-within .rs__dot {
+  background: var(--brand);
+}
+
+.card:hover .rs__label,
+.card:focus-within .rs__label {
+  color: var(--ink);
+}
+
+/* BUILD stacks: each step sits a little further in than the one before it, so
+   the sequence reads as layers resting on each other. */
+.card:hover .rs--stack .rs__step:nth-child(2),
+.card:focus-within .rs--stack .rs__step:nth-child(2) {
+  transform: translateX(7px);
+}
+.card:hover .rs--stack .rs__step:nth-child(3),
+.card:focus-within .rs--stack .rs__step:nth-child(3) {
+  transform: translateX(14px);
+}
+.card:hover .rs--stack .rs__step:nth-child(4),
+.card:focus-within .rs--stack .rs__step:nth-child(4) {
+  transform: translateX(21px);
+}
+
+/* AUTOMATE flows: one pulse travels the length of the sequence. */
+.card:hover .rs--flow .rs__dot,
+.card:focus-within .rs--flow .rs__dot {
+  animation: rs-pulse 1.5s ease-in-out infinite;
+}
+.rs--flow .rs__step:nth-child(2) .rs__dot {
+  animation-delay: 0.16s;
+}
+.rs--flow .rs__step:nth-child(3) .rs__dot {
+  animation-delay: 0.32s;
+}
+.rs--flow .rs__step:nth-child(4) .rs__dot {
+  animation-delay: 0.48s;
+}
+
+@keyframes rs-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(2.1);
+  }
+}
+
+/* DECENTRALISE spreads: the steps move apart rather than along, because
+   verification is distributed rather than sequential. */
+.card:hover .rs--spread .rs__step:nth-child(1),
+.card:focus-within .rs--spread .rs__step:nth-child(1) {
+  transform: translateX(-3px);
+}
+.card:hover .rs--spread .rs__step:nth-child(2),
+.card:focus-within .rs--spread .rs__step:nth-child(2) {
+  transform: translateX(10px);
+}
+.card:hover .rs--spread .rs__step:nth-child(3),
+.card:focus-within .rs--spread .rs__step:nth-child(3) {
+  transform: translateX(-3px);
+}
+.card:hover .rs--spread .rs__step:nth-child(4),
+.card:focus-within .rs--spread .rs__step:nth-child(4) {
+  transform: translateX(10px);
+}
+
+/* RUN cycles: the sequence closes back on its own start. */
+.rs__return {
+  position: absolute;
+  left: -6px;
+  top: 22px;
+  bottom: 6px;
+  width: 8px;
+  border: 1px solid var(--line-4);
+  border-right: 0;
+  border-radius: 6px 0 0 6px;
+  opacity: 0;
+  transition: opacity 0.35s ease, border-color 0.35s ease;
+}
+
+.card:hover .rs__return,
+.card:focus-within .rs__return {
+  opacity: 1;
+  border-color: var(--brand);
+}
+
+/* ---- 3. LIVE methodology, compact variant ------------------------------- */
+/* Homepage only. /method/live renders the `full` variant and is untouched. */
+.live__stage {
+  transition: transform 0.3s ease;
+}
+
+.live__stages:hover .live__stage,
+.live__stages:focus-within .live__stage {
+  opacity: 0.55;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.live__stages .live__stage:hover,
+.live__stages .live__stage:focus-within {
+  opacity: 1;
+  transform: translateY(-3px);
+}
+
+.live__stage::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.live__stages .live__stage:hover::after,
+.live__stages .live__stage:focus-within::after {
+  transform: scaleX(1);
+}
+
+/* ---- 4. selected work: product windows ---------------------------------- */
+/* The screenshot is real and published; what gains depth is the FRAME around
+   it, so nothing here fabricates, replaces or alters product imagery.
+
+   THE SELECTOR IS .slot, NOT .media. MediaSlot renders `slot slot--media`, and
+   the first version of this block targeted `.media`, which matches nothing on
+   this site: the rules were live, valid and silently inert. Extends the
+   existing `.work-card .slot` transition rather than replacing it, so the
+   border-colour change already on hover still happens. */
+.work-card .slot {
+  transition: border-color 0.15s ease, transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.work-card:hover .slot,
+.work-card:focus-visible .slot {
+  transform: perspective(900px) rotateX(3deg) translateY(-4px);
+  box-shadow: var(--depth-shadow);
+}
+
+/* ---- reduced motion ------------------------------------------------------ */
+/* Everything above degrades to its static state. The states still change on
+   selection and on hover - what stops is movement, not information. */
+@media (prefers-reduced-motion: reduce) {
+  .ls__plane,
+  .rs__step,
+  .rs__dot,
+  .rs__return,
+  .live__stage,
+  .live__stage::after {
+    transition: none !important;
+  }
+
+  .work-card .slot {
+    transition: border-color 0.15s ease !important;
+  }
+
+  .ls:has(#ls-ai:checked) .ls__path,
+  .ls:has(#ls-blockchain:checked) .ls__path,
+  .card:hover .rs--flow .rs__dot,
+  .card:focus-within .rs--flow .rs__dot {
+    animation: none;
+  }
+
+  /* The dash stops; the wire underneath already states that the route exists,
+     so the AI state still reads as a connected system rather than as nothing. */
+  .ls__path {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    opacity: 0.5;
+  }
+
+  .card:hover .rs--stack .rs__step,
+  .card:focus-within .rs--stack .rs__step,
+  .card:hover .rs--spread .rs__step,
+  .card:focus-within .rs--spread .rs__step,
+  .live__stages .live__stage:hover,
+  .live__stages .live__stage:focus-within {
+    transform: none;
+  }
+
+  .work-card:hover .slot,
+  .work-card:focus-visible .slot {
+    transform: none;
+    box-shadow: none;
+  }
+}
