@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 
-import { LivingSystem } from '@/components/ExperienceLayer';
+import { HeroExperience } from '@/components/HeroExperience';
 import { LiveDiagram } from '@/components/LiveDiagram';
 import {
   CertifiedHandoff,
@@ -251,8 +251,16 @@ export default function HomePage() {
         specialist text route, and three chips underneath with the same
         weighting.
       */}
+      {/*
+        SPLIT COMPOSITION, 2026-09-27, to the approved hero reference. The hero
+        was centred; the brief's section 10 specifies copy left, dimensional
+        system right. `wrap center` becomes `wrap` with the centring moved onto
+        the copy column, so the text still centres when the two columns collapse
+        to one on a phone.
+      */}
       <div className="hero-glow" style={{ padding: '88px 0 64px' }}>
-        <div className="wrap center">
+        <div className="wrap hero-split">
+          <div className="hero-split__copy">
           <Eyebrow>Software engineering • AI &amp; automation • Blockchain</Eyebrow>
           <h1 className="h1" style={{ marginTop: 26, fontSize: 'clamp(36px, 4.6vw, 54px)' }}>
           {/*
@@ -311,16 +319,21 @@ export default function HomePage() {
             specialist practice belongs rather than competing with two
             commercial engines for the first screen.
           */}
-          <p className="lead" style={{ margin: '24px auto 0', maxWidth: '54ch' }}>
+          <p className="lead" style={{ marginTop: 24, maxWidth: '54ch' }}>
             {/* The trailing clause - "Blockchain is a specialist practice, used where it
                 earns its place" - was cut rather than reworded. The h1 directly above now
                 carries the selectivity, so restating it one line later was the lead arguing
-                with its own headline. */}
+                with its own headline.
+
+                THIRD SENTENCE ADDED 2026-09-27, from the hero brief's section 9. It is
+                what makes the diagram beside it legible: without it the lead names three
+                capabilities and stops, and the centre of the visual has nothing in the copy
+                to land against. */}
             We design, build and run software products, AI systems and intelligent workflows.
-            Engineering is the foundation.
+            Engineering is the foundation. A better experience is the outcome.
           </p>
 
-          <div className="btn-row" style={{ marginTop: 36, justifyContent: 'center' }}>
+          <div className="btn-row" style={{ marginTop: 36 }}>
             <Cta
               href="/contact"
               analytics={analyticsAttrs(ANALYTICS_EVENTS.HERO_PRIMARY_CTA, {
@@ -366,22 +379,39 @@ export default function HomePage() {
           </div>
 
           {/*
-            EXPERIENCE LAYER, PHASE 1 — the hero's living system. Added
-            2026-09-26.
+            BUILD - AUTOMATE - DECENTRALISE - RUN, added 2026-09-27 from the
+            hero brief's sections 10 and 18.
 
-            IT SITS UNDER THE BUTTONS, NOT BEHIND THE HEADLINE. The h1 is the
-            brand manifesto and the handoff protects it twice over; a visual
-            behind it would compete with the one line the audit called the best
-            on the page. Below the call to action it is the first thing a reader
-            meets after deciding not to click yet, which is where an explanation
-            belongs.
+            IT WAS NOT PREVIOUSLY IN THE HERO. Section 18 says "preserve" it,
+            which cannot apply literally because the live hero never carried it -
+            it exists on this page only as the four value cards further down. The
+            target composition in section 10 lists it in the left column, so it is
+            ADDED here rather than preserved, and this note records the difference
+            rather than letting "preserve" stand as if it had always been there.
 
-            NO COPY IS ADDED. The three controls are the three subjects the h1
-            already names, and the visual restates the relationship between them
-            rather than asserting it in a new sentence — which is what the brief
-            asks for in terms ("Show the relationship visually").
+            Deliberately set as a quiet mono rule, not as four labels. These are
+            how the firm engages with the work; the three in the diagram beside it
+            are the capabilities. Giving them equal visual weight would put seven
+            categories on one screen and undo the brief's own simplicity rule.
           */}
-          <LivingSystem />
+          <p className="hero-modes">
+            <span>Build</span>
+            <span>Automate</span>
+            <span>Decentralise</span>
+            <span>Run</span>
+          </p>
+          </div>
+
+          {/*
+            THE DIMENSIONAL SYSTEM. Replaces the three-state LivingSystem that
+            stood here from Phase 1: that visual argued software / AI / blockchain
+            as three states of one system, and this brief supersedes it with three
+            capabilities converging on Experience. LivingSystem is removed rather
+            than left unused, since nothing else rendered it.
+          */}
+          <div className="hero-split__viz">
+            <HeroExperience />
+          </div>
         </div>
       </div>
 

@@ -5728,236 +5728,11 @@ button.btn[disabled] {
   --depth-shadow: 0 18px 40px -22px rgba(10, 10, 10, 0.4);
 }
 
-/* ---- 1. hero: the living system ----------------------------------------- */
-.ls {
-  margin: 44px auto 0;
-  max-width: 620px;
-}
-
-.ls__controls {
-  border: 0;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-}
-
-.ls__control {
-  display: inline-flex;
-}
-
-/* Visually hidden but focusable: the label is the visible control and the
-   focus ring is drawn on the label from :focus-visible on the input. */
-.ls__radio {
-  position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-  pointer-events: none;
-}
-
-.ls__label {
-  cursor: pointer;
-  display: inline-block;
-  padding: 7px 15px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--paper);
-  font-size: 13px;
-  line-height: 1.2;
-  color: var(--muted);
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
-}
-
-.ls__label:hover {
-  border-color: var(--line-4);
-  color: var(--ink);
-}
-
-.ls__radio:checked + .ls__label {
-  border-color: var(--brand);
-  color: var(--brand);
-  background: var(--brand-tint);
-}
-
-.ls__radio:focus-visible + .ls__label {
-  outline: 2px solid var(--brand);
-  outline-offset: 2px;
-}
-
-.ls__stage {
-  margin-top: 26px;
-  /* Sized to the ROTATED bounding box, measured rather than guessed: a 360px
-     square at rotateZ(-40deg) spans 360 x 1.41 = 507px wide and, after
-     rotateX(56deg), about 326px tall. The first version used a 420px scene in
-     a 300px stage, so the plane ran out of the bottom of its own container. */
-  height: 336px;
-  perspective: 1200px;
-  perspective-origin: 50% 42%;
-}
-
-.ls__scene {
-  position: relative;
-  width: 360px;
-  height: 360px;
-  margin: 0 auto;
-  transform-style: preserve-3d;
-  transform: rotateX(var(--tilt)) rotateZ(var(--spin));
-}
-
-/* The three planes are SIBLINGS. A plane nested inside another and pushed
-   along its local Z would be painted behind that parent's own surface, present
-   in the DOM and never drawn. */
-.ls__plane {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-  transition: opacity 0.5s ease;
-}
-
-.ls__plane--base {
-  border: 1px solid var(--depth-line);
-  border-radius: 10px;
-  background:
-    linear-gradient(var(--depth-line) 1px, transparent 1px) 0 0 / 100% 12.5%,
-    linear-gradient(90deg, var(--depth-line) 1px, transparent 1px) 0 0 / 12.5% 100%,
-    var(--depth-fill);
-  box-shadow: var(--depth-shadow);
-}
-
-.ls__module {
-  position: absolute;
-  border: 1px solid var(--line-4);
-  border-radius: 5px;
-  background: #fff;
-}
-
-/* A minority of modules carry the accent, so the eye reads structure rather
-   than a uniform pattern. */
-.ls__module--edge {
-  border-color: var(--brand);
-  background: var(--brand-tint);
-}
-
-.ls__plane--signal {
-  transform: translateZ(var(--depth-1));
-  opacity: 0;
-}
-
-.ls__signals {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-/* The route exists whether or not a signal is on it. */
-.ls__wire {
-  fill: none;
-  stroke: var(--brand);
-  stroke-width: 0.5;
-  stroke-linecap: round;
-  opacity: 0.3;
-}
-
-.ls__path {
-  fill: none;
-  stroke: var(--brand);
-  stroke-width: 1.1;
-  stroke-linecap: round;
-  stroke-dasharray: 16 84;
-  stroke-dashoffset: 100;
-  opacity: 0.95;
-}
-
-.ls__plane--trust {
-  transform: translateZ(var(--depth-2));
-  opacity: 0;
-}
-
-/* Deliberately covers PART of the footprint. A verification layer over the
-   whole system would say the opposite of what the copy says. */
-/* Sits over the MIDDLE of the footprint, not the top edge. At the top it
-   projected clear of the base plane entirely and floated over the controls,
-   which read as a rendering fault rather than as a layer. */
-.ls__trust {
-  position: absolute;
-  left: 44%;
-  top: 20%;
-  width: 52%;
-  height: 54%;
-  border: 1px dashed var(--brand);
-  border-radius: 8px;
-  background: rgba(102, 26, 143, 0.06);
-}
-
-.ls__seal {
-  position: absolute;
-  left: 62%;
-  top: 38%;
-  width: 36px;
-  height: 36px;
-}
-
-.ls__sealRing,
-.ls__sealTick {
-  fill: none;
-  stroke: var(--brand);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* The state machine. :has() lets the checked radio reach a plane that is not
-   its sibling; where :has() is unsupported the page rests in the base state,
-   which is a complete and correct picture rather than a broken one. */
-.ls:has(#ls-ai:checked) .ls__plane--signal,
-.ls:has(#ls-blockchain:checked) .ls__plane--signal {
-  opacity: 1;
-}
-
-.ls:has(#ls-ai:checked) .ls__path,
-.ls:has(#ls-blockchain:checked) .ls__path {
-  animation: ls-travel 2.6s linear infinite;
-}
-
-.ls:has(#ls-blockchain:checked) .ls__plane--trust {
-  opacity: 1;
-}
-
-@keyframes ls-travel {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-/* A ROTATED SQUARE IS WIDER THAN ITS WIDTH, and transforms still contribute to
-   scrollable overflow even though they do not affect layout. At rotateZ(-40deg)
-   the bounding width is side x (|cos40| + |sin40|), about 1.41x - so the 420px
-   desktop scene spans 592px, measured, which is why `.ls` is capped at 620px.
-   The first mobile value was 300px, which spans 423px inside a 390px viewport:
-   Chrome grew the layout viewport to 414px to fit it, and the assertion on
-   innerWidth caught it. 236px spans about 333px and fits inside the gutters. */
-@media (max-width: 700px) {
-  .ls__stage {
-    height: 224px;
-  }
-
-  .ls__scene {
-    width: 236px;
-    height: 236px;
-  }
-
-  .ls__seal {
-    width: 26px;
-    height: 26px;
-  }
-
-  .ls__label {
-    padding: 6px 13px;
-    font-size: 12.5px;
-  }
-}
+/* ---- 1. hero: (was the living system) ------------------------------------
+   The Phase 1 hero visual and its CSS were removed on 2026-09-27 when the hero
+   brief replaced it with the Experience system. The depth tokens above stay:
+   they are the shared spatial language and the sections below the hero still
+   draw on them. ------------------------------------------------------------ */
 
 /* ---- 2. the four routes, as sequences ----------------------------------- */
 /*
@@ -6168,7 +5943,6 @@ button.btn[disabled] {
 /* Everything above degrades to its static state. The states still change on
    selection and on hover - what stops is movement, not information. */
 @media (prefers-reduced-motion: reduce) {
-  .ls__plane,
   .rs__step,
   .rs__dot,
   .rs__return,
@@ -6181,19 +5955,9 @@ button.btn[disabled] {
     transition: border-color 0.15s ease !important;
   }
 
-  .ls:has(#ls-ai:checked) .ls__path,
-  .ls:has(#ls-blockchain:checked) .ls__path,
   .card:hover .rs--flow .rs__dot,
   .card:focus-within .rs--flow .rs__dot {
     animation: none;
-  }
-
-  /* The dash stops; the wire underneath already states that the route exists,
-     so the AI state still reads as a connected system rather than as nothing. */
-  .ls__path {
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-    opacity: 0.5;
   }
 
   .card:hover .rs--stack .rs__step,
@@ -6209,5 +5973,574 @@ button.btn[disabled] {
   .work-card:focus-visible .slot {
     transform: none;
     box-shadow: none;
+  }
+}
+
+/* ==========================================================================
+   HOMEPAGE HERO - the Experience system.
+   Added 2026-09-27, to the approved reference composition.
+
+   HOW THE REFERENCE WAS TRANSLATED. The look in that render comes from four
+   things, and CSS does all four natively: a translucent pane over a blurred
+   backdrop, a hairline light along each pane's top edge, a soft contact shadow
+   under an object that is floating, and real perspective so the panes face
+   slightly different ways. Those are the whole material. No 3D engine is
+   involved and no bitmap is loaded.
+
+   THE ONE THING NOT REPRODUCED is the reference's photographic background - a
+   blurred office interior behind the glass. This site's hero is white by
+   design, the brief forbids introducing a new visual identity, and a stock
+   interior would be exactly that. The glass reads against the existing
+   hero-glow instead.
+   ========================================================================== */
+
+.hx {
+  position: relative;
+  width: 100%;
+}
+
+.hx__scene {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  margin-left: auto;
+  aspect-ratio: 560 / 520;
+  perspective: 1500px;
+  perspective-origin: 52% 46%;
+}
+
+/* ---- the glass material, shared by every surface --------------------------
+   One definition, so the centre and the three panes are cut from the same
+   material and the composition reads as one object rather than four. */
+.hx__pane,
+.hx__centre {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 15px 16px 16px;
+  cursor: pointer;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.86), rgba(246, 242, 250, 0.62));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(102, 26, 143, 0.06),
+    0 1px 1px rgba(46, 16, 62, 0.04),
+    0 18px 34px -20px rgba(46, 16, 62, 0.34);
+  backdrop-filter: blur(9px) saturate(1.15);
+  -webkit-backdrop-filter: blur(9px) saturate(1.15);
+  transition: transform 0.45s cubic-bezier(0.22, 0.8, 0.3, 1),
+    box-shadow 0.45s ease, border-color 0.35s ease;
+}
+
+.hx__group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  inset: 0;
+}
+
+.hx__slot {
+  position: absolute;
+  display: block;
+}
+
+/* Focusable but not visible: the pane is the control, and the focus ring is
+   drawn on the pane from the input's :focus-visible. */
+.hx__radio {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* ---- positions, and the angle each surface faces ------------------------- */
+/* Engineering sits furthest back and left; AI is highest; Blockchain is
+   nearest the viewer. Three different depths, so the group has volume rather
+   than being three cards on one plane. */
+.hx__slot--engineering {
+  left: 0;
+  top: 12%;
+  width: 38%;
+  height: 24%;
+  transform: translateZ(-26px) rotateY(15deg) rotateX(4deg);
+}
+
+.hx__slot--ai {
+  left: 60%;
+  top: 6%;
+  width: 40%;
+  height: 24%;
+  transform: translateZ(10px) rotateY(-15deg) rotateX(4deg);
+}
+
+.hx__slot--blockchain {
+  left: 62%;
+  top: 52%;
+  width: 38%;
+  height: 24%;
+  transform: translateZ(34px) rotateY(-14deg) rotateX(3deg);
+}
+
+/* The centre is lower, forward and square to the viewer: the place the other
+   three arrive at, not another panel among them. */
+.hx__slot--centre {
+  /* The three panes were overlapping this, and the Blockchain label was being
+     painted over by it - measured, not noticed in passing. The four footprints
+     are now disjoint: engineering x0-38 y12-36, ai x60-100 y6-30, blockchain
+     x62-100 y52-76, centre x24-62 y38-68. */
+  left: 24%;
+  top: 38%;
+  width: 38%;
+  height: 30%;
+  transform: translateZ(66px);
+  z-index: 3;
+}
+
+.hx__centre {
+  align-items: center;
+  text-align: center;
+  padding: 16px 14px 18px;
+  border-color: rgba(191, 158, 214, 0.9);
+  background:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.94), rgba(240, 231, 248, 0.78));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 2px 2px rgba(46, 16, 62, 0.05),
+    0 26px 50px -22px rgba(76, 20, 104, 0.46);
+}
+
+/* The light the centre gives off, which is what makes it read as the result
+   rather than as the fourth box. */
+.hx__glow {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: 190%;
+  height: 190%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(122, 44, 165, 0.16) 0%,
+    rgba(122, 44, 165, 0.07) 42%,
+    rgba(122, 44, 165, 0) 68%
+  );
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity 0.5s ease;
+}
+
+/* ---- type inside the surfaces ------------------------------------------- */
+.hx__mark {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hx__mark--centre {
+  width: 26px;
+  height: 26px;
+}
+
+.hx__paneLabel,
+.hx__centreLabel {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.hx__centreLabel {
+  font-size: 16px;
+}
+
+.hx__paneLine,
+.hx__centreLine {
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.hx__centreLine {
+  max-width: 21ch;
+}
+
+/* ---- the detail lists ---------------------------------------------------- */
+/* In the markup always; visible only while the pane is engaged. Height is
+   animated from 0 so nothing in the composition jumps. */
+.hx__details {
+  display: grid;
+  gap: 2px;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.45s ease, opacity 0.35s ease, margin-top 0.45s ease;
+}
+
+.hx__detail {
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: var(--muted-2);
+  white-space: nowrap;
+}
+
+/* ---- the conduits -------------------------------------------------------- */
+/* Behind the panes on purpose: each line starts at its pane's middle and is
+   occluded by that pane, so it reads as emerging from behind it and arriving at
+   the centre, rather than as a stick laid on top of two boxes. */
+.hx__conduits {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.hx__wire {
+  fill: none;
+  stroke: rgba(122, 44, 165, 0.3);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+/* The travelling part. At rest it is a slow, faint drift; engaging a pane
+   brightens and quickens only that one. */
+.hx__flow {
+  fill: none;
+  stroke: url(#hxFlow);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 26 210;
+  stroke-dashoffset: 236;
+  opacity: 0.5;
+  animation: hx-travel 5.2s linear infinite;
+  transition: opacity 0.4s ease, stroke-width 0.4s ease;
+}
+
+.hx__flow--ai {
+  animation-delay: -1.7s;
+}
+
+.hx__flow--blockchain {
+  animation-delay: -3.4s;
+}
+
+@keyframes hx-travel {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---- the plinth ---------------------------------------------------------- */
+/* Three stacked slabs under the centre. It gives the composition a ground and
+   a reason for the centre to sit lower than the panes. Deliberately unlabelled:
+   the brief allows one phrase here and prefers it blank, and blank is cleaner. */
+/* WAS THREE STACKED SLABS. Rendered, they read as a grey smudge under the
+   composition rather than as a base, and the brief prefers a clean base and
+   permits none at all. What remains is the one thing the slabs were there to
+   do: give the centre a ground so it reads as resting forward rather than
+   floating at a random depth. */
+.hx__plinth {
+  position: absolute;
+  left: 50%;
+  bottom: 17%;
+  width: 44%;
+  height: 26px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(46, 16, 62, 0.16) 0%,
+    rgba(46, 16, 62, 0.06) 45%,
+    rgba(46, 16, 62, 0) 72%
+  );
+  pointer-events: none;
+}
+
+.hx__plinthTop,
+.hx__plinthMid,
+.hx__plinthBase {
+  display: none;
+}
+
+/* ---- engagement ---------------------------------------------------------- */
+/* Hover for a pointer, :has(:checked) for tap and keyboard. Kept as separate
+   selector lists rather than one, because a browser that does not understand
+   :has() must still honour the :hover half instead of dropping the whole rule. */
+.hx__slot:hover .hx__pane,
+.hx__slot:hover .hx__centre {
+  transform: translateY(-5px);
+  border-color: rgba(163, 116, 196, 0.95);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 2px 3px rgba(46, 16, 62, 0.06),
+    0 30px 56px -24px rgba(76, 20, 104, 0.5);
+}
+
+.hx__slot:has(.hx__radio:checked) .hx__pane,
+.hx__slot:has(.hx__radio:checked) .hx__centre {
+  transform: translateY(-5px);
+  border-color: rgba(163, 116, 196, 0.95);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 2px 3px rgba(46, 16, 62, 0.06),
+    0 30px 56px -24px rgba(76, 20, 104, 0.5);
+}
+
+.hx__radio:focus-visible + .hx__pane,
+.hx__radio:focus-visible + .hx__centre {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+.hx__slot:hover .hx__details,
+.hx__slot:has(.hx__radio:checked) .hx__details {
+  max-height: 96px;
+  opacity: 1;
+  margin-top: 5px;
+}
+
+/* One capability engaged: its own conduit brightens, the others stay at rest. */
+.hx:has(#hx-engineering:checked) .hx__flow--engineering,
+.hx__slot--engineering:hover ~ .hx__slot .hx__flow--engineering {
+  opacity: 1;
+}
+
+.hx:has(#hx-engineering:checked) .hx__flow--engineering,
+.hx:has(#hx-ai:checked) .hx__flow--ai,
+.hx:has(#hx-blockchain:checked) .hx__flow--blockchain {
+  opacity: 1;
+  stroke-width: 3.2;
+  animation-duration: 2.4s;
+}
+
+/* The centre engaged: all three converge at once, which is the whole point. */
+.hx:has(#hx-experience:checked) .hx__flow {
+  opacity: 1;
+  stroke-width: 3.2;
+  animation-duration: 2.4s;
+}
+
+.hx:has(#hx-experience:checked) .hx__glow,
+.hx__slot--centre:hover .hx__glow {
+  opacity: 1.55;
+}
+
+/* The centre answers whichever capability is engaged, so the relationship is
+   visible from the edge as well as from the middle. */
+.hx:has(.hx__radio:checked) .hx__centre {
+  border-color: rgba(163, 116, 196, 0.95);
+}
+
+/* ---- mobile: a simplified state, not a shrunken one ---------------------- */
+/* Three panes in a row feeding one centre beneath them. Depth is reduced to a
+   single shared elevation, the panes stop facing different ways, the plinth
+   goes, and the detail lists open on tap only. The relationship - three into
+   one - is the thing that has to survive, and it is the thing kept. */
+@media (max-width: 900px) {
+  .hx__scene {
+    max-width: 460px;
+    margin: 0 auto;
+    aspect-ratio: 460 / 400;
+    perspective: 1100px;
+  }
+
+  .hx__slot--engineering,
+  .hx__slot--ai,
+  .hx__slot--blockchain {
+    top: 0;
+    height: 30%;
+    transform: translateZ(0) rotateY(0deg) rotateX(0deg);
+  }
+
+  .hx__slot--engineering {
+    left: 0;
+    width: 31%;
+  }
+
+  .hx__slot--ai {
+    left: 34.5%;
+    width: 31%;
+  }
+
+  .hx__slot--blockchain {
+    left: 69%;
+    width: 31%;
+  }
+
+  .hx__slot--centre {
+    left: 18%;
+    top: 58%;
+    width: 64%;
+    height: 34%;
+    transform: translateZ(24px);
+  }
+
+  .hx__pane {
+    padding: 11px 11px 12px;
+    gap: 4px;
+  }
+
+  .hx__paneLabel {
+    font-size: 12.5px;
+  }
+
+  /* THE SUPPORTING LINES COME OUT OF THE PANES HERE, not out of the page.
+     At this size "Where decentralisation creates real value" overflowed its
+     pane and was cut mid-word. Section 25 permits reducing secondary labels on
+     mobile, so they are moved to assistive technology only - still read aloud,
+     still in the markup, simply not competing for 109px of width. The centre
+     keeps its line, because that one is the point of the diagram. */
+  .hx__paneLine {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .hx__pane {
+    justify-content: center;
+    gap: 7px;
+  }
+
+  .hx__mark {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* The glow is 190% of the centre, and the centre is 64% wide here, so it
+     spanned 122% of the scene and pushed the layout viewport out to 406px.
+     An absolutely positioned decoration still contributes to scrollable
+     overflow; it does not escape layout just because it cannot be clicked. */
+  .hx__glow {
+    width: 130%;
+    height: 130%;
+  }
+
+  .hx__plinth {
+    display: none;
+  }
+
+  .hx__details {
+    display: none;
+  }
+}
+
+/* ---- reduced motion ------------------------------------------------------ */
+/* The signals stop. The conduits stay drawn, the centre stays lit, and every
+   state still changes on hover, tap and focus - what stops is travel. */
+@media (prefers-reduced-motion: reduce) {
+  .hx__flow {
+    animation: none;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    opacity: 0.42;
+  }
+
+  .hx:has(#hx-engineering:checked) .hx__flow--engineering,
+  .hx:has(#hx-ai:checked) .hx__flow--ai,
+  .hx:has(#hx-blockchain:checked) .hx__flow--blockchain,
+  .hx:has(#hx-experience:checked) .hx__flow {
+    animation: none;
+    opacity: 0.95;
+  }
+
+  .hx__pane,
+  .hx__centre,
+  .hx__details,
+  .hx__glow {
+    transition: none;
+  }
+
+  .hx__slot:hover .hx__pane,
+  .hx__slot:hover .hx__centre,
+  .hx__slot:has(.hx__radio:checked) .hx__pane,
+  .hx__slot:has(.hx__radio:checked) .hx__centre {
+    transform: none;
+  }
+}
+
+/* ---- the hero's split composition ---------------------------------------- */
+.hero-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  gap: 48px;
+  align-items: center;
+}
+
+.hero-split__copy {
+  text-align: left;
+}
+
+/* THE THREE STATEMENTS MUST EACH HOLD ONE LINE. Moving the hero from a centred
+   full-width block into a column took the headline from three lines to five -
+   "Software" broke away from "engineered to last", so the h1 stopped reading as
+   three statements and started reading as loose text. The words are untouched;
+   only the size is, so that the longest of the three ("Blockchain used where it
+   counts", 31 characters) fits the column. */
+.hero-split__copy .h1 {
+  font-size: clamp(30px, 3.1vw, 42px) !important;
+}
+
+/* The engagement strip under the hero copy. These describe how Pixelette
+   engages with the work and are deliberately NOT the three capabilities in the
+   diagram, so they are set as a quiet mono rule rather than as a fourth set of
+   labels competing with it. */
+.hero-modes {
+  margin-top: 34px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+
+.hero-modes span {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hero-modes span + span::before {
+  content: '';
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--brand);
+  opacity: 0.55;
+}
+
+@media (max-width: 900px) {
+  .hero-split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+  }
+
+  .hero-split__copy {
+    text-align: center;
+  }
+
+  .hero-modes {
+    justify-content: center;
   }
 }
