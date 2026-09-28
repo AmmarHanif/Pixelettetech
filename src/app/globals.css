@@ -6629,6 +6629,27 @@ button.btn[disabled] {
   align-items: center;
 }
 
+/* THE ARTWORK FULL WIDTH, UNDER THE COPY, rather than beside it.
+   This is the only arrangement in which the supplied artwork's own wording is
+   readable. The numbers are the whole argument: that wording is baked at about
+   23px against a 1774px width, so it lands at 6.9px in a 532px half-column and
+   at about 14.4px across the full 1112px wrap. The artwork is also exactly 2:1,
+   which is a shape that wants width - in a half column it is only 266px tall
+   and leaves the hero looking under-filled.
+   Applied by adding `hero-split--stacked` to the same block, so the 50/50
+   version is one class away and neither has to be rebuilt to compare them. */
+.hero-split--stacked {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
+}
+
+/* The copy keeps a comfortable measure even though its container is now the
+   full wrap - a 1112px line length is unreadable for body text, and the hero
+   lead is the one paragraph a visitor actually reads. */
+.hero-split--stacked .hero-split__copy {
+  max-width: 760px;
+}
+
 .hero-split__copy {
   text-align: left;
 }

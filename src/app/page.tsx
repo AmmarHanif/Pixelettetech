@@ -265,7 +265,10 @@ export default function HomePage() {
         to one on a phone.
       */}
       <div className="hero-glow" style={{ padding: '88px 0 64px' }}>
-        <div className="wrap hero-split">
+        {/* `hero-split--stacked` puts the artwork full width under the copy.
+            Removing that one class restores the even 50/50 halves; see the CSS
+            for the measured reason it is here. */}
+        <div className="wrap hero-split hero-split--stacked">
           <div className="hero-split__copy">
           <Eyebrow>Software engineering • AI &amp; automation • Blockchain</Eyebrow>
           <h1 className="h1" style={{ marginTop: 26, fontSize: 'clamp(36px, 4.6vw, 54px)' }}>
