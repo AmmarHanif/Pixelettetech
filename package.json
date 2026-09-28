@@ -12,7 +12,8 @@
     "pix:build": "node scripts/build-pix-kb.mjs",
     "pix:check": "node scripts/check-pix-kb.mjs",
     "pix:test": "node scripts/test-pix.cjs",
-    "check:headings": "node scripts/check-headings.mjs"
+    "check:headings": "node scripts/check-headings.mjs",
+    "check:pix-sources": "node scripts/check-pix-kb-sources.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "2.0.1",
