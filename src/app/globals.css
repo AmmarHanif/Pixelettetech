@@ -5977,21 +5977,27 @@ button.btn[disabled] {
 }
 
 /* ==========================================================================
-   HOMEPAGE HERO - the Experience system.
-   Added 2026-09-27, to the approved reference composition.
+   HOMEPAGE HERO - the Experience system, as geometry.
+   Rebuilt 2026-09-28.
 
-   HOW THE REFERENCE WAS TRANSLATED. The look in that render comes from four
-   things, and CSS does all four natively: a translucent pane over a blurred
-   backdrop, a hairline light along each pane's top edge, a soft contact shadow
-   under an object that is floating, and real perspective so the panes face
-   slightly different ways. Those are the whole material. No 3D engine is
-   involved and no bitmap is loaded.
+   WHAT CHANGED AND WHY. The previous version drew four rounded rectangles at
+   slight angles. It measured as "3D" - the surfaces really were at different
+   translateZ - and still read as flat cards, because depth you can only
+   measure is not depth you can see. What the reference actually has, and that
+   version did not:
 
-   THE ONE THING NOT REPRODUCED is the reference's photographic background - a
-   blurred office interior behind the glass. This site's hero is white by
-   design, the brief forbids introducing a new visual identity, and a stock
-   interior would be exactly that. The glass reads against the existing
-   hero-glow instead.
+     a centre with FACES and a light inside it, not a tinted rectangle;
+     panels with THICKNESS, so each one shows an edge;
+     a PEDESTAL under each panel, so it stands instead of hovering;
+     a stepped PLINTH, so the composition has a floor;
+     conduits wide enough to read as illuminated channels.
+
+   All five are geometry, and all five are elements and gradients. There is
+   still no 3D engine and no JavaScript.
+
+   THE CAMERA IS NEAR EYE LEVEL. You look slightly down at a floor and straight
+   at the upright objects standing on it. Horizontal surfaces take
+   rotateX(74deg); upright ones take none. That is why the panels stay readable.
    ========================================================================== */
 
 .hx {
@@ -5999,42 +6005,29 @@ button.btn[disabled] {
   width: 100%;
 }
 
-.hx__scene {
+.hx__stage {
   position: relative;
   width: 100%;
   max-width: 560px;
   margin-left: auto;
   aspect-ratio: 560 / 520;
-  perspective: 1500px;
-  perspective-origin: 52% 46%;
+  perspective: 1250px;
+  perspective-origin: 50% 40%;
 }
 
-/* ---- the glass material, shared by every surface --------------------------
-   One definition, so the centre and the three panes are cut from the same
-   material and the composition reads as one object rather than four. */
-.hx__pane,
-.hx__centre {
+/* Every object is placed from the middle of the stage, so its transform reads
+   as a position in the scene rather than as an offset from a corner. */
+.hx__scene {
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
-  padding: 15px 16px 16px;
-  cursor: pointer;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  background:
-    linear-gradient(160deg, rgba(255, 255, 255, 0.86), rgba(246, 242, 250, 0.62));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 0 rgba(102, 26, 143, 0.06),
-    0 1px 1px rgba(46, 16, 62, 0.04),
-    0 18px 34px -20px rgba(46, 16, 62, 0.34);
-  backdrop-filter: blur(9px) saturate(1.15);
-  -webkit-backdrop-filter: blur(9px) saturate(1.15);
-  transition: transform 0.45s cubic-bezier(0.22, 0.8, 0.3, 1),
-    box-shadow 0.45s ease, border-color 0.35s ease;
+  transform-style: preserve-3d;
+}
+
+.hx__obj {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-style: preserve-3d;
 }
 
 .hx__group {
@@ -6043,15 +6036,9 @@ button.btn[disabled] {
   padding: 0;
   position: absolute;
   inset: 0;
+  transform-style: preserve-3d;
 }
 
-.hx__slot {
-  position: absolute;
-  display: block;
-}
-
-/* Focusable but not visible: the pane is the control, and the focus ring is
-   drawn on the pane from the input's :focus-visible. */
 .hx__radio {
   position: absolute;
   opacity: 0;
@@ -6060,128 +6047,278 @@ button.btn[disabled] {
   pointer-events: none;
 }
 
-/* ---- positions, and the angle each surface faces ------------------------- */
-/* Engineering sits furthest back and left; AI is highest; Blockchain is
-   nearest the viewer. Three different depths, so the group has volume rather
-   than being three cards on one plane. */
-.hx__slot--engineering {
-  left: 0;
-  top: 12%;
-  width: 38%;
-  height: 24%;
-  transform: translateZ(-26px) rotateY(15deg) rotateX(4deg);
-}
-
-.hx__slot--ai {
-  left: 60%;
-  top: 6%;
-  width: 40%;
-  height: 24%;
-  transform: translateZ(10px) rotateY(-15deg) rotateX(4deg);
-}
-
-.hx__slot--blockchain {
-  left: 62%;
-  top: 52%;
-  width: 38%;
-  height: 24%;
-  transform: translateZ(34px) rotateY(-14deg) rotateX(3deg);
-}
-
-/* The centre is lower, forward and square to the viewer: the place the other
-   three arrive at, not another panel among them. */
-.hx__slot--centre {
-  /* The three panes were overlapping this, and the Blockchain label was being
-     painted over by it - measured, not noticed in passing. The four footprints
-     are now disjoint: engineering x0-38 y12-36, ai x60-100 y6-30, blockchain
-     x62-100 y52-76, centre x24-62 y38-68. */
-  left: 24%;
-  top: 38%;
-  width: 38%;
-  height: 30%;
-  transform: translateZ(66px);
-  z-index: 3;
-}
-
-.hx__centre {
-  align-items: center;
-  text-align: center;
-  padding: 16px 14px 18px;
-  border-color: rgba(191, 158, 214, 0.9);
+/* ---- the glass, shared by every surface ---------------------------------- */
+.hx__face,
+.hx__cubeFace {
   background:
-    linear-gradient(165deg, rgba(255, 255, 255, 0.94), rgba(240, 231, 248, 0.78));
+    linear-gradient(152deg, rgba(255, 255, 255, 0.92) 0%, rgba(243, 236, 250, 0.66) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.92);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 1),
-    0 2px 2px rgba(46, 16, 62, 0.05),
-    0 26px 50px -22px rgba(76, 20, 104, 0.46);
+    inset 0 -14px 26px -18px rgba(102, 26, 143, 0.5);
+  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
 }
 
-/* The light the centre gives off, which is what makes it read as the result
-   rather than as the fourth box. */
-.hx__glow {
+/* ---- the plinth -----------------------------------------------------------
+   Positioned from the cube's own base, not from the stage, so it stays under
+   the centre whatever the centre's transform does.
+
+   A SLAB IS A TOP FACE HINGED AT ITS FRONT EDGE PLUS A FRONT FACE RISING FROM
+   THAT SAME EDGE. Hinge the top anywhere else - its centre, for instance - and
+   it lifts away from the front and the slab renders as two unrelated floating
+   bars. That is exactly what the first attempt produced, twice. */
+.hx__plinth {
   position: absolute;
   left: 50%;
-  top: 54%;
-  width: 190%;
-  height: 190%;
-  transform: translate(-50%, -50%);
+  top: 100%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.hx__tier {
+  position: absolute;
+  left: 50%;
+  height: 0;
+  transform-style: preserve-3d;
+}
+
+.hx__tierTop {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-radius: 8px 8px 3px 3px;
+  transform-origin: bottom center;
+  transform: rotateX(74deg);
+  background: linear-gradient(168deg, rgba(255, 255, 255, 0.96), rgba(230, 220, 242, 0.7));
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 26px 48px -22px rgba(66, 22, 96, 0.55);
+}
+
+.hx__tierFront {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(180deg, rgba(238, 230, 247, 0.95), rgba(213, 198, 231, 0.85));
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-top: 0;
+}
+
+.hx__tier--upper {
+  width: 210px;
+  transform: translate3d(-50%, 6px, 10px);
+}
+
+.hx__tier--upper .hx__tierTop {
+  height: 62px;
+}
+
+.hx__tier--upper .hx__tierFront {
+  height: 15px;
+}
+
+.hx__tier--lower {
+  width: 300px;
+  transform: translate3d(-50%, 26px, -14px);
+}
+
+.hx__tier--lower .hx__tierTop {
+  height: 84px;
+}
+
+.hx__tier--lower .hx__tierFront {
+  height: 18px;
+}
+
+/* ---- the centre: a cube ---------------------------------------------------
+   Five faces. The front carries the words, so it stays square to the viewer and
+   readable; the other four give the silhouette its volume. */
+.hx__obj--centre {
+  transform: translate3d(-50%, -18px, 70px);
+  z-index: 4;
+}
+
+.hx__cube {
+  position: relative;
+  display: block;
+  width: 168px;
+  height: 152px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+
+.hx__cubeFace {
+  position: absolute;
+  border-radius: 12px;
+}
+
+/* THE LATTICE IS ON THE FRONT FACE, NOT BEHIND IT. It began as an inner core
+   at translateZ(4px), behind a front face at translateZ(42px) whose gradient
+   starts at 0.92 alpha - so the structure that made the cube read as a volume
+   was painted over by the cube's own front, present in the DOM and never seen.
+   Layered into the face's own background it is visible through the glass, which
+   is what the reference's inner grid actually does. */
+.hx__cubeFace--front {
+  inset: 0;
+  transform: translateZ(42px);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(122, 44, 165, 0.1) 0 1px, transparent 1px 15px),
+    repeating-linear-gradient(90deg, rgba(122, 44, 165, 0.1) 0 1px, transparent 1px 15px),
+    radial-gradient(circle at 50% 62%, rgba(146, 66, 190, 0.2), rgba(146, 66, 190, 0) 62%),
+    linear-gradient(152deg, rgba(255, 255, 255, 0.9) 0%, rgba(243, 236, 250, 0.72) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 13px;
+  text-align: center;
+  border-color: rgba(176, 134, 208, 0.95);
+}
+
+.hx__cubeFace--left,
+.hx__cubeFace--right {
+  top: 0;
+  width: 84px;
+  height: 100%;
+  border-radius: 12px;
+}
+
+.hx__cubeFace--left {
+  left: -42px;
+  transform: rotateY(90deg);
+}
+
+.hx__cubeFace--right {
+  right: -42px;
+  transform: rotateY(-90deg);
+}
+
+.hx__cubeFace--top {
+  left: 0;
+  top: -42px;
+  width: 100%;
+  height: 84px;
+  transform: rotateX(90deg);
+}
+
+/* The light it throws into the room. */
+.hx__cubeGlow {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 360px;
+  height: 360px;
+  transform: translate(-50%, -50%) translateZ(-30px);
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(122, 44, 165, 0.16) 0%,
-    rgba(122, 44, 165, 0.07) 42%,
-    rgba(122, 44, 165, 0) 68%
+    rgba(132, 52, 178, 0.26) 0%,
+    rgba(132, 52, 178, 0.1) 40%,
+    rgba(132, 52, 178, 0) 68%
   );
   pointer-events: none;
-  z-index: -1;
   transition: opacity 0.5s ease;
 }
 
-/* ---- type inside the surfaces ------------------------------------------- */
+/* ---- the three panels ----------------------------------------------------- */
+.hx__panel {
+  position: relative;
+  display: block;
+  width: 186px;
+  height: 116px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+
+.hx__face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 13px 14px;
+  border-radius: 12px;
+  transform: translateZ(7px);
+}
+
+/* The thickness. Without an edge a panel is a sticker. */
+.hx__edge {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  transform: translateZ(-7px);
+  background: linear-gradient(160deg, rgba(228, 217, 240, 0.95), rgba(201, 185, 219, 0.8));
+  box-shadow: 0 22px 40px -22px rgba(66, 22, 96, 0.6);
+}
+
+/* ---- where each object stands --------------------------------------------- */
+.hx__obj--engineering {
+  transform: translate3d(-260px, -100px, -60px);
+}
+
+.hx__obj--ai {
+  transform: translate3d(48px, -178px, 16px);
+}
+
+/* WAS translate3d(74px, ...), which put its left edge 10px inside the cube's
+   right edge and then perspective at z=96 pushed it further across, so it
+   painted over the cube. Measured, not eyeballed. */
+.hx__obj--blockchain {
+  transform: translate3d(126px, 4px, 96px);
+  z-index: 5;
+}
+
+/* ---- type ---------------------------------------------------------------- */
 .hx__mark {
-  width: 22px;
-  height: 22px;
+  width: 21px;
+  height: 21px;
   fill: none;
   stroke: var(--brand);
   stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
+  flex: none;
 }
 
 .hx__mark--centre {
-  width: 26px;
-  height: 26px;
+  width: 25px;
+  height: 25px;
 }
 
-.hx__paneLabel,
-.hx__centreLabel {
-  font-size: 14px;
+.hx__label {
+  font-size: 13.5px;
   font-weight: 600;
   line-height: 1.25;
   color: var(--ink);
 }
 
-.hx__centreLabel {
-  font-size: 16px;
+.hx__label--centre {
+  font-size: 15.5px;
 }
 
-.hx__paneLine,
-.hx__centreLine {
-  font-size: 11.5px;
+.hx__line {
+  font-size: 11px;
   line-height: 1.35;
   color: var(--muted);
 }
 
-.hx__centreLine {
-  max-width: 21ch;
+.hx__line--centre {
+  font-size: 10.5px;
+  max-width: 19ch;
 }
 
-/* ---- the detail lists ---------------------------------------------------- */
-/* In the markup always; visible only while the pane is engaged. Height is
-   animated from 0 so nothing in the composition jumps. */
 .hx__details {
   display: grid;
-  gap: 2px;
+  gap: 1px;
   overflow: hidden;
   max-height: 0;
   opacity: 0;
@@ -6189,53 +6326,56 @@ button.btn[disabled] {
 }
 
 .hx__detail {
-  font-size: 10.5px;
-  line-height: 1.45;
+  font-size: 10px;
+  line-height: 1.4;
   color: var(--muted-2);
   white-space: nowrap;
 }
 
-/* ---- the conduits -------------------------------------------------------- */
-/* Behind the panes on purpose: each line starts at its pane's middle and is
-   occluded by that pane, so it reads as emerging from behind it and arriving at
-   the centre, rather than as a stick laid on top of two boxes. */
+/* ---- the conduits --------------------------------------------------------- */
 .hx__conduits {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
   overflow: visible;
   pointer-events: none;
+  z-index: 3;
 }
 
-.hx__wire {
+.hx__bloom {
   fill: none;
-  stroke: rgba(122, 44, 165, 0.3);
-  stroke-width: 1.5;
+  stroke: rgba(146, 66, 190, 0.5);
+  stroke-width: 13;
   stroke-linecap: round;
-}
-
-/* The travelling part. At rest it is a slow, faint drift; engaging a pane
-   brightens and quickens only that one. */
-.hx__flow {
-  fill: none;
-  stroke: url(#hxFlow);
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-dasharray: 26 210;
-  stroke-dashoffset: 236;
   opacity: 0.5;
-  animation: hx-travel 5.2s linear infinite;
   transition: opacity 0.4s ease, stroke-width 0.4s ease;
 }
 
-.hx__flow--ai {
-  animation-delay: -1.7s;
+.hx__body {
+  fill: none;
+  stroke: url(#hxRibbon);
+  stroke-width: 5;
+  stroke-linecap: round;
 }
 
-.hx__flow--blockchain {
-  animation-delay: -3.4s;
+.hx__pulse {
+  fill: none;
+  stroke: #f2e6fb;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-dasharray: 22 200;
+  stroke-dashoffset: 222;
+  opacity: 0.85;
+  animation: hx-travel 4.6s linear infinite;
+}
+
+.hx__ribbon--ai .hx__pulse {
+  animation-delay: -1.5s;
+}
+
+.hx__ribbon--blockchain .hx__pulse {
+  animation-delay: -3s;
 }
 
 @keyframes hx-travel {
@@ -6244,167 +6384,135 @@ button.btn[disabled] {
   }
 }
 
-/* ---- the plinth ---------------------------------------------------------- */
-/* Three stacked slabs under the centre. It gives the composition a ground and
-   a reason for the centre to sit lower than the panes. Deliberately unlabelled:
-   the brief allows one phrase here and prefers it blank, and blank is cleaner. */
-/* WAS THREE STACKED SLABS. Rendered, they read as a grey smudge under the
-   composition rather than as a base, and the brief prefers a clean base and
-   permits none at all. What remains is the one thing the slabs were there to
-   do: give the centre a ground so it reads as resting forward rather than
-   floating at a random depth. */
-.hx__plinth {
-  position: absolute;
-  left: 50%;
-  bottom: 17%;
-  width: 44%;
-  height: 26px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse,
-    rgba(46, 16, 62, 0.16) 0%,
-    rgba(46, 16, 62, 0.06) 45%,
-    rgba(46, 16, 62, 0) 72%
-  );
-  pointer-events: none;
+/* ---- engagement ----------------------------------------------------------- */
+.hx__obj:hover .hx__panel,
+.hx__obj:hover .hx__cube {
+  transform: translateY(-7px);
 }
 
-.hx__plinthTop,
-.hx__plinthMid,
-.hx__plinthBase {
-  display: none;
+.hx__obj:has(.hx__radio:checked) .hx__panel,
+.hx__obj:has(.hx__radio:checked) .hx__cube {
+  transform: translateY(-7px);
 }
 
-/* ---- engagement ---------------------------------------------------------- */
-/* Hover for a pointer, :has(:checked) for tap and keyboard. Kept as separate
-   selector lists rather than one, because a browser that does not understand
-   :has() must still honour the :hover half instead of dropping the whole rule. */
-.hx__slot:hover .hx__pane,
-.hx__slot:hover .hx__centre {
-  transform: translateY(-5px);
-  border-color: rgba(163, 116, 196, 0.95);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 1),
-    0 2px 3px rgba(46, 16, 62, 0.06),
-    0 30px 56px -24px rgba(76, 20, 104, 0.5);
-}
-
-.hx__slot:has(.hx__radio:checked) .hx__pane,
-.hx__slot:has(.hx__radio:checked) .hx__centre {
-  transform: translateY(-5px);
-  border-color: rgba(163, 116, 196, 0.95);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 1),
-    0 2px 3px rgba(46, 16, 62, 0.06),
-    0 30px 56px -24px rgba(76, 20, 104, 0.5);
-}
-
-.hx__radio:focus-visible + .hx__pane,
-.hx__radio:focus-visible + .hx__centre {
+.hx__radio:focus-visible + .hx__panel .hx__face,
+.hx__radio:focus-visible + .hx__cube .hx__cubeFace--front {
   outline: 2px solid var(--brand);
-  outline-offset: 3px;
+  outline-offset: 4px;
 }
 
-.hx__slot:hover .hx__details,
-.hx__slot:has(.hx__radio:checked) .hx__details {
-  max-height: 96px;
+.hx__obj:hover .hx__details,
+.hx__obj:has(.hx__radio:checked) .hx__details {
+  max-height: 90px;
   opacity: 1;
-  margin-top: 5px;
+  margin-top: 4px;
 }
 
-/* One capability engaged: its own conduit brightens, the others stay at rest. */
-.hx:has(#hx-engineering:checked) .hx__flow--engineering,
-.hx__slot--engineering:hover ~ .hx__slot .hx__flow--engineering {
+.hx:has(#hx-engineering:checked) .hx__ribbon--engineering .hx__bloom,
+.hx:has(#hx-ai:checked) .hx__ribbon--ai .hx__bloom,
+.hx:has(#hx-blockchain:checked) .hx__ribbon--blockchain .hx__bloom,
+.hx:has(#hx-experience:checked) .hx__bloom {
   opacity: 1;
+  stroke-width: 18;
 }
 
-.hx:has(#hx-engineering:checked) .hx__flow--engineering,
-.hx:has(#hx-ai:checked) .hx__flow--ai,
-.hx:has(#hx-blockchain:checked) .hx__flow--blockchain {
-  opacity: 1;
-  stroke-width: 3.2;
-  animation-duration: 2.4s;
+.hx:has(#hx-engineering:checked) .hx__ribbon--engineering .hx__pulse,
+.hx:has(#hx-ai:checked) .hx__ribbon--ai .hx__pulse,
+.hx:has(#hx-blockchain:checked) .hx__ribbon--blockchain .hx__pulse,
+.hx:has(#hx-experience:checked) .hx__pulse {
+  animation-duration: 2.1s;
+  stroke-width: 3.6;
 }
 
-/* The centre engaged: all three converge at once, which is the whole point. */
-.hx:has(#hx-experience:checked) .hx__flow {
-  opacity: 1;
-  stroke-width: 3.2;
-  animation-duration: 2.4s;
+.hx:has(#hx-experience:checked) .hx__cubeGlow,
+.hx__obj--centre:hover .hx__cubeGlow {
+  opacity: 1.6;
 }
 
-.hx:has(#hx-experience:checked) .hx__glow,
-.hx__slot--centre:hover .hx__glow {
-  opacity: 1.55;
+.hx:has(.hx__radio:checked) .hx__cubeCore {
+  box-shadow: 0 0 52px rgba(132, 52, 178, 0.72);
 }
 
-/* The centre answers whichever capability is engaged, so the relationship is
-   visible from the edge as well as from the middle. */
-.hx:has(.hx__radio:checked) .hx__centre {
-  border-color: rgba(163, 116, 196, 0.95);
-}
-
-/* ---- mobile: a simplified state, not a shrunken one ---------------------- */
-/* Three panes in a row feeding one centre beneath them. Depth is reduced to a
-   single shared elevation, the panes stop facing different ways, the plinth
-   goes, and the detail lists open on tap only. The relationship - three into
-   one - is the thing that has to survive, and it is the thing kept. */
+/* ---- mobile: simplified, not shrunk --------------------------------------- */
+/* The cube keeps its faces because the centre is the point; the panels drop to
+   a single elevation, lose their pedestals and their supporting lines, and sit
+   in a row above it. Three into one is what has to survive. */
 @media (max-width: 900px) {
-  .hx__scene {
-    max-width: 460px;
+  .hx__stage {
+    max-width: 440px;
     margin: 0 auto;
-    aspect-ratio: 460 / 400;
-    perspective: 1100px;
+    aspect-ratio: 440 / 420;
+    perspective: 1000px;
   }
 
-  .hx__slot--engineering,
-  .hx__slot--ai,
-  .hx__slot--blockchain {
-    top: 0;
-    height: 30%;
-    transform: translateZ(0) rotateY(0deg) rotateX(0deg);
+  .hx__panel {
+    width: 118px;
+    height: 84px;
   }
 
-  .hx__slot--engineering {
-    left: 0;
-    width: 31%;
+  .hx__obj--engineering {
+    transform: translate3d(-188px, -168px, 0);
   }
 
-  .hx__slot--ai {
-    left: 34.5%;
-    width: 31%;
+  .hx__obj--ai {
+    transform: translate3d(-59px, -168px, 0);
   }
 
-  .hx__slot--blockchain {
-    left: 69%;
-    width: 31%;
+  .hx__obj--blockchain {
+    transform: translate3d(70px, -168px, 0);
   }
 
-  .hx__slot--centre {
-    left: 18%;
-    top: 58%;
-    width: 64%;
-    height: 34%;
-    transform: translateZ(24px);
+  .hx__obj--centre {
+    transform: translate3d(-50%, 10px, 40px);
   }
 
-  .hx__pane {
-    padding: 11px 11px 12px;
-    gap: 4px;
+  .hx__cube {
+    width: 190px;
+    height: 128px;
   }
 
-  .hx__paneLabel {
-    font-size: 12.5px;
+  .hx__cubeFace--left,
+  .hx__cubeFace--right {
+    width: 60px;
   }
 
-  /* THE SUPPORTING LINES COME OUT OF THE PANES HERE, not out of the page.
-     At this size "Where decentralisation creates real value" overflowed its
-     pane and was cut mid-word. Section 25 permits reducing secondary labels on
-     mobile, so they are moved to assistive technology only - still read aloud,
-     still in the markup, simply not competing for 109px of width. The centre
-     keeps its line, because that one is the point of the diagram. */
-  .hx__paneLine {
+  .hx__cubeFace--left {
+    left: -30px;
+  }
+
+  .hx__cubeFace--right {
+    right: -30px;
+  }
+
+  .hx__cubeFace--front {
+    transform: translateZ(30px);
+  }
+
+  .hx__cubeFace--top {
+    top: -30px;
+    height: 60px;
+  }
+
+  .hx__cubeGlow {
+    width: 260px;
+    height: 260px;
+  }
+
+  .hx__plinth {
+    display: none;
+  }
+
+  .hx__label {
+    font-size: 12px;
+  }
+
+  .hx__mark {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Read aloud, not drawn: at 118px these were being cut mid-word. */
+  .hx__line:not(.hx__line--centre) {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -6415,64 +6523,66 @@ button.btn[disabled] {
     white-space: nowrap;
   }
 
-  .hx__pane {
-    justify-content: center;
-    gap: 7px;
-  }
-
-  .hx__mark {
-    width: 20px;
-    height: 20px;
-  }
-
-  /* The glow is 190% of the centre, and the centre is 64% wide here, so it
-     spanned 122% of the scene and pushed the layout viewport out to 406px.
-     An absolutely positioned decoration still contributes to scrollable
-     overflow; it does not escape layout just because it cannot be clicked. */
-  .hx__glow {
-    width: 130%;
-    height: 130%;
-  }
-
-  .hx__plinth {
-    display: none;
-  }
-
   .hx__details {
     display: none;
   }
+
+  .hx__bloom {
+    stroke-width: 9;
+  }
+
+  .hx__body {
+    stroke-width: 3.6;
+  }
+
+  /* THE RIBBONS NEED THEIR OWN PATHS HERE. The layout is different - the three
+     panels sit in a row ABOVE the centre rather than around it - so the
+     desktop geometry left them starting in mid-air below the panels. Derived
+     the same way, by measuring the mobile render rather than guessing, and
+     applied through the `d` property, which is animatable CSS on an SVG path.
+     Every route now leaves its own panel's base and descends into the cube. */
+  .hx__ribbon--engineering path {
+    d: path('M74 129 C160 165 226 315 280 388');
+  }
+
+  .hx__ribbon--ai path {
+    d: path('M280 129 C280 165 280 315 280 388');
+  }
+
+  .hx__ribbon--blockchain path {
+    d: path('M486 129 C399 165 333 315 280 388');
+  }
 }
 
-/* ---- reduced motion ------------------------------------------------------ */
-/* The signals stop. The conduits stay drawn, the centre stays lit, and every
-   state still changes on hover, tap and focus - what stops is travel. */
+/* ---- reduced motion -------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .hx__flow {
+  .hx__pulse {
     animation: none;
     stroke-dasharray: none;
     stroke-dashoffset: 0;
-    opacity: 0.42;
+    opacity: 0.6;
   }
 
-  .hx:has(#hx-engineering:checked) .hx__flow--engineering,
-  .hx:has(#hx-ai:checked) .hx__flow--ai,
-  .hx:has(#hx-blockchain:checked) .hx__flow--blockchain,
-  .hx:has(#hx-experience:checked) .hx__flow {
+  .hx:has(#hx-engineering:checked) .hx__ribbon--engineering .hx__pulse,
+  .hx:has(#hx-ai:checked) .hx__ribbon--ai .hx__pulse,
+  .hx:has(#hx-blockchain:checked) .hx__ribbon--blockchain .hx__pulse,
+  .hx:has(#hx-experience:checked) .hx__pulse {
     animation: none;
-    opacity: 0.95;
+    opacity: 1;
   }
 
-  .hx__pane,
-  .hx__centre,
+  .hx__panel,
+  .hx__cube,
   .hx__details,
-  .hx__glow {
+  .hx__cubeGlow,
+  .hx__bloom {
     transition: none;
   }
 
-  .hx__slot:hover .hx__pane,
-  .hx__slot:hover .hx__centre,
-  .hx__slot:has(.hx__radio:checked) .hx__pane,
-  .hx__slot:has(.hx__radio:checked) .hx__centre {
+  .hx__obj:hover .hx__panel,
+  .hx__obj:hover .hx__cube,
+  .hx__obj:has(.hx__radio:checked) .hx__panel,
+  .hx__obj:has(.hx__radio:checked) .hx__cube {
     transform: none;
   }
 }
