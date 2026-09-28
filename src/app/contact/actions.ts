@@ -84,10 +84,38 @@ function isEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
 }
 
+/** The contact form on /contact. */
 export async function submitContact(
   _previous: ContactState,
   formData: FormData,
 ): Promise<ContactState> {
+  return acceptEnquiry(formData, 'pixelettetech.com/contact');
+}
+
+/**
+ * The same enquiry, taken by the site assistant.
+ *
+ * ONE PIPELINE, TWO DOORS. The assistant asks the four questions in the chat,
+ * shows the visitor every answer in an editable form, and submits it here. From
+ * this line on nothing differs from the contact form: the same validation, the
+ * same honeypot, the same storage and notification, the same honest failure
+ * messages. The only difference recorded is `source`, which the table carries
+ * precisely so a second surface never has to be told apart by guesswork.
+ *
+ * That is why the Privacy Notice needs no change for it: it describes an
+ * enquiry as a name, a company, a work email and four answers, handled by
+ * Vercel, Supabase and Resend, and that is all this sends, through those three.
+ */
+export async function submitAssistantEnquiry(
+  _previous: ContactState,
+  formData: FormData,
+): Promise<ContactState> {
+  return acceptEnquiry(formData, 'pixelettetech.com/assistant');
+}
+
+type EnquirySource = 'pixelettetech.com/contact' | 'pixelettetech.com/assistant';
+
+async function acceptEnquiry(formData: FormData, source: EnquirySource): Promise<ContactState> {
   // Honeypot. Real users never fill a field they cannot see; bots fill everything.
   //
   // The reply is the real success message, character for character. It used to
@@ -153,7 +181,7 @@ export async function submitContact(
     existing,
     deadline,
     success,
-    source: 'pixelettetech.com/contact',
+    source,
     receivedAt: new Date().toISOString(),
   };
 

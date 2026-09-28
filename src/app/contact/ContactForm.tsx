@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useActionState, useEffect, useRef } from 'react';
 import { useFormStatus } from 'react-dom';
 
+import { QUESTIONS } from '@/content/enquiry-questions';
 import { ANALYTICS_ENABLED, ANALYTICS_EVENTS, ANALYTICS_SURFACES } from '@/lib/analytics';
 import { analyticsAllowed } from '@/lib/privacy';
 
@@ -12,28 +13,15 @@ import { submitContact, type ContactState } from './actions';
 
 const initialState: ContactState = { status: 'idle', message: '' };
 
-/**
- * The four qualifying questions.
- *
- * They are the handoff's section 14 "Form qualifier"
- * (`design/handoff-2026-09-08/IMPLEMENTATION-COPY.txt`), and the homepage close
- * already published them verbatim as its "What we will ask" card
- * (`src/app/page.tsx`). Until 2026-09-11 this form asked four different
- * questions — Name, Company, Your contact email, "Which process is costing you most?"
- * — so a visitor was told what would be asked and then met something else. The
- * spec's four are the authority, so the form moved.
- *
- * Spec, card and form must stay word for word identical. They cannot be shared
- * from `./actions`: that module is `'use server'`, and a server-action module
- * may export nothing but async functions. The server keeps its own copy for the
- * transcript it forwards, commented to match.
+/*
+ * The four qualifying questions are the handoff's section 14 "Form qualifier",
+ * published verbatim on the homepage card. Until 2026-09-11 this form asked four
+ * different ones, so a visitor was told what would be asked and then met
+ * something else; the spec's four are the authority. They now live in
+ * `src/content/enquiry-questions.ts`, shared with the site assistant, which asks
+ * the same four when it takes an enquiry. They cannot come from `./actions`: a
+ * server-action module may export nothing but async functions.
  */
-const QUESTIONS = {
-  objective: 'What are you trying to build or change?',
-  existing: 'What exists today?',
-  deadline: 'Is there a deadline?',
-  success: 'What would a successful result look like?',
-} as const;
 
 function SubmitButton() {
   const { pending } = useFormStatus();

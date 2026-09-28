@@ -37,6 +37,7 @@ import {
   recordSpend,
   type LimitReason,
 } from './limits';
+import type { PixContext } from './context';
 import { estimateTokens, resolveProvider, type Tier } from './provider';
 import { respond, type PixReply } from './respond';
 
@@ -45,6 +46,25 @@ export type GatewayRequest = {
   message: string;
   /** Which page the visitor is on, for the contextual opener (section 13). */
   pagePath?: string;
+  /*
+   * MERGE REPAIR 2026-09-28. The reduced context - what the assistant is
+   * allowed to know about the claims register and the company record - is
+   * PASSED IN rather than imported here, and that is deliberate.
+   *
+   * `respond()` gained this parameter in the work that moved both registers off
+   * the client. This file was written against the one-argument form in a
+   * separate line of work, so the two merged as clean TEXT and then failed to
+   * COMPILE - the kind of break a textual merge cannot see.
+   *
+   * The obvious repair was to import `pixContext()` here. That compiled, and it
+   * BROKE `scripts/test-pix-t.cjs`, which loads this module in plain Node:
+   * `server-context` carries `import 'server-only'`, which Next provides and
+   * bare Node does not. Injecting it instead keeps this module free of server
+   * bindings and unit-testable, and leaves the server-only boundary where it
+   * belongs - at the route handler, which is the thing that is actually
+   * server-only.
+   */
+  context: PixContext;
 };
 
 export type GatewayReply = {
@@ -181,7 +201,7 @@ export async function handle(req: GatewayRequest): Promise<GatewayReply> {
   /* -- 4. the existing deterministic pipeline, unchanged and free.
         Rules, claim guards, published facts, then retrieval. If it answers,
         the visitor pays nothing and no model is involved. */
-  const deterministic = respond(raw);
+  const deterministic = respond(raw, req.context);
   if (deterministic.via !== 'no-answer') {
     return { ...deterministic, telemetry: { ...base, outcome: 'deterministic' } };
   }

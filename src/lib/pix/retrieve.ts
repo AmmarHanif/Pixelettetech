@@ -84,6 +84,18 @@ const STOP = new Set([
    */
   'actually', 'really', 'just', 'basically', 'simply', 'exactly', 'quite',
   'very', 'also', 'even', 'still', 'well', 'like', 'want', 'need', 'looking',
+  /*
+   * VERBS OF ASKING, added 2026-09-28, and the same lesson as the filler
+   * adverbs. "can I see your case studies" reduced to `see`, `case`, `study`,
+   * and `see` - the one word a case-study page never uses - held the match
+   * below the floor. "do you offer support after launch" failed the same way on
+   * `offer` and `after`. These words say how someone is asking, not what about.
+   * They were added with the calibration suite re-run: no off-corpus question
+   * gets through that did not before.
+   */
+  'see', 'show', 'offer', 'offers', 'provide', 'provides', 'know', 'find',
+  'get', 'give', 'let', 'able', 'currently', 'after', 'before', 'during',
+  'within', 'across', 'more', 'other', 'such', 'only', 'own', 'same', 'too',
 ]);
 
 /**
@@ -95,7 +107,8 @@ const STOP = new Set([
  * dependency for a gain this corpus is too small to notice.
  */
 function stem(word: string): string {
-  let w = word;
+  // American -ize to British -ise first, so "optimize" and "optimise" meet.
+  let w = word.replace(/iz/g, 'is');
 
   /* Plural first, so "evaluations" can then be reduced like "evaluation". */
   if (w.length > 4 && w.endsWith('ies')) w = `${w.slice(0, -3)}y`;
@@ -110,6 +123,15 @@ function stem(word: string): string {
    * the verb and a website is written with the noun, so a stemmer that only
    * handles plurals fails on the most natural way to ask almost anything.
    */
+  /*
+   * BRITISH -ISE BEFORE -ATION, added 2026-09-28. "can you modernise a legacy
+   * system" was refused while the site has a Modernisation page, because the
+   * rule below turned "modernisation" into `modernisat` and left "modernise"
+   * whole. On a UK site the -ise/-isation pair is everywhere - tokenise,
+   * optimise, organise, digitise - so both forms collapse to the same stem.
+   */
+  if (w.length > 8 && w.endsWith('isation')) return `${w.slice(0, -6)}s`;
+  if (w.length > 5 && w.endsWith('ise')) return w.slice(0, -1);
   if (w.length > 6 && w.endsWith('ation')) return `${w.slice(0, -5)}at`;
   if (w.length > 4 && w.endsWith('ate')) return w.slice(0, -1);
   if (w.length > 5 && w.endsWith('ing')) return w.slice(0, -3);
@@ -165,6 +187,8 @@ export type Match = {
   score: number;
   /** IDF-weighted share of the query's meaning found in this document, 0..1. */
   coverage: number;
+  /** How many of the query's distinct words appear in the document's TITLE. */
+  titleHits: number;
 };
 
 /**
@@ -226,7 +250,7 @@ export function search(query: string, limit = 3): Match[] {
 
     if (d.doc.kind === 'pointer') score *= POINTER_PENALTY;
 
-    return { doc: d.doc, score, coverage: matchedIdf / totalIdf };
+    return { doc: d.doc, score, coverage: matchedIdf / totalIdf, titleHits: titleHit };
   });
 
   return scored
@@ -257,6 +281,14 @@ export function search(query: string, limit = 3): Match[] {
  *
  * Moving this number without re-running that suite is how a chatbot quietly
  * starts answering questions it should refuse.
+ *
+ * RE-SWEPT 28 SEPTEMBER 2026, after respond.ts began requiring a title match
+ * and the stop list gained the verbs of asking, with eight more off-corpus
+ * questions written to stress both. The band widened: every floor from 0.60 to
+ * 0.80 now refuses all sixteen off-corpus questions and answers every suggested
+ * and short-but-clear one. The title requirement is what closed the low edge -
+ * a body-only match no longer counts, whatever its coverage. 0.70 is kept, now
+ * in the middle of the band rather than at its top.
  */
 export const MIN_COVERAGE = 0.7;
 
@@ -301,3 +333,12 @@ export const kbCounts = kb.counts as {
   faqs: number;
   pointers: number;
 };
+
+/**
+ * A page's own published description, by path, for the topic routes in
+ * rules.ts. Undefined if the page is not in the knowledge base, so a route to a
+ * page that has gone quietly falls through rather than answering with nothing.
+ */
+export function pageDoc(pagePath: string): KbDoc | undefined {
+  return DOCS.find(d => d.kind === 'page' && d.path === pagePath && !!d.text);
+}

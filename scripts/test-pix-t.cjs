@@ -80,7 +80,14 @@ try {
 }
 
 const origResolve = Module._resolveFilename;
+/* `server-only` is not an installed package - Next resolves it to an empty
+   module on the server and to a build error in a browser bundle. Bare Node has
+   neither behaviour, so without this the suite dies on require. Stubbing it
+   reproduces the server case exactly, which is the case this harness runs. */
+const SERVER_ONLY_STUB = path.join(OUT, 'server-only-stub.js');
+fs.writeFileSync(SERVER_ONLY_STUB, 'module.exports = {};\n');
 Module._resolveFilename = function (request, ...rest) {
+  if (request === 'server-only') return SERVER_ONLY_STUB;
   if (request.startsWith('@/')) {
     return origResolve.call(this, path.join(OUT, request.slice(2)), ...rest);
   }
@@ -93,6 +100,13 @@ const limits = P('limits.js');
 const { MockProvider, resolveProvider } = P('provider.js');
 const { readSessionId, sessionCookie, newSessionId, SESSION_COOKIE } = P('session.js');
 const { PIX_T, paidInferenceConfigured } = P('config.js');
+
+/* The reduced context the gateway now takes, built by the REAL reducer rather
+   than re-stated here. `pixContext()` decides what the assistant may know about
+   the claims register and the company record; a hand-written copy in this file
+   would let the suite pass while the product changed underneath it. */
+const { pixContext } = P('server-context.js');
+const CTX = pixContext();
 
 /** Composed, never a literal pair. See the naming note at the top. */
 const cookieHeader = value => ({ cookie: [SESSION_COOKIE, value].join('=') });
@@ -130,7 +144,7 @@ const fresh = () => {
   {
     const sid = fresh();
     const before = limits.aiTurnsRemaining(sid);
-    const r = await handle({ sessionId: sid, message: 'Do you build mobile apps?' });
+    const r = await handle({ context: CTX, sessionId: sid, message: 'Do you build mobile apps?' });
     const after = limits.aiTurnsRemaining(sid);
     note('answered deterministically', r.telemetry.outcome === 'deterministic', r.telemetry.outcome);
     note('no model tier recorded', r.telemetry.tier === 0);
@@ -148,7 +162,7 @@ const fresh = () => {
   ]) {
     const sid = fresh();
     const before = limits.aiTurnsRemaining(sid);
-    const r = await handle({ sessionId: sid, message: msg });
+    const r = await handle({ context: CTX, sessionId: sid, message: msg });
     const after = limits.aiTurnsRemaining(sid);
     note(`${label}: no allowance consumed`, before === after, `${before} -> ${after}`);
     note(`${label}: no model tier`, r.telemetry.tier === 0);
@@ -217,8 +231,8 @@ const fresh = () => {
     const a = newSessionId();
     const b = newSessionId();
     const visitorAProject = 'Project Kingfisher migrating Sybase to Postgres for Northwind Chemicals';
-    await handle({ sessionId: a, message: visitorAProject });
-    const rb = await handle({ sessionId: b, message: 'What was the last project discussed?' });
+    await handle({ context: CTX, sessionId: a, message: visitorAProject });
+    const rb = await handle({ context: CTX, sessionId: b, message: 'What was the last project discussed?' });
     const leaked = /kingfisher|sybase|northwind/i.test(`${rb.text} ${rb.sourceLabel ?? ''}`);
     note("Visitor B does not receive Visitor A's project", !leaked, rb.text.slice(0, 90));
 
@@ -238,7 +252,7 @@ const fresh = () => {
   process.stdout.write('\ninput and output caps (sections 24, 25)\n');
   {
     const sid = fresh();
-    const r = await handle({ sessionId: sid, message: 'x'.repeat(PIX_T.messageMaxChars + 1) });
+    const r = await handle({ context: CTX, sessionId: sid, message: 'x'.repeat(PIX_T.messageMaxChars + 1) });
     note('an oversize message is refused', r.via === 'limited', r.via);
     note('and consumes no allowance', limits.aiTurnsRemaining(sid) === PIX_T.anonymousAiTurns);
   }
@@ -268,7 +282,7 @@ const fresh = () => {
   process.stdout.write('\nfallback (sections 38, 66)\n');
   {
     const sid = fresh();
-    const r = await handle({ sessionId: sid, message: 'Opinion on the offside rule in fine detail' });
+    const r = await handle({ context: CTX, sessionId: sid, message: 'Opinion on the offside rule in fine detail' });
     const clean = !/stack|Error:|provider|undefined/i.test(r.text);
     note('a fallback never exposes internals', clean, r.text.slice(0, 90));
     note('a reply is always produced', typeof r.text === 'string' && r.text.length > 0);

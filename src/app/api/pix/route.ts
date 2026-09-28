@@ -21,6 +21,7 @@ import { NextResponse } from 'next/server';
 
 import { handle } from '@/lib/pix/gateway';
 import { PIX_T } from '@/lib/pix/config';
+import { pixContext } from '@/lib/pix/server-context';
 import { readSessionId, sessionCookie } from '@/lib/pix/session';
 
 export const runtime = 'nodejs';
@@ -51,6 +52,10 @@ export async function POST(request: Request) {
     sessionId,
     message,
     pagePath: typeof pagePath === 'string' ? pagePath : undefined,
+    /* Built HERE, not inside the gateway. This route is genuinely server-only,
+       so reading the registers is safe at this point and nowhere downstream
+       needs a server binding to be testable. */
+    context: pixContext(),
   });
 
   /*
