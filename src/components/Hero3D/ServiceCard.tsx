@@ -57,7 +57,6 @@ export function ServiceCard({
   onAnchor: (id: string, v: THREE.Vector3) => void;
 }) {
   const group = useRef<THREE.Group>(null);
-  const slab = useRef<THREE.Mesh>(null);
   const rim = useRef<THREE.Mesh>(null);
   const anchor = useMemo(() => new THREE.Vector3(), []);
 
@@ -122,7 +121,7 @@ export function ServiceCard({
       </mesh>
 
       {/* the panel */}
-      <mesh castShadow={quality === 'full'} geometry={slabGeo} ref={slab}>
+      <mesh castShadow={quality === 'full'} geometry={slabGeo}>
         <meshPhysicalMaterial
           clearcoat={1}
           clearcoatRoughness={0.07}

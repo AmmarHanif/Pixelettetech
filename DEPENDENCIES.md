@@ -146,7 +146,8 @@ through the two wrappers:
   source file here and is not in any built chunk.
 
 **The cost, stated plainly rather than buried.** The deferred 3D payload is
-**916 kB raw / 241.8 kB gzipped** across four lazy chunks — more than twice the
+**948 kB raw / 250.8 kB gzipped** across five lazy chunks (916 kB / 241.8 kB
+before the bloom post-processing chain was added the same day) — more than twice the
 entire 103 kB shared First Load. Measured, not estimated. It does not touch the
 homepage's First Load JS, which is **unchanged at 107 kB**, because the scene is
 behind a client boundary with `ssr: false` and `main-app` and `layout` contain
