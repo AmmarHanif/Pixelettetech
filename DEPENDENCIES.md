@@ -207,6 +207,11 @@ packages must stay regardless.
 | Cost | 2.75 credits per generation; 11 credits spent across four candidates |
 | Licence | **NOT VERIFIED — OPEN** |
 
+*(2026-09-28, later: this asset was briefly replaced by artwork the founder
+supplied with the wording baked in, then reverted when that wording measured
+7–8px at the hero's render size. The files listed above are what ships. See the
+ADR-0053 addendum.)*
+
 This is a deliberate gap, not an oversight. The asset is destined for a company
 website, so what the Higgsfield plan grants for **commercial use** of generated
 output has to be read from their terms rather than assumed, and that is the
