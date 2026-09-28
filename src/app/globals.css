@@ -6592,7 +6592,11 @@ button.btn[disabled] {
 /* ---- the hero's split composition ---------------------------------------- */
 .hero-split {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  /* The visual carries the whole capability argument now - three labelled
+     panels, a centre and two columns of supporting words - so it needs more
+     room than the copy beside it. Measured: below about a 780px figure the
+     supporting lines fall under 10px and stop being readable. */
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
   gap: 48px;
   align-items: center;
 }

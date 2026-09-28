@@ -38,23 +38,31 @@ import { CENTRE, SERVICES } from '@/components/Hero3D/services';
    panel whose dimensions are actually known.
    `fill` is how much of the panel's width the label may occupy - the remainder
    is the margin that keeps the text off the bevelled edge.
-   `tilt` matches the plane of that panel; flat text on an angled panel reads as
-   a sticker. */
+   `yaw`/`pitch` match the plane of that panel; flat text on an angled panel
+   reads as a sticker. */
 type Panel = {
   x: number;
   y: number;
   w: number;
   h: number;
-  tilt: number;
+  /* Yaw and pitch of the panel's own plane. The scene is viewed from above and
+     to one side, so a label needs both to sit ON the glass; yaw alone still
+     reads as a flat sticker laid over a photograph. */
+  yaw: number;
+  pitch: number;
   aside: 'left' | 'right';
 };
 
-const FILL = 0.82;
+/* How much of a panel's width the label may occupy. 0.88, not 0.82: at 0.82 the
+   AI panel gave the label 105px and "AI & Automation" needs about 105px at this
+   size, so the title broke onto two lines where the reference has it on one.
+   The insets were 9px, so there was room to give it. */
+const FILL = 0.88;
 
 const PLACEMENT: Record<string, Panel> = {
-  engineering: { x: 20.4, y: 29.7, w: 18.25, h: 22.5, tilt: 16, aside: 'left' },
-  ai: { x: 65.9, y: 20.4, w: 19.25, h: 20.3, tilt: -14, aside: 'right' },
-  blockchain: { x: 77.5, y: 49.4, w: 19.5, h: 21.25, tilt: -12, aside: 'right' },
+  engineering: { x: 20.4, y: 29.7, w: 18.25, h: 22.5, yaw: 21, pitch: 7, aside: 'left' },
+  ai: { x: 65.9, y: 20.4, w: 19.25, h: 20.3, yaw: -17, pitch: 6, aside: 'right' },
+  blockchain: { x: 77.5, y: 49.4, w: 19.5, h: 21.25, yaw: -15, pitch: 7, aside: 'right' },
 };
 
 /* The cube is wider than the panels, so its label gets more room. */
@@ -111,21 +119,6 @@ export function HeroVisual() {
         width={1240}
       />
 
-      {/* the centre */}
-      <div
-        className="hv__centre"
-        data-box={`${CENTRE_POS.x},${CENTRE_POS.y},${CENTRE_POS.w},${CENTRE_POS.w}`}
-        style={{
-          left: `${CENTRE_POS.x}%`,
-          top: `${CENTRE_POS.y}%`,
-          width: `${CENTRE_POS.w * 0.86}%`,
-        }}
-      >
-        <Icon id="centre" />
-        <span className="hv__title hv__title--centre">{CENTRE.title}</span>
-        <span className="hv__line">{CENTRE.description}</span>
-      </div>
-
       {/* the three capabilities */}
       {SERVICES.map(s => {
         const p = PLACEMENT[s.id];
@@ -141,7 +134,9 @@ export function HeroVisual() {
             <Link
               className="hv__hit"
               href={s.href}
-              style={{ transform: `perspective(700px) rotateY(${p.tilt}deg)` }}
+              style={{
+                transform: `perspective(760px) rotateX(${p.pitch}deg) rotateY(${p.yaw}deg)`,
+              }}
             >
               <Icon id={s.id} />
               <span className="hv__title">{s.title}</span>
@@ -160,6 +155,25 @@ export function HeroVisual() {
           </div>
         );
       })}
+      {/* The centre comes LAST in the DOM, and that is deliberate. On a small
+          screen the labels leave the picture and stack in document order, and
+          "Experience" reads as what the three capabilities add up to - so it
+          belongs after them, for a screen reader as much as for the eye. On
+          desktop it is absolutely positioned, so its place here changes
+          nothing visually. */}
+      <div
+        className="hv__centre"
+        data-box={`${CENTRE_POS.x},${CENTRE_POS.y},${CENTRE_POS.w},${CENTRE_POS.w}`}
+        style={{
+          left: `${CENTRE_POS.x}%`,
+          top: `${CENTRE_POS.y}%`,
+          width: `${CENTRE_POS.w * 0.86}%`,
+        }}
+      >
+        <Icon id="centre" />
+        <span className="hv__title hv__title--centre">{CENTRE.title}</span>
+        <span className="hv__line">{CENTRE.description}</span>
+      </div>
     </figure>
   );
 }
