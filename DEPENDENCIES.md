@@ -112,6 +112,27 @@ obligation arises. Worth knowing if the deployment ever vendors or patches them.
 
 ## Change log
 
+### 2026-09-28 (later still) — a 3D office, and NO external 3D asset
+
+The Immersive Showcase's Spatial demonstration became a genuine WebGL scene.
+**No third-party 3D asset was introduced, and that was forced rather than
+chosen.** The instruction permits an optimised glTF environment and also rules
+that an asset whose commercial-use rights cannot be established must not be
+used. Asset hosts are unreachable from this environment — tested, not assumed:
+a fetch of a model library returns a blocked-host refusal — so no licence could
+be read, let alone recorded.
+
+| | |
+|---|---|
+| External 3D assets | **none** |
+| Office geometry | original, authored in `src/components/SpatialDemo/Office.tsx` |
+| Textures | original, drawn into canvases at load — no image files, nothing to license, no bytes added |
+| New npm packages | **none** — `three` and `@react-three/fiber` were already installed |
+| Licence risk | none introduced |
+
+If a licensed office model is supplied later, record its source and licence
+here before it is used.
+
 ### 2026-09-28 (later) — the WebGL hero was replaced, and a GENERATED IMAGE now ships
 
 The homepage hero is no longer the three.js scene described in the entry below.
@@ -126,13 +147,25 @@ over it as live HTML. See ADR-0053, which supersedes ADR-0052.
 | Extra chunks for the hero | 5 | **0** (the homepage fetches the same 9 chunks as a page with no hero) |
 | Homepage First Load JS | 107 kB | **106 kB** |
 
-**`three`, `@react-three/fiber` and `@types/three` are now UNUSED.** Nothing in
-`src/` imports them outside `src/components/Hero3D/`, and nothing imports that
-folder. They remain in `package.json` and in the tree counts above pending a
-founder decision to remove them; `npm uninstall three @react-three/fiber
-@types/three` and deleting that folder is the whole job. They are listed here as
-present because they ARE present — the register describes the installed tree,
-not the used one — but no visitor downloads a byte of them.
+**`three`, `@react-three/fiber` and `@types/three` ARE IN USE AGAIN — DO NOT
+REMOVE THEM.**
+
+*(Corrected the same day. This entry read "now UNUSED ... pending a founder
+decision to remove them", which was true for about four hours and is now
+false. The homepage hero moved to a rendered still, which freed them; the
+AR/VR page's Immersive Showcase then replaced its CSS Spatial demonstration
+with a genuine WebGL office, which needs them. Deleting them on the strength
+of the earlier paragraph would have broken that page.)*
+
+Current use: `src/components/SpatialDemo/` on
+`/ar-vr-development-services`. Lazy-loaded behind a client boundary AND an
+IntersectionObserver, so no other route fetches them and a visitor who does
+not scroll to the showcase downloads none of it — measured at 13 chunks /
+152 kB before the section is approached, +249 kB transferred on approach.
+
+`src/components/Hero3D/` is still on disk, still unreferenced, and is now the
+only part safe to delete — but note `@types/three` and the two runtime
+packages must stay regardless.
 
 **A NEW THIRD-PARTY ASSET NOW SHIPS, AND ITS LICENCE IS NOT YET CLEARED.**
 
