@@ -37,12 +37,16 @@ export function ServiceCard({
   active,
   index,
   quality,
+  still,
   onAnchor,
 }: {
   service: Service;
   active: boolean;
   index: number;
   quality: 'full' | 'reduced';
+  /** prefers-reduced-motion: the idle drift stops. The hover lift does not -
+      that is a response to the visitor, not motion the page starts by itself. */
+  still: boolean;
   /** Reports the slab's world position each frame so the overlay can track it. */
   onAnchor: (id: string, v: THREE.Vector3) => void;
 }) {
@@ -58,7 +62,7 @@ export function ServiceCard({
     const t = clock.elapsedTime;
 
     // Each card drifts on its own phase, so they never pulse in unison.
-    const drift = Math.sin(t * 0.5 + index * 1.9) * 0.035;
+    const drift = still ? 0 : Math.sin(t * 0.5 + index * 1.9) * 0.035;
     const lift = active ? 0.13 : 0;
     const target = service.position[1] + drift + lift;
     group.current.position.y += (target - group.current.position.y) * 0.09;

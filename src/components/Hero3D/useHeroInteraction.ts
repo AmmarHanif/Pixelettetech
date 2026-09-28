@@ -33,6 +33,7 @@ export function useHeroInteraction() {
   const [ready, setReady] = useState(false);
   const [supported, setSupported] = useState<boolean | null>(null);
   const [quality, setQuality] = useState<Quality>('full');
+  const [still, setStill] = useState(false);
 
   useEffect(() => {
     /* A context, not a constructor. A machine can advertise WebGL and still
@@ -54,10 +55,20 @@ export function useHeroInteraction() {
     const narrow = window.matchMedia('(max-width: 900px)').matches;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* Reduced motion does not mean "no scene". It means no travelling lights,
-       no drift, no parallax - a still composition. That is handled downstream;
-       here it only lowers the cost. */
+    /* TWO SEPARATE THINGS, and conflating them is what made the earlier
+       version of this file claim a behaviour it did not have.
+       `quality` is about COST: a phone or a coarse pointer gets fewer segments,
+       a smaller shadow map and no antialiasing.
+       `still` is about MOTION, and only prefers-reduced-motion sets it. A phone
+       is not a request for stillness, and a desktop visitor who asked for
+       reduced motion must get it at full quality.
+       ADR-0051 requires that the pointer listener is NOT ATTACHED under this
+       preference, because a media query can stop a transition but cannot stop a
+       transform being written on every pointer move. Hero3D honours that by not
+       binding the handler at all, and every self-driven animation below is
+       frozen rather than merely slowed. */
     setQuality(coarse || narrow || reduced ? 'reduced' : 'full');
+    setStill(reduced);
     setSupported(ok);
     setReady(true);
   }, []);
@@ -85,9 +96,10 @@ export function useHeroInteraction() {
       ready,
       supported,
       quality,
+      still,
       onPointerMove,
       onPointerLeave,
     }),
-    [active, ready, supported, quality, onPointerMove, onPointerLeave],
+    [active, ready, supported, quality, still, onPointerMove, onPointerLeave],
   );
 }

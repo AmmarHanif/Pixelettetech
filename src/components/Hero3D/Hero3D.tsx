@@ -38,6 +38,7 @@ export function Hero3D() {
     ready,
     supported,
     quality,
+    still,
     onPointerMove,
     onPointerLeave,
   } = useHeroInteraction();
@@ -61,8 +62,12 @@ export function Hero3D() {
   return (
     <div
       className={`h3${live ? ' h3--live' : ''}`}
-      onPointerLeave={onPointerLeave}
-      onPointerMove={onPointerMove}
+      /* NOT ATTACHED under prefers-reduced-motion, which is ADR-0051's explicit
+         requirement and not a nicety: a media query can stop a transition, but
+         it cannot stop a transform being written on every pointer move. The
+         only way to honour the preference is to never bind the handler. */
+      onPointerLeave={still ? undefined : onPointerLeave}
+      onPointerMove={still ? undefined : onPointerMove}
       ref={host}
     >
       {live ? (
@@ -87,7 +92,13 @@ export function Hero3D() {
           shadows={quality === 'full' ? 'percentage' : false}
           style={{ background: 'transparent' }}
         >
-          <Scene active={active} anchors={anchors} pointer={pointer} quality={quality} />
+          <Scene
+            active={active}
+            anchors={anchors}
+            pointer={pointer}
+            quality={quality}
+            still={still}
+          />
         </Canvas>
       ) : null}
 

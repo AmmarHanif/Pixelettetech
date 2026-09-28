@@ -49,11 +49,16 @@ export function Scene({
   pointer,
   anchors,
   quality,
+  still,
 }: {
   active: string | null;
   pointer: PointerRef;
   anchors: AnchorMap;
   quality: 'full' | 'reduced';
+  /** prefers-reduced-motion. Every self-driven animation is frozen, not slowed;
+      responses to hover and focus remain, because those are the visitor's own
+      actions rather than something the page does at them. */
+  still: boolean;
 }) {
   const root = useRef<THREE.Group>(null);
   const started = useRef<number | null>(null);
@@ -76,8 +81,9 @@ export function Scene({
     const age = clock.elapsedTime - started.current;
 
     if (root.current) {
-      // Entrance: the group settles up into place and fades by scale.
-      const intro = easeOut(age / 1.2);
+      // Entrance: the group settles up into place. Under reduced motion it is
+      // already there on the first frame rather than travelling to it.
+      const intro = still ? 1 : easeOut(age / 1.2);
       root.current.position.y = -0.55 * (1 - intro);
 
       /* The scene is scaled to fit its labels, not to a breakpoint.
@@ -104,12 +110,17 @@ export function Scene({
          shift across the full width of the widget - technically responding and
          visually nothing. This is still restrained: it reads as the scene
          acknowledging the pointer, not following it. */
-      const px = pointer.current.x;
-      const py = pointer.current.y;
-      const ry = px * 0.09;
-      const rx = py * 0.06;
-      root.current.rotation.y += (ry - root.current.rotation.y) * 0.07;
-      root.current.rotation.x += (rx - root.current.rotation.x) * 0.07;
+      // Belt and braces: Hero3D does not bind the pointer handler when `still`,
+      // so `pointer` stays at the origin - but the parallax is skipped outright
+      // rather than relying on that.
+      if (!still) {
+        const px = pointer.current.x;
+        const py = pointer.current.y;
+        const ry = px * 0.09;
+        const rx = py * 0.06;
+        root.current.rotation.y += (ry - root.current.rotation.y) * 0.07;
+        root.current.rotation.x += (rx - root.current.rotation.x) * 0.07;
+      }
     }
 
   });
@@ -123,6 +134,7 @@ export function Scene({
           active={active === 'centre' || active !== null}
           onAnchor={report}
           quality={quality}
+          still={still}
         />
 
         {SERVICES.map((s, i) => (
@@ -133,6 +145,7 @@ export function Scene({
             onAnchor={report}
             quality={quality}
             service={s}
+            still={still}
           />
         ))}
 
@@ -143,6 +156,7 @@ export function Scene({
             key={s.id}
             phase={i * 0.33}
             quality={quality}
+            still={still}
             to={[CENTRE.position[0], CENTRE.position[1], CENTRE.position[2]]}
           />
         ))}

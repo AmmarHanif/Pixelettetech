@@ -33,12 +33,16 @@ export function Connection({
   active,
   phase,
   quality,
+  still,
 }: {
   from: [number, number, number];
   to: [number, number, number];
   active: boolean;
   phase: number;
   quality: 'full' | 'reduced';
+  /** prefers-reduced-motion: the travelling light stops dead at its own phase
+      rather than slowing down. ADR-0051 names travelling lights specifically. */
+  still: boolean;
 }) {
   const pulse = useRef<THREE.Mesh>(null);
   const tube = useRef<THREE.Mesh>(null);
@@ -63,7 +67,7 @@ export function Connection({
     const t = clock.elapsedTime;
     if (pulse.current) {
       const speed = active ? 0.42 : 0.2;
-      const u = (t * speed + phase) % 1;
+      const u = still ? phase % 1 : (t * speed + phase) % 1;
       curve.getPointAt(u, pulse.current.position);
       const s = active ? 1.5 : 1;
       pulse.current.scale.setScalar(s);

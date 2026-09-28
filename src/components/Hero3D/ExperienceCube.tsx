@@ -32,10 +32,14 @@ import { BRAND, BRAND_LIGHT, CENTRE } from './services';
 export function ExperienceCube({
   active,
   quality,
+  still,
   onAnchor,
 }: {
   active: boolean;
   quality: 'full' | 'reduced';
+  /** prefers-reduced-motion: the float, the lattice spin and the core's breath
+      all stop. The lift on hover stays, being the visitor's own doing. */
+  still: boolean;
   /** Reports the cube's real world position each frame, exactly as the cards
       do. Reporting the constant it was declared at instead leaves the label
       still while the cube floats beneath it, and the register visibly slips. */
@@ -61,17 +65,18 @@ export function ExperienceCube({
     const t = clock.elapsedTime;
     if (group.current) {
       // The float. Slow, small, and never enough to break the silhouette.
-      group.current.position.y = CENTRE.position[1] + Math.sin(t * 0.55) * 0.055;
-      group.current.rotation.y = Math.sin(t * 0.22) * 0.06;
+      group.current.position.y =
+        CENTRE.position[1] + (still ? 0 : Math.sin(t * 0.55) * 0.055);
+      group.current.rotation.y = still ? 0 : Math.sin(t * 0.22) * 0.06;
       group.current.getWorldPosition(anchor);
       onAnchor('centre', anchor);
     }
-    if (lattice.current) lattice.current.rotation.y = t * 0.09;
+    if (lattice.current) lattice.current.rotation.y = still ? 0 : t * 0.09;
     if (core.current) {
       const m = core.current.material as THREE.MeshStandardMaterial;
       // Breathes, and lifts when a capability is engaged: the centre responds
       // to the edge, which is the relationship the whole scene is about.
-      const base = 1.5 + Math.sin(t * 0.9) * 0.25;
+      const base = still ? 1.5 : 1.5 + Math.sin(t * 0.9) * 0.25;
       m.emissiveIntensity += ((active ? base * 2.1 : base) - m.emissiveIntensity) * 0.08;
     }
   });
