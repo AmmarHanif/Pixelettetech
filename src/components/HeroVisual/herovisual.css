@@ -34,11 +34,9 @@
 .hv__centre {
   position: absolute;
   transform: translate(-50%, -50%);
-  /* 18%, measured against the panels in the render, which are 19.6%-22.5% of
-     the figure wide. At 27% the label was WIDER THAN THE GLASS IT SITS ON and
-     the copy spilled onto the office behind it - the label has to be the
-     narrower of the two or there is nothing holding it. */
-  width: 18%;
+  /* Width is set per panel in the component, from each panel's MEASURED box,
+     because the three are not the same size. A single shared width put the
+     label outside the glass on the narrowest of them. */
   z-index: 1;
 }
 
@@ -47,7 +45,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
-  padding: 4px 5px;
+  padding: 2px 3px;
   border-radius: 8px;
   text-decoration: none;
   color: inherit;
@@ -71,7 +69,6 @@
   align-items: center;
   text-align: center;
   gap: 2px;
-  width: 24%;
 }
 
 /* ---- type --------------------------------------------------------------- */
@@ -83,25 +80,25 @@
 }
 
 .hv__title {
-  font-size: clamp(8px, 2cqi, 13px);
+  font-size: clamp(7.5px, 1.85cqi, 13px);
   font-weight: 650;
   line-height: 1.2;
   color: #1b1220;
 }
 
 .hv__title--centre {
-  font-size: clamp(9px, 2.35cqi, 15px);
+  font-size: clamp(8.5px, 2.2cqi, 15px);
 }
 
 .hv__line {
-  font-size: clamp(6px, 1.45cqi, 10px);
-  line-height: 1.3;
+  font-size: clamp(5.5px, 1.3cqi, 10px);
+  line-height: 1.28;
   color: #4a3f55;
 }
 
 .hv-icon {
-  width: clamp(10px, 2.6cqi, 17px);
-  height: clamp(10px, 2.6cqi, 17px);
+  width: clamp(9px, 2.3cqi, 17px);
+  height: clamp(9px, 2.3cqi, 17px);
   fill: none;
   stroke: var(--brand);
   stroke-width: 1.6;

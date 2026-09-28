@@ -31,18 +31,34 @@ import Link from 'next/link';
 
 import { CENTRE, SERVICES } from '@/components/Hero3D/services';
 
-/* Where each label sits, as a percentage of the rendered scene, measured off
-   the image. `tilt` matches the panel's own plane. */
-const PLACEMENT: Record<
-  string,
-  { x: number; y: number; tilt: number; aside: 'left' | 'right' }
-> = {
-  engineering: { x: 20.5, y: 27.5, tilt: 17, aside: 'left' },
-  ai: { x: 65.4, y: 20.5, tilt: -15, aside: 'right' },
-  blockchain: { x: 77.4, y: 50, tilt: -13, aside: 'right' },
+/* THE PANELS' REAL BOXES, measured off the render itself rather than estimated:
+   centre x/y and width/height, each as a percentage of the figure. The first
+   attempt guessed these and produced labels WIDER THAN THE GLASS THEY SAT ON,
+   with the copy spilling onto the background. A label can only be fitted to a
+   panel whose dimensions are actually known.
+   `fill` is how much of the panel's width the label may occupy - the remainder
+   is the margin that keeps the text off the bevelled edge.
+   `tilt` matches the plane of that panel; flat text on an angled panel reads as
+   a sticker. */
+type Panel = {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  tilt: number;
+  aside: 'left' | 'right';
 };
 
-const CENTRE_POS = { x: 46.4, y: 44.5 };
+const FILL = 0.82;
+
+const PLACEMENT: Record<string, Panel> = {
+  engineering: { x: 20.4, y: 29.7, w: 18.25, h: 22.5, tilt: 16, aside: 'left' },
+  ai: { x: 65.9, y: 20.4, w: 19.25, h: 20.3, tilt: -14, aside: 'right' },
+  blockchain: { x: 77.5, y: 49.4, w: 19.5, h: 21.25, tilt: -12, aside: 'right' },
+};
+
+/* The cube is wider than the panels, so its label gets more room. */
+const CENTRE_POS = { x: 46, y: 43.4, w: 23.5 };
 
 function Icon({ id }: { id: string }) {
   return (
@@ -98,7 +114,12 @@ export function HeroVisual() {
       {/* the centre */}
       <div
         className="hv__centre"
-        style={{ left: `${CENTRE_POS.x}%`, top: `${CENTRE_POS.y}%` }}
+        data-box={`${CENTRE_POS.x},${CENTRE_POS.y},${CENTRE_POS.w},${CENTRE_POS.w}`}
+        style={{
+          left: `${CENTRE_POS.x}%`,
+          top: `${CENTRE_POS.y}%`,
+          width: `${CENTRE_POS.w * 0.86}%`,
+        }}
       >
         <Icon id="centre" />
         <span className="hv__title hv__title--centre">{CENTRE.title}</span>
@@ -111,8 +132,11 @@ export function HeroVisual() {
         return (
           <div
             className={`hv__panel hv__panel--${p.aside}`}
+            /* Published so the fit can be asserted against the panel it sits
+               on, not merely looked at. */
+            data-box={`${p.x},${p.y},${p.w},${p.h}`}
             key={s.id}
-            style={{ left: `${p.x}%`, top: `${p.y}%` }}
+            style={{ left: `${p.x}%`, top: `${p.y}%`, width: `${p.w * FILL}%` }}
           >
             <Link
               className="hv__hit"
