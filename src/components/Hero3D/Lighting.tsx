@@ -24,7 +24,7 @@ import { useThree } from '@react-three/fiber';
 import { useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 
-import { BRAND, BRAND_LIGHT } from './services';
+import { BRAND, BRAND_LIGHT } from '@/content/hero-capabilities';
 
 /** A few emissive planes, PMREM'd into a reflection map. */
 function buildEnvironmentScene() {

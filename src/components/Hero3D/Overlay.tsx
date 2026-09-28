@@ -28,7 +28,7 @@
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
-import { CENTRE, SERVICES } from './services';
+import { CENTRE, SERVICES } from '@/content/hero-capabilities';
 import type { AnchorMap } from './useHeroInteraction';
 
 export function Overlay({

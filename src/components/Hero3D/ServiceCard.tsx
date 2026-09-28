@@ -31,8 +31,8 @@ import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 
-import { BRAND, BRAND_LIGHT } from './services';
-import type { Service } from './services';
+import { BRAND, BRAND_LIGHT } from '@/content/hero-capabilities';
+import type { Service } from '@/content/hero-capabilities';
 
 const CARD_W = 1.95;
 const CARD_H = 1.12;

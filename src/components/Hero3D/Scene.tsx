@@ -32,7 +32,7 @@ import { Lighting } from './Lighting';
 import { Platform } from './Platform';
 import { Post } from './Post';
 import { ServiceCard } from './ServiceCard';
-import { CENTRE, SERVICES } from './services';
+import { CENTRE, SERVICES } from '@/content/hero-capabilities';
 import type { AnchorMap, PointerRef } from './useHeroInteraction';
 
 const easeOut = (x: number) => 1 - Math.pow(1 - Math.min(Math.max(x, 0), 1), 3);

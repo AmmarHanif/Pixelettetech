@@ -29,7 +29,7 @@
 
 import Link from 'next/link';
 
-import { CENTRE, SERVICES } from '@/components/Hero3D/services';
+import { CENTRE, SERVICES } from '@/content/hero-capabilities';
 
 /* THE PANELS' REAL BOXES, measured off the render itself rather than estimated:
    centre x/y and width/height, each as a percentage of the figure. The first

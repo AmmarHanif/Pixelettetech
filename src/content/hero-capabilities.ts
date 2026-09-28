@@ -1,4 +1,18 @@
 /**
+ * The hero's capability copy: the single source of truth for the three
+ * capabilities and the centre they converge on.
+ *
+ * IT LIVES IN content/ AND NOT IN A COMPONENT FOLDER because more than one
+ * component has now rendered it. It began under Hero3D/, which was fine while
+ * the WebGL scene was the only thing reading it - and became a trap the moment
+ * HeroVisual started importing it, because deleting the unused Hero3D folder
+ * would have silently taken the live hero's wording with it.
+ *
+ * The rendered page is asserted against this file string by string, so a change
+ * here is the only way the hero's wording can change.
+ */
+
+/**
  * The hero scene's content, as data.
  *
  * ONE ARRAY DRIVES THE WHOLE COMPOSITION - cards, connections, overlay labels,

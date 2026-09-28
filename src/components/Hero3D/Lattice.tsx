@@ -22,7 +22,7 @@
 import { useLayoutEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
-import { BRAND } from './services';
+import { BRAND } from '@/content/hero-capabilities';
 
 /** Grid lines per axis. 3 gives a 2x2x2 cell structure, which reads as a
     lattice; more turns to mush once the shell refracts it. */

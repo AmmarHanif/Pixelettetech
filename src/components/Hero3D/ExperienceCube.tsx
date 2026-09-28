@@ -26,7 +26,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 
 import { Lattice } from './Lattice';
-import { BRAND_LIGHT, CENTRE } from './services';
+import { BRAND_LIGHT, CENTRE } from '@/content/hero-capabilities';
 
 const SIZE = 1.42;
 
