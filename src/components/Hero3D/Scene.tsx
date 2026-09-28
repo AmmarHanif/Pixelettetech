@@ -30,6 +30,7 @@ import { Connection } from './Connection';
 import { ExperienceCube } from './ExperienceCube';
 import { Lighting } from './Lighting';
 import { Platform } from './Platform';
+import { Post } from './Post';
 import { ServiceCard } from './ServiceCard';
 import { CENTRE, SERVICES } from './services';
 import type { AnchorMap, PointerRef } from './useHeroInteraction';
@@ -128,6 +129,7 @@ export function Scene({
   return (
     <>
       <Lighting quality={quality} />
+      <Post quality={quality} />
       <group ref={root}>
         <Platform quality={quality} />
         <ExperienceCube

@@ -1,25 +1,23 @@
 'use client';
 
 /**
- * The central glass cube: the focal point, and the thing the composition argues for.
+ * The centre: a glass cube with a lit lattice inside it.
  *
- * GLASS WITHOUT DREI. MeshPhysicalMaterial has carried `transmission` in core
- * three since r132, and with `thickness`, `ior` and `clearcoat` it is real
- * refraction rather than a transparency trick. Drei's MeshTransmissionMaterial
- * adds a separate render pass and looks slightly richer; for a restrained
- * hero - the brief says elegant and minimal, and not to overdo the glow - the
- * difference is not worth 48 extra packages.
+ * THE LATTICE HAS TO BE SEEN THROUGH THE SHELL, which is the whole difficulty.
+ * The first build had one and it was invisible: thin lines at 0.34 opacity,
+ * behind a shell at 0.94 transmission, with no bloom to carry them. It read as
+ * a frosted box. Three things fix it and all three are needed - the lines are
+ * emissive and excluded from tone mapping so they stay bright, a second inner
+ * cage gives the structure depth rather than a single wireframe, and the bloom
+ * pass throws a halo that survives the refraction.
  *
- * THREE NESTED PARTS, AND EACH DOES A JOB. The shell refracts. The lattice
- * inside is what makes it read as a volume rather than an empty box, and it is
- * INSIDE the shell so the refraction distorts it, which is the detail that sells
- * the glass. The core is the light source: an emissive sphere, so the glow comes
- * from within the object rather than from a lamp pointed at it.
+ * THE CORE IS A LIGHT, NOT A BALL. It is emissive, untonemapped, and a real
+ * pointLight sits inside it in the rig, so the cube is lit from within and the
+ * surrounding glass picks the colour up.
  *
- * NO TEXT IN HERE. The label and the line are DOM, positioned over the cube by
- * the overlay. Text rendered into WebGL is blurry at small sizes, unselectable,
- * invisible to a screen reader, and gone entirely if the canvas fails - and the
- * brief says in terms not to put essential copy exclusively inside WebGL.
+ * THE WORDS ARE NOT IN HERE. "Experience" and its line are DOM in the overlay.
+ * Text rendered into WebGL is blurry at this size, unselectable, invisible to a
+ * screen reader, and gone if the canvas fails.
  */
 
 import { useFrame } from '@react-three/fiber';
@@ -27,7 +25,10 @@ import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 
-import { BRAND, BRAND_LIGHT, CENTRE } from './services';
+import { Lattice } from './Lattice';
+import { BRAND_LIGHT, CENTRE } from './services';
+
+const SIZE = 1.42;
 
 export function ExperienceCube({
   active,
@@ -47,19 +48,10 @@ export function ExperienceCube({
 }) {
   const group = useRef<THREE.Group>(null);
   const core = useRef<THREE.Mesh>(null);
-  const lattice = useRef<THREE.LineSegments>(null);
+  const lattice = useRef<THREE.Group>(null);
   const anchor = useMemo(() => new THREE.Vector3(), []);
 
-  const shell = useMemo(() => new RoundedBoxGeometry(1.5, 1.5, 1.5, 6, 0.14), []);
-
-  /* A wireframe lattice, built once. Three divisions is enough to read as
-     structure; more becomes a mesh of noise once refraction blurs it. */
-  const latticeGeo = useMemo(() => {
-    const box = new THREE.BoxGeometry(1.02, 1.02, 1.02, 3, 3, 3);
-    const wire = new THREE.WireframeGeometry(box);
-    box.dispose();
-    return wire;
-  }, []);
+  const shell = useMemo(() => new RoundedBoxGeometry(SIZE, SIZE, SIZE, 6, 0.13), []);
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
@@ -76,8 +68,8 @@ export function ExperienceCube({
       const m = core.current.material as THREE.MeshStandardMaterial;
       // Breathes, and lifts when a capability is engaged: the centre responds
       // to the edge, which is the relationship the whole scene is about.
-      const base = still ? 1.5 : 1.5 + Math.sin(t * 0.9) * 0.25;
-      m.emissiveIntensity += ((active ? base * 2.1 : base) - m.emissiveIntensity) * 0.08;
+      const base = still ? 1.9 : 1.9 + Math.sin(t * 0.9) * 0.35;
+      m.emissiveIntensity += ((active ? base * 1.7 : base) - m.emissiveIntensity) * 0.08;
     }
   });
 
@@ -87,36 +79,45 @@ export function ExperienceCube({
       <mesh castShadow={quality === 'full'} geometry={shell}>
         <meshPhysicalMaterial
           clearcoat={1}
-          clearcoatRoughness={0.08}
-          color="#ffffff"
-          envMapIntensity={1.4}
-          ior={1.42}
+          clearcoatRoughness={0.06}
+          /* Tinted, not white. White glass in a white scene has nothing to
+             show; the tint is what makes it read as a material. */
+          color="#e8dcf8"
+          envMapIntensity={1.9}
+          ior={1.32}
+          iridescence={0.4}
+          iridescenceIOR={1.9}
           metalness={0}
-          reflectivity={0.42}
-          roughness={0.06}
+          reflectivity={0.45}
+          roughness={0.04}
           specularIntensity={1}
-          thickness={1.1}
-          transmission={0.94}
+          /* Thin and only partly transmissive ON PURPOSE. At thickness 1.4 and
+             transmission 0.92 the refraction smeared the interior into a pale
+             blob and the lattice inside it simply disappeared. Glass you cannot
+             see into is just a frosted box. */
+          thickness={0.36}
+          transmission={0.52}
           transparent
         />
       </mesh>
 
-      {/* the structure inside it */}
-      <lineSegments geometry={latticeGeo} ref={lattice}>
-        <lineBasicMaterial color={BRAND_LIGHT} opacity={0.34} transparent />
-      </lineSegments>
+      {/* the structure inside it, as real bars - see Lattice.tsx for why a
+          wireframe could not work here */}
+      <group ref={lattice}>
+        <Lattice />
+      </group>
 
       {/* the light within */}
       <mesh ref={core}>
-        <sphereGeometry args={[0.34, 20, 20]} />
+        <sphereGeometry args={[0.2, 24, 24]} />
         <meshStandardMaterial
-          color={BRAND_LIGHT}
-          emissive={BRAND}
-          emissiveIntensity={1.5}
+          color="#ffffff"
+          emissive={BRAND_LIGHT}
+          emissiveIntensity={2.6}
           roughness={1}
           toneMapped={false}
           transparent
-          opacity={0.75}
+          opacity={0.9}
         />
       </mesh>
     </group>

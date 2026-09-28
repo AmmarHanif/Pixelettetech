@@ -59,7 +59,7 @@ export function Connection({
   }, [from, to]);
 
   const geo = useMemo(
-    () => new THREE.TubeGeometry(curve, quality === 'full' ? 44 : 24, 0.038, 8, false),
+    () => new THREE.TubeGeometry(curve, quality === 'full' ? 44 : 24, 0.03, 8, false),
     [curve, quality],
   );
 
@@ -74,9 +74,9 @@ export function Connection({
     }
     if (tube.current) {
       const m = tube.current.material as THREE.MeshStandardMaterial;
-      const want = active ? 0.85 : 0.42;
+      const want = active ? 1 : 0.85;
       m.opacity += (want - m.opacity) * 0.1;
-      const e = active ? 2.4 : 1.1;
+      const e = active ? 5.2 : 3.6;
       m.emissiveIntensity += (e - m.emissiveIntensity) * 0.1;
     }
   });
@@ -88,7 +88,7 @@ export function Connection({
           color={BRAND_LIGHT}
           emissive={BRAND}
           emissiveIntensity={1.1}
-          opacity={0.62}
+          opacity={0.85}
           roughness={0.5}
           toneMapped={false}
           transparent

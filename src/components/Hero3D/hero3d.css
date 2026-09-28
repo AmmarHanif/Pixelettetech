@@ -29,8 +29,34 @@
   container-type: inline-size;
 }
 
+/* A LIT GROUND BEHIND THE CANVAS, and it is not decoration.
+   The canvas is transparent over a white page, so the glass in the scene has
+   nothing to sit against and nothing to pick up - which is most of why it kept
+   rendering pale whatever the materials were set to. This puts a warm and a
+   brand-coloured pool of light behind it, so the scene reads as standing
+   somewhere rather than floating on paper. It is CSS, so it costs nothing, and
+   it stays BEHIND the canvas rather than tinting it. */
+.h3::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(52% 46% at 46% 52%, rgba(102, 26, 143, 0.13), transparent 72%),
+    radial-gradient(38% 34% at 74% 22%, rgba(255, 229, 190, 0.34), transparent 74%),
+    radial-gradient(60% 34% at 50% 94%, rgba(157, 91, 196, 0.1), transparent 76%);
+}
+
+/* The canvas sits above the ground. Deliberately targeted at the CANVAS and not
+   at `.h3 > div`: that selector also matches the overlay, and at (0,1,1) it
+   outranks `.h3-overlay`'s (0,1,0), so it would have quietly forced the overlay
+   from `absolute` back to `relative` and dropped every label out of position.
+   z-index needs a positioned element, hence `relative` here. */
 .h3 canvas {
   display: block;
+  position: relative;
+  z-index: 1;
   background: transparent !important;
 }
 
@@ -38,6 +64,7 @@
 .h3-overlay {
   position: absolute;
   inset: 0;
+  z-index: 2;
   pointer-events: none;
 }
 

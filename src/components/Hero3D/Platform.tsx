@@ -1,74 +1,100 @@
 'use client';
 
 /**
- * The layered platform the composition stands on.
+ * The plinth the scene stands on.
  *
- * WHY IT MATTERS MORE THAN IT LOOKS. Without a floor the cube and the cards
- * float at arbitrary heights and the eye has nothing to measure them against -
- * which is precisely how the earlier CSS attempt read as cards rather than
- * objects. Three tiers give the scene a ground, a sense of scale, and somewhere
- * for the one shadow to land.
+ * IT IS MUCH SMALLER THAN IT WAS, AND THAT IS THE POINT. The first build made
+ * the base 4.6 units against 1.55-unit panels, so a pale grey slab occupied the
+ * bottom half of the widget and the actual subject sat above it like an
+ * afterthought. The plinth exists to give the objects somewhere to stand; when
+ * it is the biggest thing in frame the composition is upside down.
  *
- * ROUNDED, NOT SHARP. RoundedBoxGeometry is used everywhere in this scene
- * rather than BoxGeometry: a hard 90-degree edge catches no highlight, so it
- * reads as flat shading no matter how good the environment is. The bevel is
- * what makes a silver surface look milled. It ships with three; confirmed in
- * the installed package before use.
+ * POLISHED, NOT MATT. Metal at low roughness mirrors the environment and the
+ * lit panels above it, which is where the scene gets its sense of a floor.
+ * A matt base returns the same flat grey from every angle - most of why the
+ * first attempt looked like paper cut-outs.
  *
- * NOT A HARDWARE PRODUCT. The previous brief was explicit that this must not
- * resemble a device, a server or an appliance, so the tiers are a plinth: wide,
- * shallow, unbranded, with no panel lines, vents or seams.
+ * THE ENGRAVED LINE IS A TEXTURE, NOT GEOMETRY AND NOT DOM. It is drawn once
+ * into a canvas and laid flat on the top face. As DOM it could not sit in the
+ * surface's perspective; as geometry it would be thousands of triangles for
+ * four words.
  */
 
-import { useFrame } from '@react-three/fiber';
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 
-type Tier = { w: number; h: number; d: number; y: number };
-
-const TIERS: Tier[] = [
-  { w: 4.6, h: 0.26, d: 3.0, y: -1.62 },
-  { w: 3.7, h: 0.22, d: 2.4, y: -1.38 },
-  { w: 2.75, h: 0.2, d: 1.8, y: -1.17 },
+const TIERS = [
+  { w: 3.5, d: 2.5, h: 0.12, y: -1.62 },
+  { w: 2.75, d: 1.95, h: 0.11, y: -1.5 },
+  { w: 2.05, d: 1.45, h: 0.1, y: -1.39 },
 ];
 
-export function Platform({ quality }: { quality: 'full' | 'reduced' }) {
-  const group = useRef<THREE.Group>(null);
+/** The engraved line, drawn once into a canvas. */
+function useEngravedLabel() {
+  return useMemo(() => {
+    if (typeof document === 'undefined') return null;
+    const c = document.createElement('canvas');
+    c.width = 1024;
+    c.height = 128;
+    const ctx = c.getContext('2d');
+    if (!ctx) return null;
+    ctx.clearRect(0, 0, c.width, c.height);
+    ctx.fillStyle = 'rgba(92, 78, 112, 0.55)';
+    ctx.font = '600 38px ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.letterSpacing = '8px';
+    ctx.fillText('IDEAS · TECHNOLOGY · REAL-WORLD IMPACT', c.width / 2, c.height / 2);
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 4;
+    return tex;
+  }, []);
+}
 
+export function Platform({ quality }: { quality: 'full' | 'reduced' }) {
   const geometries = useMemo(
-    () => TIERS.map(t => new RoundedBoxGeometry(t.w, t.h, t.d, 4, 0.055)),
+    () => TIERS.map(t => new RoundedBoxGeometry(t.w, t.h, t.d, 4, 0.03)),
     [],
   );
-
-  /* Extremely subtle: the brief allows the platform to move, and anything more
-     than this reads as drifting rather than as life. */
-  useFrame(({ clock }) => {
-    if (!group.current) return;
-    group.current.position.y = Math.sin(clock.elapsedTime * 0.35) * 0.012;
-  });
+  const label = useEngravedLabel();
 
   return (
-    <group ref={group}>
+    <group>
       {TIERS.map((t, i) => (
         <mesh
-          castShadow={quality === 'full' && i === TIERS.length - 1}
+          castShadow={quality === 'full' && i === 0}
           geometry={geometries[i]}
           key={t.y}
           position={[0, t.y, 0]}
           receiveShadow={quality === 'full'}
         >
-          {/* Brushed silver: metal enough to catch the environment, rough
-              enough not to mirror it. A polished platform would compete with
-              the glass above it. */}
+          {/* Polished, and progressively brighter toward the top so the stack
+              reads as separate plates rather than one block. */}
+          {/* Darker than it looks it should be. Polished metal is almost
+              entirely its own reflections, and in a bright environment a light
+              base colour returns white from every angle - which is how the
+              first version rendered as flat pale card rather than chrome. */}
           <meshStandardMaterial
-            color="#e4e0ec"
-            envMapIntensity={1.3}
-            metalness={0.86}
-            roughness={0.2 + i * 0.05}
+            color={i === 0 ? '#8d86a3' : i === 1 ? '#a09ab4' : '#b3aec5'}
+            envMapIntensity={2.6}
+            metalness={1}
+            roughness={0.05 + i * 0.02}
           />
         </mesh>
       ))}
+
+      {/* the engraved line, lying on the front shelf of the base tier */}
+      {label ? (
+        <mesh
+          position={[0, TIERS[0].y + TIERS[0].h / 2 + 0.002, TIERS[0].d / 2 - 0.26]}
+          rotation={[-Math.PI / 2, 0, 0]}
+        >
+          <planeGeometry args={[3.1, 0.39]} />
+          <meshBasicMaterial map={label} opacity={0.75} transparent />
+        </mesh>
+      ) : null}
     </group>
   );
 }
