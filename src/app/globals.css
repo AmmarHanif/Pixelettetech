@@ -1,5 +1,27 @@
 @import '../components/HeroVisual/herovisual.css';
 @import '../components/SpatialDemo/spatial.css';
+
+/* ---- AR/VR hero film ------------------------------------------------------
+   The video replaces the illustration that stood in this slot. It keeps the
+   same box so the hero's proportions do not move, and it is capped in height
+   so a 16:9 film cannot push the copy beside it out of alignment. */
+.hv-video {
+  position: relative;
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0d0812;
+  line-height: 0;
+}
+
+.hv-video__el {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
 /* ==========================================================================
    Pixelette Technologies 2026 — design system
    Ported 1:1 from the approved 20-page design (Pixelette Website 2026).
