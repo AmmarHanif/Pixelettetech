@@ -7,7 +7,7 @@ import Link from 'next/link';
  * The copy comes from the same services.ts the WebGL version used, so there is
  * one place to change it and the two cannot drift.
  */
-import { HeroVisual } from '@/components/HeroVisual/HeroVisual';
+import { HeroArtwork } from '@/components/HeroVisual/HeroArtwork';
 import { LiveDiagram } from '@/components/LiveDiagram';
 import {
   CertifiedHandoff,
@@ -265,6 +265,17 @@ export default function HomePage() {
         to one on a phone.
       */}
       <div className="hero-glow" style={{ padding: '88px 0 64px' }}>
+        {/* EVEN 50/50 HALVES — the founder's decision, 2026-09-28, taken with
+            the measurement in front of him rather than in spite of it.
+            The artwork's own wording renders at 6.9px here and is not readable.
+            That is accepted, not overlooked: the h1 and lead carry the whole
+            argument in live text, the same wording is duplicated for screen
+            readers and search engines, and the three service links still work.
+            The artwork is decorative at this size, and that is a defensible
+            thing for a hero image to be.
+            `hero-split--stacked` remains in the CSS: adding that one class back
+            gives the full-width version at 14.4px, at the cost of a hero too
+            tall to resolve in one screen. */}
         <div className="wrap hero-split">
           <div className="hero-split__copy">
           <Eyebrow>Software engineering • AI &amp; automation • Blockchain</Eyebrow>
@@ -418,8 +429,12 @@ export default function HomePage() {
             founder settles on one; if the 3D version stands, it should be
             deleted rather than left orphaned.
           */}
+          {/* THE FOUNDER'S SUPPLIED ARTWORK, 2026-09-28. HeroVisual is left in
+              the repo rather than deleted: it renders a BLANK scene with every
+              word as live markup, which is the only version whose wording stays
+              legible as the column narrows. Swapping back is this one line. */}
           <div className="hero-split__viz">
-            <HeroVisual />
+            <HeroArtwork />
           </div>
         </div>
       </div>
