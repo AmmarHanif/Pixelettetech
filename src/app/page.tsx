@@ -2,13 +2,12 @@
 import Link from 'next/link';
 
 /*
- * The 3D hero loads after hydration, from a client boundary in HeroMount.
- * `ssr: false` is refused inside a Server Component, and making this whole page
- * a client component to satisfy one corner of it would ship every section below
- * to the browser. three.js therefore never enters the server render, and never
- * enters another route's bundle.
+ * The hero is a rendered scene with the wording as real text over it. No
+ * JavaScript at all: an image, three links and some copy, server-rendered.
+ * The copy comes from the same services.ts the WebGL version used, so there is
+ * one place to change it and the two cannot drift.
  */
-import { HeroMount } from '@/components/Hero3D/HeroMount';
+import { HeroVisual } from '@/components/HeroVisual/HeroVisual';
 import { LiveDiagram } from '@/components/LiveDiagram';
 import {
   CertifiedHandoff,
@@ -420,7 +419,7 @@ export default function HomePage() {
             deleted rather than left orphaned.
           */}
           <div className="hero-split__viz">
-            <HeroMount />
+            <HeroVisual />
           </div>
         </div>
       </div>
