@@ -1,7 +1,6 @@
-import { contactEmail } from '@/content/company';
+import type { PixContext } from './context';
 import { MIN_COVERAGE, hasEnoughSignal, search } from './retrieve';
-import { CLAIM_GUARDS, RULES, publishableFacts } from './rules';
-import { isPublishable } from '@/content/claims';
+import { CLAIM_GUARDS, publishableFacts, rules } from './rules';
 
 /**
  * Turns one visitor message into one reply. Pure, synchronous, offline.
@@ -11,6 +10,11 @@ import { isPublishable } from '@/content/claims';
  * suite in scripts/test-pix.cjs can assert what it says to a price question and
  * know the answer will not drift. A chatbot whose replies cannot be asserted is
  * a chatbot whose guardrails cannot be proved.
+ *
+ * THE REGISTERS ARE AN ARGUMENT, NOT AN IMPORT. What the claims register allows
+ * and the company facts the replies quote arrive in `ctx`, built on the server
+ * (see `context.ts`). This module runs in the browser, so importing the
+ * registers here would ship them to every visitor - which it once did.
  *
  * THE ORDER OF THE STAGES IS THE DESIGN:
  *   1. too little to go on      - ask, rather than guess at one word
@@ -58,11 +62,11 @@ function labelForPath(p: string): string {
   return last.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 
-const NO_ANSWER =
+const noAnswer = (email: string) =>
   'I do not have that on this site, and I am not going to guess at it. ' +
-  `The team can answer properly: the contact page is the quickest route, or ${contactEmail}.`;
+  `The team can answer properly: the contact page is the quickest route, or ${email}.`;
 
-export function respond(messageRaw: string): PixReply {
+export function respond(messageRaw: string, ctx: PixContext): PixReply {
   /*
    * Strip markup before anything else looks at the text. Nothing here renders
    * HTML, so this is not an XSS control; it stops a pasted tag from being
@@ -79,7 +83,7 @@ export function respond(messageRaw: string): PixReply {
 
   // ---------------------------------------------------------------- 2. rules
   // Before the length check: a one-word insult is still abuse.
-  for (const rule of RULES) {
+  for (const rule of rules(ctx)) {
     if (rule.test.test(message)) {
       return {
         via: 'rule',
@@ -95,7 +99,7 @@ export function respond(messageRaw: string): PixReply {
   for (const guard of CLAIM_GUARDS) {
     // Only guards a claim the register currently withholds. If it is released,
     // this stage falls silent and retrieval answers from the page instead.
-    if (!isPublishable(guard.id) && guard.test.test(message)) {
+    if (!ctx.publishable.includes(guard.id) && guard.test.test(message)) {
       return {
         via: 'claim-guard',
         ruleId: guard.id,
@@ -107,7 +111,7 @@ export function respond(messageRaw: string): PixReply {
   }
 
   // ------------------------------------------------------ 4. published facts
-  for (const fact of publishableFacts()) {
+  for (const fact of publishableFacts(ctx)) {
     if (fact.test.test(message)) {
       return {
         via: 'fact',
@@ -157,7 +161,7 @@ export function respond(messageRaw: string): PixReply {
   }
 
   // ------------------------------------------------------------ 7. no answer
-  return { via: 'no-answer', text: NO_ANSWER, path: '/contact', sourceLabel: 'Contact' };
+  return { via: 'no-answer', text: noAnswer(ctx.contactEmail), path: '/contact', sourceLabel: 'Contact' };
 }
 
 /** Openers shown in the panel, each one chosen because the site can answer it. */

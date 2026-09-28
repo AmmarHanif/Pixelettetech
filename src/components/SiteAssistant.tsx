@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import type { PixContext } from '@/lib/pix/context';
 import { STARTERS, respond, type PixReply } from '@/lib/pix/respond';
 
 /**
@@ -27,6 +28,12 @@ import { STARTERS, respond, type PixReply } from '@/lib/pix/respond';
  * EVERY ANSWER SHOWS ITS SOURCE. Where a reply came from a page, that page is
  * named and linked under the answer. A visitor can check it in one click, which
  * is the only honest way to present an automated answer on a company website.
+ *
+ * IT IS HANDED WHAT IT MAY SAY. The claims register and the company record are
+ * read on the server and arrive here reduced to `context` (see
+ * `src/lib/pix/context.ts`). Nothing this file imports may import either
+ * register, because everything a client component imports ships to every
+ * visitor - which is how, for four days, both registers did.
  */
 
 type Turn = {
@@ -44,7 +51,7 @@ const GREETING: Turn = {
     'I answer from the published pages of this site, and I say so when I cannot find something rather than guessing. What would you like to know?',
 };
 
-export function SiteAssistant() {
+export function SiteAssistant({ context }: { context: PixContext }) {
   const [open, setOpen] = useState(false);
   const [turns, setTurns] = useState<Turn[]>([GREETING]);
   const [draft, setDraft] = useState('');
@@ -56,7 +63,7 @@ export function SiteAssistant() {
   const send = useCallback((raw: string) => {
     const text = raw.trim();
     if (!text) return;
-    const reply: PixReply = respond(text);
+    const reply: PixReply = respond(text, context);
     setTurns(prev => [
       ...prev,
       { id: nextId.current++, role: 'visitor', text },
@@ -69,7 +76,7 @@ export function SiteAssistant() {
       },
     ]);
     setDraft('');
-  }, []);
+  }, [context]);
 
   /* Keep the newest turn in view without yanking the whole page around. */
   useEffect(() => {

@@ -9,6 +9,7 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { JsonLd } from '@/components/ui';
 import { SITE_URL, company } from '@/content/company';
 import { ANALYTICS_ENABLED } from '@/lib/analytics';
+import { pixContext } from '@/lib/pix/server-context';
 import { organizationSchema, websiteSchema } from '@/lib/schema';
 import { HOMEPAGE_SEO } from '@/lib/seo';
 
@@ -171,8 +172,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           keyboard and by a screen reader before a floating control appears.
           It stores nothing and calls nothing, so it sits outside the analytics
           gate below: there is no consent question to ask about it.
+          It is handed only the register verdicts and public facts it uses,
+          built HERE on the server by `pixContext()`, so neither the claims
+          register nor the company record reaches the browser.
         */}
-        <SiteAssistant />
+        <SiteAssistant context={pixContext()} />
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />
         {/*
