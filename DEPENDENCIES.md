@@ -212,6 +212,31 @@ supplied with the wording baked in, then reverted when that wording measured
 7–8px at the hero's render size. The files listed above are what ships. See the
 ADR-0053 addendum.)*
 
+> **SUPERSEDED THE SAME DAY, TWICE OVER — the line above saying "the files
+> listed above are what ships" IS NO LONGER TRUE.** Corrected here rather than
+> edited in place, so the drift is visible rather than quietly tidied away.
+>
+> 1. **The `experience-layer-*` BYTES WERE REPLACED.** They now hold a
+>    different `gpt_image_2_5` render (a blank-tile scene made to the founder's
+>    reference), encoded at quality 80 / alphaQuality 80 — settings chosen by
+>    isolating one knob at a time, since below alphaQuality ~80 the faint halo
+>    goes blotchy against the hero's tinted background. 75.3 / 146.2 / 293.6 kB.
+>    The row above describes sizes and a provenance that no longer match the
+>    file contents.
+> 2. **NOTHING ON THE PAGE REFERENCES THEM ANY MORE.** The homepage hero now
+>    renders `HeroArtwork`, not `HeroVisual`. `experience-layer-*` are modified
+>    but unused; `HeroVisual` is kept deliberately as the one-line way back.
+>
+> **THE ASSET THAT ACTUALLY SHIPS, AND ITS LICENCE POSITION IS DIFFERENT:**
+>
+> | | |
+> |---|---|
+> | Asset | `public/hero/hero-artwork-{820,1240,1774}.webp` |
+> | Size | 57.6 / 98.3 / 108.2 kB, transparent (`isOpaque=false`, verified with sharp) |
+> | Origin | **Supplied by the founder on 2026-09-28.** Delivered opaque on white at 1774x887; the white was removed here by a border flood fill (53.5% of the canvas cleared) because the hero band is a radial gradient measuring rgb(248,243,251) behind the figure, against which an opaque white rectangle would have been plainly visible |
+> | Licence | **UNKNOWN — and NOT the same question as the Higgsfield assets.** How this artwork was produced has not been stated: commissioned, made in-house, or generated on some other service are all consistent with what was supplied. It must not be assumed to carry the founder's own rights merely because he supplied it, and it must not be assumed to carry the Higgsfield question either. **ASK BEFORE PUBLICATION.** |
+> | Known cost | its wording is BAKED IN at about 23px against a 1774px width, so it lands at 6.9px in the shipped 50/50 column and is unreadable. Mitigated, not solved: the same wording is carried as screen-reader text and the three tile links are preserved, so machines and keyboard users still get it |
+
 This is a deliberate gap, not an oversight. The asset is destined for a company
 website, so what the Higgsfield plan grants for **commercial use** of generated
 output has to be read from their terms rather than assumed, and that is the

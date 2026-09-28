@@ -1,4 +1,5 @@
 @import '../components/HeroVisual/herovisual.css';
+@import '../components/HeroVisual/heroartwork.css';
 @import '../components/SpatialDemo/spatial.css';
 
 /* ---- AR/VR hero film ------------------------------------------------------
@@ -6614,11 +6615,16 @@ button.btn[disabled] {
 /* ---- the hero's split composition ---------------------------------------- */
 .hero-split {
   display: grid;
-  /* The visual carries the whole capability argument now - three labelled
-     panels, a centre and two columns of supporting words - so it needs more
-     room than the copy beside it. Measured: below about a 780px figure the
-     supporting lines fall under 10px and stop being readable. */
-  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  /* EVEN HALVES, to the founder's instruction of 2026-09-28.
+     THE TRADE THIS MAKES IS RECORDED BECAUSE IT IS NOT FREE. The visual carries
+     the whole capability argument - three labelled tiles, a centre and two
+     columns of supporting words - and in the supplied artwork those words are
+     PIXELS, so they shrink with the column. Measured against that artwork
+     (1774px wide, supporting lines set at about 23px): a 773px figure puts them
+     at 10px, the previous 1.25fr column gave 724px and 9.4px, and these even
+     halves give 579px and 7.5px. Nothing in CSS can recover that - it is the
+     artwork's own resolution against the column width. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 48px;
   align-items: center;
 }
