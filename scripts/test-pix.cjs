@@ -41,6 +41,11 @@ const tsconfig = {
     resolveJsonModule: true,
     skipLibCheck: true,
     strict: false,
+    // The gateway's Decision type is a discriminated union on a boolean
+    // literal, and narrowing it needs this. Without it the harness rejects code
+    // the real build accepts, which reports a defect in the thing under test
+    // when the fault is in the rig.
+    strictNullChecks: true,
     outDir: OUT,
     rootDir: path.join(ROOT, 'src'),
     baseUrl: ROOT,

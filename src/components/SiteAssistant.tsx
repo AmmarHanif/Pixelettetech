@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { PIX_T_DESCRIPTOR, PIX_T_NAME } from '@/lib/pix/branding';
 import { STARTERS, respond, type PixReply } from '@/lib/pix/respond';
 
 /**
@@ -37,11 +38,27 @@ type Turn = {
   sourceLabel?: string;
 };
 
+/*
+ * RENAMED AND REPOSITIONED 2026-09-28, to the Pix T brief's sections 12, 52 and
+ * 53.
+ *
+ * WHAT CHANGED AND WHY. The old greeting led with the mechanism - "I answer
+ * from the published pages of this site" - which section 53 identifies as the
+ * problem: it makes the assistant sound like a search box and undersells it
+ * before a visitor has asked anything. The opener now asks the question the
+ * agent exists to answer.
+ *
+ * NOTHING ABOUT THE HONESTY IS LOST. The panel still says "AI assistant" in the
+ * header, so nobody is misled about what they are talking to, and the refusal
+ * behaviour is unchanged - it still declines rather than guessing, which is
+ * section 55. What has gone is the advertisement of a limitation, not the
+ * limitation.
+ */
 const GREETING: Turn = {
   id: 0,
   role: 'assistant',
   text:
-    'I answer from the published pages of this site, and I say so when I cannot find something rather than guessing. What would you like to know?',
+    "Tell me what you're trying to build, automate or improve. I can help you explore the most relevant Pixelette approach.",
 };
 
 export function SiteAssistant() {
@@ -100,23 +117,21 @@ export function SiteAssistant() {
         onClick={() => setOpen(v => !v)}
         type="button"
       >
-        {open ? 'Close' : 'Ask about this site'}
+        {open ? 'Close' : `Ask ${PIX_T_NAME}`}
       </button>
 
       {open ? (
         <div
-          aria-label="Site assistant"
+          aria-label={`${PIX_T_NAME}, ${PIX_T_DESCRIPTOR}`}
           className="asst-panel"
           id="site-assistant-panel"
           ref={panelRef}
           role="dialog"
         >
           <div className="asst-head">
-            <p className="asst-title">Site assistant</p>
-            {/* Said once, at the top, rather than implied. */}
-            <p className="asst-sub">
-              Automated. Answers come from this website&rsquo;s own pages.
-            </p>
+            <p className="asst-title">{PIX_T_NAME}</p>
+            {/* Section 12: say what it is, once, without underselling it. */}
+            <p className="asst-sub">{PIX_T_DESCRIPTOR}</p>
           </div>
 
           <div aria-live="polite" className="asst-log" ref={logRef}>

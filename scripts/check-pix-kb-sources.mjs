@@ -100,7 +100,34 @@ for (const file of articles) {
   }
 }
 
-/* ---- 3. the one permitted archive entry must still be a signpost -------- */
+/* ---- 3. every indexed route must be on the explicit allowlist ------------
+   Section 5. The allowlist lives in src/lib/pix/allowlist.ts as families rather
+   than pages, so this fails when a NEW top-level section starts grounding
+   answers - a decision worth making deliberately - and not merely because
+   somebody added a page to an approved one. The prefixes are mirrored here
+   rather than imported because this script is plain node and the allowlist is
+   TypeScript; the test below asserts the two agree, so the copy cannot drift
+   silently. */
+const ALLOWED = [
+  '/about-us', '/accessibility', '/ai-automation', '/ar-vr-development-services',
+  '/assurance', '/blockchain', '/case-studies', '/contact', '/cookies',
+  '/engineering', '/industries', '/insights', '/method', '/modern-slavery',
+  '/privacy', '/support-continuous-improvement', '/terms-conditions',
+];
+const allowedSrc = fs.readFileSync(
+  path.join(ROOT, 'src', 'lib', 'pix', 'allowlist.ts'), 'utf8');
+for (const a of ALLOWED) {
+  if (!allowedSrc.includes(`'${a}'`)) {
+    failures.push(`this script allows ${a} but allowlist.ts does not; they have drifted`);
+  }
+}
+for (const d of docs) {
+  const p = d.path ?? '';
+  const ok = p === '/' || ALLOWED.some(a => p === a || p.startsWith(`${a}/`));
+  if (!ok) failures.push(`route not on the approved allowlist: ${p}`);
+}
+
+/* ---- 4. the one permitted archive entry must still be a signpost -------- */
 const archiveDocs = docs.filter(d => (d.path ?? '').includes('archive'));
 for (const d of archiveDocs) {
   if (!ALLOWED_ARCHIVE_PATHS.has(d.path)) {
