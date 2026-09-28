@@ -265,10 +265,18 @@ export default function HomePage() {
         to one on a phone.
       */}
       <div className="hero-glow" style={{ padding: '88px 0 64px' }}>
-        {/* `hero-split--stacked` puts the artwork full width under the copy.
-            Removing that one class restores the even 50/50 halves; see the CSS
-            for the measured reason it is here. */}
-        <div className="wrap hero-split hero-split--stacked">
+        {/* EVEN 50/50 HALVES — the founder's decision, 2026-09-28, taken with
+            the measurement in front of him rather than in spite of it.
+            The artwork's own wording renders at 6.9px here and is not readable.
+            That is accepted, not overlooked: the h1 and lead carry the whole
+            argument in live text, the same wording is duplicated for screen
+            readers and search engines, and the three service links still work.
+            The artwork is decorative at this size, and that is a defensible
+            thing for a hero image to be.
+            `hero-split--stacked` remains in the CSS: adding that one class back
+            gives the full-width version at 14.4px, at the cost of a hero too
+            tall to resolve in one screen. */}
+        <div className="wrap hero-split">
           <div className="hero-split__copy">
           <Eyebrow>Software engineering • AI &amp; automation • Blockchain</Eyebrow>
           <h1 className="h1" style={{ marginTop: 26, fontSize: 'clamp(36px, 4.6vw, 54px)' }}>
