@@ -1,7 +1,14 @@
 
 import Link from 'next/link';
 
-import { HeroExperience } from '@/components/HeroExperience';
+/*
+ * The 3D hero loads after hydration, from a client boundary in HeroMount.
+ * `ssr: false` is refused inside a Server Component, and making this whole page
+ * a client component to satisfy one corner of it would ship every section below
+ * to the browser. three.js therefore never enters the server render, and never
+ * enters another route's bundle.
+ */
+import { HeroMount } from '@/components/Hero3D/HeroMount';
 import { LiveDiagram } from '@/components/LiveDiagram';
 import {
   CertifiedHandoff,
@@ -403,14 +410,17 @@ export default function HomePage() {
           </div>
 
           {/*
-            THE DIMENSIONAL SYSTEM. Replaces the three-state LivingSystem that
-            stood here from Phase 1: that visual argued software / AI / blockchain
-            as three states of one system, and this brief supersedes it with three
-            capabilities converging on Experience. LivingSystem is removed rather
-            than left unused, since nothing else rendered it.
+            THE DIMENSIONAL SYSTEM, now real geometry. Three capabilities
+            converging on Experience, which superseded Phase 1's three-state
+            LivingSystem (removed at the time, since nothing else rendered it).
+            The CSS-and-transforms version of this argument, HeroExperience, is
+            what WebGL replaces here. It is deliberately still on disk and
+            deliberately unreferenced, so the two can be compared before the
+            founder settles on one; if the 3D version stands, it should be
+            deleted rather than left orphaned.
           */}
           <div className="hero-split__viz">
-            <HeroExperience />
+            <HeroMount />
           </div>
         </div>
       </div>
