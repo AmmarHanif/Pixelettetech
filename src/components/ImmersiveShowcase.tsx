@@ -2,18 +2,28 @@
 
 import { useId, useState } from 'react';
 
+import { SpatialMount } from '@/components/SpatialDemo/SpatialMount';
+
 /**
  * Four capability demonstrations, one active at a time.
  *
- * CSS 3D TRANSFORMS, NOT WEBGL, AND THAT IS A DELIBERATE ENGINEERING CHOICE
- * RATHER THAN A COMPROMISE. A real 3D library on this page would mean a new
- * dependency (R14), several hundred kilobytes of JavaScript on a marketing page,
- * a canvas that is invisible to a screen reader, and a blank rectangle for
- * anyone whose GPU is blocked. The browser's own 3D engine gives genuine
- * perspective, depth and rotation using elements that stay in the accessibility
- * tree, cost nothing to download, and degrade to flat shapes rather than to
- * nothing. The subject is immersive software; the demonstration should not need
- * a 40x payload to make a point about engineering judgement.
+ * 01 SPATIAL IS NOW GENUINE WEBGL. THE OTHER THREE ARE STILL CSS 3D.
+ *
+ * This file used to argue at length that CSS 3D was the right answer for all
+ * four, on payload and accessibility grounds. The founder has reversed that for
+ * this section, and the reasoning was sound: a section headed "Don't just read
+ * about immersive. Try it" cannot demonstrate immersive technology with a
+ * diagram. The old argument is not deleted because it was wrong about the
+ * COSTS - it was wrong about which costs were worth paying here.
+ *
+ * The costs it named are met rather than waved away. three.js is lazy-loaded
+ * behind a client boundary AND an IntersectionObserver, so it reaches no other
+ * page and no visitor who does not scroll to it. The canvas is never the only
+ * way in: every viewpoint is a real button outside it, and the active
+ * viewpoint's written description sits beside it and is announced on change.
+ *
+ * ONLY THE ACTIVE DEMONSTRATION IS MOUNTED, which is what stops a hidden canvas
+ * holding a WebGL context and a render loop behind another tab.
  *
  * EVERYTHING IS DRIVEN BY BUTTONS, RADIOS AND RANGE INPUTS. Nothing here is
  * hover-only and nothing depends on a drag, so every demonstration is fully
@@ -73,92 +83,12 @@ const META: Record<DemoId, { title: string; body: string }> = {
  * 24 and 34 degrees - the angle an architect's walkthrough uses rather than the
  * angle a person's eyes do - with one true overhead for the layout.
  */
-const VIEWPOINTS = [
-  { id: 'entrance', label: 'Entrance', rx: 24, ry: 0, z: -40, y: -6 },
-  { id: 'floor', label: 'Open floor', rx: 30, ry: -26, z: 20, y: 0 },
-  { id: 'meeting', label: 'Meeting area', rx: 27, ry: 24, z: 24, y: 0 },
-  { id: 'plan', label: 'Overview', rx: 64, ry: 0, z: -30, y: 14 },
-];
-
-function SpatialDemo() {
-  const [vp, setVp] = useState(VIEWPOINTS[1]!);
-  return (
-    <div className="demo">
-      <div
-        aria-label={`Fictional workspace interior, viewed from: ${vp.label}`}
-        className="demo__stage demo__stage--room"
-        role="img"
-      >
-        <div
-          className="room"
-          style={{
-            transform: `translateZ(${vp.z}px) translateY(${vp.y}px) rotateX(${vp.rx}deg) rotateY(${vp.ry}deg)`,
-          }}
-        >
-          <div className="room__face room__back" />
-          <div className="room__face room__left" />
-          <div className="room__face room__right" />
-
-          {/*
-            THE LAYOUT IS PAINTED INTO THE FLOOR AS ONE COPLANAR SVG, and that
-            is the third attempt at this. Positioning the furniture in the room's
-            space put each block in the wrong place. Making them children of the
-            floor with a small translateZ fixed the placement and then failed to
-            paint: measured, the blocks had real dimensions and were simply never
-            visible, because offsetting a child along a rotated plane's local Z
-            puts it on the wrong side of that plane's own opaque background.
-            Chasing the sign of that offset is a fight with the browser's 3D
-            sorting that this demonstration does not need to have.
-
-            One SVG, coplanar with the floor, no Z offset, DOM order decides. It
-            cannot Z-fight, it scales with the floor, and it is a single element
-            to reason about. The two STANDING objects below stay as real 3D
-            children of the room, because their whole job is to have height.
-          */}
-          <div className="room__face room__floor">
-            <svg aria-hidden className="room__plan" viewBox="0 0 340 270">
-              {/* meeting zone */}
-              <rect className="room__zone" x="222" y="30" width="96" height="104" rx="8" />
-              {/* four desk blocks */}
-              <rect className="room__desk" x="24" y="44" width="84" height="34" rx="4" />
-              <rect className="room__desk" x="24" y="100" width="84" height="34" rx="4" />
-              <rect className="room__desk" x="124" y="44" width="84" height="34" rx="4" />
-              <rect className="room__desk" x="124" y="100" width="84" height="34" rx="4" />
-              {/* meeting table */}
-              <circle className="room__table" cx="270" cy="82" r="30" />
-              {/* counter run along the near edge */}
-              <rect className="room__counter" x="24" y="200" width="190" height="24" rx="5" />
-            </svg>
-          </div>
-
-          {/* The two vertical elements, which is what stops the space reading
-              as a floor plan rather than as a room. */}
-          <div className="room__stand room__partition" />
-          <div className="room__stand room__pillar" />
-        </div>
-      </div>
-
-      <div className="demo__controls">
-        <span className="demo__controls-label" id="vp-label">
-          Viewpoint
-        </span>
-        <div aria-labelledby="vp-label" className="demo__btns" role="group">
-          {VIEWPOINTS.map(v => (
-            <button
-              aria-pressed={v.id === vp.id}
-              className="demo__btn"
-              key={v.id}
-              onClick={() => setVp(v)}
-              type="button"
-            >
-              {v.label}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+/*
+ * The CSS floor-plan Spatial demonstration that stood here - an SVG plan on a
+ * rotated plane, with rectangles for desks and a circle for a table - has been
+ * REMOVED rather than refined, on instruction. It is in the history if the
+ * reasoning behind it is ever wanted; what it is not is a starting point.
+ */
 
 /* --------------------------------------------------------- 02 AR product -- */
 
@@ -421,7 +351,7 @@ function ProductDemo() {
 /* ------------------------------------------------------------------ shell -- */
 
 const PANELS: Record<DemoId, () => React.ReactElement> = {
-  spatial: SpatialDemo,
+  spatial: SpatialMount,
   ar: ArDemo,
   training: TrainingDemo,
   product: ProductDemo,
