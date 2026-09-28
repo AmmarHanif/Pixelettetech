@@ -112,6 +112,36 @@ obligation arises. Worth knowing if the deployment ever vendors or patches them.
 
 ## Change log
 
+### 2026-09-28 (evening) — a GENERATED VIDEO now ships in a page hero
+
+The AR/VR page hero is a 23-second generated film in place of its
+illustration. This is a materially bigger commitment than the still images
+recorded below: it is 3.7 MB, it plays automatically, and it is the first
+thing a visitor to that page sees.
+
+| | |
+|---|---|
+| Asset | `public/video/arvr-hero.mp4` (3.7 MB) + `arvr-hero-poster.webp` (22 kB) |
+| Origin | Two 12-second FLUX 3 Video renders via Higgsfield, joined with a 0.7s cross-dissolve in ffmpeg |
+| Encode | 1280x720, H.264, CRF 30, **no audio stream at all** |
+| Cost | 216 credits (2 x 108). A third render failed and was not charged |
+| Masters | `05_Projects/.../generated-imagery/2026-09-28_arvr-showcase-video/` — 1080p master, 720p, and both source clips |
+| Licence | **NOT VERIFIED — OPEN, and now higher stakes** |
+
+**The commercial-use question is the same one as for the still images and it
+matters more here.** A hero film that autoplays on a services page is the
+most prominent generated asset on the site. What the Higgsfield plan grants
+for commercial use of generated output must be read from their terms before
+this is published, not assumed.
+
+**A second, separate issue to settle before publication:** in roughly the
+first three seconds the figure wearing the headset is rendered bare-
+shouldered. In a standalone film that is a detail; in a looping page hero it
+is the opening frame. Regenerating that clip with clothing specified is 108
+credits and has not been done.
+
+No npm package was added. ffmpeg is a local tool and ships nothing.
+
 ### 2026-09-28 (later still) — a 3D office, and NO external 3D asset
 
 The Immersive Showcase's Spatial demonstration became a genuine WebGL scene.
