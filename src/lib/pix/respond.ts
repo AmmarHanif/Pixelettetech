@@ -1,6 +1,6 @@
 import type { PixContext } from './context';
-import { MIN_COVERAGE, hasEnoughSignal, search } from './retrieve';
-import { CLAIM_GUARDS, publishableFacts, rules } from './rules';
+import { MIN_COVERAGE, hasEnoughSignal, pageDoc, search } from './retrieve';
+import { CLAIM_GUARDS, TOPIC_ROUTES, publishableFacts, rules } from './rules';
 
 /**
  * Turns one visitor message into one reply. Pure, synchronous, offline.
@@ -17,17 +17,19 @@ import { CLAIM_GUARDS, publishableFacts, rules } from './rules';
  * registers here would ship them to every visitor - which it once did.
  *
  * THE ORDER OF THE STAGES IS THE DESIGN:
- *   1. too little to go on      - ask, rather than guess at one word
- *   2. rules                    - refusals and redirects, which pre-empt everything
- *   3. claim guards             - only where the register says a claim is NOT published
- *   4. publishable facts        - the handful the register does allow
- *   5. retrieval above the floor- the site's own words, with the page it came from
- *   6. a pointer                - the question is known, the answer lives on a page
- *   7. an honest "I do not know"- and a route to a person
+ *   1. nothing to go on          - ask
+ *   2. rules                     - refusals and redirects, which pre-empt everything
+ *   3. claim guards              - only where the register says a claim is NOT published
+ *   4. publishable facts         - the handful the register does allow
+ *   5. retrieval above the floor - the site's own words, with the page it came from
+ *   6. topic routes              - the right page's own description, when 5 found nothing
+ *   7. too little to go on       - ask, rather than guess at one word
+ *   8. an honest "I don't know"  - and a route to a person
  *
- * STAGE 7 IS A FEATURE. Most of the value of this design is in what it refuses
+ * STAGE 8 IS A FEATURE. Most of the value of this design is in what it refuses
  * to say, so the fallback is not an apology for a gap; it is the mechanism
- * working.
+ * working. It now also offers to take the enquiry, because a question the site
+ * cannot answer is usually one the team can.
  */
 
 export type PixReply = {
@@ -44,9 +46,12 @@ export type PixReply = {
     | 'fact'
     | 'kb'
     | 'pointer'
+    | 'route'
     | 'no-answer';
-  /** The rule or claim id, where one fired. */
+  /** The rule, claim or route id, where one fired. */
   ruleId?: string;
+  /** Offer to take the enquiry in the chat, alongside the link. */
+  offer?: 'enquiry';
 };
 
 /**
@@ -57,14 +62,29 @@ export type PixReply = {
  * they are being sent, and makes four different answers look like the same one.
  */
 function labelForPath(p: string): string {
+  if (p.endsWith('security.txt')) return 'security.txt';
   const last = p.split('/').filter(Boolean).pop();
   if (!last) return 'the homepage';
   return last.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 
+/*
+ * THE OTHER HALF OF THE TIMELINE GUARD. The rule catches timing questions as
+ * they are usually asked; this catches the reply. If the visitor asked WHEN and
+ * the passage about to be offered contains a duration, the passage is not
+ * offered: a published fact about something else, placed under a question about
+ * someone's delivery date, reads as a promise. Both halves are narrow on
+ * purpose - "What is a Value Discovery?" still gets its published four weeks,
+ * because nobody asked when.
+ */
+const TIMING_ASKED =
+  /\b(when|how (long|soon|quickly|fast)|deadline|ready|timeline|time ?frame|turnaround|go live|asap|urgent(ly)?|in (\d+|a|one|two|three|four|five|six|a few|several) (days?|weeks?|months?))\b/i;
+const DURATION =
+  /\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|a few|several)[- ](days?|weeks?|months?|quarters?|years?)\b/i;
+
 const noAnswer = (email: string) =>
-  'I do not have that on this site, and I am not going to guess at it. ' +
-  `The team can answer properly: the contact page is the quickest route, or ${email}.`;
+  'I don’t have enough current Pixelette information to answer that accurately, and I won’t guess. ' +
+  `The team can: use the contact page, email ${email}, or I can take the details here.`;
 
 export function respond(messageRaw: string, ctx: PixContext): PixReply {
   /*
@@ -81,18 +101,25 @@ export function respond(messageRaw: string, ctx: PixContext): PixReply {
     return { via: 'ask-more', text: 'Ask me anything about the engineering, AI or blockchain work on this site.' };
   }
 
+  const ruleSet = rules(ctx);
+  const asReply = (rule: (typeof ruleSet)[number]): PixReply => ({
+    via: 'rule',
+    ruleId: rule.id,
+    text: rule.reply,
+    path: rule.path,
+    sourceLabel: rule.path ? labelForPath(rule.path) : undefined,
+    offer: rule.offer,
+  });
+  const timelineSafe = (reply: PixReply): PixReply => {
+    if (!TIMING_ASKED.test(message) || !DURATION.test(reply.text)) return reply;
+    const timeline = ruleSet.find(r => r.id === 'timeline');
+    return timeline ? asReply(timeline) : reply;
+  };
+
   // ---------------------------------------------------------------- 2. rules
   // Before the length check: a one-word insult is still abuse.
-  for (const rule of rules(ctx)) {
-    if (rule.test.test(message)) {
-      return {
-        via: 'rule',
-        ruleId: rule.id,
-        text: rule.reply,
-        path: rule.path,
-        sourceLabel: rule.path ? labelForPath(rule.path) : undefined,
-      };
-    }
+  for (const rule of ruleSet) {
+    if (rule.test.test(message)) return asReply(rule);
   }
 
   // -------------------------------------------------------- 3. claim guards
@@ -123,51 +150,88 @@ export function respond(messageRaw: string, ctx: PixContext): PixReply {
   }
 
   /*
-   * THE SIGNAL GATE SITS HERE, AFTER the rules, guards and facts rather than
-   * before them, and the order was wrong at first with a visible cost. Those
-   * three stages match on the raw message and need no token signal at all, so
-   * gating in front of them meant "What does Pixelette actually do?" was met
-   * with "tell me a bit more" - a question the facts layer answers directly.
-   * Only RETRIEVAL needs enough signal to rank on, so only retrieval is gated.
+   * THE SIGNAL GATE guards RETRIEVAL only. Rules, guards and facts match on the
+   * raw message and need no token signal at all, so gating in front of them
+   * meant "What does Pixelette actually do?" was met with "tell me a bit more" -
+   * a question the facts layer answers directly. Topic routes likewise match on
+   * phrasing, so a question too thin to rank ("what is your process") can still
+   * be sent to the right page before the assistant asks for more.
    */
-  if (!hasEnoughSignal(message)) {
+  const enoughSignal = hasEnoughSignal(message);
+
+  // ------------------------------------------------------------ 5. retrieval
+  if (enoughSignal) {
+    const best = search(message, 3)[0];
+    /*
+     * ABOVE THE FLOOR AND ABOUT THE SAME THING. Coverage says the question's
+     * words are in the passage; it cannot say the passage is about them. "What
+     * is your commercial model" scored full coverage against the tokenisation
+     * page, whose description happens to say "commercial and legal model". So a
+     * match must also share at least one word with the TITLE of what it
+     * matched - the question for an FAQ, the page name for a page - which is
+     * where "what this is about" actually lives.
+     */
+    if (best && best.coverage >= MIN_COVERAGE && best.titleHits > 0) {
+      if (best.doc.kind === 'pointer') {
+        return {
+          via: 'pointer',
+          text: `That one is answered on the ${best.doc.page ?? 'relevant'} page rather than in a line I can quote back to you. It is worth reading there.`,
+          path: best.doc.path ?? undefined,
+          sourceLabel: best.doc.page ?? undefined,
+        };
+      }
+      if (best.doc.text) {
+        return timelineSafe({
+          via: 'kb',
+          text: best.doc.text,
+          path: best.doc.path ?? undefined,
+          sourceLabel: best.doc.kind === 'faq' ? best.doc.page : best.doc.title,
+        });
+      }
+    }
+  }
+
+  // --------------------------------------------------------- 6. topic routes
+  for (const route of TOPIC_ROUTES) {
+    if (!route.test.test(message)) continue;
+    const doc = pageDoc(route.path);
+    if (doc?.text) {
+      return timelineSafe({
+        via: 'route',
+        ruleId: route.id,
+        text: doc.text,
+        path: route.path,
+        sourceLabel: doc.title.replace(/\s*\|.*$/, ''),
+      });
+    }
+  }
+
+  // ------------------------------------------------------- 7. too little to go on
+  if (!enoughSignal) {
     return {
       via: 'ask-more',
       text: 'Tell me a bit more and I will find the right page. What are you trying to build, or what do you want to know about how the firm works?',
     };
   }
 
-  // ---------------------------------------------------------- 5/6. retrieval
-  const hits = search(message, 3);
-  const best = hits[0];
-
-  if (best && best.coverage >= MIN_COVERAGE) {
-    if (best.doc.kind === 'pointer') {
-      return {
-        via: 'pointer',
-        text: `That one is answered on the ${best.doc.page ?? 'relevant'} page rather than in a line I can quote back to you. It is worth reading there.`,
-        path: best.doc.path ?? undefined,
-        sourceLabel: best.doc.page ?? undefined,
-      };
-    }
-    if (best.doc.text) {
-      return {
-        via: 'kb',
-        text: best.doc.text,
-        path: best.doc.path ?? undefined,
-        sourceLabel: best.doc.kind === 'faq' ? best.doc.page : best.doc.title,
-      };
-    }
-  }
-
-  // ------------------------------------------------------------ 7. no answer
-  return { via: 'no-answer', text: noAnswer(ctx.contactEmail), path: '/contact', sourceLabel: 'Contact' };
+  // ------------------------------------------------------------ 8. no answer
+  return {
+    via: 'no-answer',
+    text: noAnswer(ctx.contactEmail),
+    path: '/contact',
+    sourceLabel: 'Contact',
+    offer: 'enquiry',
+  };
 }
 
-/** Openers shown in the panel, each one chosen because the site can answer it. */
+/**
+ * Openers shown in the panel: the brief's commercially useful starters
+ * (section 52), each one kept because the assistant can answer it - which
+ * scripts/test-pix.cjs asserts.
+ */
 export const STARTERS: readonly string[] = [
-  'What does Pixelette actually do?',
-  'How do you evaluate an AI system?',
-  'Do you work with blockchain?',
-  'What certifications do you hold?',
+  'Where could AI help my business?',
+  'I need to replace an existing software system.',
+  'We have a manual process we want to automate.',
+  'Could blockchain make sense for our use case?',
 ];
