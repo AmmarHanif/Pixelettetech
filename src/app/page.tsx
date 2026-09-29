@@ -276,7 +276,7 @@ export default function HomePage() {
             `hero-split--stacked` remains in the CSS: adding that one class back
             gives the full-width version at 14.4px, at the cost of a hero too
             tall to resolve in one screen. */}
-        <div className="wrap hero-split">
+        <div className="wrap hero-split hero-split--stacked">
           <div className="hero-split__copy">
           <Eyebrow>Software engineering • AI &amp; automation • Blockchain</Eyebrow>
           <h1 className="h1" style={{ marginTop: 26, fontSize: 'clamp(36px, 4.6vw, 54px)' }}>
