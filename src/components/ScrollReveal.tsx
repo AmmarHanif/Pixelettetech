@@ -36,6 +36,7 @@
  * Each element is unobserved the moment it is shown.
  */
 
+import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 /* The repeating cards worth staggering. Kept here, not in the pages, so the
@@ -43,6 +44,18 @@ import { useEffect } from 'react';
 const CARDS = '.service-card, .work-card, .ins-card, .mini-card, .arc-item';
 
 export function ScrollReveal() {
+  /* RE-ARMED ON EVERY NAVIGATION, AND THIS IS A BUG FIX, NOT A REFINEMENT.
+     This component lives in the root layout, which does NOT unmount during an
+     App Router client-side navigation. With an empty dependency array the effect
+     ran ONCE per full page load, so after navigating to a second page
+     `reveal-ready` was still on <html>, that page's [data-reveal] elements were
+     hidden by CSS, and NOTHING WAS OBSERVING THEM - the page rendered blank
+     until a refresh remounted the component. Measured before the fix: navigating
+     from / to /engineering left 8 marked elements at opacity 0.
+     Keying the effect to the pathname tears down and re-arms on each route, so
+     every page gets its own observer. */
+  const pathname = usePathname();
+
   useEffect(() => {
     const root = document.documentElement;
 
@@ -145,7 +158,7 @@ export function ScrollReveal() {
       for (const t of timers) clearTimeout(t);
       root.classList.remove('reveal-ready');
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }
