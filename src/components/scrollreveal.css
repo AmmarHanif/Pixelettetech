@@ -210,3 +210,55 @@
     transform: none;
   }
 }
+
+
+/* ---- the site-wide box ---------------------------------------------------- */
+
+/* `.card` is the bordered box used across 37 files - "What we build", "What we
+   do", the capability grids on every service page. It had NO hover of its own;
+   the only `.card:hover` rules in the stylesheet drive descendants (`.rs__*`).
+   The founder asked for a border, a lift on Y, and a shadow.
+
+   THE CLASS IS DOUBLED to (0,2,0). This stylesheet arrives by an @import at the
+   TOP of globals.css, so at equal specificity globals.css wins every tie and the
+   `transition` here would never apply.
+
+   THE BORDER CHANGES COLOUR, NOT WIDTH, AND THAT IS DELIBERATE. `.card` carries
+   a 2px border by founder instruction of 2026-09-22. Narrowing it to 1px on
+   hover would reflow the card's content box by 1px on every edge, so each card
+   would visibly jump as the pointer crossed it. Recolouring to the brand reads
+   as the same emphasis and moves nothing. */
+.card.card {
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.2s ease;
+}
+
+.card.card:hover,
+.card.card:focus-within {
+  transform: translateY(-4px);
+  border-color: var(--brand);
+  box-shadow: var(--depth-shadow);
+}
+
+/* A tap on a touch screen leaves :hover stuck on, so the lift and shadow are
+   limited to devices that can actually hover. The border still responds. */
+@media (hover: none) {
+  .card.card:hover {
+    transform: none;
+    box-shadow: var(--shadow-card);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Colour and depth stay; only the movement goes. */
+  .card.card {
+    transition: box-shadow 0.4s ease, border-color 0.2s ease;
+  }
+
+  .card.card:hover,
+  .card.card:focus-within {
+    transform: none;
+  }
+}
