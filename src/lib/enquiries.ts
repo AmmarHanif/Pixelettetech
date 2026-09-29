@@ -1,4 +1,5 @@
 import { contactEmail } from '@/content/company';
+import type { LeadBand } from '@/lib/lead-score';
 
 /**
  * Enquiry delivery: the Supabase record and the Resend notification.
@@ -73,6 +74,31 @@ export type Enquiry = {
   source: string;
   /** ISO 8601. Used in the email body; the row's own `created_at` is the record. */
   receivedAt: string;
+  /**
+   * Pix T enquiries only, since 2026-09-29: the lead score and the reference of
+   * the chat contact recorded when the visitor gave a name and an email. The
+   * contact form's enquiries carry none of this.
+   */
+  lead?: {
+    /** The `assistant_contacts` row this enquiry follows, if one was recorded. */
+    ref: string | null;
+    score: number;
+    band: LeadBand;
+    reasons: string[];
+  };
+};
+
+/**
+ * The name and email a visitor gives Pix T before chatting, recorded as they
+ * are given (founder instruction, 29 September 2026), so that a visitor who
+ * leaves before sending an enquiry is not lost. No answers, no transcript: the
+ * enquiry, if one follows, is its own row and names this one by `id`.
+ */
+export type ChatContact = {
+  id: string;
+  name: string;
+  email: string;
+  source: string;
 };
 
 /**
@@ -157,6 +183,77 @@ function logFailure(leg: string, id: string, detail: string): void {
  * `supabase/migrations/20260914120000_create_contact_enquiries.sql`.
  */
 async function storeEnquiry(enquiry: Enquiry): Promise<LegStatus> {
+  const target = supabaseTarget(enquiry.id);
+  if (target === 'unconfigured') return 'unconfigured';
+
+  // An unanswered optional question is absent, not empty. Storing `''` would
+  // make "answered with nothing" and "not answered" indistinguishable in the
+  // table, and the column checks in the migration treat NULL as the absent case.
+  const orNull = (value: string) => (value === '' ? null : value);
+
+  const row: Record<string, unknown> = {
+    id: enquiry.id,
+    name: enquiry.name,
+    company: orNull(enquiry.company),
+    email: enquiry.email,
+    objective: enquiry.objective,
+    existing: orNull(enquiry.existing),
+    deadline: orNull(enquiry.deadline),
+    success: orNull(enquiry.success),
+    source: enquiry.source,
+  };
+  const lead = enquiry.lead
+    ? {
+        lead_ref: enquiry.lead.ref,
+        lead_score: enquiry.lead.score,
+        lead_band: enquiry.lead.band,
+        lead_reasons: enquiry.lead.reasons,
+      }
+    : {};
+
+  let status = await insertRow(target, 'contact_enquiries', { ...row, ...lead }, enquiry.id);
+
+  /*
+   * The lead columns arrive with a migration of their own
+   * (20260929120000_pix_t_lead_capture.sql). If this code reaches a project
+   * where it has not been applied yet, PostgREST refuses the unknown columns,
+   * and without this the whole enquiry would be lost to a deployment-order
+   * mistake. So the row is written again without them, and the log says why.
+   * The score is not lost either: it is in the notification email.
+   *
+   * The two codes are PostgREST's "column not found" and PostgreSQL's
+   * undefined_column. Neither could be checked against a primary source from
+   * this environment, which is why both are accepted.
+   */
+  if (enquiry.lead && typeof status === 'object' && ['PGRST204', '42703'].includes(status.code)) {
+    logFailure('supabase insert', enquiry.id, 'lead columns missing - apply the lead-capture migration');
+    status = await insertRow(target, 'contact_enquiries', row, enquiry.id);
+  }
+
+  return typeof status === 'object' ? 'failed' : status;
+}
+
+/** Record the name and email a visitor gives Pix T. No email is sent for it. */
+async function storeChatContact(contact: ChatContact): Promise<LegStatus> {
+  const target = supabaseTarget(contact.id);
+  if (target === 'unconfigured') return 'unconfigured';
+  const status = await insertRow(
+    target,
+    'assistant_contacts',
+    { id: contact.id, name: contact.name, email: contact.email, source: contact.source },
+    contact.id,
+  );
+  return typeof status === 'object' ? 'failed' : status;
+}
+
+type SupabaseTarget = { base: string; serviceRole: string };
+
+/**
+ * The project to write to, or `unconfigured`.
+ *
+ * `id` is the enquiry or contact being written, used only to name a log line.
+ */
+function supabaseTarget(id: string): SupabaseTarget | 'unconfigured' {
   const url = process.env.SUPABASE_URL;
   const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -183,48 +280,57 @@ async function storeEnquiry(enquiry: Enquiry): Promise<LegStatus> {
   try {
     endpoint = new URL(url);
   } catch {
-    logFailure('supabase insert', enquiry.id, 'supabase_url_unparseable');
+    logFailure('supabase insert', id, 'supabase_url_unparseable');
     return 'unconfigured';
   }
   if (endpoint.protocol !== 'https:') {
-    logFailure('supabase insert', enquiry.id, 'supabase_url_not_https');
+    logFailure('supabase insert', id, 'supabase_url_not_https');
     return 'unconfigured';
   }
 
-  // An unanswered optional question is absent, not empty. Storing `''` would
-  // make "answered with nothing" and "not answered" indistinguishable in the
-  // table, and the column checks in the migration treat NULL as the absent case.
-  const orNull = (value: string) => (value === '' ? null : value);
+  return { base: url.replace(/\/+$/, ''), serviceRole };
+}
 
+/**
+ * One row into one table over PostgREST: `ok`, or the failure with the
+ * provider's shape-checked code, so a caller can recognise a missing column.
+ *
+ * `Prefer: return=minimal` is a requirement, not a preference: see the note on
+ * `storeEnquiry`. Both tables grant `service_role` INSERT and nothing else.
+ */
+async function insertRow(
+  target: SupabaseTarget,
+  table: 'contact_enquiries' | 'assistant_contacts',
+  row: Record<string, unknown>,
+  id: string,
+): Promise<'ok' | { code: string }> {
+  // The enquiry table keeps its original log label, which operators know.
+  const leg = table === 'contact_enquiries' ? 'supabase insert' : `supabase insert ${table}`;
   try {
-    const response = await fetch(`${url.replace(/\/+$/, '')}/rest/v1/contact_enquiries`, {
+    const response = await fetch(`${target.base}/rest/v1/${table}`, {
       method: 'POST',
       headers: {
         // Supabase's gateway authenticates on this header; PostgREST behind it
         // reads the bearer. Both carry the same service-role value.
-        'apikey': serviceRole,
-        'Authorization': `Bearer ${serviceRole}`,
+        'apikey': target.serviceRole,
+        'Authorization': `Bearer ${target.serviceRole}`,
         'Content-Type': 'application/json',
         'Prefer': 'return=minimal',
       },
-      body: JSON.stringify({
-        id: enquiry.id,
-        name: enquiry.name,
-        company: orNull(enquiry.company),
-        email: enquiry.email,
-        objective: enquiry.objective,
-        existing: orNull(enquiry.existing),
-        deadline: orNull(enquiry.deadline),
-        success: orNull(enquiry.success),
-        source: enquiry.source,
-      }),
+      body: JSON.stringify(row),
       signal: AbortSignal.timeout(TIMEOUT_MS),
       cache: 'no-store',
     });
 
     if (!response.ok) {
-      logFailure('supabase insert', enquiry.id, await describeFailure(response));
-      return 'failed';
+      let code = 'no-code';
+      try {
+        code = safeCode(await response.json());
+      } catch {
+        // A non-JSON body is of no diagnostic use and is not safe to print.
+      }
+      logFailure(leg, id, `status=${response.status} code=${code}`);
+      return { code };
     }
 
     return 'ok';
@@ -233,8 +339,8 @@ async function storeEnquiry(enquiry: Enquiry): Promise<LegStatus> {
     // Neither carries submission data, but only the name is taken, to keep the
     // promise that nothing from the body can reach a log by accident.
     const name = error instanceof Error ? error.name : 'unknown';
-    logFailure('supabase insert', enquiry.id, `exception=${name}`);
-    return 'failed';
+    logFailure(leg, id, `exception=${name}`);
+    return { code: 'exception' };
   }
 }
 
@@ -333,8 +439,20 @@ function emailBody(enquiry: Enquiry, stored: LegStatus): string {
 
   const company = enquiry.company === '' ? 'Not given' : headerSafe(enquiry.company);
 
+  // The score is ours, not the visitor's, so it sits above the marker. The
+  // reasons are fixed phrases from src/lib/lead-score.ts, never visitor text.
+  // The last line is the promise the Privacy Statement makes, repeated where
+  // the people keeping it will read it.
+  const lead = enquiry.lead
+    ? `Lead: ${enquiry.lead.band.toUpperCase()}, score ${enquiry.lead.score}/100\n` +
+      `Why: ${enquiry.lead.reasons.join('; ')}\n` +
+      `Chat contact: ${enquiry.lead.ref ?? 'not recorded'}\n` +
+      'The score only orders the inbox. A person decides whether and how to reply.\n\n'
+    : '';
+
   return (
     `${warning}A new enquiry came in through ${door}.\n\n` +
+    lead +
     `Reference: ${enquiry.id}\n` +
     `Received: ${enquiry.receivedAt}\n` +
     `Source: ${enquiry.source}\n\n` +
@@ -407,10 +525,11 @@ async function sendNotification(enquiry: Enquiry, stored: LegStatus): Promise<Le
   const safeName = headerSafe(enquiry.name);
   const safeCompany = headerSafe(enquiry.company);
 
-  const subject =
-    safeCompany === ''
-      ? `New contact enquiry: ${safeName}`
-      : `New contact enquiry: ${safeName}, ${safeCompany}`;
+  // A Pix T lead leads with its band, so the inbox can be sorted by eye.
+  const who = safeCompany === '' ? safeName : `${safeName}, ${safeCompany}`;
+  const subject = enquiry.lead
+    ? `[${enquiry.lead.band.toUpperCase()}] New Pix T lead: ${who}`
+    : `New contact enquiry: ${who}`;
 
   const payload: Record<string, unknown> = {
     from,
@@ -501,4 +620,12 @@ export async function deliverEnquiry(enquiry: Enquiry): Promise<DeliveryOutcome>
   const email = await sendNotification(enquiry, store);
 
   return { store, email };
+}
+
+/**
+ * Record a Pix T chat contact. Storage only: the team is emailed once, when the
+ * visitor's enquiry is complete, not every time someone opens the chat.
+ */
+export async function deliverChatContact(contact: ChatContact): Promise<LegStatus> {
+  return storeChatContact(contact);
 }

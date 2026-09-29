@@ -1,7 +1,8 @@
 'use server';
 
 import { contactEmail } from '@/content/company';
-import { deliverEnquiry, type Enquiry } from '@/lib/enquiries';
+import { deliverChatContact, deliverEnquiry, type Enquiry } from '@/lib/enquiries';
+import { scoreLead } from '@/lib/lead-score';
 
 /**
  * Contact form handling.
@@ -185,20 +186,77 @@ export async function submitContact(
  * messages. The only difference recorded is `source`, which the table carries
  * precisely so a second surface never has to be told apart by guesswork.
  *
- * That is why the Privacy Notice needs no change for it: it describes an
- * enquiry as a name, a company, a work email and four answers, handled by
- * Vercel, Supabase and Resend, and that is all this sends, through those three.
+ * ONE ADDITION SINCE 29 SEPTEMBER 2026: the lead score. On the founder's
+ * instruction a Pix T enquiry is scored here from its own answers
+ * (src/lib/lead-score.ts), and the score goes into the row and the
+ * notification. The contact form's enquiries are not scored. The Privacy
+ * Statement did not allow for this - it said the site does no profiling - so
+ * its replacement wording is drafted and the build refuses to pass until it is
+ * published (scripts/check-privacy-interlock.mjs).
  */
 export async function submitAssistantEnquiry(
   _previous: ContactState,
   formData: FormData,
 ): Promise<ContactState> {
-  return acceptEnquiry(formData, 'pixelettetech.com/assistant');
+  return acceptEnquiry(formData, 'pixelettetech.com/assistant', { lead: true });
+}
+
+/**
+ * What Pix T hears back when a visitor gives a name and an email. `ref` names
+ * the recorded contact so the enquiry that may follow can point at it; it is
+ * null when nothing was recorded.
+ */
+export type ChatStartState = {
+  status: 'ok' | 'unconfigured' | 'failed' | 'invalid';
+  ref: string | null;
+  errors?: Record<string, string>;
+};
+
+/**
+ * The name and email Pix T asks for before chatting (founder instruction,
+ * 29 September 2026), recorded the moment they are given so a visitor who
+ * leaves before sending an enquiry is not lost.
+ *
+ * NEVER A GATE ON THE CHAT ITSELF. Whatever happens here - nothing configured,
+ * the database down - the visitor chats on; the enquiry at the end carries the
+ * same name and email again, through the path that tells the visitor honestly
+ * whether it arrived. So this reports what happened and Pix T does not trouble
+ * the visitor with it.
+ *
+ * No email is sent from here. The team hears once, when the enquiry is complete.
+ */
+export async function startAssistantChat(formData: FormData): Promise<ChatStartState> {
+  // The same honeypot as the enquiry, answered the same way as a real contact.
+  if (field(formData, 'website').trim() !== '') {
+    return { status: 'ok', ref: crypto.randomUUID() };
+  }
+
+  const name = visible(singleLine(field(formData, 'name')));
+  const email = visible(singleLine(field(formData, 'email')));
+  const errors: Record<string, string> = {};
+  if (!name) errors.name = 'Please tell us your name.';
+  else if (name.length > MAX.name) errors.name = 'That name is too long.';
+  // Length BEFORE shape, as for the enquiry.
+  if (!email) errors.email = 'Please give us a work email so we can reply.';
+  else if (email.length > MAX.email) errors.email = 'That email address is too long.';
+  else if (!isEmail(email)) errors.email = 'That does not look like an email address.';
+  if (Object.keys(errors).length > 0) return { status: 'invalid', ref: null, errors };
+
+  const ref = crypto.randomUUID();
+  const stored = await deliverChatContact({ id: ref, name, email, source: 'pixelettetech.com/assistant' });
+  return stored === 'ok' ? { status: 'ok', ref } : { status: stored, ref: null };
 }
 
 type EnquirySource = 'pixelettetech.com/contact' | 'pixelettetech.com/assistant';
 
-async function acceptEnquiry(formData: FormData, source: EnquirySource): Promise<ContactState> {
+/* A contact reference Pix T sends back is only ever one this action issued. */
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+
+async function acceptEnquiry(
+  formData: FormData,
+  source: EnquirySource,
+  options: { lead?: boolean } = {},
+): Promise<ContactState> {
   // Honeypot. Real users never fill a field they cannot see; bots fill everything.
   //
   // The reply is the real success message, character for character. It used to
@@ -268,6 +326,16 @@ async function acceptEnquiry(formData: FormData, source: EnquirySource): Promise
     source,
     receivedAt: new Date().toISOString(),
   };
+
+  // Pix T enquiries are scored here, on the server, from the validated answers:
+  // a score computed in the browser would be whatever the browser said it was.
+  if (options.lead) {
+    const ref = field(formData, 'leadRef').trim().toLowerCase();
+    enquiry.lead = {
+      ref: UUID.test(ref) ? ref : null,
+      ...scoreLead({ email, company, objective, existing, deadline, success }),
+    };
+  }
 
   const outcome = await deliverEnquiry(enquiry);
 
