@@ -8,12 +8,21 @@
    with no JavaScript, a failed script or reduced motion is simply the plain,
    visible page. That is the opposite of how the usual library does it, and it
    is the whole reason this is hand-rolled. */
+/* FADE UP, to the AOS reference the founder gave.
+   AOS's `fade-up` starts the element BELOW its resting place and floats it up
+   while fading in - `translate3d(0, 100px, 0)` in the library. The previous 16px
+   here was a nudge rather than a fade-up and did not read as the reference.
+   40px travels visibly without the element starting so far down that a visitor
+   scrolling briskly sees it arrive late.
+   The duration is a variable so it can be tuned in one place rather than in
+   four declarations, which is what `data-aos-duration` buys on the library. */
 .reveal-ready [data-reveal] {
+  --reveal-duration: 0.6s;
   opacity: 0;
-  transform: translateY(16px);
+  transform: translate3d(0, 40px, 0);
   transition:
-    opacity 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+    opacity var(--reveal-duration) cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform var(--reveal-duration) cubic-bezier(0.22, 0.61, 0.36, 1);
   /* Hint the compositor for the two properties that actually move. Omitting
      `will-change` here is fine too, but these elements are known in advance and
      the promotion is dropped again as soon as the element settles. */
@@ -22,7 +31,7 @@
 
 .reveal-ready [data-reveal].is-revealed {
   opacity: 1;
-  transform: none;
+  transform: translate3d(0, 0, 0);
   will-change: auto;
 }
 
@@ -69,15 +78,20 @@
    exists to remove, reintroduced by cascade position rather than by the rule
    being wrong. `.work-card` was unaffected only because it had no competing
    transition to lose to. */
+/* MATCHED TO THE CASE-STUDIES IMAGE, which is the reference the founder named:
+   `.work-card .slot` lifts 4px with a 3-degree tilt and the shared
+   --depth-shadow over 0.4s. These boxes were doing a flat 3px at 0.28s with a
+   bespoke shadow, so two things that are meant to feel the same did not. Same
+   numbers, same token, same duration. */
 .service-card.service-card,
 .work-card.work-card,
 .ins-card.ins-card,
 .mini-card.mini-card,
 .arc-item.arc-item {
   transition:
-    transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 0.28s cubic-bezier(0.22, 0.61, 0.36, 1),
-    border-color 0.28s ease;
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.15s ease;
 }
 
 /* `:hover` alone would leave a keyboard user with no equivalent feedback, and
@@ -93,10 +107,12 @@
 .ins-card.ins-card:focus-within,
 .mini-card.mini-card:focus-within,
 .arc-item.arc-item:focus-within {
-  transform: translateY(-3px);
-  box-shadow:
-    0 2px 6px rgb(28 20 38 / 0.05),
-    0 14px 30px rgb(102 26 143 / 0.10);
+  /* NO rotateX - the founder rejected the tilt on sight. A straight lift,
+     so `perspective()` would do nothing and is dropped with it. The depth
+     shadow and the 0.4s timing still come from the case-studies image he
+     named as the reference. */
+  transform: translateY(-4px);
+  box-shadow: var(--depth-shadow);
 }
 
 /* Touch screens report hover in ways that leave a card stuck in its hovered
