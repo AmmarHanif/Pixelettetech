@@ -6113,7 +6113,11 @@ button.btn[disabled] {
 
 .work-card:hover .slot,
 .work-card:focus-visible .slot {
-  transform: perspective(900px) rotateX(3deg) translateY(-4px);
+  /* NO TILT. The founder rejected rotateX on the boxes and then asked for it
+     gone everywhere, so the case-studies image lifts straight too. Nothing on
+     the site tilts on hover now; `perspective()` goes with the rotation because
+     it does nothing without one. */
+  transform: translateY(-4px);
   box-shadow: var(--depth-shadow);
 }
 

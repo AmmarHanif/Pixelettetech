@@ -232,12 +232,23 @@
   transition:
     transform 0.4s ease,
     box-shadow 0.4s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    border-width 0.2s ease,
+    padding 0.2s ease;
 }
 
 .card.card:hover,
 .card.card:focus-within {
   transform: translateY(-4px);
+  /* LITERALLY 1px, to the founder's instruction, WITH THE LOSS COMPENSATED.
+     `.card` rests at `border: 2px` and `padding: 28px`. Dropping the border to
+     1px removes 1px from every edge, which would pull the content box inward
+     and make each card visibly flinch as the pointer crossed it - on 37 files
+     of grids. Adding that 1px back as padding keeps the outer box, the content
+     box and the grid row all exactly where they were: 2+28 = 1+29. Change one
+     of these numbers and you must change the other. */
+  border-width: 1px;
+  padding: 29px;
   border-color: var(--brand);
   box-shadow: var(--depth-shadow);
 }
