@@ -1,0 +1,53 @@
+/* The homepage hero visual when it is the founder's supplied artwork.
+   Deliberately small: the artwork carries the whole composition, so there is no
+   label geometry to maintain here - only the frame, the hit areas and the
+   screen-reader text. */
+
+.ha {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  /* The artwork is exactly 2:1. Declaring it stops the surrounding layout
+     jumping while the image loads, which a hero is the worst place for. */
+  aspect-ratio: 1774 / 887;
+}
+
+.ha__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* The three service links. They sit over tiles the visitor can see, so they are
+   invisible by design rather than by accident - but they are still focusable,
+   and a keyboard user gets a visible ring in the right place because the box is
+   the tile's real box. */
+.ha__hit {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  display: block;
+}
+
+.ha__hit:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+/* Off screen but still announced. NOT `display: none` and NOT
+   `visibility: hidden`, either of which would take it out of the accessibility
+   tree and leave the hero mute to a screen reader - which is the entire reason
+   this block exists. */
+.ha__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

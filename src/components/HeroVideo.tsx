@@ -50,7 +50,7 @@ export function HeroVideo() {
           className="hv-video__el"
           height={720}
           src="/video/arvr-hero-poster.webp"
-          width={1280}
+          width={720}
         />
       </div>
     );
@@ -68,7 +68,7 @@ export function HeroVideo() {
         playsInline
         poster="/video/arvr-hero-poster.webp"
         preload="metadata"
-        width={1280}
+        width={720}
       >
         <source src="/video/arvr-hero.mp4" type="video/mp4" />
       </video>

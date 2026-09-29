@@ -22,9 +22,12 @@
  * cannot fall out of register with the scene because nothing moves them.
  *
  * POSITIONS ARE PERCENTAGES OF THE FIGURE, so the labels track the image at
- * every width rather than being pinned to one breakpoint. Each label carries a
- * small 3D transform matching the plane of the panel it sits on - flat text on
- * an angled panel reads as a sticker, and this is most of what sells it.
+ * every width rather than being pinned to one breakpoint.
+ *
+ * THE LABELS ARE FLAT. An earlier version skewed each one with a perspective
+ * transform to match the plane of its tile. Against the current render that
+ * read as wonky rather than as printed-on, and the approved reference has flat
+ * text throughout, so the transform was removed rather than retuned.
  */
 
 import Link from 'next/link';
@@ -45,11 +48,6 @@ type Panel = {
   y: number;
   w: number;
   h: number;
-  /* Yaw and pitch of the panel's own plane. The scene is viewed from above and
-     to one side, so a label needs both to sit ON the glass; yaw alone still
-     reads as a flat sticker laid over a photograph. */
-  yaw: number;
-  pitch: number;
   aside: 'left' | 'right';
 };
 
@@ -59,14 +57,28 @@ type Panel = {
    The insets were 9px, so there was room to give it. */
 const FILL = 0.88;
 
+/* MEASURED OFF THE RENDER, 2026-09-28, not carried over from the previous
+   artwork. The scene was re-rendered to the founder's reference and its tiles
+   do not sit where the old ones did, so these were read from a percentage grid
+   laid over the artwork at the artwork's own aspect - the same percentages the
+   browser will use. Reusing the old numbers would have put every label off its
+   glass. */
 const PLACEMENT: Record<string, Panel> = {
-  engineering: { x: 20.4, y: 29.7, w: 18.25, h: 22.5, yaw: 21, pitch: 7, aside: 'left' },
-  ai: { x: 65.9, y: 20.4, w: 19.25, h: 20.3, yaw: -17, pitch: 6, aside: 'right' },
-  blockchain: { x: 77.5, y: 49.4, w: 19.5, h: 21.25, yaw: -15, pitch: 7, aside: 'right' },
+  engineering: { x: 18.5, y: 31, w: 25, h: 38, aside: 'left' },
+  ai: { x: 70, y: 21, w: 21, h: 35, aside: 'right' },
+  blockchain: { x: 86.5, y: 50, w: 20, h: 36, aside: 'right' },
 };
 
-/* The cube is wider than the panels, so its label gets more room. */
-const CENTRE_POS = { x: 46, y: 43.4, w: 23.5 };
+/* THE CENTRE BLOCK SITS ON THE PLINTH, NOT ON THE CUBE, AND THAT IS A
+   LEGIBILITY DECISION RATHER THAN A LAYOUT PREFERENCE. Measured against the
+   delivered pixels: on the cube the title cleared AA at 5.93:1 but the
+   supporting line came to 2.47:1, well under the 4.5 it needs, and white was no
+   escape at 3.01:1 - this render's cube is saturated where the reference's was
+   pale. On the marble the same two measure 11.14:1 and 4.63:1. The marble is
+   also FLAT, where the cube is full of bright sparkles that a contrast ratio
+   does not capture but an eye does. The label still reads as the cube's, since
+   it sits directly beneath it and the ribbons converge there. */
+const CENTRE_POS = { x: 50, y: 84, w: 34 };
 
 function Icon({ id }: { id: string }) {
   return (
@@ -131,13 +143,14 @@ export function HeroVisual() {
             key={s.id}
             style={{ left: `${p.x}%`, top: `${p.y}%`, width: `${p.w * FILL}%` }}
           >
-            <Link
-              className="hv__hit"
-              href={s.href}
-              style={{
-                transform: `perspective(760px) rotateX(${p.pitch}deg) rotateY(${p.yaw}deg)`,
-              }}
-            >
+            {/* NO 3D TRANSFORM ON THE LABEL, DELIBERATELY. It used to carry a
+                perspective rotateX/rotateY matching the plane of its tile, on
+                the theory that flat text on an angled panel reads as a sticker.
+                Against this render it simply read as WONKY, and the founder's
+                own reference settles it: the text in that reference is dead
+                flat. Skewed type also costs legibility at the size this
+                actually renders, which the scene can least afford. */}
+            <Link className="hv__hit" href={s.href}>
               <Icon id={s.id} />
               <span className="hv__title">{s.title}</span>
               <span className="hv__line">{s.description}</span>

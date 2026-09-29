@@ -55,7 +55,13 @@ export function Section({
       className={`sec${flush ? ' sec--flush' : ''}${tight ? ' sec--tight' : ''} ${className}`.trim()}
       style={style}
     >
-      <div className="wrap">{children}</div>
+      {/* `data-reveal` marks this for the scroll animation. It is INERT until
+          ScrollReveal confirms at runtime that it can reveal it again, so a page
+          without JavaScript, or with reduced motion set, renders exactly as it
+          did before - visible. See ScrollReveal.tsx. */}
+      <div className="wrap" data-reveal>
+        {children}
+      </div>
     </section>
   );
 }

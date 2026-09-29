@@ -3,7 +3,11 @@ import { IBM_Plex_Mono, Newsreader, Outfit } from 'next/font/google';
 
 import { GatedAnalytics } from '@/components/GatedAnalytics';
 import { AnalyticsEvents } from '@/components/AnalyticsEvents';
+/* Both sides, because they are not alternatives: one wraps the assistant in an
+   error boundary, the other mounts the scroll reveal. Alphabetical, matching
+   the order of the imports around them. */
 import { AssistantBoundary } from '@/components/AssistantBoundary';
+import { ScrollReveal } from '@/components/ScrollReveal';
 import { SiteAssistant } from '@/components/SiteAssistant';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
@@ -166,6 +170,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <SiteHeader />
+        <ScrollReveal />
         <main id="main">{children}</main>
         <SiteFooter />
         {/*
