@@ -303,24 +303,46 @@ async function main() {
       return dir;
     };
     const page = dir => path.join(dir, 'server', 'app', 'privacy.html');
-    let res = run(NEXT);
-    check('6.1 today\'s build is refused: the gate ships and /privacy says no profiling', res.status === 1 && /no profiling of individual visitors/.test(res.stdout), res.stdout.slice(-200));
+
+    /* THE FIXTURES BUILD THEIR OWN STATE, rather than mutating whatever the
+       current /privacy happens to say. They used to `.replace()` the sentence
+       "no profiling of individual visitors"; once the approved wording removed
+       it, every replace became a no-op - 6.2 and 6.4 went red, and 6.3 went
+       GREEN WHILE TESTING NOTHING. A test coupled to the content it is meant to
+       be independent of is disarmed by any legitimate edit to that content.
+       Derived from the interlock's own two predicates: it refuses when the gate
+       ships AND (the page says no profiling OR the page never says "score"). */
+    const SENTENCE = 'no profiling of individual visitors';
+    const saying = (html, text) => html + `<p>We run ${text}.</p>`;
+    const unsaying = html => html.split(SENTENCE).join('no such practice');
+    const unscoring = html => html.replace(/\bscor(e|es|ed|ing)\b/gi, 'ranking');
+    const write = (dir, html) => fs.writeFileSync(page(dir), html);
+    const read = dir => fs.readFileSync(page(dir), 'utf8');
     const dirs = [];
     let dir = copy();
     dirs.push(dir);
-    fs.writeFileSync(page(dir), fs.readFileSync(page(dir), 'utf8').replace('no profiling of individual visitors', 'no profiling of individual visitors other than the lead score described below'));
+    write(dir, saying(unsaying(read(dir)), SENTENCE));
+    let res = run(dir);
+    check('6.1 a /privacy that says no profiling is refused while the gate ships', res.status === 1 && /no profiling of individual visitors/.test(res.stdout), res.stdout.slice(-200));
+    dir = copy();
+    dirs.push(dir);
+    write(dir, saying(unsaying(read(dir)), SENTENCE + ' other than the lead score described below'));
     res = run(dir);
     check('6.2 a /privacy that still carries the sentence, however extended, is refused', res.status === 1);
     dir = copy();
     dirs.push(dir);
-    fs.writeFileSync(page(dir), fs.readFileSync(page(dir), 'utf8').replace('and no profiling of individual visitors', 'and one kind of profiling: the lead score Pix T gives an enquiry, which a person reviews'));
+    write(dir, saying(unsaying(read(dir)), 'one kind of profiling: the lead score Pix T gives an enquiry, which a person reviews'));
     res = run(dir);
     check('6.3 once /privacy describes the score instead, the build passes', res.status === 0, res.stdout.slice(-200));
     dir = copy();
     dirs.push(dir);
-    fs.writeFileSync(page(dir), fs.readFileSync(page(dir), 'utf8').replace(', and no profiling of individual visitors', ''));
+    write(dir, unscoring(unsaying(read(dir))));
     res = run(dir);
     check('6.4 deleting the sentence without describing the score is refused', res.status === 1 && /does not describe the score/.test(res.stdout), res.stdout.slice(-200));
+    dir = copy();
+    dirs.push(dir);
+    res = run(dir);
+    check('6.6 the build as it now stands passes: no sentence, score described', res.status === 0, res.stdout.slice(-200));
     dir = copy();
     dirs.push(dir);
     const marker = chat.ASK_NAME.split("'")[0];

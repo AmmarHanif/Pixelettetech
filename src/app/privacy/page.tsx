@@ -193,6 +193,18 @@ export default function PrivacyPage() {
             that message and whatever follows in the conversation.
           </p>
           <p className="body">
+            If you use Pix T, the assistant on this site, it asks for your name and your work email
+            before the conversation starts, and we record them as soon as you give them, so that we
+            can reply even if you leave before finishing. It then asks the same four questions as
+            the enquiry form, and which company you are with. You can skip any of those questions or
+            stop at any point. When you finish, your answers are sent to us with your name and email
+            as an enquiry.{' '}
+            <strong>
+              The questions you ask Pix T yourself are answered in your browser and are not sent to
+              us or stored.
+            </strong>
+          </p>
+          <p className="body">
             As a client or supplier, we hold the business-contact details and correspondence needed
             to run the engagement: the people we deal with, what was agreed, invoices and the
             ordinary record of the work.
@@ -206,7 +218,8 @@ export default function PrivacyPage() {
             them to an enquiry.
           </p>
           <p className="body">
-            Your enquiry is stored with the date it arrived and nothing else about your device.{' '}
+            Your enquiry, and the name and email you give Pix T, are stored with the date they arrived
+            and nothing else about your device.{' '}
             <strong>
               We do not record your IP address, your browser, your device or any fingerprint of it
               alongside your enquiry.
@@ -216,7 +229,7 @@ export default function PrivacyPage() {
 
           <h3 className="h4">Please do not send more than you need to</h3>
           <p className="body">
-            An enquiry form is for telling us what you want built. Please do not use it to send
+            An enquiry form, or Pix T, is for telling us what you want built. Please do not use it to send
             confidential material, credentials, health or other special-category information, or
             personal information about other people who are not expecting it. If a conversation
             genuinely needs that material, we will agree a proper route for it first.
@@ -291,6 +304,25 @@ export default function PrivacyPage() {
                   <td>Our legitimate interests in the security of our own systems</td>
                 </tr>
                 <tr>
+                  <td>
+                    Record the name and email you give Pix T, so that we can reply if you leave
+                    before finishing
+                  </td>
+                  <td>
+                    Our legitimate interests in replying to people who start a conversation with us
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Give an enquiry sent through Pix T a lead score, so that we can see which to
+                    answer first
+                  </td>
+                  <td>
+                    Our legitimate interests in answering first the enquiries we are best placed to
+                    help with
+                  </td>
+                </tr>
+                <tr>
                   <td>Meet tax, accounting and other legal obligations</td>
                   <td>Compliance with a legal obligation</td>
                 </tr>
@@ -329,6 +361,22 @@ export default function PrivacyPage() {
             Whether we reply, what we say, and whether we propose working together are decisions
             made by people.
           </p>
+
+          <h3 className="h4">How we prioritise enquiries from Pix T</h3>
+          <p className="body">
+            When you send an enquiry through Pix T, we give it a lead score from 0 to 100 and a band
+            (cold, warm, hot or urgent) so that we can see which enquiries to answer first. The score
+            uses only what you told Pix T: whether your email address is at a company&rsquo;s own
+            domain or a personal email provider, whether you named a company, how much you told us
+            about what you want, whether you described what exists today and what success would look
+            like, and whether you gave a deadline and how soon it is.{' '}
+            <strong>It uses nothing about your device or how you browsed the site.</strong> The score
+            is stored with your enquiry, together with the reasons for it, and you can ask us for
+            both. It only affects the order in which we look at enquiries: a person reads every
+            enquiry and decides whether and how to reply. Enquiries sent through the contact form are
+            not scored.
+          </p>
+
           <p className="body">
             Separately: the AI systems we design and build for clients run in those clients&rsquo;
             environments under their control, not here. Where we handle personal information in the
@@ -344,10 +392,11 @@ export default function PrivacyPage() {
             embedded content. Every file the site requests comes from our own domain.
           </p>
           <p className="body">
-            We run <strong>no advertising or remarketing technology, no cross-site tracking, no
-            session recording or heatmaps, and no profiling of individual visitors</strong>. We do
-            not share visitor data with advertising platforms and we do not match website behaviour
-            to a person or to a CRM record.
+            We run <strong>no advertising or remarketing technology, no cross-site tracking and no
+            session recording or heatmaps</strong>. We do not share visitor data with advertising
+            platforms, and we do not match your browsing of this website to a person or to a CRM
+            record. The one thing we do score is an enquiry you send through Pix T, as described
+            under <a href="#ai-automation">AI and technology providers</a>.
           </p>
           {ANALYTICS_ENABLED ? (
             <p className="body">
@@ -502,6 +551,13 @@ export default function PrivacyPage() {
             are holding something past it, say so and we will check.
           </p>
           <p className="body">
+            If you give Pix T your name and email but do not go on to send an enquiry, we keep them
+            for{' '}
+            <strong>12 months from when you gave them</strong>, and then delete them. An enquiry you
+            do send is kept as above, and its lead score and the reasons for it are kept and deleted
+            with it.
+          </p>
+          <p className="body">
             You do not have to wait. Ask us to delete your enquiry at any point and we will, without
             asking why. Where we have worked together, the record becomes part of the client file
             and is kept for the engagement and for six years afterwards, which is the period we may
@@ -539,7 +595,9 @@ export default function PrivacyPage() {
             unless we have compelling grounds to continue. Where we rely on your consent you can
             withdraw it at any time, which does not affect anything done before you did. The right
             to object to direct marketing is absolute and is set out under{' '}
-            <a href="#your-information">business development and marketing</a>.
+            <a href="#your-information">business development and marketing</a>. You can object to
+            your enquiry being scored. If you do, we delete the score and the reasons for it, and
+            your enquiry is read in the ordinary order.
           </p>
           <p className="body">
             To exercise any of these, email <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
