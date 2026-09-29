@@ -17,7 +17,7 @@
    The duration is a variable so it can be tuned in one place rather than in
    four declarations, which is what `data-aos-duration` buys on the library. */
 .reveal-ready [data-reveal] {
-  --reveal-duration: 0.6s;
+  --reveal-duration: 0.42s;
   opacity: 0;
   transform: translate3d(0, 40px, 0);
   transition:
@@ -44,11 +44,11 @@
 /* A gentle stagger for siblings, so a row of cards arrives as a row rather than
    as one block. Capped at six: beyond that the last card waits long enough to
    feel broken rather than choreographed. */
-.reveal-ready [data-reveal-delay='1'] { transition-delay: 0.06s; }
-.reveal-ready [data-reveal-delay='2'] { transition-delay: 0.12s; }
-.reveal-ready [data-reveal-delay='3'] { transition-delay: 0.18s; }
-.reveal-ready [data-reveal-delay='4'] { transition-delay: 0.24s; }
-.reveal-ready [data-reveal-delay='5'] { transition-delay: 0.30s; }
+.reveal-ready [data-reveal-delay='1'] { transition-delay: 0.04s; }
+.reveal-ready [data-reveal-delay='2'] { transition-delay: 0.08s; }
+.reveal-ready [data-reveal-delay='3'] { transition-delay: 0.12s; }
+.reveal-ready [data-reveal-delay='4'] { transition-delay: 0.16s; }
+.reveal-ready [data-reveal-delay='5'] { transition-delay: 0.20s; }
 
 /* Belt and braces. The component already refuses to add `reveal-ready` under
    reduced motion, but if it ever did, this makes the effect inert rather than
