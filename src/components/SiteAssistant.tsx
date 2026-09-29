@@ -353,17 +353,31 @@ export function SiteAssistant({ context }: { context: PixContext }) {
 
   return (
     <>
+      {/* THE LAUNCHER IS THE PIXELETTE MARK, not the words "Ask Pix T".
+          Because the visible label is gone, the button carries an `aria-label`:
+          a control whose only content is an image has NO accessible name
+          otherwise, and a screen reader would announce it as "button". The mark
+          itself is `alt=""` and aria-hidden, so it is not announced twice.
+          The mark is the WHITE tree — the colour one is drawn in the same
+          var(--brand) as this button and would be invisible on it. */}
       <button
         aria-expanded={open}
         aria-controls="site-assistant-panel"
-        className="asst-launch"
+        aria-label={open ? `Close ${PIX_T_NAME}` : `Ask ${PIX_T_NAME}, ${PIX_T_DESCRIPTOR}`}
+        className={`asst-launch${open ? ' asst-launch--open' : ''}`}
         onClick={() => {
           setOpened(true);
           setOpen(v => !v);
         }}
         type="button"
       >
-        {open ? 'Close' : `Ask ${PIX_T_NAME}`}
+        {open ? (
+          <svg aria-hidden className="asst-launch__x" viewBox="0 0 24 24">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        ) : (
+          <img alt="" aria-hidden className="asst-launch__mark" src="/pixelette-mark-white.svg" />
+        )}
       </button>
 
       {opened ? (

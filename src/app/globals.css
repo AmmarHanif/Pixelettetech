@@ -3594,21 +3594,43 @@ button.btn[disabled] {
    A chat window that covers the page it is answering about makes the visitor
    choose between the answer and the evidence for it, and every answer here is
    offered with a link to the page it came from. */
+/* THE LAUNCHER IS NOW A ROUND MARK, not a text pill. The padding was 12px/20px
+   for the words "Ask Pix T"; with only the tree inside it that asymmetry would
+   render an oval. Equal padding and a fixed box make it a circle. */
 .asst-launch {
   position: fixed;
   right: 20px;
   bottom: 20px;
   z-index: 60;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
   border: 1px solid var(--brand);
   background: var(--brand);
   color: #fff;
   border-radius: 999px;
-  padding: 12px 20px;
   font: inherit;
-  font-size: 14px;
-  font-weight: 600;
   cursor: pointer;
   box-shadow: 0 6px 20px rgba(38, 3, 59, 0.22);
+}
+
+.asst-launch__mark {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+
+/* The close glyph is drawn rather than typed, so it needs its own stroke - it
+   inherits none from the button's font. */
+.asst-launch__x {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  fill: none;
 }
 
 .asst-launch:hover {

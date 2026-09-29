@@ -78,13 +78,19 @@
    exists to remove, reintroduced by cascade position rather than by the rule
    being wrong. `.work-card` was unaffected only because it had no competing
    transition to lose to. */
+/* `.work-card` IS DELIBERATELY ABSENT FROM THESE LISTS.
+   It already has its own hover, on the IMAGE alone - `.work-card:hover .slot`
+   lifts the screenshot and leaves the title, description and kicker still.
+   Adding the card to the shared lift moved the whole block, text included, and
+   the founder rejected that on sight: "just image not text on hover".
+   Two lifts were also stacking - the card rose 4px and the image rose again
+   inside it. Leave the card still and let the image move. */
 /* MATCHED TO THE CASE-STUDIES IMAGE, which is the reference the founder named:
    `.work-card .slot` lifts 4px with a 3-degree tilt and the shared
    --depth-shadow over 0.4s. These boxes were doing a flat 3px at 0.28s with a
    bespoke shadow, so two things that are meant to feel the same did not. Same
    numbers, same token, same duration. */
 .service-card.service-card,
-.work-card.work-card,
 .ins-card.ins-card,
 .mini-card.mini-card,
 .arc-item.arc-item {
@@ -98,12 +104,10 @@
    these cards contain links. The lift is small on purpose - 3px reads as
    responsive, 8px reads as a toy. */
 .service-card.service-card:hover,
-.work-card.work-card:hover,
 .ins-card.ins-card:hover,
 .mini-card.mini-card:hover,
 .arc-item.arc-item:hover,
 .service-card.service-card:focus-within,
-.work-card.work-card:focus-within,
 .ins-card.ins-card:focus-within,
 .mini-card.mini-card:focus-within,
 .arc-item.arc-item:focus-within {
@@ -123,7 +127,6 @@
      leave the lift stuck on a touch device - the exact thing this block is for.
      Raising specificity anywhere means raising it in every override of it. */
   .service-card.service-card:hover,
-  .work-card.work-card:hover,
   .ins-card.ins-card:hover,
   .mini-card.mini-card:hover,
   .arc-item.arc-item:hover {
@@ -189,7 +192,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .service-card.service-card,
-  .work-card.work-card,
   .ins-card.ins-card,
   .mini-card.mini-card,
   .arc-item.arc-item {
@@ -198,12 +200,10 @@
 
   /* The shadow stays - it is depth, not motion - but nothing moves. */
   .service-card.service-card:hover,
-  .work-card.work-card:hover,
   .ins-card.ins-card:hover,
   .mini-card.mini-card:hover,
   .arc-item.arc-item:hover,
   .service-card.service-card:focus-within,
-  .work-card.work-card:focus-within,
   .ins-card.ins-card:focus-within,
   .mini-card.mini-card:focus-within,
   .arc-item.arc-item:focus-within {
