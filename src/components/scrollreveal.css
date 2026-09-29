@@ -223,30 +223,44 @@
    TOP of globals.css, so at equal specificity globals.css wins every tie and the
    `transition` here would never apply.
 
-   THE BORDER CHANGES COLOUR, NOT WIDTH, AND THAT IS DELIBERATE. `.card` carries
-   a 2px border by founder instruction of 2026-09-22. Narrowing it to 1px on
-   hover would reflow the card's content box by 1px on every edge, so each card
-   would visibly jump as the pointer crossed it. Recolouring to the brand reads
-   as the same emphasis and moves nothing. */
+   THE BORDER NARROWS TO 1px AND THE PADDING ABSORBS IT. `.card` carries a 2px
+   border by founder instruction of 2026-09-22 and a 1px hover border by his
+   instruction of 2026-09-29; 2+28 = 1+29 satisfies both without moving anything.
+   An earlier revision of this comment said the width must never change, which
+   was true only because that revision had no compensation. */
 .card.card {
+  /* ONLY COMPOSITED AND PAINT PROPERTIES ARE TRANSITIONED HERE. transform is
+     composited, box-shadow and border-color are paint-only; none of them can
+     move a neighbour. `border-width` and `padding` are DELIBERATELY ABSENT and
+     must never be added - see the hover rule for what happens when they are. */
   transition:
     transform 0.4s ease,
     box-shadow 0.4s ease,
-    border-color 0.2s ease,
-    border-width 0.2s ease,
-    padding 0.2s ease;
+    border-color 0.2s ease;
 }
 
 .card.card:hover,
 .card.card:focus-within {
-  transform: translateY(-4px);
-  /* LITERALLY 1px, to the founder's instruction, WITH THE LOSS COMPENSATED.
-     `.card` rests at `border: 2px` and `padding: 28px`. Dropping the border to
-     1px removes 1px from every edge, which would pull the content box inward
-     and make each card visibly flinch as the pointer crossed it - on 37 files
-     of grids. Adding that 1px back as padding keeps the outer box, the content
-     box and the grid row all exactly where they were: 2+28 = 1+29. Change one
-     of these numbers and you must change the other. */
+  transform: translate3d(0, -4px, 0);
+  /* LITERALLY 1px, to the founder's instruction, WITH THE LOSS COMPENSATED AND
+     APPLIED IN A SINGLE FRAME.
+
+     `.card` rests at `border: 2px` + `padding: 28px`. The hover state is 1px +
+     29px, so the border box, the content box and the grid row are all IDENTICAL
+     in both states: 2+28 = 1+29. Change one of these numbers and you must change
+     the other.
+
+     THE ENDPOINTS WERE ALWAYS SAFE. THE TRANSITION BETWEEN THEM WAS NOT, and it
+     is the bug the founder reported on 2026-09-29 as boxes moving each other.
+     Transitioning these two properties made the browser interpolate them
+     independently, and border-width snaps to whole device pixels while padding
+     does not: measured live at border-width 1.71429px against padding 28px, a
+     sum of 29.71 rather than 30. The content box therefore changed width
+     mid-transition, the text could rewrap, the card's height changed, and the
+     whole grid row reflowed - so hovering one card moved the others.
+
+     Leaving them out of the transition list is the fix. Both land in the same
+     style recalculation, there is no intermediate state, and nothing moves. */
   border-width: 1px;
   padding: 29px;
   border-color: var(--brand);

@@ -3618,8 +3618,12 @@ button.btn[disabled] {
 
 .asst-launch__mark {
   display: block;
-  width: 28px;
-  height: 28px;
+  /* The mark is 36.4 x 50 - taller than it is wide, because the trunk and its
+     base bar are part of it. Forced into a square it letterboxes to about 20px
+     and reads as a scatter of squares rather than a tree, so the height leads
+     and the width follows. */
+  width: auto;
+  height: 30px;
 }
 
 /* The close glyph is drawn rather than typed, so it needs its own stroke - it
