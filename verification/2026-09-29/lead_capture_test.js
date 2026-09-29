@@ -3,7 +3,10 @@
  * instruction: "At the start ask for name and email then start chatting. Hi
  * (Visitor Name) Greetings how Can i help you? Discover what he want. Lead
  * Scoring Email Alert Store in Supabase." Extended the same day for the fixes
- * the security review asked for (S1-S5, N1-N7).
+ * the security review asked for (S1-S5, N1-N7), and for the three its re-check
+ * asked for (NEW-1 to NEW-3). Once the approved Statement was published, the
+ * interlock cases in sections [6] and [8] were rebuilt to write their own
+ * Statement, so the live page's wording cannot disarm them (see section [6]).
  *
  *   [1] the scoring rules, band by band, and that they explain themselves
  *   [2] the chat's own steps: the name, the email, the greeting, discovery
@@ -81,6 +84,7 @@ const RLO = String.fromCharCode(0x202e);
 const ZWSP = String.fromCharCode(0x200b);
 const SHY = String.fromCharCode(0xad);
 const CYRILLIC_E = String.fromCharCode(0x435);
+const RSQUO = String.fromCharCode(0x2019);
 
 /* Every outbound call is recorded and answered from the plan, by leg. A plan
    entry may be a list, answered in order, for a leg called more than once. */
@@ -352,6 +356,26 @@ async function main() {
   const formMail = calls.find(x => x.leg === 'email');
   check('4.13 the contact form is not scored', !!formRow && !('lead_score' in formRow.body) && !('lead_ref' in formRow.body));
   check('4.14 and its alert has no score', !!formMail && formMail.body.subject.startsWith('New contact enquiry: ') && !formMail.body.text.includes('Lead: '));
+  reset();
+  configure();
+  plan = { store: { status: 201 }, email: { status: 200 } };
+  await submitAssistantEnquiry(idle, formOf(LEAD, { email: ['founder', 'xn--pxelette-thh.example'].join('@'), leadRef: ref }));
+  const punyText = (calls.find(x => x.leg === 'email') || { body: { text: '' } }).body.text;
+  check('4.15 a look-alike domain in its plain-ASCII (xn--) spelling is flagged above the marker (re-check NEW-3)',
+    punyText.indexOf('CAUTION: the email address has an internationalised (xn--) domain') > -1 &&
+      punyText.indexOf('CAUTION: the email address') < punyText.indexOf(MARKER),
+    punyText.slice(0, 300));
+  reset();
+  configure();
+  plan = { store: { status: 201 }, email: { status: 200 } };
+  r = await submitAssistantEnquiry(idle, formOf(LEAD, { name: 'Pixelette Finance Team', company: '', leadRef: ref }));
+  const nameText = (calls.find(x => x.leg === 'email') || { body: { text: '' } }).body.text;
+  check('4.16 Pixelette\'s name in the name field alone, with no company, is flagged (re-check NEW-3)',
+    r.status === 'success' &&
+      nameText.indexOf("CAUTION: this enquiry uses Pixelette's own name or domain") > -1 &&
+      nameText.indexOf('CAUTION: this enquiry') < nameText.indexOf(MARKER),
+    `${r.status}: ${nameText.slice(0, 300)}`);
+  check('4.17 an ordinary enquiry carries no caution', text.length > 0 && !text.includes('CAUTION'));
 
   console.log('\n[5] A database without the lead columns');
   for (const code of ['PGRST204', '42703']) {
@@ -399,11 +423,6 @@ async function main() {
       return dir;
     };
     const page = dir => path.join(dir, 'server', 'app', 'privacy.html');
-    const edit = (dir, fn) => fs.writeFileSync(page(dir), fn(fs.readFileSync(page(dir), 'utf8')));
-    const approve = html =>
-      html
-        .replace(OLD_SENTENCE, APPROVED_SENTENCE)
-        .replace('</main>', `<h3 id="pix-t-lead-score">How we prioritise enquiries from Pix T</h3><p>${APPROVED_PARAGRAPH}</p></main>`);
     const scrub = (dir, needle, replacement, filter) => {
       for (const file of walk(dir)) {
         if (!filter(file)) continue;
@@ -412,46 +431,86 @@ async function main() {
       }
     };
 
+    /* THE FIXTURES WRITE THEIR OWN STATEMENT. They used to edit the live
+       /privacy, replacing its old sentence. Once the founder published the
+       approved wording (main, c3d647b, 29 September), every such replace was a
+       no-op: the negative cases saw a compliant page and went red, and a case
+       could pass while testing nothing. Each case below writes the whole of
+       the page's <main> itself, so what /privacy says today cannot disarm it.
+       The live page is checked once, on its own terms (6.1). */
+    const MARKED =
+      `<h3 id="pix-t-lead-score">How we prioritise enquiries from Pix T</h3><p>${APPROVED_PARAGRAPH}</p>` +
+      `<p>We run ${APPROVED_SENTENCE}.</p>`;
+    const OLD = `<p>We run ${OLD_SENTENCE}.</p>`;
+    const plus = sentence => `${MARKED}<p>${sentence}</p>`;
+    const MAIN = /<main\b[^>]*>[\s\S]*<\/main>/;
+    const withStatement = body => {
+      const dir = copy();
+      const html = fs.readFileSync(page(dir), 'utf8');
+      if (!MAIN.test(html)) throw new Error('the built /privacy has no <main> for the fixtures to write');
+      fs.writeFileSync(page(dir), html.replace(MAIN, () => `<main id="main">${body}</main>`));
+      return dir;
+    };
+
     let res = run(NEXT);
-    check('6.1 today\'s build is refused: lead capture ships and /privacy says no profiling', res.status === 1 && /no profiling/.test(res.stdout), res.stdout.slice(-300));
-    let dir = copy();
-    edit(dir, approve);
+    check('6.1 the build as it stands passes for the right reason: lead capture ships and /privacy is ready',
+      res.status === 0 && /lead capture ships/.test(res.stdout) && /\/privacy ready/.test(res.stdout), res.stdout.slice(-300));
+    let dir = withStatement(MARKED);
     res = run(dir);
     check('6.2 the drafted wording, with its marker, passes', res.status === 0, res.stdout.slice(-300));
+    dir = withStatement(OLD);
+    const flagged = run(dir);
     res = run(dir, false);
-    check('6.3 NEXT_OUTPUT_DIR alone is ignored: without the test flag the real build is checked', res.status === 1, res.stdout.slice(-200));
+    check('6.3 NEXT_OUTPUT_DIR alone is ignored: the old Statement it points at is refused only with the test flag',
+      flagged.status === 1 && /no profiling/.test(flagged.stdout) && /pix-t-lead-score/.test(flagged.stdout) &&
+        res.stdout === run(NEXT, false).stdout && res.stdout !== flagged.stdout,
+      `${flagged.stdout.slice(-150)} | ${res.stdout.slice(-150)}`);
     const falseWordings = [
-      ['no profiling or scoring of individual visitors', html => approve(html).replace(APPROVED_SENTENCE, 'no profiling or scoring of individual visitors')],
-      ['we do not score or profile visitors', html => approve(html).replace(APPROVED_SENTENCE, 'no advertising. We do not score or profile visitors')],
-      ['no profiling of visitors, with "scored" elsewhere', html => html.replace(OLD_SENTENCE, 'no profiling of visitors').replace('</main>', '<p>Nothing here is scored.</p></main>')],
-      ['the old phrase split by a soft hyphen, plus "no scoring"', html => approve(html).replace(APPROVED_SENTENCE, `no pro${SHY}filing of individual visitors and no scoring`)],
-      ['the old phrase split by a soft-hyphen entity', html => approve(html).replace(APPROVED_SENTENCE, 'no pro&shy;filing of individual visitors')],
+      ['no profiling or scoring of individual visitors', plus('We run no profiling or scoring of individual visitors.')],
+      ['we do not score or profile visitors', plus('We do not score or profile visitors.')],
+      ['no profiling of visitors, with "scored" elsewhere', '<p>We run no profiling of visitors.</p><p>Nothing here is scored.</p>'],
+      ['the old phrase split by a soft hyphen, plus "no scoring"', plus(`We run no pro${SHY}filing of individual visitors and no scoring.`)],
+      ['the old phrase split by a soft-hyphen entity', plus('We run no pro&shy;filing of individual visitors.')],
     ];
-    for (const [label, fn] of falseWordings) {
-      dir = copy();
-      edit(dir, fn);
-      res = run(dir);
+    for (const [label, body] of falseWordings) {
+      res = run(withStatement(body));
       check(`6.4 refused: ${label} (review S1)`, res.status === 1, res.stdout.slice(-200));
     }
-    dir = copy();
-    edit(dir, html => approve(html).replace(' id="pix-t-lead-score"', ''));
-    res = run(dir);
+    res = run(withStatement(MARKED.replace(' id="pix-t-lead-score"', '')));
     check('6.5 the drafted wording without its marker is refused', res.status === 1 && /pix-t-lead-score/.test(res.stdout), res.stdout.slice(-200));
     const gateMarker = chat.ASK_NAME.split("'")[0];
-    dir = copy();
+    dir = withStatement(OLD);
     scrub(dir, gateMarker, 'Hello there. ', f => /\.(js|html|rsc)$/.test(f) && !f.includes(`${path.sep}server${path.sep}chunks`));
     res = run(dir);
     check('6.6 with the gate hidden from the pages, the scoring in the server output still refuses the build (review S1)', res.status === 1 && /scoring in server/.test(res.stdout), res.stdout.slice(-300));
-    dir = copy();
+    dir = withStatement(OLD);
     scrub(dir, gateMarker, 'Hello there. ', f => /\.(js|html|rsc)$/.test(f));
     scrub(dir, 'Email not at a listed personal provider', 'Something else entirely', f => f.endsWith('.js'));
     res = run(dir);
-    check('6.7 with no gate and no scoring anywhere, nothing is held back', res.status === 0, res.stdout.slice(-300));
-    dir = copy();
-    edit(dir, approve);
+    check('6.7 with no gate and no scoring anywhere, even the old Statement holds nothing back', res.status === 0 && /lead capture absent/.test(res.stdout), res.stdout.slice(-300));
+    dir = withStatement(MARKED);
     scrub(dir, 'as soon as you give them', 'when you like', f => f.endsWith('.js'));
     res = run(dir);
     check('6.8 the approved Statement is not enough if the notice does not say the details are recorded at once (review S5)', res.status === 1 && /as soon as you give them/.test(res.stdout), res.stdout.slice(-300));
+    /* The approved paragraph published, with a sentence it makes false beside it. */
+    const contradictions = [
+      [`We don${RSQUO}t profile visitors. (the typographic apostrophe this page uses)`, `We don${RSQUO}t profile visitors.`],
+      ['We don&#8217;t score visitors. (the same, as a character reference)', 'We don&#8217;t score visitors.'],
+      ["Pixelette doesn't profile or score visitors.", "Pixelette doesn't profile or score visitors."],
+      ['We will not profile you.', 'We will not profile you.'],
+      ['There is no individual profiling.', 'There is no individual profiling.'],
+      ['We cannot score you.', 'We cannot score you.'],
+      ['We run no cross-site profiling.', 'We run no cross-site profiling.'],
+      ['We must not profile visitors.', 'We must not profile visitors.'],
+    ];
+    for (const [label, sentence] of contradictions) {
+      res = run(withStatement(plus(sentence)));
+      check(`6.9 refused with the marker present: ${label} (re-check NEW-1)`, res.status === 1, res.stdout.slice(-200));
+    }
+    res = run(withStatement(MARKED.replace('<h3 id="pix-t-lead-score">', '<!-- <h3 id="pix-t-lead-score"> --><h3>')));
+    check('6.10 a marker inside an HTML comment does not count', res.status === 1 && /pix-t-lead-score/.test(res.stdout), res.stdout.slice(-200));
+    res = run(withStatement(plus('&#x110000; &#99999999999;')));
+    check('6.11 a character reference that is no character is read as a space, not a crash', res.status === 0 && /privacy interlock passed/.test(res.stdout), (res.stdout + res.stderr).slice(-200));
   }
 
   console.log('\n[7] The rate limits');
@@ -522,38 +581,93 @@ async function main() {
   };
   const config = loadConfig(REPO);
   let out = guarded(() => config(PHASE_PRODUCTION_BUILD));
-  check('8.1 a production build of today\'s source is refused', !!out.error && /PRIVACY INTERLOCK/.test(out.error.message) && /no profiling/.test(out.error.message), out.error ? out.error.message.slice(0, 200) : 'no error');
+  check('8.1 a production build of today\'s source goes ahead: the published Statement covers lead capture', !out.error, out.error && out.error.message.slice(0, 200));
   out = guarded(() => config(PHASE_DEVELOPMENT_SERVER));
   check('8.2 development is not held up by it', !out.error && !!out.value && out.value.poweredByHeader === false);
-  out = guarded(() => config(PHASE_PRODUCTION_BUILD), { PIX_T_PRIVACY_INTERLOCK: 'bypass-for-local-testing-only' });
-  check('8.3 a local test build may bypass it, deliberately', !out.error);
-  out = guarded(() => config(PHASE_PRODUCTION_BUILD), { PIX_T_PRIVACY_INTERLOCK: 'bypass-for-local-testing-only', VERCEL: '1' });
-  const onCi = guarded(() => config(PHASE_PRODUCTION_BUILD), { PIX_T_PRIVACY_INTERLOCK: 'bypass-for-local-testing-only', CI: '1' });
-  check('8.4 the bypass is refused on Vercel and in CI', !!out.error && !!onCi.error);
-  /* A copy of the sources the check reads, with the drafted wording in place. */
+  /* A copy of the sources the check reads. ITS PRIVACY PAGE IS WRITTEN BY EACH
+     CASE, for the reason given in section 6: the live page's wording must not
+     be able to disarm a negative case. */
   const tree = fs.mkdtempSync(path.join(os.tmpdir(), 'interlock-src-'));
   dirs.push(tree);
-  for (const rel of ['next.config.ts', 'scripts/privacy-interlock-rules.cjs', 'src/lib/lead-score.ts', 'src/app/privacy/page.tsx', 'src/components/SiteAssistant.tsx']) {
+  for (const rel of ['next.config.ts', 'scripts/privacy-interlock-rules.cjs', 'src/lib/lead-score.ts', 'src/components/SiteAssistant.tsx']) {
     fs.mkdirSync(path.dirname(path.join(tree, rel)), { recursive: true });
     fs.copyFileSync(path.join(REPO, rel), path.join(tree, rel));
   }
+  fs.mkdirSync(path.join(tree, 'src/app/privacy'), { recursive: true });
   fs.symlinkSync(path.join(REPO, 'node_modules'), path.join(tree, 'node_modules'));
   const pageFile = path.join(tree, 'src/app/privacy/page.tsx');
-  const original = fs.readFileSync(pageFile, 'utf8');
-  const approvedSource = original
-    .replace(', and no profiling of individual visitors', '')
-    .replace('<section id="ai-automation">', `<section id="ai-automation">\n<h3 className="h4" id="pix-t-lead-score">How we prioritise enquiries from Pix T</h3>\n<p className="body">${APPROVED_PARAGRAPH}</p>`);
-  check('8.5 (setup) the drafted wording could be placed in the copied page', approvedSource !== original && approvedSource.includes('pix-t-lead-score') && !approvedSource.includes('no profiling of individual visitors'));
-  fs.writeFileSync(pageFile, approvedSource);
-  out = guarded(() => loadConfig(tree)(PHASE_PRODUCTION_BUILD));
+  const pageOf = body => `export default function PrivacyPage() {\n  return (\n    <main>\n${body}\n    </main>\n  );\n}\n`;
+  const MARKED_JSX =
+    `      <h3 className="h4" id="pix-t-lead-score">How we prioritise enquiries from Pix T</h3>\n` +
+    `      <p className="body">${APPROVED_PARAGRAPH}</p>\n      <p className="body">We run ${APPROVED_SENTENCE}.</p>`;
+  const OLD_PAGE = pageOf(`      <p className="body">We run ${OLD_SENTENCE}.</p>`);
+  const APPROVED_PAGE = pageOf(MARKED_JSX);
+  const plusJsx = jsx => pageOf(`${MARKED_JSX}\n      ${jsx}`);
+  const build = (source, env) => {
+    fs.writeFileSync(pageFile, source);
+    return guarded(() => loadConfig(tree)(PHASE_PRODUCTION_BUILD), env);
+  };
+  out = build(OLD_PAGE, { PIX_T_PRIVACY_INTERLOCK: 'bypass-for-local-testing-only' });
+  check('8.3 a local test build may bypass it, deliberately', !out.error, out.error && out.error.message.slice(0, 200));
+  out = build(OLD_PAGE, { PIX_T_PRIVACY_INTERLOCK: 'bypass-for-local-testing-only', VERCEL: '1' });
+  const onCi = build(OLD_PAGE, { PIX_T_PRIVACY_INTERLOCK: 'bypass-for-local-testing-only', CI: '1' });
+  check('8.4 the bypass is refused on Vercel and in CI', !!out.error && !!onCi.error);
+  out = build(OLD_PAGE);
+  check('8.5 without the bypass, the old Statement is refused on both counts',
+    !!out.error && /no profiling/.test(out.error.message) && /pix-t-lead-score/.test(out.error.message), out.error ? out.error.message.slice(0, 200) : 'no error');
+  out = build(APPROVED_PAGE);
   check('8.6 with the drafted wording in the source, a production build goes ahead', !out.error, out.error && out.error.message.slice(0, 300));
-  fs.writeFileSync(pageFile, approvedSource.replace(' id="pix-t-lead-score"', ''));
-  out = guarded(() => loadConfig(tree)(PHASE_PRODUCTION_BUILD));
+  out = build(APPROVED_PAGE.replace(' id="pix-t-lead-score"', ''));
   check('8.7 without the marker it is refused', !!out.error && /pix-t-lead-score/.test(out.error.message));
-  fs.writeFileSync(pageFile, original);
-  fs.renameSync(path.join(tree, 'src/lib/lead-score.ts'), path.join(tree, 'src/lib/lead-score.ts.off'));
+  fs.writeFileSync(pageFile, OLD_PAGE);
+  const scoringFile = path.join(tree, 'src/lib/lead-score.ts');
+  const movedScoring = path.join(tree, 'src/lib/scoring/leads.ts');
+  fs.mkdirSync(path.dirname(movedScoring), { recursive: true });
+  fs.renameSync(scoringFile, movedScoring);
   out = guarded(() => loadConfig(tree)(PHASE_PRODUCTION_BUILD));
-  check('8.8 a tree without lead capture is not held back', !out.error, out.error && out.error.message.slice(0, 200));
+  check('8.8 moving the scoring module does not switch the check off (re-check NEW-2c)', !!out.error && /no profiling/.test(out.error.message), out.error ? out.error.message.slice(0, 200) : 'no error');
+  fs.renameSync(movedScoring, scoringFile);
+  const assistantFile = path.join(tree, 'src/components/SiteAssistant.tsx');
+  const assistantOriginal = fs.readFileSync(assistantFile, 'utf8');
+  fs.renameSync(scoringFile, `${scoringFile}.off`);
+  fs.writeFileSync(assistantFile, 'export default function SiteAssistant() {\n  return null;\n}\n');
+  out = guarded(() => loadConfig(tree)(PHASE_PRODUCTION_BUILD));
+  check('8.9 a tree whose sources carry no lead capture is not held back', !out.error, out.error && out.error.message.slice(0, 200));
+  fs.renameSync(`${scoringFile}.off`, scoringFile);
+  fs.writeFileSync(assistantFile, assistantOriginal);
+  out = build(APPROVED_PAGE.replace('<h3 className="h4" id="pix-t-lead-score">', '{/* <h3 id="pix-t-lead-score"> */}<h3 className="h4">'));
+  check('8.10 a marker only inside a comment does not count (re-check NEW-2a)', !!out.error && /pix-t-lead-score/.test(out.error.message), out.error ? out.error.message.slice(0, 200) : 'no error');
+  out = build(plusJsx('<p className="body">We don&rsquo;t profile visitors.</p>'));
+  check('8.11 "don&rsquo;t profile" in the source is refused (re-check NEW-1)', !!out.error && /don't profile/.test(out.error.message), out.error ? out.error.message.slice(0, 200) : 'no error');
+  out = build(plusJsx(`<p className="body">Pixelette doesn&apos;t{' '}\n<em>score</em> visitors.</p>`));
+  check('8.12 so is a negation split by a tag and a JSX space', !!out.error && /doesn't score/.test(out.error.message), out.error ? out.error.message.slice(0, 200) : 'no error');
+  fs.writeFileSync(pageFile, APPROVED_PAGE);
+  const oldNotice = assistantOriginal
+    .replace('We record your name and email as soon as you give them, so the team', 'We use your name and email to respond to you, so the team')
+    .replace(/as soon as you give\s+them"\. \*\//, 'as soon as you give them". */');
+  check('8.13 (setup) the old notice back in place, the phrase quoted on one line in a comment',
+    oldNotice.includes('as soon as you give them". */') && !oldNotice.includes('as soon as you give them, so'));
+  fs.writeFileSync(assistantFile, oldNotice);
+  out = guarded(() => loadConfig(tree)(PHASE_PRODUCTION_BUILD));
+  check('8.14 a notice quoted only in a comment does not count (re-check NEW-2b)', !!out.error && /as soon as you give them/.test(out.error.message), out.error ? out.error.message.slice(0, 200) : 'no error');
+  fs.writeFileSync(assistantFile, assistantOriginal.replace('as soon as you give them, so the team', 'as soon as you\n                give them, so the team'));
+  out = guarded(() => loadConfig(tree)(PHASE_PRODUCTION_BUILD));
+  check('8.15 the real notice re-wrapped over two lines still counts', !out.error, out.error && out.error.message.slice(0, 200));
+  fs.writeFileSync(assistantFile, assistantOriginal);
+  const scoringOriginal = fs.readFileSync(scoringFile, 'utf8');
+  fs.writeFileSync(scoringFile, scoringOriginal.split('Email not at a listed personal provider').join('Work email given'));
+  out = guarded(() => loadConfig(tree)(PHASE_PRODUCTION_BUILD), { PIX_T_PRIVACY_INTERLOCK: 'bypass-for-local-testing-only' });
+  check('8.16 scoring code without the phrase the output check looks for is refused, bypass or not (re-check NEW-2c)', !!out.error && /SCORING_MARKER/.test(out.error.message), out.error ? out.error.message.slice(0, 200) : 'no error');
+  fs.writeFileSync(scoringFile, scoringOriginal);
+  const realArgv = process.argv;
+  process.argv = [realArgv[0], path.join(REPO, 'node_modules', '.bin', 'next'), 'lint'];
+  out = build(OLD_PAGE);
+  process.argv = realArgv;
+  check('8.17 `next lint`, which loads the config in the build phase but builds nothing, is not held up even by the old Statement', !out.error, out.error && out.error.message.slice(0, 200));
+  fs.writeFileSync(scoringFile, `// ${'Email not at a listed personal provider'}\n${scoringOriginal.split('Email not at a listed personal provider').join('Work email given')}`);
+  out = guarded(() => loadConfig(tree)(PHASE_PRODUCTION_BUILD), { PIX_T_PRIVACY_INTERLOCK: 'bypass-for-local-testing-only' });
+  check('8.18 and the phrase kept only in a comment does not count, since comments do not ship', !!out.error && /SCORING_MARKER/.test(out.error.message), out.error ? out.error.message.slice(0, 200) : 'no error');
+  fs.writeFileSync(scoringFile, scoringOriginal);
 
   for (const d of dirs) fs.rmSync(d, { recursive: true, force: true });
   fs.rmSync(HEADERS_STUB, { force: true });

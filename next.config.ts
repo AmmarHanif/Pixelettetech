@@ -13,9 +13,15 @@ import { PHASE_PRODUCTION_BUILD } from 'next/constants';
  * `npm run build`. A host whose build command is a bare `next build` would skip
  * it. Every production build evaluates this file, however it is started, so the
  * same rules (scripts/privacy-interlock-rules.cjs) are applied here to the
- * source: while src/lib/lead-score.ts exists, /privacy must carry the approved
- * scoring paragraph and say nothing the score makes false, and the notice where
- * Pix T asks for a name and email must say they are recorded at once.
+ * source: while any file under src/ carries lead capture, /privacy must carry
+ * the approved scoring paragraph and say nothing the score makes false, and the
+ * notice where Pix T asks for a name and email must say they are recorded at
+ * once.
+ *
+ * Lead capture is recognised by what the code says, not by a file's path, and
+ * comments count for nothing in the tests a page must pass (security re-check
+ * NEW-2): moving the scoring module, or quoting the marker or the notice in a
+ * comment, must neither switch the check off nor satisfy it.
  *
  * A local test build may pass PIX_T_PRIVACY_INTERLOCK=bypass-for-local-testing-only
  * to build the site for a browser test before the wording is approved. It is
@@ -25,18 +31,50 @@ import { PHASE_PRODUCTION_BUILD } from 'next/constants';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const interlock = require('./scripts/privacy-interlock-rules.cjs');
 
+/* Every code file under src/, as text. A missing src/ throws: the check fails
+   closed rather than finding nothing. */
+function sourceTexts(dir: string): string[] {
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) return sourceTexts(full);
+    return /\.(ts|tsx|js|jsx|mjs|cjs)$/.test(entry.name) ? [fs.readFileSync(full, 'utf8')] : [];
+  });
+}
+
+/* Source without its comments, which are not what a reader sees. The privacy
+   page's record of its own history quotes the sentences the rules look for. */
+function withoutComments(code: string): string {
+  return code.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:])\/\/[^\n]*/g, '$1 ');
+}
+
 function assertPrivacyCoversLeadCapture(): void {
   const root = typeof __dirname === 'string' ? __dirname : process.cwd();
-  if (!fs.existsSync(path.join(root, 'src', 'lib', 'lead-score.ts'))) return;
+  const texts = sourceTexts(path.join(root, 'src'));
+  // Recognised on the raw text, comments included: finding lead capture where
+  // there is none only means the check runs.
+  const leadCapture = texts.some(
+    text => /\b(scoreLead|ASK_NAME|startAssistantChat)\b/.test(text) || text.includes(interlock.SCORING_MARKER),
+  );
+  if (!leadCapture) return;
+  const code = texts.map(withoutComments);
+  if (code.some(text => /\bscoreLead\b/.test(text)) && !code.some(text => text.includes(interlock.SCORING_MARKER))) {
+    // Not bypassable: the output check finds scoring by this phrase in the
+    // compiled server code, where comments are gone, and would be blind to it.
+    throw new Error(
+      `PRIVACY INTERLOCK: the scoring code no longer contains "${interlock.SCORING_MARKER}", the phrase the ` +
+        'build-output check uses to find it. Update SCORING_MARKER in scripts/privacy-interlock-rules.cjs.',
+    );
+  }
 
-  const page = fs.readFileSync(path.join(root, 'src', 'app', 'privacy', 'page.tsx'), 'utf8');
-  // Comments are not what a reader sees, and this file's record of its own
-  // history quotes the sentences the rules look for.
-  const shown = page.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:])\/\/[^\n]*/g, '$1 ');
-  const hasMarker = new RegExp(`id=["']${interlock.LEAD_SCORE_MARKER}["']`).test(page);
-  const problems: string[] = interlock.statementProblems(shown, hasMarker);
-  const assistant = fs.readFileSync(path.join(root, 'src', 'components', 'SiteAssistant.tsx'), 'utf8');
-  if (!assistant.includes(interlock.GATE_NOTICE_MARKER)) {
+  const shown = withoutComments(fs.readFileSync(path.join(root, 'src', 'app', 'privacy', 'page.tsx'), 'utf8'));
+  const hasMarker = new RegExp(`<[A-Za-z][^<>]*\\sid=["']${interlock.LEAD_SCORE_MARKER}["']`).test(shown);
+  // The page's words as rendered: JSX spacing expressions and tags out,
+  // character references decoded.
+  const words: string = interlock.decodeEntities(
+    shown.replace(/\{\s*(['"`])\s*\1\s*\}/g, ' ').replace(/<[^<>]*>/g, ' '),
+  );
+  const problems: string[] = interlock.statementProblems(words, hasMarker);
+  if (!code.some(text => interlock.readable(text).includes(interlock.GATE_NOTICE_MARKER))) {
     problems.push(`the notice where Pix T asks for a name and email does not say "${interlock.GATE_NOTICE_MARKER}"`);
   }
   if (problems.length === 0) return;
@@ -421,8 +459,10 @@ const nextConfig: NextConfig = {
 };
 
 /* Function form, so the privacy interlock runs on every production build and
-   on nothing else: `next dev` and `next start` are not held up by it. */
+   on nothing else: `next dev` and `next start` are not held up by it. Nor is
+   `next lint`, which loads this file in the production-build phase too but
+   builds nothing. */
 export default function config(phase: string): NextConfig {
-  if (phase === PHASE_PRODUCTION_BUILD) assertPrivacyCoversLeadCapture();
+  if (phase === PHASE_PRODUCTION_BUILD && process.argv[2] !== 'lint') assertPrivacyCoversLeadCapture();
   return nextConfig;
 }

@@ -34,7 +34,7 @@ import path from 'node:path';
 import url from 'node:url';
 
 const require = createRequire(import.meta.url);
-const { LEAD_SCORE_MARKER, GATE_NOTICE_MARKER, SCORING_MARKER, statementProblems } = require('./privacy-interlock-rules.cjs');
+const { LEAD_SCORE_MARKER, GATE_NOTICE_MARKER, SCORING_MARKER, decodeEntities, statementProblems } = require('./privacy-interlock-rules.cjs');
 
 const HERE = path.dirname(url.fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -84,17 +84,14 @@ const scoringShips = serverCode.some(f => read(f).includes(SCORING_MARKER));
 const leadCaptureShips = gateShips || scoringShips;
 
 /* The Statement as a reader meets it: scripts, tags and React's separators
-   gone, entities decoded, so an entity-written soft hyphen cannot split a word. */
-const privacyRaw = read(privacyHtml);
-const NAMED = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', rsquo: "'", lsquo: "'", ldquo: '"', rdquo: '"', shy: '', zwj: '', zwnj: '', mdash: '-', ndash: '-' };
-const privacyText = privacyRaw
-  .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-  .replace(/<!-- -->/g, '')
-  .replace(/<[^>]+>/g, ' ')
-  .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
-  .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(Number(dec)))
-  .replace(/&([a-z]+);/gi, (whole, name) => NAMED[name.toLowerCase()] ?? ' ');
-const hasMarker = new RegExp(`\\bid="${LEAD_SCORE_MARKER}"`).test(privacyRaw);
+   gone, entities decoded, so an entity-written soft hyphen cannot split a word.
+   The marker must be an attribute of an element on the page, not text inside
+   a script or a comment. */
+const privacyPage = read(privacyHtml).replace(/<script[\s\S]*?<\/script>/gi, ' ');
+const privacyText = decodeEntities(privacyPage.replace(/<!-- -->/g, '').replace(/<[^>]+>/g, ' '));
+const hasMarker = new RegExp(`<[a-z][^<>]*\\sid="${LEAD_SCORE_MARKER}"`, 'i').test(
+  privacyPage.replace(/<!--[\s\S]*?-->/g, ' '),
+);
 const problems = statementProblems(privacyText, hasMarker);
 const noticeSaysSo = browserCode.some(f => read(f).includes(GATE_NOTICE_MARKER));
 
