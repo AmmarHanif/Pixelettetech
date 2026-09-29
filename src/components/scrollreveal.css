@@ -1,0 +1,128 @@
+/* Scroll reveal, and the hover treatment that goes with it.
+   See ScrollReveal.tsx for why this is not the AOS package. */
+
+/* ---- reveal ------------------------------------------------------------- */
+
+/* NOTHING IS HIDDEN BY THIS STYLESHEET ALONE. `reveal-ready` is added by
+   JavaScript only once it has confirmed it can also reveal again, so a page
+   with no JavaScript, a failed script or reduced motion is simply the plain,
+   visible page. That is the opposite of how the usual library does it, and it
+   is the whole reason this is hand-rolled. */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* Hint the compositor for the two properties that actually move. Omitting
+     `will-change` here is fine too, but these elements are known in advance and
+     the promotion is dropped again as soon as the element settles. */
+  will-change: opacity, transform;
+}
+
+.reveal-ready [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* Already on screen at load: be there, do not perform. A first screen that
+   fades in reads as a slow site. */
+.reveal-ready [data-reveal].is-instant {
+  transition: none;
+}
+
+/* A gentle stagger for siblings, so a row of cards arrives as a row rather than
+   as one block. Capped at six: beyond that the last card waits long enough to
+   feel broken rather than choreographed. */
+.reveal-ready [data-reveal-delay='1'] { transition-delay: 0.06s; }
+.reveal-ready [data-reveal-delay='2'] { transition-delay: 0.12s; }
+.reveal-ready [data-reveal-delay='3'] { transition-delay: 0.18s; }
+.reveal-ready [data-reveal-delay='4'] { transition-delay: 0.24s; }
+.reveal-ready [data-reveal-delay='5'] { transition-delay: 0.30s; }
+
+/* Belt and braces. The component already refuses to add `reveal-ready` under
+   reduced motion, but if it ever did, this makes the effect inert rather than
+   leaving content hidden behind a transition that will not run. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready [data-reveal],
+  .reveal-ready [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+}
+
+/* ---- hover -------------------------------------------------------------- */
+
+/* A single shared treatment, because four card types drifting apart is how a
+   site starts looking assembled rather than designed. `.work-card` already had
+   hover rules but NO transition, so it snapped; `.ins-card` and `.arc-item` had
+   neither. */
+.service-card,
+.work-card,
+.ins-card,
+.mini-card,
+.arc-item {
+  transition:
+    transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.28s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 0.28s ease;
+}
+
+/* `:hover` alone would leave a keyboard user with no equivalent feedback, and
+   these cards contain links. The lift is small on purpose - 3px reads as
+   responsive, 8px reads as a toy. */
+.service-card:hover,
+.work-card:hover,
+.ins-card:hover,
+.mini-card:hover,
+.arc-item:hover,
+.service-card:focus-within,
+.work-card:focus-within,
+.ins-card:focus-within,
+.mini-card:focus-within,
+.arc-item:focus-within {
+  transform: translateY(-3px);
+  box-shadow:
+    0 2px 6px rgb(28 20 38 / 0.05),
+    0 14px 30px rgb(102 26 143 / 0.10);
+}
+
+/* Touch screens report hover in ways that leave a card stuck in its hovered
+   state after a tap. Limit the movement to devices that can actually hover. */
+@media (hover: none) {
+  .service-card:hover,
+  .work-card:hover,
+  .ins-card:hover,
+  .mini-card:hover,
+  .arc-item:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-card,
+  .work-card,
+  .ins-card,
+  .mini-card,
+  .arc-item {
+    transition: box-shadow 0.28s ease, border-color 0.28s ease;
+  }
+
+  /* The shadow stays - it is depth, not motion - but nothing moves. */
+  .service-card:hover,
+  .work-card:hover,
+  .ins-card:hover,
+  .mini-card:hover,
+  .arc-item:hover,
+  .service-card:focus-within,
+  .work-card:focus-within,
+  .ins-card:focus-within,
+  .mini-card:focus-within,
+  .arc-item:focus-within {
+    transform: none;
+  }
+}
