@@ -6774,6 +6774,21 @@ button.btn[disabled] {
   gap: 40px;
 }
 
+/* SIDE BY SIDE, BUT THE VISUAL TAKES MORE THAN HALF.
+   The founder wants the artwork back up beside the copy, on the right. At even
+   halves the artwork gets 532px and its own baked wording renders at 6.9px,
+   which is the thing he rejected. Cropping cannot rescue it - the artwork wastes
+   only 6.6% of its canvas, so a perfect crop buys 4.5% and takes 6.9px to
+   7.2px.
+   The only lever is the column. At 0.75fr/1.25fr the artwork gets 724px and
+   9.4px, which is the arrangement this hero was originally built for, and the
+   copy column still holds the three-line h1. It does not reach a 10px floor -
+   that needs 771px, and giving the artwork that much inside a 1160px wrap
+   leaves the copy too narrow to set the headline. */
+.hero-split--wide-viz {
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+}
+
 /* The copy keeps a comfortable measure even though its container is now the
    full wrap - a 1112px line length is unreadable for body text, and the hero
    lead is the one paragraph a visitor actually reads. */
