@@ -31,7 +31,7 @@ import { STARTERS, respond, type PixReply } from '@/lib/pix/respond';
  * Pix T, the site assistant.
  *
  * IT ASKS WHO THE VISITOR IS FIRST (founder instruction, 29 September 2026). A
- * name, then a work email, then "Hi {name}, greetings! How can I help you?".
+ * name, then a work email, then "That is all I need for now, {name}. How may I help you today?".
  * The name and email are recorded as they are given (`startAssistantChat`), so
  * a visitor who leaves early is not lost, and the notice under the box says
  * what they are for: Article 13 wants that at the point of collection, and this

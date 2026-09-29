@@ -205,12 +205,12 @@ async function main() {
   check(`1.11 all ${combos.length} combinations: a whole score from 0 to 100, band by the rules`, broken.length === 0, JSON.stringify(broken[0]));
 
   console.log('\n[2] The chat\'s own steps');
-  check('2.1 it asks the name first', chat.ASK_NAME === "Before we start, what's your name?", chat.ASK_NAME);
-  check('2.2 then the email, by name', chat.askEmail('Sam') === "Thanks, Sam. What's your work email?");
-  check('2.3 the founder\'s greeting, word for word', chat.greeting('Sam') === 'Hi Sam, greetings! How can I help you?', chat.greeting('Sam'));
+  check('2.1 it asks the name first', chat.ASK_NAME === "Before we begin, may I take your name?", chat.ASK_NAME);
+  check('2.2 then the email, by name', chat.askEmail('Sam') === "Thank you, Sam. And a work email address, so the team can reply?");
+  check('2.3 the greeting, word for word (raised in tone 29 Sep, founder informed)', chat.greeting('Sam') === 'That is all I need for now, Sam. How may I help you today?', chat.greeting('Sam'));
   check('2.4 discovery asks the four questions and the company, not the name or email again',
     JSON.stringify(chat.DISCOVERY_STEPS.map(x => x.field)) === JSON.stringify(['objective', 'existing', 'deadline', 'success', 'company']));
-  check('2.5 discovery says before the first question that the answers go to the team', /go to them/.test(chat.DISCOVERY_OPENING) && /stop at any point/.test(chat.DISCOVERY_OPENING));
+  check('2.5 discovery says before the first question that the answers go to the team', /answers are sent to them/i.test(chat.DISCOVERY_OPENING) && /stop at any point/.test(chat.DISCOVERY_OPENING));
   check('2.6 a name is required', chat.checkName('   ').ok === false);
   check('2.7 a question typed as a name is not taken as a name', chat.checkName('how much does an app cost?').ok === false);
   check('2.8 an address typed as a name is not taken as a name', chat.checkName(WORK_EMAIL).ok === false);

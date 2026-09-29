@@ -144,8 +144,8 @@ const INJECTION = [
 ];
 
 const INJECTION_REPLY =
-  'I keep to what Pixelette Technologies publishes and how I am set up to work. ' +
-  'Ask me about a project or a technology problem and I can be a lot more useful.';
+  'I keep to what Pixelette Technologies publishes and to how I am set up to work. ' +
+  'Please ask me about a project or a technology problem, where I can be a great deal more useful.';
 
 /** Section 10: when is a more capable model justified? */
 function tier3Reason(message: string): string | null {
@@ -173,7 +173,7 @@ export async function handle(req: GatewayRequest): Promise<GatewayReply> {
   if (!rate.allowed) {
     return {
       via: 'limited',
-      text: 'One moment - give me a few seconds between questions and I will keep up.',
+      text: 'One moment, please. If you could allow a few seconds between questions, I will keep up.',
       telemetry: { ...base, outcome: 'limited', limitReason: rate.reason },
     };
   }
@@ -184,8 +184,8 @@ export async function handle(req: GatewayRequest): Promise<GatewayReply> {
     return {
       via: 'limited',
       text:
-        `This is a little too much for ${PIX_T.name} in one message. ` +
-        `Please summarise the main problem or project in under ${PIX_T.messageMaxChars} characters.`,
+        `That is a little more than ${PIX_T.name} can take in one message. ` +
+        `Could you summarise the main problem or project in under ${PIX_T.messageMaxChars} characters?`,
       telemetry: { ...base, outcome: 'limited' },
     };
   }

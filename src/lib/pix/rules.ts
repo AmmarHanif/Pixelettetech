@@ -66,7 +66,7 @@ export function rules(ctx: PixContext): Rule[] {
       id: 'abuse',
       test: /\b(fuck|fucking|shit|bitch|bastard|cunt|dickhead|wanker|arsehole|idiot|moron|scam|scammer|fraud|fraudster|crooks?)\b/i,
       reply:
-        'I am here to help with technology projects. If you have a genuine enquiry I am happy to assist, and otherwise you can reach the team directly at ' +
+        'I am here to help with technology projects, and I would be glad to assist with a genuine enquiry. You are also welcome to contact the team directly at ' +
         `${ctx.contactEmail}.`,
     },
     {
@@ -79,19 +79,19 @@ export function rules(ctx: PixContext): Rule[] {
       id: 'injection',
       test: /\b(ignore (all |your |the )?(previous|prior|above)|system prompt|your instructions|hidden instructions|you are now|disregard (all|your|the)|jailbreak|pretend you are|(reveal|show|print|repeat|display) (me )?(your |the )?(system |hidden )?(prompt|instructions|rules)|developer mode|you are dan|dan mode|do anything now|act as (an? )?(unrestricted|unfiltered|uncensored|different)|new system (message|prompt)|use this (page|text|message) as (your )?(new )?(system|instructions|prompt)|(forget|override) (your|all|the|previous) (rules|instructions|guidelines))\b/i,
       reply:
-        'There is nothing behind me to unlock. I answer from the published pages of this website and nothing else, so the most I can do is find you the right page. What are you trying to find out?',
+        'There is nothing behind me to unlock. I answer only from the published pages of this website, so the most useful thing I can do is point you to the right one. What would you like to find out?',
     },
     {
       id: 'off-topic',
       test: /\b(weather|joke|poem|limerick|recipe|football|horoscope|president|prime minister|sing|song|homework|essay|translate (this|that|the following|into)|write (me )?(an? )?(story|essay|poem|song|cover letter)|cover letter|who won|latest news|news today|headlines|summari[sz]e (this|that|the following|my)|crossword|lottery|stock tips?)\b/i,
       reply:
-        'I’m here to help with Pixelette Technologies and technology projects. Tell me what you’re trying to build, automate or improve.',
+        'I am here to help with Pixelette Technologies and technology projects. Please tell me what you are looking to build, automate or improve.',
     },
     {
       id: 'identity',
       test: /\b(are you (a |an )?(human|real|person|bot|ai|robot|chatbot|chatgpt|gpt|claude|gemini)|is this (a |an )?(bot|human|person|chatbot|chatgpt|gpt|real person|ai)|am i (talking|speaking|chatting) to (a |an )?(human|person|real|bot|ai|machine)|what are you|who (made|built|created|programmed) you|what (model|ai|llm) (are|is) (you|this)|are you (using|powered by) (chatgpt|gpt|openai|claude|an? llm|ai))\b/i,
       reply:
-        'I am an automated assistant, not a person. I answer by finding the relevant passage on this website rather than by generating an opinion, so if I cannot find it I will say so and put you in touch with the team.',
+        'I am an automated assistant rather than a member of the team. I answer by finding the relevant passage on this website rather than by generating an opinion, so if I cannot find it I will tell you plainly and put you in touch with a colleague who can.',
     },
     {
       /*
@@ -111,7 +111,7 @@ export function rules(ctx: PixContext): Rule[] {
       id: 'price',
       test: /\b(price|prices|pricing|cost|costs|costing|quote|quotation|estimate|budget|how much (does|do|would|will|is|are|was|for|money|to|should|it|of)|day rates?|daily rates?|hourly rates?|your rates|rates for|rate card|fee|fees|ballpark|cheap|expensive|afford|pricey|costly|(what|how much) (do|would|will) you charge|you charge|charges|fixed[- ]price|time and materials|commercial model|payment terms|rough (figure|number|idea)|minimum (project|engagement|budget|spend|contract|order))\b/i,
       reply:
-        'Pricing is always scoped to the project, so any number I gave you now would be wrong. The fastest way to an accurate picture is a scoping call with the team: I can take the details here, or you can use the contact page.',
+        'Pricing is always scoped to the individual project, so any figure I gave you now would be misleading. The quickest route to an accurate picture is a scoping call with the team. I would be glad to take your details here, or you are welcome to use the contact page.',
       path: CONTACT,
       offer: 'enquiry',
     },
@@ -119,7 +119,7 @@ export function rules(ctx: PixContext): Rule[] {
       id: 'timeline',
       test: TIMELINE_ASK,
       reply:
-        'Timeline depends entirely on scope and complexity, and a number without a scope would just be a guess. The team will give you a realistic picture on a scoping call: I can take the details here, or you can use the contact page.',
+        'Timelines depend entirely on scope and complexity, so a figure given without a scope would only be a guess. The team will give you a realistic picture on a scoping call. I would be glad to take your details here, or you are welcome to use the contact page.',
       path: CONTACT,
       offer: 'enquiry',
     },
@@ -127,14 +127,14 @@ export function rules(ctx: PixContext): Rule[] {
       id: 'competitors',
       test: /\b(better than|compare(d)? (to|with) (accenture|infosys|tcs|wipro|capgemini|deloitte)|vs\.? (accenture|infosys|tcs|wipro)|why not use|competitor)\b/i,
       reply:
-        'I will not run down other firms. What I can do is show you how this one works and what it has actually delivered, and you can judge it against anyone else.',
+        'It would not be appropriate for me to comment on other firms. What I can do is show you how this one works and what it has delivered, so that you can make the comparison yourself.',
       path: '/case-studies',
     },
     {
       id: 'staff-contact',
       test: /\b(personal (email|number|phone|mobile)|mobile number of|home address|linkedin of|who is your (ceo|cto)\b.*\b(email|number|phone))\b/i,
       reply:
-        `I do not share individual contact details. Everything reaches the right person through ${ctx.contactEmail} or the contact page.`,
+        `I am not able to share individual contact details, though nothing is lost by that: everything reaches the right person through ${ctx.contactEmail} or the contact page.`,
       path: CONTACT,
     },
     {
@@ -142,14 +142,14 @@ export function rules(ctx: PixContext): Rule[] {
       id: 'careers',
       test: /\b((are you|is pixelette) (currently )?(hiring|recruiting)|careers?|job (openings?|vacanc(y|ies)|opportunit(y|ies))|vacanc(y|ies)|work (for|at) (you|pixelette)|join (your|the) team|internships?|graduate (roles?|scheme))\b/i,
       reply:
-        'There is no careers page on this site. If you would like to ask about working with the team, the contact page reaches a person.',
+        'This site does not currently publish a careers page. If you would like to enquire about working with the team, the contact page will reach a person.',
       path: CONTACT,
     },
     {
       // The address is the one public/.well-known/security.txt publishes.
       id: 'security-report',
       test: /\b((report|found|disclose|disclosing) (a |an )?(security )?(vulnerabilit(y|ies)|security (issue|flaw|bug|hole|problem))|responsible disclosure|bug bounty|security\.txt)\b/i,
-      reply: `Security reports go to ${ctx.contactEmail}, the address this site publishes in its security.txt.`,
+      reply: `Thank you for raising it. Security reports should go to ${ctx.contactEmail}, the address this site publishes in its security.txt.`,
       path: '/.well-known/security.txt',
     },
     {
@@ -161,7 +161,7 @@ export function rules(ctx: PixContext): Rule[] {
       id: 'contact',
       test: /\b(contact|get in touch|speak to|talk to (someone|somebody|a human|a person|the team|sales)|just want to (speak|talk)|book (a )?(call|conversation|meeting)|arrange a call|scoping call|meeting|email you|phone you|call you)\b/i,
       reply:
-        `The contact page is the fastest route in, and ${ctx.contactEmail} reaches the same place. If you prefer, I can take the details here.`,
+        `The contact page is the quickest route to the team, and ${ctx.contactEmail} reaches the same place. If you would prefer, I would be glad to take your details here.`,
       path: CONTACT,
       offer: 'enquiry',
     },
@@ -169,7 +169,7 @@ export function rules(ctx: PixContext): Rule[] {
       id: 'legal-or-financial-advice',
       test: /\b(legal advice|is (this|it) legal|tax advice|investment advice|should i invest|financial advice|sue|lawsuit)\b/i,
       reply:
-        'That is not something an engineering firm should answer, and I am certainly not the right source for it. Speak to a qualified adviser.',
+        'That falls outside what an engineering firm should advise on, and I am not a suitable source for it. I would recommend speaking with a qualified adviser.',
     },
   ];
 }
@@ -189,31 +189,31 @@ export const CLAIM_GUARDS: { id: string; test: RegExp; whenHeld: string }[] = [
     id: 'geography-count',
     test: /\b(how many (people|staff|employees|engineers|developers|countries)|team size|headcount|how big is (the|your) (team|company)|offices in|countries|\d+\+?\s*(people|staff|employees|engineers|developers|offices|locations))\b/i,
     whenHeld:
-      'I am not going to put a number on the team or the countries it covers, because that figure is not something this site currently evidences. The team will tell you exactly who would work on your project.',
+      'I would rather not put a figure on the size of the team or the countries it covers, because this site does not currently evidence one. The team will tell you exactly who would be working on your project.',
   },
   {
     id: 'top-ai-company-award',
     test: /\b(award|awards|award-winning|best (ai|agency|company)|ranked|ranking|accolade)\b/i,
     whenHeld:
-      'I will not claim an award this site does not currently evidence. What it does publish is its Clutch rating and its certifications.',
+      'I will not claim an award that this site does not currently evidence. What it does publish is its Clutch rating and its certifications, and I would be glad to take you to either.',
   },
   {
     id: 'appg-parliament-reference',
     test: /\b(appg|parliament|parliamentary|government|policy group|secretariat)\b/i,
     whenHeld:
-      'That is not a connection this site currently states, so I am not going to characterise it. The contact page is the right route if it matters to your decision.',
+      'That is not a connection this site currently states, so it would not be right for me to characterise it. If it matters to your decision, the contact page is the right route.',
   },
   {
     id: 'client-logos',
     test: /\b(who are your clients|client list|which companies|name.{0,12}clients?|worked with (any|which))\b/i,
     whenHeld:
-      'Clients are only named where a case study is published with their permission. I will not confirm or deny anyone else.',
+      'Clients are named only where a case study is published with their permission, so I am not able to confirm or deny anyone else. You are very welcome to read the ones that are published.',
   },
   {
     id: 'ai-project-count',
     test: /\b(how many (projects|builds|clients|ai projects)|number of projects|track record numbers)\b/i,
     whenHeld:
-      'I am not going to quote a project count that this site does not evidence. The published case studies are the honest version of that answer.',
+      'I will not quote a project count that this site does not evidence. The published case studies are the honest version of that answer.',
   },
 ];
 

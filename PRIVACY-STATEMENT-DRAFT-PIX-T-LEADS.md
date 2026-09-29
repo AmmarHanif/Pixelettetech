@@ -156,8 +156,9 @@ publication date if Legal wants the change on the record.
   exists. The build checks for "as soon as you give them". **For approval.**
 - **Pix T's footer once the visitor is known:** "Your name, email and answers to Pix T's questions go to the team.
   The rest of this chat is not stored."
-- **Before the first discovery question:** "So the team can help properly, a few quick questions. Your answers go
-  to them with your name and email when we finish. Skip any you like, or stop at any point."
+- **Before the first discovery question:** "So that the team can help you properly, may I ask a few short
+  questions. Your answers are sent to them with your name and email when we finish. Please feel free to skip
+  any of them, or to stop at any point."
 - **Whether a DPIA is required** for scoring combined with an assistant is Legal's call, raised on 29 September.
   Nothing here decides it.
 - **Conflicts with the founder's Pix T brief, resolved by his later instruction:** §45 asked for a verified email

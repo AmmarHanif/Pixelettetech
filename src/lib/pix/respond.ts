@@ -83,8 +83,8 @@ const DURATION =
   /\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|a few|several)[- ](days?|weeks?|months?|quarters?|years?)\b/i;
 
 const noAnswer = (email: string) =>
-  'I don’t have enough current Pixelette information to answer that accurately, and I won’t guess. ' +
-  `The team can: use the contact page, email ${email}, or I can take the details here.`;
+  'I do not have enough current Pixelette information to answer that accurately, and I would rather not guess. ' +
+  `You are welcome to use the contact page or email ${email}, or I would be glad to take your details here.`;
 
 export function respond(messageRaw: string, ctx: PixContext): PixReply {
   /*
@@ -98,7 +98,7 @@ export function respond(messageRaw: string, ctx: PixContext): PixReply {
     .trim();
 
   if (!message) {
-    return { via: 'ask-more', text: 'Ask me anything about the engineering, AI or blockchain work on this site.' };
+    return { via: 'ask-more', text: 'Please ask me anything about the engineering, AI or blockchain work on this site.' };
   }
 
   const ruleSet = rules(ctx);
@@ -175,7 +175,7 @@ export function respond(messageRaw: string, ctx: PixContext): PixReply {
       if (best.doc.kind === 'pointer') {
         return {
           via: 'pointer',
-          text: `That one is answered on the ${best.doc.page ?? 'relevant'} page rather than in a line I can quote back to you. It is worth reading there.`,
+          text: `That one is answered on the ${best.doc.page ?? 'relevant'} page rather than in a single line I can quote back to you, so it is worth reading there.`,
           path: best.doc.path ?? undefined,
           sourceLabel: best.doc.page ?? undefined,
         };
@@ -210,7 +210,7 @@ export function respond(messageRaw: string, ctx: PixContext): PixReply {
   if (!enoughSignal) {
     return {
       via: 'ask-more',
-      text: 'Tell me a bit more and I will find the right page. What are you trying to build, or what do you want to know about how the firm works?',
+      text: 'If you could tell me a little more, I will find you the right page. What are you looking to build, or what would you like to know about how the firm works?',
     };
   }
 

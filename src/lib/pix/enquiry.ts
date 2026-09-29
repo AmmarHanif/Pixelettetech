@@ -53,9 +53,9 @@ export const ENQUIRY_STEPS: readonly EnquiryStep[] = [
   { field: 'existing', ask: QUESTIONS.existing, optional: true },
   { field: 'deadline', ask: QUESTIONS.deadline, optional: true },
   { field: 'success', ask: QUESTIONS.success, optional: true },
-  { field: 'name', ask: 'What name should the team reply to?', optional: false },
-  { field: 'email', ask: 'And a work email for the reply?', optional: false },
-  { field: 'company', ask: 'Which company is this for?', optional: true },
+  { field: 'name', ask: 'May I take your name, so the team can address their reply?', optional: false },
+  { field: 'email', ask: 'And a work email address, so the team can reply to you directly?', optional: false },
+  { field: 'company', ask: 'Which company are you enquiring on behalf of?', optional: true },
 ];
 
 /** Discovery: the questions above less the name and email, which Pix T already has. */
@@ -64,12 +64,12 @@ export const DISCOVERY_STEPS: readonly EnquiryStep[] = ENQUIRY_STEPS.filter(
 );
 
 /* The founder's words, 29 September 2026, and the steps either side of them. */
-export const ASK_NAME = "Before we start, what's your name?";
-export const askEmail = (name: string) => `Thanks, ${name}. What's your work email?`;
-export const greeting = (name: string) => `Hi ${name}, greetings! How can I help you?`;
+export const ASK_NAME = "Before we begin, may I take your name?";
+export const askEmail = (name: string) => `Thank you, ${name}. And a work email address, so the team can reply?`;
+export const greeting = (name: string) => `That is all I need for now, ${name}. How may I help you today?`;
 export const DISCOVERY_OPENING =
-  'So the team can help properly, a few quick questions. Your answers go to them with your name and email ' +
-  'when we finish. Skip any you like, or stop at any point.';
+  'So that the team can help you properly, may I ask a few short questions. Your answers are sent to them with ' +
+  'your name and email when we finish. Please feel free to skip any of them, or to stop at any point.';
 
 /*
  * Whether a message reads as a question rather than a description of what the
@@ -93,14 +93,14 @@ export function looksLikeQuestion(text: string): boolean {
  */
 /** The email step: the enquiry's own check, asked in the gate's words. */
 export function checkEmail(raw: string): AnswerCheck {
-  return checkAnswer({ field: 'email', ask: "What's your work email?", optional: false }, raw);
+  return checkAnswer({ field: 'email', ask: "May I take your work email address?", optional: false }, raw);
 }
 
 export function checkName(raw: string): AnswerCheck {
   const check = checkAnswer(ENQUIRY_STEPS.find(s => s.field === 'name')!, raw);
-  if (!check.ok) return { ok: false, problem: `That one is needed. ${ASK_NAME}` };
+  if (!check.ok) return { ok: false, problem: `I do need that one, if you would. ${ASK_NAME}` };
   if (check.value.includes('@') || check.value.endsWith('?') || check.value.split(/\s+/).length > 8) {
-    return { ok: false, problem: `I'll come to that in a moment. First, what's your name?` };
+    return { ok: false, problem: `I will come to that shortly. First, may I take your name?` };
   }
   return check;
 }
@@ -127,13 +127,13 @@ export function checkAnswer(step: EnquiryStep, raw: string): AnswerCheck {
   // too (finding ECE-09).
   const value = typed.replace(/[\p{Cf}\s]/gu, '') === '' ? '' : typed;
   if (!value) {
-    return step.optional ? { ok: true, value: '' } : { ok: false, problem: 'That one is needed. ' + step.ask };
+    return step.optional ? { ok: true, value: '' } : { ok: false, problem: 'I do need that one, if you would. ' + step.ask };
   }
   if (value.length > ENQUIRY_MAX[step.field]) {
-    return { ok: false, problem: `Please keep that under ${ENQUIRY_MAX[step.field].toLocaleString('en-GB')} characters.` };
+    return { ok: false, problem: `Could you keep that under ${ENQUIRY_MAX[step.field].toLocaleString('en-GB')} characters, please?` };
   }
   if (step.field === 'email' && !isEmail(value)) {
-    return { ok: false, problem: 'That does not look like an email address. ' + step.ask };
+    return { ok: false, problem: 'That does not appear to be a valid email address. ' + step.ask };
   }
   return { ok: true, value };
 }
