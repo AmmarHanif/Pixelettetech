@@ -1,9 +1,14 @@
 # Privacy Statement: proposed changes for Pix T lead capture
 
-**DRAFT, NOT PUBLISHED.** Drafted 29 September 2026 on the founder's instruction, for the founder and Legal.
-Nothing below is on `/privacy`. The build refuses to pass while Pix T captures leads and the published
-Statement still says the site does no profiling (`scripts/check-privacy-interlock.mjs`). Once the wording is
-approved, it is applied to `src/app/privacy/page.tsx`, and that check passes without any other change.
+**APPLIED, 29 September 2026.** The founder approved this wording, and it was applied to `/privacy` in website
+commit `c3d647b` on `main`. Chat contacts are kept for 12 months, and the Statement stays at version 2.0. The
+privacy interlock passes on it. Two items remain Legal's, and publication did not decide them: the lawful basis
+(legitimate interests, and whether a written LIA is wanted) and whether a DPIA is required. The rest of this
+file is kept as the record of what was proposed.
+
+Drafted 29 September 2026 on the founder's instruction, for the founder and Legal. The build refused to pass while
+Pix T captured leads and the published Statement still said the site does no profiling
+(`scripts/check-privacy-interlock.mjs`).
 
 ## Why the Statement has to change
 

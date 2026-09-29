@@ -118,12 +118,14 @@ These carry legal exposure. None should be published in its current state.
 - [ ] **Pix T lead capture (built 29 September 2026, founder instruction).** Pix T now
       asks for a name and work email before chatting, records them, and scores the
       enquiry that follows. It cannot ship until:
-      1. the founder and Legal approve `PRIVACY-STATEMENT-DRAFT-PIX-T-LEADS.md` and the
-         approved wording is on `/privacy`. The build fails until then
-         (`scripts/check-privacy-interlock.mjs`), because the published Statement says the
-         site does no profiling;
-      2. Legal has recorded its view on a DPIA, the lawful basis and the retention period for
-         chat contacts who never send an enquiry;
+      1. DONE 29 September 2026 (`main`, `c3d647b`): the founder approved the wording in
+         `PRIVACY-STATEMENT-DRAFT-PIX-T-LEADS.md` and it is on `/privacy`, with chat
+         contacts kept for 12 months and the Statement kept at version 2.0. The privacy
+         interlock (`next.config.ts` and `scripts/check-privacy-interlock.mjs`) now passes on
+         the published wording, and would refuse any build that brought back a sentence
+         the score makes false;
+      2. Legal has recorded its view on a DPIA and on the lawful basis (legitimate
+         interests, and whether a written LIA is wanted). Publication did not decide either;
       3. `supabase/migrations/20260929120000_pix_t_lead_capture.sql` is applied to the
          project before deployment (founder step; see `CONTACT-FORM-SETUP.md`);
       4. the host settings from the security review are in place: the Vercel Build Command
