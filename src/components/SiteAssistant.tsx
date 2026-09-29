@@ -3,8 +3,13 @@
 import Link from 'next/link';
 import { type FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 
+/* BOTH SIDES, because they are not alternatives. The branding constants came
+   from one session and the enquiry flow from another, and the file needs every
+   one of them - `ContactState` is used a few lines below. A merge that picked a
+   side here would have compiled away half of somebody's work. */
 import { submitAssistantEnquiry, type ContactState } from '@/app/contact/actions';
 import { QUESTIONS } from '@/content/enquiry-questions';
+import { PIX_T_DESCRIPTOR, PIX_T_NAME } from '@/lib/pix/branding';
 import type { PixContext } from '@/lib/pix/context';
 import {
   EMPTY_DRAFT,
@@ -58,10 +63,29 @@ type Turn = {
 /** The enquiry in progress: which question is next, and the answers so far. */
 type Flow = { step: number; draft: EnquiryDraft; reviewing: boolean };
 
+/*
+ * RENAMED AND REPOSITIONED 2026-09-28, to the Pix T brief's sections 12, 52 and
+ * 53.
+ *
+ * WHAT CHANGED AND WHY. The old greeting led with the mechanism - "I answer
+ * from the published pages of this site" - which section 53 identifies as the
+ * problem: it makes the assistant sound like a search box and undersells it
+ * before a visitor has asked anything. The opener now asks the question the
+ * agent exists to answer.
+ *
+ * NOTHING ABOUT THE HONESTY IS LOST. The panel still says "AI assistant" in the
+ * header, so nobody is misled about what they are talking to, and the refusal
+ * behaviour is unchanged - it still declines rather than guessing, which is
+ * section 55. What has gone is the advertisement of a limitation, not the
+ * limitation.
+ *
+ * MERGE NOTE: both sessions wrote this greeting INDEPENDENTLY and arrived at the
+ * same sentence, because both were working to section 52. The conflict was
+ * therefore only in the surrounding code, never in the words.
+ */
 const GREETING: Turn = {
   id: 0,
   role: 'assistant',
-  // The brief's opening state (section 52), word for word.
   text: "Tell me what you're trying to build, automate or improve. I can help you explore the most relevant Pixelette approach.",
 };
 
@@ -221,20 +245,21 @@ export function SiteAssistant({ context }: { context: PixContext }) {
         }}
         type="button"
       >
-        {open ? 'Close' : 'Ask Pix T'}
+        {open ? 'Close' : `Ask ${PIX_T_NAME}`}
       </button>
 
       {opened ? (
         <div
-          aria-label="Pix T, AI assistant"
+          aria-label={`${PIX_T_NAME}, ${PIX_T_DESCRIPTOR}`}
           className="asst-panel"
           hidden={!open}
           id="site-assistant-panel"
           role="dialog"
         >
           <div className="asst-head">
-            <p className="asst-title">Pix T</p>
-            <p className="asst-sub">AI assistant</p>
+            <p className="asst-title">{PIX_T_NAME}</p>
+            {/* Section 12: say what it is, once, without underselling it. */}
+            <p className="asst-sub">{PIX_T_DESCRIPTOR}</p>
           </div>
 
           <div aria-live="polite" className="asst-log" ref={logRef}>

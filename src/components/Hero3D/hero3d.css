@@ -1,0 +1,263 @@
+/* ==========================================================================
+   Hero3D — the DOM layer over the WebGL scene, and the layout it falls back to.
+
+   TWO MODES FROM ONE MARKUP. With a canvas behind it (.h3--live) every label is
+   absolutely positioned and driven from the scene's own projection. Without one
+   the same elements lay themselves out in an ordinary stacked grid. There is no
+   second set of components to drift out of step with the first.
+
+   POINTER EVENTS ARE OFF EXCEPT ON THE LINKS. The overlay covers the whole
+   canvas, so a blanket pointer target would swallow every interaction with the
+   scene beneath it. Only the anchors take the pointer.
+   ========================================================================== */
+
+.h3 {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  max-width: 620px;
+  margin-left: auto;
+  /* `container-type: inline-size` so the cards can size against THIS box
+     rather than the viewport - the widget's width and the viewport's are not
+     proportional, and sizing labels off the viewport is what put them outside
+     the box at 768. It also supplies layout containment.
+     What must NOT come back is paint containment: it was set here as
+     `contain: layout paint` and CLIPPED the overlay to this box, slicing the
+     left card's text at -33px and the Blockchain card's at 542px in a 510px
+     container. The clipping was the symptom; the overflow was the cause, and
+     the cause is fixed in Scene.tsx and services.ts. */
+  container-type: inline-size;
+}
+
+/* A LIT GROUND BEHIND THE CANVAS, and it is not decoration.
+   The canvas is transparent over a white page, so the glass in the scene has
+   nothing to sit against and nothing to pick up - which is most of why it kept
+   rendering pale whatever the materials were set to. This puts a warm and a
+   brand-coloured pool of light behind it, so the scene reads as standing
+   somewhere rather than floating on paper. It is CSS, so it costs nothing, and
+   it stays BEHIND the canvas rather than tinting it. */
+.h3::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(52% 46% at 46% 52%, rgba(102, 26, 143, 0.13), transparent 72%),
+    radial-gradient(38% 34% at 74% 22%, rgba(255, 229, 190, 0.34), transparent 74%),
+    radial-gradient(60% 34% at 50% 94%, rgba(157, 91, 196, 0.1), transparent 76%);
+}
+
+/* The canvas sits above the ground. Deliberately targeted at the CANVAS and not
+   at `.h3 > div`: that selector also matches the overlay, and at (0,1,1) it
+   outranks `.h3-overlay`'s (0,1,0), so it would have quietly forced the overlay
+   from `absolute` back to `relative` and dropped every label out of position.
+   z-index needs a positioned element, hence `relative` here. */
+.h3 canvas {
+  display: block;
+  position: relative;
+  z-index: 1;
+  background: transparent !important;
+}
+
+/* ---- the overlay -------------------------------------------------------- */
+.h3-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Live: children are placed by transform from the scene's projection. */
+.h3-overlay--live .h3-card,
+.h3-overlay--live .h3-centre {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+
+/* ---- the centre --------------------------------------------------------- */
+.h3-centre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 3px;
+  width: 190px;
+}
+
+.h3-centre__title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.h3-centre__line {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--muted);
+  max-width: 19ch;
+}
+
+/* ---- a capability ------------------------------------------------------- */
+/* Sized against the widget, not the viewport. Each card is centred on its
+   slab's projected position, so half its width is what can overhang the box;
+   expressing that as a share of the box lets Scene.tsx solve for a scale that
+   holds the same clearance at every size. 165px caps it on desktop, where the
+   box stops growing at 620px. Scene.tsx's LABEL_MAX/LABEL_CQI mirror this and
+   must be changed with it. */
+.h3-card {
+  width: min(165px, 33cqi);
+}
+
+.h3-card__hit {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.35s ease;
+}
+
+.h3-card__hit:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+.h3-card__title {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.h3-card__line {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.h3-icon {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.h3-icon--centre {
+  width: 25px;
+  height: 25px;
+}
+
+/* ---- the supporting list ------------------------------------------------ */
+/* UNDER the card, revealed on hover - not beside it behind a leader line. The
+   reference sets these columns outside the panels, and at this widget's real
+   width they do not fit there: a 165px card plus an 80px column on both sides
+   needs more than the 510px the hero column gives it, so the outer placement
+   could only ever be clipped. Underneath costs nothing and turns them into
+   progressive disclosure instead of permanent clutter.
+   Absolutely positioned so revealing them cannot reflow the card, and
+   decorative - the same words are on the service pages, hence aria-hidden. */
+.h3-card__aside {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 8px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--muted-2);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.h3-card.is-active .h3-card__aside {
+  opacity: 1;
+  transform: translateY(0);
+  color: var(--muted);
+}
+
+/* ---- the fallback ------------------------------------------------------- */
+/* No canvas: the same markup, laid out plainly. Every word and every link is
+   still here, which is the requirement rather than a courtesy. */
+.h3:not(.h3--live) .h3-overlay {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  padding: 8px 0;
+}
+
+.h3:not(.h3--live) {
+  aspect-ratio: auto;
+}
+
+.h3:not(.h3--live) .h3-centre {
+  width: auto;
+  align-items: flex-start;
+  text-align: left;
+  padding: 16px 18px;
+  border: 1px solid var(--brand);
+  border-radius: 12px;
+  background: var(--brand-tint);
+}
+
+.h3:not(.h3--live) .h3-card {
+  width: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+}
+
+.h3:not(.h3--live) .h3-card__hit {
+  padding: 14px 16px;
+}
+
+.h3:not(.h3--live) .h3-card__aside {
+  display: none;
+}
+
+/* ---- responsive --------------------------------------------------------- */
+@media (max-width: 1100px) {
+  .h3-card__aside {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .h3 {
+    max-width: 460px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  .h3-card__title {
+    font-size: 12.5px;
+  }
+
+  .h3-card__line,
+  .h3-centre__line {
+    display: none;
+  }
+}
+
+/* ---- reduced motion ------------------------------------------------------ */
+/* The scene still renders; what stops is anything that moves on its own. The
+   scene's own quality flag drops the travelling lights and the drift. */
+@media (prefers-reduced-motion: reduce) {
+  .h3-card__hit,
+  .h3-card__aside {
+    transition: none;
+  }
+}

@@ -1,9 +1,5 @@
-import { ImmersiveShowcase } from '@/components/ImmersiveShowcase';
-import {
-  BuildProgression,
-  ConnectedEngineering,
-  SpatialHero,
-} from '@/components/ImmersiveVisuals';
+import { HeroVideo } from '@/components/HeroVideo';
+import { BuildProgression, ConnectedEngineering } from '@/components/ImmersiveVisuals';
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
@@ -230,7 +226,7 @@ export default function ImmersiveApplicationsPage() {
               </p>
             </div>
             <div className="imm-hero__viz">
-              <SpatialHero />
+              <HeroVideo />
             </div>
           </div>
         </div>
@@ -259,11 +255,23 @@ export default function ImmersiveApplicationsPage() {
       </Section>
 
       {/* -------------------------------------------------- §6/§7 showcase */}
+      {/*
+        IMMERSIVE SHOWCASE - HIDDEN ON INSTRUCTION, NOT DELETED.
+
+        The section and its four demonstrations are intact in
+        `ImmersiveShowcase.tsx` and `SpatialDemo/`, including the WebGL Spatial
+        build. It is commented out here rather than removed because it is
+        expected back once Spatial meets the approved visual standard, and
+        deleting it would throw away work that is finished apart from that.
+
+        Restoring it is this block and the import, nothing else.
+      */}
+      {/*
       <Section labelledBy="showcase-heading" style={{ background: '#F7FAFA' }}>
         <SectionHead
           eyebrow="Immersive showcase"
           id="showcase-heading"
-          title="Don’t just read about immersive. Try it"
+          title="Don't just read about immersive. Try it"
         />
         <p className="body" style={{ marginTop: 18, maxWidth: '66ch' }}>
           Explore four capability demonstrations showing how immersive technology can be used to
@@ -274,6 +282,7 @@ export default function ImmersiveApplicationsPage() {
           <ImmersiveShowcase />
         </div>
       </Section>
+      */}
 
       {/* ------------------------------------------------- §8 what we build */}
       <Section labelledBy="build-heading">
