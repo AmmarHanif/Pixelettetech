@@ -124,9 +124,15 @@ async function main() {
   check('2.1 the visitor is told it was received', r.status === 'success', r.message);
   check('2.2 stored in the same table as the contact form', !!store && store.url.endsWith('/rest/v1/contact_enquiries'), store && store.url);
   check('2.3 the row records that it came from the assistant', store && store.body.source === 'pixelettetech.com/assistant', store && store.body.source);
+  /* Updated 2026-09-29. The four lead_* columns are the founder's lead score,
+     which the published Notice does not yet describe: its replacement wording is
+     drafted (PRIVACY-STATEMENT-DRAFT-PIX-T-LEADS.md) and
+     scripts/check-privacy-interlock.mjs fails the build until it is published.
+     Anything else in the row still fails here. */
   const allowed = ['id', 'name', 'company', 'email', 'objective', 'existing', 'deadline', 'success', 'source', 'created_at'];
-  const extra = store ? Object.keys(store.body).filter(k => !allowed.includes(k)) : ['(no row)'];
-  check('2.4 the row holds nothing the Privacy Notice does not list', extra.length === 0, extra.join(', '));
+  const lead = ['lead_ref', 'lead_score', 'lead_band', 'lead_reasons'];
+  const extra = store ? Object.keys(store.body).filter(k => !allowed.includes(k) && !lead.includes(k)) : ['(no row)'];
+  check('2.4 the row holds nothing beyond the Notice\'s fields and the drafted lead score', extra.length === 0, extra.join(', '));
   check('2.5 the row carries the four answers', store && store.body.objective === PII.objective && store.body.success === PII.success);
   check('2.6 the notification goes to the published address', !!email && JSON.stringify(email.body.to) === JSON.stringify([contactEmail]));
   check('2.7 the notification says where the enquiry came from', !!email && email.body.text.includes('Source: pixelettetech.com/assistant'));

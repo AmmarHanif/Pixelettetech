@@ -1,22 +1,28 @@
 'use client';
 
 import Link from 'next/link';
-import { type FormEvent, startTransition, useActionState, useCallback, useEffect, useRef, useState } from 'react';
+import { type FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 /* BOTH SIDES, because they are not alternatives. The branding constants came
    from one session and the enquiry flow from another, and the file needs every
    one of them - `ContactState` is used a few lines below. A merge that picked a
    side here would have compiled away half of somebody's work. */
-import { submitAssistantEnquiry, type ContactState } from '@/app/contact/actions';
+import { startAssistantChat, submitAssistantEnquiry, type ContactState } from '@/app/contact/actions';
 import { QUESTIONS } from '@/content/enquiry-questions';
 import { PIX_T_DESCRIPTOR, PIX_T_NAME } from '@/lib/pix/branding';
 import type { PixContext } from '@/lib/pix/context';
 import {
+  ASK_NAME,
+  DISCOVERY_OPENING,
+  DISCOVERY_STEPS,
   EMPTY_DRAFT,
   ENQUIRY_MAX,
-  ENQUIRY_OPENING,
-  ENQUIRY_STEPS,
+  askEmail,
   checkAnswer,
+  checkEmail,
+  checkName,
+  greeting,
+  looksLikeQuestion,
   type EnquiryDraft,
 } from '@/lib/pix/enquiry';
 import { STARTERS, respond, type PixReply } from '@/lib/pix/respond';
@@ -24,21 +30,26 @@ import { STARTERS, respond, type PixReply } from '@/lib/pix/respond';
 /**
  * Pix T, the site assistant.
  *
- * IT STORES NOTHING. No cookie, no localStorage, no sessionStorage. The
- * conversation lives in React state and is gone on reload. That is not
- * incidental tidiness: this site's Cookie Policy enumerates its storage exactly
- * and states plainly that the site sets no cookies, and an assistant that kept
- * a transcript would have made a careful legal page false.
+ * IT ASKS WHO THE VISITOR IS FIRST (founder instruction, 29 September 2026). A
+ * name, then a work email, then "Hi {name}, greetings! How can I help you?".
+ * The name and email are recorded as they are given (`startAssistantChat`), so
+ * a visitor who leaves early is not lost, and the notice under the box says
+ * what they are for: Article 13 wants that at the point of collection, and this
+ * is one. Recording them can fail without the chat failing - the enquiry at the
+ * end carries them again, through the path that reports honestly.
  *
- * IT MAKES ONE KIND OF NETWORK CALL, AND ONLY WHEN ASKED. Answers are computed
- * in the page from data already in the bundle, so asking a question sends
- * nothing anywhere. The one exception is an enquiry the visitor chooses to
- * send: the assistant asks the contact form's four questions, shows every
- * answer back in an editable form carrying the contact form's own notice, and
- * only the Send button submits it - through `submitAssistantEnquiry`, which is
- * the contact form's server action with a different `source`. Same validation,
- * same storage, same notification, same honest failure messages. The Privacy
- * Notice describes exactly that enquiry, so it needed no change.
+ * THEN IT FINDS OUT WHAT THEY WANT. After the visitor's first message Pix T
+ * asks the contact form's four questions and the company, each skippable, and
+ * says before the first of them that the answers go to the team. When the last
+ * is answered the enquiry is sent through the review form below - scored on the
+ * server, stored, and emailed to the team. If sending fails, that form stays
+ * open with every answer in it and says so honestly.
+ *
+ * WHAT IT STILL DOES NOT KEEP. No cookie, no localStorage, no sessionStorage:
+ * the conversation lives in React state and is gone on reload. The visitor's
+ * own questions never leave the page - answers are computed here from data
+ * already in the bundle. Only the name, the email and the discovery answers are
+ * sent, and the panel's footer says exactly that.
  *
  * EVERY ANSWER SHOWS ITS SOURCE. Where a reply came from a page, that page is
  * named and linked under the answer. A visitor can check it in one click, which
@@ -60,39 +71,48 @@ type Turn = {
   offer?: PixReply['offer'];
 };
 
-/** The enquiry in progress: which question is next, and the answers so far. */
+/** Discovery in progress: which question is next, and the answers so far. */
 type Flow = { step: number; draft: EnquiryDraft; reviewing: boolean };
 
+/** Who the visitor said they are. `ref` names the recorded contact, once known. */
+type Visitor = { name: string; email: string; ref: string | null };
+
 /*
- * RENAMED AND REPOSITIONED 2026-09-28, to the Pix T brief's sections 12, 52 and
- * 53.
- *
- * WHAT CHANGED AND WHY. The old greeting led with the mechanism - "I answer
- * from the published pages of this site" - which section 53 identifies as the
- * problem: it makes the assistant sound like a search box and undersells it
- * before a visitor has asked anything. The opener now asks the question the
- * agent exists to answer.
- *
- * NOTHING ABOUT THE HONESTY IS LOST. The panel still says "AI assistant" in the
- * header, so nobody is misled about what they are talking to, and the refusal
- * behaviour is unchanged - it still declines rather than guessing, which is
- * section 55. What has gone is the advertisement of a limitation, not the
- * limitation.
- *
- * MERGE NOTE: both sessions wrote this greeting INDEPENDENTLY and arrived at the
- * same sentence, because both were working to section 52. The conflict was
- * therefore only in the surrounding code, never in the words.
+ * THE OPENING, CHANGED 2026-09-29. Pix T used to open with the brief's section
+ * 52 line, "Tell me what you're trying to build, automate or improve. I can
+ * help you explore the most relevant Pixelette approach." The founder's
+ * instruction of 29 September replaces it: the name and email first, then his
+ * greeting, word for word (src/lib/pix/enquiry.ts). What section 52 asked for
+ * survives as the first discovery question, which asks exactly that.
  */
-const GREETING: Turn = {
-  id: 0,
-  role: 'assistant',
-  text: "Tell me what you're trying to build, automate or improve. I can help you explore the most relevant Pixelette approach.",
-};
+const FIRST_TURN: Turn = { id: 0, role: 'assistant', text: ASK_NAME };
 
 /** The brief's MESSAGE_MAX_CHARS (section 70); respond() also truncates at this. */
 const MESSAGE_MAX = 2000;
 
-const INITIAL_ENQUIRY: ContactState = { status: 'idle', message: '' };
+/**
+ * The server's answer to the enquiry, or `unconfirmed` when no answer arrived:
+ * the connection failed, a gateway replied instead of the site, or the page is
+ * older than the deployment that received it. In that case nobody here knows
+ * whether the enquiry landed, and the visitor is told exactly that.
+ */
+type ReviewState = ContactState & { unconfirmed?: boolean };
+
+const INITIAL_ENQUIRY: ReviewState = { status: 'idle', message: '' };
+
+/** When a Send has taken long enough that the visitor should be offered a way out. */
+const SLOW_SEND_MS = 15000;
+
+/** What is true when the visitor closes an enquiry, which decides what Pix T says. */
+type CancelKind = 'unsent' | 'refused' | 'unconfirmed';
+
+const replyTurn = (reply: PixReply): Omit<Turn, 'id'> => ({
+  role: 'assistant',
+  text: reply.text,
+  path: reply.path,
+  sourceLabel: reply.sourceLabel,
+  offer: reply.offer,
+});
 
 export function SiteAssistant({ context }: { context: PixContext }) {
   const [open, setOpen] = useState(false);
@@ -100,45 +120,123 @@ export function SiteAssistant({ context }: { context: PixContext }) {
      enquiry being sent, and edits in the review form, survive Close and Escape.
      Until then it is not rendered, so the page's first HTML is unchanged. */
   const [opened, setOpened] = useState(false);
-  const [turns, setTurns] = useState<Turn[]>([GREETING]);
+  const [turns, setTurns] = useState<Turn[]>([FIRST_TURN]);
   const [draft, setDraft] = useState('');
+  /* The two steps before the chat, then null for the rest of it. */
+  const [identify, setIdentify] = useState<'name' | 'email' | null>('name');
+  const [pendingName, setPendingName] = useState('');
+  const [visitor, setVisitor] = useState<Visitor | null>(null);
+  /* Whether the visitor has sent anything since the greeting: the first message
+     is what starts discovery. */
+  const [chatted, setChatted] = useState(false);
+  /* One enquiry per conversation. Once it is delivered the offers go. */
+  const [leadSent, setLeadSent] = useState(false);
   const [flow, setFlow] = useState<Flow | null>(null);
   /* Remounts the review form for each new enquiry, so its server state starts clean. */
   const [reviewKey, setReviewKey] = useState(0);
   const nextId = useRef(1);
   const logRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const honeypotRef = useRef<HTMLInputElement>(null);
 
   const say = useCallback((...added: Omit<Turn, 'id'>[]) => {
     setTurns(prev => [...prev, ...added.map(t => ({ ...t, id: nextId.current++ }))]);
   }, []);
 
-  const startEnquiry = useCallback(() => {
-    setFlow({ step: 0, draft: { ...EMPTY_DRAFT }, reviewing: false });
-    say({ role: 'assistant', text: ENQUIRY_OPENING }, { role: 'assistant', text: ENQUIRY_STEPS[0].ask });
-    setTimeout(() => inputRef.current?.focus(), 0);
-  }, [say]);
+  const focusInput = useCallback(() => setTimeout(() => inputRef.current?.focus(), 0), []);
 
-  /* Before Send nothing has left the page. After a Send that failed, the
-     enquiry reached this site's server and went no further, so say that. */
+  /* Discovery, with whatever the visitor has already told us. The name and the
+     email are known, so only the four questions and the company are asked. */
+  const startDiscovery = useCallback(
+    (objective = '') => {
+      if (!visitor) return;
+      const step = objective ? 1 : 0;
+      const ask = DISCOVERY_STEPS[step];
+      /* However it began, discovery counts as the visitor's start: a later
+         message after Stop is a question, not a reason to begin again. */
+      setChatted(true);
+      setFlow({
+        step,
+        draft: { ...EMPTY_DRAFT, name: visitor.name, email: visitor.email, objective },
+        reviewing: false,
+      });
+      say(
+        { role: 'assistant', text: DISCOVERY_OPENING },
+        { role: 'assistant', text: ask.optional ? `${ask.ask} (optional)` : ask.ask },
+      );
+      focusInput();
+    },
+    [focusInput, say, visitor],
+  );
+
+  /* After a Send the server refused or could not deliver, the enquiry reached
+     this site and went no further. After a Send whose answer never came back,
+     nobody here knows, so Pix T says so rather than guessing either way. The
+     name and email were recorded at the start, which the notice said, so
+     "nothing was sent" is no longer the thing to say. */
   const cancelEnquiry = useCallback(
-    (afterFailedSend: boolean) => {
+    (kind: CancelKind) => {
       setFlow(null);
       say({
         role: 'assistant',
-        text: afterFailedSend
-          ? `Enquiry closed. It did not reach the team. You can email ${context.contactEmail} instead.`
-          : 'Enquiry cancelled. Nothing was sent.',
+        text:
+          kind === 'unsent'
+            ? 'Stopped. Those answers were not sent. Ask me anything, or start again with Send an enquiry below.'
+            : kind === 'refused'
+              ? `Enquiry closed. It did not reach the team. You can email ${context.contactEmail} instead.`
+              : `Enquiry closed. It may still have reached the team. If you do not hear back, please email ${context.contactEmail}.`,
       });
+      focusInput();
     },
-    [context.contactEmail, say],
+    [context.contactEmail, focusInput, say],
   );
 
-  /* One answer to the current question. An empty answer is a skip. */
+  /* The name, then the email. Neither can be skipped: the founder asked for
+     both before the chat begins. */
+  const identifyStep = useCallback(
+    (text: string) => {
+      const echo = text ? [{ role: 'visitor' as const, text }] : [];
+      if (identify === 'name') {
+        const check = checkName(text);
+        if (!check.ok) {
+          say(...echo, { role: 'assistant', text: check.problem });
+          return;
+        }
+        setPendingName(check.value);
+        setIdentify('email');
+        say({ role: 'visitor', text: check.value }, { role: 'assistant', text: askEmail(check.value) });
+        return;
+      }
+      const check = checkEmail(text);
+      if (!check.ok) {
+        say(...echo, { role: 'assistant', text: check.problem });
+        return;
+      }
+      setVisitor({ name: pendingName, email: check.value, ref: null });
+      setIdentify(null);
+      say({ role: 'visitor', text: check.value }, { role: 'assistant', text: greeting(pendingName) });
+      /* Recorded now, so a visitor who leaves early is not lost. Never awaited
+         by the chat, and a failure is not the visitor's problem: the enquiry
+         carries the same details again at the end. */
+      const data = new FormData();
+      data.set('name', pendingName);
+      data.set('email', check.value);
+      data.set('website', honeypotRef.current?.value ?? '');
+      startAssistantChat(data).then(
+        result => {
+          if (result.ref) setVisitor(v => (v ? { ...v, ref: result.ref } : v));
+        },
+        () => undefined,
+      );
+    },
+    [identify, pendingName, say],
+  );
+
+  /* One answer to the current discovery question. An empty answer is a skip. */
   const answer = useCallback(
     (raw: string) => {
       if (!flow || flow.reviewing) return;
-      const step = ENQUIRY_STEPS[flow.step];
+      const step = DISCOVERY_STEPS[flow.step];
       const check = checkAnswer(step, raw);
       if (!check.ok) {
         say({ role: 'assistant', text: check.problem });
@@ -147,17 +245,14 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       const nextDraft = { ...flow.draft, [step.field]: check.value };
       const next = flow.step + 1;
       const shown = { role: 'visitor' as const, text: check.value || 'Skip' };
-      if (next < ENQUIRY_STEPS.length) {
-        const ask = ENQUIRY_STEPS[next];
+      if (next < DISCOVERY_STEPS.length) {
+        const ask = DISCOVERY_STEPS[next];
         setFlow({ step: next, draft: nextDraft, reviewing: false });
         say(shown, { role: 'assistant', text: ask.optional ? `${ask.ask} (optional)` : ask.ask });
       } else {
         setFlow({ step: next, draft: nextDraft, reviewing: true });
         setReviewKey(k => k + 1);
-        say(shown, {
-          role: 'assistant',
-          text: 'Here is everything. Change anything you like, then press Send. Nothing has been sent yet.',
-        });
+        say(shown, { role: 'assistant', text: 'Thank you. Sending this to the team now.' });
       }
       setDraft('');
     },
@@ -167,28 +262,53 @@ export function SiteAssistant({ context }: { context: PixContext }) {
   const send = useCallback(
     (raw: string) => {
       const text = raw.trim();
+      if (identify) {
+        identifyStep(text);
+        setDraft('');
+        focusInput();
+        return;
+      }
       if (flow && !flow.reviewing) {
         answer(text);
+        focusInput();
         return;
       }
       if (!text) return;
       const reply: PixReply = respond(text, context);
-      say(
-        { role: 'visitor', text },
-        { role: 'assistant', text: reply.text, path: reply.path, sourceLabel: reply.sourceLabel, offer: reply.offer },
-      );
+      if (!chatted && !leadSent && !flow) {
+        /* The first message after the greeting starts discovery. A question is
+           answered, then the first discovery question is asked in full; a
+           description of what they want IS the answer to it, so it is kept and
+           discovery moves on. A description gets a reply only when Pix T has a
+           real one - "I don't have enough information" would read as a refusal
+           of what the visitor just said. */
+        setChatted(true);
+        if (looksLikeQuestion(text)) {
+          say({ role: 'visitor', text }, replyTurn(reply));
+          startDiscovery();
+        } else {
+          const answered = reply.via !== 'no-answer' && reply.via !== 'ask-more';
+          say({ role: 'visitor', text }, answered ? replyTurn(reply) : { role: 'assistant', text: 'Thanks, that helps.' });
+          startDiscovery(text.slice(0, ENQUIRY_MAX.objective));
+        }
+      } else {
+        say({ role: 'visitor', text }, replyTurn(reply));
+      }
       setDraft('');
+      focusInput();
     },
-    [answer, context, flow, say],
+    [answer, chatted, context, flow, focusInput, identify, identifyStep, leadSent, say, startDiscovery],
   );
 
   /* A delivered enquiry ends the flow, confirmed in the server's own words. */
   const finishEnquiry = useCallback(
     (message: string) => {
       setFlow(null);
+      setLeadSent(true);
       say({ role: 'assistant', text: message });
+      focusInput();
     },
-    [say],
+    [focusInput, say],
   );
 
   /* Keep the newest turn in view without yanking the whole page around. A
@@ -212,7 +332,24 @@ export function SiteAssistant({ context }: { context: PixContext }) {
     return () => document.removeEventListener('keydown', onKey);
   }, [open]);
 
-  const asking = flow && !flow.reviewing ? ENQUIRY_STEPS[flow.step] : null;
+  const asking = flow && !flow.reviewing ? DISCOVERY_STEPS[flow.step] : null;
+  /* What the one input is for right now, which decides its label, its hints and
+     its limit. */
+  const input = identify === 'name'
+    ? { label: 'Your name', placeholder: 'Your name', autoComplete: 'name', type: 'text', max: ENQUIRY_MAX.name }
+    : identify === 'email'
+      ? { label: 'Your work email', placeholder: 'you@company.com', autoComplete: 'email', type: 'email', max: ENQUIRY_MAX.email }
+      : asking
+        ? {
+            label: asking.ask,
+            placeholder: 'Type your answer',
+            autoComplete: asking.field === 'company' ? 'organization' : 'off',
+            type: 'text',
+            max: ENQUIRY_MAX[asking.field],
+          }
+        : { label: `Ask ${PIX_T_NAME} a question`, placeholder: 'Type your message', autoComplete: 'off', type: 'text', max: MESSAGE_MAX };
+  const stepping = identify !== null || asking !== null;
+  const canOffer = visitor !== null && !flow && !leadSent;
 
   return (
     <>
@@ -255,25 +392,28 @@ export function SiteAssistant({ context }: { context: PixContext }) {
                     </Link>
                   </p>
                 ) : null}
-                {t.role === 'assistant' && t.offer === 'enquiry' && !flow ? (
-                  <button className="asst-offer" onClick={startEnquiry} type="button">
+                {t.role === 'assistant' && t.offer === 'enquiry' && canOffer ? (
+                  <button className="asst-offer" onClick={() => startDiscovery()} type="button">
                     Send an enquiry here
                   </button>
                 ) : null}
               </div>
             ))}
 
-            {flow?.reviewing ? (
+            {flow?.reviewing && visitor ? (
               <EnquiryReview
+                autoSubmit
+                contactEmail={context.contactEmail}
                 draft={flow.draft}
                 key={reviewKey}
+                leadRef={visitor.ref}
                 onCancel={cancelEnquiry}
                 onDelivered={finishEnquiry}
               />
             ) : null}
           </div>
 
-          {turns.length === 1 && !flow ? (
+          {visitor && !chatted && !flow ? (
             <div className="asst-starters">
               {STARTERS.map(s => (
                 <button className="asst-chip" key={s} onClick={() => send(s)} type="button">
@@ -286,7 +426,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
           {asking ? (
             <div className="asst-flowbar">
               <span>
-                Enquiry, question {flow!.step + 1} of {ENQUIRY_STEPS.length}
+                Question {flow!.step + 1} of {DISCOVERY_STEPS.length}
               </span>
               <span>
                 {asking.optional ? (
@@ -294,8 +434,8 @@ export function SiteAssistant({ context }: { context: PixContext }) {
                     Skip
                   </button>
                 ) : null}{' '}
-                <button onClick={() => cancelEnquiry(false)} type="button">
-                  Cancel
+                <button onClick={() => cancelEnquiry('unsent')} type="button">
+                  Stop
                 </button>
               </span>
             </div>
@@ -304,9 +444,9 @@ export function SiteAssistant({ context }: { context: PixContext }) {
           {flow?.reviewing ? null : (
             <form
               className="asst-form"
-              /* The flow's own check answers a malformed email in the chat. Without
-                 this, the email question's type="email" let the browser block the
-                 submit with its own tooltip, and the visitor never heard from Pix T. */
+              /* Pix T's own checks answer a malformed email in the chat. Without
+                 this, type="email" let the browser block the submit with its own
+                 tooltip, and the visitor never heard from Pix T. */
               noValidate
               onSubmit={e => {
                 e.preventDefault();
@@ -314,36 +454,59 @@ export function SiteAssistant({ context }: { context: PixContext }) {
               }}
             >
               <label className="visually-hidden-heading" htmlFor="asst-input">
-                {asking ? asking.ask : 'Ask Pix T a question'}
+                {input.label}
               </label>
               <input
-                autoComplete={asking?.field === 'email' ? 'email' : asking?.field === 'name' ? 'name' : 'off'}
+                autoComplete={input.autoComplete}
                 className="asst-input"
                 id="asst-input"
-                maxLength={asking ? ENQUIRY_MAX[asking.field] : MESSAGE_MAX}
+                maxLength={input.max}
                 onChange={e => setDraft(e.target.value)}
-                placeholder={asking ? 'Type your answer' : "Tell me what you're working on"}
+                placeholder={input.placeholder}
                 ref={inputRef}
-                type={asking?.field === 'email' ? 'email' : 'text'}
+                type={input.type}
                 value={draft}
               />
-              <button className="asst-send" disabled={!asking && !draft.trim()} type="submit">
-                {asking ? 'Next' : 'Ask'}
+              <button className="asst-send" disabled={!stepping && !draft.trim()} type="submit">
+                {stepping ? 'Next' : 'Ask'}
               </button>
             </form>
           )}
 
+          {/* The same honeypot as the enquiry form: hidden from people, filled by
+              bots, and sent with the name and email. */}
+          <div aria-hidden className="honeypot">
+            <label>
+              Website
+              <input autoComplete="off" name="website" ref={honeypotRef} tabIndex={-1} type="text" />
+            </label>
+          </div>
+
           <p className="asst-foot">
-            This chat is not recorded. An enquiry you choose to send goes to the team the same way as the contact
-            form.{' '}
-            {flow ? null : (
+            {identify ? (
+              /* The contact form's just-in-time notice, founder wording verbatim
+                 (2026-09-17), where the name and email are asked. */
               <>
-                <button className="asst-linkbtn" onClick={startEnquiry} type="button">
+                We use the information you provide to respond to your enquiry. See our{' '}
+                <Link href="/privacy" onClick={() => setOpen(false)}>
+                  Privacy Notice
+                </Link>{' '}
+                for more information.{' '}
+              </>
+            ) : (
+              <>
+                Your name, email and answers to {PIX_T_NAME}&rsquo;s questions go to the team. The rest of this chat is
+                not stored.{' '}
+              </>
+            )}
+            {canOffer ? (
+              <>
+                <button className="asst-linkbtn" onClick={() => startDiscovery()} type="button">
                   Send an enquiry
                 </button>
                 {' · '}
               </>
-            )}
+            ) : null}
             <Link href="/contact" onClick={() => setOpen(false)}>
               Contact page
             </Link>
@@ -354,9 +517,13 @@ export function SiteAssistant({ context }: { context: PixContext }) {
   );
 }
 
-
 /**
- * The enquiry, shown back before anything is sent.
+ * The enquiry, as it is sent - and, if sending fails, as it can be corrected
+ * and sent again.
+ *
+ * Since 2026-09-29 Pix T submits this itself when discovery ends (`autoSubmit`),
+ * having said before the first question that it would. Before then it waited
+ * for the visitor to press Send; that button is still here for a retry.
  *
  * THE CONTACT FORM'S FIELDS, NAMES AND NOTICE. The field names are the ones
  * the server action reads, the four labels are the shared questions, the
@@ -365,37 +532,103 @@ export function SiteAssistant({ context }: { context: PixContext }) {
  * information at the point of collection, and this is a point of collection.
  */
 function EnquiryReview({
+  autoSubmit = false,
+  contactEmail,
   draft,
+  leadRef,
   onDelivered,
   onCancel,
 }: {
+  /** Send as soon as it appears: discovery has already told the visitor it will. */
+  autoSubmit?: boolean;
+  contactEmail: string;
   draft: EnquiryDraft;
+  /** The chat contact recorded at the start, so the enquiry can name it. */
+  leadRef: string | null;
   onDelivered: (message: string) => void;
-  onCancel: (afterFailedSend: boolean) => void;
+  onCancel: (kind: CancelKind) => void;
 }) {
-  const [state, dispatch, pending] = useActionState(submitAssistantEnquiry, INITIAL_ENQUIRY);
+  const [state, setState] = useState<ReviewState>(INITIAL_ENQUIRY);
+  const [pending, setPending] = useState(false);
+  const [slow, setSlow] = useState(false);
+  /* Set synchronously, so two submits in the same tick send once; `pending`
+     is state, and two scripted submits both read it before it updates
+     (finding ECE-06). */
+  const inFlight = useRef(false);
   const reported = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const autoSent = useRef(false);
+
+  /* SENT BY ITSELF SINCE 2026-09-29. Discovery tells the visitor before the
+     first question that the answers go to the team when it ends, so the end of
+     discovery is the send. It goes through this form's own submit, so every
+     failure behaviour below still holds: a refusal or a lost answer leaves the
+     form open with the answers in it, an honest message and a working Send. */
+  useEffect(() => {
+    if (!autoSubmit || autoSent.current) return;
+    autoSent.current = true;
+    formRef.current?.requestSubmit();
+  }, [autoSubmit]);
 
   /* Only a delivered enquiry ends the flow. Any failure - a field to put right,
-     or delivery unconfigured or down - leaves the form open with the visitor's
-     answers in it, as the contact form intends, so they can correct it or copy
-     it into the email the failure message asks for. */
+     delivery unconfigured or down, or an answer that never came back - leaves
+     the form open with the visitor's answers in it, so they can correct it or
+     copy it into the email the message asks for. */
   useEffect(() => {
     if (state.status !== 'success' || reported.current) return;
     reported.current = true;
     onDelivered(state.message);
   }, [state, onDelivered]);
 
-  /* Dispatched by hand rather than through <form action>: React 19 resets a
-     form's uncontrolled fields once an action completes, even one that returns
-     field errors, which put the chat answers back over the visitor's
-     corrections (observed in the browser run on 2026-09-28). */
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  /* A Send the server has not answered in 15 seconds gets an honest note and a
+     working Cancel. The server gives each provider 8 seconds, so a healthy send
+     never gets here (finding RES-04). */
+  useEffect(() => {
+    if (!pending) return;
+    const timer = setTimeout(() => setSlow(true), SLOW_SEND_MS);
+    return () => clearTimeout(timer);
+  }, [pending]);
+
+  /*
+   * THE ACTION IS CALLED DIRECTLY, INSIDE A TRY, rather than through
+   * useActionState, since 2026-09-29.
+   *
+   * Through useActionState a failure in transit - the phone losing signal, a
+   * gateway error, a stale action after a redeploy, a response lost after the
+   * row was stored - rejected into React, which re-threw it during render, and
+   * with no error boundary Next replaced EVERY page with "Application error".
+   * The visitor lost the page and the enquiry together (findings ECE-01 and
+   * RES-01, reproduced by five independent runs). Caught here, it becomes an
+   * honest message and the answers stay on screen.
+   *
+   * It stays out of <form action> for the reason it left it on 2026-09-28:
+   * React 19 resets a form's fields once an action completes, which put the
+   * chat answers back over the visitor's corrections.
+   */
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (pending) return;
+    if (inFlight.current) return;
+    inFlight.current = true;
     const data = new FormData(event.currentTarget);
-    startTransition(() => dispatch(data));
+    setPending(true);
+    let next: ReviewState;
+    try {
+      next = await submitAssistantEnquiry(state, data);
+    } catch {
+      next = { status: 'error', message: '', unconfirmed: true };
+    }
+    inFlight.current = false;
+    setPending(false);
+    setSlow(false);
+    setState(next);
   };
+
+  const unconfirmedMessage =
+    `We could not confirm that your enquiry was sent: the connection may have dropped. It may still have reached us. ` +
+    `Please email ${contactEmail} so it is not lost; your answers are still here to copy.`;
+  const message = state.unconfirmed ? unconfirmedMessage : state.message;
+  const cancelKind: CancelKind =
+    pending || state.unconfirmed ? 'unconfirmed' : state.status === 'error' ? 'refused' : 'unsent';
 
   const err = state.errors ?? {};
   const field = (
@@ -427,7 +660,10 @@ function EnquiryReview({
   };
 
   return (
-    <form className="asst-review" noValidate onSubmit={submit}>
+    <form className="asst-review" noValidate onSubmit={submit} ref={formRef}>
+      {/* Links this enquiry to the contact recorded at the start. The server
+          accepts only the shape of a reference it issues. */}
+      <input name="leadRef" type="hidden" value={leadRef ?? ''} />
       {field('objective', QUESTIONS.objective, { rows: 3 })}
       {field('existing', QUESTIONS.existing, { rows: 2, optional: true })}
       {field('deadline', QUESTIONS.deadline, { optional: true })}
@@ -445,21 +681,28 @@ function EnquiryReview({
       </div>
 
       {/* Beside Send, where the visitor is looking when the answer arrives. */}
-      {state.status === 'error' && state.message ? (
+      {!pending && state.status === 'error' && message ? (
         <p className="asst-review-error" role="status">
-          {state.message}
+          {message}
+        </p>
+      ) : null}
+      {slow ? (
+        <p className="asst-review-error" role="status">
+          This is taking longer than it should. It may still arrive. If you would rather not wait, close it and
+          email {contactEmail}.
         </p>
       ) : null}
       <div className="asst-review-actions">
         <button className="asst-send" disabled={pending} type="submit">
           {pending ? 'Sending…' : 'Send'}
         </button>
-        {/* Not while sending: the enquiry may already be delivered, and
-            "nothing was sent" would then be untrue. */}
+        {/* Not in the first seconds of a send: the enquiry may already be
+            delivered, and "nothing was sent" would be untrue. Once a send is
+            slow, closing is allowed and Pix T says it may still arrive. */}
         <button
           className="asst-linkbtn"
-          disabled={pending}
-          onClick={() => onCancel(state.status === 'error')}
+          disabled={pending && !slow}
+          onClick={() => onCancel(cancelKind)}
           type="button"
         >
           Cancel

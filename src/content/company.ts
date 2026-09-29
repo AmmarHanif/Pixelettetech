@@ -216,6 +216,10 @@ export type Certification = {
    *
    * Do not use this to refill `trustBadges`. That is a different presentation
    * and it stays empty.
+   *
+   * SUPERSEDED: since 22 September 2026 the footer renders the standard's name
+   * alone, with no badge image, and since 24 September (reaffirmed 29
+   * September) no certificate date is published anywhere. Founder instructions.
    */
   badge?: string;
   /** True when the certificate is held by Pixelette Certified, not by us. */
@@ -235,6 +239,14 @@ export type Certification = {
    * published with a number and no expiry is the badge problem again in
    * smaller type, and a reader who is given two of the three facts cannot tell
    * whether the third is missing or simply not applicable.
+   *
+   * NONE OF THESE IS PUBLISHED ANY MORE. Founder instruction, 24 September
+   * 2026, reaffirmed 29 September: the site names the standard only, and the
+   * number, the body and every date go to a reviewer on request. The fields
+   * stay as the internal record. `validToISO` still decides whether a row
+   * renders at all (SiteFooter `publishedCertifications`), and
+   * scripts/check-public-output.mjs fails the build if any date in these rows
+   * reaches the site.
    */
   /** As printed on the certificate. */
   certificateNumber?: string;
@@ -248,7 +260,7 @@ export type Certification = {
   issuingBody?: string;
   /** Issue date on the certificate. */
   issued?: string;
-  /** Expiry date on the certificate, as published copy. */
+  /** Expiry date on the certificate, as the certificate prints it. Not published: see above. */
   validTo?: string;
   /**
    * The SAME expiry as `validTo`, in ISO 8601, for comparison rather than for
@@ -275,6 +287,8 @@ export type Certification = {
    * three-year run with no dated checkpoint in it. No audit programme is
    * recorded in this type, because no audit programme was supplied with the
    * certificates and this project does not describe schedules it has not seen.
+   *
+   * Neither date is published any more: see the note above `certificateNumber`.
    */
   recertification?: string;
   /**
@@ -295,6 +309,12 @@ export type Certification = {
  * IAF CertSearch requires an account and the IASME search sits behind bot
  * protection. Its finding was precise, and is worth repeating rather than
  * softening: not doubted, not verified. design/certificates/ is empty.
+ *
+ * CORRECTED 2026-09-29. Of everything the 14 September update below describes
+ * as printed, only the standard's name still is. The certificate numbers, the
+ * issuing body and every date were withdrawn from the site on the founder's
+ * instruction of 24 September 2026, reaffirmed 29 September, and go to a
+ * reviewer on request.
  *
  * UPDATED 2026-09-14, and two things changed at once.
  *
@@ -374,6 +394,9 @@ export const certificationRegister: Certification[] = [
      * array: IAF ceased operations on 1 January 2026. The last sentence of that
      * old comment turned out to be the whole answer — the facts, not the link,
      * are what let a stranger check.
+     *
+     * Those facts were withdrawn from the site on 24 September 2026: see the
+     * correction above this array.
      */
     certificateNumber: 'AMER800409',
     issuingBody:
@@ -509,8 +532,9 @@ export const certified = {
    * is restated without the false half: THIS LIST IS NOT A STATEMENT ABOUT WHAT
    * ANY PIXELETTE COMPANY HOLDS, in either direction. Copy near it must not
    * imply these are held, and must not deny it either, because one of them now
-   * is. What is held is published in `certificationRegister` above, with
-   * certificate numbers and dates.
+   * is. What is held is recorded in `certificationRegister` above. Its
+   * certificate numbers and dates stay internal: only the standard's name is
+   * published (founder instruction, 24 September 2026, reaffirmed 29 September).
    */
   standards: ['ISO 27001', 'ISO 42001', 'Cyber Essentials', 'GDPR', 'SOC 2'],
   /**

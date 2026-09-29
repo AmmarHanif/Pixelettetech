@@ -115,6 +115,17 @@ These carry legal exposure. None should be published in its current state.
 **`/privacy`**
 
 - [ ] `[TRANSFER MECHANISM PER PROVIDER — confirm UK adequacy regulations (Article 45A) or the International Data Transfer Addendum, and name it here]`
+- [ ] **Pix T lead capture (built 29 September 2026, founder instruction).** Pix T now
+      asks for a name and work email before chatting, records them, and scores the
+      enquiry that follows. It cannot ship until:
+      1. the founder and Legal approve `PRIVACY-STATEMENT-DRAFT-PIX-T-LEADS.md` and the
+         approved wording is on `/privacy`. The build fails until then
+         (`scripts/check-privacy-interlock.mjs`), because the published Statement says the
+         site does no profiling;
+      2. Legal has recorded its view on a DPIA, the lawful basis and the retention period for
+         chat contacts who never send an enquiry;
+      3. `supabase/migrations/20260929120000_pix_t_lead_capture.sql` is applied to the
+         project before deployment (founder step; see `CONTACT-FORM-SETUP.md`).
 
 The other four are closed, and how each closed matters more than that it did
 (all read in `src/app/privacy/page.tsx` on 2026-09-08):
@@ -456,6 +467,10 @@ Pricing detail to confirm.
       - **Two dates now sit in the diary**: 1 January 2027 and 11 March 2027.
         Re-evidence each row from the current certificate on or before its date,
         or return it to HELD.
+      - **Renew `public/.well-known/security.txt` in the same pass.** Its
+        Expires is 14 September 2027. The note tying its renewal to these dates
+        used to sit in that file, which is public, so it was moved here on
+        29 September 2026 under the founder's no-certificate-dates instruction.
 - [ ] Decide the redirect map from the current site's URLs to these routes. The
       information architecture has changed substantially — several existing
       service pages have no direct equivalent — so this needs a deliberate pass,

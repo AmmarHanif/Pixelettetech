@@ -111,8 +111,14 @@ check('Founder: certificate detail withdrawn from the public site',
 foot, _ = visible(A + 'index.html')
 check('  ...but the ISO ledger still publishes both standards',
       'ISO 27001:2022' in foot and 'ISO 9001:2015' in foot)
-check('  ...each with its validity date, never a bare badge',
-      '11 March 2027' in foot and '1 January 2027' in foot)
+# INVERTED 2026-09-29, for the same reason as the certificate-number check
+# above. This used to REQUIRE both expiry dates in the footer. The founder
+# removed the "Valid to" line on 22 September and, on 24 September (reaffirmed
+# 29 September), withdrew every certificate date from the site, so the old
+# assertion had become the defect. scripts/check-public-output.mjs now fails
+# the build on any certificate date anywhere; this keeps the footer half.
+check('  ...naming the standard only, with no certificate date beside it',
+      '11 March 2027' not in foot and '1 January 2027' not in foot)
 
 # --- Homepage audit, its own acceptance table -----------------------------
 sections = len(re.findall(r'<section[^>]*>', home_html))

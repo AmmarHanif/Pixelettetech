@@ -9,6 +9,20 @@ const nextConfig: NextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
   },
+  experimental: {
+    serverActions: {
+      /*
+       * Added 2026-09-29 (finding PERF-01). The two enquiry actions are the only
+       * server actions on the site, and the largest genuine enquiry is 12,000
+       * characters of answers plus 680 of name, email, company and deadline:
+       * about 13 KB, or about 51 KB if every character took four bytes. 128 KB
+       * leaves room for multipart framing and refuses the ~1 MB bodies Next's
+       * default accepts, which is how one request carried a 900,000-character
+       * email address to the server's address check.
+       */
+      bodySizeLimit: '128kb',
+    },
+  },
   /*
    * ============================================================================
    *  LEGACY URL REDIRECTS.  READ THIS BEFORE LAUNCH — IT IS INCOMPLETE BY DESIGN.

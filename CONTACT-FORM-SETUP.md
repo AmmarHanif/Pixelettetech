@@ -58,6 +58,11 @@ is, the form reports honestly that it is not connected. See section 6.
 2. Apply `supabase/migrations/20260914120000_create_contact_enquiries.sql`.
    Either `supabase db push` with the CLI, or open the SQL Editor in the
    dashboard, paste the whole file and run it. The file is safe to run twice.
+   Then apply `supabase/migrations/20260929120000_pix_t_lead_capture.sql` (Pix T
+   lead capture, 29 September 2026): the lead-score columns and the
+   `assistant_contacts` table, with the same access controls. Apply it BEFORE the
+   code that uses it is deployed, and run the five checks at its foot. Unlike the
+   first file, running it twice fails on the constraints it adds, deliberately.
 3. **Confirm Row Level Security is on and that no policy was created.** Both are
    the security design, not an oversight. The table is a list of named people
    and their work email addresses, and the anon key that reaches it is published

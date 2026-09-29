@@ -56,6 +56,15 @@ const SITE_ID = `${SITE_URL}/#website`;
  * certificate without them. That is a deliberately better answer for machine
  * readers than `hasCredential` gives, and it is retractable in one edit.
  *
+ * CORRECTED 2026-09-29: the two paragraphs above describe copy that no longer
+ * exists. Since 24 September (founder instruction, reaffirmed 29 September) no
+ * published surface prints a certificate number, issuing body or date: the
+ * footer names the standard alone, public/llms.txt says the detail is supplied
+ * to reviewers during procurement, and scripts/check-public-output.mjs fails
+ * the build if a certificate date appears. `credentials` is still not passed;
+ * whether to emit bare standard names here, now that the footer shows exactly
+ * that, is a separate decision this correction does not take.
+ *
  * If this is ever revisited, the thing to change is the shape, not the switch:
  * `credentials` takes standard names only, and what would make it safe is a
  * type that cannot express a credential without its identifier and validity.

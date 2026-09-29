@@ -485,6 +485,13 @@ export default function HomePage() {
         body, accrediting body and expiry - which is where a reviewer goes and
         what llms.txt instructs any reader to cite. The homepage no longer
         states the gate; the pages that hold the evidence still do.
+
+        NO LONGER TRUE, corrected 2026-09-29. Both pages were withdrawn on
+        17 September. On the founder's instruction (24 September, reaffirmed
+        29 September) no certificate number, issuing body or date is published
+        anywhere on the site: the footer names the standards, and the detail
+        goes to a reviewer on request. scripts/check-public-output.mjs fails
+        the build if a certificate date appears.
       */}
 
 

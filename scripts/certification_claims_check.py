@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Check what the built site publishes about certification.
 
+SUPERSEDED 2026-09-29 and disabled: see the note below the imports.
+
 Run AFTER `next build`, against the prerendered HTML in `.next/server/app/`,
 never against source. The defect class this guards is the one ADR-0012 recorded
 and ADR-0029 hit again: a sentence that a later decision made false, which no
@@ -42,6 +44,20 @@ import re
 import sys
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+# SUPERSEDED 2026-09-29. DO NOT RUN IT, AND DO NOT CHANGE THE SITE TO PASS IT.
+# Its page batteries demand content the founder has since withdrawn: the
+# /security-and-data and /certifications pages went on 17 September 2026, and
+# the certificate numbers, the issuing body and every certificate date on 24
+# September (reaffirmed 29 September). Passing it would mean publishing all of
+# that again. The date guarantee now lives in scripts/check-public-output.mjs,
+# which `npm run build` runs. Its two site-wide sweeps - no dead IAF route, and
+# "cyber essentials" only in non-claim shapes - have not been ported there yet;
+# they have not run since the pages this file loads first were withdrawn.
+sys.exit(
+    "certification_claims_check.py is superseded (29 September 2026): it asserts "
+    "certificate details the site no longer publishes. See the note below its imports."
+)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APP = os.path.join(ROOT, ".next", "server", "app")
