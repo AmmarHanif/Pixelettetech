@@ -456,6 +456,10 @@ Pricing detail to confirm.
       - **Two dates now sit in the diary**: 1 January 2027 and 11 March 2027.
         Re-evidence each row from the current certificate on or before its date,
         or return it to HELD.
+      - **Renew `public/.well-known/security.txt` in the same pass.** Its
+        Expires is 14 September 2027. The note tying its renewal to these dates
+        used to sit in that file, which is public, so it was moved here on
+        29 September 2026 under the founder's no-certificate-dates instruction.
 - [ ] Decide the redirect map from the current site's URLs to these routes. The
       information architecture has changed substantially — several existing
       service pages have no direct equivalent — so this needs a deliberate pass,

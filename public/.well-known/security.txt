@@ -4,8 +4,7 @@
 #
 # Expires is mandatory under the RFC and is deliberately a year out rather than
 # further: a stale security.txt is worse than none, because it tells a finder
-# the route is maintained when nobody is reading it. Renew it with the ISO
-# certificate dates, which fall in the same window and are already diarised.
+# the route is maintained when nobody is reading it. Renew it before it lapses.
 
 Contact: mailto:sales@pixelettetech.com
 Expires: 2027-09-14T00:00:00.000Z

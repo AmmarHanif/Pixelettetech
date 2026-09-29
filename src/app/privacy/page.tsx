@@ -469,13 +469,21 @@ export default function PrivacyPage() {
           </p>
 
           <h3 className="h4">Security</h3>
+          {/* AMENDED 2026-09-29, founder instruction of the same day: "and their
+              validity dates" deleted from the last sentence. The footer has shown
+              the standard's name only since 22 September, and no certificate date
+              is published anywhere on the site (founder instruction, 24 September,
+              reaffirmed 29 September), so the sentence had become untrue. Nothing
+              else in the statement changed. The version and effective date are
+              left as they are, as with the 18 September transfers correction: the
+              statement is not yet published. */}
           <p className="body">
             The site is served over an encrypted connection, enquiry data is encrypted in transit
             and at rest by the providers above, and access is limited to the people who need it. The
             database credential the website uses is scoped so that the site can add an enquiry and
             cannot read the others back. We hold an ISO/IEC 27001 certified information security
-            management system; the standards and their validity dates are in the footer of every
-            page, and the certificate detail goes to a reviewer on request.
+            management system; the standards are in the footer of every page, and the certificate
+            detail goes to a reviewer on request.
           </p>
           <p className="body">
             Nobody can promise a system is impossible to break into, and we are not going to. What
