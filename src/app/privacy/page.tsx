@@ -54,6 +54,11 @@ export const metadata = pageMetadata({
  *     matches for "assistant" are marketing copy about AI we BUILD for clients.
  *   - No enquiry scoring. The form asks four qualifying QUESTIONS; no score is
  *     computed, stored or acted on, and `contact_enquiries` has no score column.
+ *     NO LONGER TRUE OF PIX T (founder instruction, 29 September 2026): its
+ *     enquiries are scored and the table gains score columns. The wording this
+ *     page needs is drafted in PRIVACY-STATEMENT-DRAFT-PIX-T-LEADS.md, and the
+ *     build refuses to pass until it is published here. This audit note is
+ *     left as it was run.
  *   - No careers or recruitment route.
  *   - No mailing list. The Subscribe CTA was removed on 2026-09-16 precisely
  *     because nothing was wired up behind it.
@@ -362,7 +367,15 @@ export default function PrivacyPage() {
             made by people.
           </p>
 
-          <h3 className="h4">How we prioritise enquiries from Pix T</h3>
+          {/* THE ID IS LOAD-BEARING, not an anchor convenience. The privacy
+              interlock requires `id="pix-t-lead-score"` as a POSITIVE marker
+              (scripts/privacy-interlock-rules.cjs), added by the 29 September
+              security review so the check cannot be satisfied merely by
+              deleting the sentence it objected to. Removing this id fails the
+              build. */}
+          <h3 className="h4" id="pix-t-lead-score">
+            How we prioritise enquiries from Pix T
+          </h3>
           <p className="body">
             When you send an enquiry through Pix T, we give it a lead score from 0 to 100 and a band
             (cold, warm, hot or urgent) so that we can see which enquiries to answer first. The score

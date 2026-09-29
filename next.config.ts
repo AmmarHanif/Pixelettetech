@@ -1,4 +1,60 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import type { NextConfig } from 'next';
+import { PHASE_PRODUCTION_BUILD } from 'next/constants';
+
+/*
+ * THE PRIVACY INTERLOCK, source half (security review, 29 September 2026).
+ *
+ * Founder decision, 29 September 2026: Pix T's lead capture does not go live
+ * until the Privacy Statement describes it. scripts/check-privacy-interlock.mjs
+ * enforces that on the build output, but only when the build is started with
+ * `npm run build`. A host whose build command is a bare `next build` would skip
+ * it. Every production build evaluates this file, however it is started, so the
+ * same rules (scripts/privacy-interlock-rules.cjs) are applied here to the
+ * source: while src/lib/lead-score.ts exists, /privacy must carry the approved
+ * scoring paragraph and say nothing the score makes false, and the notice where
+ * Pix T asks for a name and email must say they are recorded at once.
+ *
+ * A local test build may pass PIX_T_PRIVACY_INTERLOCK=bypass-for-local-testing-only
+ * to build the site for a browser test before the wording is approved. It is
+ * refused on Vercel and in CI, and `npm run build` still fails afterwards at the
+ * output check, which has no bypass.
+ */
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const interlock = require('./scripts/privacy-interlock-rules.cjs');
+
+function assertPrivacyCoversLeadCapture(): void {
+  const root = typeof __dirname === 'string' ? __dirname : process.cwd();
+  if (!fs.existsSync(path.join(root, 'src', 'lib', 'lead-score.ts'))) return;
+
+  const page = fs.readFileSync(path.join(root, 'src', 'app', 'privacy', 'page.tsx'), 'utf8');
+  // Comments are not what a reader sees, and this file's record of its own
+  // history quotes the sentences the rules look for.
+  const shown = page.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:])\/\/[^\n]*/g, '$1 ');
+  const hasMarker = new RegExp(`id=["']${interlock.LEAD_SCORE_MARKER}["']`).test(page);
+  const problems: string[] = interlock.statementProblems(shown, hasMarker);
+  const assistant = fs.readFileSync(path.join(root, 'src', 'components', 'SiteAssistant.tsx'), 'utf8');
+  if (!assistant.includes(interlock.GATE_NOTICE_MARKER)) {
+    problems.push(`the notice where Pix T asks for a name and email does not say "${interlock.GATE_NOTICE_MARKER}"`);
+  }
+  if (problems.length === 0) return;
+
+  if (
+    process.env.PIX_T_PRIVACY_INTERLOCK === 'bypass-for-local-testing-only' &&
+    !process.env.VERCEL &&
+    !process.env.CI
+  ) {
+    console.warn(`\nPRIVACY INTERLOCK BYPASSED FOR A LOCAL TEST BUILD. This build must not be deployed: ${problems.join('; ')}.\n`);
+    return;
+  }
+  throw new Error(
+    `PRIVACY INTERLOCK: Pix T captures and scores leads, but ${problems.join('; ')}. ` +
+      'Founder decision, 29 September 2026: lead capture does not go live before the Privacy Statement ' +
+      'describes it. The wording is drafted in PRIVACY-STATEMENT-DRAFT-PIX-T-LEADS.md for the founder and Legal.',
+  );
+}
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -364,4 +420,9 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+/* Function form, so the privacy interlock runs on every production build and
+   on nothing else: `next dev` and `next start` are not held up by it. */
+export default function config(phase: string): NextConfig {
+  if (phase === PHASE_PRODUCTION_BUILD) assertPrivacyCoversLeadCapture();
+  return nextConfig;
+}

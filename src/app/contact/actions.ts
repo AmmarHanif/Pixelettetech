@@ -1,6 +1,9 @@
 'use server';
 
+import { headers } from 'next/headers';
+
 import { contactEmail } from '@/content/company';
+import { allowAction, clientKey } from '@/lib/action-limits';
 import { deliverChatContact, deliverEnquiry, type Enquiry } from '@/lib/enquiries';
 import { scoreLead } from '@/lib/lead-score';
 
@@ -77,6 +80,8 @@ const MESSAGES = {
   SUCCESS: 'Thank you. One of us will reply personally, not an automated sequence.',
   UNCONFIGURED: `Our contact form is not currently connected. Please email ${contactEmail} so your enquiry reaches a person.`,
   FAILED: `We could not send that just now. Please email ${contactEmail} rather than retrying, so your enquiry is not lost.`,
+  // Pix T only: too many enquiries from one connection (src/lib/action-limits.ts).
+  LIMITED: `We have had several enquiries from this connection just now. Please email ${contactEmail} so yours reaches a person.`,
 } as const;
 
 /*
@@ -144,10 +149,27 @@ function isLineBreakOrControl(code: number): boolean {
   return code < 32 || code === 127 || code === 0x85 || code === 0x2028 || code === 0x2029;
 }
 
+/*
+ * Zero-width and text-direction characters, taken out of single-line fields
+ * (security review N3, 29 September 2026). A right-to-left override in a name
+ * reaches the notification's subject and can make "fdp.eciovni" display as
+ * "invoice.pdf". No name or company needs one.
+ */
+function isInvisibleFormatting(code: number): boolean {
+  return (
+    (code >= 0x200b && code <= 0x200f) ||
+    (code >= 0x202a && code <= 0x202e) ||
+    (code >= 0x2060 && code <= 0x2069) ||
+    code === 0xfeff
+  );
+}
+
 function singleLine(value: string): string {
-  return Array.from(value, character =>
-    isLineBreakOrControl(character.codePointAt(0) ?? 0) ? ' ' : character,
-  )
+  return Array.from(value, character => {
+    const code = character.codePointAt(0) ?? 0;
+    if (isInvisibleFormatting(code)) return '';
+    return isLineBreakOrControl(code) ? ' ' : character;
+  })
     .join('')
     .replace(/\s+/g, ' ')
     .trim();
@@ -198,19 +220,45 @@ export async function submitAssistantEnquiry(
   _previous: ContactState,
   formData: FormData,
 ): Promise<ContactState> {
+  const key = await connection();
+  if (key && !allowAction('assistant-enquiry', key)) {
+    logLimited('assistant-enquiry');
+    return { status: 'error', message: MESSAGES.LIMITED };
+  }
   return acceptEnquiry(formData, 'pixelettetech.com/assistant', { lead: true });
 }
 
-/**
- * What Pix T hears back when a visitor gives a name and an email. `ref` names
- * the recorded contact so the enquiry that may follow can point at it; it is
- * null when nothing was recorded.
+/*
+ * The caller's connection, for the rate limits (security review S3). Outside a
+ * request - a test calling an action directly - there is no connection, and
+ * nothing to limit.
  */
-export type ChatStartState = {
-  status: 'ok' | 'unconfigured' | 'failed' | 'invalid';
-  ref: string | null;
-  errors?: Record<string, string>;
-};
+async function connection(): Promise<string | null> {
+  try {
+    return clientKey(await headers());
+  } catch {
+    return null;
+  }
+}
+
+/* Once per refused call, with no address and no field: enough for a flood to
+   show in the host's logs, nothing about anyone in it. */
+function logLimited(action: string): void {
+  console.error(`[contact] ${action} refused: rate limit`);
+}
+
+/**
+ * What Pix T hears back when a visitor gives a name and an email: a reference
+ * for the enquiry that may follow to quote, and nothing else.
+ *
+ * THE SAME SHAPE WHATEVER HAPPENED (security review N2). It used to report
+ * whether the contact was recorded, which told any caller whether the database
+ * was set up and let the honeypot's answer be told apart from a real one. Pix T
+ * never used that. The reference names the recorded row when there is one; when
+ * there is not, it names nothing, and the notification says the link is
+ * unverified either way.
+ */
+export type ChatStartState = { ref: string };
 
 /**
  * The name and email Pix T asks for before chatting (founder instruction,
@@ -226,30 +274,41 @@ export type ChatStartState = {
  * No email is sent from here. The team hears once, when the enquiry is complete.
  */
 export async function startAssistantChat(formData: FormData): Promise<ChatStartState> {
-  // The same honeypot as the enquiry, answered the same way as a real contact.
-  if (field(formData, 'website').trim() !== '') {
-    return { status: 'ok', ref: crypto.randomUUID() };
+  const ref = crypto.randomUUID();
+
+  // Anything but form data comes from a script, not from Pix T (review N4).
+  if (!(formData instanceof FormData)) return { ref };
+
+  // The same honeypot as the enquiry. Nothing is recorded, and the answer is
+  // the one every other outcome gets.
+  if (field(formData, 'website').trim() !== '') return { ref };
+
+  const key = await connection();
+  if (key && !allowAction('chat-start', key)) {
+    logLimited('chat-start');
+    return { ref };
   }
 
   const name = visible(singleLine(field(formData, 'name')));
   const email = visible(singleLine(field(formData, 'email')));
-  const errors: Record<string, string> = {};
-  if (!name) errors.name = 'Please tell us your name.';
-  else if (name.length > MAX.name) errors.name = 'That name is too long.';
-  // Length BEFORE shape, as for the enquiry.
-  if (!email) errors.email = 'Please give us a work email so we can reply.';
-  else if (email.length > MAX.email) errors.email = 'That email address is too long.';
-  else if (!isEmail(email)) errors.email = 'That does not look like an email address.';
-  if (Object.keys(errors).length > 0) return { status: 'invalid', ref: null, errors };
+  // Pix T checks both before calling; a call that fails them is not Pix T's,
+  // and is not recorded. Length BEFORE shape, as for the enquiry.
+  if (!name || name.length > MAX.name || !email || email.length > MAX.email || !isEmail(email)) {
+    return { ref };
+  }
 
-  const ref = crypto.randomUUID();
-  const stored = await deliverChatContact({ id: ref, name, email, source: 'pixelettetech.com/assistant' });
-  return stored === 'ok' ? { status: 'ok', ref } : { status: stored, ref: null };
+  await deliverChatContact({ id: ref, name, email, source: 'pixelettetech.com/assistant' });
+  return { ref };
 }
 
 type EnquirySource = 'pixelettetech.com/contact' | 'pixelettetech.com/assistant';
 
-/* A contact reference Pix T sends back is only ever one this action issued. */
+/*
+ * The shape of a contact reference - nothing more. The server cannot check that
+ * it issued one (it may not read the table, and nothing is signed), so the
+ * notification labels the link unverified (security review N1). The shape check
+ * keeps anything else out of the row and the email.
+ */
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
 async function acceptEnquiry(
@@ -257,6 +316,11 @@ async function acceptEnquiry(
   source: EnquirySource,
   options: { lead?: boolean } = {},
 ): Promise<ContactState> {
+  // Anything but form data comes from a script, not from a form (review N4).
+  if (!(formData instanceof FormData)) {
+    return { status: 'error', message: 'Please check the highlighted fields.' };
+  }
+
   // Honeypot. Real users never fill a field they cannot see; bots fill everything.
   //
   // The reply is the real success message, character for character. It used to

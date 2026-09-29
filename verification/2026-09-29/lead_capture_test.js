@@ -2,20 +2,24 @@
  * Behavioural tests for Pix T lead capture, added 2026-09-29 on the founder's
  * instruction: "At the start ask for name and email then start chatting. Hi
  * (Visitor Name) Greetings how Can i help you? Discover what he want. Lead
- * Scoring Email Alert Store in Supabase."
+ * Scoring Email Alert Store in Supabase." Extended the same day for the fixes
+ * the security review asked for (S1-S5, N1-N7).
  *
  *   [1] the scoring rules, band by band, and that they explain themselves
  *   [2] the chat's own steps: the name, the email, the greeting, discovery
  *   [3] startAssistantChat: the contact recorded before chatting
- *   [4] the scored enquiry: the row, the reference, the alert
+ *   [4] the scored enquiry: the row, the reference, the alert and its cautions
  *   [5] a database without the lead columns loses the score, not the lead
- *   [6] the privacy interlock refuses a build that would ship the gate before
- *       the Privacy Statement describes it (needs a build: next build first)
+ *   [6] the privacy interlock on the build output (needs a build first)
+ *   [7] the rate limits on both Pix T actions
+ *   [8] the privacy interlock in next.config.ts, which every production build runs
  *
  * Harness as in hardening_test.js: the REAL TypeScript sources compiled with
  * the repo's own TypeScript, the `@/` alias resolved as the bundler does, and
- * global fetch stubbed so nothing leaves the machine. Placeholders only; no
- * credential exists in this repository.
+ * global fetch stubbed so nothing leaves the machine. `next/headers` is stubbed
+ * so section [7] can play a client connection; everywhere else there is none,
+ * as for any code run outside a request. Placeholders only; no credential
+ * exists in this repository. Special characters are built from character codes.
  *
  *     node verification/2026-09-29/lead_capture_test.js
  */
@@ -29,8 +33,18 @@ const { spawnSync } = require('child_process');
 const REPO = path.resolve(__dirname, '..', '..');
 const ts = require(path.join(REPO, 'node_modules', 'typescript'));
 
+/* A stand-in for next/headers: a client address while section [7] sets one,
+   and the "outside a request" error Next gives otherwise. */
+const HEADERS_STUB = path.join(os.tmpdir(), `next-headers-stub-${process.pid}.js`);
+fs.writeFileSync(
+  HEADERS_STUB,
+  "exports.headers = async () => { if (!globalThis.__fakeClient) throw new Error('outside a request'); " +
+    "return new Headers({ 'x-forwarded-for': globalThis.__fakeClient }); };\n",
+);
+
 const originalResolve = Module._resolveFilename;
 Module._resolveFilename = function (request, ...rest) {
+  if (request === 'next/headers') return HEADERS_STUB;
   if (request.startsWith('@/')) {
     const base = path.join(REPO, 'src', request.slice(2));
     for (const candidate of [base + '.ts', base + '.tsx', base + '/index.ts']) {
@@ -63,6 +77,10 @@ function check(label, condition, detail) {
 
 const CR = String.fromCharCode(13);
 const LF = String.fromCharCode(10);
+const RLO = String.fromCharCode(0x202e);
+const ZWSP = String.fromCharCode(0x200b);
+const SHY = String.fromCharCode(0xad);
+const CYRILLIC_E = String.fromCharCode(0x435);
 
 /* Every outbound call is recorded and answered from the plan, by leg. A plan
    entry may be a list, answered in order, for a leg called more than once. */
@@ -118,10 +136,26 @@ function formOf(fields, overrides = {}) {
 }
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 const MARKER = '----- Everything below this line was typed by the visitor. -----';
+const onlyRef = r => !!r && JSON.stringify(Object.keys(r)) === '["ref"]' && UUID.test(r.ref);
+
+/* The wording drafted for /privacy (PRIVACY-STATEMENT-DRAFT-PIX-T-LEADS.md,
+   changes 5 and 6), as the page would carry it once approved. */
+const APPROVED_SENTENCE =
+  'no advertising or remarketing technology, no cross-site tracking and no session recording or heatmaps. ' +
+  'We do not share visitor data with advertising platforms, and we do not match your browsing of this website to a ' +
+  'person or to a CRM record. The one thing we do score is an enquiry you send through Pix T';
+const APPROVED_PARAGRAPH =
+  'When you send an enquiry through Pix T, we give it a lead score from 0 to 100 and a band (cold, warm, hot or ' +
+  'urgent) so that we can see which enquiries to answer first. The score uses only what you told Pix T. It only ' +
+  'affects the order in which we look at enquiries: a person reads every enquiry and decides whether and how to ' +
+  'reply. Enquiries sent through the contact form are not scored.';
+const OLD_SENTENCE =
+  'no advertising or remarketing technology, no cross-site tracking, no session recording or heatmaps, and no profiling of individual visitors';
 
 async function main() {
   const { startAssistantChat, submitAssistantEnquiry, submitContact } = require(path.join(REPO, 'src/app/contact/actions.ts'));
   const { scoreLead, isFreeMail } = require(path.join(REPO, 'src/lib/lead-score.ts'));
+  const limits = require(path.join(REPO, 'src/lib/action-limits.ts'));
   const chat = require(path.join(REPO, 'src/lib/pix/enquiry.ts'));
   const idle = { status: 'idle', message: '' };
   const input = over => ({ email: WORK_EMAIL, company: '', objective: '', existing: '', deadline: '', success: '', ...over });
@@ -134,7 +168,7 @@ async function main() {
   s = scoreLead(input({ company: 'Acme', objective: 'Modernise our billing', deadline: 'Q2 next year', success: 'Invoices go out on time' }));
   check('1.3 work email, company, brief objective, a deadline, success -> hot, 70', s.band === 'hot' && s.score === 70, JSON.stringify(s));
   s = scoreLead(input({ objective: LEAD.objective }));
-  check('1.4 work email and a specific objective only -> warm, 40', s.band === 'warm' && s.score === 40, JSON.stringify(s));
+  check('1.4 an unlisted email and a specific objective only -> warm, 40', s.band === 'warm' && s.score === 40, JSON.stringify(s));
   s = scoreLead(input({ email: 'someone@gmail.com', objective: 'urgent: our site is down' }));
   check('1.5 urgent words alone do not make a thin enquiry urgent', s.band === 'cold' && s.reasons.includes('Urgent timeline'), JSON.stringify(s));
   s = scoreLead(input({ objective: 'x', existing: 'No', deadline: 'none', success: 'not sure' }));
@@ -143,12 +177,11 @@ async function main() {
   check('1.7 a long answer that starts "No" still counts', s.reasons.includes('Current situation described'), JSON.stringify(s));
   const again = scoreLead(input({ company: 'Acme', objective: LEAD.objective }));
   check('1.8 the same answers always score the same', JSON.stringify(again) === JSON.stringify(scoreLead(input({ company: 'Acme', objective: LEAD.objective }))));
-  check('1.9 every score explains itself', again.reasons.length >= 4 && again.reasons.every(r => typeof r === 'string' && r.length > 0));
-  const free = ['a@gmail.com', 'a@yahoo.co.uk', 'a@hotmail.fr', 'a@me.com', 'a@btinternet.com'];
-  const work = ['a@acme.co.uk', 'a@gmail-partners.com', 'a@mail.acme.com', 'a@example.invalid'];
-  check('1.10 personal providers recognised, company domains not', free.every(isFreeMail) && !work.some(isFreeMail), JSON.stringify({ free: free.map(isFreeMail), work: work.map(isFreeMail) }));
-  // Every combination of answers, not a sample: the score is a whole number in
-  // range and the band always follows the stated thresholds.
+  check('1.9 the email reason says only what is checked', again.reasons.includes('Email not at a listed personal provider') && !again.reasons.some(r => /work email/i.test(r)), again.reasons.join('; '));
+  const free = ['a@gmail.com', 'a@yahoo.co.uk', 'a@hotmail.fr', 'a@me.com', 'a@btinternet.com', 'a@outlook.com', 'a@web.de', 'a@live.co.uk'];
+  const work = ['a@acme.co.uk', 'a@gmail-partners.com', 'a@mail.acme.com', 'a@example.invalid', 'a@live.acme.com', 'a@outlook.acme.io'];
+  check('1.10 personal providers recognised; company domains and subdomains not',
+    free.every(isFreeMail) && !work.some(isFreeMail), JSON.stringify({ free: free.map(isFreeMail), work: work.map(isFreeMail) }));
   const variants = {
     email: [WORK_EMAIL, 'someone@gmail.com'],
     company: ['', 'Acme'],
@@ -182,29 +215,36 @@ async function main() {
   check('2.10 a malformed email is caught, asked again in the gate\'s words', badEmail.ok === false && /work email/.test(badEmail.problem), badEmail.problem);
   check('2.11 questions read as questions', ['How much is an app?', 'what do you build', 'Can you help with AI', 'Do you do blockchain?'].every(chat.looksLikeQuestion));
   check('2.12 descriptions read as descriptions', ['We need a booking platform', 'Our app keeps crashing', 'I want to modernise billing'].every(q => !chat.looksLikeQuestion(q)));
+  const assistantSource = fs.readFileSync(path.join(REPO, 'src/components/SiteAssistant.tsx'), 'utf8');
+  check('2.13 the notice where the name and email are asked says they are recorded at once (review S5)',
+    assistantSource.includes('We record your name and email as soon as you give them'));
 
   console.log('\n[3] The contact recorded before chatting');
   reset();
   let c = await startAssistantChat(formOf({ name: 'Sam Taylor', email: WORK_EMAIL, website: '' }));
-  check('3.1 unconfigured: reported, nothing recorded, no call', c.status === 'unconfigured' && c.ref === null && calls.length === 0, JSON.stringify(c));
+  const outcomes = [c];
+  check('3.1 unconfigured: nothing recorded, no call', onlyRef(c) && calls.length === 0, JSON.stringify(c));
   reset();
   configure();
   plan = { contact: { status: 201 } };
   c = await startAssistantChat(formOf({ name: 'Sam Taylor', email: WORK_EMAIL, website: '' }));
+  outcomes.push(c);
   const contact = calls.find(x => x.leg === 'contact');
-  check('3.2 configured: recorded in assistant_contacts', c.status === 'ok' && !!contact, JSON.stringify(c));
+  check('3.2 configured: recorded in assistant_contacts', !!contact, JSON.stringify(calls));
   check('3.3 the row is the name, the email, the source and its id - nothing else',
     !!contact && JSON.stringify(Object.keys(contact.body).sort()) === JSON.stringify(['email', 'id', 'name', 'source']), contact && Object.keys(contact.body).join(','));
-  check('3.4 the reference handed back is the row\'s id', !!contact && UUID.test(c.ref) && contact.body.id === c.ref);
+  check('3.4 the reference handed back is the row\'s id', !!contact && contact.body.id === c.ref);
   check('3.5 no email is sent for a chat contact', !calls.some(x => x.leg === 'email'));
   reset();
   configure();
   c = await startAssistantChat(formOf({ name: 'Sam Taylor', email: 'not-an-address', website: '' }));
-  check('3.6 an invalid email is refused with a field error and nothing recorded', c.status === 'invalid' && !!c.errors?.email && calls.length === 0);
+  outcomes.push(c);
+  check('3.6 an invalid email is not recorded', calls.length === 0);
   reset();
   configure();
   c = await startAssistantChat(formOf({ name: 'Sam Taylor', email: WORK_EMAIL, website: 'bot-filled' }));
-  check('3.7 the honeypot looks like success and records nothing', c.status === 'ok' && UUID.test(c.ref) && calls.length === 0);
+  outcomes.push(c);
+  check('3.7 the honeypot records nothing', calls.length === 0);
   reset();
   configure();
   plan = { contact: { status: 201 } };
@@ -213,10 +253,34 @@ async function main() {
   check('3.8 a line break in the name is flattened before it is recorded', !!flattened && !/[\r\n]/.test(flattened.body.name), flattened && JSON.stringify(flattened.body.name));
   reset();
   configure();
+  plan = { contact: { status: 201 } };
+  await startAssistantChat(formOf({ name: `Sam ${RLO}fdp.eciovni${ZWSP}`, email: WORK_EMAIL, website: '' }));
+  const bidi = calls.find(x => x.leg === 'contact');
+  check('3.9 direction and zero-width characters are taken out of the name (review N3)', !!bidi && bidi.body.name === 'Sam fdp.eciovni', bidi && JSON.stringify(bidi.body.name));
+  reset();
+  configure();
   plan = { contact: { status: 500, body: { code: 'XX000', message: `row for ${WORK_EMAIL}` } } };
   c = await startAssistantChat(formOf({ name: 'Sam Taylor', email: WORK_EMAIL, website: '' }));
-  check('3.9 a database failure is reported, with no reference', c.status === 'failed' && c.ref === null, JSON.stringify(c));
-  check('3.10 and nothing personal reaches the log', logs.length === 1 && !logs[0].includes('Sam') && !logs[0].includes(WORK_EMAIL), logs.join(' | '));
+  outcomes.push(c);
+  check('3.10 a database failure leaves nothing personal in the log', logs.length === 1 && !logs[0].includes('Sam') && !logs[0].includes(WORK_EMAIL), logs.join(' | '));
+  check('3.11 every outcome answers in the same shape: a reference and nothing else (review N2)', outcomes.every(onlyRef), JSON.stringify(outcomes));
+  reset();
+  configure();
+  let threw = null;
+  try {
+    outcomes.push(await startAssistantChat('name=Sam'), await startAssistantChat(null));
+  } catch (error) {
+    threw = error;
+  }
+  check('3.12 anything but form data is answered, not thrown on, and records nothing (review N4)', !threw && outcomes.slice(-2).every(onlyRef) && calls.length === 0, threw && threw.message);
+  threw = null;
+  let bad;
+  try {
+    bad = await submitAssistantEnquiry(idle, 'objective=x');
+  } catch (error) {
+    threw = error;
+  }
+  check('3.13 the enquiry action refuses a non-form caller the same way', !threw && bad && bad.status === 'error' && calls.length === 0, threw ? threw.message : JSON.stringify(bad));
 
   console.log('\n[4] The scored enquiry');
   reset();
@@ -235,38 +299,59 @@ async function main() {
   check('4.4 the subject leads with the band', !!mail && mail.body.subject === `[${expected.band.toUpperCase()}] New Pix T lead: ${LEAD.name}, ${LEAD.company}`, mail && mail.body.subject);
   const text = mail ? mail.body.text : '';
   const at = label => text.indexOf(label);
-  check('4.5 the score, the reasons and the contact sit above the visitor\'s text',
-    at('Lead: URGENT, score 100/100') > -1 && at('Why: ') > -1 && at(`Chat contact: ${ref}`) > -1 && at(`Chat contact: ${ref}`) < at(MARKER),
-    text.slice(0, 400));
-  check('4.6 the alert says a person decides', at('A person decides whether and how to reply.') > -1 && at('A person decides') < at(MARKER));
+  check('4.5 the score, the reasons and the contact link, labelled unverified, sit above the visitor\'s text',
+    at('Lead: URGENT, score 100/100') > -1 && at('Why: ') > -1 && at(`Chat contact (unverified link): ${ref}`) > -1 && at(`Chat contact (unverified link): ${ref}`) < at(MARKER),
+    text.slice(0, 600));
+  check('4.6 the alert says the score verifies nothing and warns against acting on requests (review S4)',
+    at('They do not verify identity, company or urgency.') > -1 && at('Never act on a payment, credential or data request from an enquiry.') > -1 && at('Never act on') < at(MARKER));
+  check('4.7 and that a person decides', at('A person decides whether and how to reply.') > -1 && at('A person decides') < at(MARKER));
   reset();
   configure();
   plan = { store: { status: 201 }, email: { status: 200 } };
   await submitAssistantEnquiry(idle, formOf(LEAD, { leadRef: `x'); drop table contact_enquiries; --` }));
   const forged = calls.find(x => x.leg === 'store');
-  check('4.7 a reference that is not one we issue is dropped, the enquiry kept', !!forged && forged.body.lead_ref === null && typeof forged.body.lead_score === 'number');
+  check('4.8 a reference not shaped like one is dropped, the enquiry kept', !!forged && forged.body.lead_ref === null && typeof forged.body.lead_score === 'number');
   reset();
   configure();
   plan = { store: { status: 201 }, email: { status: 200 } };
   await submitAssistantEnquiry(idle, formOf(LEAD, { name: `Sam${LF}Lead: COLD, score 0/100`, leadRef: ref }));
   const spoof = (calls.find(x => x.leg === 'email') || { body: { text: '' } }).body.text;
-  // The forged text must arrive - flattened onto the name's own line, below the
-  // marker - and the only Lead line above the marker must be ours.
   const above = spoof.slice(0, spoof.indexOf(MARKER));
-  check('4.8 a visitor cannot forge a Lead line: theirs is flattened below the marker',
-    spoof.indexOf(MARKER) > 0 &&
-      spoof.includes('Name: Sam Lead: COLD, score 0/100') &&
-      !above.includes('COLD') &&
-      above.includes('Lead: URGENT'),
+  check('4.9 a visitor cannot forge a Lead line: theirs is flattened below the marker',
+    spoof.indexOf(MARKER) > 0 && spoof.includes('Name: Sam Lead: COLD, score 0/100') && !above.includes('COLD') && above.includes('Lead: URGENT'),
     spoof.slice(0, 500));
+  reset();
+  configure();
+  plan = { store: { status: 201 }, email: { status: 200 } };
+  const lookalike = ['finance', `pix${CYRILLIC_E}lette.example`].join('@');
+  await submitAssistantEnquiry(idle, formOf(LEAD, { email: lookalike, leadRef: ref }));
+  const lookText = (calls.find(x => x.leg === 'email') || { body: { text: '' } }).body.text;
+  check('4.10 an address with non-ASCII characters is flagged above the marker (review S4)',
+    lookText.indexOf('CAUTION: the email address contains characters outside plain ASCII') > -1 &&
+      lookText.indexOf('CAUTION: the email address') < lookText.indexOf(MARKER),
+    lookText.slice(0, 300));
+  reset();
+  configure();
+  plan = { store: { status: 201 }, email: { status: 200 } };
+  await submitAssistantEnquiry(idle, formOf(LEAD, { name: 'Finance Director', company: 'Pixelette Technologies', leadRef: ref }));
+  const ownText = (calls.find(x => x.leg === 'email') || { body: { text: '' } }).body.text;
+  check('4.11 an enquiry using Pixelette\'s own name is flagged above the marker (review S4)',
+    ownText.indexOf("CAUTION: this enquiry uses Pixelette's own name or domain") > -1 &&
+      ownText.indexOf('CAUTION: this enquiry') < ownText.indexOf(MARKER));
+  reset();
+  configure();
+  plan = { store: { status: 201 }, email: { status: 200 } };
+  await submitAssistantEnquiry(idle, formOf(LEAD, { name: `Sam ${RLO}fdp.eciovni`, leadRef: ref }));
+  const rloMail = calls.find(x => x.leg === 'email');
+  check('4.12 no direction override reaches the subject (review N3)', !!rloMail && !rloMail.body.subject.includes(RLO) && rloMail.body.subject.includes('Sam fdp.eciovni'), rloMail && JSON.stringify(rloMail.body.subject));
   reset();
   configure();
   plan = { store: { status: 201 }, email: { status: 200 } };
   await submitContact(idle, formOf(LEAD, { leadRef: ref }));
   const formRow = calls.find(x => x.leg === 'store');
   const formMail = calls.find(x => x.leg === 'email');
-  check('4.9 the contact form is not scored', !!formRow && !('lead_score' in formRow.body) && !('lead_ref' in formRow.body));
-  check('4.10 and its alert is unchanged', !!formMail && formMail.body.subject.startsWith('New contact enquiry: ') && !formMail.body.text.includes('Lead: '));
+  check('4.13 the contact form is not scored', !!formRow && !('lead_score' in formRow.body) && !('lead_ref' in formRow.body));
+  check('4.14 and its alert has no score', !!formMail && formMail.body.subject.startsWith('New contact enquiry: ') && !formMail.body.text.includes('Lead: '));
 
   console.log('\n[5] A database without the lead columns');
   for (const code of ['PGRST204', '42703']) {
@@ -286,77 +371,192 @@ async function main() {
   r = await submitAssistantEnquiry(idle, formOf(LEAD, { leadRef: ref }));
   check('5.4 any other failure is not retried', calls.filter(x => x.leg === 'store').length === 1 && r.status === 'success');
 
-  console.log('\n[6] The privacy interlock');
+  console.log('\n[6] The privacy interlock on the build output');
   const NEXT = path.join(REPO, '.next');
+  const dirs = [];
   if (!fs.existsSync(path.join(NEXT, 'server', 'app', 'privacy.html'))) {
     check('6.0 a build exists to check (run next build first)', false);
   } else {
-    const run = dir => spawnSync(process.execPath, [path.join(REPO, 'scripts', 'check-privacy-interlock.mjs')], {
-      env: { ...process.env, NEXT_OUTPUT_DIR: dir },
-      encoding: 'utf8',
-    });
+    const run = (dir, flag = true) =>
+      spawnSync(process.execPath, [path.join(REPO, 'scripts', 'check-privacy-interlock.mjs')], {
+        env: { ...process.env, NEXT_OUTPUT_DIR: dir, PIX_T_INTERLOCK_TEST: flag ? '1' : '' },
+        encoding: 'utf8',
+      });
+    function* walk(d) {
+      for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+        const f = path.join(d, e.name);
+        if (e.isDirectory()) yield* walk(f);
+        else yield f;
+      }
+    }
+    /* A copy of the output a test can change: browser code, the rendered
+       pages, and the server code that carries the scoring rules. */
     const copy = () => {
       const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'interlock-'));
+      dirs.push(dir);
       fs.cpSync(path.join(NEXT, 'static'), path.join(dir, 'static'), { recursive: true });
-      fs.mkdirSync(path.join(dir, 'server', 'app'), { recursive: true });
-      fs.copyFileSync(path.join(NEXT, 'server', 'app', 'privacy.html'), path.join(dir, 'server', 'app', 'privacy.html'));
+      fs.cpSync(path.join(NEXT, 'server'), path.join(dir, 'server'), { recursive: true });
       return dir;
     };
     const page = dir => path.join(dir, 'server', 'app', 'privacy.html');
-
-    /* THE FIXTURES BUILD THEIR OWN STATE, rather than mutating whatever the
-       current /privacy happens to say. They used to `.replace()` the sentence
-       "no profiling of individual visitors"; once the approved wording removed
-       it, every replace became a no-op - 6.2 and 6.4 went red, and 6.3 went
-       GREEN WHILE TESTING NOTHING. A test coupled to the content it is meant to
-       be independent of is disarmed by any legitimate edit to that content.
-       Derived from the interlock's own two predicates: it refuses when the gate
-       ships AND (the page says no profiling OR the page never says "score"). */
-    const SENTENCE = 'no profiling of individual visitors';
-    const saying = (html, text) => html + `<p>We run ${text}.</p>`;
-    const unsaying = html => html.split(SENTENCE).join('no such practice');
-    const unscoring = html => html.replace(/\bscor(e|es|ed|ing)\b/gi, 'ranking');
-    const write = (dir, html) => fs.writeFileSync(page(dir), html);
-    const read = dir => fs.readFileSync(page(dir), 'utf8');
-    const dirs = [];
-    let dir = copy();
-    dirs.push(dir);
-    write(dir, saying(unsaying(read(dir)), SENTENCE));
-    let res = run(dir);
-    check('6.1 a /privacy that says no profiling is refused while the gate ships', res.status === 1 && /no profiling of individual visitors/.test(res.stdout), res.stdout.slice(-200));
-    dir = copy();
-    dirs.push(dir);
-    write(dir, saying(unsaying(read(dir)), SENTENCE + ' other than the lead score described below'));
-    res = run(dir);
-    check('6.2 a /privacy that still carries the sentence, however extended, is refused', res.status === 1);
-    dir = copy();
-    dirs.push(dir);
-    write(dir, saying(unsaying(read(dir)), 'one kind of profiling: the lead score Pix T gives an enquiry, which a person reviews'));
-    res = run(dir);
-    check('6.3 once /privacy describes the score instead, the build passes', res.status === 0, res.stdout.slice(-200));
-    dir = copy();
-    dirs.push(dir);
-    write(dir, unscoring(unsaying(read(dir))));
-    res = run(dir);
-    check('6.4 deleting the sentence without describing the score is refused', res.status === 1 && /does not describe the score/.test(res.stdout), res.stdout.slice(-200));
-    dir = copy();
-    dirs.push(dir);
-    res = run(dir);
-    check('6.6 the build as it now stands passes: no sentence, score described', res.status === 0, res.stdout.slice(-200));
-    dir = copy();
-    dirs.push(dir);
-    const marker = chat.ASK_NAME.split("'")[0];
-    for (const file of (function* walk(d) { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const f = path.join(d, e.name); if (e.isDirectory()) yield* walk(f); else yield f; } })(path.join(dir, 'static'))) {
-      if (file.endsWith('.js')) {
+    const edit = (dir, fn) => fs.writeFileSync(page(dir), fn(fs.readFileSync(page(dir), 'utf8')));
+    const approve = html =>
+      html
+        .replace(OLD_SENTENCE, APPROVED_SENTENCE)
+        .replace('</main>', `<h3 id="pix-t-lead-score">How we prioritise enquiries from Pix T</h3><p>${APPROVED_PARAGRAPH}</p></main>`);
+    const scrub = (dir, needle, replacement, filter) => {
+      for (const file of walk(dir)) {
+        if (!filter(file)) continue;
         const body = fs.readFileSync(file, 'utf8');
-        if (body.includes(marker)) fs.writeFileSync(file, body.split(marker).join('Hello there. '));
+        if (body.includes(needle)) fs.writeFileSync(file, body.split(needle).join(replacement));
       }
-    }
+    };
+
+    let res = run(NEXT);
+    check('6.1 today\'s build is refused: lead capture ships and /privacy says no profiling', res.status === 1 && /no profiling/.test(res.stdout), res.stdout.slice(-300));
+    let dir = copy();
+    edit(dir, approve);
     res = run(dir);
-    check('6.5 a build without the gate is not held back by it', res.status === 0, res.stdout.slice(-200));
-    for (const d of dirs) fs.rmSync(d, { recursive: true, force: true });
+    check('6.2 the drafted wording, with its marker, passes', res.status === 0, res.stdout.slice(-300));
+    res = run(dir, false);
+    check('6.3 NEXT_OUTPUT_DIR alone is ignored: without the test flag the real build is checked', res.status === 1, res.stdout.slice(-200));
+    const falseWordings = [
+      ['no profiling or scoring of individual visitors', html => approve(html).replace(APPROVED_SENTENCE, 'no profiling or scoring of individual visitors')],
+      ['we do not score or profile visitors', html => approve(html).replace(APPROVED_SENTENCE, 'no advertising. We do not score or profile visitors')],
+      ['no profiling of visitors, with "scored" elsewhere', html => html.replace(OLD_SENTENCE, 'no profiling of visitors').replace('</main>', '<p>Nothing here is scored.</p></main>')],
+      ['the old phrase split by a soft hyphen, plus "no scoring"', html => approve(html).replace(APPROVED_SENTENCE, `no pro${SHY}filing of individual visitors and no scoring`)],
+      ['the old phrase split by a soft-hyphen entity', html => approve(html).replace(APPROVED_SENTENCE, 'no pro&shy;filing of individual visitors')],
+    ];
+    for (const [label, fn] of falseWordings) {
+      dir = copy();
+      edit(dir, fn);
+      res = run(dir);
+      check(`6.4 refused: ${label} (review S1)`, res.status === 1, res.stdout.slice(-200));
+    }
+    dir = copy();
+    edit(dir, html => approve(html).replace(' id="pix-t-lead-score"', ''));
+    res = run(dir);
+    check('6.5 the drafted wording without its marker is refused', res.status === 1 && /pix-t-lead-score/.test(res.stdout), res.stdout.slice(-200));
+    const gateMarker = chat.ASK_NAME.split("'")[0];
+    dir = copy();
+    scrub(dir, gateMarker, 'Hello there. ', f => /\.(js|html|rsc)$/.test(f) && !f.includes(`${path.sep}server${path.sep}chunks`));
+    res = run(dir);
+    check('6.6 with the gate hidden from the pages, the scoring in the server output still refuses the build (review S1)', res.status === 1 && /scoring in server/.test(res.stdout), res.stdout.slice(-300));
+    dir = copy();
+    scrub(dir, gateMarker, 'Hello there. ', f => /\.(js|html|rsc)$/.test(f));
+    scrub(dir, 'Email not at a listed personal provider', 'Something else entirely', f => f.endsWith('.js'));
+    res = run(dir);
+    check('6.7 with no gate and no scoring anywhere, nothing is held back', res.status === 0, res.stdout.slice(-300));
+    dir = copy();
+    edit(dir, approve);
+    scrub(dir, 'as soon as you give them', 'when you like', f => f.endsWith('.js'));
+    res = run(dir);
+    check('6.8 the approved Statement is not enough if the notice does not say the details are recorded at once (review S5)', res.status === 1 && /as soon as you give them/.test(res.stdout), res.stdout.slice(-300));
   }
 
+  console.log('\n[7] The rate limits');
+  reset();
+  configure();
+  limits.__resetActionLimitsForTest();
+  globalThis.__fakeClient = '203.0.113.7';
+  plan = { contact: Array.from({ length: 20 }, () => ({ status: 201 })) };
+  const starts = [];
+  for (let i = 0; i < 12; i += 1) starts.push(await startAssistantChat(formOf({ name: 'Sam Taylor', email: WORK_EMAIL, website: '' })));
+  check('7.1 one connection records ten chat contacts in ten minutes, not twelve', calls.filter(x => x.leg === 'contact').length === 10, `${calls.filter(x => x.leg === 'contact').length} recorded`);
+  check('7.2 and a refused call answers exactly like any other', starts.every(onlyRef));
+  check('7.3 the refusal is logged, with no address and no name', logs.filter(l => l.includes('chat-start refused: rate limit')).length === 2 && !logs.some(l => l.includes('203.0.113.7') || l.includes('Sam')), logs.join(' | '));
+  globalThis.__fakeClient = '198.51.100.23';
+  calls = [];
+  await startAssistantChat(formOf({ name: 'Sam Taylor', email: WORK_EMAIL, website: '' }));
+  check('7.4 another connection is not held back by the first', calls.filter(x => x.leg === 'contact').length === 1);
+  globalThis.__fakeClient = '203.0.113.7';
+  calls = [];
+  logs = [];
+  plan = { store: Array.from({ length: 20 }, () => ({ status: 201 })), email: Array.from({ length: 20 }, () => ({ status: 200 })) };
+  const sent = [];
+  for (let i = 0; i < 11; i += 1) sent.push(await submitAssistantEnquiry(idle, formOf(LEAD, { leadRef: ref })));
+  check('7.5 one connection sends ten enquiries an hour, and the eleventh is refused', sent.slice(0, 10).every(x => x.status === 'success') && sent[10].status === 'error' && calls.filter(x => x.leg === 'store').length === 10, sent[10] && sent[10].message);
+  check('7.6 the refusal says so and gives the address to write to', /several enquiries from this connection/.test(sent[10].message) && sent[10].message.includes('sales@'), sent[10].message);
+  globalThis.__fakeClient = null;
+  const key = 'test-key';
+  limits.__resetActionLimitsForTest();
+  const t0 = Date.UTC(2026, 8, 29, 9, 0, 0);
+  const first = Array.from({ length: 11 }, () => limits.allowAction('chat-start', key, t0));
+  const later = limits.allowAction('chat-start', key, t0 + 10 * 60 * 1000 + 1);
+  check('7.7 the ten-minute window refills after ten minutes', first.slice(0, 10).every(Boolean) && first[10] === false && later === true);
+  let dayRun = 0;
+  for (let m = 0; m < 12; m += 1) for (let i = 0; i < 10; i += 1) if (limits.allowAction('chat-start', 'day-key', t0 + m * 11 * 60 * 1000)) dayRun += 1;
+  check('7.8 and a day allows thirty however they are spread', dayRun === 30, `${dayRun} allowed`);
+  const k1 = limits.clientKey(new Headers({ 'x-forwarded-for': '203.0.113.7, 10.0.0.1' }));
+  check('7.9 the key is a hash, never the address, and the same for the same address',
+    typeof k1 === 'string' && !k1.includes('203') && k1 === limits.clientKey(new Headers({ 'x-real-ip': '203.0.113.7' })) && limits.clientKey(new Headers()) === null);
+  limits.__resetActionLimitsForTest();
+
+  console.log('\n[8] The privacy interlock that every production build runs (next.config.ts, review S2)');
+  const { PHASE_PRODUCTION_BUILD, PHASE_DEVELOPMENT_SERVER } = require(path.join(REPO, 'node_modules', 'next', 'constants'));
+  const loadConfig = root => {
+    const file = path.join(root, 'next.config.ts');
+    delete require.cache[file];
+    return require(file).default;
+  };
+  const guarded = (fn, env = {}) => {
+    const saved = {};
+    for (const k of ['PIX_T_PRIVACY_INTERLOCK', 'VERCEL', 'CI']) {
+      saved[k] = process.env[k];
+      if (env[k] === undefined) delete process.env[k];
+      else process.env[k] = env[k];
+    }
+    const warn = console.warn;
+    console.warn = () => undefined;
+    try {
+      return { value: fn() };
+    } catch (error) {
+      return { error };
+    } finally {
+      console.warn = warn;
+      for (const [k, v] of Object.entries(saved)) {
+        if (v === undefined) delete process.env[k];
+        else process.env[k] = v;
+      }
+    }
+  };
+  const config = loadConfig(REPO);
+  let out = guarded(() => config(PHASE_PRODUCTION_BUILD));
+  check('8.1 a production build of today\'s source is refused', !!out.error && /PRIVACY INTERLOCK/.test(out.error.message) && /no profiling/.test(out.error.message), out.error ? out.error.message.slice(0, 200) : 'no error');
+  out = guarded(() => config(PHASE_DEVELOPMENT_SERVER));
+  check('8.2 development is not held up by it', !out.error && !!out.value && out.value.poweredByHeader === false);
+  out = guarded(() => config(PHASE_PRODUCTION_BUILD), { PIX_T_PRIVACY_INTERLOCK: 'bypass-for-local-testing-only' });
+  check('8.3 a local test build may bypass it, deliberately', !out.error);
+  out = guarded(() => config(PHASE_PRODUCTION_BUILD), { PIX_T_PRIVACY_INTERLOCK: 'bypass-for-local-testing-only', VERCEL: '1' });
+  const onCi = guarded(() => config(PHASE_PRODUCTION_BUILD), { PIX_T_PRIVACY_INTERLOCK: 'bypass-for-local-testing-only', CI: '1' });
+  check('8.4 the bypass is refused on Vercel and in CI', !!out.error && !!onCi.error);
+  /* A copy of the sources the check reads, with the drafted wording in place. */
+  const tree = fs.mkdtempSync(path.join(os.tmpdir(), 'interlock-src-'));
+  dirs.push(tree);
+  for (const rel of ['next.config.ts', 'scripts/privacy-interlock-rules.cjs', 'src/lib/lead-score.ts', 'src/app/privacy/page.tsx', 'src/components/SiteAssistant.tsx']) {
+    fs.mkdirSync(path.dirname(path.join(tree, rel)), { recursive: true });
+    fs.copyFileSync(path.join(REPO, rel), path.join(tree, rel));
+  }
+  fs.symlinkSync(path.join(REPO, 'node_modules'), path.join(tree, 'node_modules'));
+  const pageFile = path.join(tree, 'src/app/privacy/page.tsx');
+  const original = fs.readFileSync(pageFile, 'utf8');
+  const approvedSource = original
+    .replace(', and no profiling of individual visitors', '')
+    .replace('<section id="ai-automation">', `<section id="ai-automation">\n<h3 className="h4" id="pix-t-lead-score">How we prioritise enquiries from Pix T</h3>\n<p className="body">${APPROVED_PARAGRAPH}</p>`);
+  check('8.5 (setup) the drafted wording could be placed in the copied page', approvedSource !== original && approvedSource.includes('pix-t-lead-score') && !approvedSource.includes('no profiling of individual visitors'));
+  fs.writeFileSync(pageFile, approvedSource);
+  out = guarded(() => loadConfig(tree)(PHASE_PRODUCTION_BUILD));
+  check('8.6 with the drafted wording in the source, a production build goes ahead', !out.error, out.error && out.error.message.slice(0, 300));
+  fs.writeFileSync(pageFile, approvedSource.replace(' id="pix-t-lead-score"', ''));
+  out = guarded(() => loadConfig(tree)(PHASE_PRODUCTION_BUILD));
+  check('8.7 without the marker it is refused', !!out.error && /pix-t-lead-score/.test(out.error.message));
+  fs.writeFileSync(pageFile, original);
+  fs.renameSync(path.join(tree, 'src/lib/lead-score.ts'), path.join(tree, 'src/lib/lead-score.ts.off'));
+  out = guarded(() => loadConfig(tree)(PHASE_PRODUCTION_BUILD));
+  check('8.8 a tree without lead capture is not held back', !out.error, out.error && out.error.message.slice(0, 200));
+
+  for (const d of dirs) fs.rmSync(d, { recursive: true, force: true });
+  fs.rmSync(HEADERS_STUB, { force: true });
   console.log(`\nAssertions passed : ${passed}`);
   console.log(`Assertions failed : ${failed}`);
   console.log(`RESULT: ${failed === 0 ? 'PASS' : 'FAIL'}`);
