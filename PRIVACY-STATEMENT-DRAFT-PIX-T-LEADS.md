@@ -165,10 +165,17 @@ publication date if Legal wants the change on the record.
    change 5.
 2. Run `npm run build`. The privacy interlock checks both the source (from `next.config.ts`, on any production
    build) and the build output. It passes only when:
-   - the marker is present;
-   - nothing on the page still says "no profiling" or "no scoring", "do not profile" or "do not score", or
-     "never profiles" or "never scores";
-   - the notice where the name and email are asked says "as soon as you give them".
+   - the marker is present on an element, not only in a comment;
+   - nothing on the page still says any of these, with any apostrophe:
+     - "no profiling" or "no scoring", including with up to two words between, such as "no individual profiling";
+     - "profile" or "score" after "do not", "does not", "will not", "cannot" or their like, or after "don't",
+       "doesn't", "won't", "can't" or their like;
+     - "never profiles" or "never scores";
+   - the notice where the name and email are asked says "as soon as you give them" in the text itself, not only in
+     a comment.
+
+   "Not scored" is allowed, because change 5 truly says the contact form's enquiries are not scored. A list
+   cannot catch every phrasing, so Legal's reading of the final page is still the real check.
 3. Apply `supabase/migrations/20260929120000_pix_t_lead_capture.sql` to the Supabase project **before** deploying
    (founder step). Then run its six checks.
 
@@ -177,7 +184,11 @@ publication date if Legal wants the change on the record.
 - **Build command:** confirm the Vercel project's Build Command is not overridden. The source half of the
   interlock runs on any `next build`; the output half and the leak scan run only with `npm run build`.
 - **Firewall:** add a Vercel Firewall rate-limit rule for POST requests carrying a `Next-Action` header. The
-  in-memory limit in the code counts per server instance, so the host's rule is the stronger control.
+  in-memory limit in the code counts per server instance, so the host's rule is the stronger control. The rule
+  also covers the contact form, which has no limit of its own.
+- **Hosting:** the code's limit identifies a connection by the address headers Vercel sets. Self-hosted without
+  a proxy that overwrites them, a caller can rotate them and the limit stops working. If hosting ever leaves
+  Vercel, revisit the limit first.
 - **Monitoring:** run a daily row count on `assistant_contacts`, so a flood of fake contacts is noticed.
 - **Supabase Auth:** if the site does not use it, turn sign-ups off in the project.
 - **Use of the data:** `assistant_contacts` holds unverified details that anyone can type. It is not a marketing

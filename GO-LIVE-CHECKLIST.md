@@ -130,6 +130,8 @@ These carry legal exposure. None should be published in its current state.
          is not overridden, a Firewall rate limit covers POSTs carrying `Next-Action`, a daily
          row count on `assistant_contacts` is set up, and Supabase Auth sign-ups are off if
          unused. `assistant_contacts` holds unverified details and is not a marketing list.
+         The code's own rate limit relies on the address headers Vercel sets; revisit it
+         before hosting anywhere else.
 
 The other four are closed, and how each closed matters more than that it did
 (all read in `src/app/privacy/page.tsx` on 2026-09-08):

@@ -402,14 +402,22 @@ function headerSafe(value: string): string {
  */
 function cautions(enquiry: Enquiry): string {
   const lines: string[] = [];
-  if (Array.from(enquiry.email).some(character => (character.codePointAt(0) ?? 0) > 127)) {
+  const domain = enquiry.email.slice(enquiry.email.lastIndexOf('@') + 1);
+  const nonAscii = Array.from(enquiry.email).some(character => (character.codePointAt(0) ?? 0) > 127);
+  // A look-alike domain can also arrive in its plain-ASCII (punycode) spelling:
+  // "xn--pxelette-thh.tech" is pixelette.tech with a Cyrillic letter in place
+  // of the first "i" (re-check NEW-3).
+  const punycode = /(^|\.)xn--/i.test(domain);
+  if (nonAscii || punycode) {
     lines.push(
-      'CAUTION: the email address contains characters outside plain ASCII, which can imitate another ' +
-        'domain. Check it before replying.',
+      `CAUTION: the email address ${nonAscii ? 'contains characters outside plain ASCII' : 'has an internationalised (xn--) domain'}, ` +
+        'which can imitate another domain. Check it before replying.',
     );
   }
+  // The name heads the subject line, so it is checked as well as the company
+  // and the whole address (re-check NEW-3).
   const own = /pixelette/i;
-  if (own.test(enquiry.email.slice(enquiry.email.lastIndexOf('@') + 1)) || own.test(enquiry.company)) {
+  if (own.test(enquiry.email) || own.test(enquiry.company) || own.test(enquiry.name)) {
     lines.push(
       "CAUTION: this enquiry uses Pixelette's own name or domain. Confirm it is genuine before acting on it.",
     );
