@@ -229,7 +229,7 @@ export function SiteFooter() {
               </div>
             ) : null}
 
-            {/* The certification ledger. Standard and validity, nothing else —
+            {/* The certification ledger. The standard's name, nothing else —
                 the guard wraps the container so an empty register leaves no
                 stray flex box, which is the same rule the pill row above
                 follows. */}

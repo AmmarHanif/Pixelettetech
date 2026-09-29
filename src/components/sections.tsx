@@ -563,6 +563,14 @@ export function CertifiedHandoff({
           pointed at the one page that answers the holdings question properly,
           with numbers and dates.
 
+          CORRECTED 2026-09-29. That page, /certifications, was withdrawn on
+          17 September, and on the founder's instruction (24 September,
+          reaffirmed 29 September) no certificate number, issuing body or date
+          is published anywhere on the site. The last sentence below named a
+          page that no longer exists and promised dates that are not published.
+          It now says what is true: the standards are in the footer, and the
+          detail goes to a reviewer on request - the privacy page's own words.
+
           Found by rendering the page and reading it, not by grepping source —
           which is the lesson ADR-0012 recorded and the reason this comment is
           this long.
@@ -570,8 +578,8 @@ export function CertifiedHandoff({
         <p className="small" style={{ marginTop: 26, color: 'var(--dark-text)' }}>
           What {certified.name} helps with. This is a list of support areas, not a claim that{' '}
           {certified.name} or {company.name} holds any of them. What {company.name} does hold is
-          published with its certificate numbers and dates on our certifications page; independent
-          assessment stays independent.
+          listed in the footer of every page, and the certificate detail goes to a reviewer on
+          request; independent assessment stays independent.
         </p>
         <div className="pill-row" style={{ marginTop: 14 }}>
           {(allServices ? certified.services : certified.standards).map(s => (
@@ -619,9 +627,11 @@ export function CertifiedHandoff({
  * procurement. The certificate number, issuing body, scope and Statement of
  * Applicability are no longer published anywhere on the public site.
  *
- * What survives is the ledger in SiteFooter: standard plus expiry date, gated
- * per certificate on its own claims-register row. Do not reinstate a table
- * here without that instruction being reversed.
+ * What survives is the ledger in SiteFooter: the standard's name only, gated
+ * per certificate on its own claims-register row and on its expiry. No date is
+ * shown - founder instruction, 24 September 2026, reaffirmed 29 September - and
+ * scripts/check-public-output.mjs fails the build if one appears. Do not
+ * reinstate a table here without that instruction being reversed.
  */
 
 /** Closing call to action, used at the foot of nearly every page. */

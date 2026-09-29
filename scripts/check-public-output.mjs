@@ -156,6 +156,100 @@ const STRUCTURAL = [
   ['company.ts certificationRegister field name `heldByCertified`', 'heldByCertified'],
 ];
 
+/*
+ * CERTIFICATE DATES ARE NEVER PUBLISHED. Founder instruction, 24 September
+ * 2026, reaffirmed 29 September: no certificate date - issue, expiry or any
+ * other - appears anywhere on the site. company.ts keeps the dates because the
+ * footer uses the expiry to drop a lapsed certificate; this check makes sure
+ * they go no further.
+ *
+ * The fingerprint loop above skips rows marked `published`, because their
+ * standard names ARE public. That left the dates of exactly those rows, the
+ * held certificates, unchecked. So every date in every row - in a date field or
+ * inside any other text - is looked for here, in each form a page would
+ * realistically print it: written out, abbreviated, ordinal, numeric in UK and
+ * US order, and ISO. Matching ignores case, non-breaking spaces and the
+ * `<!-- -->` separators React puts between adjacent JSX text, so a date split
+ * across expressions is still one date. Found dates are reported by row and
+ * field, never by printing the date.
+ *
+ * Month and year alone ("March 2027") is NOT looked for. It is ordinary prose,
+ * and a check that fails on ordinary prose is a check someone switches off.
+ */
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+function datesIn(text) {
+  const found = [...text.matchAll(/\b\d{4}-\d{2}-\d{2}\b/g)].map(m => m[0]);
+  const prose = /\b(\d{1,2}) (January|February|March|April|May|June|July|August|September|October|November|December) (\d{4})\b/g;
+  for (const [, d, month, y] of text.matchAll(prose)) {
+    found.push(`${y}-${String(MONTHS.indexOf(month) + 1).padStart(2, '0')}-${d.padStart(2, '0')}`);
+  }
+  return found;
+}
+function ordinal(d) {
+  if (d % 100 >= 11 && d % 100 <= 13) return `${d}th`;
+  return `${d}${['th', 'st', 'nd', 'rd'][d % 10] ?? 'th'}`;
+}
+function formsOf(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  const dd = String(d).padStart(2, '0');
+  const mm = String(m).padStart(2, '0');
+  const forms = [
+    ['ISO 8601', iso],
+    ['day/month/year', `${dd}/${mm}/${y}`],
+    ['day/month/year', `${d}/${m}/${y}`],
+    ['month/day/year', `${mm}/${dd}/${y}`],
+    ['month/day/year', `${m}/${d}/${y}`],
+    ['day.month.year', `${dd}.${mm}.${y}`],
+    ['day-month-year', `${dd}-${mm}-${y}`],
+  ];
+  const month = MONTHS[m - 1];
+  for (const name of [month, month.slice(0, 3), ...(month === 'September' ? ['Sept'] : [])]) {
+    forms.push(
+      ['day month year', `${d} ${name} ${y}`],
+      ['day month year', `${ordinal(d)} ${name} ${y}`],
+      ['month day, year', `${name} ${d}, ${y}`],
+      ['month day, year', `${name} ${ordinal(d)}, ${y}`],
+    );
+  }
+  const unique = new Map();
+  for (const [kind, form] of forms) if (!unique.has(form.toLowerCase())) unique.set(form.toLowerCase(), kind);
+  return [...unique].map(([form, kind]) => [kind, form]);
+}
+/* Folds what a page may put between the parts of a date to a plain space, and
+   lower-cases, so the forms above can be matched as plain substrings. */
+const HARD_SPACE = new RegExp(`[${String.fromCharCode(0xa0)}${String.fromCharCode(0x202f)}]`, 'g');
+function comparable(content) {
+  return content.replace(/<!-- -->/g, '').replace(HARD_SPACE, ' ').replace(/&nbsp;|&#160;|&#xa0;/gi, ' ').toLowerCase();
+}
+/* A whole date only: "1 january 2027" is inside "21 january 2027", and
+   "1/1/2027" is inside "11/1/2027". Neither is this date. */
+function occurs(text, form) {
+  for (let i = text.indexOf(form); i !== -1; i = text.indexOf(form, i + 1)) {
+    if (!/\d/.test(text[i - 1] ?? '') && !/\d/.test(text[i + form.length] ?? '')) return true;
+  }
+  return false;
+}
+const certificateDates = []; // { source, forms }, one per row and date
+for (const row of rowsOf(parse('src/content/company.ts'), 'certificationRegister')) {
+  const standard = pieces(prop(row, 'standard'))[0] ?? '(unnamed row)';
+  const seen = new Set();
+  for (const p of row.properties) {
+    if (!ts.isPropertyAssignment(p)) continue;
+    const field = p.name.getText();
+    const source = `company.ts certificationRegister "${standard}".${field}`;
+    const dates = datesIn(pieces(p.initializer).join(' '));
+    // A date field this cannot read would drop out of the check in silence.
+    if (!dates.length && /valid|issued|expir|recert|date/i.test(field)) {
+      fail(`${source} holds no date this check can read - its shape has changed. Teach datesIn the new shape.`);
+    }
+    for (const iso of dates) {
+      if (seen.has(iso)) continue;
+      seen.add(iso);
+      certificateDates.push({ source, forms: formsOf(iso) });
+    }
+  }
+}
+
 /* -------------------------------------------------------------- fingerprints */
 
 /*
@@ -275,11 +369,17 @@ const perRequest = [...new Set(allRoutes)]
 /* ------------------------------------------------------------------ search */
 
 const hits = [];
+const dateHits = [];
 for (const file of Object.values(groups).flat()) {
   const content = fs.readFileSync(file, 'utf8');
   const where = path.relative(file.startsWith(NEXT) ? NEXT : ROOT, file);
   for (const [source, needle] of STRUCTURAL) {
     if (content.includes(needle)) hits.push(`${source}  ->  ${where}`);
+  }
+  const plain = comparable(content);
+  for (const { source, forms } of certificateDates) {
+    const kinds = new Set(forms.filter(([, form]) => occurs(plain, form)).map(([kind]) => kind));
+    for (const kind of kinds) dateHits.push(`${source}, written ${kind}  ->  ${where}`);
   }
   for (const [ti, found] of windowsIn(content)) {
     const t = texts[ti];
@@ -295,8 +395,23 @@ process.stdout.write(
   `public output scanned : ${counts}\n` +
     `internal texts        : ${fingerprinted} fingerprinted from claims.ts, work.ts and company.ts; ` +
     `${tooShort} too short to fingerprint (caught by field name if bundled)\n` +
-    `not covered           : ${perRequest.length ? `rendered per request, so no build output to scan: ${perRequest.join(', ')}` : 'nothing'}\n`,
+    `not covered           : ${perRequest.length ? `rendered per request, so no build output to scan: ${perRequest.join(', ')}` : 'nothing'}\n` +
+    `certificate dates     : ${certificateDates.length} from company.ts, looked for in ${certificateDates.reduce((n, c) => n + c.forms.length, 0)} written forms\n`,
 );
+
+if (dateHits.length) {
+  process.stdout.write(`\nA CERTIFICATE DATE IS IN PUBLIC OUTPUT - ${dateHits.length} hit(s):\n`);
+  for (const h of dateHits.slice(0, 40)) process.stdout.write(`  - ${h}\n`);
+  if (dateHits.length > 40) process.stdout.write(`  ... and ${dateHits.length - 40} more\n`);
+  process.stdout.write(
+    '\nNo certificate date is published anywhere on this site: founder instruction,\n' +
+      '24 September 2026, reaffirmed 29 September. The footer names the standard\n' +
+      'only, and the detail goes to a reviewer on request. Remove the date from the\n' +
+      'page. If the match is a different date that falls on the same day - an\n' +
+      "article's publication date, say - record that in review and exclude that one\n" +
+      'file here with the reason; never exclude a page that talks about certification.\n',
+  );
+}
 
 if (hits.length) {
   process.stdout.write(`\nINTERNAL REGISTER CONTENT IS IN PUBLIC OUTPUT - ${hits.length} hit(s):\n`);
@@ -311,4 +426,5 @@ if (hits.length) {
   );
   process.exit(1);
 }
+if (dateHits.length) process.exit(1);
 process.stdout.write('no internal register content found in the scanned output\n');
