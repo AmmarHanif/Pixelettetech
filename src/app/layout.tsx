@@ -171,10 +171,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/*
           AFTER the footer in source order, so the whole page is reachable by
           keyboard and by a screen reader before a floating control appears.
-          It stores nothing, and it calls nothing until a visitor chooses to
-          send an enquiry, which goes the way the contact form's does. So it
-          sits outside the analytics gate below: there is no consent question
-          to ask about it.
+          It stores nothing on the device - no cookie, no local or session
+          storage - which is why it sits outside the analytics gate below:
+          there is no consent question to ask about it. Since 29 September
+          2026 it does send things to the server: the name and email it asks
+          for first, and the enquiry discovery ends with, scored there. Those
+          are what the Privacy Statement's draft update describes, and the
+          build refuses to pass until the published Statement does
+          (scripts/check-privacy-interlock.mjs).
           It is handed only the register verdicts and public facts it uses,
           built HERE on the server by `pixContext()`, so neither the claims
           register nor the company record reaches the browser.

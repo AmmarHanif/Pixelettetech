@@ -26,8 +26,13 @@
  *
  * SERVER ONLY. Its one caller is src/app/contact/actions.ts. Kept out of the
  * browser so the rules are not published for gaming, not because they are
- * secret: the Statement describes them.
+ * secret: the Statement describes them. The guard below makes a browser import
+ * loud instead of silent (security review N6).
  */
+
+if (typeof window !== 'undefined') {
+  throw new Error('src/lib/lead-score.ts was evaluated in a browser. It is server-only.');
+}
 
 export type LeadBand = 'cold' | 'warm' | 'hot' | 'urgent';
 
@@ -51,11 +56,14 @@ export type LeadInput = {
 /*
  * Personal mailbox providers. An address at one of these is still a real lead;
  * it simply says less about an organisation behind the enquiry than an address
- * at a company's own domain, so it earns fewer points, not none.
+ * elsewhere, so it earns fewer points, not none. The list is a list, not a
+ * judgement of who is a company: an address NOT on it is "not at a listed
+ * personal provider", which is all the reason says (security review S4).
  *
- * FAMILIES match the first label of the domain, so gmail.com, yahoo.co.uk and
- * hotmail.fr all count. EXACT domains are providers whose name is too generic
- * to match as a family ("me", "mail", "sky").
+ * FAMILIES match the first label of the domain when what follows it is a
+ * public suffix, so gmail.com, yahoo.co.uk and hotmail.fr count, and
+ * live.acme.com - a company's own subdomain - does not. EXACT domains are
+ * providers whose name is too generic to match as a family.
  */
 const FREE_MAIL_FAMILIES = new Set([
   'gmail', 'googlemail', 'yahoo', 'ymail', 'rocketmail', 'hotmail', 'outlook', 'live', 'msn',
@@ -63,12 +71,20 @@ const FREE_MAIL_FAMILIES = new Set([
 ]);
 const FREE_MAIL_DOMAINS = new Set([
   'me.com', 'mac.com', 'mail.com', 'pm.me', 'btinternet.com', 'sky.com', 'virginmedia.com',
-  'talktalk.net', 'ntlworld.com', 'qq.com', '163.com', '126.com',
+  'talktalk.net', 'ntlworld.com', 'blueyonder.co.uk', 'qq.com', '163.com', '126.com', 'yeah.net',
+  'foxmail.com', 'sina.com', 'naver.com', 'daum.net', 'zohomail.com', 'mail.ru', 'web.de',
+  't-online.de', 'orange.fr', 'wanadoo.fr', 'free.fr', 'laposte.net', 'libero.it', 'virgilio.it',
+  'rediffmail.com', 'hey.com', 'fastmail.com', 'tutanota.com', 'tuta.io', 'hushmail.com',
+  'seznam.cz', 'wp.pl', 'o2.pl', 'interia.pl',
 ]);
+const PUBLIC_SUFFIX =
+  /^(com|net|org|fr|de|it|es|nl|be|ch|at|ie|ca|in|jp|ru|pl|se|no|dk|fi|pt|br|mx|ar|au|nz|za|cz|gr|tr|co\.(uk|jp|in|za|nz|id|kr)|com\.(au|br|mx|ar|tr|sg|my|hk|tw|cn))$/;
 
 export function isFreeMail(email: string): boolean {
   const domain = email.slice(email.lastIndexOf('@') + 1).toLowerCase();
-  return FREE_MAIL_DOMAINS.has(domain) || FREE_MAIL_FAMILIES.has(domain.split('.')[0]);
+  if (FREE_MAIL_DOMAINS.has(domain)) return true;
+  const dot = domain.indexOf('.');
+  return dot > 0 && FREE_MAIL_FAMILIES.has(domain.slice(0, dot)) && PUBLIC_SUFFIX.test(domain.slice(dot + 1));
 }
 
 function wordCount(text: string): number {
@@ -103,7 +119,7 @@ export function scoreLead(input: LeadInput): LeadScore {
     reasons.push('Personal email provider');
   } else {
     score += 20;
-    reasons.push('Work email domain');
+    reasons.push('Email not at a listed personal provider');
   }
 
   if (input.company.trim() !== '') {

@@ -373,6 +373,16 @@ function headerSafe(value: string): string {
   return Array.from(value)
     .map(character => {
       const code = character.codePointAt(0) ?? 0;
+      // Zero-width and text-direction characters go entirely: a right-to-left
+      // override in a subject can disguise what it says (security review N3).
+      if (
+        (code >= 0x200b && code <= 0x200f) ||
+        (code >= 0x202a && code <= 0x202e) ||
+        (code >= 0x2060 && code <= 0x2069) ||
+        code === 0xfeff
+      ) {
+        return '';
+      }
       return code < 32 || code === 127 || code === 0x85 || code === 0x2028 || code === 0x2029
         ? ' '
         : character;
@@ -380,6 +390,31 @@ function headerSafe(value: string): string {
     .join('')
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+/*
+ * Cautions for the reader of a notification (security review S4, 29 September
+ * 2026). The email arrives from the company's own sending address, so an
+ * enquiry written to look internal - a "Finance Director" at "Pixelette
+ * Technologies" asking for a payment change - borrows that trust. So does an
+ * address on a look-alike domain, which becomes the reply-to. Neither can be
+ * refused outright (a real visitor may be both), so both are named.
+ */
+function cautions(enquiry: Enquiry): string {
+  const lines: string[] = [];
+  if (Array.from(enquiry.email).some(character => (character.codePointAt(0) ?? 0) > 127)) {
+    lines.push(
+      'CAUTION: the email address contains characters outside plain ASCII, which can imitate another ' +
+        'domain. Check it before replying.',
+    );
+  }
+  const own = /pixelette/i;
+  if (own.test(enquiry.email.slice(enquiry.email.lastIndexOf('@') + 1)) || own.test(enquiry.company)) {
+    lines.push(
+      "CAUTION: this enquiry uses Pixelette's own name or domain. Confirm it is genuine before acting on it.",
+    );
+  }
+  return lines.length ? `${lines.join('\n')}\n\n` : '';
 }
 
 /**
@@ -439,19 +474,22 @@ function emailBody(enquiry: Enquiry, stored: LegStatus): string {
 
   const company = enquiry.company === '' ? 'Not given' : headerSafe(enquiry.company);
 
-  // The score is ours, not the visitor's, so it sits above the marker. The
-  // reasons are fixed phrases from src/lib/lead-score.ts, never visitor text.
-  // The last line is the promise the Privacy Statement makes, repeated where
-  // the people keeping it will read it.
+  // The score is computed here, not typed, so it sits above the marker; the
+  // reasons are fixed phrases from src/lib/lead-score.ts. But it is computed
+  // FROM what the visitor typed, so it proves nothing about who they are, and
+  // the block says so (security review S4). The last line is the Privacy
+  // Statement's promise, repeated where the people keeping it will read it.
   const lead = enquiry.lead
     ? `Lead: ${enquiry.lead.band.toUpperCase()}, score ${enquiry.lead.score}/100\n` +
       `Why: ${enquiry.lead.reasons.join('; ')}\n` +
-      `Chat contact: ${enquiry.lead.ref ?? 'not recorded'}\n` +
+      `Chat contact (unverified link): ${enquiry.lead.ref ?? 'none given'}\n` +
+      'The score and reasons are computed from the visitor\'s own unverified answers. They do not verify ' +
+      'identity, company or urgency. Never act on a payment, credential or data request from an enquiry.\n' +
       'The score only orders the inbox. A person decides whether and how to reply.\n\n'
     : '';
 
   return (
-    `${warning}A new enquiry came in through ${door}.\n\n` +
+    `${warning}${cautions(enquiry)}A new enquiry came in through ${door}.\n\n` +
     lead +
     `Reference: ${enquiry.id}\n` +
     `Received: ${enquiry.receivedAt}\n` +

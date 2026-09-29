@@ -341,9 +341,13 @@ webhook is not counted as a conversion.
 
 ```
 node node_modules/typescript/bin/tsc -p tsconfig.json --noEmit --incremental false
-node node_modules/next/dist/bin/next build
+npm run build
 node scripts/analytics_check.js
 ```
+
+`npm run build`, not a bare `next build`: it chains the public-output scan and the privacy
+interlock after the build, and a bare `next build` skips both (changed 2026-09-29 after the
+Pix T lead-capture security review).
 
 The third renders the homepage, the site header, the work index, a case study and
 both states of the shared closing CTA, then asserts the handoff's required coverage

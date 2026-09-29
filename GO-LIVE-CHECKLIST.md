@@ -125,7 +125,11 @@ These carry legal exposure. None should be published in its current state.
       2. Legal has recorded its view on a DPIA, the lawful basis and the retention period for
          chat contacts who never send an enquiry;
       3. `supabase/migrations/20260929120000_pix_t_lead_capture.sql` is applied to the
-         project before deployment (founder step; see `CONTACT-FORM-SETUP.md`).
+         project before deployment (founder step; see `CONTACT-FORM-SETUP.md`);
+      4. the host settings from the security review are in place: the Vercel Build Command
+         is not overridden, a Firewall rate limit covers POSTs carrying `Next-Action`, a daily
+         row count on `assistant_contacts` is set up, and Supabase Auth sign-ups are off if
+         unused. `assistant_contacts` holds unverified details and is not a marketing list.
 
 The other four are closed, and how each closed matters more than that it did
 (all read in `src/app/privacy/page.tsx` on 2026-09-08):

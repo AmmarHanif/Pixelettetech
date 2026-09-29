@@ -484,10 +484,17 @@ export function SiteAssistant({ context }: { context: PixContext }) {
 
           <p className="asst-foot">
             {identify ? (
-              /* The contact form's just-in-time notice, founder wording verbatim
-                 (2026-09-17), where the name and email are asked. */
+              /* The notice at the point of collection. It began as the contact
+                 form's (founder wording, 2026-09-17), which says only that the
+                 information is used to respond. Here the name and email are
+                 recorded the moment they are given, whether or not an enquiry
+                 follows, so the notice says so (security review S5, 29
+                 September). Proposed to the founder and Legal with the Statement
+                 draft; the privacy interlock checks for "as soon as you give
+                 them". */
               <>
-                We use the information you provide to respond to your enquiry. See our{' '}
+                We record your name and email as soon as you give them, so the team can reply even if you leave before
+                finishing. See our{' '}
                 <Link href="/privacy" onClick={() => setOpen(false)}>
                   Privacy Notice
                 </Link>{' '}

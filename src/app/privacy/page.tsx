@@ -54,6 +54,11 @@ export const metadata = pageMetadata({
  *     matches for "assistant" are marketing copy about AI we BUILD for clients.
  *   - No enquiry scoring. The form asks four qualifying QUESTIONS; no score is
  *     computed, stored or acted on, and `contact_enquiries` has no score column.
+ *     NO LONGER TRUE OF PIX T (founder instruction, 29 September 2026): its
+ *     enquiries are scored and the table gains score columns. The wording this
+ *     page needs is drafted in PRIVACY-STATEMENT-DRAFT-PIX-T-LEADS.md, and the
+ *     build refuses to pass until it is published here. This audit note is
+ *     left as it was run.
  *   - No careers or recruitment route.
  *   - No mailing list. The Subscribe CTA was removed on 2026-09-16 precisely
  *     because nothing was wired up behind it.

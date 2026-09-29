@@ -52,10 +52,14 @@ gateway, that sentence must change first.
 **Current:** "Your enquiry is stored with the date it arrived and nothing else about your device."
 
 **Proposed:** "Your enquiry, and the name and email you give Pix T, are stored with the date they arrived and
-nothing else about your device."
+nothing else about your device. To stop the assistant being misused, we count how often each connection uses it,
+for up to a day. The connection's address is held only in the server's memory for that count, and is never
+stored or logged."
 
 **Why:** the new chat-contact record holds the name, email, source and time only. It deserves the same
-statement.
+statement. The second part describes the rate limit added after the security review. That limit is in-memory
+processing of the connection address for the purpose the Statement already names, preventing abuse, and it is
+disclosed rather than left implied.
 
 ### 3. Information we collect > Please do not send more than you need to
 
@@ -75,13 +79,14 @@ to say whether a written legitimate interests assessment is wanted.
 
 ### 5. AI and technology providers: new paragraph after "No decision producing legal effects..."
 
-**Add, under the heading "How we prioritise enquiries from Pix T":**
+**Add, under the heading "How we prioritise enquiries from Pix T".** The heading carries `id="pix-t-lead-score"`.
+That is the marker the build checks for, so the paragraph cannot be dropped by accident.
 
 > When you send an enquiry through Pix T, we give it a lead score from 0 to 100 and a band (cold, warm, hot or
 > urgent) so that we can see which enquiries to answer first. The score uses only what you told Pix T: whether
-> your email address is at a company's own domain or a personal email provider, whether you named a company, how
-> much you told us about what you want, whether you described what exists today and what success would look
-> like, and whether you gave a deadline and how soon it is. It uses nothing about your device or how you browsed
+> your email address is at a well-known personal email provider, whether you named a company, how much you
+> told us about what you want, whether you described what exists today and what success would look like, and
+> whether you gave a deadline and how soon it is. It uses nothing about your device or how you browsed
 > the site. The score is stored with your enquiry, together with the reasons for it, and you can ask us for both.
 > It only affects the order in which we look at enquiries: a person reads every enquiry and decides whether and
 > how to reply. Enquiries sent through the contact form are not scored.
@@ -139,8 +144,11 @@ publication date if Legal wants the change on the record.
 
 ## Also for Legal to see (already built, not Statement text)
 
-- **Where the name is asked, verbatim from the contact form (founder wording, 17 September):** "We use the
-  information you provide to respond to your enquiry. See our Privacy Notice for more information."
+- **Where the name and email are asked, proposed (security review S5):** "We record your name and email as
+  soon as you give them, so the team can reply even if you leave before finishing. See our Privacy Notice for
+  more information." This replaces the contact form's notice (founder wording, 17 September), which said only
+  that the information is used to respond to an enquiry. Here the details are recorded before any enquiry
+  exists. The build checks for "as soon as you give them". **For approval.**
 - **Pix T's footer once the visitor is known:** "Your name, email and answers to Pix T's questions go to the team.
   The rest of this chat is not stored."
 - **Before the first discovery question:** "So the team can help properly, a few quick questions. Your answers go
@@ -153,7 +161,24 @@ publication date if Legal wants the change on the record.
 
 ## To apply, once approved
 
-1. Edit `src/app/privacy/page.tsx` with the approved wording.
-2. Run `npm run build`. The privacy interlock reports "no longer says no profiling, describes a score" and passes.
+1. Edit `src/app/privacy/page.tsx` with the approved wording. Put `id="pix-t-lead-score"` on the heading of
+   change 5.
+2. Run `npm run build`. The privacy interlock checks both the source (from `next.config.ts`, on any production
+   build) and the build output. It passes only when:
+   - the marker is present;
+   - nothing on the page still says "no profiling" or "no scoring", "do not profile" or "do not score", or
+     "never profiles" or "never scores";
+   - the notice where the name and email are asked says "as soon as you give them".
 3. Apply `supabase/migrations/20260929120000_pix_t_lead_capture.sql` to the Supabase project **before** deploying
-   (founder step).
+   (founder step). Then run its six checks.
+
+## Host settings for the founder (from the security review)
+
+- **Build command:** confirm the Vercel project's Build Command is not overridden. The source half of the
+  interlock runs on any `next build`; the output half and the leak scan run only with `npm run build`.
+- **Firewall:** add a Vercel Firewall rate-limit rule for POST requests carrying a `Next-Action` header. The
+  in-memory limit in the code counts per server instance, so the host's rule is the stronger control.
+- **Monitoring:** run a daily row count on `assistant_contacts`, so a flood of fake contacts is noticed.
+- **Supabase Auth:** if the site does not use it, turn sign-ups off in the project.
+- **Use of the data:** `assistant_contacts` holds unverified details that anyone can type. It is not a marketing
+  list and must not be used as one.

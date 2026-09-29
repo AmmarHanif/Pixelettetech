@@ -42,6 +42,11 @@ alter table public.contact_enquiries
 alter table public.contact_enquiries
   add constraint contact_enquiries_lead_band_values
     check (lead_band is null or lead_band in ('cold', 'warm', 'hot', 'urgent'));
+-- The rules produce at most eight reasons; sixteen leaves room without leaving
+-- the column unbounded (security review N5).
+alter table public.contact_enquiries
+  add constraint contact_enquiries_lead_reasons_size
+    check (lead_reasons is null or cardinality(lead_reasons) <= 16);
 
 -- lead_ref is deliberately NOT a foreign key to assistant_contacts. The two
 -- rows are written by separate requests, and the contact row can fail to
@@ -79,7 +84,7 @@ create table if not exists public.assistant_contacts (
 );
 
 comment on table public.assistant_contacts is
-  'Name and email given to Pix T before chatting. Contains personal data. Row Level Security is on and no policy exists, by design - the same two controls as contact_enquiries.';
+  'Name and email given to Pix T before chatting. Contains personal data. UNVERIFIED: anyone can type any name and address, so this is not a marketing list and must not be used as one. Row Level Security is on and no policy exists, by design - the same two controls as contact_enquiries.';
 
 create index if not exists assistant_contacts_created_at_idx
   on public.assistant_contacts (created_at desc);
@@ -129,4 +134,13 @@ grant insert on table public.assistant_contacts to service_role;
 --
 -- 5. From outside, with the ANON key, after one real chat contact exists:
 --      GET  {SUPABASE_URL}/rest/v1/assistant_contacts?select=*  -> 401, or 200 []. NEVER a row.
+--
+-- 6. Every CHECK constraint is present (security review N5). A table that
+--    already existed before this file ran would skip the ones written inside
+--    `create table if not exists` while checks 2-4 still pass. Expect 3 on
+--    assistant_contacts and 11 on contact_enquiries (8 original, 3 added here).
+--      select conrelid::regclass, count(*) from pg_constraint
+--       where conrelid in ('public.assistant_contacts'::regclass, 'public.contact_enquiries'::regclass)
+--         and contype = 'c'
+--       group by 1;
 -- ============================================================================
