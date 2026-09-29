@@ -2,8 +2,7 @@
 
 import { track } from '@vercel/analytics/react';
 import Link from 'next/link';
-import { useActionState, useEffect, useRef } from 'react';
-import { useFormStatus } from 'react-dom';
+import { type FormEvent, useActionState, useEffect, useRef, useState } from 'react';
 
 import { QUESTIONS } from '@/content/enquiry-questions';
 import { ANALYTICS_ENABLED, ANALYTICS_EVENTS, ANALYTICS_SURFACES } from '@/lib/analytics';
@@ -11,7 +10,13 @@ import { analyticsAllowed } from '@/lib/privacy';
 
 import { submitContact, type ContactState } from './actions';
 
+/** The server's answer, or `unconfirmed` when no answer arrived (see `submit`). */
+type FormState = ContactState & { unconfirmed?: boolean };
+
 const initialState: ContactState = { status: 'idle', message: '' };
+
+/** When a Send has taken long enough that the visitor should hear about it. */
+const SLOW_SEND_MS = 15000;
 
 /*
  * The four qualifying questions are the handoff's section 14 "Form qualifier",
@@ -23,8 +28,7 @@ const initialState: ContactState = { status: 'idle', message: '' };
  * server-action module may export nothing but async functions.
  */
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
+function SubmitButton({ pending }: { pending: boolean }) {
   return (
     <button type="submit" className="btn" disabled={pending} style={{ marginTop: 24 }}>
       {pending ? 'Sending…' : 'Send'}
@@ -126,12 +130,64 @@ function Field({
  * what success looks like, and an unanswered question is more useful than a
  * forced one.
  *
- * Built on a Server Action so it still submits with JavaScript disabled;
- * `useActionState` only upgrades the feedback, it is not load-bearing.
+ * TWO PATHS TO ONE SERVER ACTION, since 2026-09-29.
+ *
+ * WITHOUT JAVASCRIPT the form posts natively through `useActionState` and the
+ * server renders the answer. That path is unchanged and still works.
+ *
+ * WITH JAVASCRIPT, `submit` below prevents that and calls the action itself,
+ * inside a try. Through `useActionState`, any failure in transit - a dropped
+ * connection, a gateway error, a stale action after a redeploy, a response lost
+ * after the enquiry was stored - rejected into React, which re-threw it during
+ * render. With no error boundary, Next replaced the whole page with
+ * "Application error" and the visitor's enquiry was lost (finding RES-02).
+ * Calling the action directly has a second effect: React no longer clears the
+ * fields when an answer comes back. Through <form action> it cleared them after
+ * every answer, "Please check the highlighted fields." included, so a visitor
+ * who mistyped an email lost the whole enquiry.
  */
-export function ContactForm() {
-  const [state, formAction] = useActionState(submitContact, initialState);
+export function ContactForm({ contactEmail }: { contactEmail: string }) {
+  const [serverState, formAction] = useActionState(submitContact, initialState);
+  const [clientState, setClientState] = useState<FormState | null>(null);
+  const [pending, setPending] = useState(false);
+  const [slow, setSlow] = useState(false);
+  /* Set synchronously, so two submits in the same tick send once. */
+  const inFlight = useRef(false);
+
+  // The JavaScript path's answer when there is one; the no-JavaScript answer otherwise.
+  const state: FormState = clientState ?? serverState;
   const err = state.errors ?? {};
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (inFlight.current) return;
+    inFlight.current = true;
+    const data = new FormData(event.currentTarget);
+    setPending(true);
+    let next: FormState;
+    try {
+      next = await submitContact(initialState, data);
+    } catch {
+      next = { status: 'error', message: '', unconfirmed: true };
+    }
+    inFlight.current = false;
+    setPending(false);
+    setSlow(false);
+    setClientState(next);
+  };
+
+  /* A Send the server has not answered in 15 seconds gets an honest note. The
+     server gives each provider 8 seconds, so a healthy send never gets here. */
+  useEffect(() => {
+    if (!pending) return;
+    const timer = setTimeout(() => setSlow(true), SLOW_SEND_MS);
+    return () => clearTimeout(timer);
+  }, [pending]);
+
+  const message = state.unconfirmed
+    ? `We could not confirm that your enquiry was sent: the connection may have dropped. It may still have reached us. ` +
+      `Please email ${contactEmail} so it is not lost; your answers are still below to copy.`
+    : state.message;
 
   /*
    * The completed conversion — checklist item 21's "booked conversations".
@@ -174,12 +230,18 @@ export function ContactForm() {
   }, [state.status]);
 
   return (
-    <form action={formAction} noValidate>
+    <form action={formAction} noValidate onSubmit={submit}>
       {/* Announced to screen readers as soon as it appears. */}
       <div aria-live="polite" role="status">
-        {state.status !== 'idle' && state.message ? (
+        {!pending && state.status !== 'idle' && message ? (
           <p className={state.status === 'success' ? 'formnote formnote--ok' : 'formnote formnote--bad'}>
-            {state.message}
+            {message}
+          </p>
+        ) : null}
+        {slow ? (
+          <p className="formnote formnote--bad">
+            This is taking longer than it should. It may still arrive. If you would rather not wait, email{' '}
+            {contactEmail}.
           </p>
         ) : null}
       </div>
@@ -251,7 +313,7 @@ export function ContactForm() {
           </div>
 
           <div>
-            <SubmitButton />
+            <SubmitButton pending={pending} />
             {/* JUST-IN-TIME NOTICE, founder wording verbatim, 2026-09-17.
                 Article 13 wants the information given AT THE POINT OF
                 COLLECTION, so this sits with the submit button rather than

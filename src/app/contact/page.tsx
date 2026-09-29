@@ -166,7 +166,7 @@ export default function ContactPage() {
           <div className="card" style={{ padding: 36 }}>
             <h3 className="h3">Let&rsquo;s get started</h3>
             <div style={{ marginTop: 28 }}>
-              <ContactForm />
+              <ContactForm contactEmail={contactEmail} />
             </div>
           </div>
         </div>

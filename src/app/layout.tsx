@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, Newsreader, Outfit } from 'next/font/google';
 
 import { GatedAnalytics } from '@/components/GatedAnalytics';
 import { AnalyticsEvents } from '@/components/AnalyticsEvents';
+import { AssistantBoundary } from '@/components/AssistantBoundary';
 import { SiteAssistant } from '@/components/SiteAssistant';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
@@ -170,13 +171,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/*
           AFTER the footer in source order, so the whole page is reachable by
           keyboard and by a screen reader before a floating control appears.
-          It stores nothing and calls nothing, so it sits outside the analytics
-          gate below: there is no consent question to ask about it.
+          It stores nothing, and it calls nothing until a visitor chooses to
+          send an enquiry, which goes the way the contact form's does. So it
+          sits outside the analytics gate below: there is no consent question
+          to ask about it.
           It is handed only the register verdicts and public facts it uses,
           built HERE on the server by `pixContext()`, so neither the claims
           register nor the company record reaches the browser.
+          Wrapped in its own error boundary, so a failure inside it costs the
+          assistant, not the page.
         */}
-        <SiteAssistant context={pixContext()} />
+        <AssistantBoundary>
+          <SiteAssistant context={pixContext()} />
+        </AssistantBoundary>
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />
         {/*

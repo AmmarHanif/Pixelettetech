@@ -57,15 +57,27 @@ export const ENQUIRY_OPENING =
   'I will ask the four questions the team asks everyone, then a name and an email to reply to. ' +
   'Skip anything marked optional. Nothing is sent until you have checked it and pressed Send.';
 
-/** The same test the server applies, so a typo is caught before the form. */
+/**
+ * The same test the server applies, so a typo is caught before the form.
+ * Character for character the pattern in src/app/contact/actions.ts, whose
+ * comment explains it: linear by construction (finding PERF-01) and no
+ * display-name or list forms (finding SAS-05). The hardening test in
+ * verification/2026-09-29 fails if the two ever differ.
+ */
+export const EMAIL_PATTERN =
+  /^[^\s@"<>()[\],;:\\]+@[^\s@"<>()[\],;:\\.]+(?:\.[^\s@"<>()[\],;:\\.]+)*\.[^\s@"<>()[\],;:\\.]{2,}$/;
+
 export function isEmail(value: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+  return EMAIL_PATTERN.test(value);
 }
 
 export type AnswerCheck = { ok: true; value: string } | { ok: false; problem: string };
 
 export function checkAnswer(step: EnquiryStep, raw: string): AnswerCheck {
-  const value = String(raw ?? '').trim();
+  const typed = String(raw ?? '').trim();
+  // Zero-width marks alone are not an answer; the server treats them as empty
+  // too (finding ECE-09).
+  const value = typed.replace(/[\p{Cf}\s]/gu, '') === '' ? '' : typed;
   if (!value) {
     return step.optional ? { ok: true, value: '' } : { ok: false, problem: 'That one is needed. ' + step.ask };
   }

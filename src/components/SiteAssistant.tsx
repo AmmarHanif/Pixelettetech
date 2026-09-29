@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { type FormEvent, startTransition, useActionState, useCallback, useEffect, useRef, useState } from 'react';
+import { type FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import { submitAssistantEnquiry, type ContactState } from '@/app/contact/actions';
 import { QUESTIONS } from '@/content/enquiry-questions';
@@ -68,7 +68,21 @@ const GREETING: Turn = {
 /** The brief's MESSAGE_MAX_CHARS (section 70); respond() also truncates at this. */
 const MESSAGE_MAX = 2000;
 
-const INITIAL_ENQUIRY: ContactState = { status: 'idle', message: '' };
+/**
+ * The server's answer to the enquiry, or `unconfirmed` when no answer arrived:
+ * the connection failed, a gateway replied instead of the site, or the page is
+ * older than the deployment that received it. In that case nobody here knows
+ * whether the enquiry landed, and the visitor is told exactly that.
+ */
+type ReviewState = ContactState & { unconfirmed?: boolean };
+
+const INITIAL_ENQUIRY: ReviewState = { status: 'idle', message: '' };
+
+/** When a Send has taken long enough that the visitor should be offered a way out. */
+const SLOW_SEND_MS = 15000;
+
+/** What is true when the visitor closes an enquiry, which decides what Pix T says. */
+type CancelKind = 'unsent' | 'refused' | 'unconfirmed';
 
 export function SiteAssistant({ context }: { context: PixContext }) {
   const [open, setOpen] = useState(false);
@@ -95,16 +109,21 @@ export function SiteAssistant({ context }: { context: PixContext }) {
     setTimeout(() => inputRef.current?.focus(), 0);
   }, [say]);
 
-  /* Before Send nothing has left the page. After a Send that failed, the
-     enquiry reached this site's server and went no further, so say that. */
+  /* Before Send nothing has left the page. After a Send the server refused or
+     could not deliver, the enquiry reached this site and went no further. After
+     a Send whose answer never came back, nobody here knows, so Pix T says so
+     rather than guessing either way. */
   const cancelEnquiry = useCallback(
-    (afterFailedSend: boolean) => {
+    (kind: CancelKind) => {
       setFlow(null);
       say({
         role: 'assistant',
-        text: afterFailedSend
-          ? `Enquiry closed. It did not reach the team. You can email ${context.contactEmail} instead.`
-          : 'Enquiry cancelled. Nothing was sent.',
+        text:
+          kind === 'unsent'
+            ? 'Enquiry cancelled. Nothing was sent.'
+            : kind === 'refused'
+              ? `Enquiry closed. It did not reach the team. You can email ${context.contactEmail} instead.`
+              : `Enquiry closed. It may still have reached the team. If you do not hear back, please email ${context.contactEmail}.`,
       });
     },
     [context.contactEmail, say],
@@ -240,6 +259,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
 
             {flow?.reviewing ? (
               <EnquiryReview
+                contactEmail={context.contactEmail}
                 draft={flow.draft}
                 key={reviewKey}
                 onCancel={cancelEnquiry}
@@ -269,7 +289,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
                     Skip
                   </button>
                 ) : null}{' '}
-                <button onClick={() => cancelEnquiry(false)} type="button">
+                <button onClick={() => cancelEnquiry('unsent')} type="button">
                   Cancel
                 </button>
               </span>
@@ -340,37 +360,84 @@ export function SiteAssistant({ context }: { context: PixContext }) {
  * information at the point of collection, and this is a point of collection.
  */
 function EnquiryReview({
+  contactEmail,
   draft,
   onDelivered,
   onCancel,
 }: {
+  contactEmail: string;
   draft: EnquiryDraft;
   onDelivered: (message: string) => void;
-  onCancel: (afterFailedSend: boolean) => void;
+  onCancel: (kind: CancelKind) => void;
 }) {
-  const [state, dispatch, pending] = useActionState(submitAssistantEnquiry, INITIAL_ENQUIRY);
+  const [state, setState] = useState<ReviewState>(INITIAL_ENQUIRY);
+  const [pending, setPending] = useState(false);
+  const [slow, setSlow] = useState(false);
+  /* Set synchronously, so two submits in the same tick send once; `pending`
+     is state, and two scripted submits both read it before it updates
+     (finding ECE-06). */
+  const inFlight = useRef(false);
   const reported = useRef(false);
 
   /* Only a delivered enquiry ends the flow. Any failure - a field to put right,
-     or delivery unconfigured or down - leaves the form open with the visitor's
-     answers in it, as the contact form intends, so they can correct it or copy
-     it into the email the failure message asks for. */
+     delivery unconfigured or down, or an answer that never came back - leaves
+     the form open with the visitor's answers in it, so they can correct it or
+     copy it into the email the message asks for. */
   useEffect(() => {
     if (state.status !== 'success' || reported.current) return;
     reported.current = true;
     onDelivered(state.message);
   }, [state, onDelivered]);
 
-  /* Dispatched by hand rather than through <form action>: React 19 resets a
-     form's uncontrolled fields once an action completes, even one that returns
-     field errors, which put the chat answers back over the visitor's
-     corrections (observed in the browser run on 2026-09-28). */
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  /* A Send the server has not answered in 15 seconds gets an honest note and a
+     working Cancel. The server gives each provider 8 seconds, so a healthy send
+     never gets here (finding RES-04). */
+  useEffect(() => {
+    if (!pending) return;
+    const timer = setTimeout(() => setSlow(true), SLOW_SEND_MS);
+    return () => clearTimeout(timer);
+  }, [pending]);
+
+  /*
+   * THE ACTION IS CALLED DIRECTLY, INSIDE A TRY, rather than through
+   * useActionState, since 2026-09-29.
+   *
+   * Through useActionState a failure in transit - the phone losing signal, a
+   * gateway error, a stale action after a redeploy, a response lost after the
+   * row was stored - rejected into React, which re-threw it during render, and
+   * with no error boundary Next replaced EVERY page with "Application error".
+   * The visitor lost the page and the enquiry together (findings ECE-01 and
+   * RES-01, reproduced by five independent runs). Caught here, it becomes an
+   * honest message and the answers stay on screen.
+   *
+   * It stays out of <form action> for the reason it left it on 2026-09-28:
+   * React 19 resets a form's fields once an action completes, which put the
+   * chat answers back over the visitor's corrections.
+   */
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (pending) return;
+    if (inFlight.current) return;
+    inFlight.current = true;
     const data = new FormData(event.currentTarget);
-    startTransition(() => dispatch(data));
+    setPending(true);
+    let next: ReviewState;
+    try {
+      next = await submitAssistantEnquiry(state, data);
+    } catch {
+      next = { status: 'error', message: '', unconfirmed: true };
+    }
+    inFlight.current = false;
+    setPending(false);
+    setSlow(false);
+    setState(next);
   };
+
+  const unconfirmedMessage =
+    `We could not confirm that your enquiry was sent: the connection may have dropped. It may still have reached us. ` +
+    `Please email ${contactEmail} so it is not lost; your answers are still here to copy.`;
+  const message = state.unconfirmed ? unconfirmedMessage : state.message;
+  const cancelKind: CancelKind =
+    pending || state.unconfirmed ? 'unconfirmed' : state.status === 'error' ? 'refused' : 'unsent';
 
   const err = state.errors ?? {};
   const field = (
@@ -420,21 +487,28 @@ function EnquiryReview({
       </div>
 
       {/* Beside Send, where the visitor is looking when the answer arrives. */}
-      {state.status === 'error' && state.message ? (
+      {!pending && state.status === 'error' && message ? (
         <p className="asst-review-error" role="status">
-          {state.message}
+          {message}
+        </p>
+      ) : null}
+      {slow ? (
+        <p className="asst-review-error" role="status">
+          This is taking longer than it should. It may still arrive. If you would rather not wait, close it and
+          email {contactEmail}.
         </p>
       ) : null}
       <div className="asst-review-actions">
         <button className="asst-send" disabled={pending} type="submit">
           {pending ? 'Sending…' : 'Send'}
         </button>
-        {/* Not while sending: the enquiry may already be delivered, and
-            "nothing was sent" would then be untrue. */}
+        {/* Not in the first seconds of a send: the enquiry may already be
+            delivered, and "nothing was sent" would be untrue. Once a send is
+            slow, closing is allowed and Pix T says it may still arrive. */}
         <button
           className="asst-linkbtn"
-          disabled={pending}
-          onClick={() => onCancel(state.status === 'error')}
+          disabled={pending && !slow}
+          onClick={() => onCancel(cancelKind)}
           type="button"
         >
           Cancel

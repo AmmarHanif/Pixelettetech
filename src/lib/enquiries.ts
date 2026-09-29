@@ -253,10 +253,68 @@ async function storeEnquiry(enquiry: Enquiry): Promise<LegStatus> {
  */
 function transcript(enquiry: Enquiry): string {
   return QUESTIONS.filter(([key]) => enquiry[key] !== '')
-    .map(([key, question]) => `${question}\n${enquiry[key]}`)
+    .map(([key, question]) => `${question}\n${quoted(enquiry[key])}`)
     .join('\n\n');
 }
 
+/**
+ * One line of visitor text, safe to place after a label or in a header.
+ *
+ * Filtered by CODEPOINT rather than by a regex escape, deliberately: see the
+ * note on the subject in `sendNotification`, which is where this began.
+ */
+function headerSafe(value: string): string {
+  return Array.from(value)
+    .map(character => {
+      const code = character.codePointAt(0) ?? 0;
+      return code < 32 || code === 127 || code === 0x85 || code === 0x2028 || code === 0x2029
+        ? ' '
+        : character;
+    })
+    .join('')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * A visitor's free-text answer, every line marked as theirs.
+ *
+ * Lines are split by CODEPOINT, for the reason given on `headerSafe`: the
+ * line and paragraph separators are exactly the characters whose escapes get
+ * turned into the real thing on the way into this file, and a real one inside
+ * a regular expression literal ends it. (That happened while this function
+ * was written.)
+ */
+const NEXT_LINE = String.fromCharCode(0x85);
+const LINE_SEPARATOR = String.fromCharCode(0x2028);
+const PARAGRAPH_SEPARATOR = String.fromCharCode(0x2029);
+
+function quoted(value: string): string {
+  const unified = [NEXT_LINE, LINE_SEPARATOR, PARAGRAPH_SEPARATOR].reduce(
+    (text, separator) => text.split(separator).join('\n'),
+    value.replace(/\r\n?/g, '\n'),
+  );
+  return unified
+    .split('\n')
+    .map(line => `> ${line}`)
+    .join('\n');
+}
+
+/*
+ * THE BODY, restructured 2026-09-29 after the launch-readiness review (finding
+ * SAS-01).
+ *
+ * Everything the system says comes first. Everything the visitor typed comes
+ * after a marked line, and is either a single flattened line after a label or
+ * a quoted answer. Before this, a submitted name or answer could carry its own
+ * "Name:", "Email:", "Reference:" or "WARNING" lines, and they read exactly
+ * like ours, in an email sent to the enquiries inbox from the company's own
+ * domain: a phishing channel aimed at staff. A visitor's text can now appear
+ * only below the marker, and a forged system line there reads as forged.
+ *
+ * Single-line values are flattened here as well as in actions.ts, so this
+ * function stays safe whatever calls it.
+ */
 function emailBody(enquiry: Enquiry, stored: LegStatus): string {
   // When the row did not land, this email is the only copy of the enquiry. Say
   // so at the top, in the one place a human is certain to look, because the
@@ -268,18 +326,23 @@ function emailBody(enquiry: Enquiry, stored: LegStatus): string {
       : 'WARNING: this enquiry was NOT saved to the database. This email is the ' +
         'only copy of it. Do not delete it, and check the Supabase project.\n\n';
 
-  const company = enquiry.company === '' ? 'Not given' : enquiry.company;
+  // Which door it came through, in words (finding SAS-07). `Source` below
+  // records the same thing as data.
+  const door =
+    enquiry.source === 'pixelettetech.com/assistant' ? 'the site assistant, Pix T' : 'the contact form';
+
+  const company = enquiry.company === '' ? 'Not given' : headerSafe(enquiry.company);
 
   return (
-    `${warning}A new enquiry came in through the contact form.\n\n` +
-    `Name: ${enquiry.name}\n` +
-    `Company: ${company}\n` +
-    `Email: ${enquiry.email}\n\n` +
-    `${transcript(enquiry)}\n\n` +
-    `--\n` +
+    `${warning}A new enquiry came in through ${door}.\n\n` +
     `Reference: ${enquiry.id}\n` +
     `Received: ${enquiry.receivedAt}\n` +
-    `Source: ${enquiry.source}\n`
+    `Source: ${enquiry.source}\n\n` +
+    `----- Everything below this line was typed by the visitor. -----\n\n` +
+    `Name: ${headerSafe(enquiry.name)}\n` +
+    `Company: ${company}\n` +
+    `Email: ${headerSafe(enquiry.email)}\n\n` +
+    `${transcript(enquiry)}\n`
   );
 }
 
@@ -325,27 +388,22 @@ async function sendNotification(enquiry: Enquiry, stored: LegStatus): Promise<Le
    * environment. A mitigation nobody here has read is not a control this
    * repository owns.
    *
-   * SUBJECT ONLY. The email body is a text part, not a header, and the stored
-   * row is the record. Sanitising either would mangle genuine enquiries to fix
-   * a header problem that does not exist in them.
+   * NOT SUBJECT ONLY ANY MORE (2026-09-29). This note used to say the body
+   * needed no such treatment because it is a text part, not a header. The
+   * header reasoning was right, but a line break in a name let a visitor forge
+   * whole lines of the body instead (finding SAS-01). `emailBody` now flattens
+   * the single-line fields with this same function and quotes the free-text
+   * answers; actions.ts also flattens single-line fields before anything is
+   * stored.
    *
    * Filtered by CODEPOINT rather than by a regex escape, deliberately. Writing
    * this as a character class cost an hour: the escape sequences were
    * interpreted before they reached the file and went in as literal NUL and
    * 0x1F BYTES, which is not something a .ts file should contain and not
    * something a reader can see. Codepoints cannot be mangled that way and say
-   * plainly what is being removed.
+   * plainly what is being removed. The function now lives at module level,
+   * above `emailBody`.
    */
-  const headerSafe = (value: string) =>
-    Array.from(value)
-      .map(character => {
-        const code = character.codePointAt(0) ?? 0;
-        return code < 32 || code === 127 ? ' ' : character;
-      })
-      .join('')
-      .replace(/\s+/g, ' ')
-      .trim();
-
   const safeName = headerSafe(enquiry.name);
   const safeCompany = headerSafe(enquiry.company);
 
