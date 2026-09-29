@@ -20,7 +20,14 @@
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
+  /* SQUARE, to the founder's instruction of 2026-09-29. The film was re-cut
+     from the 1920x1080 master with a centre crop, which was checked frame by
+     frame before it was done: every scene's subject sits centred, so the 44% of
+     width discarded costs nothing. Encoded 720x720 - the candidates were
+     indistinguishable for banding once the shadows were lifted, so the decision
+     went on the thin bright wireframe edges this footage is made of, which the
+     larger size keeps sharpest. */
+  aspect-ratio: 1 / 1;
   object-fit: cover;
 }
 
@@ -4297,7 +4304,10 @@ button.btn[disabled] {
 
 .imm-hero__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  /* EVEN HALVES, to the founder's instruction of 2026-09-29. It was 1.05fr /
+     0.95fr, which read as even but was not - the copy held 52.5% against the
+     film's 47.5%. Now the film occupies exactly half the hero. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 56px;
   align-items: center;
 }
