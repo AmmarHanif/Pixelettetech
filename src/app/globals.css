@@ -6978,4 +6978,16 @@ button.btn[disabled] {
   .hero-modes {
     justify-content: center;
   }
+
+  /* The practice strip sits OUTSIDE the copy column, so the centring the copy
+     gets at this width does not reach it. Without this the hero centres and the
+     strip beneath it stays hard left, which reads as a mistake. Same treatment
+     `.hero-modes` already gets directly above. */
+  .hero-practice {
+    text-align: center;
+  }
+
+  .hero-practice .pill-row {
+    justify-content: center;
+  }
 }

@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 
 import { Cloud, Cpu, Layers, Mobile, Pen, Shield, Window } from '@/components/Icons';
+import { HeroVideo } from '@/components/HeroVideo';
 import { ClosingCta, Testimonials, ValueModelCards } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, MediaSlot, SIZES, Section, SectionHead, SourceNote } from '@/components/ui';
 import { caseStudies, displayKicker, displayName, publishedImage, publishedMetrics } from '@/content/work';
@@ -221,49 +222,88 @@ export default function EngineeringPage() {
 
       {/* ------------------------------------------------------------ hero */}
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
-        <div className="wrap">
-          <Eyebrow>Engineering</Eyebrow>
-          {/*
-            24ch, not the old 18ch, because the headline grew from 38 characters
-            to 48. Measured at 1440 and 1024 by overriding max-width on the live
-            element and reading the real line rectangles: 18ch breaks it into
-            three lines with a short first line ("We engineer" / "software that
-            works" / "in the real world"), while 20ch, 22ch and 24ch all give the
-            same even two-line break after "that".
+        {/*
+          TWO-COLUMN HERO, 2026-09-30, the same arrangement as Mobile
+          Applications and Modernisation and as the homepage: copy 0.75fr,
+          visual 1.25fr via `hero-split--wide-viz`. The wider visual column is
+          deliberate and is the reason that modifier exists - the supplied
+          artwork's labels are PIXELS, so they shrink with the column.
+        */}
+        <div className="wrap hero-split hero-split--wide-viz">
+          <div className="hero-split__copy">
+            <Eyebrow>Engineering</Eyebrow>
+            {/*
+              24ch, not the old 18ch, because the headline grew from 38 characters
+              to 48. Measured at 1440 and 1024 by overriding max-width on the live
+              element and reading the real line rectangles: 18ch breaks it into
+              three lines with a short first line ("We engineer" / "software that
+              works" / "in the real world"), while 20ch, 22ch and 24ch all give the
+              same even two-line break after "that".
 
-            So the exact value is not load-bearing - anything from 20ch up does
-            this. 24ch is chosen for headroom if the wording is edited again, and
-            it is the top of the 18-24ch range the other hero headlines use.
-          */}
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '24ch' }}>
-            We engineer software that works in the real world
-          </h1>
-          <p className="lead" style={{ marginTop: 24 }}>
-            From web platforms and mobile apps to custom software and complex integrations, we
-            design, build and improve technology around the people who use it and the systems it
-            must work with.
-          </p>
-          <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Scope a build</Cta>
-            <Cta href="/case-studies" variant="secondary">
-              See engineering work
-            </Cta>
-          </div>
-
-          <div style={{ marginTop: 44 }}>
-            <Eyebrow>The practice</Eyebrow>
-            <div className="pill-row" style={{ marginTop: 16 }}>
-              {servicePages.map(page => (
-                <Link
-                  key={page.href}
-                  href={page.href}
-                  className="pill"
-                  style={{ color: 'var(--brand)' }}
-                >
-                  {page.label}
-                </Link>
-              ))}
+              So the exact value is not load-bearing - anything from 20ch up does
+              this. 24ch is chosen for headroom if the wording is edited again, and
+              it is the top of the 18-24ch range the other hero headlines use.
+            */}
+            {/* The 24ch cap above was measured against a FULL-WIDTH hero. The
+                copy column is now the constraint, so the cap is removed rather
+                than compounded - keeping both would set the headline narrower
+                than either decision intended. The wording is untouched. */}
+            <h1 className="h1" style={{ marginTop: 24 }}>
+              We engineer software that works in the real world
+            </h1>
+            <p className="lead" style={{ marginTop: 24 }}>
+              From web platforms and mobile apps to custom software and complex integrations, we
+              design, build and improve technology around the people who use it and the systems it
+              must work with.
+            </p>
+            <div className="btn-row" style={{ marginTop: 34 }}>
+              <Cta href="/contact">Scope a build</Cta>
+              <Cta href="/case-studies" variant="secondary">
+                See engineering work
+              </Cta>
             </div>
+          </div>
+          {/*
+            THE ANIMATED VERSION, added 2026-09-30 on the founder's instruction.
+            It replaced a static composite that stood here for a few hours. Those
+            stills are NOT kept: the poster below is cut from the film itself, so
+            they had no runtime job and would only have shipped 329 KB of unused
+            bytes to every visitor.
+
+            Decorative: the five stages it names - Ideate, Design, Build,
+            Integrate, Scale - are links and headings in real text elsewhere on
+            this page, so a screen reader announcing the film would only repeat
+            them. It is silent, has no audio track at all, loops, and is never
+            fetched when reduced motion is set: the poster is rendered instead.
+          */}
+          <div className="hero-split__viz">
+            <HeroVideo
+              height={480}
+              poster="/video/engineering-hero-poster.webp"
+              src="/video/engineering-hero.mp4"
+              variant="wide"
+              width={854}
+            />
+          </div>
+        </div>
+
+        {/* THE PRACTICE STRIP STAYS FULL WIDTH, below the split rather than in
+            the copy column. It is six service links, and in a 0.75fr column they
+            wrap to roughly five lines and unbalance the hero against the
+            artwork. Full width it is two. */}
+        <div className="wrap hero-practice" style={{ marginTop: 44 }}>
+          <Eyebrow>The practice</Eyebrow>
+          <div className="pill-row" style={{ marginTop: 16 }}>
+            {servicePages.map(page => (
+              <Link
+                key={page.href}
+                href={page.href}
+                className="pill"
+                style={{ color: 'var(--brand)' }}
+              >
+                {page.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
