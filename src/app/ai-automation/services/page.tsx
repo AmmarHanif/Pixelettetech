@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { ArrowUpRight } from '@/components/Icons';
 import { ClosingCta } from '@/components/sections';
-import { Cta, Eyebrow, FLink, JsonLd, Section, SectionHead } from '@/components/ui';
+import { Cta, Eyebrow, JsonLd, Section, SectionHead } from '@/components/ui';
 import { certified } from '@/content/company';
 import { breadcrumbSchema, itemListSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';

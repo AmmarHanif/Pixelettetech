@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { BrandLogo } from '@/components/BrandLogo';
 import { NavDropdown } from '@/components/NavDropdown';
 import NavCurrentLink from '@/components/NavCurrent';
-import { ArrowRight, ArrowUpRight } from '@/components/Icons';
+import { ArrowUpRight } from '@/components/Icons';
 import { company } from '@/content/company';
 import { navSections, primaryCta, primaryNav } from '@/content/nav';
 import type { NavItem, NavSection } from '@/content/nav';

@@ -1,7 +1,6 @@
-import Link from 'next/link';
 
 import { Mail, Phone, Pin } from '@/components/Icons';
-import { Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
+import { Eyebrow, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { company, contactEmail, pressEmail } from '@/content/company';
 import { breadcrumbSchema, contactPageSchema, faqSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';

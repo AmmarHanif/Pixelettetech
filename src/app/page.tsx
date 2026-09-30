@@ -14,7 +14,6 @@ import {
   ValueModelCards,
 } from '@/components/sections';
 import { Cta, Eyebrow, FLink, JsonLd, MediaSlot, SIZES, Section, SectionHead, SourceNote, StatTile } from '@/components/ui';
-import { certified } from '@/content/company';
 import { gapStats } from '@/content/sources';
 import { displayName, homepageCaseStudies, publishedImage } from '@/content/work';
 import {

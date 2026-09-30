@@ -4,8 +4,6 @@ import {
   Eyebrow,
   Faqs,
   JsonLd,
-  MediaSlot,
-  Placeholder,
   Section,
   SectionHead,
   SourceNote,

@@ -7,7 +7,7 @@ import { AiMark, ArrowUpRight, BuildMark, ChainMark, Gauge, Shield, Star } from 
 import { ProofStrip } from '@/components/ProofStrip';
 import { Cta, Eyebrow, FLink, Section, SourceNote } from '@/components/ui';
 import { publishedClaims } from '@/content/claims';
-import { certifications, certified, clutch, company } from '@/content/company';
+import { certified, clutch, company } from '@/content/company';
 import { approvedClients } from '@/content/clients';
 import { featuredTestimonials, type Testimonial } from '@/content/testimonials';
 import { ANALYTICS_EVENTS, ANALYTICS_SURFACES, analyticsAttrs } from '@/lib/analytics';
