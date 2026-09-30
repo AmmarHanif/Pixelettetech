@@ -1,3 +1,4 @@
+import { HeroVideo } from '@/components/HeroVideo';
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead, SourceNote } from '@/components/ui';
 import { SOURCES } from '@/content/sources';
@@ -98,21 +99,38 @@ export default function ModernisationIntegrationPage() {
 
       {/* ------------------------------------------------------------ hero */}
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
-        <div className="wrap">
-          <Eyebrow>Build · Modernisation &amp; Integration</Eyebrow>
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            Inherited systems, stalled builds and the estate nobody wants to touch
-          </h1>
-          <p className="lead" style={{ marginTop: 24 }}>
-            Architecture, APIs, cloud, data migration and legacy replacement. The work usually starts
-            with an independent assessment of what you have, because the most expensive decision in
-            modernisation is the one taken before anybody looked properly.
-          </p>
-          <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Modernise a system</Cta>
-            <Cta href="/engineering" variant="secondary">
-              All engineering
-            </Cta>
+        {/* Two-column hero, 2026-09-30 - same arrangement as Mobile Applications
+            and as the homepage: copy 0.75fr, visual 1.25fr. */}
+        <div className="wrap hero-split hero-split--wide-viz">
+          <div className="hero-split__copy">
+            <Eyebrow>Build · Modernisation &amp; Integration</Eyebrow>
+            <h1 className="h1" style={{ marginTop: 24 }}>
+              Inherited systems, stalled builds and the estate nobody wants to touch
+            </h1>
+            <p className="lead" style={{ marginTop: 24 }}>
+              Architecture, APIs, cloud, data migration and legacy replacement. The work usually starts
+              with an independent assessment of what you have, because the most expensive decision in
+              modernisation is the one taken before anybody looked properly.
+            </p>
+            <div className="btn-row" style={{ marginTop: 34 }}>
+              <Cta href="/contact">Modernise a system</Cta>
+              <Cta href="/engineering" variant="secondary">
+                All engineering
+              </Cta>
+            </div>
+          </div>
+          {/* The supplied film: a tangled inherited estate drawn through a
+              transformation layer into ordered systems, which is this page's
+              whole argument. Silent, looped, and it never loads at all when
+              reduced motion is set - the poster is rendered instead. */}
+          <div className="hero-split__viz">
+            <HeroVideo
+              height={720}
+              poster="/video/modernisation-hero-poster.webp"
+              src="/video/modernisation-hero.mp4"
+              variant="wide"
+              width={1280}
+            />
           </div>
         </div>
       </div>

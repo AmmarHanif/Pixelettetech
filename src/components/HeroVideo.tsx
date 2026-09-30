@@ -28,7 +28,28 @@
 
 import { useEffect, useState } from 'react';
 
-export function HeroVideo() {
+/**
+ * PARAMETERISED 2026-09-30 so a second page can use it. Every prop defaults to
+ * the AR/VR film's own values, so the existing `<HeroVideo />` call on that page
+ * renders exactly what it rendered before - which matters, because the AR/VR
+ * page is explicitly excluded from the Engineering revision programme and must
+ * not change. The defaults are the contract; adding a caller must not move it.
+ */
+export function HeroVideo({
+  src = '/video/arvr-hero.mp4',
+  poster = '/video/arvr-hero-poster.webp',
+  width = 720,
+  height = 720,
+  /** `wide` switches the square slot to 16:9 for landscape footage. */
+  variant,
+}: {
+  src?: string;
+  poster?: string;
+  width?: number;
+  height?: number;
+  variant?: 'wide';
+} = {}) {
+  const wrap = variant === 'wide' ? 'hv-video hv-video--wide' : 'hv-video';
   const [motionOk, setMotionOk] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -43,34 +64,34 @@ export function HeroVideo() {
   // render then agree, and nothing starts playing before we know it is wanted.
   if (motionOk !== true) {
     return (
-      <div className="hv-video">
+      <div className={wrap}>
         <img
           alt=""
           aria-hidden
           className="hv-video__el"
-          height={720}
-          src="/video/arvr-hero-poster.webp"
-          width={720}
+          height={height}
+          src={poster}
+          width={width}
         />
       </div>
     );
   }
 
   return (
-    <div className="hv-video">
+    <div className={wrap}>
       <video
         aria-hidden
         autoPlay
         className="hv-video__el"
-        height={720}
+        height={height}
         loop
         muted
         playsInline
-        poster="/video/arvr-hero-poster.webp"
+        poster={poster}
         preload="metadata"
-        width={720}
+        width={width}
       >
-        <source src="/video/arvr-hero.mp4" type="video/mp4" />
+        <source src={src} type="video/mp4" />
       </video>
     </div>
   );

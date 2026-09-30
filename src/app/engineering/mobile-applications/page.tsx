@@ -90,22 +90,46 @@ export default function MobileApplicationsPage() {
 
       {/* ------------------------------------------------------------ hero */}
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
-        <div className="wrap">
-          <Eyebrow>Build · Mobile Applications</Eyebrow>
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Mobile as a product, not a port of the website
-          </h1>
-          <p className="lead" style={{ marginTop: 24 }}>
-            Native iOS and Android and cross-platform builds, taken through store submission, with
-            ongoing maintenance available where required. Mobile can be the whole product or one
-            client of a wider platform;
-            the architecture follows the product, not the other way round.
-          </p>
-          <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Scope a build</Cta>
-            <Cta href="/engineering" variant="secondary">
-              All engineering
-            </Cta>
+        {/*
+          TWO-COLUMN HERO, 2026-09-30, to the founder's choice. `hero-split` with
+          `--wide-viz` is the homepage's own settled arrangement: copy at 0.75fr,
+          artwork at 1.25fr. It is used here rather than even halves for the
+          reason recorded against that class - the supplied composite's wording
+          is PIXELS, so it shrinks with the column, and the wider column is what
+          keeps it readable. No new CSS; the headline is untouched.
+        */}
+        <div className="wrap hero-split hero-split--wide-viz">
+          <div className="hero-split__copy">
+            <Eyebrow>Build · Mobile Applications</Eyebrow>
+            <h1 className="h1" style={{ marginTop: 24 }}>
+              Mobile as a product, not a port of the website
+            </h1>
+            <p className="lead" style={{ marginTop: 24 }}>
+              Native iOS and Android and cross-platform builds, taken through store submission, with
+              ongoing maintenance available where required. Mobile can be the whole product or one
+              client of a wider platform;
+              the architecture follows the product, not the other way round.
+            </p>
+            <div className="btn-row" style={{ marginTop: 34 }}>
+              <Cta href="/contact">Scope a build</Cta>
+              <Cta href="/engineering" variant="secondary">
+                All engineering
+              </Cta>
+            </div>
+          </div>
+          {/* Decorative: every claim it illustrates is set as real text beside
+              it, so a screen reader announcing it would only repeat the lead. */}
+          <div className="hero-split__viz">
+            <img
+              alt=""
+              aria-hidden
+              height={1024}
+              sizes="(max-width: 900px) 92vw, 58vw"
+              src="/hero/mobile-app-1240.webp"
+              srcSet="/hero/mobile-app-820.webp 820w, /hero/mobile-app-1240.webp 1240w, /hero/mobile-app-1536.webp 1536w"
+              style={{ display: 'block', width: '100%', height: 'auto' }}
+              width={1536}
+            />
           </div>
         </div>
       </div>

@@ -31,6 +31,15 @@
   object-fit: cover;
 }
 
+/* LANDSCAPE FOOTAGE KEEPS ITS OWN SHAPE. The square above was decided for the
+   AR/VR film specifically, after a frame-by-frame check that its subject sits
+   centred and the discarded 44% costs nothing. That finding does not transfer:
+   forcing 16:9 motion-graphic footage into a square would cut its two ends off,
+   and those ends are the before and after the sequence exists to show. */
+.hv-video--wide .hv-video__el {
+  aspect-ratio: 16 / 9;
+}
+
 /* ==========================================================================
    Pixelette Technologies 2026 — design system
    Ported 1:1 from the approved 20-page design (Pixelette Website 2026).
