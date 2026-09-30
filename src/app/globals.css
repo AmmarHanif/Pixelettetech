@@ -40,6 +40,26 @@
   aspect-ratio: 16 / 9;
 }
 
+/* THE FILM MUST MERGE INTO THE PAGE, NOT SIT ON IT IN A BOX.
+   Two things were in the way. First the placeholder: `.hv-video` fills its box with
+   #0d0812 for the AR/VR film, which is a dark piece, and that flashes a dark
+   rectangle before the first frame paints. Second, and the visible one: `.hero-glow`
+   paints a radial tint - rgb(234,220,242) fading to white at 65% - and both films in
+   this slot are rendered on PURE WHITE, so the film read as a pale rectangle sitting
+   on that tint.
+
+   `multiply` fixes it exactly, because white is the identity for multiply: every
+   white pixel of the film returns whatever is behind it, so the rendered background
+   disappears into the hero gradient, while the laptop, the labels and the glow -
+   all darker than white - are kept. No key, no matte, no alpha channel. */
+.hv-video--wide {
+  background: transparent;
+}
+
+.hv-video--wide .hv-video__el {
+  mix-blend-mode: multiply;
+}
+
 /* ==========================================================================
    Pixelette Technologies 2026 — design system
    Ported 1:1 from the approved 20-page design (Pixelette Website 2026).
