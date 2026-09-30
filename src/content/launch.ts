@@ -82,3 +82,39 @@ export const SITE_IN_DEVELOPMENT = true;
  * source. Run it after changing this line.
  */
 export const DELIVERY_CONNECTED: boolean = false;
+
+/**
+ * ============================================================================
+ *  SEARCH ENGINE OWNERSHIP VERIFICATION.  PASTE TOKENS.  NOTHING ELSE TO DO.
+ * ============================================================================
+ *
+ * Added 2026-09-30, SEO Phase 1 item 2. Both are EMPTY on purpose and the site
+ * emits no verification tag at all until a real token is pasted here - an empty
+ * or invented tag is worse than none, because the console reports it as failed
+ * rather than absent and someone has to work out which.
+ *
+ * WHY IT MATTERS. Without a verified property there is no index coverage report,
+ * no search query data, and no alert if a manual action lands on the domain. The
+ * site can rank perfectly and nobody can see whether it does.
+ *
+ * WHERE THE TOKENS COME FROM. Both are for the founder to fetch; neither can be
+ * generated from here.
+ *
+ *   google — Search Console → Add property → URL prefix → HTML tag. Copy ONLY
+ *            the `content` value, not the whole <meta> element.
+ *   bing   — Bing Webmaster Tools → Add site → Meta tag. Same: the value only.
+ *            Bing also accepts importing an already-verified Search Console
+ *            property, which skips this entirely.
+ *
+ * THE DNS ALTERNATIVE, which needs no code and is usually better for a domain
+ * the company owns: Search Console also verifies by TXT record, which covers
+ * every subdomain and survives a re-platform. If that route is taken, leave
+ * these empty and nothing here needs changing.
+ *
+ * Verify AFTER `SITE_IN_DEVELOPMENT` is false. While the site disallows every
+ * crawler, a verification attempt has nothing to fetch.
+ */
+export const SEARCH_VERIFICATION = {
+  google: '',
+  bing: '',
+} as const;

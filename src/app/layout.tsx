@@ -19,6 +19,7 @@ import { organizationSchema, websiteSchema } from '@/lib/schema';
 import { HOMEPAGE_SEO } from '@/lib/seo';
 
 import './globals.css';
+import { SEARCH_VERIFICATION } from '@/content/launch';
 
 /**
  * Fonts are self-hosted through next/font rather than linked to Google's CDN.
@@ -130,6 +131,27 @@ export const metadata: Metadata = {
     icon: '/favicon.ico?v=2',
     apple: '/apple-touch-icon.png?v=2',
   },
+  /*
+   * Ownership verification for Search Console and Bing, SEO Phase 1 item 2.
+   *
+   * SPREAD CONDITIONALLY, so an unset token emits NO TAG AT ALL rather than an
+   * empty one. `<meta name="google-site-verification" content="">` is not a
+   * no-op: the console reads it as a failed verification rather than an absent
+   * one, which is a worse state than doing nothing.
+   *
+   * The tokens live in `src/content/launch.ts` beside SITE_IN_DEVELOPMENT, with
+   * the instructions for fetching them. Both are the founder's to obtain.
+   */
+  ...(SEARCH_VERIFICATION.google || SEARCH_VERIFICATION.bing
+    ? {
+        verification: {
+          ...(SEARCH_VERIFICATION.google ? { google: SEARCH_VERIFICATION.google } : {}),
+          ...(SEARCH_VERIFICATION.bing
+            ? { other: { 'msvalidate.01': SEARCH_VERIFICATION.bing } }
+            : {}),
+        },
+      }
+    : {}),
   openGraph: {
     type: 'website',
     locale: 'en_GB',
