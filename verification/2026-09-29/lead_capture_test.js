@@ -594,7 +594,14 @@ async function main() {
     fs.copyFileSync(path.join(REPO, rel), path.join(tree, rel));
   }
   fs.mkdirSync(path.join(tree, 'src/app/privacy'), { recursive: true });
-  fs.symlinkSync(path.join(REPO, 'node_modules'), path.join(tree, 'node_modules'));
+  /* 'junction', not a plain symlink. On Windows fs.symlinkSync for a directory
+     needs elevation or Developer Mode, and without it this harness threw EPERM
+     HERE - after check 8.2 and BEFORE 8.3 to 8.7, which are the negative controls
+     that prove the interlock actually refuses a non-compliant Statement. The run
+     still printed "91 PASS, 0 FAIL", so the abort looked like a pass unless you
+     read the exit code. A junction is the native Windows directory link, needs no
+     privilege, and resolves identically for module resolution. */
+  fs.symlinkSync(path.join(REPO, 'node_modules'), path.join(tree, 'node_modules'), 'junction');
   const pageFile = path.join(tree, 'src/app/privacy/page.tsx');
   const pageOf = body => `export default function PrivacyPage() {\n  return (\n    <main>\n${body}\n    </main>\n  );\n}\n`;
   const MARKED_JSX =
