@@ -7680,3 +7680,131 @@ button.btn[disabled] {
 .bflow--6 {
   grid-template-columns: repeat(6, minmax(0, 1fr));
 }
+
+/* ==========================================================================
+   BLOCKCHAIN OVERVIEW — Phase 1 restructure, 2026-09-30.
+
+   NOT ANOTHER CARD GRID. Phase 1 is explicit: six cards, then four, then four
+   more is the shape being removed, so the three routes are set the way the
+   evidence-led sections on this site already are - a brand rule, a number, and
+   a measure - and the question each route answers is the strongest line in it.
+
+   These are separate selectors from the AI overview's `.ai-route*` rather than
+   shared ones. The AI page is in review under its own phase and must not be
+   touched to serve this one, so the two families are deliberately independent
+   even though they render similarly.
+   ========================================================================== */
+
+.bc-routes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 44px;
+  margin-top: 48px;
+}
+
+.bc-route {
+  padding-top: 22px;
+  border-top: 2px solid var(--brand);
+}
+
+.bc-route__n {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  color: var(--brand);
+}
+
+.bc-route__t {
+  margin-top: 8px;
+}
+
+/* The buyer's own question, set as the loudest line after the title. A visitor
+   who does not know what "protocol engineering" means can still find their
+   route by recognising the question. */
+.bc-route__q {
+  margin-top: 12px;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.bc-route__b {
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.bc-route__facets {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.bc-route__facets li {
+  padding: 5px 11px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.bc-route__links {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+/* Five properties, ruled rather than boxed. */
+.bc-earns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 36px 40px;
+  margin-top: 44px;
+}
+
+.bc-earn {
+  padding-top: 18px;
+  border-top: 2px solid var(--brand-tint);
+}
+
+.bc-earn b {
+  display: block;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.bc-earn span {
+  display: block;
+  margin-top: 7px;
+  max-width: 40ch;
+  font-size: 14.5px;
+  color: var(--body);
+}
+
+/* The sentence the section exists to earn: a chain is not the default. */
+.bc-rule {
+  margin-top: 44px;
+  padding-left: 18px;
+  border-left: 2px solid var(--brand);
+  max-width: 68ch;
+  font-size: 15.5px;
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .bc-routes,
+  .bc-earns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .bc-routes,
+  .bc-earns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
