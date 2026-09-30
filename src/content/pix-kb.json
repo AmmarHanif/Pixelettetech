@@ -2,7 +2,7 @@
  "builtFrom": "src/app/**/page.tsx",
  "counts": {
   "pages": 41,
-  "faqs": 98,
+  "faqs": 97,
   "pointers": 3
  },
  "docs": [
@@ -364,13 +364,6 @@
   },
   {
    "kind": "faq",
-   "title": "Does an immersive application need AI?",
-   "text": "No. AI is optional. We use it only where capabilities such as computer vision, conversational interaction or intelligent assistance genuinely improve the application.",
-   "path": "/ar-vr-development-services",
-   "page": "AR / VR & Immersive Applications"
-  },
-  {
-   "kind": "faq",
    "title": "Can AR or VR integrate with our existing systems?",
    "text": "Yes. Immersive applications can be engineered to work with existing APIs, data sources and business systems where required.",
    "path": "/ar-vr-development-services",
@@ -386,7 +379,7 @@
   {
    "kind": "faq",
    "title": "Do we have to retain Pixelette after launch?",
-   "text": "No. We deliver the commissioned application to the agreed specification. Optional ongoing support, maintenance and improvement are available if you want us to remain involved.",
+   "text": "No. The application is yours. Optional ongoing support, maintenance and improvement are available afterwards if you want them.",
    "path": "/ar-vr-development-services",
    "page": "AR / VR & Immersive Applications"
   },

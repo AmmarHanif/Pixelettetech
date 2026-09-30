@@ -1,10 +1,9 @@
 import { HeroVideo } from '@/components/HeroVideo';
-import { BuildProgression, ConnectedEngineering } from '@/components/ImmersiveVisuals';
+import { BuildProgression } from '@/components/ImmersiveVisuals';
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
-import { Compass, Cube, Headset, Immersion } from '@/components/Icons';
 
 /*
  * AR / VR & Immersive Applications.
@@ -13,21 +12,33 @@ import { Compass, Cube, Headset, Immersion } from '@/components/Icons';
  * ENGINEERING capability, not a Pixelette business division. The page it
  * replaced opened with "Immersive work built to be used, not demonstrated" and
  * claimed delivery "across property, retail, heritage, healthcare and industry",
- * which asserts a sector record the site cannot evidence. Every sector on this
- * page is now framed as something we CAN build.
+ * which asserts a sector record the site cannot evidence. Every application on
+ * this page is still framed as something we CAN build.
  *
- * THE PERMISSIONS RULE SHAPED THE WHOLE DESIGN. No legacy client imagery, no
- * third-party product, no branded environment. Searched before writing: no
- * reference to the previous site's client material exists anywhere in src or
- * public. Everything visual here is drawn from scratch out of coloured planes,
- * and every demonstration is a FICTIONAL object labelled "capability
- * demonstration" on its own panel rather than once at the top of the section.
+ * CONSOLIDATED 2026-09-30 to the founder's structural brief. The page carried
+ * TEN visible content sections and several of them answered the same customer
+ * question in different words: "From concept to working application", "Built
+ * around the use case" and "Different ways to step inside the experience" all
+ * restated the breadth of what immersive can do, and "The platform follows the
+ * experience" and "Immersive applications can become intelligent too" both
+ * answered "what will you build it with". It is now SIX, and each answers one
+ * distinct question:
  *
- * MORE INTERACTION THAN A NORMAL SERVICE PAGE, LESS THAN A TOY. The subject is
- * immersive software, so the page carries a spatial hero, four working
- * demonstrations and a receding build sequence. All of it is CSS 3D on the
- * site's existing tokens: no new dependency, no WebGL, no canvas that a screen
- * reader cannot enter, nothing that autoplays, and nothing that is hover-only.
+ *   01 Hero .................. what is this service
+ *   02 Why immersive ......... why would it be useful     (the ONLY place)
+ *   03 Immersive showcase .... prove it                   (hidden, see below)
+ *   04 What could you build .. how broad is it
+ *   05 How we build it ....... will the product work
+ *   06 Technology follows .... what will you build it with
+ *   07 FAQ + closing CTA ..... residual buying questions
+ *
+ * The brief was explicit that this is STRUCTURE, not a visual redesign: the hero
+ * video is untouched, the showcase is untouched, no image asset was added, and
+ * every treatment below already existed in the stylesheet.
+ *
+ * THE PERMISSIONS RULE STILL SHAPES THE PAGE. No legacy client imagery, no
+ * third-party product, no branded environment, and no assertion of a sector
+ * record that the site cannot evidence.
  */
 
 export const metadata = pageMetadata({
@@ -44,98 +55,65 @@ export const metadata = pageMetadata({
   path: '/ar-vr-development-services',
 });
 
-/** §5. Why immersive, before any mention of a device. */
-const EARNS = [
-  {
-    t: 'Train',
-    b: 'Practise procedures, environments and scenarios without recreating them physically every time.',
-  },
-  {
-    t: 'Visualise',
-    b: 'Explore products, spaces, designs or information before they exist in the real world.',
-  },
-  {
-    t: 'Experience',
-    b: 'Create interactive product, customer and brand experiences that go beyond a conventional screen.',
-  },
-  {
-    t: 'Interact',
-    b: 'Use spatial interfaces to work with information, objects or environments in a more natural way.',
-  },
-];
-
-/** §8. What we build. */
-const BUILD = [
-  {
-    t: 'AR applications',
-    b: 'Overlay useful digital information, objects or interactions onto real-world environments through supported devices.',
-  },
-  {
-    t: 'VR applications',
-    b: 'Controlled virtual environments for training, simulation, demonstration and interactive experiences.',
-  },
-  {
-    t: 'Training & simulation',
-    b: 'Repeatable immersive environments for practising processes, scenarios and operational tasks.',
-  },
-  {
-    t: 'Product & spatial visualisation',
-    b: 'Let users explore products, environments, layouts or designs interactively before physical delivery.',
-  },
-  {
-    t: 'Interactive 3D experiences',
-    b: 'Web, mobile or device-based 3D experiences for the cases where a conventional interface is not enough.',
-  },
-  {
-    t: 'Immersive AI',
-    b: 'Where it is useful, combine immersive applications with AI, computer vision, conversational interfaces or intelligent assistance.',
-  },
+/**
+ * §02. Why immersive - the ONLY section on the page whose job is to explain why
+ * immersive technology can be useful.
+ *
+ * These four replaced Train / Visualise / Experience / Interact on 2026-09-30.
+ * The old four were not wrong, but "Experience" restated the page title and the
+ * set overlapped the four use-case tiles further down and the four showcase
+ * demonstrations. One set now carries the idea, and nothing below repeats it.
+ */
+const WHY = [
+  { t: 'See', b: 'Explore something before it physically exists.' },
+  { t: 'Practise', b: 'Learn or rehearse without recreating the real situation.' },
+  { t: 'Interact', b: 'Work with products, information and environments spatially.' },
+  { t: 'Understand', b: 'Make complex things easier to explore from different perspectives.' },
 ];
 
 /**
- * §9. Sectors.
+ * §04. What could you build - the consolidation of two deleted sections.
  *
- * EVERY ONE IS A POSSIBILITY, NOT A RECORD. The page this replaced asserted
- * delivery across five sectors; the claims rule forbids that without evidence,
- * and none is published. The heading and the note under the grid both say so,
- * so a reader cannot take the list as a client history.
+ * "From concept to working application" listed six CAPABILITIES (AR apps, VR
+ * apps, training, visualisation, 3D, immersive AI) and "Built around the use
+ * case" listed six SECTORS. Those are two cuts of the same answer, so they are
+ * one list now, cut by what the application is FOR.
+ *
+ * EVERY ENTRY IS A POSSIBILITY, NOT A RECORD. The deleted sector section carried
+ * an explicit note saying so, because the page it replaced asserted delivery
+ * across five sectors and the claims rule forbids that without published
+ * evidence. The guard is now carried by the framing itself: the heading asks
+ * what YOU could build, the supporting copy starts from what you want someone to
+ * experience, and no entry below describes anything as delivered.
  */
-const SECTORS = [
+const APPLICATIONS = [
   {
-    t: 'Property & architecture',
-    b: 'Interactive spaces, walkthroughs and visualisation before physical delivery.',
+    t: 'Gaming & interactive worlds',
+    b: 'Immersive games, interactive environments and virtual experiences.',
   },
   {
-    t: 'Training & education',
-    b: 'Immersive environments for practising, learning and simulation.',
+    t: 'Training & simulation',
+    b: 'Practise scenarios, processes and skills safely and repeatedly.',
   },
   {
-    t: 'Retail & e-commerce',
-    b: 'Interactive product exploration, virtual presentation and AR preview experiences.',
+    t: 'Products & commerce',
+    b: 'Let people explore, configure and experience products in context.',
   },
   {
-    t: 'Tourism, heritage & culture',
-    b: 'Interactive places, exhibitions, cultural assets and virtual experiences.',
+    t: 'Property & spaces',
+    b: 'Walk through spaces, layouts and environments before physical delivery.',
   },
   {
-    t: 'Automotive & manufacturing',
-    b: 'Product visualisation, training, simulation and complex 3D interaction.',
+    t: 'Learning & culture',
+    b: 'Use immersive environments for education, exhibitions, heritage and interactive storytelling.',
   },
   {
-    t: 'Healthcare',
-    b: 'Training and simulation applications where immersive technology is appropriate.',
+    t: 'Industry & healthcare',
+    b: 'Use immersive visualisation and simulation to understand, practise and communicate complex tasks.',
   },
 ];
 
-/** §10. The four ways in, as larger visual tiles rather than a second grid. */
-const WAYS = [
-  { t: 'Train & simulate', b: 'Practise environments, procedures and scenarios.', k: 'train', icon: <Headset size={32} /> },
-  { t: 'Visualise', b: 'Explore products, places and designs before they physically exist.', k: 'vis', icon: <Cube size={32} /> },
-  { t: 'Experience', b: 'Create interactive customer, cultural or brand experiences.', k: 'exp', icon: <Immersion size={32} /> },
-  { t: 'Try & explore', b: 'Let people interact with products and possibilities in context.', k: 'try', icon: <Compass size={32} /> },
-];
-
-/** §12. Environments, not an SDK list. */
+/** §06, left column. Environments, not an SDK list. */
 const PLATFORMS = [
   'Mobile AR',
   'Headset-based VR',
@@ -145,14 +123,40 @@ const PLATFORMS = [
   'Connected devices',
 ];
 
-/** §13. AI, kept optional throughout. */
+/**
+ * §06, right column. AI, kept optional.
+ *
+ * This was a full-width section of its own - "Immersive applications can become
+ * intelligent too" - with four explained cards. Beside the platform list it says
+ * the same thing in two or three words each, and sitting in the same section as
+ * the platforms is what makes AI read as one capability among several rather
+ * than as a second half of the offer.
+ */
 const AI_ADDS = [
-  { t: 'See', b: 'Computer vision can help an application understand objects, environments or activity.' },
-  { t: 'Talk', b: 'Conversational AI can create more natural guidance and interaction.' },
-  { t: 'Adapt', b: 'AI can adjust information or experiences according to context.' },
-  { t: 'Assist', b: 'Intelligent assistance can support users while they work, train or explore.' },
+  'Computer vision',
+  'Conversational interaction',
+  'Adaptive experiences',
+  'Intelligent assistance',
 ];
 
+/**
+ * §07. Reviewed against the consolidated page on 2026-09-30.
+ *
+ * "Does an immersive application need AI?" was REMOVED. Its answer was "AI is
+ * optional. We use it only where capabilities such as computer vision,
+ * conversational interaction or intelligent assistance genuinely improve the
+ * application" - which is now stated almost word for word in section 06, a
+ * couple of screens above, beside the list of those same capabilities. An FAQ
+ * that repeats the section above it is the duplication this consolidation exists
+ * to remove.
+ *
+ * The support question was SHORTENED for the same reason: section 05 now carries
+ * the commercial position, so the answer here keeps only the part that section
+ * does not state, which is that the application is yours either way.
+ *
+ * The remaining five are genuine residual buying questions and none of them is
+ * answered above.
+ */
 const faqs = [
   {
     q: 'Do we need to know whether we need AR or VR?',
@@ -161,10 +165,6 @@ const faqs = [
   {
     q: 'Can you build for existing headsets and devices?',
     a: 'Yes, where the required platform and use case are technically appropriate. The target devices are agreed during scoping.',
-  },
-  {
-    q: 'Does an immersive application need AI?',
-    a: 'No. AI is optional. We use it only where capabilities such as computer vision, conversational interaction or intelligent assistance genuinely improve the application.',
   },
   {
     q: 'Can AR or VR integrate with our existing systems?',
@@ -176,7 +176,7 @@ const faqs = [
   },
   {
     q: 'Do we have to retain Pixelette after launch?',
-    a: 'No. We deliver the commissioned application to the agreed specification. Optional ongoing support, maintenance and improvement are available if you want us to remain involved.',
+    a: 'No. The application is yours. Optional ongoing support, maintenance and improvement are available afterwards if you want them.',
   },
 ];
 
@@ -201,7 +201,9 @@ export default function ImmersiveApplicationsPage() {
       />
       <JsonLd data={faqSchema(faqs)} />
 
-      {/* ------------------------------------------------------------ §4 hero */}
+      {/* ------------------------------------------------------------- 01 hero */}
+      {/* PRESERVED EXACTLY. Eyebrow, headline, proposition, both CTAs, the
+          format strip and the hero VIDEO are unchanged by the consolidation. */}
       <div className="hero-glow imm-hero">
         <div className="wrap">
           <div className="imm-hero__grid">
@@ -233,29 +235,33 @@ export default function ImmersiveApplicationsPage() {
         </div>
       </div>
 
-      {/* --------------------------------------------- §5 where it earns it */}
-      <Section labelledBy="earns-heading">
+      {/* --------------------------------------------------- 02 why immersive */}
+      {/*
+        The lead deliberately does NOT say "and we choose the technology around
+        it". That is section 06's job, and saying it here as well is one of the
+        repetitions this consolidation removed.
+      */}
+      <Section labelledBy="why-heading">
         <SectionHead
           eyebrow="Where it earns its place"
-          id="earns-heading"
+          id="why-heading"
           title="Some things are easier to experience than explain"
         />
-        <p className="body" style={{ marginTop: 18, maxWidth: '68ch' }}>
-          Immersive technology is useful when seeing, practising or interacting with something
-          creates more value than reading about it on a conventional screen. We start with that
-          requirement and choose the appropriate technology around it.
+        <p className="body" style={{ marginTop: 18, maxWidth: '66ch' }}>
+          Immersive technology earns its place when experiencing something creates more value than
+          reading about it on a conventional screen.
         </p>
         <div className="grid grid-4 imm-earns" style={{ marginTop: 32 }}>
-          {EARNS.map(e => (
-            <div className="imm-earn" key={e.t}>
-              <h3 className="h4">{e.t}</h3>
-              <p className="body imm-earn__b">{e.b}</p>
+          {WHY.map(w => (
+            <div className="imm-earn" key={w.t}>
+              <h3 className="h4">{w.t}</h3>
+              <p className="body imm-earn__b">{w.b}</p>
             </div>
           ))}
         </div>
       </Section>
 
-      {/* -------------------------------------------------- §6/§7 showcase */}
+      {/* ---------------------------------------------- 03 immersive showcase */}
       {/*
         IMMERSIVE SHOWCASE - HIDDEN ON INSTRUCTION, NOT DELETED.
 
@@ -265,7 +271,10 @@ export default function ImmersiveApplicationsPage() {
         expected back once Spatial meets the approved visual standard, and
         deleting it would throw away work that is finished apart from that.
 
-        Restoring it is this block and the import, nothing else.
+        UNTOUCHED BY THE 2026-09-30 CONSOLIDATION, which was explicit that this
+        section is preserved and not restructured. Restoring it is this block and
+        the import, plus removing the background from section 04 below so the
+        light and tinted sections still alternate.
       */}
       {/*
       <Section labelledBy="showcase-heading" style={{ background: '#F7FAFA' }}>
@@ -285,64 +294,38 @@ export default function ImmersiveApplicationsPage() {
       </Section>
       */}
 
-      {/* ------------------------------------------------- §8 what we build */}
-      <Section labelledBy="build-heading">
-        <SectionHead
-          eyebrow="Immersive engineering"
-          id="build-heading"
-          title="From concept to working application"
-        />
-        <div className="grid grid-3" style={{ marginTop: 32 }}>
-          {BUILD.map(b => (
-            <div className="card imm-cap" key={b.t}>
-              <h3 className="h4">{b.t}</h3>
-              <p className="body imm-cap__b">{b.b}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* ---------------------------------------------------- §9 applications */}
+      {/* --------------------------------------------- 04 what could you build */}
       <Section labelledBy="apps-heading" style={{ background: '#F7FAFA' }}>
-        <SectionHead eyebrow="Applications" id="apps-heading" title="Built around the use case" />
+        <SectionHead
+          eyebrow="Immersive applications"
+          id="apps-heading"
+          title="What could you build with immersive technology?"
+        />
         <p className="body" style={{ marginTop: 18, maxWidth: '68ch' }}>
-          These are applications we can engineer. They describe what immersive technology is
-          suited to rather than a record of sectors already delivered.
+          From interactive worlds and product experiences to training, learning and spatial
+          applications, the starting point is what you want someone to experience.
         </p>
         <div className="grid grid-3" style={{ marginTop: 30 }}>
-          {SECTORS.map(s => (
-            <div className="imm-sector" key={s.t}>
-              <h3 className="h4">{s.t}</h3>
-              <p className="body imm-sector__b">{s.b}</p>
+          {APPLICATIONS.map(a => (
+            <div className="imm-sector" key={a.t}>
+              <h3 className="h4">{a.t}</h3>
+              <p className="body imm-sector__b">{a.b}</p>
             </div>
           ))}
         </div>
         <p className="body imm-sector__note">
-          Have a different use case? Start with the problem and we will determine whether immersive
-          technology is the right approach.
+          Something else in mind? Start with the experience you want to create.
         </p>
       </Section>
 
-      {/* ------------------------------------------------- §10 use-case strip */}
-      <Section labelledBy="ways-heading">
-        <SectionHead id="ways-heading" title="Different ways to step inside the experience" />
-        <div className="imm-ways" style={{ marginTop: 32 }}>
-          {WAYS.map(w => (
-            <div className={`imm-way imm-way--${w.k}`} key={w.t}>
-              {/* One mark per way. Until 2026-09-30 every card rendered the same
-                  three stacked planes, so the art carried no information at all. */}
-              <div aria-hidden className="icon-slot icon-slot--stacked">
-                {w.icon}
-              </div>
-              <h3 className="h4 imm-way__t">{w.t}</h3>
-              <p className="body imm-way__b">{w.b}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* ------------------------------------------------- §11 how we build it */}
-      <Section labelledBy="process-heading" style={{ background: '#F7FAFA' }}>
+      {/* -------------------------------------------------- 05 how we build it */}
+      {/*
+        THE ONE ENGINEERING AND DELIVERY SECTION. It absorbed "Immersive is part
+        of the product, not a separate technology island", which was a full-width
+        section making a point that belongs next to the build sequence: the two
+        together answer "will the thing actually work", which is one question.
+      */}
+      <Section labelledBy="process-heading">
         <SectionHead
           eyebrow="Engineering first"
           id="process-heading"
@@ -351,31 +334,49 @@ export default function ImmersiveApplicationsPage() {
         <div style={{ marginTop: 34 }}>
           <BuildProgression />
         </div>
+        <div className="imm-found">
+          <p className="body">
+            Immersive applications can rely on the same foundations as any other digital product:
+            software engineering, APIs, cloud infrastructure, data, security and integrations. We
+            bring those pieces together around the experience, as part of{' '}
+            <FLink href="/engineering">Engineering</FLink>.
+          </p>
+          <p className="body" style={{ marginTop: 16 }}>
+            We deliver the commissioned application to the agreed specification. Optional ongoing{' '}
+            <FLink href="/support-continuous-improvement">support, maintenance and improvement</FLink>{' '}
+            are available afterwards if you want them.
+          </p>
+        </div>
       </Section>
 
-      {/* ---------------------------------------------------- §12 platforms */}
-      <Section labelledBy="platform-heading">
-        <div className="grid grid-2" style={{ gap: 56, alignItems: 'start' }}>
+      {/* ------------------------------- 06 the technology follows the experience */}
+      {/*
+        THE MERGE OF TWO SECTIONS. "The platform follows the experience" and
+        "Immersive applications can become intelligent too" were both answering
+        "what will you build it with", one for the environment and one for AI, and
+        each took a full-width section to do it. Side by side they take one, and
+        AI reads as one option among several rather than as a second offer.
+      */}
+      <Section labelledBy="tech-heading" style={{ background: '#F7FAFA' }}>
+        <SectionHead
+          eyebrow="Built for the use case"
+          id="tech-heading"
+          title="The technology follows the experience"
+        />
+        <p className="body" style={{ marginTop: 18, maxWidth: '68ch' }}>
+          We choose the platform and capabilities around what the experience needs to do, rather
+          than forcing every project onto the same technology.
+        </p>
+        <div className="grid grid-2" style={{ gap: 56, alignItems: 'start', marginTop: 34 }}>
           <div>
-            <SectionHead
-              eyebrow="Built for the right environment"
-              id="platform-heading"
-              title="The platform follows the experience"
-            />
-            <p className="body" style={{ marginTop: 18 }}>
-              The right technology depends on where and how the application will be used. We design
-              around the use case and the target environment rather than forcing every project onto
-              the same device or platform.
-            </p>
-          </div>
-          <div>
+            <h3 className="h4">Where it lives</h3>
             {/*
               A list of ENVIRONMENTS, not an SDK wall. The previous site carried a
               grid of engine and framework logos; the brief rules that out, and it
               was answering a question no buyer asks. Engine and framework choice
               is a scoping conversation, and saying so is more useful than a logo.
             */}
-            <ul className="imm-platforms">
+            <ul className="imm-platforms" style={{ marginTop: 16 }}>
               {PLATFORMS.map(p => (
                 <li key={p}>{p}</li>
               ))}
@@ -385,74 +386,32 @@ export default function ImmersiveApplicationsPage() {
               the target devices and the environment the application has to work in.
             </p>
           </div>
-        </div>
-      </Section>
-
-      {/* ------------------------------------------------------ §13 when AI */}
-      <Section labelledBy="ai-heading" style={{ background: '#F7FAFA' }}>
-        <SectionHead
-          eyebrow="When AI adds something"
-          id="ai-heading"
-          title="Immersive applications can become intelligent too"
-        />
-        <p className="body" style={{ marginTop: 18, maxWidth: '68ch' }}>
-          Where the use case benefits from it, we can combine immersive applications with AI
-          capabilities such as computer vision, conversational interfaces, intelligent guidance and
-          adaptive workflows. It is an option, not a requirement: most immersive applications do
-          not need any of it.
-        </p>
-        <div className="grid grid-4" style={{ marginTop: 30 }}>
-          {AI_ADDS.map(a => (
-            <div className="imm-earn" key={a.t}>
-              <h3 className="h4">{a.t}</h3>
-              <p className="body imm-earn__b">{a.b}</p>
-            </div>
-          ))}
-        </div>
-        <p style={{ marginTop: 28 }}>
-          <FLink href="/ai-automation">Explore AI &amp; Automation</FLink>
-        </p>
-      </Section>
-
-      {/* -------------------------------------------- §14 connected engineering */}
-      <Section labelledBy="conn-heading">
-        <div className="grid grid-2" style={{ gap: 56, alignItems: 'center' }}>
           <div>
-            <SectionHead
-              eyebrow="Connected engineering"
-              id="conn-heading"
-              title="Immersive is part of the product, not a separate technology island"
-            />
-            <p className="body" style={{ marginTop: 18 }}>
-              An immersive application can need the same foundations as any other digital product:
-              software engineering, cloud infrastructure, APIs, data, security, integrations and
-              ongoing support. Pixelette brings those pieces together around the experience.
+            <h3 className="h4">When AI adds value</h3>
+            <ul className="imm-platforms" style={{ marginTop: 16 }}>
+              {AI_ADDS.map(a => (
+                <li key={a}>{a}</li>
+              ))}
+            </ul>
+            <p className="small imm-platforms__note">
+              AI is optional. We use it where it materially improves the experience, not because
+              every immersive application needs it.
             </p>
-            {/*
-              §15. The commercial position, stated in the section where a reader is
-              already thinking about what happens after launch. Support is a
-              separate top-level service and is linked as one, not folded into
-              Engineering.
-            */}
-            <p className="body" style={{ marginTop: 18 }}>
-              We deliver the commissioned application to the agreed specification. Optional ongoing{' '}
-              <FLink href="/support-continuous-improvement">support, maintenance and improvement</FLink>{' '}
-              are available afterwards if you want them, and the application is yours either way.
+            <p style={{ marginTop: 22 }}>
+              <FLink href="/ai-automation">Explore AI &amp; Automation</FLink>
             </p>
           </div>
-          <div>
-            <ConnectedEngineering />
-          </div>
         </div>
       </Section>
 
-      {/* ----------------------------------------------------------- §16 FAQ */}
-      <Section labelledBy="faq-heading" style={{ background: '#F7FAFA' }}>
+      {/* -------------------------------------------------------------- 07 FAQ */}
+      <Section labelledBy="faq-heading">
         <SectionHead eyebrow="FAQs" id="faq-heading" title="Questions worth answering" />
         <Faqs items={faqs} />
       </Section>
 
-      {/* ----------------------------------------------------- §17 final CTA */}
+      {/* -------------------------------------------------------- closing CTA */}
+      {/* PRESERVED. No summary of the page before it, as the brief requires. */}
       <ClosingCta
         ctaLabel="Discuss an immersive application"
         eyebrow="Have an idea?"

@@ -5142,7 +5142,6 @@ button.btn[disabled] {
 }
 
 /* ---- what we build / sectors --------------------------------------------- */
-.imm-cap__b,
 .imm-sector__b {
   margin-top: 10px;
   font-size: 15px;
@@ -5160,87 +5159,90 @@ button.btn[disabled] {
   font-style: italic;
 }
 
-/* ---- use-case tiles ------------------------------------------------------ */
-.imm-ways {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
-}
+/* ---- use-case tiles -------------------------------------------------------
+   REMOVED 2026-09-30. `.imm-ways` and `.imm-way*` styled "Different ways to
+   step inside the experience", the four-tile section the structural brief
+   ordered deleted outright because Why immersive, the Immersive Showcase and
+   What could you build already made the same point three times over. Nothing
+   else on the site used these selectors, so they could never match again. */
 
-.imm-way {
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 24px 22px 26px;
-  background: var(--paper);
-  transition:
-    transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 320ms ease;
-}
-
-.imm-way:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 34px rgba(10, 10, 10, 0.08);
-}
-
-/* The three stacked planes that used to sit here were removed on 2026-09-30.
-   Every one of the four cards rendered the SAME mark, so it told the reader
-   nothing; each now carries its own icon through `.icon-slot--stacked`. */
-
-.imm-way__t {
-  margin-top: 6px;
-}
-
-.imm-way__b {
-  margin-top: 8px;
-  font-size: 14.5px;
+/* ---- foundations note, under the build progression ----------------------- */
+.imm-found {
+  margin-top: 40px;
+  max-width: 72ch;
 }
 
 /* ---- build progression --------------------------------------------------- */
-.bstack {
+/* THE SEVEN CARDS BECAME ONE RAIL, 2026-09-30, on the founder's structural
+   brief: "Present these as ONE continuous progression rather than seven
+   disconnected content cards".
+
+   `.bstack` was a four-column grid holding seven bordered cards, so it always
+   drew two rows - four, then an orphan three - and a sequence broken across two
+   rows of boxes does not read as a sequence. (Earlier the same day the forward
+   lean had already been removed from it, because under `perspective` each step
+   was pushed toward the viewer and so rendered visibly LARGER than the one
+   before, which is what the founder reported as boxes of different sizes.)
+
+   The card chrome is gone entirely and a single 2px rule now runs through all
+   seven markers, so the connection between the steps IS the visual. That is the
+   subject of the section, and it costs no new imagery: a rule and seven dots on
+   the existing brand tokens. */
+.bflow {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0 18px;
 }
 
-/* THE FORWARD LEAN WAS REMOVED 2026-09-30, on the founder's report that the box
-   sizes were not the same and the row did not align.
-
-   It was `transform: translateZ(calc(var(--i) * 6px)) translateY(calc(var(--i) *
-   -2px))` under `perspective: 1200px`, so each step was pushed further toward the
-   viewer than the last. Under perspective that does not merely move a card, it
-   ENLARGES it - step 7 sat 36px forward and 12px up, visibly bigger and higher
-   than step 1. The sizes really were different; it was not an illusion.
-
-   The composition was designed for a single four-across row, and this list has
-   SEVEN steps in a four-column grid, so it is two rows at every width. The
-   stylesheet already knew: the max-width:1000px block dropped the lean with the
-   comment that on two rows the second row "would sit oddly in front of the
-   first". That condition is permanent here, so the lean goes for good and the
-   shadow stops scaling with the index - every card now renders identically. */
-.bstack__card {
-  height: 100%;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--paper);
-  padding: 20px 18px 22px;
-  box-shadow: 0 2px 8px rgba(10, 10, 10, 0.05);
+.bflow__step {
+  position: relative;
+  padding-top: 28px;
 }
 
-.bstack__n {
+/* The rail is drawn on each step and overruns into the column gap, so
+   consecutive steps MEET and the seven read as one line rather than seven
+   separate rules. The last step stops at its own edge. */
+.bflow__step::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 0;
+  right: -18px;
+  height: 2px;
+  background: var(--brand-tint);
+}
+
+.bflow__step:last-child::before {
+  display: none;
+}
+
+.bflow__dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+
+.bflow__n {
   font-family: var(--mono);
   font-size: 11px;
   color: var(--brand);
   letter-spacing: 0.08em;
 }
 
-.bstack__t {
-  margin-top: 8px;
+.bflow__t {
+  margin-top: 6px;
+  font-size: 16px;
 }
 
-.bstack__b {
-  margin-top: 8px;
-  font-size: 14px;
+.bflow__b {
+  margin-top: 6px;
+  font-size: 13.5px;
+  color: var(--muted);
 }
 
 /* ---- connected engineering ----------------------------------------------- */
@@ -5293,10 +5295,15 @@ button.btn[disabled] {
 }
 
 /* ---- platforms ----------------------------------------------------------- */
+/* ONE COLUMN SINCE 2026-09-30. This was a two-column list because it sat in the
+   right half of a two-column section on its own. It now sits in one of two
+   columns that face each other - where it lives, and when AI adds value - so a
+   second column inside each of them would read as four lists, not two. */
 .imm-platforms {
   list-style: none;
+  padding-inline-start: 0;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 0 24px;
 }
 
@@ -5314,12 +5321,62 @@ button.btn[disabled] {
 }
 
 /* ---- responsive ---------------------------------------------------------- */
-@media (max-width: 1000px) {
-  .imm-ways,
-  .bstack {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+/* Seven abreast only survives full desktop width. Below it the rail folds to
+   four and then to a vertical run; it stays CONTINUOUS within each row, which
+   is why the fourth step has to stop at its own edge once there is a second
+   row - without that its rule would run off into empty space. */
+@media (max-width: 1120px) {
+  .bflow {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    row-gap: 30px;
   }
 
+  .bflow__step:nth-child(4)::before {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .bflow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  /* Turned on its side: the rail runs DOWN the left of the steps and joins each
+     marker to the next, so the sequence still reads as one progression rather
+     than as seven stacked paragraphs. */
+  .bflow__step {
+    padding: 0 0 24px 30px;
+  }
+
+  .bflow__step::before {
+    top: 6px;
+    bottom: -6px;
+    left: 5px;
+    right: auto;
+    width: 2px;
+    height: auto;
+  }
+
+  .bflow__step:last-child {
+    padding-bottom: 0;
+  }
+
+  /* Step 4 stops short in the four-column layout above, because it ends a row.
+     Down here it ends nothing, so its rail has to be handed back or the run
+     would break in the middle. Only the last step terminates. */
+  .bflow__step:nth-child(4)::before {
+    display: block;
+    right: auto;
+  }
+
+  .bflow__step:last-child::before {
+    display: none;
+  }
+
+  .bflow__dot {
+    top: 4px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -5358,14 +5415,6 @@ button.btn[disabled] {
 }
 
 @media (max-width: 620px) {
-  .imm-ways {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .imm-platforms {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
   .showcase__panel {
     padding: 20px 18px 18px;
   }
@@ -5399,13 +5448,8 @@ button.btn[disabled] {
   .prod,
   .prod__layer,
   .prod__label,
-  .rig__part,
-  .imm-way {
+  .rig__part {
     transition: none !important;
-  }
-
-  .imm-way:hover {
-    transform: none;
   }
 }
 
