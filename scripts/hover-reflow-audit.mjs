@@ -57,6 +57,10 @@ const TARGETS = [
      sits in ScrollReveal's selector list, but NO component renders it. Testing a
      class nothing uses would report a pass that means nothing. Reported instead. */
   { path: '/insights/archive', sel: '.arc-item' },
+  /* The page carrying the <video> hero, checked because the founder's report
+     said "the video on hover text is glitching" and that phrase has two
+     readings. The video itself has no hover rule; this page's cards do. */
+  { path: '/ar-vr-development-services', sel: '.card' },
 ];
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -119,36 +123,90 @@ const READ = `(() => {
     peerDrift};
 })()`;
 
+/* A fixed wait after navigate is a guess, and against `next dev` it is the wrong
+   one: a cold page compiles on demand and can take 10s+, so the probe measured a
+   page that had not rendered yet and reported ABSENT / NOT-IN-VIEW for surfaces
+   that were simply not there yet. Worse, the self-test injected its style before
+   the page existed and therefore caught nothing - which correctly aborted the run.
+   Wait for the document AND for the selector to actually be present. */
+async function ready(ws, sel, budgetMs = 40000) {
+  const until = Date.now() + budgetMs;
+  while (Date.now() < until) {
+    const st = await evaluate(ws, `(() => {
+      if (document.readyState !== 'complete') return {n:-1};
+      const els = document.querySelectorAll(${JSON.stringify(sel)});
+      if (!els.length) return {n:0};
+      const cs = getComputedStyle(els[0]);
+      return {n: els.length, pad: cs.paddingTop, bw: cs.borderTopWidth, tp: cs.transitionProperty};
+    })()`).catch(() => ({ n: -1 }));
+    // THE PRECONDITION THAT WAS MISSING, and without which every pass was void.
+    // `next dev` injects CSS through JS AFTER hydration, so the HTML - and
+    // therefore the selector - exists while the element is still UNSTYLED. An
+    // unstyled card has no border, no padding and `transition-property: all`,
+    // which are simply the CSS defaults. Hovering it cannot reflow anything, so
+    // the probe reported CLEAN for six pages that were never actually styled.
+    // Measuring is only meaningful once the rule under test is live on the element.
+    if (st.n > 0 && (parseFloat(st.pad) > 0 || parseFloat(st.bw) > 0) && st.tp !== 'all') {
+      await sleep(250);
+      return st.n;
+    }
+    await sleep(250);
+  }
+  return 0;
+}
+
 async function scrollIntoView(ws, sel, idx) {
   await evaluate(ws, `(() => { const e=document.querySelectorAll(${JSON.stringify(sel)})[${idx}];
     if(e) e.scrollIntoView({block:'center', behavior:'instant'}); return true; })()`);
-  // Settle rather than guess: the page sets `scroll-behavior: smooth`, so a fixed
-  // wait raced the scroll and reported elements as off-screen while still moving.
+  // Settle rather than guess, on TWO counts, both of which made this harness
+  // non-deterministic before they were handled:
+  //   1. the page sets `scroll-behavior: smooth`, so a fixed wait raced the scroll
+  //      and reported elements as off-screen while they were still travelling;
+  //   2. ScrollReveal starts these very elements at `translate3d(0,40px,0)` and
+  //      animates them in when they enter the viewport - so scrolling to a card
+  //      STARTS an animation, and measuring during it produced a different verdict
+  //      on every run, including a self-test that failed to catch a real defect.
+  // Wait for the reveal to have released the element AND for its box to stop moving.
   let prev = null;
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 40; i++) {
     await sleep(100);
-    const top = await evaluate(ws, `(() => { const e=document.querySelectorAll(${JSON.stringify(sel)})[${idx}];
-      return e ? Math.round(e.getBoundingClientRect().top) : null; })()`);
-    if (top !== null && top === prev) return;
-    prev = top;
+    const st = await evaluate(ws, `(() => {
+      const e=document.querySelectorAll(${JSON.stringify(sel)})[${idx}];
+      if(!e) return null;
+      return {top: Math.round(e.getBoundingClientRect().top),
+              revealing: e.hasAttribute('data-reveal'),
+              opacity: +getComputedStyle(e).opacity};
+    })()`);
+    if (!st) return;
+    if (!st.revealing && st.opacity > 0.99 && st.top === prev) { await sleep(120); return; }
+    prev = st.top;
   }
 }
 
-async function probe(ws, { path, sel }, idx = 0) {
-  await rpc(ws, 'Page.navigate', { url: BASE + path });
-  await sleep(1600);
-  // park the pointer away from anything hoverable, so the move is a real entry
-  await rpc(ws, 'Input.dispatchMouseEvent', { type: 'mouseMoved', x: 5, y: 5, button: 'none' });
+async function hoverAndRead(ws, sel, idx) {
   await scrollIntoView(ws, sel, idx);
   const pos = await evaluate(ws, ARM(sel, idx));
-  if (!pos) return { path, sel, status: 'ABSENT' };
-  if (!pos.inView) return { path, sel, status: 'NOT-IN-VIEW' };
+  if (!pos || !pos.inView) return { unreachable: true, pos };
   await rpc(ws, 'Input.dispatchMouseEvent', { type: 'mouseMoved', x: pos.x, y: pos.y, button: 'none' });
   await sleep(750);
-  const r = await evaluate(ws, READ);
-  if (r.insufficient) return { path, sel, status: 'NO-HOVER', frames: r.frames };
-  const clean = r.widthDrift === 0 && r.peerDrift === 0;
-  return { path, sel, status: clean ? 'CLEAN' : 'REFLOW', count: pos.count, ...r };
+  return { pos, r: await evaluate(ws, READ) };
+}
+
+async function probe(ws, { path, sel }) {
+  await rpc(ws, 'Page.navigate', { url: BASE + path });
+  const count = await ready(ws, sel);
+  if (!count) return { path, sel, status: 'UNSTYLED/ABSENT' };
+  let last = null;
+  for (let idx = 0; idx < Math.min(count, 5); idx++) {
+    // park the pointer away from anything hoverable, so the move is a real entry
+    await rpc(ws, 'Input.dispatchMouseEvent', { type: 'mouseMoved', x: 5, y: 5, button: 'none' });
+    const out = await hoverAndRead(ws, sel, idx);
+    if (out.unreachable) { last = 'NOT-IN-VIEW'; continue; }
+    if (out.r.insufficient) { last = 'NO-HOVER'; continue; }
+    const clean = out.r.widthDrift === 0 && out.r.peerDrift === 0;
+    return { path, sel, status: clean ? 'CLEAN' : 'REFLOW', count, idx, ...out.r };
+  }
+  return { path, sel, status: last || 'NOT-IN-VIEW', count };
 }
 
 async function main() {
@@ -180,20 +238,33 @@ async function main() {
     // Re-introduce the defect at runtime and demand the probe catches it.
     const t = TARGETS[0];
     await rpc(ws, 'Page.navigate', { url: BASE + t.path });
-    await sleep(1600);
-    await evaluate(ws, `(() => { const s=document.createElement('style');
-      s.textContent='.card.card{transition:transform .4s ease,box-shadow .4s ease,border-color .2s ease,border-width .2s ease,padding .2s ease !important}';
-      document.head.appendChild(s); return true; })()`);
-    await rpc(ws, 'Input.dispatchMouseEvent', { type: 'mouseMoved', x: 5, y: 5, button: 'none' });
-    await scrollIntoView(ws, t.sel, 0);
-    const pos = await evaluate(ws, ARM(t.sel, 0));
-    if (pos && pos.inView) {
+    const n = await ready(ws, t.sel);
+    let done = false;
+    for (let idx = 0; idx < Math.min(n, 5) && !done; idx++) {
+      await rpc(ws, 'Input.dispatchMouseEvent', { type: 'mouseMoved', x: 5, y: 5, button: 'none' });
+      // Let the reveal finish FIRST. Injecting the defect earlier overrides the
+      // reveal's own transition, `transitionend` never fires, ScrollReveal never
+      // releases the element, and a hidden element cannot show a reflow.
+      await scrollIntoView(ws, t.sel, idx);
+      const applied = await evaluate(ws, `(() => {
+        let s=document.getElementById('__reflow_selftest');
+        if(!s){ s=document.createElement('style'); s.id='__reflow_selftest';
+          s.textContent='.card.card{transition:transform .4s ease,box-shadow .4s ease,border-color .2s ease,border-width .2s ease,padding .2s ease !important}';
+          document.head.appendChild(s); }
+        const c=document.querySelectorAll('.card')[${idx}];
+        return c ? getComputedStyle(c).transitionProperty : null; })()`);
+      const injected = !!applied && applied.includes('border-width') && applied.includes('padding');
+      const pos = await evaluate(ws, ARM(t.sel, idx));
+      if (!pos || !pos.inView) { selftest = { caught: false, reason: 'target not reachable', injected }; continue; }
       await rpc(ws, 'Input.dispatchMouseEvent', { type: 'mouseMoved', x: pos.x, y: pos.y, button: 'none' });
       await sleep(750);
       const r = await evaluate(ws, READ);
-      selftest = r.insufficient ? { caught: false, reason: 'no hover frames' }
-        : { caught: r.widthDrift > 0 || r.peerDrift > 0, widthDrift: r.widthDrift, peerDrift: r.peerDrift, frames: r.frames };
-    } else selftest = { caught: false, reason: 'target not reachable' };
+      if (r.insufficient) { selftest = { caught: false, reason: 'no hover frames', injected }; continue; }
+      selftest = { caught: r.widthDrift > 0 || r.peerDrift > 0, injected,
+                   widthDrift: r.widthDrift, peerDrift: r.peerDrift, frames: r.frames };
+      done = true;
+    }
+    if (!selftest) selftest = { caught: false, reason: 'no candidate element' };
   }
 
   ws.close(); edge.kill();
@@ -213,7 +284,8 @@ async function main() {
 
   if (selftest) {
     console.log(`\n  self-test (defect re-injected): ${selftest.caught ? 'CAUGHT' : 'NOT CAUGHT'}` +
-      (selftest.caught ? `  width drift ${selftest.widthDrift}px, peer drift ${selftest.peerDrift}px` : `  (${selftest.reason || 'no drift seen'})`));
+      (selftest.caught ? `  width drift ${selftest.widthDrift}px, peer drift ${selftest.peerDrift}px`
+        : `  (${selftest.reason || 'no drift seen'}; defect rule applied: ${selftest.injected === undefined ? 'unknown' : selftest.injected})`));
     if (!selftest.caught) {
       console.log('\n  ABORT: the probe did not catch a deliberately reintroduced defect,');
       console.log('  so a clean result from it means nothing. Fix the probe before trusting it.\n');
