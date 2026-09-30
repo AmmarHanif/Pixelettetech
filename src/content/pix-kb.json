@@ -162,30 +162,30 @@
   },
   {
    "kind": "page",
-   "title": "AI Engineering & Automation | Pixelette Technologies",
-   "text": "We engineer AI into the systems you already run, measure what it changes and keep it working. Start with a four-week Value Discovery.",
+   "title": "AI & Automation",
+   "text": "AI systems, AI agents and automation, and the evaluation and observability that shows whether they still work. Engineered into the systems an organisation already runs.",
    "path": "/ai-automation"
   },
   {
    "kind": "faq",
    "title": "Why can so few organisations show a return on AI?",
-   "text": "Because the work around the model was never redesigned, the data it needs was never made reachable, and nobody owns whether it still works next quarter. Around 80% of individual AI users report they are more productive, while only 37% of organisations can attribute any EBIT impact to it, a figure unchanged year on year (McKinsey State of AI, August 2026, n=1,719).",
+   "text": "Because the work around the model was never redesigned, the data it needs was never made reachable, and nobody owns whether it still works next quarter. In McKinsey’s 2026 survey 80% of respondents said AI had improved their individual productivity, while 37% reported it contributing to their organisation’s EBIT (McKinsey State of AI, August 2026, n=1,719).",
    "path": "/ai-automation",
-   "page": "AI Engineering & Automation | Pixelette Technologies"
+   "page": "AI & Automation"
   },
   {
    "kind": "faq",
    "title": "What is a Value Discovery?",
    "text": "A four-week engagement. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.",
    "path": "/ai-automation",
-   "page": "AI Engineering & Automation | Pixelette Technologies"
+   "page": "AI & Automation"
   },
   {
    "kind": "faq",
    "title": "Does Pixelette Technologies audit or certify the AI it builds?",
    "text": "No, and it does not offer to. Where a programme needs formal governance, certification readiness, privacy or security-assurance support, Pixelette Certified, a separate practice in the same group, can scope the requirement, coordinate appropriately credentialed specialists and support the route to independent assessment. Independent assurance stays independent: the firm that builds a system is not the firm that assesses it.",
    "path": "/ai-automation",
-   "page": "AI Engineering & Automation | Pixelette Technologies"
+   "page": "AI & Automation"
   },
   {
    "kind": "page",

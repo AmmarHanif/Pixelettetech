@@ -60,17 +60,36 @@ function publishedStats(register: readonly Stat[]): Stat[] {
   return register.filter(stat => stat.published);
 }
 
-/** The gap: adoption is universal, attributable value is not. */
+/**
+ * The gap: adoption is widespread, attributable value is not.
+ *
+ * THE POPULATION WAS WRONG UNTIL 2026-09-30, and it was wrong in the exact way
+ * an evidence rule exists to catch. Both figures are measured over SURVEY
+ * RESPONDENTS. They were labelled "of individual AI users" and "of
+ * organisations" - two different populations, neither of them the one the survey
+ * reports. The numbers were never in doubt and are unchanged; what was wrong was
+ * the noun after them.
+ *
+ * `published: true` did not protect against this, and could not: it asks whether
+ * the attribution names a publisher a reader could find, which this one always
+ * did. Whether the sentence in front of the citation describes what the citation
+ * measures is a separate question, and nothing in this file asks it. If a
+ * figure's population is ever restated in shorter words, check it against the
+ * source rather than against the previous label.
+ *
+ * Survey fielded 4 May to 8 June 2026; 1,719 participants across 97 nations;
+ * published August 2026.
+ */
 export const gapStats: Stat[] = [
   {
     value: '80%',
-    label: 'of individual AI users report they are more productive',
+    label: 'of respondents say AI has improved their individual productivity',
     source: 'McKinsey State of AI, August 2026, n=1,719',
     published: true,
   },
   {
     value: '37%',
-    label: 'of organisations can attribute any EBIT impact to it, unchanged year on year',
+    label: "of respondents report AI contributing to their organisation's EBIT, unchanged year on year",
     source: 'McKinsey State of AI, August 2026, n=1,719',
     published: true,
   },

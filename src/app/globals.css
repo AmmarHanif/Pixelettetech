@@ -7517,3 +7517,166 @@ button.btn[disabled] {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* ==========================================================================
+   AI & AUTOMATION OVERVIEW — Phase 1 restructure, 2026-09-30.
+
+   NO CARDS. The brief is explicit that three primary routes must not become
+   three more large service cards, so they are set the way `.concept` already is
+   on this page: a brand rule, a number, and a measure. The distinction between
+   a route and the enabling capability below it is carried by TREATMENT, not by
+   a quieter label on an identical box.
+   ========================================================================== */
+
+.ai-pg .ai-routes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 44px;
+  margin-top: 48px;
+}
+
+.ai-pg .ai-route {
+  padding-top: 22px;
+  border-top: 2px solid var(--brand);
+}
+
+.ai-pg .ai-route__n {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  color: var(--brand);
+}
+
+.ai-pg .ai-route__t {
+  margin-top: 8px;
+}
+
+.ai-pg .ai-route__b {
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.ai-pg .ai-route__facets {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.ai-pg .ai-route__facets li {
+  padding: 5px 11px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.ai-pg .ai-route__links {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+/* THE ENABLING CAPABILITY, HELD BELOW THE THREE. A hairline rule across the full
+   measure rather than a fourth column: the shape itself says "underneath these",
+   which a fourth card could not. */
+.ai-pg .ai-enabling {
+  margin-top: 56px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line-2);
+  max-width: 78ch;
+}
+
+.ai-pg .ai-enabling .body {
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.ai-pg .ai-enabling__links {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* The closing principle under a section - one line, set apart, never a callout
+   box. Used twice, and both times it is the sentence the section exists to earn. */
+.ai-pg .ai-rule {
+  margin-top: 44px;
+  padding-left: 18px;
+  border-left: 2px solid var(--brand);
+  max-width: 64ch;
+  font-size: 15.5px;
+  color: var(--ink);
+}
+
+/* Six principles read better 3x2 than 2x3: the labels are short and the third
+   column costs nothing at this measure. */
+.ai-pg .principles--6 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px 48px;
+}
+
+/* The four discovery steps. Numbered, ruled, and deliberately lighter than the
+   routes above - this is a method, not a thing to buy. */
+.ai-pg .ai-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+  margin-top: 44px;
+}
+
+.ai-pg .ai-step {
+  padding-top: 18px;
+  border-top: 1px solid var(--line-2);
+}
+
+.ai-pg .ai-step i {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--muted-2);
+}
+
+.ai-pg .ai-step b {
+  display: block;
+  margin-top: 6px;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.ai-pg .ai-step span {
+  display: block;
+  margin-top: 6px;
+  font-size: 14.5px;
+  color: var(--body);
+}
+
+@media (max-width: 900px) {
+  .ai-pg .ai-routes,
+  .ai-pg .principles--6 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ai-pg .ai-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .ai-pg .ai-routes,
+  .ai-pg .principles--6,
+  .ai-pg .ai-steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* The production chain reuses the progression rail built for Modernisation. Six
+   steps rather than seven, so only the column count changes. */
+.bflow--6 {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
