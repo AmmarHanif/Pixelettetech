@@ -20,7 +20,7 @@
   },
   {
    "kind": "page",
-   "title": "Agentic AI & Multi-Agent Systems",
+   "title": "Agentic AI & Multi Agent Systems",
    "text": "Single- and multi-agent systems that plan, call tools, coordinate steps and operate within defined controls, with autonomy introduced as an engineered decision.",
    "path": "/ai-automation/agentic-ai-multi-agent"
   },
@@ -29,21 +29,21 @@
    "title": "What is a multi-agent system, in practical terms?",
    "text": "A design in which distinct components each hold a defined responsibility, for example gathering information, drafting, checking and executing, and communicate through a defined protocol. It is worth the extra complexity only where the task genuinely splits along those lines. Where it does not, a single agent, or a deterministic workflow with one model call in it, is cheaper, faster and easier to audit.",
    "path": "/ai-automation/agentic-ai-multi-agent",
-   "page": "Agentic AI & Multi-Agent Systems"
+   "page": "Agentic AI & Multi Agent Systems"
   },
   {
    "kind": "faq",
    "title": "How do you decide how much autonomy an agent should have?",
    "text": "Autonomy is treated as an engineered control decision rather than a selling point. Human oversight is the default wherever a decision is material. More autonomous operation is introduced only where the workflow, the risk level and measured evaluation evidence justify it, in defined steps: suggest, draft for approval, act within bounds, then act and report.",
    "path": "/ai-automation/agentic-ai-multi-agent",
-   "page": "Agentic AI & Multi-Agent Systems"
+   "page": "Agentic AI & Multi Agent Systems"
   },
   {
    "kind": "faq",
    "title": "How do you stop an agent doing something it should not?",
    "text": "By constraining what it can reach rather than by asking it nicely. The tools, queries and APIs available to an agent are an explicit allow-list, arguments are validated, irreversible actions are gated behind human approval, and every step and tool call is recorded so the run can be reconstructed afterwards.",
    "path": "/ai-automation/agentic-ai-multi-agent",
-   "page": "Agentic AI & Multi-Agent Systems"
+   "page": "Agentic AI & Multi Agent Systems"
   },
   {
    "kind": "page",

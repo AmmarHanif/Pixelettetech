@@ -172,7 +172,7 @@ export const aiAutomationSection: NavSection = {
   summary:
     'AI agents, workflow orchestration, model/LLM integration, RAG, predictive systems and intelligent automation.',
   items: [
-    { href: '/ai-automation/agentic-ai-multi-agent', label: 'Agentic AI & Multi-Agent Systems' },
+    { href: '/ai-automation/agentic-ai-multi-agent', label: 'Agentic AI & Multi Agent Systems' },
     { href: '/ai-automation/workflow-automation', label: 'AI Agents & Workflow Automation' },
     { href: '/ai-automation/llm-integration-rag', label: 'LLM Integration & RAG' },
     { href: '/ai-automation/predictive-intelligence', label: 'Predictive Intelligence' },

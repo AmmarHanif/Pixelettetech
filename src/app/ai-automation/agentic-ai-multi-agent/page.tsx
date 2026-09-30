@@ -4,7 +4,7 @@ import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
-  title: 'Agentic AI & Multi-Agent Systems',
+  title: 'Agentic AI & Multi Agent Systems',
   description:
     'Single- and multi-agent systems that plan, call tools, coordinate steps and operate within defined controls, with autonomy introduced as an engineered decision.',
   path: '/ai-automation/agentic-ai-multi-agent',
@@ -80,7 +80,7 @@ export default function AgenticAiPage() {
     <>
       <JsonLd
         data={serviceSchema({
-          name: 'Agentic AI & Multi-Agent Systems',
+          name: 'Agentic AI & Multi Agent Systems',
           description:
             'Single- and multi-agent systems that plan, call tools, coordinate steps and operate within defined controls, with traceability and human approval points.',
           path: '/ai-automation/agentic-ai-multi-agent',
@@ -92,7 +92,7 @@ export default function AgenticAiPage() {
           { name: 'Home', path: '/' },
           { name: 'AI & Automation', path: '/ai-automation' },
           {
-            name: 'Agentic AI & Multi-Agent Systems',
+            name: 'Agentic AI & Multi Agent Systems',
             path: '/ai-automation/agentic-ai-multi-agent',
           },
         ])}
