@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { BrandLogo } from '@/components/BrandLogo';
 import { NavDropdown } from '@/components/NavDropdown';
+import NavCurrentLink from '@/components/NavCurrent';
 import { ArrowRight, ArrowUpRight } from '@/components/Icons';
 import { company } from '@/content/company';
 import { navSections, primaryCta, primaryNav } from '@/content/nav';
@@ -62,10 +63,14 @@ function TopLink({ item, className }: { item: NavItem; className?: string }) {
       </a>
     );
   }
+  /* NavCurrentLink, not Link: it marks itself `aria-current="page"` on the page
+     it points at, which is what the brand-coloured active state in globals.css
+     keys off. Before 2026-09-30 nothing on the site set that attribute, so that
+     rule matched nothing. */
   return (
-    <Link href={item.href} className={className}>
+    <NavCurrentLink href={item.href} className={className}>
       {item.label}
-    </Link>
+    </NavCurrentLink>
   );
 }
 

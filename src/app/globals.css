@@ -648,12 +648,16 @@ td {
   min-height: 44px;
 }
 
-.nav a:hover,
-.nav a[aria-current='page'] {
+.nav a:hover {
   color: var(--ink);
 }
 
+/* The current page is named in the brand colour, founder instruction
+   2026-09-30 (#661A8F, which is --brand). It was --ink, which made "you are
+   here" indistinguishable from "the pointer is here". The weight carries it for
+   anyone who cannot separate the two colours, so the cue is not colour alone. */
 .nav a[aria-current='page'] {
+  color: var(--brand);
   font-weight: 600;
 }
 
@@ -735,8 +739,11 @@ td {
   max-height: calc(100vh - 96px);
   overflow-y: auto;
   padding: 14px;
-  background: var(--paper);
-  border: 1px solid var(--line);
+  /* Inverted on founder instruction 2026-09-30: brand ground, white type.
+     Measured rather than assumed - white on #661A8F is 9.9:1, and the 72%
+     summary line is 5.8:1, so both clear AA and the headings clear AAA. */
+  background: var(--brand);
+  border: 1px solid var(--brand);
   border-radius: 4px;
   box-shadow: var(--shadow-door);
 }
@@ -753,14 +760,16 @@ td {
   min-height: 44px;
   padding: 9px 12px;
   border-radius: 4px;
-  color: var(--ink);
+  color: #fff;
   font-size: 15px;
   font-weight: 600;
 }
 
 .nav__drop-panel .nav__drop-hub:hover {
-  background: var(--brand-tint);
-  color: var(--brand-hover);
+  /* On the brand ground a tint would vanish, so the hover is a lift in the
+     white rather than a change of hue. */
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
 }
 
 /* Plain text since 2026-09-17: the inline-flex and 7px gap existed only to
@@ -774,14 +783,14 @@ td {
   font-size: 13px;
   font-weight: 400;
   line-height: 1.45;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .nav__drop-list {
   list-style: none;
   margin: 8px 0 0;
   padding: 8px 0 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgba(255, 255, 255, 0.24);
 }
 
 .nav__drop-panel .nav__drop-list a {
@@ -791,12 +800,12 @@ td {
   padding: 4px 12px;
   border-radius: 4px;
   font-size: 14px;
-  color: var(--body);
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .nav__drop-panel .nav__drop-list a:hover {
-  background: var(--brand-tint);
-  color: var(--brand-hover);
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
 }
 
 /* Mobile disclosure. Native <details>, so it works without JavaScript. */
@@ -3188,28 +3197,8 @@ button.btn[disabled] {
    --line-2, never --line. On this site `.sec` and `.rule` both draw 1px of
    --line, so that exact glyph IS the section boundary; drawing one inside a
    section redraws a boundary that is not there. */
-.tm-plain-grid {
-  gap: 0;
-}
-
-.tm-plain {
-  min-width: 0;
-}
-
-@media (min-width: 861px) {
-  .tm-plain-grid > .tm-plain + .tm-plain {
-    border-left: 1px solid var(--line-2);
-    padding-left: 48px;
-  }
-}
-
-@media (max-width: 860px) {
-  /* Two 21px serif quotes with nothing between them run together. */
-  .tm-plain-grid > .tm-plain + .tm-plain {
-    border-top: 1px solid var(--line-2);
-    padding-top: 32px;
-  }
-}
+/* The `.tm-plain` rules were removed 2026-09-30 with the plain variant they
+   styled: every reviews block now uses the same cards. */
 
 
 /* ------------------------------------------ certification badges (footer)
@@ -3467,6 +3456,55 @@ button.btn[disabled] {
    THE AFFORDANCE IS THE PEEK. Cards are sized so the next one is partly visible
    at every width, which is what tells a desktop reader the row scrolls. Arrows
    would need JavaScript and would still need the peek to be discoverable. */
+
+/* ---- slider controls ------------------------------------------------------
+   Added 2026-09-30. The row hides its scrollbar by design, so without these
+   there was nothing to press: the founder reported the buttons as missing and
+   he was right. They sit under the row, right-aligned, so they never cover a
+   card and never move the cards to make room. */
+.tm-sliderwrap {
+  position: relative;
+}
+
+.tm-nav {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.tm-nav__btn {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--brand);
+  cursor: pointer;
+  /* Paint only, per ADR-0059: a control beside a scroller must not reflow it. */
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+.tm-nav__btn:hover:not(:disabled) {
+  border-color: var(--brand);
+  box-shadow: var(--depth-shadow);
+}
+
+.tm-nav__btn:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+.tm-nav__btn:disabled {
+  color: var(--muted-2);
+  border-color: var(--line);
+  cursor: default;
+}
 
 .tm-slider {
   display: flex;
@@ -5104,47 +5142,9 @@ button.btn[disabled] {
   box-shadow: 0 16px 34px rgba(10, 10, 10, 0.08);
 }
 
-/* Each tile's mark is three stacked planes at different depths: the same idea
-   as the hero, at a size that still reads on a phone. */
-.imm-way__art {
-  position: relative;
-  height: 74px;
-  perspective: 500px;
-}
-
-.imm-way__art span {
-  position: absolute;
-  left: 0;
-  width: 62px;
-  height: 40px;
-  border-radius: 6px;
-  border: 1px solid var(--line-4);
-  background: #fff;
-}
-
-.imm-way__art span:nth-child(1) {
-  top: 26px;
-  transform: rotateX(56deg);
-  background: #f2f6f9;
-}
-
-.imm-way__art span:nth-child(2) {
-  top: 14px;
-  left: 14px;
-  transform: rotateX(56deg);
-  background: var(--brand-tint);
-  border-color: var(--brand-tint);
-}
-
-.imm-way__art span:nth-child(3) {
-  top: 2px;
-  left: 28px;
-  width: 34px;
-  height: 34px;
-  transform: rotateX(56deg);
-  background: var(--brand);
-  border-color: var(--brand);
-}
+/* The three stacked planes that used to sit here were removed on 2026-09-30.
+   Every one of the four cards rendered the SAME mark, so it told the reader
+   nothing; each now carries its own icon through `.icon-slot--stacked`. */
 
 .imm-way__t {
   margin-top: 6px;
@@ -5161,24 +5161,30 @@ button.btn[disabled] {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 18px;
-  perspective: 1200px;
 }
 
-/* Each step sits a little further forward than the one before it, so the row
-   reads as something being assembled toward the viewer. The text itself is
-   never rotated: a spatial progression that cannot be read has failed. */
-.bstack__step {
-  transform: translateZ(calc(var(--i) * 6px)) translateY(calc(var(--i) * -2px));
-}
+/* THE FORWARD LEAN WAS REMOVED 2026-09-30, on the founder's report that the box
+   sizes were not the same and the row did not align.
 
+   It was `transform: translateZ(calc(var(--i) * 6px)) translateY(calc(var(--i) *
+   -2px))` under `perspective: 1200px`, so each step was pushed further toward the
+   viewer than the last. Under perspective that does not merely move a card, it
+   ENLARGES it - step 7 sat 36px forward and 12px up, visibly bigger and higher
+   than step 1. The sizes really were different; it was not an illusion.
+
+   The composition was designed for a single four-across row, and this list has
+   SEVEN steps in a four-column grid, so it is two rows at every width. The
+   stylesheet already knew: the max-width:1000px block dropped the lean with the
+   comment that on two rows the second row "would sit oddly in front of the
+   first". That condition is permanent here, so the lean goes for good and the
+   shadow stops scaling with the index - every card now renders identically. */
 .bstack__card {
   height: 100%;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: var(--paper);
   padding: 20px 18px 22px;
-  box-shadow: 0 calc(var(--i) * 1.4px + 2px) calc(var(--i) * 3px + 8px)
-    rgba(10, 10, 10, 0.05);
+  box-shadow: 0 2px 8px rgba(10, 10, 10, 0.05);
 }
 
 .bstack__n {
@@ -5274,11 +5280,6 @@ button.btn[disabled] {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* The forward lean is a four-across composition. On two rows it would make
-     the second row sit oddly in front of the first, so it is dropped. */
-  .bstack__step {
-    transform: none;
-  }
 }
 
 @media (max-width: 900px) {

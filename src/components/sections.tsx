@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ReviewSlider from '@/components/ReviewSlider';
 import type { ReactNode } from 'react';
 
 import { RouteSequence } from '@/components/ExperienceLayer';
@@ -220,7 +221,7 @@ export function Testimonials({
    * quote is not. The serif quote at 21px does not need a container to carry
    * weight, and the founder asked for these to be prominent but simple.
    */
-  variant?: 'card' | 'plain' | 'slider';
+  variant?: 'card' | 'slider';
 }) {
   /*
    * The zero guard (added 2026-09-08).
@@ -243,36 +244,37 @@ export function Testimonials({
    * table and the trust strip earlier today, and the same rule behind all
    * four: "the absence of a badge must not leave a broken layout".
    */
+/**
+ * The row around the review cards.
+ *
+ * THE `plain` VARIANT WAS REMOVED 2026-09-30. It rendered the quotes bare, with
+ * a divider rule between them instead of cards, and only /about-us used it. The
+ * founder asked for that section to be "same" as the others, so it now takes the
+ * ordinary card grid and every "What clients say" block on the site matches.
+ *
+ * `slider` is a client component because its prev/next buttons need to measure
+ * the scroller and follow it; everything else stays server-rendered.
+ */
+function Wrap({ children, variant }: { children: ReactNode; variant?: 'card' | 'slider' }) {
+  if (variant === 'slider') {
+    return <ReviewSlider label="Client reviews, scrollable">{children}</ReviewSlider>;
+  }
+  return (
+    <div className="grid grid-2" style={{ marginTop: 32 }}>
+      {children}
+    </div>
+  );
+}
+
   if (items.length === 0) return null;
 
   return (
     <Section labelledBy="voices-heading">
       <Eyebrow id="voices-heading">{heading}</Eyebrow>
-      <div
-        className={
-          variant === 'plain'
-            ? 'grid grid-2 tm-plain-grid'
-            : variant === 'slider'
-              ? 'tm-slider'
-              : 'grid grid-2'
-        }
-        style={{ marginTop: 32 }}
-        /*
-         * A scroll container is not keyboard-reachable on its own. These three
-         * attributes make the row focusable and announce what it is, so a
-         * keyboard user can scroll it with the arrow keys. Each card still
-         * carries its own focusable verify link, so the reviews are reachable
-         * by Tab whether or not anyone touches the scroller.
-         */
-        {...(variant === 'slider'
-          ? { tabIndex: 0, role: 'group', 'aria-label': 'Client reviews, scrollable' }
-          : {})}
-      >
+      <Wrap variant={variant}>
         {items.map(t => (
           <figure
-            className={
-              variant === 'plain' ? 'tm-plain' : variant === 'slider' ? 'card tm-slide' : 'card'
-            }
+            className={variant === 'slider' ? 'card tm-slide' : 'card'}
             key={t.url}
             style={{ margin: 0 }}
           >
@@ -330,7 +332,7 @@ export function Testimonials({
             </figcaption>
           </figure>
         ))}
-      </div>
+      </Wrap>
       {/*
         The aggregate is gated on `clutch.published` (added 2026-09-08).
 

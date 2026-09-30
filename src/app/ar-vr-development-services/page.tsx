@@ -4,6 +4,7 @@ import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
+import { Compass, Cube, Headset, Immersion } from '@/components/Icons';
 
 /*
  * AR / VR & Immersive Applications.
@@ -128,10 +129,10 @@ const SECTORS = [
 
 /** §10. The four ways in, as larger visual tiles rather than a second grid. */
 const WAYS = [
-  { t: 'Train & simulate', b: 'Practise environments, procedures and scenarios.', k: 'train' },
-  { t: 'Visualise', b: 'Explore products, places and designs before they physically exist.', k: 'vis' },
-  { t: 'Experience', b: 'Create interactive customer, cultural or brand experiences.', k: 'exp' },
-  { t: 'Try & explore', b: 'Let people interact with products and possibilities in context.', k: 'try' },
+  { t: 'Train & simulate', b: 'Practise environments, procedures and scenarios.', k: 'train', icon: <Headset size={32} /> },
+  { t: 'Visualise', b: 'Explore products, places and designs before they physically exist.', k: 'vis', icon: <Cube size={32} /> },
+  { t: 'Experience', b: 'Create interactive customer, cultural or brand experiences.', k: 'exp', icon: <Immersion size={32} /> },
+  { t: 'Try & explore', b: 'Let people interact with products and possibilities in context.', k: 'try', icon: <Compass size={32} /> },
 ];
 
 /** §12. Environments, not an SDK list. */
@@ -328,10 +329,10 @@ export default function ImmersiveApplicationsPage() {
         <div className="imm-ways" style={{ marginTop: 32 }}>
           {WAYS.map(w => (
             <div className={`imm-way imm-way--${w.k}`} key={w.t}>
-              <div aria-hidden className="imm-way__art">
-                <span />
-                <span />
-                <span />
+              {/* One mark per way. Until 2026-09-30 every card rendered the same
+                  three stacked planes, so the art carried no information at all. */}
+              <div aria-hidden className="icon-slot icon-slot--stacked">
+                {w.icon}
               </div>
               <h3 className="h4 imm-way__t">{w.t}</h3>
               <p className="body imm-way__b">{w.b}</p>

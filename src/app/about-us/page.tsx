@@ -260,7 +260,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Testimonials heading="What clients say" variant="plain" />
+      <Testimonials heading="What clients say" />
 
       {/* ----------------------------------------------- industry engagement */}
       {/*

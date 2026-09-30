@@ -241,28 +241,32 @@
 
 .card.card:hover,
 .card.card:focus-within {
+  /* GEOMETRY IS DELIBERATELY UNTOUCHED. An earlier revision narrowed the border
+     to 1px on hover and added the lost pixel back as padding (2+28 = 1+29), on
+     the founder's instruction of 2026-09-29 for a literal 1px hover border.
+
+     THAT COMPENSATION CANNOT BE MADE SAFE AND WAS WITHDRAWN 2026-09-30, after he
+     reported "when i hover last box first 3 box size shrink all together".
+     Reproduced and measured on /ai-automation: the four cards went from 397.54px
+     to 395.26px together.
+
+     The reason is that the padding half of the compensation is not always ours to
+     set. Cards carry INLINE padding in places - `components/sections.tsx` renders
+     `style={{padding: 26px}}`, and an inline style beats any stylesheet rule. So
+     on hover `border-width: 1px` applied while `padding: 29px` was ignored: 2+26
+     became 1+26, the card lost 2px of height, and because the grid row stretches,
+     EVERY card in the row shrank with it.
+
+     Any scheme where one property must compensate for another is only as good as
+     its assumption about the second, and here the second is set per-instance at
+     three sites, one of them a shared section component. So the hover now changes
+     only paint: colour and shadow, plus a composited transform. Nothing it touches
+     can alter layout, whatever the padding happens to be.
+
+     To get a genuinely 1px border the resting border must BE 1px - a one-line
+     change to `.card`, which would then conflict with his 2px instruction of
+     2026-09-22. That is his call, not a thing to infer. */
   transform: translate3d(0, -4px, 0);
-  /* LITERALLY 1px, to the founder's instruction, WITH THE LOSS COMPENSATED AND
-     APPLIED IN A SINGLE FRAME.
-
-     `.card` rests at `border: 2px` + `padding: 28px`. The hover state is 1px +
-     29px, so the border box, the content box and the grid row are all IDENTICAL
-     in both states: 2+28 = 1+29. Change one of these numbers and you must change
-     the other.
-
-     THE ENDPOINTS WERE ALWAYS SAFE. THE TRANSITION BETWEEN THEM WAS NOT, and it
-     is the bug the founder reported on 2026-09-29 as boxes moving each other.
-     Transitioning these two properties made the browser interpolate them
-     independently, and border-width snaps to whole device pixels while padding
-     does not: measured live at border-width 1.71429px against padding 28px, a
-     sum of 29.71 rather than 30. The content box therefore changed width
-     mid-transition, the text could rewrap, the card's height changed, and the
-     whole grid row reflowed - so hovering one card moved the others.
-
-     Leaving them out of the transition list is the fix. Both land in the same
-     style recalculation, there is no intermediate state, and nothing moves. */
-  border-width: 1px;
-  padding: 29px;
   border-color: var(--brand);
   box-shadow: var(--depth-shadow);
 }
@@ -284,6 +288,55 @@
 
   .card.card:hover,
   .card.card:focus-within {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------- .tile ---
+   `.tile` IS A CARD TO EVERYONE EXCEPT THE STYLESHEET, and it had no hover at
+   all. The founder reported this on 2026-09-30 - "these cards still do nothing
+   on hover" - looking at /engineering, whose grid is built from tiles.
+
+   IT WAS MISSED BECAUSE THE EARLIER PASS MATCHED CLASS NAMES RATHER THAN WHAT A
+   VISITOR SEES AS A BOX. His instruction was "box, see it all website"; `.tile`
+   is the second most used box on the site - 29 occurrences across 24 files,
+   against `.card`'s 57 across 39 - and it was never in the list.
+
+   Simpler than `.card`: `.tile` already rests at `border: 1px`, so the hover
+   changes NO geometry and there is nothing to compensate. Only composited and
+   paint properties are transitioned, per ADR-0059.
+
+   Doubled to (0,2,0) for the reason recorded above: this file arrives by an
+   @import at the TOP of globals.css, so at equal specificity globals.css wins
+   every tie. */
+.tile.tile {
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.2s ease;
+}
+
+.tile.tile:hover,
+.tile.tile:focus-within {
+  transform: translate3d(0, -4px, 0);
+  border-color: var(--brand);
+  box-shadow: var(--depth-shadow);
+}
+
+@media (hover: none) {
+  .tile.tile:hover {
+    transform: none;
+    box-shadow: var(--shadow-tile);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile.tile {
+    transition: box-shadow 0.4s ease, border-color 0.2s ease;
+  }
+
+  .tile.tile:hover,
+  .tile.tile:focus-within {
     transform: none;
   }
 }

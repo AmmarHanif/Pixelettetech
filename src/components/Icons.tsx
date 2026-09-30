@@ -422,3 +422,57 @@ export function XMark({ size = 18, className }: IconProps) {
     </svg>
   );
 }
+
+/* ---------------------------------------------------------------------------
+   The four immersive "ways" on /ar-vr-development-services. Added 2026-09-30:
+   that section emitted a per-item modifier class (`imm-way--train` and friends)
+   but no CSS ever styled it, so all four cards showed the SAME generic mark and
+   said nothing about the thing they described. The founder asked for icons that
+   match. House style throughout: 24x24, currentColor, stroke 1.6, round joins.
+   --------------------------------------------------------------------------- */
+
+/** Train and simulate: a headset, the thing you actually put on to practise. */
+export function Headset({ size = 24, className }: IconProps) {
+  return (
+    <svg {...base(size)} viewBox="0 0 24 24" className={className}>
+      <path
+        d="M4 8h16a2 2 0 0 1 2 2v3.6a2 2 0 0 1-2 2h-3.9a1.6 1.6 0 0 1-1.25-.6L12 12.6l-2.85 2.4a1.6 1.6 0 0 1-1.25.6H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path d="M5.5 8V6.8A2.3 2.3 0 0 1 7.8 4.5h8.4a2.3 2.3 0 0 1 2.3 2.3V8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Visualise: a solid seen before it exists - an isometric cube. */
+export function Cube({ size = 24, className }: IconProps) {
+  return (
+    <svg {...base(size)} viewBox="0 0 24 24" className={className}>
+      <path d="M12 2.8l8 4.4v9.6l-8 4.4-8-4.4V7.2l8-4.4z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M4 7.2l8 4.4 8-4.4M12 11.6v9.6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Experience: presence - you at the centre, the space opening around you. */
+export function Immersion({ size = 24, className }: IconProps) {
+  return (
+    <svg {...base(size)} viewBox="0 0 24 24" className={className}>
+      <circle cx="12" cy="12" r="2.3" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M7.9 16.1a5.8 5.8 0 0 1 0-8.2M16.1 7.9a5.8 5.8 0 0 1 0 8.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M5 19a9.9 9.9 0 0 1 0-14M19 5a9.9 9.9 0 0 1 0 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Try and explore: a compass - going in and looking around. */
+export function Compass({ size = 24, className }: IconProps) {
+  return (
+    <svg {...base(size)} viewBox="0 0 24 24" className={className}>
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M15.6 8.4l-2.1 5.1-5.1 2.1 2.1-5.1 5.1-2.1z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+    </svg>
+  );
+}
