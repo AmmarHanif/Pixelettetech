@@ -155,11 +155,45 @@ export default function SupportPage() {
             </Cta>
           </div>
 
-          {/* The principal visual explanation of the service. Recreated in HTML,
-              CSS and one SVG rather than embedded as the reference render, so
-              every stage name is real text. */}
+          {/*
+            THE SUPPLIED ARTWORK, ON FOUNDER INSTRUCTION 2026-09-30, AND THIS IS
+            A DECLARED EXCEPTION TO THIS PAGE'S OWN BRIEF.
+
+            Section 22 of the instruction says the reference's dashboard figures
+            are placeholders and must not be published as service claims, and
+            that a production dashboard should carry "neutral illustrative
+            states rather than apparent contractual performance promises". This
+            render carries 99.99% uptime this month, 24,593 users, 1.2M
+            transactions and a 120 ms response time. The founder was shown
+            exactly that list and the fact that no claims-register entry supports
+            any of it, and chose the artwork as supplied. It is his call and it
+            is recorded here rather than absorbed silently, because every other
+            figure on this site passes a register and these do not.
+
+            THE ALT TEXT DELIBERATELY DOES NOT REPEAT THEM. Describing the
+            dashboard to a screen reader would restate an uptime and a
+            response-time claim in a second, machine-readable place - which is
+            the shape of the price that once survived in a JSON-LD Offer node
+            after being removed from the visible page.
+
+            MOBILE STILL GETS THE BUILT VERSION. Section 19 forbids shrinking the
+            desktop visual, and at 390px this raster's stage cards are about 40px
+            wide and unreadable. Below 900px the native lifecycle renders instead:
+            real text, adapted to one column, animated, reduced-motion aware.
+          */}
           <div style={{ marginTop: 56 }}>
-            <SupportLifecycle />
+            <img
+              alt="A continuous product-support cycle moves from monitoring and prioritisation through improvement, release and verification before feeding what was learned into the next cycle."
+              className="sp-hero-art"
+              height={1024}
+              sizes="(max-width: 900px) 92vw, 1100px"
+              src="/hero/support-lifecycle-1240.webp"
+              srcSet="/hero/support-lifecycle-820.webp 820w, /hero/support-lifecycle-1240.webp 1240w, /hero/support-lifecycle-1536.webp 1536w"
+              width={1536}
+            />
+            <div className="sp-hero-native">
+              <SupportLifecycle />
+            </div>
           </div>
         </div>
       </div>

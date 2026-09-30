@@ -8250,3 +8250,32 @@ button.btn[disabled] {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* THE SUPPLIED ARTWORK CARRIES DESKTOP; THE BUILT VERSION CARRIES MOBILE.
+   Founder instruction 2026-09-30 was to use the render as supplied. At 390px its
+   six stage cards are about 40px wide and their text is unreadable, and the page
+   brief forbids shrinking the desktop visual rather than adapting it - so below
+   900px the native lifecycle renders instead, with real text in one column.
+   Exactly one of the two is in the accessibility tree at any width, because both
+   describe the same thing and a screen reader should meet it once. */
+.sp-hero-art {
+  display: block;
+  width: 100%;
+  max-width: 1100px;
+  height: auto;
+  margin-inline: auto;
+}
+
+.sp-hero-native {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .sp-hero-art {
+    display: none;
+  }
+
+  .sp-hero-native {
+    display: block;
+  }
+}
