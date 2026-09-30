@@ -2,7 +2,7 @@
  "builtFrom": "src/app/**/page.tsx",
  "counts": {
   "pages": 41,
-  "faqs": 97,
+  "faqs": 94,
   "pointers": 3
  },
  "docs": [
@@ -894,55 +894,34 @@
   {
    "kind": "page",
    "title": "Support & Continuous Improvement",
-   "text": "Optional ongoing software support, maintenance, monitoring, optimisation and continuous improvement for products built by Pixelette or existing systems.",
+   "text": "Monitoring, maintenance and continuous improvement for live software products, whether we built them or inherited them from another team.",
    "path": "/support-continuous-improvement"
   },
   {
    "kind": "faq",
-   "title": "What does support and continuous improvement include?",
-   "text": "The scope is agreed around the product and what you need from us. It can include monitoring, incident support, maintenance, security updates, performance optimisation, releases and ongoing engineering improvements.",
+   "title": "Can you support software you did not build?",
+   "text": "Yes. We start by establishing what we would be taking on - architecture, codebase, infrastructure, dependencies, deployment, monitoring and known issues - and support begins once that is understood. We do not take open-ended responsibility for a system nobody has looked at yet.",
    "path": "/support-continuous-improvement",
    "page": "Support & Continuous Improvement"
   },
   {
    "kind": "faq",
-   "title": "Is ongoing support required after Pixelette delivers a product?",
-   "text": "No. We deliver the commissioned product to the agreed specification. Ongoing support is an optional service if you want Pixelette to remain involved after delivery.",
+   "title": "What does ongoing support include?",
+   "text": "Keeping the product running, keeping it healthy and keeping it improving: monitoring and incident response, maintenance and security updates, performance and reliability work, and the planned engineering that adds to the product. The balance between those is agreed rather than fixed.",
    "path": "/support-continuous-improvement",
    "page": "Support & Continuous Improvement"
   },
   {
    "kind": "faq",
-   "title": "Can you support software that Pixelette did not build?",
-   "text": "Yes. We can take responsibility for an existing product following an initial technical assessment of the application, infrastructure, documentation and current operating position.",
+   "title": "How do you handle urgent production issues?",
+   "text": "Through an agreed route into the team, with severity, risk and impact deciding what is worked on first. Response expectations, coverage and escalation are set per engagement against the product and the responsibility you need us to hold, rather than sold as a standard tier.",
    "path": "/support-continuous-improvement",
    "page": "Support & Continuous Improvement"
   },
   {
    "kind": "faq",
-   "title": "Is this just maintenance and bug fixing?",
-   "text": "It can be focused on maintaining reliability, security and performance, or it can extend to optimisation, controlled releases and ongoing improvements. The scope depends on what you need.",
-   "path": "/support-continuous-improvement",
-   "page": "Support & Continuous Improvement"
-  },
-  {
-   "kind": "faq",
-   "title": "Do you offer service levels and response times?",
-   "text": "Yes. Appropriate support hours, priorities and response expectations can be agreed as part of the support arrangement.",
-   "path": "/support-continuous-improvement",
-   "page": "Support & Continuous Improvement"
-  },
-  {
-   "kind": "faq",
-   "title": "Can you support AI-enabled products?",
-   "text": "Yes. Where relevant, the arrangement can include additional monitoring and operational controls for AI components, including model health, evaluations, guardrails, performance and cost.",
-   "path": "/support-continuous-improvement",
-   "page": "Support & Continuous Improvement"
-  },
-  {
-   "kind": "faq",
-   "title": "Do we need to commit to a large engineering team?",
-   "text": "No. The level of engineering capacity is agreed around the product and the amount of ongoing support, maintenance or improvement required.",
+   "title": "Can support include continuous product improvement?",
+   "text": "Yes, and for most products that is the larger part of it. Enhancements, usability work, automation and modernisation enter the same cycle as fixes, prioritised on severity, risk and value rather than on whether something is technically broken.",
    "path": "/support-continuous-improvement",
    "page": "Support & Continuous Improvement"
   },
