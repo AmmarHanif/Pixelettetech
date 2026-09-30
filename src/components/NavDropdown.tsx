@@ -1,6 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+import { currentState } from '@/components/NavCurrent';
 import { useEffect, useRef } from 'react';
 
 import type { NavSection } from '@/content/nav';
@@ -56,6 +59,7 @@ import type { NavSection } from '@/content/nav';
 const CLOSE_DELAY = 140;
 
 export function NavDropdown({ section }: { section: NavSection }) {
+  const pathname = usePathname();
   const ref = useRef<HTMLDetailsElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -147,7 +151,17 @@ export function NavDropdown({ section }: { section: NavSection }) {
           if ((e.target as HTMLElement).closest('a')) close();
         }}
       >
-        <Link href={section.href} className="nav__drop-hub">
+        {/* `aria-current="page"` marks where the reader is, inside the dropdown as
+            well as on the bar. Founder instruction 2026-09-30: the item for the
+            page you are on should be highlighted in every dropdown. The overview
+            link counts as current for its own sub-pages, so on
+            /ai-automation/services the "AI & Automation overview" entry stays
+            marked - that is what "where am I" means to a reader. */}
+        <Link
+          aria-current={currentState(pathname, section.href)}
+          href={section.href}
+          className="nav__drop-hub"
+        >
           {/* No arrow icon. Founder instruction 2026-09-17: the arrows come
               out of the menu. "overview" already says where the link goes, and
               a chevron on one link inside a panel of plain links reads as
@@ -158,7 +172,12 @@ export function NavDropdown({ section }: { section: NavSection }) {
         <ul className="nav__drop-list">
           {section.items.map(item => (
             <li key={item.href}>
-              <Link href={item.href}>{item.label}</Link>
+              <Link
+                aria-current={currentState(pathname, item.href)}
+                href={item.href}
+              >
+                {item.label}
+              </Link>
             </li>
           ))}
         </ul>

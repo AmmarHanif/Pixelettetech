@@ -33,6 +33,22 @@ export function isCurrent(pathname: string | null, href: string) {
   return pathname === href || pathname.startsWith(href + '/');
 }
 
+/**
+ * `page` for the page you are actually on, `true` for the section containing it.
+ *
+ * WHY TWO VALUES. Marking both the section overview and the sub-page as
+ * `aria-current="page"` put two identical highlights in one dropdown and claimed
+ * you were on a page you were not. `aria-current="page"` means THIS page;
+ * `aria-current="true"` is the valid ARIA for "the current item in a set", which
+ * is exactly what the parent section is. The styling follows the same split, so
+ * one entry reads as where you are and the other as what contains it.
+ */
+export function currentState(pathname: string | null, href: string): 'page' | 'true' | undefined {
+  if (!pathname) return undefined;
+  if (pathname === href) return 'page';
+  return isCurrent(pathname, href) ? 'true' : undefined;
+}
+
 export default function NavCurrentLink({
   href,
   className,
@@ -43,9 +59,9 @@ export default function NavCurrentLink({
   children: ReactNode;
 }) {
   const pathname = usePathname();
-  const current = isCurrent(pathname, href);
+  const current = currentState(pathname, href);
   return (
-    <Link aria-current={current ? 'page' : undefined} className={className} href={href}>
+    <Link aria-current={current} className={className} href={href}>
       {children}
     </Link>
   );

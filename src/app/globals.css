@@ -656,7 +656,7 @@ td {
    2026-09-30 (#661A8F, which is --brand). It was --ink, which made "you are
    here" indistinguishable from "the pointer is here". The weight carries it for
    anyone who cannot separate the two colours, so the cue is not colour alone. */
-.nav a[aria-current='page'] {
+.nav a[aria-current] {
   color: var(--brand);
   font-weight: 600;
 }
@@ -739,11 +739,12 @@ td {
   max-height: calc(100vh - 96px);
   overflow-y: auto;
   padding: 14px;
-  /* Inverted on founder instruction 2026-09-30: brand ground, white type.
-     Measured rather than assumed - white on #661A8F is 9.9:1, and the 72%
-     summary line is 5.8:1, so both clear AA and the headings clear AAA. */
-  background: var(--brand);
-  border: 1px solid var(--brand);
+  /* WHITE GROUND, founder instruction 2026-09-30 (second instruction that day:
+     the panel was briefly inverted to the brand colour on his earlier one, and
+     he asked for white back). The "where am I" cue now comes from the current
+     page being highlighted rather than from the whole panel carrying the brand. */
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 4px;
   box-shadow: var(--shadow-door);
 }
@@ -760,16 +761,32 @@ td {
   min-height: 44px;
   padding: 9px 12px;
   border-radius: 4px;
-  color: #fff;
+  color: var(--ink);
   font-size: 15px;
   font-weight: 600;
 }
 
 .nav__drop-panel .nav__drop-hub:hover {
-  /* On the brand ground a tint would vanish, so the hover is a lift in the
-     white rather than a change of hue. */
-  background: rgba(255, 255, 255, 0.16);
-  color: #fff;
+  background: var(--brand-tint);
+  color: var(--brand-hover);
+}
+
+/* THE CURRENT PAGE, inside the dropdown. Founder instruction 2026-09-30: the
+   entry for the page you are on is highlighted in every dropdown, desktop and
+   mobile. Tint plus brand text plus the weight already on the hub - the same
+   treatment as hover, held rather than transient, so "you are here" and "your
+   pointer is here" read as the same kind of emphasis without competing.
+   Specificity is two classes to sit above `.nav a`, as the panel's other rules
+   already are. */
+.nav__drop-panel .nav__drop-hub[aria-current='page'] {
+  background: var(--brand-tint);
+  color: var(--brand);
+}
+
+/* The SECTION containing the current page: brand colour, no block. One filled
+   entry per dropdown is what tells the reader where they are; two competed. */
+.nav__drop-panel .nav__drop-hub[aria-current='true'] {
+  color: var(--brand);
 }
 
 /* Plain text since 2026-09-17: the inline-flex and 7px gap existed only to
@@ -783,14 +800,14 @@ td {
   font-size: 13px;
   font-weight: 400;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--muted);
 }
 
 .nav__drop-list {
   list-style: none;
   margin: 8px 0 0;
   padding: 8px 0 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.24);
+  border-top: 1px solid var(--line);
 }
 
 .nav__drop-panel .nav__drop-list a {
@@ -800,12 +817,22 @@ td {
   padding: 4px 12px;
   border-radius: 4px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--body);
 }
 
 .nav__drop-panel .nav__drop-list a:hover {
-  background: rgba(255, 255, 255, 0.16);
-  color: #fff;
+  background: var(--brand-tint);
+  color: var(--brand-hover);
+}
+
+.nav__drop-panel .nav__drop-list a[aria-current='page'] {
+  background: var(--brand-tint);
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.nav__drop-panel .nav__drop-list a[aria-current='true'] {
+  color: var(--brand);
 }
 
 /* Mobile disclosure. Native <details>, so it works without JavaScript. */
@@ -936,6 +963,19 @@ td {
   margin: 4px 0 8px;
   padding: 0 0 0 14px;
   border-left: 2px solid var(--line-2);
+}
+
+/* The current page in the MOBILE panel, matching the desktop dropdown. Founder
+   instruction 2026-09-30 asked for every dropdown, and the mobile disclosure is
+   one - marking only the desktop bar would leave the phone with no "you are
+   here" at all. Two classes to clear `.nav-mobile__panel a`. */
+.nav-mobile__panel .nav-mobile__group-list a[aria-current='page'] {
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.nav-mobile__panel .nav-mobile__group-list a[aria-current='true'] {
+  color: var(--brand);
 }
 
 /* `display: flex` rather than the panel's `inline-flex`: inside an <li> an

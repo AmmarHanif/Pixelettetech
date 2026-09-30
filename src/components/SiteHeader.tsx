@@ -115,13 +115,15 @@ function SectionGroupMobile({ section }: { section: NavSection }) {
   return (
     <details className="nav-mobile__group" name="pt-nav-section-mobile">
       <summary className="nav-mobile__group-summary">{section.label}</summary>
+      {/* NavCurrentLink, not Link: the mobile panel marks the current page too,
+          so "all dropdowns" means all of them and not just the desktop bar. */}
       <ul className="nav-mobile__group-list">
         <li>
-          <Link href={section.href}>{section.label} overview</Link>
+          <NavCurrentLink href={section.href}>{section.label} overview</NavCurrentLink>
         </li>
         {section.items.map(item => (
           <li key={item.href}>
-            <Link href={item.href}>{item.label}</Link>
+            <NavCurrentLink href={item.href}>{item.label}</NavCurrentLink>
           </li>
         ))}
       </ul>
