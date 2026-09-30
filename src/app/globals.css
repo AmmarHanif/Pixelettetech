@@ -7011,3 +7011,509 @@ button.btn[disabled] {
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   PHASE 2 EXPLANATORY VISUALS — two motion experiences, built native.
+
+   Added 2026-09-30 for /engineering/custom-software-saas and
+   /engineering/web-platforms. They are NOT one component with two skins: the
+   first collapses six things into one downward, the second sends one thing out
+   and brings it back. Separate blocks, separate names, no shared geometry.
+
+   THE STILL STATE IS THE FINISHED STATE. Everything below renders complete with
+   no animation at all; motion is added only inside the
+   `prefers-reduced-motion: no-preference` blocks. So reduced motion is not a
+   degraded version - it is the composition the animation arrives at.
+   ========================================================================== */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- 1. from workflow to software ---------------------------------------- */
+.wtp {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+}
+
+.wtp__stages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+}
+
+.wtp__stage {
+  position: relative;
+  padding: 14px 12px 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  text-align: center;
+  transition: border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.wtp__stage-t {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.wtp__stage-d {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  color: var(--muted-2);
+}
+
+/* The connector each stage drops into the rail. */
+.wtp__drop {
+  position: absolute;
+  left: 50%;
+  bottom: -18px;
+  width: 2px;
+  height: 18px;
+  background: var(--brand-tint);
+  transform: translateX(-50%);
+  transition: background 220ms ease;
+}
+
+.wtp__rail {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  margin-top: 18px;
+  background: var(--brand-tint);
+  overflow: hidden;
+}
+
+/* The sweep that reads as six inputs becoming one. Wide enough to leave a trail
+   rather than a dot, and parked off-stage when nothing is animating. */
+.wtp__rail-run {
+  position: absolute;
+  top: 0;
+  left: -34%;
+  width: 34%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--brand), transparent);
+}
+
+.wtp__feed {
+  width: 2px;
+  height: 34px;
+  background: var(--brand-tint);
+}
+
+.wtp__product {
+  position: relative;
+  width: min(420px, 100%);
+  height: 128px;
+  transition: filter 220ms ease;
+}
+
+.wtp__layer {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper);
+}
+
+/* Three sheets, offset, so the product reads as assembled rather than drawn. */
+.wtp__layer--c {
+  transform: translate(16px, 16px);
+  opacity: 0.4;
+}
+
+.wtp__layer--b {
+  transform: translate(8px, 8px);
+  opacity: 0.7;
+}
+
+.wtp__layer--a {
+  display: grid;
+  place-items: center;
+  border-color: var(--brand);
+  box-shadow: 0 10px 30px rgba(102, 26, 143, 0.12);
+}
+
+.wtp__product-t {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--brand);
+}
+
+.wtp__foundations {
+  list-style: none;
+  margin: 26px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.wtp__foundation {
+  padding: 7px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Interaction, kept secondary: pointing at a stage shows the connection it has
+   to the product. It adds nothing the text does not already say. */
+.wtp__stage:hover {
+  border-color: var(--brand);
+  box-shadow: 0 6px 18px rgba(102, 26, 143, 0.1);
+}
+
+.wtp__stage:hover .wtp__drop {
+  background: var(--brand);
+}
+
+.wtp:has(.wtp__stage:hover) .wtp__product {
+  filter: drop-shadow(0 0 14px rgba(102, 26, 143, 0.18));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* One 7s cycle. The stages stagger by delay; everything downstream encodes its
+     moment as a percentage of the same 7s, so the whole thing stays in step and
+     repeats without a hard restart. */
+  .wtp__stage {
+    animation: wtp-stage 7s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.26s);
+  }
+
+  .wtp__drop {
+    animation: wtp-drop 7s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.26s);
+  }
+
+  .wtp__rail-run {
+    animation: wtp-run 7s ease-in-out infinite;
+  }
+
+  .wtp__layer--a {
+    animation: wtp-product 7s ease-in-out infinite;
+  }
+
+  .wtp__foundation {
+    animation: wtp-found 7s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.16s);
+  }
+}
+
+@keyframes wtp-stage {
+  0%, 2% { border-color: var(--line); }
+  8%, 26% { border-color: var(--brand); }
+  40%, 100% { border-color: var(--line); }
+}
+
+@keyframes wtp-drop {
+  0%, 4% { background: var(--brand-tint); }
+  10%, 28% { background: var(--brand); }
+  42%, 100% { background: var(--brand-tint); }
+}
+
+@keyframes wtp-run {
+  0%, 28% { left: -34%; }
+  46% { left: 100%; }
+  46.01%, 100% { left: -34%; }
+}
+
+@keyframes wtp-product {
+  0%, 46% { box-shadow: 0 10px 30px rgba(102, 26, 143, 0.12); }
+  58%, 84% { box-shadow: 0 14px 40px rgba(102, 26, 143, 0.28); }
+  96%, 100% { box-shadow: 0 10px 30px rgba(102, 26, 143, 0.12); }
+}
+
+@keyframes wtp-found {
+  0%, 62% { color: var(--muted); border-color: var(--line-2); }
+  72%, 90% { color: var(--brand); border-color: var(--brand-tint); }
+  98%, 100% { color: var(--muted); border-color: var(--line-2); }
+}
+
+/* Not a shrunken desktop: the workflow becomes a stepped run feeding the product
+   below it - the same argument, read downward. */
+@media (max-width: 900px) {
+  .wtp__stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wtp__drop {
+    display: none;
+  }
+
+  .wtp__rail {
+    margin-top: 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .wtp__stages {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .wtp__stage {
+    padding: 12px 14px;
+    text-align: left;
+  }
+
+  .wtp__product {
+    height: 112px;
+  }
+}
+
+/* ---- 2. one action, whole system responds -------------------------------- */
+.pr {
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+}
+
+.pr__systems {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.pr__system {
+  position: relative;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  transition: border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.pr__system-t {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.pr__system-d {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted-2);
+}
+
+/* The wire each system holds toward the platform. It points inward from whichever
+   side the system is on, which is what makes the round trip read. */
+.pr__wire {
+  position: absolute;
+  top: 50%;
+  width: 22px;
+  height: 2px;
+  background: var(--brand-tint);
+  transition: background 220ms ease;
+}
+
+.pr__systems--l .pr__wire {
+  right: -22px;
+}
+
+.pr__systems--r .pr__wire {
+  left: -22px;
+}
+
+.pr__platform {
+  display: grid;
+  justify-items: center;
+  padding: 20px 18px 22px;
+  border: 1px solid var(--brand);
+  border-radius: 16px;
+  background: var(--paper);
+  box-shadow: 0 12px 34px rgba(102, 26, 143, 0.12);
+}
+
+.pr__chrome {
+  display: flex;
+  gap: 5px;
+  align-self: start;
+  margin-bottom: 14px;
+}
+
+.pr__chrome i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+/* The action and the outcome share one spot: the dot hands over to the tick. */
+.pr__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+}
+
+.pr__actor {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+
+.pr__tick {
+  position: absolute;
+  width: 22px;
+  height: 12px;
+  border-left: 3px solid var(--brand);
+  border-bottom: 3px solid var(--brand);
+  transform: rotate(-45deg) translateY(-2px);
+  opacity: 0;
+}
+
+.pr__platform-t {
+  margin-top: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.pr__platform-d {
+  margin-top: 3px;
+  font-size: 12.5px;
+  color: var(--muted-2);
+  text-align: center;
+}
+
+/* Interaction: pointing at a system shows where it joins the journey. */
+.pr__system:hover {
+  border-color: var(--brand);
+  box-shadow: 0 6px 18px rgba(102, 26, 143, 0.1);
+}
+
+.pr__system:hover .pr__wire {
+  background: var(--brand);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Same 7s cycle. The action leaves, the six systems answer in turn, the tick
+     returns - and because the tick fades back out at the end, the loop closes on
+     the state it opened in rather than cutting. */
+  .pr__system {
+    animation: pr-system 7s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.3s);
+  }
+
+  .pr__systems--r .pr__system {
+    animation-delay: calc(0.9s + var(--i) * 0.3s);
+  }
+
+  .pr__wire {
+    animation: pr-wire 7s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.3s);
+  }
+
+  .pr__systems--r .pr__wire {
+    animation-delay: calc(0.9s + var(--i) * 0.3s);
+  }
+
+  .pr__actor {
+    animation: pr-actor 7s ease-in-out infinite;
+  }
+
+  .pr__tick {
+    animation: pr-tick 7s ease-in-out infinite;
+  }
+
+  .pr__platform {
+    animation: pr-platform 7s ease-in-out infinite;
+  }
+}
+
+@keyframes pr-system {
+  0%, 12% { border-color: var(--line); }
+  20%, 44% { border-color: var(--brand); }
+  58%, 100% { border-color: var(--line); }
+}
+
+@keyframes pr-wire {
+  0%, 10% { background: var(--brand-tint); }
+  18%, 46% { background: var(--brand); }
+  60%, 100% { background: var(--brand-tint); }
+}
+
+@keyframes pr-actor {
+  0%, 6% { opacity: 1; transform: scale(1); }
+  12% { opacity: 1; transform: scale(1.18); }
+  62% { opacity: 1; transform: scale(1); }
+  70%, 88% { opacity: 0; transform: scale(0.9); }
+  96%, 100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pr-tick {
+  0%, 66% { opacity: 0; }
+  74%, 88% { opacity: 1; }
+  95%, 100% { opacity: 0; }
+}
+
+@keyframes pr-platform {
+  0%, 60% { box-shadow: 0 12px 34px rgba(102, 26, 143, 0.12); }
+  74%, 88% { box-shadow: 0 16px 44px rgba(102, 26, 143, 0.26); }
+  96%, 100% { box-shadow: 0 12px 34px rgba(102, 26, 143, 0.12); }
+}
+
+/* The platform keeps the middle. Systems restack above and below it rather than
+   shrinking into unreadable columns, so the journey still reads downward. */
+@media (max-width: 900px) {
+  .pr {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .pr__systems {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pr__systems--l {
+    order: 1;
+  }
+
+  .pr__platform {
+    order: 2;
+  }
+
+  .pr__systems--r {
+    order: 3;
+  }
+
+  .pr__wire {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .pr__systems {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

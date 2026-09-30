@@ -1,3 +1,4 @@
+import { WorkflowToProduct } from '@/components/WorkflowToProduct';
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
@@ -163,6 +164,29 @@ export default function CustomSoftwareSaasPage() {
           </div>
         </div>
       </div>
+
+      {/* ------------------------------ what makes the product work (Phase 2) */}
+      {/*
+        THE VISUAL EXPLANATION, sitting between the proposition and the
+        engineering depth, which is the rhythm the Phase 2 addendum sets out.
+        It is built natively rather than embedded as the supplied film - see
+        WorkflowToProduct.tsx for why, including the two spelling faults baked
+        into that film's lettering.
+
+        The workflow is explicitly ILLUSTRATIVE and the copy says so, because
+        the addendum is clear the example must not read as a client system.
+      */}
+      <Section labelledBy="css-anatomy-heading" style={{ background: '#F7FAFA' }}>
+        <SectionHead
+          eyebrow="From workflow to software"
+          id="css-anatomy-heading"
+          title="What makes the product work?"
+          lead="We do not start from a template. We start from how the business needs to operate, and engineer the product around it. The stages below are an illustration, not a client system - yours would be your own."
+        />
+        <div style={{ marginTop: 40 }}>
+          <WorkflowToProduct />
+        </div>
+      </Section>
 
       {/* ---------------------------------------------------- capabilities */}
       <Section labelledBy="css-build-heading">

@@ -1,3 +1,4 @@
+import { PlatformResponds } from '@/components/PlatformResponds';
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
@@ -112,6 +113,26 @@ export default function WebPlatformsPage() {
           </div>
         </div>
       </div>
+
+      {/* --------------------------- how does the platform connect (Phase 2) */}
+      {/*
+        The distinction this page exists to make: a platform is not a website.
+        The visual is a ROUND TRIP - one action out to six systems and back as an
+        outcome - deliberately not the downward convergence used on Custom
+        Software, which the addendum requires to stay a different animation.
+        Built natively; see PlatformResponds.tsx.
+      */}
+      <Section labelledBy="wp-connect-heading" style={{ background: '#F7FAFA' }}>
+        <SectionHead
+          eyebrow="One action, whole system responds"
+          id="wp-connect-heading"
+          title="How does the platform connect?"
+          lead="A platform is not a set of pages. Someone does one thing on it, and several systems have to agree before they get an answer. These are illustrative capabilities - not every platform needs all of them."
+        />
+        <div style={{ marginTop: 40 }}>
+          <PlatformResponds />
+        </div>
+      </Section>
 
       {/* ---------------------------------------------------- capabilities */}
       <Section labelledBy="wp-build-heading">
