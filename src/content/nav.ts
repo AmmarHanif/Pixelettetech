@@ -2,8 +2,11 @@
  * Navigation and footer.
  *
  * Every href here must resolve to a real page or a real anchor on one. The
- * previous site shipped broken footer links; the sitemap and the footer are
- * both generated from `routes` below so they cannot fall out of step again.
+ * previous site shipped broken footer links. The sitemap is generated from
+ * `routes` below; the footer renders `footerColumns`, which is listed by hand
+ * and is not derived from `routes`, so nothing in this file keeps the two in
+ * step. (Corrected 2026-10-01: this said both were generated from `routes`.
+ * SiteFooter imports `footerColumns`, not `routes`.)
  */
 
 export type NavItem = {
@@ -77,15 +80,19 @@ export const primaryNav: NavItem[] = [
    *
    * It was withdrawn on 2026-09-16 on his instruction - "Do not launch the
    * current unfinished Insights index" - and the note then said to restore it
-   * "the day a piece is actually written, dated and signed". Measured again on
-   * 2026-09-24, that day has not arrived: all seven entries in
-   * src/content/insights.ts still carry publishedOn: null and author: null, and
-   * there is still no /insights/[slug] route, so the index lists seven headlines
-   * that cannot be opened. He was shown that and chose to add the item anyway.
+   * "the day a piece is actually written, dated and signed". When the item was
+   * restored (52512d2), that day had not arrived: all seven entries in
+   * src/content/insights.ts carried publishedOn: null and author: null, and
+   * there was no /insights/[slug] route, so the index listed seven headlines
+   * that could not be opened. He was shown that and chose to add the item anyway.
    *
-   * THE WORK THIS STILL OWES, unchanged from the original note: a written body,
-   * a publishedOn date and a named author for each piece, and a [slug] route for
-   * them to live at. Until then the menu item leads to a dead end.
+   * CORRECTED 2026-10-01. This note went on to say that a body, a date, an
+   * author and an article route were still owed, and that the menu item led to
+   * a dead end. That stopped being true later the same day (4c4de80). Two
+   * entries in src/content/insights.ts are now `published`, each with a body, a
+   * publishedOn date and an editorial attribution (`kind: 'editorial'`, no
+   * named author), and src/app/blog/[slug]/page.tsx serves them at
+   * /blog/<slug>. /insights renders those two and not the pipeline entries.
    */
   { href: '/insights', label: 'Insights' },
   { href: '/about-us', label: 'About' },
@@ -288,8 +295,9 @@ export const legalNav: NavItem[] = [
  * anchor and its content remain — Product design is a section of /engineering,
  * which the Engineering link below points at — but the deep link to it is gone
  * and a reader now reaches it by reading that page. It is a section, not a
- * page; this file's own note records that it "has no page of its own and the
- * handoff does not ask for one", so the fix is not to invent one.
+ * page; the note on the Engineering footer column that this cut removed
+ * recorded that it "has no page of its own and the handoff does not ask for
+ * one", so the fix is not to invent one.
  *
  * TWO COLUMNS, NOT FOUR. Three columns each holding a single link would put a
  * heading above a link that says the same thing.
@@ -433,8 +441,9 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
   { path: '/engineering', priority: 0.9, changeFrequency: 'monthly' },
   /* The handoff's Engineering service pages, added 2026-09-08 once each page
      existed on disk. Everything in this array is published in the sitemap, so a
-     path goes in only when the page is real; the two the handoff asks for that
-     have not been built are in PENDING_SPEC_PAGES above, linked from nowhere. */
+     path goes in only when the page is real; a handoff page that has not been
+     built goes in PENDING_SPEC_PAGES above, linked from nowhere. That list is
+     empty today (corrected 2026-10-01: this said it held two). */
   { path: '/engineering/custom-software-saas', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/engineering/web-platforms', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/engineering/mobile-applications', priority: 0.8, changeFrequency: 'monthly' },
@@ -477,40 +486,31 @@ export const routes: { path: string; priority: number; changeFrequency: 'weekly'
   { path: '/industries/insurance-financial-services', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/case-studies', priority: 0.9, changeFrequency: 'weekly' },
   /*
-   * Dropped from weekly/0.7 to yearly/0.3 on 2026-09-14, and it goes back up the
-   * day an article exists.
+   * /insights IS NOT IN THIS LIST, so neither it nor its two articles is in the
+   * sitemap. CORRECTED 2026-10-01: the two notes that stood here described the
+   * page as having no articles and as noindexed. Neither is true now.
    *
-   * /insights lists seven article titles and publishes zero articles: the
-   * `Insight` type carries no body field, there is no /insights/[slug] route, and
-   * no card is a link. Telling a crawler this changes weekly, at the same
-   * priority as a real service page, is a claim the page cannot honour — and the
-   * cost is specific rather than theoretical: a sitemap that repeatedly promises
-   * fresh content and delivers none is how a site teaches Google to ignore its
-   * own freshness signals, including on the pages that do change.
+   * THE HISTORY. On 2026-09-14 the entry dropped from weekly/0.7 to yearly/0.3,
+   * to go back up the day an article existed: the page then listed seven titles
+   * and published no article, and a sitemap that repeatedly promises fresh
+   * content and delivers none is how a site teaches Google to ignore its own
+   * freshness signals, including on the pages that do change. On 2026-09-16
+   * (96f89e0) the entry was removed and the page given `noIndex: true`, when
+   * Insights was withdrawn from navigation for launch. It returned to the
+   * navigation on 2026-09-24 (52512d2), still noindexed.
    *
-   * This is the asset that would earn answer-engine citations if it existed, so
-   * the fix is to fill it, not to hide it. Until then the sitemap should describe
-   * what is there.
+   * WHAT CHANGED. Later on 2026-09-24, 4c4de80 published two articles at
+   * /blog/<slug> and removed the `noIndex` from insights/page.tsx, which is the
+   * step the second note said to take "the day real articles ship". The page
+   * now passes no `noIndex`, so, like every other page, it is held back from
+   * search only by SITE_IN_DEVELOPMENT in content/launch.ts.
+   *
+   * THE ENTRY WAS NOT PUT BACK. sitemap.ts adds `routes`, the case studies and
+   * the archive (/insights/archive and its 36 articles) and nothing else, so
+   * /insights, /blog/where-ai-agents-should-work and
+   * /blog/how-we-evaluate-ai-systems are linked from the site but absent from
+   * the sitemap. Restoring them is a code change and has not been made.
    */
-  /* /insights is out of the sitemap. ONE HALF OF THE ORIGINAL NOTE IS NOW WRONG
-     AND THE OTHER HALF IS RIGHT, and an earlier attempt to correct this got the
-     second half wrong too, so both are stated plainly here.
-
-     WRONG NOW: it said the page is "withdrawn from navigation". It is not, since
-     2026-09-24, on founder instruction — it is a primary nav item on every page.
-
-     STILL TRUE: it said the page is "noindexed". It IS. `insights/page.tsx`
-     passes `noIndex: true` to pageMetadata, set 2026-09-16 for exactly this
-     reason. A correction written earlier on 2026-09-24 claimed no page-level
-     noindex existed; that claim came from a case-sensitive search for "noindex"
-     against a field spelled `noIndex`, which returned a clean false negative.
-     It is withdrawn. Do not act on it.
-
-     SO THE LIVE POSITION: the page is linked from every page's navigation and is
-     explicitly noindexed, which is the correct state for an index of pieces that
-     are not written yet — reachable by a person, invisible to a crawler. The
-     line to remove is `noIndex: true` in insights/page.tsx, and the day to
-     remove it is the day real articles ship, not before. */
   { path: '/about-us', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' },

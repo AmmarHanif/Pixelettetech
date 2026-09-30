@@ -1,0 +1,65 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "support-motion",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/A M M A R/Downloads/Pixelette rebuild-2026/rebuild-2026-support-motion/node_modules/next/dist/bin/next",
+        "dev",
+        "C:/Users/A M M A R/Downloads/Pixelette rebuild-2026/rebuild-2026-support-motion",
+        "-p",
+        "3100"
+      ],
+      "port": 3100
+    },
+    {
+      "name": "support-film-prod",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/A M M A R/Downloads/Pixelette rebuild-2026/rebuild-2026-support-film/node_modules/next/dist/bin/next",
+        "start",
+        "C:/Users/A M M A R/Downloads/Pixelette rebuild-2026/rebuild-2026-support-film",
+        "-p",
+        "3101"
+      ],
+      "port": 3101
+    },
+    {
+      "name": "ai-editorial-prod",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/A M M A R/Downloads/Pixelette rebuild-2026/rebuild-2026-ai-editorial/node_modules/next/dist/bin/next",
+        "start",
+        "C:/Users/A M M A R/Downloads/Pixelette rebuild-2026/rebuild-2026-ai-editorial",
+        "-p",
+        "3102"
+      ],
+      "port": 3102
+    },
+    {
+      "name": "ai-visuals-dev",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/A M M A R/Downloads/Pixelette rebuild-2026/rebuild-2026-ai-visuals/node_modules/next/dist/bin/next",
+        "dev",
+        "C:/Users/A M M A R/Downloads/Pixelette rebuild-2026/rebuild-2026-ai-visuals",
+        "-p",
+        "3103"
+      ],
+      "port": 3103
+    },
+    {
+      "name": "ai-visuals-prod",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:/Users/A M M A R/Downloads/Pixelette rebuild-2026/rebuild-2026-ai-visuals/node_modules/next/dist/bin/next",
+        "start",
+        "C:/Users/A M M A R/Downloads/Pixelette rebuild-2026/rebuild-2026-ai-visuals",
+        "-p",
+        "3104"
+      ],
+      "port": 3104
+    }
+  ]
+}

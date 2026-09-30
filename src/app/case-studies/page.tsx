@@ -55,15 +55,18 @@ export default async function WorkPage({
         ])}
       />
       {/*
-        The 29 studies as an ordered list, added 2026-09-15. This page emitted a
+        The studies as an ordered list, added 2026-09-15, when there were 29;
+        there are ten today. This page emitted a
         BreadcrumbList and nothing else — it told an answer engine where it sits
         in the hierarchy and nothing whatever about what is on it.
 
-        NAMES COME THROUGH `displayName`, not from `cs.client`. Three studies are
-        still name-gated, and a graph that listed the real client while the page
-        showed an anonymised label would leak the exact thing the gate exists to
-        withhold — in the channel that is hardest to take back. The gate holds
-        here for the same reason it holds on the image.
+        NAMES COME THROUGH `displayName`, not from `cs.client`. Three studies
+        were name-gated when this was written; corrected 2026-10-01, none is
+        today (all ten carry namePermission 'CONFIRMED' in work.ts), but a
+        graph that listed the real client while the page showed an anonymised
+        label would leak the exact thing the gate exists to withhold — in the
+        channel that is hardest to take back. The gate holds here for the same
+        reason it holds on the image.
 
         The full list, not the filtered `visible` set: the canonical URL for this
         page does not vary with `?filter=`, so the graph should not either.
@@ -258,11 +261,15 @@ export default async function WorkPage({
         would have republished a withdrawn client name beside a verify link that
         contradicts it.
 
-        THE 4.8 / 24 REVIEWS AGGREGATE IS DELIBERATELY ABSENT. company.ts holds
-        it at `published: false` pending a re-read of the live profile, and
-        releasing it is a founder decision, not this section's to take. Every
-        individual review here is third-party and checkable by its own link,
-        which is why they can ship while the aggregate cannot.
+        THE 4.8 / 24 REVIEWS AGGREGATE. Corrected 2026-10-01: this paragraph
+        said the aggregate was deliberately absent, because company.ts held it
+        at `published: false` pending a re-read of the live profile. Later on
+        2026-09-24 (46901ec) the profile was re-read and the figure released on
+        founder instruction: `clutch.published` is true and `lastVerified` is
+        '2026-09-24'. `Testimonials` now prints it in a source note under the
+        reviews, with the date it was last checked and a link to the profile.
+        The gate is `clutch.published` in company.ts, not this section. Every
+        individual review here is third-party and checkable by its own link.
 
         `publishedTestimonials()` is fail-closed: a row set to WITHHELD leaves
         this section immediately, and the component returns null on zero rather

@@ -2,9 +2,41 @@
 
 **APPLIED, 29 September 2026.** The founder approved this wording, and it was applied to `/privacy` in website
 commit `c3d647b` on `main`. Chat contacts are kept for 12 months, and the Statement stays at version 2.0. The
-privacy interlock passes on it. Two items remain Legal's, and publication did not decide them: the lawful basis
-(legitimate interests, and whether a written LIA is wanted) and whether a DPIA is required. The rest of this
-file is kept as the record of what was proposed.
+privacy interlock passes on it. This file is now mainly a record, but not all of it is settled. The founder and
+Legal must still decide on the change 2 sentences that were never published, the change 5 wording, the
+AI-provider sentence (change 5, "Optional, for accuracy today") and approval of the S5 notice, all set out
+below, as well as the two items still open with Legal. The rest of this file is kept as the record of what was
+proposed.
+
+**STILL OPEN WITH LEGAL. Publication did not decide either of these:**
+
+1. **The lawful basis** for recording chat contacts and for scoring: legitimate interests is proposed, and
+   whether a written legitimate interests assessment (LIA) is wanted is unanswered (change 4).
+2. **Whether a DPIA is required** for scoring combined with an assistant ("Also for Legal to see", below).
+
+**Corrected 2026-10-01: what `c3d647b` applied is this file as it stood before the security review, not every
+line below.** `c3d647b` applied the draft as merged to `main` in `8e2b713`. The security-review revision
+(`51cd368`) changed two proposed passages on the branch and reached `main` only in `f3dd1f5`, after `c3d647b`,
+and `/privacy` was not updated to match:
+
+- change 2: the sentences on the rate limit ("To stop the assistant being misused, we count how often each
+  connection uses it…") are not on `/privacy` (`src/app/privacy/page.tsx:225-232`);
+- change 5: `/privacy` says "whether your email address is at a company's own domain or a personal email
+  provider" (`src/app/privacy/page.tsx:382-383`), the earlier wording. This file now says "at a well-known
+  personal email provider", which matches `src/lib/lead-score.ts`.
+
+Whether either should be published is for the founder and Legal. PRIVACY-STATEMENT-CONFIRMATIONS.md section A
+lists the second.
+
+**OPEN (2026-10-01):** the notice where Pix T asks for the name and email ("Also for Legal to see", first item)
+is marked "For approval" here and reached `main` after `c3d647b`. It is live in
+`src/components/SiteAssistant.tsx:510`.
+This file records no approval of it. The founder must confirm it was approved, and this note should then be
+removed.
+
+**The migration step (step 3 under "To apply") is overtaken.** The code went live on Vercel Production on
+2026-10-01, so "before deploying" can no longer be met, and whether the migration has been applied to the live
+project is unconfirmed. See CONTACT-FORM-SETUP.md, "Applying the migrations — step by step".
 
 Drafted 29 September 2026 on the founder's instruction, for the founder and Legal. The build refused to pass while
 Pix T captured leads and the published Statement still said the site does no profiling
@@ -19,7 +51,8 @@ On 29 September 2026 the founder asked for Pix T to:
 - find out what they want;
 - score the lead, alert the team by email and store the lead in Supabase.
 
-That is built on branch `claude/charming-pascal-gndc6j`. Four things in today's Statement would then be untrue
+That was built on branch `claude/charming-pascal-gndc6j`, which was merged to `main` on 29 September
+(`8e2b713`, and `f3dd1f5` for the security-review fixes). Four things in today's Statement would then be untrue
 or incomplete:
 
 1. It describes personal data arriving through the enquiry form. It does not describe the assistant taking a
