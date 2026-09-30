@@ -1,4 +1,5 @@
 import { WorkflowToProduct } from '@/components/WorkflowToProduct';
+import { HeroVideo } from '@/components/HeroVideo';
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
@@ -146,21 +147,48 @@ export default function CustomSoftwareSaasPage() {
 
       {/* ------------------------------------------------------------ hero */}
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
-        <div className="wrap">
-          <Eyebrow>Build · Custom Software &amp; SaaS</Eyebrow>
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            The system that does not come off the shelf
-          </h1>
-          <p className="lead" style={{ marginTop: 24 }}>
-            From a blank sheet or an inherited codebase, we design and engineer products that move
-            from specification to production. Not a prototype handed over with a wave, and not a
-            demonstration that quietly needs rebuilding before anyone can use it.
-          </p>
-          <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Scope a build</Cta>
-            <Cta href="/engineering" variant="secondary">
-              All engineering
-            </Cta>
+        {/*
+          TWO-COLUMN HERO WITH THE APPROVED FILM, on founder instruction
+          2026-09-30, and this is a DECLARED EXCEPTION to the Phase 2 addendum.
+          That addendum says of Custom Software "Do NOT put another large visual
+          into the hero merely for symmetry" and of Web Platforms "Do NOT place
+          it in the hero merely because Custom Software has a visual". He asked
+          for the films in both heroes after being shown that, and after being
+          shown that the films carry baked spelling faults - Delivery twice in a
+          six-stage row, APIs twice with one as APIS, and a line of generated
+          gibberish above every Web Platforms label.
+
+          THE NATIVE VISUALS STAY in their own sections below. They carry the
+          CORRECT labels as real HTML text, so the page still states the workflow
+          and the systems accurately even though the film above does not. The
+          hero film is impression; the section beneath it is the record.
+        */}
+        <div className="wrap hero-split hero-split--wide-viz">
+          <div className="hero-split__copy">
+            <Eyebrow>Build · Custom Software &amp; SaaS</Eyebrow>
+            <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
+              The system that does not come off the shelf
+            </h1>
+            <p className="lead" style={{ marginTop: 24 }}>
+              From a blank sheet or an inherited codebase, we design and engineer products that move
+              from specification to production. Not a prototype handed over with a wave, and not a
+              demonstration that quietly needs rebuilding before anyone can use it.
+            </p>
+            <div className="btn-row" style={{ marginTop: 34 }}>
+              <Cta href="/contact">Scope a build</Cta>
+              <Cta href="/engineering" variant="secondary">
+                All engineering
+              </Cta>
+            </div>
+          </div>
+          <div className="hero-split__viz">
+            <HeroVideo
+              height={720}
+              poster="/video/custom-software-hero-poster.webp"
+              src="/video/custom-software-hero.mp4"
+              variant="wide"
+              width={1280}
+            />
           </div>
         </div>
       </div>
