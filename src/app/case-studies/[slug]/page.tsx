@@ -1,15 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import {
-  Cta,
-  Eyebrow,
-  FLink,
-  JsonLd,
-  MediaSlot,
-  Placeholder,
-  Section,
-} from '@/components/ui';
+import { Cta, Eyebrow, FLink, JsonLd, MediaSlot, Placeholder, SIZES, Section } from '@/components/ui';
 import {
   caseStudies,
   displayKicker,
@@ -160,7 +152,13 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         {/* `priority`: this is the hero, directly under the h1, and is the
             likely LCP element on all 29 case-study pages. Every other MediaSlot
             on the page is below the fold and stays lazy. */}
-        <MediaSlot label={cs.imageLabel} src={image} alt={`${name}: ${cs.title}`} priority />
+        <MediaSlot
+          label={cs.imageLabel}
+          src={image}
+          alt={`${name}: ${cs.title}`}
+          priority
+          sizes={SIZES.hero}
+        />
 
         <div className="split split--wide-left" style={{ marginTop: 56 }}>
           <div>

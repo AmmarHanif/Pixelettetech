@@ -13,17 +13,7 @@ import {
   CertifiedHandoff,
   ValueModelCards,
 } from '@/components/sections';
-import {
-  Cta,
-  Eyebrow,
-  FLink,
-  JsonLd,
-  MediaSlot,
-  Section,
-  SectionHead,
-  SourceNote,
-  StatTile,
-} from '@/components/ui';
+import { Cta, Eyebrow, FLink, JsonLd, MediaSlot, SIZES, Section, SectionHead, SourceNote, StatTile } from '@/components/ui';
 import { certified } from '@/content/company';
 import { gapStats } from '@/content/sources';
 import { displayName, homepageCaseStudies, publishedImage } from '@/content/work';
@@ -739,6 +729,7 @@ export default function HomePage() {
                 label={cs.imageLabel}
                 src={publishedImage(cs)}
                 alt={`${displayName(cs)}: ${cs.title}`}
+                sizes={SIZES.grid3}
               />
               <h3 className="h4">{displayName(cs)}</h3>
               <p className="body work-card__line">{cs.title}</p>

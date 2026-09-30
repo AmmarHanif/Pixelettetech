@@ -3,17 +3,7 @@ import Link from 'next/link';
 
 import { Cloud, Cpu, Layers, Mobile, Pen, Shield, Window } from '@/components/Icons';
 import { ClosingCta, Testimonials, ValueModelCards } from '@/components/sections';
-import {
-  Cta,
-  Eyebrow,
-  FLink,
-  Faqs,
-  JsonLd,
-  MediaSlot,
-  Section,
-  SectionHead,
-  SourceNote,
-} from '@/components/ui';
+import { Cta, Eyebrow, FLink, Faqs, JsonLd, MediaSlot, SIZES, Section, SectionHead, SourceNote } from '@/components/ui';
 import { caseStudies, displayKicker, displayName, publishedImage, publishedMetrics } from '@/content/work';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
@@ -410,6 +400,7 @@ export default function EngineeringPage() {
                   label={cs.imageLabel}
                   src={publishedImage(cs)}
                   alt={`${displayName(cs)}: ${cs.title}`}
+                  sizes={SIZES.grid3}
                 />
                 <span className="mono work-card__kicker">{displayKicker(cs)}</span>
                 <h3 className="h4" style={{ marginTop: 10 }}>

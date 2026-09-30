@@ -1,17 +1,7 @@
 import Link from 'next/link';
 
 import { ClosingCta, ValueModelCards } from '@/components/sections';
-import {
-  Cta,
-  Eyebrow,
-  FLink,
-  Faqs,
-  JsonLd,
-  MediaSlot,
-  PillRow,
-  Section,
-  SectionHead,
-} from '@/components/ui';
+import { Cta, Eyebrow, FLink, Faqs, JsonLd, MediaSlot, PillRow, SIZES, Section, SectionHead } from '@/components/ui';
 import {
   company,
   chains,
@@ -298,6 +288,7 @@ export default function BlockchainPage() {
                   label={cs.imageLabel}
                   src={publishedImage(cs)}
                   alt={`${displayName(cs)}: ${cs.title}`}
+                  sizes={SIZES.grid3}
                 />
                 <span className="mono work-card__kicker">{displayKicker(cs)}</span>
                 <h3 className="h4" style={{ marginTop: 10 }}>

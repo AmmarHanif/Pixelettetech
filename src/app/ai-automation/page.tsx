@@ -2,18 +2,7 @@ import Link from 'next/link';
 
 import { AiSystemDiagram } from '@/components/AiSystemDiagram';
 import { ClosingCta, ValueModelCards } from '@/components/sections';
-import {
-  CheckList,
-  Cta,
-  Eyebrow,
-  FLink,
-  Faqs,
-  JsonLd,
-  MediaSlot,
-  Section,
-  SectionHead,
-  SourceNote,
-} from '@/components/ui';
+import { CheckList, Cta, Eyebrow, FLink, Faqs, JsonLd, MediaSlot, SIZES, Section, SectionHead, SourceNote } from '@/components/ui';
 import { certified } from '@/content/company';
 import { gapStats } from '@/content/sources';
 import {
@@ -524,6 +513,7 @@ export default function AiEngineeringPage() {
               label={lytics.imageLabel}
               src={publishedImage(lytics)}
               alt={`${displayName(lytics)}: ${lytics.title}`}
+              sizes={SIZES.grid3}
             />
           </Link>
 

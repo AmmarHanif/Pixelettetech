@@ -264,6 +264,49 @@ export function FLink({
 }
 
 /**
+ * The `sizes` values for the three places a MediaSlot image appears, so no call
+ * site has to restate the breakpoints. Measured 2026-09-30 at a 1440px viewport;
+ * both grids collapse to one column at 860px and content caps at 1112px.
+ */
+export const SIZES = {
+  /** Homepage, `.grid-3` - 357px at full width. */
+  grid3: '(max-width: 860px) 92vw, (max-width: 1159px) 30vw, 358px',
+  /** /case-studies index, `.grid-2` - 545px at full width. */
+  grid2: '(max-width: 860px) 92vw, (max-width: 1159px) 46vw, 547px',
+  /** Case-study detail hero - the full content column, 1110px. */
+  hero: '(max-width: 1159px) 92vw, 1112px',
+} as const;
+
+/**
+ * The WebP srcset for a /work PNG, or null for anything else.
+ *
+ * The widths mirror `scripts/build-work-images.mjs`, which never upscales - so a
+ * 675px source has only the 360 and 675 entries and the browser simply picks the
+ * best it has. Listing a width whose file does not exist would 404, so the set is
+ * derived from the same table rather than assumed.
+ */
+const WORK_WIDTHS: Record<string, number[]> = {
+  '2connect': [360, 675],
+  aia: [360, 720, 1120, 2220],
+  ayni: [360, 675],
+  beyorch: [360, 675],
+  blockguard: [360, 675],
+  'diamond-nxt': [360, 720, 1120, 2220],
+  'digital-asset-vault': [360, 720, 1120, 2220],
+  fusio: [360, 675],
+  'ragnar-token': [360, 675],
+  'stay-sane': [360, 675],
+};
+
+function webpSet(src: string): string | null {
+  const m = /^\/work\/([a-z0-9-]+)\.png$/.exec(src);
+  if (!m) return null;
+  const widths = WORK_WIDTHS[m[1]];
+  if (!widths) return null;
+  return widths.map(w => `/work/${m[1]}-${w}.webp ${w}w`).join(', ');
+}
+
+/**
  * A labelled slot where real imagery goes.
  *
  * With `src` it renders the image. Without one it renders a labelled box
@@ -290,25 +333,49 @@ export function MediaSlot({
    * Defaults to false so every existing call site keeps the behaviour it had.
    */
   priority = false,
+  /**
+   * What width this image actually renders at, as a `sizes` attribute.
+   *
+   * THE SAME FILE RENDERS AT THREE DIFFERENT SIZES, measured 2026-09-30:
+   * 357px on the homepage (`.grid-3`), 545px on the /case-studies index
+   * (`.grid-2`) and 1110px as the case-study detail hero. Without `sizes` the
+   * browser assumes 100vw and fetches the largest candidate for all three, so
+   * the homepage would pull a 2240px file to paint 357 of it.
+   *
+   * Both grids collapse to one column at `max-width: 860px`, and content is
+   * capped at `--wrap: 1160px` less two 24px gutters. The default below is the
+   * `.grid-2` case, which is the most common; the homepage and the detail hero
+   * pass their own.
+   */
+  sizes = SIZES.grid2,
 }: {
   label: string;
   src?: string;
   alt?: string;
   ratio?: string;
   priority?: boolean;
+  sizes?: string;
 }) {
   if (src) {
+    const webp = webpSet(src);
     return (
       <div className="slot slot--media" style={{ aspectRatio: ratio }}>
-        {/* Plain <img>: these are pre-sized static exports, and skipping the
-            optimiser keeps the site deployable to any static host. */}
-        <img
-          src={src}
-          alt={alt ?? label}
-          loading={priority ? 'eager' : 'lazy'}
-          fetchPriority={priority ? 'high' : undefined}
-          decoding="async"
-        />
+        {/* <picture> with a WebP srcset over the original PNG.
+            Still no image optimiser in front of the site: these are static
+            files built by `scripts/build-work-images.mjs`, so the site stays
+            deployable to any static host - which is why this was a plain <img>
+            before and why the PNG is kept as the fallback source.
+            The WebP set is 638 KB across every width against 3,255 KB of PNG. */}
+        <picture>
+          {webp ? <source type="image/webp" srcSet={webp} sizes={sizes} /> : null}
+          <img
+            src={src}
+            alt={alt ?? label}
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : undefined}
+            decoding="async"
+          />
+        </picture>
       </div>
     );
   }
