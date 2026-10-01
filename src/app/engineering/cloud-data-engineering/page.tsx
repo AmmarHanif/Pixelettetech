@@ -1,3 +1,4 @@
+import { HeroVideo } from '@/components/HeroVideo';
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
@@ -102,21 +103,49 @@ export default function CloudDataEngineeringPage() {
 
       {/* ------------------------------------------------------------ hero */}
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
-        <div className="wrap">
-          <Eyebrow>Build · Cloud &amp; Data Engineering</Eyebrow>
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            Where the system runs, and what moves through it
-          </h1>
-          <p className="lead" style={{ marginTop: 24 }}>
-            Cloud architecture, environments and deployment on one side; pipelines, warehousing, APIs
-            and integration into systems of record on the other. Two disciplines that fail together,
-            which is why we do not sell them separately.
-          </p>
-          <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Scope a build</Cta>
-            <Cta href="/engineering" variant="secondary">
-              All engineering
-            </Cta>
+        {/*
+          TWO-COLUMN HERO WITH THE SUPPLIED FILM, on founder instruction
+          2026-10-01 - the same hero-split--wide-viz pair and HeroVideo variant
+          the Custom Software and Web Platforms heroes use.
+
+          THIS FILM CARRIES NO TEXT, unlike those two: nodes, pipelines with data
+          moving through gates, and a central hub feeding a cloud store, with no
+          lettering anywhere to misspell. So nothing here needs the "the section
+          beneath is the record" caveat those pages carry, and it can stay
+          visible on a phone, stacked under the copy.
+
+          Supplied as a generated clip (gemini_generated_video_c21d8ed4.mp4),
+          1280x720, 10s. Prepared for the page: audio stream removed, the grey
+          studio backdrop flattened to white frame by frame (the camera moves, so
+          a single map would not fit) so the multiply blend in `.hv-video--wide`
+          dissolves it into this hero's tint, and re-encoded 2.6 MB -> 738 KB.
+        */}
+        <div className="wrap hero-split hero-split--wide-viz">
+          <div className="hero-split__copy">
+            <Eyebrow>Build · Cloud &amp; Data Engineering</Eyebrow>
+            <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
+              Where the system runs, and what moves through it
+            </h1>
+            <p className="lead" style={{ marginTop: 24 }}>
+              Cloud architecture, environments and deployment on one side; pipelines, warehousing,
+              APIs and integration into systems of record on the other. Two disciplines that fail
+              together, which is why we do not sell them separately.
+            </p>
+            <div className="btn-row" style={{ marginTop: 34 }}>
+              <Cta href="/contact">Scope a build</Cta>
+              <Cta href="/engineering" variant="secondary">
+                All engineering
+              </Cta>
+            </div>
+          </div>
+          <div className="hero-split__viz">
+            <HeroVideo
+              height={720}
+              poster="/video/cloud-data-hero-poster.webp"
+              src="/video/cloud-data-hero.mp4"
+              variant="wide"
+              width={1280}
+            />
           </div>
         </div>
       </div>
