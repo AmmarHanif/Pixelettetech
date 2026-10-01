@@ -8251,13 +8251,14 @@ button.btn[disabled] {
   }
 }
 
-/* THE SUPPLIED ARTWORK CARRIES DESKTOP; THE BUILT VERSION CARRIES MOBILE.
-   Founder instruction 2026-09-30 was to use the render as supplied. At 390px its
-   six stage cards are about 40px wide and their text is unreadable, and the page
-   brief forbids shrinking the desktop visual rather than adapting it - so below
-   900px the native lifecycle renders instead, with real text in one column.
-   Exactly one of the two is in the accessibility tree at any width, because both
-   describe the same thing and a screen reader should meet it once. */
+/* THE SIGNAL FILM CARRIES DESKTOP; THE BUILT VERSION CARRIES MOBILE.
+   Since 2026-10-01 `.sp-hero-art` is the hero's right-hand film column (it was
+   the supplied lifecycle render until then). The film's words are pixels: about
+   8.5px in that column and about 4px at 390px, and the page brief forbids
+   shrinking the desktop visual rather than adapting it - so below 900px the
+   column is hidden and the native lifecycle renders instead, with real text in
+   one column. Exactly one description is in the accessibility tree at any width:
+   the film column's visually hidden sentence, or the lifecycle. */
 .sp-hero-art {
   display: block;
   width: 100%;
