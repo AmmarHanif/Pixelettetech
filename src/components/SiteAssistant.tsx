@@ -117,7 +117,8 @@ type CancelKind = 'unsent' | 'refused' | 'unconfirmed';
  * feel slower than it is. Under prefers-reduced-motion there is no animation to
  * wait for, so there is no beat either: turns appear at once, as before.
  */
-const THINK_MS = 650;
+/* 2s, with a visible "Pix T is thinking" bubble (founder, 2026-10-02). */
+const THINK_MS = 2000;
 const RESPOND_MS = 900;
 const FINISH_MS = 650;
 
@@ -717,6 +718,19 @@ export function SiteAssistant({ context }: { context: PixContext }) {
                 ) : null}
               </div>
             ))}
+
+            {/* Pix T is thinking: three dots in a reply bubble while the
+                answer is held. Decorative; the log is aria-busy meanwhile. */}
+            {holding ? (
+              <div aria-hidden className="asst-turn asst-turn--assistant">
+                <p className="asst-bubble asst-typing">
+                  <span className="asst-typing__label">{PIX_T_NAME} is thinking</span>
+                  <i />
+                  <i />
+                  <i />
+                </p>
+              </div>
+            ) : null}
 
             {flow?.reviewing && visitor && !holding ? (
               <EnquiryReview

@@ -83,7 +83,7 @@ const DURATION =
   /\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|a few|several)[- ](days?|weeks?|months?|quarters?|years?)\b/i;
 
 const noAnswer = (email: string) =>
-  'I do not have enough current Pixelette information to answer that accurately, and I would rather not guess. ' +
+  'I am not trained for that, and I would rather not guess. ' +
   `You are welcome to use the contact page or email ${email}, or I would be glad to take your details here.`;
 
 export function respond(messageRaw: string, ctx: PixContext): PixReply {

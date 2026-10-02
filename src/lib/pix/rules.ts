@@ -83,9 +83,13 @@ export function rules(ctx: PixContext): Rule[] {
     },
     {
       id: 'off-topic',
-      test: /\b(weather|joke|poem|limerick|recipe|football|horoscope|president|prime minister|sing|song|homework|essay|translate (this|that|the following|into)|write (me )?(an? )?(story|essay|poem|song|cover letter)|cover letter|who won|latest news|news today|headlines|summari[sz]e (this|that|the following|my)|crossword|lottery|stock tips?)\b/i,
+      /* Widened 2026-10-02 on founder instruction: anything outside Pixelette
+         gets "I am not trained for that" rather than an attempt. */
+      /* ...unless it is about building something: "a hotel booking app" or
+         "a music streaming platform" is a project, not small talk. */
+      test: /^(?![\s\S]*\b(apps?|application|platforms?|software|systems?|websites?|build\w*|develop\w*|products?|solutions?|tools?|integrat\w*|automat\w*|blockchain|ai|roi|saas|portal|dashboard|marketplace|pixelette)\b)[\s\S]*\b(weather|joke|poem|limerick|recipe|cook(ing)?|football|soccer|cricket|basketball|sports?|match score|horoscope|astrology|president|prime minister|election|politic(s|al)|religio(n|us)|sing|song|music|movies?|films?|tv show|netflix|celebrit(y|ies)|actor|actress|homework|essay|translate (this|that|the following|into)|write (me )?(an? )?(story|essay|poem|song|cover letter)|cover letter|who won|latest news|news today|headlines|summari[sz]e (this|that|the following|my)|crossword|lottery|stock tips?|crypto price|bitcoin price|dating|relationship advice|diet|symptoms?|medicine|medical advice|doctor|travel|flights?|hotels?|holiday|capital of|what time is it|what day is it|how old is|solve (this|the equation)|calculate)\b/i,
       reply:
-        'I am here to help with Pixelette Technologies and technology projects. Please tell me what you are looking to build, automate or improve.',
+        'I am not trained for that. I can only help with Pixelette Technologies and the work we do: software engineering, AI and automation, and blockchain. What would you like to know?',
     },
     {
       id: 'identity',
