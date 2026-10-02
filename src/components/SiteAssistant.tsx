@@ -614,7 +614,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       {opened ? (
         <div
           aria-label={`${PIX_T_NAME}, ${PIX_T_DESCRIPTOR}`}
-          className={`asst-panel${expanded ? '' : ' asst-panel--dock'}`}
+          className={`asst-panel${expanded ? '' : ' asst-panel--dock'}${details ? ' asst-panel--details' : ''}`}
           hidden={!open}
           id="site-assistant-panel"
           role="dialog"
