@@ -590,6 +590,14 @@ td {
   -webkit-overflow-scrolling: touch;
 }
 
+/* A scroller made focusable (tabIndex={0}) gets the same visible ring as every
+   other focus stop on the site. */
+.table-scroll:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 /* ------------------------------------------- practice themes: none, by choice
 
    `.theme-amber` WAS HERE and is deleted, 2026-09-16, on founder instruction:
