@@ -8718,3 +8718,39 @@ button.btn[disabled] {
 .asst-details__notice a {
   text-decoration: underline;
 }
+
+/* GLASS (founder, 2026-10-02): the dock is frosted so the page behind it
+   blurs out and the questions stay readable over any section. One frosted
+   sheet behind the whole dock, so the gaps between the chips are blurred too,
+   and lighter frosted chips on it. */
+.asst-panel--dock {
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: 0 16px 40px rgba(39, 3, 59, 0.14);
+}
+
+.asst-dock__q,
+.asst-dock__close {
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.asst-dock__q:hover {
+  background: rgba(234, 220, 242, 0.85);
+}
+
+.asst-panel--dock .asst-form {
+  background: linear-gradient(90deg, rgba(102, 26, 142, 0.92), rgba(138, 74, 176, 0.92));
+}
+
+/* No frosting where the browser cannot draw it: a near-solid sheet instead. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .asst-panel--dock {
+    background: rgba(255, 255, 255, 0.94);
+  }
+}
