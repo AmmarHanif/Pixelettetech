@@ -1869,6 +1869,13 @@ td {
 .legal {
   max-width: 74ch;
   display: grid;
+  /* ONE TRACK THAT MAY SHRINK BELOW ITS CONTENT, added 2026-10-02. With the
+     implicit `auto` track the sections are grid items with min-width: auto, so
+     the one shared track - and with it every section - grew to the min-content
+     width of the widest table, and the table's own `.table-scroll` never got
+     to scroll: /cookies was 349px wide in a 320px viewport. `minmax(0, 1fr)` lets the section take the column's width
+     and hands the overflow back to `.table-scroll`, which is what it is for. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 40px;
 }
 
@@ -3637,6 +3644,17 @@ button.btn[disabled] {
    this one. */
 .arc-body > * + * {
   margin-top: 18px;
+}
+
+/* LONG UNBROKEN STRINGS WRAP, added 2026-10-02. One migrated article quotes a
+   SHA-256 digest as a single 64-character token, which cannot wrap at a space,
+   so on phones it ran out of its list item and the page scrolled sideways
+   (about 582px of content in a 390px viewport). `break-word` breaks a token only when
+   it would otherwise overflow its line, so ordinary prose is unchanged; it is
+   preferred to `anywhere`, which also lowers min-content widths and would
+   squeeze any table or flex item that later lands in this body. */
+.arc-body {
+  overflow-wrap: break-word;
 }
 
 .arc-body h2,
