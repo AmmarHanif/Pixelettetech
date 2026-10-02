@@ -8551,7 +8551,7 @@ button.btn[disabled] {
    without --dock). The panel element is reused so the dialog role, the id the
    launcher controls and the expand-from-the-ball animation all carry over. */
 .asst-panel--dock {
-  width: min(460px, calc(100vw - 32px));
+  width: min(380px, calc(100vw - 32px));
   background: transparent;
   border: 0;
   box-shadow: none;
@@ -8569,8 +8569,8 @@ button.btn[disabled] {
 .asst-dock__close {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -8597,8 +8597,8 @@ button.btn[disabled] {
 
 .asst-dock__q {
   font: inherit;
-  font-size: 14px;
-  padding: 10px 16px;
+  font-size: 13px;
+  padding: 8px 13px;
   border: 1px solid rgba(102, 26, 142, 0.35);
   border-radius: 10px;
   background: #ffffff;
@@ -8619,7 +8619,7 @@ button.btn[disabled] {
 /* The message bar: a purple band holding a white field with the send arrow
    inside it. */
 .asst-panel--dock .asst-form {
-  padding: 8px;
+  padding: 6px;
   border: 0;
   border-radius: 14px;
   background: linear-gradient(90deg, #661a8e, #8a4ab0);
@@ -8630,19 +8630,19 @@ button.btn[disabled] {
 .asst-panel--dock .asst-input {
   border: 0;
   border-radius: 10px;
-  padding: 13px 48px 13px 16px;
-  font-size: 15px;
+  padding: 10px 42px 10px 14px;
+  font-size: 14px;
 }
 
 .asst-send--icon {
   position: absolute;
-  right: 16px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -8650,8 +8650,8 @@ button.btn[disabled] {
 }
 
 .asst-send--icon svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   fill: currentColor;
 }
 
