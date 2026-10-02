@@ -1,3 +1,4 @@
+import { HeroVideo } from '@/components/HeroVideo';
 import { ClosingCta } from '@/components/sections';
 import { SupportLifecycle } from '@/components/SupportLifecycle';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead } from '@/components/ui';
@@ -133,68 +134,76 @@ export default function SupportPage() {
 
       {/* ------------------------------------------------------------ hero */}
       <div className="hero-glow" style={{ padding: '80px 0 56px' }}>
-        <div className="wrap">
-          {/* Run is the lifecycle stage; Support & Continuous Improvement is the
-              service inside it. The two are not interchangeable. */}
-          <Eyebrow>Run · Support &amp; Continuous Improvement</Eyebrow>
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '18ch' }}>
-            Keep your product performing
-          </h1>
-          <p className="lead" style={{ marginTop: 24, maxWidth: '60ch' }}>
-            Software changes after launch because the world around it changes. We monitor, maintain
-            and improve live products so they remain reliable, secure, performant and useful as
-            users, systems and priorities evolve.
-          </p>
-          <p className="body" style={{ marginTop: 14 }}>
-            Built by Pixelette or inherited from another team.
-          </p>
-          <div className="btn-row" style={{ marginTop: 32 }}>
-            <Cta href="/contact">Discuss ongoing support</Cta>
-            <Cta href="/contact" variant="secondary">
-              Bring us an existing product
-            </Cta>
-          </div>
+        {/*
+          THE SIGNAL FILM, ON THE RIGHT, ON FOUNDER INSTRUCTION 2026-10-01. It
+          replaces the supplied lifecycle render, and with it that render's
+          dashboard figures (99.99% uptime, 24,593 users, 1.2M transactions,
+          120 ms) that no claims-register entry supported - this film states no
+          figures at all.
 
-          {/*
-            THE SUPPLIED ARTWORK, ON FOUNDER INSTRUCTION 2026-09-30, AND THIS IS
-            A DECLARED EXCEPTION TO THIS PAGE'S OWN BRIEF.
+          WHAT THE FILM IS. The "Option 3" reference: a signal line hit by an
+          issue, an intervention, a release, verification, and the signal
+          settling, with the five steps lighting along a timeline as the wave
+          passes over them. The motion is generated (Higgsfield, Gemini Omni
+          Flash, from the founder's reference with every word removed first);
+          the timeline strip was then brought forward 0.88s to keep pace with the
+          wave, and the background flattened to pure white so the multiply blend
+          in `.hv-video--wide` dissolves it into this hero's tint.
 
-            Section 22 of the instruction says the reference's dashboard figures
-            are placeholders and must not be published as service claims, and
-            that a production dashboard should carry "neutral illustrative
-            states rather than apparent contractual performance promises". This
-            render carries 99.99% uptime this month, 24,593 users, 1.2M
-            transactions and a 120 ms response time. The founder was shown
-            exactly that list and the fact that no claims-register entry supports
-            any of it, and chose the artwork as supplied. It is his call and it
-            is recorded here rather than absorbed silently, because every other
-            figure on this site passes a register and these do not.
+          THE TEXT IN IT IS NOT GENERATED. Generated video redraws lettering
+          frame by frame - see the Custom Software and Web Platforms films - so
+          every word here is one fixed layer set in Outfit and laid over all 144
+          frames: it cannot misspell and cannot move. "OPTION 3" is gone from the
+          title on the founder's instruction.
 
-            THE ALT TEXT DELIBERATELY DOES NOT REPEAT THEM. Describing the
-            dashboard to a screen reader would restate an uptime and a
-            response-time claim in a second, machine-readable place - which is
-            the shape of the price that once survived in a JSON-LD Offer node
-            after being removed from the visible page.
+          THE FILM IS aria-hidden, as HeroVideo makes every film, so the cycle is
+          described once in real text beside it for a screen reader.
 
-            MOBILE STILL GETS THE BUILT VERSION. Section 19 forbids shrinking the
-            desktop visual, and at 390px this raster's stage cards are about 40px
-            wide and unreadable. Below 900px the native lifecycle renders instead:
-            real text, adapted to one column, animated, reduced-motion aware.
-          */}
-          <div style={{ marginTop: 56 }}>
-            <img
-              alt="A continuous product-support cycle moves from monitoring and prioritisation through improvement, release and verification before feeding what was learned into the next cycle."
-              className="sp-hero-art"
-              height={1024}
-              sizes="(max-width: 900px) 92vw, 1100px"
-              src="/hero/support-lifecycle-1240.webp"
-              srcSet="/hero/support-lifecycle-820.webp 820w, /hero/support-lifecycle-1240.webp 1240w, /hero/support-lifecycle-1536.webp 1536w"
-              width={1536}
-            />
-            <div className="sp-hero-native">
-              <SupportLifecycle />
+          MOBILE STILL GETS THE BUILT VERSION. In the half-width column the film's
+          labels render at about 8.5px; at 390px they would be about 4px. Below
+          900px the film column is hidden and the native lifecycle renders under
+          the copy instead: real text, one column, reduced-motion aware.
+        */}
+        <div className="wrap hero-split hero-split--wide-viz">
+          <div className="hero-split__copy">
+            {/* Run is the lifecycle stage; Support & Continuous Improvement is the
+                service inside it. The two are not interchangeable. */}
+            <Eyebrow>Run · Support &amp; Continuous Improvement</Eyebrow>
+            <h1 className="h1" style={{ marginTop: 24, maxWidth: '18ch' }}>
+              Keep your product performing
+            </h1>
+            <p className="lead" style={{ marginTop: 24 }}>
+              Software changes after launch because the world around it changes. We monitor,
+              maintain and improve live products so they remain reliable, secure, performant and
+              useful as users, systems and priorities evolve.
+            </p>
+            <p className="body" style={{ marginTop: 14 }}>
+              Built by Pixelette or inherited from another team.
+            </p>
+            <div className="btn-row" style={{ marginTop: 32 }}>
+              <Cta href="/contact">Discuss ongoing support</Cta>
+              <Cta href="/contact" variant="secondary">
+                Bring us an existing product
+              </Cta>
             </div>
           </div>
+          <div className="hero-split__viz sp-hero-art">
+            <HeroVideo
+              height={720}
+              poster="/video/support-hero-poster.webp"
+              src="/video/support-hero.mp4"
+              variant="wide"
+              width={1280}
+            />
+            <p className="visually-hidden">
+              A live product&apos;s signal is disturbed when an issue appears. Monitoring detects it,
+              engineering intervention follows, the fix is released and verified, and the signal
+              stabilises.
+            </p>
+          </div>
+        </div>
+        <div className="wrap sp-hero-native" style={{ marginTop: 40 }}>
+          <SupportLifecycle />
         </div>
       </div>
 
