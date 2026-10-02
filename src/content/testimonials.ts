@@ -12,8 +12,9 @@ import { clutch } from '@/content/company';
  * WHAT THE CLAIMS REGISTER HOLDS, AND WHAT IT DOES NOT (added 2026-09-08)
  * ---------------------------------------------------------------------------
  *
- * The register holds `clutch-rating`: "Clutch aggregate rating and review
- * count — HOLD — Verify live profile, current score and review count". The
+ * The register held `clutch-rating` until 2026-09-24: "Clutch aggregate
+ * rating and review count — HOLD — Verify live profile, current score and
+ * review count". It has been VERIFIED since (see the correction below). The
  * handoff's "Hold until verified" list says the same thing in the same words:
  * "Clutch rating and review count".
  *
@@ -25,21 +26,41 @@ import { clutch } from '@/content/company';
  * the reader can open. The 7 September 2026 legal review reached the same
  * conclusion from the other direction, finding dated reproduction of genuine
  * third-party reviews to be sound practice under the DMCCA 2024 fake-review
- * provisions. So the reviews below stay, and the rollup stays off.
+ * provisions. So the reviews below stay, and the rollup stayed off until it
+ * was released on 2026-09-24.
  *
  * THEREFORE, THE HARD LINE FOR THIS FILE AND ANYTHING THAT CONSUMES IT:
  *
  *   - No aggregate rating. No review count. No star average. No "rated 4.8",
  *     no "24 reviews", no "all five stars", in copy or in JSON-LD. Those live
- *     behind `clutch.published` in `content/company.ts`, which is false, and
- *     behind `PublishedOrgClaims.aggregateRating` in `lib/schema.ts`, which is
- *     omitted by default. Do not reintroduce either from here.
+ *     behind `clutch.published` in `content/company.ts`, which has been true
+ *     since 2026-09-24, and behind `PublishedOrgClaims.aggregateRating` in
+ *     `lib/schema.ts`, which is omitted by default. Do not reintroduce either
+ *     from here.
  *   - `testimonials.length` IS NOT A REVIEW COUNT. Six reviews are carried
  *     here; the profile carried twenty-four at the last read. Printing the
- *     length would be both a held claim and a wrong number.
+ *     length would be a wrong number.
  *   - `rating` below is one reviewer's own score on their own review, rendered
  *     on their own card next to their own link. That is part of the quoted
  *     review, not a rollup. It must never be summed, averaged or counted.
+ *
+ * CORRECTED 2026-10-01. This section said the register "holds" `clutch-rating`
+ * at HOLD, that "the rollup stays off", that `clutch.published` "is false" and
+ * that printing the length would be "a held claim". All of that stopped being
+ * true on 2026-09-24 (46901ec): on founder instruction the live profile was
+ * re-read, `lastVerified` moved to '2026-09-24', the register row moved to
+ * VERIFIED (content/claims.ts) and `clutch.published` went true. The aggregate
+ * can now appear in two places, both behind that flag: the source note in
+ * `Testimonials` (components/sections.tsx), and Pix T's answer about reviews
+ * (lib/pix/rules.ts, fed by lib/pix/server-context.ts). The Organization JSON-LD
+ * still carries no `aggregateRating`: layout.tsx calls `organizationSchema()`
+ * with no argument. The hard line above stands for this file: the aggregate is
+ * never written here, and `testimonials.length` is never a review count.
+ *
+ * That commit records the two figures only. It does not record that the six
+ * attributions were compared with the source on the same visit, so the
+ * question left open at the end of "ALL SIX ROWS AGAINST THE SOURCE" below is
+ * still open.
  *
  * ---------------------------------------------------------------------------
  * OPEN GATE — FOR THE FOUNDER, NOT FOR THIS FILE TO DECIDE

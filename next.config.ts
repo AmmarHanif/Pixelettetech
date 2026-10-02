@@ -106,8 +106,11 @@ const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
       /*
-       * Added 2026-09-29 (finding PERF-01). The two enquiry actions are the only
-       * server actions on the site, and the largest genuine enquiry is 12,000
+       * Added 2026-09-29 (finding PERF-01), when the two enquiry actions were the
+       * only server actions on the site. A third, `startAssistantChat` in
+       * src/app/contact/actions.ts, arrived later that day and reads only a name,
+       * an email and the honeypot field, so the largest genuine request is still
+       * an enquiry: 12,000
        * characters of answers plus 680 of name, email, company and deadline:
        * about 13 KB, or about 51 KB if every character took four bytes. 128 KB
        * leaves room for multipart framing and refuses the ~1 MB bodies Next's
@@ -137,7 +140,11 @@ const nextConfig: NextConfig = {
    * WHAT IS HERE: the nine legacy paths whose destination already exists, so
    * the mapping is a fact rather than a judgement. Each is `permanent: true`, a
    * 308, because these moves are permanent and a 307 asks search engines to keep
-   * the old URL indexed.
+   * the old URL indexed. (Corrected 2026-10-01: nine was the count on
+   * 2026-09-14. The `moved` table below now has 22 entries, some of which move
+   * this build's own earlier URLs rather than the previous site's, and the four
+   * blog category archives, /method and the two /ai-engineering entries follow
+   * it.)
    *
    * WHAT IS DELIBERATELY NOT HERE, and why launching on this block alone still
    * loses traffic:
@@ -157,17 +164,15 @@ const nextConfig: NextConfig = {
    *    not guessed here.
    *
    *    WAS SEVEN, THEN SIX, NOW ONE. /ar-vr-development-services left the list
-   *    on 2026-09-24 when the service was migrated back. The other five left it
-   *    the same day when the founder gave a destination for each; they are in
-   *    the `moved` table below. The count is corrected each time rather than
-   *    left standing, because a stale count is trusted without recounting.
-   *
-   *    WAS SEVEN. /ar-vr-development-services LEFT THIS LIST 2026-09-24: the
-   *    founder had the service migrated back from the previous site, at that
-   *    same path, so it resolves again and needs no redirect and no 410. The
-   *    count is corrected here rather than left reading seven with six names
-   *    under it, because a stale count is the kind of thing a later reader
-   *    trusts without recounting.
+   *    on 2026-09-24 when the founder had the service migrated back from the
+   *    previous site at that same path, so it resolves again and needs no
+   *    redirect and no 410. The other five left it the same day when the
+   *    founder gave a destination for each; they are in the `moved` table
+   *    below. The count is corrected each time rather than left standing,
+   *    because a stale count is trusted without recounting. (Corrected
+   *    2026-10-01: an older paragraph from the WAS SEVEN step, which still
+   *    described six names under the count, followed here and is folded into
+   *    this one.)
    *
    * Do not treat this block as the finished redirect map. It is the half that
    * could be written without asking anyone.
@@ -184,7 +189,7 @@ const nextConfig: NextConfig = {
       // Renamed 2026-09-15 on founder instruction: the offer did not change, the
       // name did. Unlike the legacy paths above this is not a judgement call --
       // the destination is the same document under a new URL. The old path
-      // carries priority 0.9 in the sitemap, the second-highest on the site, so
+      // carried priority 0.9 in the sitemap, the second-highest on the site, so
       // shipping the rename without this would drop the strongest AI-section URL.
       { from: '/ai-engineering/ai-value-baseline', to: '/ai-automation/value-discovery' },
       /*
@@ -287,10 +292,14 @@ const nextConfig: NextConfig = {
       { from: '/clutch', to: '/contact' },
       { from: '/startup-funding', to: '/contact' },
       /*
-       * /insights currently carries noIndex, so this passes nothing to search -
-       * but a 404 passes nothing either, and a redirect is strictly better for
-       * a human following an old link to the research page. It improves on its
-       * own the day the first article ships and the noIndex comes off.
+       * Written when /insights carried noIndex, so this passed nothing to
+       * search - but a 404 passes nothing either, and a redirect is strictly
+       * better for a human following an old link to the research page.
+       * Corrected 2026-10-01: the noIndex came off on 2026-09-24 (4c4de80), when
+       * the first two articles shipped. /insights is now held back from search
+       * only by SITE_IN_DEVELOPMENT in src/content/launch.ts, like every page,
+       * and it is not in the sitemap (see the note on `routes` in
+       * src/content/nav.ts).
        */
       { from: '/pixelette-research', to: '/insights' },
     ];
@@ -403,7 +412,8 @@ const nextConfig: NextConfig = {
              * authored in this repository and there is no user-generated HTML.
              * So this is defence in depth, and it matters for two reasons: this
              * site is read by procurement and security reviewers — /security-and-data
-             * invites exactly that check — and the first third-party script anyone
+             * invited exactly that check until it was withdrawn on 2026-09-17
+             * (ee262c7) — and the first third-party script anyone
              * adds later would otherwise land on an origin with no policy at all.
              *
              * WHY STATIC AND NOT NONCE-BASED, which is the stronger option. A

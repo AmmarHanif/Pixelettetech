@@ -10,41 +10,74 @@ therefore need a person to confirm before this is published.
 
 ---
 
-## A. THE ONE THING THAT BLOCKS PUBLICATION
+## A. The website assistant, Pix T, and enquiry scoring
 
-### The statement describes a website assistant. This build does not have one.
+**Corrected 2026-10-01.** This section was headed "THE ONE THING THAT BLOCKS
+PUBLICATION" and said there was no assistant in this codebase and no enquiry
+scoring. Both now exist. The assistant, Pix T (`src/components/SiteAssistant.tsx`,
+first added in `c21d75b` on 24 September 2026), is mounted on every page by
+`src/app/layout.tsx:216`. Since 29 September it asks for a name and email before
+chatting and sends them to be stored, and it scores the enquiries sent through it
+(`src/lib/lead-score.ts`; `submitAssistantEnquiry`,
+`src/app/contact/actions.ts:219-229`). Contact-form enquiries are not scored.
+The Statement's wording for that was approved and applied on 29 September in
+`c3d647b`, including the scoring section under "How we prioritise enquiries from
+Pix T" (`src/app/privacy/page.tsx:376-391`); see
+PRIVACY-STATEMENT-DRAFT-PIX-T-LEADS.md. This section previously listed three
+ways to reconcile the Statement with a site that had no assistant; the first,
+that the assistant ships and the section is checked against it, is what
+happened, and the check is below.
 
 Founder decision of 17 September 2026 replaced the AI section with wording that
 opens: *"We use third-party AI and technology providers to operate our website
-assistant and related functionality."*
+assistant and related functionality."* That wording is still on `/privacy`.
 
-**There is no assistant in this codebase.** No chat widget, no conversational
-interface, no model integration anywhere in `src/`. That was audited twice and
-reported to the founder twice; the wording was issued with that knowledge, so it
-is his decision and it has been implemented as given rather than argued with.
+**What Pix T does, checked against the code on 2026-10-01:**
 
-**The consequence, stated plainly:** as it stands, the Privacy Statement
-describes functionality the site does not ship. A visitor reading it will look
-for an assistant and not find one.
+- It answers a visitor's own questions in the browser, from this site's pages.
+  `SiteAssistant` calls `respond()` (`src/components/SiteAssistant.tsx:28`,
+  `:277`), which imports only local modules and the site's own knowledge base
+  (`src/lib/pix/respond.ts:1-3`, `src/lib/pix/retrieve.ts:1`). Nothing in `src`
+  calls `/api/pix`. Its own answer to "are you an AI?" says it finds the
+  relevant passage "rather than by generating an opinion"
+  (`src/lib/pix/rules.ts:94`).
+- It calls no AI provider. The server gateway behind `/api/pix` takes its model
+  from `resolveProvider()` (`src/lib/pix/provider.ts:169-176`), which returns
+  `UnconfiguredProvider`, a provider that refuses every call, unless
+  `PIX_T_PROVIDER=mock` is set; no production adapter exists. No AI SDK is among
+  the dependencies in `package.json`.
+- What reaches Pixelette is the name and email given before chatting
+  (`assistant_contacts`, through `startAssistantChat`,
+  `src/app/contact/actions.ts:276-302`) and, if the visitor finishes, the
+  enquiry with its lead score (`contact_enquiries`, and the notification email).
+  Supabase and Resend handle both, as for the contact form. The rest of the chat
+  is not stored (`src/components/SiteAssistant.tsx:519-520`).
 
-**→ Before this page goes live, one of these must be true:**
+**→ For management or Legal to confirm:**
 
-1. the assistant ships, and this section is checked against what it actually
-   does — what it receives, whether conversations are retained, which provider;
-   **or**
-2. the assistant exists on another Pixelette property that this statement is
-   also intended to cover, and the scope line at the top says so; **or**
-3. the section is put back into the conditional form ("if we introduce an
-   assistant…"), which is a one-paragraph change.
-
-Related, and deliberately absent: **enquiry scoring**. The instruction says to
-preserve the scoring explanation *"if that functionality remains part of the
-website"*. It does not exist — the contact form asks four qualifying questions
-and computes nothing — so no scoring text was written. If scoring is built, that
-section is owed.
+1. **The AI-provider sentences.** `/privacy` says "We use third-party AI and
+   technology providers to operate our website assistant" and "The assistant is
+   an AI system and may make mistakes" (`src/app/privacy/page.tsx:351-358`). No
+   AI provider operates Pix T today, and it generates no text with a model.
+   "Technology providers" is still true: Supabase and Resend handle what a
+   visitor gives it. Whether and how to change these sentences is a decision for
+   management and Legal, not an engineering edit: `/privacy` is legal copy, and
+   the build's privacy interlock guards it. PRIVACY-STATEMENT-DRAFT-PIX-T-LEADS.md
+   raised the same point on 29 September (change 5, "Optional, for accuracy
+   today").
+2. **The lead-score wording on email addresses.** `/privacy` says the score uses
+   "whether your email address is at a company's own domain or a personal email
+   provider" (`src/app/privacy/page.tsx:382-383`). The code decides only whether
+   the address is at a listed personal email provider: anything not on the list
+   is recorded as "Email not at a listed personal provider", and nothing checks
+   that the domain belongs to a company (`src/lib/lead-score.ts:56-62`, `:118-123`,
+   security review S4). The draft's later wording, "at a well-known personal
+   email provider", matches the code; the published sentence came from the
+   earlier draft. A wording item for Legal.
 
 Also per instruction: **no AI provider is named**, and **no claim is made about
-providers not using information for model training**. Both were removed.
+providers not using information for model training**. Both were removed, and
+both are still absent from the rendered page.
 
 ---
 
@@ -138,7 +171,9 @@ These are promises to a reader that only a person can stand behind.
 
 | Commitment | Needs confirming |
 |---|---|
-| Enquiries deleted **24 months from last contact** | Carried from the previous statement. Confirm it is still the rule and that someone actually does it — the statement is deliberately honest that this is a rule we act on, not an automatic timer. |
+| Enquiries deleted **24 months from last contact** | Carried from the previous statement. Confirm it is still the rule and that someone actually does it — the statement is deliberately honest that this is a rule we act on, not an automatic timer. **OPEN (2026-10-01):** this document says the period was "Carried from the previous statement"; PROCUREMENT-PACK.md says it "was chosen when this change was made, not found". Commit `0f2324e` (2026-09-14) is where "24 months" first appears in `src/app/privacy/page.tsx`. The founder must decide which account is correct, and this note and its twin in that file should then be removed. |
+| Pix T name and email, with no enquiry following, deleted **12 months from when given** | Decided with the Pix T wording on 29 September 2026 (`c3d647b`; `src/app/privacy/page.tsx:567-571`). Confirm someone does it: the migrations grant the website's database credential `INSERT` only (whether they are applied to the live project is unconfirmed), and nothing in `src` deletes rows, so deletion is a manual task. |
+| On objection, the **lead score and its reasons are deleted** | Stated at `src/app/privacy/page.tsx:611-613`. Confirm there is a way to do it and someone who will. |
 | Client records kept for the engagement **plus six years** | Standard for legal and tax purposes; confirm it matches actual practice. |
 | Rights requests answered **within one month** | Standard statutory period; confirm capacity to meet it. |
 | Complaints acknowledged **within 30 days** | Carried from the previous statement. |
@@ -149,14 +184,31 @@ These are promises to a reader that only a person can stand behind.
 
 ## D. Technical items still open
 
-1. **Supabase region.** The statement does not name a hosting region, because
-   the project does not exist yet. `DEPLOY-RUNBOOK` requires London. Confirm at
-   creation — a Supabase region is fixed at creation and cannot be moved.
-2. **The contact form is not connected.** The four environment variables are
-   unset, so no enquiry has reached Supabase or Resend; both delivery legs in
-   `src/lib/enquiries.ts` return `unconfigured` and `actions.ts` shows the
-   visitor an honest refusal rather than accepting the submission. Whether the
-   DEPLOYED site has those credentials cannot be read from the repository.
+1. **Supabase region.** The statement names no hosting region; it says the
+   regions in which Vercel, Supabase and Resend process enquiries have not been
+   restricted (`src/app/privacy/page.tsx:523-525`). The Supabase region is not
+   yet recorded (CONTACT-FORM-SETUP.md section 4). `DEPLOY-RUNBOOK` requires
+   London. Confirm the region now if the project already exists (Project
+   Settings, General), or choose it at creation — a Supabase region is fixed at
+   creation and cannot be moved.
+
+   **OPEN (2026-10-01):** this item cites `DEPLOY-RUNBOOK`, which is not in this
+   repository, as requiring a London region; `/privacy`
+   (`src/app/privacy/page.tsx:523-525`) says the regions have not been
+   restricted. The founder must decide which is correct, and this note should
+   then be removed. PROCUREMENT-PACK.md carries the same note.
+2. **Whether the contact form is connected is not recorded.**
+   **Corrected 2026-10-01:** this item used to say the form is not connected and
+   that no enquiry has reached Supabase or Resend. The code, including Pix T's
+   lead capture, has been on Vercel Production since 2026-10-01 (`main` at
+   `0e9a979`). No environment variable is in the repository, but whether the
+   Vercel project has the four variables cannot be read from it, so whether any
+   enquiry or chat contact has reached Supabase or Resend is unknown. Where they
+   are unset, both delivery legs in `src/lib/enquiries.ts` return `unconfigured`
+   and `actions.ts` shows the visitor an honest refusal rather than accepting the
+   submission. Where they are set, storage also depends on the two migrations,
+   whose state on the live project is unconfirmed (CONTACT-FORM-SETUP.md,
+   "Applying the migrations — step by step").
 
    **Corrected 2026-09-18, twice over.** This item used to say
    `DELIVERY_CONNECTED` is `false` as though that flag were the mechanism. It is
@@ -176,7 +228,10 @@ These are promises to a reader that only a person can stand behind.
 
    **-> Confirm:** whether the deployed contact form is connected. If it is,
    nothing changes. If it is not, the paragraph must say enquiries arrive by
-   email until delivery is live, and switch over when it is.
+   email until delivery is live, and switch over when it is. The same question
+   now covers Pix T: `/privacy` says the name and email given to it are recorded
+   as soon as they are given (`src/app/privacy/page.tsx:201-203`), which is true
+   only once the database and the lead-capture migration are in place.
 3. **Analytics.** None is running. If one is introduced, the Analytics section
    and the Cookies and analytics page both branch on `ANALYTICS_ENABLED`, so
    they update together — but the **provider must be named** before it runs.
