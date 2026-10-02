@@ -304,7 +304,17 @@ export function publishableFacts(ctx: PixContext): { test: RegExp; reply: string
  * base, so a route adds a destination and never a sentence. The order matters:
  * the first match wins, so the narrow topics sit above the broad ones.
  */
-export const TOPIC_ROUTES: readonly { id: string; test: RegExp; path: string }[] = [
+/* `faq` names a published FAQ on that page to answer with, for a page that
+   has no description of its own (the home page). */
+export const TOPIC_ROUTES: readonly { id: string; test: RegExp; path: string; faq?: string }[] = [
+  {
+    /* Too few words to rank, so retrieval never sees them (founder's dataset,
+       2026-10-02): the home page's own FAQ is the answer. */
+    id: 'services',
+    test: /\b(what can you (help|do)|how can you help|what (do|can) you (offer|help with)|what (are|is) your services)\b/i,
+    path: '/',
+    faq: 'What does Pixelette Technologies do?',
+  },
   {
     id: 'privacy',
     test: /\b(gdpr|data protection|privacy|personal (data|information)|(my|our) (data|information)|store (my|our|your) (data|details)|cookies?)\b/i,
@@ -317,7 +327,7 @@ export const TOPIC_ROUTES: readonly { id: string; test: RegExp; path: string }[]
   },
   {
     id: 'case-studies',
-    test: /\b(case stud(y|ies)|portfolio|examples? of (your )?work|(previous|past) (work|projects)|what have you (built|delivered|done))\b/i,
+    test: /\b(case stud(y|ies)|portfolio|examples? of (your )?work|(previous|past) (work|projects)|what have you (built|delivered|done)|show me (your |some )?(work|projects|examples))\b/i,
     path: '/case-studies',
   },
   {

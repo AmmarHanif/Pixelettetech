@@ -354,3 +354,8 @@ export const kbCounts = kb.counts as {
 export function pageDoc(pagePath: string): KbDoc | undefined {
   return DOCS.find(d => d.kind === 'page' && d.path === pagePath && !!d.text);
 }
+
+/** A published FAQ, by its page and its exact question. */
+export function faqDoc(pagePath: string, title: string): KbDoc | undefined {
+  return DOCS.find(d => d.kind === 'faq' && d.path === pagePath && d.title === title && !!d.text);
+}

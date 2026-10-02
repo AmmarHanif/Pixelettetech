@@ -1,5 +1,5 @@
 import type { PixContext } from './context';
-import { MIN_COVERAGE, hasEnoughSignal, pageDoc, search } from './retrieve';
+import { MIN_COVERAGE, faqDoc, hasEnoughSignal, pageDoc, search } from './retrieve';
 import { CLAIM_GUARDS, TOPIC_ROUTES, publishableFacts, rules } from './rules';
 
 /**
@@ -198,14 +198,14 @@ export function respond(messageRaw: string, ctx: PixContext): PixReply {
   // --------------------------------------------------------- 6. topic routes
   for (const route of TOPIC_ROUTES) {
     if (!route.test.test(message)) continue;
-    const doc = pageDoc(route.path);
+    const doc = route.faq ? faqDoc(route.path, route.faq) : pageDoc(route.path);
     if (doc?.text) {
       return timelineSafe({
         via: 'route',
         ruleId: route.id,
         text: doc.text,
         path: route.path,
-        sourceLabel: doc.title.replace(/\s*\|.*$/, ''),
+        sourceLabel: route.faq ? doc.page : doc.title.replace(/\s*\|.*$/, ''),
       });
     }
   }

@@ -132,6 +132,10 @@ const LABEL_DELAY_MS = 2500;
 const NEAR_PX = 170;
 const LEAVE_PX = 200;
 
+/* Guardrails that hold during discovery too: what they catch is never saved
+   as an answer to one of the team's questions. */
+const GUARD_RULES = new Set(['abuse', 'injection', 'off-topic']);
+
 const replyTurn = (reply: PixReply): Omit<Turn, 'id'> => ({
   role: 'assistant',
   text: reply.text,
@@ -416,11 +420,47 @@ export function SiteAssistant({ context }: { context: PixContext }) {
     );
   }, [details]);
 
-  /* One answer to the current discovery question. An empty answer is a skip. */
+  /* One answer to the current discovery question. An empty answer is a skip.
+
+     A QUESTION IS ANSWERED, NOT SAVED (founder, 2026-10-02). Everything typed
+     here goes through respond() first, so the guardrails run during discovery
+     exactly as they do in the chat:
+       - abuse, injection and off-topic are never saved as an answer; the reply
+         is given and the same question asked again;
+       - a question Pix T can answer is answered. On the first question ("what
+         are you looking to achieve") it is also kept as the answer, because
+         "can you build a booking app?" says what they want; on the others the
+         question is asked again.
+     Anything else - a description, or a question with no answer on the site -
+     is the visitor's answer, as before. */
   const answer = useCallback(
     (raw: string) => {
       if (!flow || flow.reviewing) return;
       const step = DISCOVERY_STEPS[flow.step];
+      const text = raw.trim();
+      const reask = { role: 'assistant' as const, text: `Back to my question: ${step.optional ? `${step.ask} (optional)` : step.ask}` };
+      if (text) {
+        const reply = respond(text, context);
+        const guarded = reply.via === 'rule' && GUARD_RULES.has(reply.ruleId ?? '');
+        const answered = looksLikeQuestion(text) && reply.via !== 'no-answer' && reply.via !== 'ask-more';
+        if (guarded || (answered && step.field !== 'objective')) {
+          say({ role: 'visitor', text }, replyTurn(reply), reask);
+          setDraft('');
+          return;
+        }
+        if (answered) {
+          /* Answered, and kept as what they want to achieve: say the reply,
+             then carry on as for any answer below. */
+          const check = checkAnswer(step, text);
+          if (check.ok) {
+            const ask = DISCOVERY_STEPS[flow.step + 1];
+            setFlow({ step: flow.step + 1, draft: { ...flow.draft, [step.field]: check.value }, reviewing: false });
+            say({ role: 'visitor', text }, replyTurn(reply), { role: 'assistant', text: ask.optional ? `${ask.ask} (optional)` : ask.ask });
+            setDraft('');
+            return;
+          }
+        }
+      }
       const check = checkAnswer(step, raw);
       if (!check.ok) {
         say({ role: 'assistant', text: check.problem });
@@ -440,7 +480,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       }
       setDraft('');
     },
-    [flow, say],
+    [context, flow, say],
   );
 
   const send = useCallback(
