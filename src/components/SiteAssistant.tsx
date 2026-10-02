@@ -121,7 +121,10 @@ const THINK_MS = 650;
 const RESPOND_MS = 900;
 const FINISH_MS = 650;
 
-/** How close, in px from the launcher's centre, counts as "approaching", and
+/** How long the ball is shown alone before "Ask Pix T" opens out beside it. */
+const LABEL_DELAY_MS = 2500;
+
+/** How close, in px from the ball's centre, counts as "approaching", and
     how far it must go again to count as having left. The gap is hysteresis: a
     pointer resting near one radius would otherwise restart the trace on every
     wobble across it. */
@@ -162,6 +165,9 @@ export function SiteAssistant({ context }: { context: PixContext }) {
   const [phase, setPhase] = useState<PixPhase>('idle');
   const [busy, setBusy] = useState(false);
   const [near, setNear] = useState(false);
+  /* The launcher opens out into the "Ask Pix T" pill once, LABEL_DELAY_MS
+     after the page loads (founder, 2026-10-02): the ball first, then the words. */
+  const [labelled, setLabelled] = useState(false);
   const held = useRef<Omit<Turn, 'id'>[]>([]);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const thinking = useRef(false);
@@ -244,6 +250,11 @@ export function SiteAssistant({ context }: { context: PixContext }) {
     };
   }, [clearTimers, release]);
 
+  useEffect(() => {
+    const t = setTimeout(() => setLabelled(true), LABEL_DELAY_MS);
+    return () => clearTimeout(t);
+  }, []);
+
   /* "User approaches": the pointer comes within NEAR_PX of the closed
      launcher, and has left once it is beyond LEAVE_PX. Only for a mouse or
      trackpad - a finger has no approach. The launcher is position: fixed, so
@@ -257,10 +268,13 @@ export function SiteAssistant({ context }: { context: PixContext }) {
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     let cx = 0;
     let cy = 0;
+    /* The ball is always the right-hand end of the launcher, whether it is
+       a lone circle or the opened-out pill, so its centre is measured from
+       the right edge. Re-measured when the pill opens, as well as on resize. */
     const place = () => {
       const r = launchRef.current?.getBoundingClientRect();
       if (r) {
-        cx = r.left + r.width / 2;
+        cx = r.right - r.height / 2;
         cy = r.top + r.height / 2;
       }
     };
@@ -457,7 +471,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
 
   useEffect(() => {
     if (open) inputRef.current?.focus();
-  }, [open]);
+  }, [open, labelled]);
 
   /* Escape closes, as a dialog should. The conversation is kept until reload.
      Focus goes back to the launcher when it was inside the panel: the panel
@@ -516,7 +530,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
         aria-expanded={open}
         aria-controls={opened ? 'site-assistant-panel' : undefined}
         aria-label={open ? `Close ${PIX_T_NAME}` : `Ask ${PIX_T_NAME}, ${PIX_T_DESCRIPTOR}`}
-        className={`asst-launch asst-launch--signal${open ? ' asst-launch--open' : ''}`}
+        className={`asst-launch asst-launch--signal${labelled ? ' is-labelled' : ''}${open ? ' asst-launch--open' : ''}`}
         onClick={() => {
           setOpened(true);
           setOpen(v => !v);
@@ -524,6 +538,12 @@ export function SiteAssistant({ context }: { context: PixContext }) {
         ref={launchRef}
         type="button"
       >
+        {/* The visible words. The button's aria-label already begins with
+            them, so they are hidden from the accessibility tree rather than
+            read twice. */}
+        <span aria-hidden className="asst-launch__label">
+          Ask {PIX_T_NAME}
+        </span>
         <PixSignal near={near && !open} phase={busy ? 'thinking' : phase} />
         {open ? (
           <svg aria-hidden className="asst-launch__x" viewBox="0 0 24 24">
