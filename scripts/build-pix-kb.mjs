@@ -234,7 +234,40 @@ for (const file of files) {
   }
 }
 
-/* Collected after the loop so a section never shadows a page or FAQ. */
+/*
+ * THE QUESTION DATASET (src/content/pix-questions.json, founder 2026-10-02).
+ * Each phrasing becomes an FAQ whose answer is COPIED from the page or FAQ it
+ * points at, so the dataset adds ways of asking, never new things to say. A
+ * pointer to an answer that does not exist stops the build.
+ */
+const DATASET = path.join(ROOT, 'src', 'content', 'pix-questions.json');
+if (fs.existsSync(DATASET)) {
+  const { entries } = JSON.parse(fs.readFileSync(DATASET, 'utf8'));
+  const missing = [];
+  for (const e of entries) {
+    const target = docs.find(
+      d => (d.kind === 'faq' || d.kind === 'page') && d.path === e.answer.path && d.title === e.answer.title && d.text,
+    );
+    if (!target) {
+      missing.push(`${e.answer.path} | ${e.answer.title}`);
+      continue;
+    }
+    for (const ask of e.ask) {
+      docs.push({
+        kind: 'faq',
+        title: ask,
+        text: target.text,
+        path: target.path,
+        page: target.kind === 'faq' ? target.page : target.title,
+      });
+    }
+  }
+  if (missing.length) {
+    process.stderr.write(`pix-questions.json points at answers that do not exist:\n${missing.map(m => '  - ' + m).join('\n')}\n`);
+    process.exit(1);
+  }
+}
+
 const kb = {
   /*
    * Generated. `builtFrom` records the shape of the source so a reader of the
