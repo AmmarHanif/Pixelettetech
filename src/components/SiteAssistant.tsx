@@ -9,6 +9,7 @@ import { type FormEvent, useCallback, useEffect, useRef, useState } from 'react'
    side here would have compiled away half of somebody's work. */
 import { startAssistantChat, submitAssistantEnquiry, type ContactState } from '@/app/contact/actions';
 import { QUESTIONS } from '@/content/enquiry-questions';
+import { PixSignal, type PixPhase } from '@/components/PixSignal';
 import { PIX_T_DESCRIPTOR, PIX_T_NAME } from '@/lib/pix/branding';
 import type { PixContext } from '@/lib/pix/context';
 import {
@@ -106,6 +107,23 @@ const SLOW_SEND_MS = 15000;
 /** What is true when the visitor closes an enquiry, which decides what Pix T says. */
 type CancelKind = 'unsent' | 'refused' | 'unconfirmed';
 
+/*
+ * THE SIGNAL'S RHYTHM, 2026-10-02 (founder's interaction table; see
+ * PixSignal.tsx). Answers are computed here and are ready at once, so without a
+ * beat there would be no "thinking" to show. Every assistant turn is therefore
+ * held for THINK_MS while the points travel the rim, then appears with the
+ * pulse (RESPOND_MS), then the flash (FINISH_MS) and back to idle. 650ms is
+ * long enough to read as a reply rather than a page update, short enough not to
+ * feel slower than it is. Under prefers-reduced-motion there is no animation to
+ * wait for, so there is no beat either: turns appear at once, as before.
+ */
+const THINK_MS = 650;
+const RESPOND_MS = 900;
+const FINISH_MS = 650;
+
+/** How close, in px from the launcher's centre, counts as "approaching". */
+const NEAR_PX = 170;
+
 const replyTurn = (reply: PixReply): Omit<Turn, 'id'> => ({
   role: 'assistant',
   text: reply.text,
@@ -134,14 +152,112 @@ export function SiteAssistant({ context }: { context: PixContext }) {
   const [flow, setFlow] = useState<Flow | null>(null);
   /* Remounts the review form for each new enquiry, so its server state starts clean. */
   const [reviewKey, setReviewKey] = useState(0);
+  /* The Signal's state: thinking while turns are held, then responding, then
+     finished. `busy` is the enquiry form's own send in flight, which also shows
+     as thinking. `near` is the pointer approaching the closed launcher. */
+  const [phase, setPhase] = useState<PixPhase>('idle');
+  const [busy, setBusy] = useState(false);
+  const [near, setNear] = useState(false);
+  const held = useRef<Omit<Turn, 'id'>[]>([]);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const thinking = useRef(false);
+  const reducedMotion = useRef(false);
+  const launchRef = useRef<HTMLButtonElement>(null);
   const nextId = useRef(1);
   const logRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const honeypotRef = useRef<HTMLInputElement>(null);
 
-  const say = useCallback((...added: Omit<Turn, 'id'>[]) => {
-    setTurns(prev => [...prev, ...added.map(t => ({ ...t, id: nextId.current++ }))]);
+  const append = useCallback((added: Omit<Turn, 'id'>[]) => {
+    if (added.length) setTurns(prev => [...prev, ...added.map(t => ({ ...t, id: nextId.current++ }))]);
   }, []);
+
+  const clearTimers = useCallback(() => {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+  }, []);
+
+  /* Release the held assistant turns: they appear, the symbol pulses, the ball
+     flashes once and settles. */
+  const release = useCallback(() => {
+    clearTimers();
+    thinking.current = false;
+    const out = held.current;
+    held.current = [];
+    append(out);
+    setPhase('responding');
+    timers.current.push(
+      setTimeout(() => setPhase('finished'), RESPOND_MS),
+      setTimeout(() => setPhase('idle'), RESPOND_MS + FINISH_MS),
+    );
+  }, [append, clearTimers]);
+
+  /* The visitor's own turns appear at once. Pix T's are held for the thinking
+     beat and released together, so a reply and the question after it arrive as
+     one answer. A visitor turn never overtakes a held reply: anything held is
+     released first. */
+  const say = useCallback(
+    (...added: Omit<Turn, 'id'>[]) => {
+      const mine = added.filter(t => t.role === 'visitor');
+      const theirs = added.filter(t => t.role === 'assistant');
+      if (mine.length && held.current.length) release();
+      append(mine);
+      if (!theirs.length) return;
+      if (reducedMotion.current) {
+        append(theirs);
+        return;
+      }
+      held.current.push(...theirs);
+      if (thinking.current) return;
+      clearTimers();
+      thinking.current = true;
+      setPhase('thinking');
+      timers.current.push(setTimeout(release, THINK_MS));
+    },
+    [append, clearTimers, release],
+  );
+
+  useEffect(() => {
+    const m = window.matchMedia('(prefers-reduced-motion: reduce)');
+    reducedMotion.current = m.matches;
+    const onChange = () => (reducedMotion.current = m.matches);
+    m.addEventListener('change', onChange);
+    return () => {
+      m.removeEventListener('change', onChange);
+      clearTimers();
+    };
+  }, [clearTimers]);
+
+  /* "User approaches": the pointer comes within NEAR_PX of the closed
+     launcher. Only for a mouse or trackpad - a finger has no approach - and
+     sampled once per frame, so it costs one rect read per frame at most. */
+  useEffect(() => {
+    if (open) {
+      setNear(false);
+      return;
+    }
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    let frame = 0;
+    let x = 0;
+    let y = 0;
+    const measure = () => {
+      frame = 0;
+      const el = launchRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      setNear(Math.hypot(x - (r.left + r.width / 2), y - (r.top + r.height / 2)) < NEAR_PX);
+    };
+    const onMove = (e: PointerEvent) => {
+      x = e.clientX;
+      y = e.clientY;
+      if (!frame) frame = requestAnimationFrame(measure);
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [open]);
 
   const focusInput = useCallback(() => setTimeout(() => inputRef.current?.focus(), 0), []);
 
@@ -261,6 +377,9 @@ export function SiteAssistant({ context }: { context: PixContext }) {
 
   const send = useCallback(
     (raw: string) => {
+      /* One exchange at a time: a second message while Pix T is still
+         thinking would land between the question and its answer. */
+      if (thinking.current) return;
       const text = raw.trim();
       if (identify) {
         identifyStep(text);
@@ -360,24 +479,28 @@ export function SiteAssistant({ context }: { context: PixContext }) {
           itself is `alt=""` and aria-hidden, so it is not announced twice.
           The mark is the WHITE tree — the colour one is drawn in the same
           var(--brand) as this button and would be invisible on it. */}
+      {/* SINCE 2026-10-02 THE MARK SITS IN THE SIGNAL BALL (PixSignal), with
+          the founder's interaction states. The button still carries the
+          accessible name; the ball is aria-hidden. Open, the tree gives way to
+          the close glyph and the ball stays, so the control does not jump. */}
       <button
         aria-expanded={open}
         aria-controls="site-assistant-panel"
         aria-label={open ? `Close ${PIX_T_NAME}` : `Ask ${PIX_T_NAME}, ${PIX_T_DESCRIPTOR}`}
-        className={`asst-launch${open ? ' asst-launch--open' : ''}`}
+        className={`asst-launch asst-launch--signal${open ? ' asst-launch--open' : ''}`}
         onClick={() => {
           setOpened(true);
           setOpen(v => !v);
         }}
+        ref={launchRef}
         type="button"
       >
+        <PixSignal near={near && !open} phase={busy ? 'thinking' : phase} />
         {open ? (
           <svg aria-hidden className="asst-launch__x" viewBox="0 0 24 24">
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>
-        ) : (
-          <img alt="" aria-hidden className="asst-launch__mark" src="/pixelette-mark-white.svg" />
-        )}
+        ) : null}
       </button>
 
       {opened ? (
@@ -389,12 +512,19 @@ export function SiteAssistant({ context }: { context: PixContext }) {
           role="dialog"
         >
           <div className="asst-head">
-            <p className="asst-title">{PIX_T_NAME}</p>
-            {/* Section 12: say what it is, once, without underselling it. */}
-            <p className="asst-sub">{PIX_T_DESCRIPTOR}</p>
+            {/* The same core, small: this is where thinking, responding and
+                finished are seen while the panel is open. */}
+            <PixSignal phase={busy ? 'thinking' : phase} size="sm" />
+            <div>
+              <p className="asst-title">{PIX_T_NAME}</p>
+              {/* Section 12: say what it is, once, without underselling it. */}
+              <p className="asst-sub">{PIX_T_DESCRIPTOR}</p>
+            </div>
           </div>
 
-          <div aria-live="polite" className="asst-log" ref={logRef}>
+          {/* aria-busy while a reply is held, so a screen reader announces the
+              reply when it lands rather than the wait. */}
+          <div aria-busy={phase === 'thinking' || busy} aria-live="polite" className="asst-log" ref={logRef}>
             {turns.map(t => (
               <div className={`asst-turn asst-turn--${t.role}`} key={t.id}>
                 <p className="asst-bubble">{t.text}</p>
@@ -418,6 +548,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
               <EnquiryReview
                 autoSubmit
                 contactEmail={context.contactEmail}
+                onBusy={setBusy}
                 draft={flow.draft}
                 key={reviewKey}
                 leadRef={visitor.ref}
@@ -481,7 +612,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
                 type={input.type}
                 value={draft}
               />
-              <button className="asst-send" disabled={!stepping && !draft.trim()} type="submit">
+              <button className="asst-send" disabled={phase === 'thinking' || (!stepping && !draft.trim())} type="submit">
                 {stepping ? 'Next' : 'Ask'}
               </button>
             </form>
@@ -557,6 +688,7 @@ function EnquiryReview({
   contactEmail,
   draft,
   leadRef,
+  onBusy,
   onDelivered,
   onCancel,
 }: {
@@ -566,6 +698,8 @@ function EnquiryReview({
   draft: EnquiryDraft;
   /** The chat contact recorded at the start, so the enquiry can name it. */
   leadRef: string | null;
+  /** Told when a send starts and ends, so the Signal can show it thinking. */
+  onBusy?: (busy: boolean) => void;
   onDelivered: (message: string) => void;
   onCancel: (kind: CancelKind) => void;
 }) {
@@ -600,6 +734,13 @@ function EnquiryReview({
     reported.current = true;
     onDelivered(state.message);
   }, [state, onDelivered]);
+
+  /* The Signal thinks while a send is in flight, and stops if this form goes
+     away mid-send. */
+  useEffect(() => {
+    onBusy?.(pending);
+  }, [onBusy, pending]);
+  useEffect(() => () => onBusy?.(false), [onBusy]);
 
   /* A Send the server has not answered in 15 seconds gets an honest note and a
      working Cancel. The server gives each provider 8 seconds, so a healthy send
