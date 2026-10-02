@@ -7676,9 +7676,42 @@ button.btn[disabled] {
 }
 
 /* The production chain reuses the progression rail built for Modernisation. Six
-   steps rather than seven, so only the column count changes. */
+   steps rather than seven, so only the column count changes.
+
+   FIXED 2026-10-02: this rule used to stand alone, and because it sits below the
+   rail's responsive block with the same specificity as `.bflow`, it beat both
+   breakpoints - six columns at every width, about 55px each on a phone, and
+   /ai-automation scrolled sideways (429px of content in a 390px viewport). The
+   breakpoints are now restated here with `.bflow.bflow--6`. Below 1120px six
+   steps fold to three and three rather than the seven-step rail's four and two,
+   so step 3 ends the first row (its rail stops) and step 4 starts the second
+   (its rail is handed back); below 760px both run down the left like the rest. */
 .bflow--6 {
   grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+@media (max-width: 1120px) {
+  .bflow.bflow--6 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .bflow--6 .bflow__step:nth-child(3)::before {
+    display: none;
+  }
+
+  .bflow--6 .bflow__step:nth-child(4)::before {
+    display: block;
+  }
+}
+
+@media (max-width: 760px) {
+  .bflow.bflow--6 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bflow--6 .bflow__step:nth-child(3)::before {
+    display: block;
+  }
 }
 
 /* ==========================================================================
