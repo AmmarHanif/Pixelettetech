@@ -1,3 +1,4 @@
+import { HeroVideo } from '@/components/HeroVideo';
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead, SourceNote } from '@/components/ui';
 import { certified } from '@/content/company';
@@ -301,22 +302,38 @@ export default function AiAutomationPage() {
           takes no full stop. The CTA architecture is unchanged; the secondary
           label moved from "How we measure it", whose "it" pointed at the old
           supporting line, to the brief's own "See how we evaluate AI". */}
+      {/* THE FILM, 2026-10-02: the founder's supplied concept film beside the
+          copy, as on the home page. Rendered on an uneven light grey (about
+          rgb(217-228)), so it was re-encoded with a flat 1.19 gain that takes
+          that ground to pure white for the multiply blend into the hero tint,
+          and the audio track was dropped. 1.0 MB supplied, 0.25 MB served. */}
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
-        <div className="wrap">
-          <Eyebrow>AI &amp; Automation</Eyebrow>
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            What could AI make possible for you?
-          </h1>
-          <p className="lead" style={{ marginTop: 24, maxWidth: '52ch' }}>
-            From intelligent products and automation to AI agents, prediction and new ways of
-            understanding information, we design and engineer AI around real problems, real systems
-            and outcomes that can be measured.
-          </p>
-          <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Start with what needs to change</Cta>
-            <Cta href="/ai-automation/evaluation-and-observability" variant="secondary">
-              See how we evaluate AI
-            </Cta>
+        <div className="wrap hero-split hero-split--wide-viz">
+          <div className="hero-split__copy">
+            <Eyebrow>AI &amp; Automation</Eyebrow>
+            <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
+              What could AI make possible for you?
+            </h1>
+            <p className="lead" style={{ marginTop: 24, maxWidth: '52ch' }}>
+              From intelligent products and automation to AI agents, prediction and new ways of
+              understanding information, we design and engineer AI around real problems, real systems
+              and outcomes that can be measured.
+            </p>
+            <div className="btn-row" style={{ marginTop: 34 }}>
+              <Cta href="/contact">Start with what needs to change</Cta>
+              <Cta href="/ai-automation/evaluation-and-observability" variant="secondary">
+                See how we evaluate AI
+              </Cta>
+            </div>
+          </div>
+          <div className="hero-split__viz">
+            <HeroVideo
+              height={720}
+              poster="/video/ai-hero-poster.webp"
+              src="/video/ai-hero.mp4"
+              variant="wide"
+              width={1280}
+            />
           </div>
         </div>
       </div>

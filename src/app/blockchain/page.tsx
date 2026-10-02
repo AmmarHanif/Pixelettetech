@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { HeroVideo } from '@/components/HeroVideo';
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, MediaSlot, SIZES, Section, SectionHead } from '@/components/ui';
 import { company, chains } from '@/content/company';
@@ -171,23 +172,40 @@ export default function BlockchainPage() {
           five-pill "practice" row below it was REMOVED - the three routes now
           carry links to all five specialist pages, so it was a second
           navigation of the same set. */}
+      {/* THE FILM, 2026-10-02: the founder's supplied film beside the copy, as
+          on the home and AI pages. Its ground is already near white (about
+          253), lifted to pure white for the multiply blend, audio dropped
+          (2.7 MB supplied, 0.88 MB served). The artwork runs off all four
+          edges of the frame, so the edges are faded into the page
+          (.bc-hero-film) rather than ending in a hard rectangle. */}
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
-        <div className="wrap">
-          <Eyebrow>Blockchain</Eyebrow>
-          <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
-            Tokenisation and decentralised systems, since {company.incorporated}
-          </h1>
-          <p className="lead" style={{ marginTop: 24 }}>
-            Pixelette began as a blockchain studio and it remains our deepest specialism:
-            tokenisation, smart contracts, wallets, exchanges and the infrastructure underneath
-            them. We use a chain where ownership, programmability or distributed verification
-            genuinely creates an advantage, and we say so when it does not.
-          </p>
-          <div className="btn-row" style={{ marginTop: 34 }}>
-            <Cta href="/contact">Scope a blockchain build</Cta>
-            <Cta href="/case-studies" variant="secondary">
-              See blockchain work
-            </Cta>
+        <div className="wrap hero-split hero-split--wide-viz">
+          <div className="hero-split__copy">
+            <Eyebrow>Blockchain</Eyebrow>
+            <h1 className="h1" style={{ marginTop: 24, maxWidth: '20ch' }}>
+              Tokenisation and decentralised systems, since {company.incorporated}
+            </h1>
+            <p className="lead" style={{ marginTop: 24 }}>
+              Pixelette began as a blockchain studio and it remains our deepest specialism:
+              tokenisation, smart contracts, wallets, exchanges and the infrastructure underneath
+              them. We use a chain where ownership, programmability or distributed verification
+              genuinely creates an advantage, and we say so when it does not.
+            </p>
+            <div className="btn-row" style={{ marginTop: 34 }}>
+              <Cta href="/contact">Scope a blockchain build</Cta>
+              <Cta href="/case-studies" variant="secondary">
+                See blockchain work
+              </Cta>
+            </div>
+          </div>
+          <div className="hero-split__viz bc-hero-film">
+            <HeroVideo
+              height={720}
+              poster="/video/blockchain-hero-poster.webp"
+              src="/video/blockchain-hero.mp4"
+              variant="wide"
+              width={1280}
+            />
           </div>
         </div>
       </div>
