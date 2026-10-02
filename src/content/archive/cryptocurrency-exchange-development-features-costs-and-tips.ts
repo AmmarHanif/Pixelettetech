@@ -95,7 +95,7 @@ const blocks: ArchiveBlock[] = [
   ["h3", "4. Marketing & liquidity generation"],
   ["p", "Get the community involved early, work with market makers, and conduct PR campaigns. It might be a good idea to be listed on services such as CoinMarketCap or integrated with wallets to increase exposure."],
   ["h3", "5. Partner with specialists"],
-  ["p", "Work with experienced providers of cryptocurrency exchange development services to avoid costly errors. A vendor should always possess a verifiable security and compliance history. Tools like bug bounty programs or third-party code verification (e.g., CertiK, Hacken) create preliminary trust."],
+  ["p", "Work with experienced providers of cryptocurrency exchange development services to avoid costly errors. A vendor should always possess a verifiable security and compliance history. Tools like bug bounty programs or third-party code verification (e.g., CertiK, Hacken) create preliminary assurance."],
   ["h2", "Conclusion"],
   ["p", "The rise of cryptocurrencies to the mainstream has made the opening of crypto exchanges more accessible than ever before. But success depends on choosing a suitable development model, building essential and unique features that fulfil demand, and partnering with the right cryptocurrency exchange development company."],
   ["p", "Whether you're opting for white-label or going for custom crypto exchange development, you should strive to make sure that your platform is secure, compliant, and user-focused. Even newcomers can develop competitive platforms that compete with leading exchanges with the right tools and guidance."],

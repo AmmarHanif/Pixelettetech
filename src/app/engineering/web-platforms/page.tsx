@@ -19,7 +19,7 @@ const capabilities = [
   },
   {
     title: 'Marketplaces and multi-sided platforms',
-    body: 'Supply, demand, matching, transactions and the trust mechanics between them, including the moderation and dispute paths nobody demonstrates.',
+    body: 'Supply, demand, matching, transactions and the reputation and safety mechanics between them, including the moderation and dispute paths nobody demonstrates.',
   },
   {
     title: 'Booking and scheduling systems',

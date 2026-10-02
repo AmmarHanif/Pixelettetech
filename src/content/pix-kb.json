@@ -541,7 +541,7 @@
   {
    "kind": "faq",
    "title": "Will you tell us if we do not need a blockchain?",
-   "text": "Yes. Blockchain is treated as a specialist tool rather than a default answer, and is used where ownership, programmability, verification, tokenisation or distributed trust creates a genuine advantage. Where a conventional system would do the job, that is the recommendation, including when it is the smaller piece of work.",
+   "text": "Yes. Blockchain is treated as a specialist tool rather than a default answer, and is used where ownership, programmability, verification, tokenisation or multi-party verification creates a genuine advantage. Where a conventional system would do the job, that is the recommendation, including when it is the smaller piece of work.",
    "path": "/blockchain/tokenisation",
    "page": "Tokenisation"
   },
@@ -561,7 +561,7 @@
   {
    "kind": "faq",
    "title": "What is the hardest part of building a wallet?",
-   "text": "Recovery and transaction safety, not the chain interaction. A wallet is a key-management system with a product interface on it: what happens when a user loses a device, and how clearly the interface communicates an irreversible action before it is signed, determine whether the product is trustworthy.",
+   "text": "Recovery and transaction safety, not the chain interaction. A wallet is a key-management system with a product interface on it: what happens when a user loses a device, and how clearly the interface communicates an irreversible action before it is signed, determine whether the product is safe to use.",
    "path": "/blockchain/wallets-digital-assets",
    "page": "Wallets & Digital-Asset Products"
   },

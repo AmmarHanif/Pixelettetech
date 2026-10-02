@@ -21,7 +21,7 @@ const practices = [
   },
   {
     title: 'Judge calibration',
-    body: 'Where a model does the grading, it is calibrated against human labels before it is trusted, and re-calibrated on a schedule. An uncalibrated judge is an opinion with a number attached.',
+    body: 'Where a model does the grading, it is calibrated against human labels before it is relied on, and re-calibrated on a schedule. An uncalibrated judge is an opinion with a number attached.',
   },
   {
     title: 'Regression checks on every release',

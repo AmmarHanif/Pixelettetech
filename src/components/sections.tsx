@@ -25,7 +25,7 @@ import { ANALYTICS_EVENTS, ANALYTICS_SURFACES, analyticsAttrs } from '@/lib/anal
  * logo row is wanted later it needs light-background artwork per client.
  */
 export function ClientLogos({
-  heading = 'Trusted by',
+  heading = 'Selected clients',
   tight,
 }: {
   heading?: string;

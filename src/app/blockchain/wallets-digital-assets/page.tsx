@@ -63,7 +63,7 @@ const faqs = [
   },
   {
     q: 'What is the hardest part of building a wallet?',
-    a: 'Recovery and transaction safety, not the chain interaction. A wallet is a key-management system with a product interface on it: what happens when a user loses a device, and how clearly the interface communicates an irreversible action before it is signed, determine whether the product is trustworthy.',
+    a: 'Recovery and transaction safety, not the chain interaction. A wallet is a key-management system with a product interface on it: what happens when a user loses a device, and how clearly the interface communicates an irreversible action before it is signed, determine whether the product is safe to use.',
   },
   {
     q: 'Can a wallet be part of a wider product rather than a standalone app?',

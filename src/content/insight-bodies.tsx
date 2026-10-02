@@ -467,7 +467,7 @@ export const INSIGHT_SOURCES: Record<
   'how-we-evaluate-ai-systems': [
     {
       label:
-        'NIST, AI Risk Management Framework: a voluntary framework for building trustworthiness into AI design, development and evaluation',
+        'NIST, AI Risk Management Framework: a voluntary framework for managing AI risk across design, development and evaluation',
       href: NIST,
     },
     {

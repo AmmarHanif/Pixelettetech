@@ -37,7 +37,7 @@ const blocks: ArchiveBlock[] = [
   ["h3", "1. PwC"],
   ["p", "PwC integrates blockchain into its auditing services to provide transparent, traceable records of financial data. The technology makes sure that all asset movements can be tracked across their lifecycle to create an immutable audit trail. Fraud is easier to detect, and audits become faster and more reliable."],
   ["h3", "2. Microsoft"],
-  ["p", "Microsoft uses blockchain to manage royalty payments for digital content creators. Smart contracts automate payments which reduces the need for reconciliation and disputes. This system ensures musicians, developers, and other creators are paid fairly and promptly, improving trust in the process."],
+  ["p", "Microsoft uses blockchain to manage royalty payments for digital content creators. Smart contracts automate payments which reduces the need for reconciliation and disputes. This system ensures musicians, developers, and other creators are paid fairly and promptly, improving confidence in the process."],
   ["h3", "3. JPMorgan"],
   ["p", "JPMorgan uses its permissioned blockchain, Quorum, to improve financial settlements. The platform allows secure interbank transfers, reduces reliance on intermediaries and cuts operational costs. With faster transactions and better compliance visibility, Quorum enhances both efficiency and auditability."],
   ["h2", "How to develop a custom blockchain accounting software solution"],

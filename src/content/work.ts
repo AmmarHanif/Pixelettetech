@@ -1170,7 +1170,7 @@ export const caseStudies: CaseStudy[] = [
     imageLabel: 'Marketplace screenshot',
     detail: {
       problem:
-        'Connecting fine art to a chain is mostly a trust problem, not a minting problem. The collection needed high-resolution digital renderings of physical artwork, secure on-chain transactions, and a buying experience that would not feel alien to art collectors. Without a credible marketplace, the authenticity of the work was the thing at risk.',
+        'Connecting fine art to a chain is mostly a provenance problem, not a minting problem. The collection needed high-resolution digital renderings of physical artwork, secure on-chain transactions, and a buying experience that would not feel alien to art collectors. Without a credible marketplace, the authenticity of the work was the thing at risk.',
       built:
         'A blockchain-backed NFT marketplace that authenticated ownership, settled transactions securely, and linked a share of the digital pieces directly to the physical works they represent, so provenance ran both ways.',
       measured:
@@ -1251,7 +1251,7 @@ export const caseStudies: CaseStudy[] = [
       built:
         'A tokenised trading marketplace with provenance tracked on chain, using ERC-1155 and decentralised storage for the asset records, and a trading interface backed by real-time data services.',
       measured:
-        'Origin and chain of custody became something a participant could check rather than take on trust, and the marketplace drew traders who stayed with it. The accuracy rate, the tokenisation growth, the number of traders engaged and the retention rate are all held for evidence.',
+        'Origin and chain of custody became something a participant could check rather than take on faith, and the marketplace drew traders who stayed with it. The accuracy rate, the tokenisation growth, the number of traders engaged and the retention rate are all held for evidence.',
       next: null,
       stack: 'Solidity, Truffle, ERC-1155, IPFS, Web3.js, Node.js, Moralis',
       duration: null,

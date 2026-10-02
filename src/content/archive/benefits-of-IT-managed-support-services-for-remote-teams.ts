@@ -38,7 +38,7 @@ const blocks: ArchiveBlock[] = [
   ["h3", "6. Better security for remote teams"],
   ["p", "Remote teams rely on cloud apps, shared networks, and personal devices, all of which can open doors to security risks. That’s why IT managed support services are essential for keeping data safe."],
   ["p", "These providers put strong security systems in place: firewalls, antivirus tools, secure login setups, and regular updates. They also monitor for threats like phishing, malware, or data breaches."],
-  ["p", "For small businesses, this level of protection would be hard to build alone. With a trusted IT support provider, your remote team gets the safety of a well-guarded network without the high cost of managing it in-house."],
+  ["p", "For small businesses, this level of protection would be hard to build alone. With a reliable IT support provider, your remote team gets the safety of a well-guarded network without the high cost of managing it in-house."],
   ["h3", "7. Streamlined collaboration and communication tools"],
   ["p", "When you’re working remotely, you spend most of your day jumping between tools. It might be Zoom, Slack, Google Drive or whatever your team uses. If one of them stops working, it can throw the whole day off."],
   ["p", "You try refreshing, logging out, and Googling the issue. Ten minutes gone. Then twenty. It adds up."],

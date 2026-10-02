@@ -52,7 +52,7 @@ const questions = [
   },
   {
     title: 'Would a database do?',
-    body: 'If there is no distributed trust problem, no independent verification requirement and no genuine need for programmable ownership, the honest answer is often yes.',
+    body: 'If there is no shared record between separate parties, no independent verification requirement and no genuine need for programmable ownership, the honest answer is often yes.',
   },
 ];
 
@@ -67,7 +67,7 @@ const faqs = [
   },
   {
     q: 'Will you tell us if we do not need a blockchain?',
-    a: 'Yes. Blockchain is treated as a specialist tool rather than a default answer, and is used where ownership, programmability, verification, tokenisation or distributed trust creates a genuine advantage. Where a conventional system would do the job, that is the recommendation, including when it is the smaller piece of work.',
+    a: 'Yes. Blockchain is treated as a specialist tool rather than a default answer, and is used where ownership, programmability, verification, tokenisation or multi-party verification creates a genuine advantage. Where a conventional system would do the job, that is the recommendation, including when it is the smaller piece of work.',
   },
 ];
 
@@ -184,7 +184,7 @@ export default function TokenisationPage() {
             <p className="body" style={{ marginTop: 20 }}>
               Fractional participation in an asset that is otherwise indivisible. Programmable
               distributions that would otherwise be a monthly spreadsheet. Positions that need to be
-              independently verifiable by parties who do not trust a single operator’s database.
+              independently verifiable by parties who cannot rely on a single operator’s database.
               Transfer rules enforced by the asset itself rather than by a process.
             </p>
             <p className="body" style={{ marginTop: 16 }}>
