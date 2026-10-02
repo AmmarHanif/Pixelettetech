@@ -15,7 +15,7 @@ const blocks: ArchiveBlock[] = [
   ["p", "Real-time data tracking is another feature that helps businesses keep track of their supply chain activities, respond to disruptions, shortages, or delays. With its advanced analytics and reporting, businesses convert their raw data into data-driven actions. It improves their decision-making abilities at every point."],
   ["p", "These features are vital for a growing business, but a scalable supply chain intelligence platform should also offer scalability and flexibility. It should give businesses a way to adapt new systems without going for a complete overhaul."],
   ["h2", "Top tools for supply chain intelligence development"],
-  ["p", "Among many tools available for supply chain intelligence development, below are the top ones you can use with complete trust."],
+  ["p", "Among many tools available for supply chain intelligence development, below are the top ones you can use with complete confidence."],
   ["h3", "1. SAP Integrated Business Planning (IBP)"],
   ["p", "This tool is known for its capabilities in supply chain forecasting, demand planning, and integrated data analysis. It combines and integrates data from different departments, and end-to-end planning for the supply chain intelligence development."],
   ["h3", "2. Oracle Supply Chain Management Cloud"],

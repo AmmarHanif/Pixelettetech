@@ -56,7 +56,7 @@ const blocks: ArchiveBlock[] = [
   ["h3", "4. Paid apps"],
   ["p", "Charging users an upfront fee works best for apps with unique value or niche appeal."],
   ["li", "Offer a clear value proposition, such as premium features or ad-free experiences."],
-  ["li", "Use strong user reviews and testimonials to build trust."],
+  ["li", "Use strong user reviews and testimonials to build credibility."],
   ["p", "Apps like “Procreate” (design) and “Pocket Casts” (podcasting) are profitable apps catering to highly targeted user needs."],
   ["h3", "Emerging trends in monetization"],
   ["p", "As user preferences evolve, new monetization strategies are gaining traction."],

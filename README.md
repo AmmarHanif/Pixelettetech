@@ -116,6 +116,22 @@ Nothing was invented to make a section look finished. No fabricated client
 names, no estimated percentages, no made-up email addresses, no invented legal
 wording.
 
+## Banned word: "trust"
+
+Founder instruction, 2026-10-02: no "trust", "trusted", "trustworthy" or "AI
+you can trust" anywhere in customer-facing copy, visual text, alt text,
+metadata or CTAs. The AI proposition is evidence-led (Evaluation &
+Observability), so say what is measured or checked instead: "reliable",
+"relied on", "verifiable", "See how we evaluate AI", "Build AI you can verify".
+Supplied or generated visuals are design references only; their wording is not
+approved by being in them, and text baked into an image has to be checked by
+eye.
+
+`npm run check:words` fails on the word in any string or JSX text under
+`src/`, in `pix-kb.json` and in `public/llms.txt`, and `npm run build` runs it
+first. Comments, code identifiers and the internal register notes are not
+searched.
+
 ## SEO, GEO and AEO
 
 **Classic SEO.** Per-page title and meta description sized to what search

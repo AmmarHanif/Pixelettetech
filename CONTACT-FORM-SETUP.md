@@ -1,16 +1,31 @@
 # Contact form — what has to be supplied before it works
 
 The contact form at `/contact` writes each enquiry to a Supabase table and sends
-a notification email through Resend. The code for both is written, built and
-tested. **Nothing is configured**, so until the four variables below are set the
-form does what it has always done: it tells the visitor plainly that it is not
-connected and asks them to email `sales@pixelettetech.com` instead. It never
-reports success for an enquiry that went nowhere.
+a notification email through Resend. Since 28 September 2026 the site
+assistant, Pix T, sends its enquiries through the same path, and since 29
+September it also records the name and email a visitor gives it before
+chatting, in a second table, `assistant_contacts`. The code is written, built
+and tested, and has been on Vercel Production since 2026-10-01. **Whether the
+four variables below are set in the Vercel project is not recorded.** Until
+they are set, the form does what it has always done: it tells the visitor
+plainly that it is not connected and asks them to email
+`sales@pixelettetech.com` instead. It never reports success for an enquiry that
+went nowhere.
 
 That is deliberate, and it is also what every preview deployment will do.
 
-Written 2026-09-14. Nothing in this file has been run against a live Supabase
-project or a live Resend account — see "What is still unproven" at the end.
+Written 2026-09-14, updated 2026-10-01. No run of anything in this file against
+a live Supabase project or a live Resend account has been recorded — see "What
+is still unproven" at the end.
+
+**Urgent since 2026-10-01.** The code that writes to both tables went live that
+day, and whether the migrations have been applied to the live project is
+unconfirmed. Until the lead-capture migration is applied, a site with the
+Supabase variables set does not record chat contacts at all. It stores Pix T
+enquiries without their score if the code's fallback works as designed, and
+otherwise does not store them at all. Section 2, "Applying the migrations —
+step by step", gives the exact conditions, how to find out which state the
+project is in, and what to run.
 
 ---
 
@@ -55,20 +70,26 @@ is, the form reports honestly that it is not connected. See section 6.
 ## 2. Supabase: create the table
 
 1. Create the project, or pick the existing one.
-2. Apply `supabase/migrations/20260914120000_create_contact_enquiries.sql`.
-   Either `supabase db push` with the CLI, or open the SQL Editor in the
-   dashboard, paste the whole file and run it. The file is safe to run twice.
-   Then apply `supabase/migrations/20260929120000_pix_t_lead_capture.sql` (Pix T
-   lead capture, 29 September 2026): the lead-score columns and the
-   `assistant_contacts` table, with the same access controls. Apply it BEFORE the
-   code that uses it is deployed, and run the five checks at its foot. Unlike the
-   first file, running it twice fails on the constraints it adds, deliberately.
+2. Apply the two migrations, in this order:
+   `supabase/migrations/20260914120000_create_contact_enquiries.sql`, then
+   `supabase/migrations/20260929120000_pix_t_lead_capture.sql` (Pix T lead
+   capture, 29 September 2026: the lead-score columns and the
+   `assistant_contacts` table, with the same access controls). Either
+   `supabase db push` with the CLI, or paste each whole file into the SQL Editor
+   in the dashboard and run it. Follow "Applying the migrations — step by step"
+   below, which runs a read-only preflight query first so that only what is
+   missing gets applied. The first file is safe to run twice. The second is
+   not: running it twice fails on the constraints it adds, deliberately. It has
+   six checks at its foot. Its header says to apply it before the code that
+   uses it is deployed; that can no longer be met, because the code went live on
+   2026-10-01.
 3. **Confirm Row Level Security is on and that no policy was created.** Both are
    the security design, not an oversight. The table is a list of named people
    and their work email addresses, and the anon key that reaches it is published
    in browsers by design, so the anon role must be able to do nothing at all.
-   Run the four checks written out at the bottom of the migration file. The
-   fourth is the one that matters: it calls the REST endpoint with the **anon**
+   Run the checks written out at the bottom of each migration file (steps C
+   and D below). The REST check is the one that matters (check 4 in the first
+   file, check 5 in the second): it calls the REST endpoint with the **anon**
    key and expects to be refused. Submit one enquiry first, so that there is
    actually a row there to leak — a query returning `[]` against an empty table
    proves nothing.
@@ -96,6 +117,166 @@ is, the form reports honestly that it is not connected. See section 6.
 The migration grants the service role `INSERT` and deliberately not `SELECT`.
 If a future admin page needs to list enquiries through the API, grant `SELECT`
 explicitly; the migration says so at the point where it matters.
+
+### Applying the migrations — step by step
+
+Added 2026-10-01. Written for the founder, pasting into the Supabase SQL Editor
+(dashboard, SQL Editor, new query). No run of it against the live project has
+been recorded.
+
+**Why this is now urgent.** The code that writes to both tables has been live on
+Vercel Production since 2026-10-01 (`main` at `0e9a979`). Whether either
+migration has been applied to the live project is unconfirmed: no check has
+been recorded. If `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set in Vercel
+(also unconfirmed) and the lead-capture migration has not been applied:
+
+- **Pix T enquiries are stored without their score.** The insert carrying the
+  lead columns is refused, and `src/lib/enquiries.ts:228-231` logs
+  `lead columns missing - apply the lead-capture migration` and writes the row
+  again without them. The score and its reasons still go in the notification
+  email (`enquiries.ts:490-494`), if Resend is configured. That fallback fires
+  only if Supabase answers with `PGRST204` or `42703`, which has not been
+  confirmed against Supabase itself (`enquiries.ts:224-226`). Any other answer means the enquiry is not stored at all, and the
+  email, which then opens with the "NOT saved to the database" warning, is the
+  only copy.
+- **Chat contacts are not recorded.** The name and email a visitor gives Pix T
+  before chatting go to `assistant_contacts` through `storeChatContact`
+  (`enquiries.ts:237-247`), which has no fallback. No email is sent for a chat
+  contact, so nothing else holds it. The visitor is not told and chats on
+  (`src/app/contact/actions.ts:268-301`).
+- If the first migration is missing as well, no enquiry is stored at all, from
+  the contact form or from Pix T.
+
+**A. Run the preflight query first.** It only reads the catalogues, changes
+nothing, and does not error whatever state the project is in: it uses
+`to_regclass`, which returns null for a missing table instead of failing. Paste
+it as one query and run it.
+
+```sql
+select
+  to_regclass('public.contact_enquiries') is not null                as contact_enquiries_exists,
+  (select count(*) from pg_constraint
+    where conrelid = to_regclass('public.contact_enquiries')
+      and contype = 'c')                                             as contact_enquiries_check_constraints,
+  (select count(*) from information_schema.columns
+    where table_schema = 'public' and table_name = 'contact_enquiries'
+      and column_name in ('lead_ref', 'lead_score', 'lead_band', 'lead_reasons'))
+                                                                     as lead_columns_present,
+  to_regclass('public.assistant_contacts') is not null               as assistant_contacts_exists,
+  (select count(*) from pg_constraint
+    where conrelid = to_regclass('public.assistant_contacts')
+      and contype = 'c')                                             as assistant_contacts_check_constraints,
+  (select relrowsecurity from pg_class
+    where oid = to_regclass('public.contact_enquiries'))             as contact_enquiries_rls,
+  (select relrowsecurity from pg_class
+    where oid = to_regclass('public.assistant_contacts'))            as assistant_contacts_rls,
+  (select count(*) from pg_policies
+    where schemaname = 'public'
+      and tablename in ('contact_enquiries', 'assistant_contacts'))  as policies,
+  (select count(*) from information_schema.role_table_grants
+    where table_schema = 'public'
+      and table_name in ('contact_enquiries', 'assistant_contacts')
+      and grantee in ('anon', 'authenticated', 'PUBLIC'))            as anon_authenticated_grants;
+```
+
+It returns one row of nine values, in the order of the columns above. There
+are three expected answers:
+
+1. `false | 0 | 0 | false | 0 | null | null | 0 | 0` — **nothing is applied.**
+   Apply both files in step B, the first and then the second.
+2. `true | 8 | 0 | false | 0 | true | null | 0 | 0` — **only the first file is
+   applied.** Apply the second file only.
+3. `true | 11 | 4 | true | 3 | true | true | 0 | 0` — **both are applied.** Apply
+   nothing, and go straight to step C.
+
+**Any other answer: stop, and apply nothing until someone has looked at it.** In
+particular:
+
+- If the first value is `true` and the second is fewer than 8,
+  `contact_enquiries` was probably created before the first migration ran: the
+  trap its check 3b describes. Re-running the first
+  file will not repair it; follow check 3b.
+- A non-zero `policies` or `anon_authenticated_grants` means the anon key may be
+  able to reach the data. Deal with that before anything else.
+- Between 1 and 3 lead columns, or `assistant_contacts` present without all four
+  lead columns, means the second file ran only in part or something was changed
+  by hand.
+
+**B. Apply only what is missing, in order.** Open the file in the repository,
+copy the whole of it, paste it into a new query and run it:
+`20260914120000_create_contact_enquiries.sql` first, then
+`20260929120000_pix_t_lead_capture.sql`. After each file, run the preflight
+again; it should now show the next answer in the list above.
+
+- **The first file run twice** is harmless: the second run changes nothing. It
+  also does not repair a table that existed before it (check 3b).
+- **The second file run twice fails loudly, on purpose.** The second run stops at
+  once with `42710 constraint "contact_enquiries_lead_score_range" for relation
+  "contact_enquiries" already exists`; the file explains why at lines 36-38. If
+  you see it, run the preflight. If it shows answer 3, the earlier run worked and
+  nothing is wrong. Do not drop constraints to make the error go away.
+- **The second file run before the first** fails at its first statement with
+  `42P01 relation "public.contact_enquiries" does not exist`. Run the preflight;
+  if it shows answer 1, apply the first file and then the second. The second
+  file's header does not say that it needs the first, but it does.
+
+In the local test below, both failures left the database exactly as it was,
+because each file ran as a single transaction. Whether the SQL Editor runs a
+pasted file as a single transaction was not tested, which is one more reason to
+run the preflight after any error rather than guess.
+
+**C. Run each file's acceptance checks.** They are in the comment block at the
+foot of each file. Paste the queries one at a time.
+
+- First file, checks 1, 2, 3 and 3b. Expect RLS on with 0 policies; zero rows;
+  exactly one row, `INSERT`; 8 rows.
+- Second file, checks 1, 2, 3, 4 and 6. Expect 4 rows; RLS on with 0 policies;
+  zero rows; exactly one row, `INSERT`; 3 on `assistant_contacts` and 11 on
+  `contact_enquiries`.
+
+Two known quirks in those checks, neither a fault in the tables. Checks 3b and 6
+use `'public.<table>'::regclass`, which throws "relation does not exist" when a
+table is missing, so they can confirm an apply but cannot detect a missing one;
+the preflight is for that. Check 1 in the second file uses `like 'lead_%'`, in
+which `_` is a wildcard; it returns exactly the four lead columns today, and the
+preflight lists them by name.
+
+**D. The REST check, with the ANON key.** Checks in step C read the same
+catalogues the files wrote to. This one comes from outside, as anyone on the
+internet would. It is check 4 in the first file and check 5 in the second. Use
+the project's anon (public) key, never the service-role key. First submit one
+real enquiry through `/contact` and give Pix T a name and email, so that there
+are rows to leak.
+
+```
+GET  {SUPABASE_URL}/rest/v1/contact_enquiries?select=*    apikey: {anon key}  -> 401, or 200 []. NEVER a row.
+POST {SUPABASE_URL}/rest/v1/contact_enquiries             apikey: {anon key}  -> 401/403. NEVER 201.
+GET  {SUPABASE_URL}/rest/v1/assistant_contacts?select=*   apikey: {anon key}  -> 401, or 200 []. NEVER a row.
+```
+
+Then run the first live test in section 5.
+
+**What was tested on 2026-10-01, and what was not.**
+
+Tested, locally only. Both files were applied verbatim to PGlite 0.5.8
+(PostgreSQL 18.3) under Node 22.18.0, in a scratch folder outside this
+repository, after setting up Supabase-like roles (`anon` and `authenticated`,
+and `service_role` with BYPASSRLS) and Supabase-style default grants on new
+tables. Both applied without error. Every SQL check in step C gave the expected
+result. The preflight gave the three answers above, one per state, and did not
+error in any of them. `anon` and `authenticated` were refused SELECT and INSERT
+on both tables. `service_role` could INSERT, and was refused SELECT and
+`INSERT ... RETURNING *`, which is why `enquiries.ts:318` sends
+`Prefer: return=minimal`. The CHECK constraints rejected out-of-range values,
+and rows shaped exactly as the code sends them were accepted. Re-running the
+first file changed nothing. The second file's re-run, and its run without the
+first, failed as step B describes and changed nothing.
+
+Not tested: anything against Supabase itself. That means the live project's
+state, the SQL Editor's transaction behaviour, the hosted REST API (step D),
+and whether that API really answers `PGRST204` or `42703` for the missing lead
+columns, which the fallback at `enquiries.ts:228` depends on. No live or remote
+database was touched.
 
 ---
 
@@ -127,16 +308,21 @@ say where it is processed. If the intention is that enquiry data stays in the
 UK or the EU, **check the Supabase region before creating the project**, not
 after.
 
-The privacy and security-and-data page copy is being written separately. This
-file records the facts; it does not draft the disclosures.
+The disclosures have since been written. `/privacy` says the regions in which
+Vercel, Supabase and Resend process this information have not been restricted
+(`src/app/privacy/page.tsx:523-525`), and `/security-and-data` was withdrawn on
+17 September 2026. PROCUREMENT-PACK.md records an OPEN conflict between that
+and a London requirement. This file records the facts; it does not draft the
+disclosures.
 
 ---
 
 ## 5. Proving it works, on the first live test
 
 1. Submit the form on the deployed site with a real address you control.
-2. The visitor should see "Thank you. One of us will reply within one working
-   day".
+2. The visitor should see "Thank you. One of us will reply personally, not an
+   automated sequence." (`MESSAGES.SUCCESS`, `src/app/contact/actions.ts:80`;
+   the one-working-day promise was removed on 24 September 2026).
 3. A row should appear in `contact_enquiries`.
 4. A notification should arrive at `sales@pixelettetech.com`. Replying to it
    should reply to the address the visitor typed.
@@ -213,6 +399,10 @@ node verification/2026-09-14/contact_action_test.js
 node verification/2026-09-14/positive_controls.js
 ```
 
+Both scripts hard-code the repository path of the machine they were written on
+(`REPO`, line 22 of each). On any other machine, point that constant at this
+checkout first, or they fail before running a test.
+
 The first compiles the real server action, stubs the network, and exercises the
 unconfigured state, the success path, both partial-failure paths and the total
 failure. It ends with two deliberately false assertions that must be reported as
@@ -230,13 +420,16 @@ afterwards and verifies the restore by SHA-256.
 
 Stated plainly, because it is the difference between "written" and "working".
 
-- **Nothing here has touched a live Supabase project or Resend account.** The
-  migration has never been executed. Its behaviour is reasoned from documented
-  PostgreSQL and Supabase semantics, not observed. Section 2 step 3 is the
-  acceptance test, and it has not been run.
+- **No run against a live Supabase project or Resend account has been
+  recorded.** Whether either migration has been applied to the live project is
+  unconfirmed. On 2026-10-01 both migrations were executed against a local
+  PostgreSQL (PGlite), not Supabase, and every SQL check passed; section 2,
+  "Applying the migrations — step by step", says exactly what that did and did
+  not prove. Section 2 step 3 is the acceptance test against the real project,
+  and no run of it has been recorded.
 - **The access control is the thing to check first, not last.** If only one item
-  in this document gets verified, make it the anon-key request in the migration's
-  check 4.
+  in this document gets verified, make it the anon-key request: check 4 in the
+  first migration and check 5 in the second.
 - **One field name in the Resend payload is unverified.** The notification is
   sent with `reply_to`, which is the expected spelling for Resend's HTTP API, but
   it could not be checked against the vendor's reference from the build

@@ -163,13 +163,13 @@
   {
    "kind": "page",
    "title": "AI & Automation",
-   "text": "AI systems, AI agents and automation, and the evaluation and observability that shows whether they still work. Engineered into the systems an organisation already runs.",
+   "text": "What could AI make possible for you? AI systems, AI agents and automation, engineered around real problems, real systems and outcomes that can be measured.",
    "path": "/ai-automation"
   },
   {
    "kind": "faq",
-   "title": "Why can so few organisations show a return on AI?",
-   "text": "Because the work around the model was never redesigned, the data it needs was never made reachable, and nobody owns whether it still works next quarter. In McKinsey’s 2026 survey 80% of respondents said AI had improved their individual productivity, while 37% reported it contributing to their organisation’s EBIT (McKinsey State of AI, August 2026, n=1,719).",
+   "title": "What could AI do for my organisation?",
+   "text": "More than office administration. AI can assist with work already being done, understand text, speech, images and data that are slow to process by hand, act inside products and systems within defined permissions, and surface patterns, forecasts and anomalies that were hard to see. That applies to software products, customer and retail experiences, personal and wellbeing apps, operations and industrial settings as much as to back-office work. Whether AI is the right tool for a particular problem is the first thing a Value Discovery establishes.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
@@ -541,7 +541,7 @@
   {
    "kind": "faq",
    "title": "Will you tell us if we do not need a blockchain?",
-   "text": "Yes. Blockchain is treated as a specialist tool rather than a default answer, and is used where ownership, programmability, verification, tokenisation or distributed trust creates a genuine advantage. Where a conventional system would do the job, that is the recommendation, including when it is the smaller piece of work.",
+   "text": "Yes. Blockchain is treated as a specialist tool rather than a default answer, and is used where ownership, programmability, verification, tokenisation or multi-party verification creates a genuine advantage. Where a conventional system would do the job, that is the recommendation, including when it is the smaller piece of work.",
    "path": "/blockchain/tokenisation",
    "page": "Tokenisation"
   },
@@ -561,7 +561,7 @@
   {
    "kind": "faq",
    "title": "What is the hardest part of building a wallet?",
-   "text": "Recovery and transaction safety, not the chain interaction. A wallet is a key-management system with a product interface on it: what happens when a user loses a device, and how clearly the interface communicates an irreversible action before it is signed, determine whether the product is trustworthy.",
+   "text": "Recovery and transaction safety, not the chain interaction. A wallet is a key-management system with a product interface on it: what happens when a user loses a device, and how clearly the interface communicates an irreversible action before it is signed, determine whether the product is safe to use.",
    "path": "/blockchain/wallets-digital-assets",
    "page": "Wallets & Digital-Asset Products"
   },

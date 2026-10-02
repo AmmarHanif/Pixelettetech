@@ -21,7 +21,7 @@ const capabilities = [
   },
   {
     title: 'Sentiment and theme analysis',
-    body: 'What customers are actually saying across reviews, tickets and calls, aggregated into themes a team can act on rather than a single number nobody trusts.',
+    body: 'What customers are actually saying across reviews, tickets and calls, aggregated into themes a team can act on rather than a single number nobody acts on.',
   },
   {
     title: 'Speech to text and voice interfaces',

@@ -132,7 +132,7 @@ export default function LlmIntegrationRagPage() {
         <SectionHead
           title="What the integration involves"
           id="rag-build-heading"
-          lead="The model is the smallest decision in this list. Everything else is what determines whether the feature is trustworthy, affordable and defensible."
+          lead="The model is the smallest decision in this list. Everything else is what determines whether the feature is reliable, affordable and defensible."
         />
         <div className="grid grid-3" style={{ marginTop: 36 }}>
           {capabilities.map(cap => (

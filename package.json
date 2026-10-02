@@ -5,7 +5,7 @@
   "description": "Pixelette Technologies 2026 website — two practices (Build, Blockchain) with AI engineered into both.",
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/build-work-images.mjs --check && node scripts/build-app-icons.mjs --check && next build && node scripts/check-public-output.mjs && node scripts/check-privacy-interlock.mjs",
+    "build": "node scripts/build-work-images.mjs --check && node scripts/build-app-icons.mjs --check && node scripts/check-banned-words.mjs && next build && node scripts/check-public-output.mjs && node scripts/check-privacy-interlock.mjs",
     "start": "next start",
     "lint": "next lint",
     "check-types": "tsc --noEmit --pretty",
@@ -13,6 +13,7 @@
     "pix:check": "node scripts/check-pix-kb.mjs",
     "pix:test": "node scripts/test-pix.cjs",
     "check:headings": "node scripts/check-headings.mjs",
+    "check:words": "node scripts/check-banned-words.mjs",
     "check:pix-sources": "node scripts/check-pix-kb-sources.mjs",
     "check:public": "node scripts/check-public-output.mjs",
     "check:privacy": "node scripts/check-privacy-interlock.mjs",

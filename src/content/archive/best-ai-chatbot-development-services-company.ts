@@ -85,7 +85,7 @@ const blocks: ArchiveBlock[] = [
   ["h2", "Conclusion"],
   ["p", "Chatbots have gone from simple tools to serious business assets. In 2025, they help teams move faster, talk smarter, and work more efficiently, whether that’s answering support tickets or helping a customer complete a purchase."],
   ["p", "But getting it right takes more than just code."],
-  ["p", "Teams that offer true custom chatbot development services will take the time to shape the experience around your users, not just deliver a working bot. That’s why hiring a trusted AI chatbot development company can make all the difference."],
+  ["p", "Teams that offer true custom chatbot development services will take the time to shape the experience around your users, not just deliver a working bot. That’s why hiring an experienced AI chatbot development company can make all the difference."],
   ["p", "If you’ve made it this far, you’re probably close to taking the next step. Narrow down your list. Ask for demos. And don’t settle for anything less than a chatbot that works exactly how your business needs it to."],
 ];
 

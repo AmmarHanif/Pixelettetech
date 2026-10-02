@@ -1,7 +1,6 @@
 import { ClosingCta } from '@/components/sections';
 import { Cta, Eyebrow, FLink, Faqs, JsonLd, Section, SectionHead, SourceNote } from '@/components/ui';
 import { certified } from '@/content/company';
-import { gapStats } from '@/content/sources';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -37,14 +36,66 @@ import { pageMetadata } from '@/lib/seo';
  * NO SUB-PAGE WAS TOUCHED, no route created, no redirect written and no
  * navigation destination changed. Every link below points at a page that already
  * exists today.
+ *
+ * POSITIONING AMENDMENT, 2026-10-02 (founder brief "AI & Automation hero +
+ * positioning refinement, final amendment"). The page used to open on the
+ * adoption gap - "Most companies have adopted AI. Far fewer can show what it
+ * changed" - with two survey figures under it, which made proving AI's impact
+ * the whole offer. It now opens on opportunity and runs:
+ *
+ *   possibility (hero, then Assist / Understand / Act / Discover)
+ *   -> what we engineer (the three routes, Data & Integration beneath)
+ *   -> where AI earns its place -> how we approach it
+ *   -> evidence ("How do we know it actually works?")
+ *   -> Value Discovery and the closing CTA.
+ *
+ * Measurement is not gone; it moved down. The hero's last words are "outcomes
+ * that can be measured", and the evidence section explains how. The adoption
+ * figures (gapStats) left this page with the old headline, and the FAQ that
+ * restated them was replaced: they argued the old proposition and do nothing
+ * for the new one. They still render on the home page, which this brief does
+ * not cover. The overview visual is under separate review and is NOT built
+ * here: the Assist / Understand / Act / Discover section is text only.
  */
 
 export const metadata = pageMetadata({
   title: 'AI & Automation',
   description:
-    'AI systems, AI agents and automation, and the evaluation and observability that shows whether they still work. Engineered into the systems an organisation already runs.',
+    'What could AI make possible for you? AI systems, AI agents and automation, engineered around real problems, real systems and outcomes that can be measured.',
   path: '/ai-automation',
 });
+
+/**
+ * Assist -> Understand -> Act -> Discover: the spectrum the forthcoming overview
+ * visual is built on. Text only until that visual is approved.
+ *
+ * Kept deliberately broad - a product, a customer, an engineer, a forecast -
+ * because the brief is explicit that the page must not read as office
+ * automation. No sector list. DISCOVER is worded so it does not promise that
+ * AI finds opportunities on its own: it points, people decide.
+ */
+const SPECTRUM = [
+  {
+    n: '01',
+    t: 'Assist',
+    b: 'Help with what you are already doing, from guiding a customer to the right product to taking an engineer through a diagnosis.',
+  },
+  {
+    n: '02',
+    t: 'Understand',
+    b: 'Make sense of complex information and context: text, speech, images and data that are difficult to process by hand.',
+  },
+  {
+    n: '03',
+    t: 'Act',
+    b: 'Connect intelligence to products, systems and real-world workflows, and take permitted action where appropriate.',
+  },
+  {
+    n: '04',
+    t: 'Discover',
+    b: 'Reveal patterns, anticipate change and point to potential opportunities that were hard to see. People decide which are worth pursuing.',
+  },
+];
 
 /**
  * The three customer routes, and one enabling capability held below them.
@@ -62,8 +113,8 @@ const ROUTES = [
   {
     n: '01',
     title: 'AI systems',
-    body: 'AI systems that can understand information, identify patterns, predict outcomes, recommend actions and support decisions.',
-    facets: ['Understand', 'Predict', 'Recommend', 'Support decisions'],
+    body: 'AI systems that can read, see and hear, understand information and context, identify patterns, predict outcomes and recommend actions.',
+    facets: ['Read, see, hear', 'Understand', 'Predict', 'Recommend'],
     links: [
       { href: '/ai-automation/predictive-intelligence', label: 'Prediction and patterns' },
       { href: '/ai-automation/language-speech-vision', label: 'Language, speech and vision' },
@@ -72,7 +123,7 @@ const ROUTES = [
   {
     n: '02',
     title: 'AI agents & automation',
-    body: 'Automation and AI systems that can carry out controlled work across workflows, tools and connected systems. That ranges from deterministic automation, through AI-assisted workflows, to controlled agentic operation.',
+    body: 'Automation follows a process. An AI agent pursues an objective: it plans the work, uses approved tools and systems, takes permitted actions and involves people at defined control points.',
     facets: ['Deterministic', 'AI-assisted', 'Controlled agentic'],
     links: [
       { href: '/ai-automation/workflow-automation', label: 'Workflow automation' },
@@ -82,8 +133,8 @@ const ROUTES = [
   {
     n: '03',
     title: 'Evaluation & observability',
-    body: 'Testing and monitoring that shows whether an AI system performs as intended, continues to do so after release, and changes when its inputs, models or environment change.',
-    facets: ['Evaluation', 'Regression', 'Drift', 'Monitoring'],
+    body: 'Testing against defined acceptance criteria, regression checks when anything changes, and monitoring of production behaviour, with the system re-verified after each improvement.',
+    facets: ['Acceptance criteria', 'Regression', 'Drift', 'Monitoring'],
     links: [{ href: '/ai-automation/evaluation-and-observability', label: 'How we measure' }],
   },
 ];
@@ -142,16 +193,34 @@ const PRINCIPLES = [
   { n: '06', label: 'Test what runs in production', line: 'Evaluation continues after release.' },
 ];
 
-/** §13. Value Discovery as the entry methodology, not a fifth service. */
+/**
+ * §13. Value Discovery as the entry methodology, not a fifth service.
+ *
+ * Re-sequenced 2026-10-02 to the amendment's seven questions, carried in the
+ * existing four steps rather than seven: goal and opportunity; rules or AI;
+ * whether it needs to act; success, baseline and measurement.
+ */
 const DISCOVERY = [
-  { n: '01', t: 'Understand the workflow', b: 'What happens now?' },
-  { n: '02', t: 'Establish the baseline', b: 'What does current performance look like?' },
+  {
+    n: '01',
+    t: 'Set the goal',
+    b: 'What are you trying to achieve, and what problem or opportunity stands in the way?',
+  },
+  {
+    n: '02',
+    t: 'Choose the simplest tool',
+    b: 'Would conventional software or rules solve it, or does AI add useful capability?',
+  },
   {
     n: '03',
-    t: 'Decide whether AI earns a role',
-    b: 'Would rules, automation or AI materially improve it?',
+    t: 'Decide how far it goes',
+    b: 'Does the system need to act, and where do people stay in control?',
   },
-  { n: '04', t: 'Define success', b: 'How will we know whether the change worked?' },
+  {
+    n: '04',
+    t: 'Define success',
+    b: 'What would success look like, where is the baseline today, and how will we measure it?',
+  },
 ];
 
 /**
@@ -167,8 +236,15 @@ const DISCOVERY = [
  */
 const faqs = [
   {
-    q: 'Why can so few organisations show a return on AI?',
-    a: 'Because the work around the model was never redesigned, the data it needs was never made reachable, and nobody owns whether it still works next quarter. In McKinsey’s 2026 survey 80% of respondents said AI had improved their individual productivity, while 37% reported it contributing to their organisation’s EBIT (McKinsey State of AI, August 2026, n=1,719).',
+    /*
+     * REPLACED 2026-10-02. This was "Why can so few organisations show a return
+     * on AI?", answered with the two McKinsey figures that sat under the old
+     * hero. It restated the adoption-failure argument the amendment retires, so
+     * it went with the headline. Its replacement carries the breadth the
+     * amendment asks for, with no figures.
+     */
+    q: 'What could AI do for my organisation?',
+    a: 'More than office administration. AI can assist with work already being done, understand text, speech, images and data that are slow to process by hand, act inside products and systems within defined permissions, and surface patterns, forecasts and anomalies that were hard to see. That applies to software products, customer and retail experiences, personal and wellbeing apps, operations and industrial settings as much as to back-office work. Whether AI is the right tool for a particular problem is the first thing a Value Discovery establishes.',
   },
   {
     /*
@@ -199,19 +275,6 @@ const faqs = [
   },
 ];
 
-/**
- * The attribution line under the gap figures, derived rather than indexed.
- *
- * This read used to be gapStats[0]!.source. The non-null assertion is invisible
- * to `tsc --noEmit` - an empty array type-checks perfectly against it - so the
- * compiler stayed green while the page threw the moment the register behind it
- * emptied. Deriving the line removes the index, so there is no assertion left
- * for a future edit to falsify.
- */
-function gapSources(): string[] {
-  return Array.from(new Set(gapStats.map(stat => stat.source)));
-}
-
 export default function AiAutomationPage() {
   return (
     <div className="ai-pg">
@@ -233,51 +296,56 @@ export default function AiAutomationPage() {
       <JsonLd data={faqSchema(faqs)} />
 
       {/* ------------------------------------------------------------ hero */}
-      {/* PRESERVED. The proposition and the sentence under it are the approved
-          editorial anchor and are unchanged. */}
+      {/* REPLACED 2026-10-02. Headline and supporting line are the founder's
+          approved wording, verbatim: do not rewrite either, and the headline
+          takes no full stop. The CTA architecture is unchanged; the secondary
+          label moved from "How we measure it", whose "it" pointed at the old
+          supporting line, to the brief's own "See how we evaluate AI". */}
       <div className="hero-glow" style={{ padding: '80px 0 64px' }}>
         <div className="wrap">
-          <Eyebrow>AI engineering · part of Automate</Eyebrow>
+          <Eyebrow>AI &amp; Automation</Eyebrow>
           <h1 className="h1" style={{ marginTop: 24, maxWidth: '21ch' }}>
-            Most companies have adopted AI. Far fewer can show what it changed
+            What could AI make possible for you?
           </h1>
-          <p className="lead" style={{ marginTop: 24, maxWidth: '46ch' }}>
-            We engineer AI into the systems an organisation already runs, measure what it changes,
-            and keep it working in production.
+          <p className="lead" style={{ marginTop: 24, maxWidth: '52ch' }}>
+            From intelligent products and automation to AI agents, prediction and new ways of
+            understanding information, we design and engineer AI around real problems, real systems
+            and outcomes that can be measured.
           </p>
           <div className="btn-row" style={{ marginTop: 34 }}>
             <Cta href="/contact">Start with what needs to change</Cta>
             <Cta href="/ai-automation/evaluation-and-observability" variant="secondary">
-              How we measure it
+              See how we evaluate AI
             </Cta>
           </div>
         </div>
       </div>
 
-      {/* ------------------------------------------- evidence band (folded) */}
+      {/* ----------------------------- 00 assist, understand, act, discover */}
       {/*
-        THE POPULATION ON BOTH FIGURES WAS CORRECTED 2026-09-30. They are
-        measured over SURVEY RESPONDENTS and were labelled "of individual AI
-        users" and "of organisations" - two populations, neither of them the one
-        the survey reports. The figures themselves were never in doubt. The fix
-        is in sources.ts so it reaches every page that renders them.
+        IN THE PLACE OF THE EVIDENCE BAND, removed 2026-10-02 with the headline
+        it supported. The amendment says whitespace is preferable to irrelevant
+        evidence and forbids replacing the figures with others, so this is not a
+        new statistic strip: it is the first step of the new narrative, what AI
+        could make possible, before what we engineer.
       */}
-      {gapStats.length > 0 && (
-        <Section flush tight className="sec--tint">
-          <div className="ev-band">
-            {gapStats.map(stat => (
-              <div className="ev-fig" key={stat.label}>
-                <b>{stat.value}</b> <span>{stat.label}</span>
-              </div>
-            ))}
-          </div>
-          <div style={{ marginTop: 24 }}>
-            {gapSources().map(source => (
-              <SourceNote key={source}>{source}</SourceNote>
-            ))}
-          </div>
-        </Section>
-      )}
+      <Section labelledBy="spectrum-heading" flush className="sec--tint">
+        <SectionHead
+          eyebrow="What AI can make possible"
+          id="spectrum-heading"
+          title="Assist, understand, act, discover"
+          lead="AI is not only for email, meetings and documents. It can sit inside a product, a customer experience, an operation or a forecast, and what it does there tends to take one of four forms."
+        />
+        <div className="ai-steps">
+          {SPECTRUM.map(s => (
+            <div className="ai-step" key={s.n}>
+              <i>{s.n}</i>
+              <b>{s.t}</b>
+              <span>{s.b}</span>
+            </div>
+          ))}
+        </div>
+      </Section>
 
       {/* --------------------------------------------- 01 the three routes */}
       <Section labelledBy="routes-heading">
@@ -285,7 +353,7 @@ export default function AiAutomationPage() {
           eyebrow="What we build"
           id="routes-heading"
           title="Three ways AI is built into a business"
-          lead="They overlap in practice, and a programme often needs two of them."
+          lead="AI systems are how a product understands. Agents and automation are how it acts. Evaluation and observability is how you know it works. They overlap in practice, and a programme often needs two of them."
         />
         <div className="ai-routes">
           {ROUTES.map(r => (
@@ -413,13 +481,43 @@ export default function AiAutomationPage() {
         </div>
       </Section>
 
-      {/* ------------------------------------------------- 05 value discovery */}
-      <Section labelledBy="discovery-heading">
+      {/* ---------------------------------------------- 05 evidence */}
+      {/*
+        THE PROOF ARGUMENT, MOVED HERE 2026-10-02 from the hero. By this point
+        the reader knows what AI could do and what we engineer; only now does the
+        page ask how anyone would know it works. Kept to one paragraph so it does
+        not become a second hero or make the whole offer subordinate to
+        evaluation.
+      */}
+      <Section labelledBy="evidence-heading">
+        <SectionHead
+          eyebrow="Evaluation & observability"
+          id="evidence-heading"
+          title="How do we know it actually works?"
+          lead="Building it is only part of the job. You also need to know whether it works."
+        />
+        <p className="body" style={{ marginTop: 24, maxWidth: '70ch' }}>
+          So success is defined before anything is built, as acceptance criteria that can be
+          measured, with a pass or fail where the task allows one. The system is tested against
+          them, regression checks catch what a change breaks, and its behaviour in production is
+          monitored so that drift is noticed rather than discovered. Where it is appropriate,
+          evaluation carries on after release, and each improvement is verified against the same
+          criteria.
+        </p>
+        <p style={{ marginTop: 26 }}>
+          <FLink href="/ai-automation/evaluation-and-observability">
+            How evaluation and observability works
+          </FLink>
+        </p>
+      </Section>
+
+      {/* ------------------------------------------------- 06 value discovery */}
+      <Section labelledBy="discovery-heading" flush className="sec--tint">
         <SectionHead
           eyebrow="How an engagement starts"
           id="discovery-heading"
           title="Start with the problem, not the model"
-          lead="We establish what the work costs today and whether AI would improve it. Sometimes the answer is that it would not."
+          lead="We start with what you are trying to achieve, then work out whether AI is the right tool and how its success will be measured. Sometimes the answer is that it is not."
         />
         <div className="ai-steps">
           {DISCOVERY.map(s => (
@@ -435,7 +533,7 @@ export default function AiAutomationPage() {
         </p>
       </Section>
 
-      {/* ---------------------------------- 06 deployment and private AI */}
+      {/* ---------------------------------- 07 deployment and private AI */}
       {/*
         REDUCED FROM A SECTION TO A PARAGRAPH, on instruction. It was carrying a
         ruled register of four development areas and the largest interval of
@@ -480,9 +578,9 @@ export default function AiAutomationPage() {
       </Section>
 
       <ClosingCta eyebrow="Start here" title="Start with what needs to change">
-        Tell us what is slow, manual, inconsistent or impossible to see. We will work out whether
-        the answer is software, automation, AI or integration, and say so before anything is
-        built.
+        Tell us what you want to make possible, or what is slow, manual, inconsistent or
+        impossible to see. We will work out whether the answer is software, automation, AI or
+        integration, and say so before anything is built.
       </ClosingCta>
     </div>
   );

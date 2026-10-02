@@ -122,7 +122,7 @@ Four things, and the fourth sits under the other three.
   workflow, with human oversight and measurable success criteria.
 - **DECENTRALISE** — tokenisation, smart contracts, dApps, wallets and
   blockchain infrastructure, where ownership, programmability, verification or
-  distributed trust creates a genuine advantage.
+  multi-party verification creates a genuine advantage.
 - **RUN** — operate, monitor, support and continually improve products and
   workflows after launch. Production is a starting point, not a handover
   ceremony.

@@ -47,8 +47,11 @@ still in the repository's own records (`src/content/company.ts`,
 | Statement of Applicability | v1.0, 15 January 2026 | not supplied |
 | Certified scope | published verbatim until 17 Sept; see `claims.ts` | none supplied |
 
-**Still published on the site:** the two standards and their expiry dates, in
-the footer ledger, and nothing else.
+**Still published on the site:** the two standards' names, in the footer
+ledger, and nothing else about the certificates. The footer has shown the
+standard only since 22 September 2026, on founder instruction: no expiry date is
+published (`src/components/SiteFooter.tsx:240-248`). The expiry still decides
+whether a row renders at all (`publishedCertifications`, `SiteFooter.tsx:169-178`).
 
 **Two constraints carried over, and they did not change with the page:**
 
@@ -61,27 +64,57 @@ the footer ledger, and nothing else.
 
 ### Processors
 
-Named in the repository, deliberately not named on the site — `/privacy` gives
-categories of recipient instead, which is what UK GDPR Art. 13(1)(e) permits.
+Named on the site as well as here. `/privacy` names all three, in its
+processors table and in its transfers paragraph
+(`src/app/privacy/page.tsx:463-471` and `:523`), and the founder confirmed on
+18 September 2026 that the names stay (PRIVACY-STATEMENT-CONFIRMATIONS.md, B6).
 
 | Provider | Role | Note |
 |---|---|---|
 | Vercel | Hosting, CDN, form request handling | US-established |
-| Supabase | Enquiry storage | London region required — see `DEPLOY-RUNBOOK` |
+| Supabase | Enquiry storage, and the name and email given to Pix T (`assistant_contacts`) | London region required — see `DEPLOY-RUNBOOK` |
 | Resend | Enquiry notification email | US-established |
+
+**OPEN (2026-10-01):** this document says a London region is required for
+Supabase, citing `DEPLOY-RUNBOOK`, which is not in this repository. `/privacy`
+(`src/app/privacy/page.tsx:523-525`) says "We have not restricted the regions in
+which Vercel, Supabase and Resend process this information", and
+CONTACT-FORM-SETUP.md section 4 records the Supabase region as not yet recorded.
+The founder must decide which is correct, and this line should then be removed.
+
+**OPEN (2026-10-01):** this table describes Vercel and Resend as US-established.
+That is unverified. `/privacy` removed the same claim on 18 September 2026 as
+unverified, noting that at least one of the three providers has contracted
+through a Singapore entity in the past (`src/app/privacy/page.tsx:512-519`).
+The founder must confirm each provider's contracting entity before this pack is
+sent, and this note should then be removed.
 
 ### Documents that do not exist yet
 
-- **DPAs with each of the three processors.** `/privacy` states each acts under
-  a written contract. Confirm each one is actually executed.
-- **Transfer mechanism per provider.** `/privacy` says the UK IDTA or the UK
-  Addendum to the EU SCCs applies. Confirm which, per provider.
+- **DPAs with each of the three processors.** `/privacy` states each is engaged
+  "under that provider's data processing terms"
+  (`src/app/privacy/page.tsx:483-484`). Confirm each one is actually executed.
+- **Transfer mechanism per provider.** `/privacy` says the safeguard is the
+  European Commission's standard contractual clauses together with the UK
+  Addendum, in each provider's data processing terms, and that no adequacy
+  decision is relied on (`src/app/privacy/page.tsx:523-529`). Confirm that is
+  the mechanism, per provider.
 - **A controls summary** answering a standard security questionnaire.
 - **Retention.** `/privacy` now states 24 months from last contact for an
-  unconverted enquiry, and six years after an engagement ends. **That period was
-  chosen when this change was made, not found** — nothing in the repository had
-  ever recorded one, because the only statement of it lived on the page that was
-  withdrawn. It is defensible and it is a founder decision to confirm or change.
+  unconverted enquiry, 12 months for a name and email given to Pix T with no
+  enquiry following (applied in commit `c3d647b`, 29 September 2026), and six
+  years after an engagement ends (`src/app/privacy/page.tsx:557-577`). **The
+  24-month period was chosen when this change was made, not found** — nothing in the
+  repository had ever recorded one, because the only statement of it lived on
+  the page that was withdrawn. It is defensible and it is a founder decision to
+  confirm or change.
+
+  **OPEN (2026-10-01):** this document says the 24-month period "was chosen when
+  this change was made, not found"; PRIVACY-STATEMENT-CONFIRMATIONS.md section C
+  says it was "Carried from the previous statement". Commit `0f2324e`
+  (2026-09-14) is where "24 months" first appears in `src/app/privacy/page.tsx`.
+  The founder must decide which account is correct, and this note and its twin
+  in that file should then be removed.
 
 ## Before any of this is sent
 

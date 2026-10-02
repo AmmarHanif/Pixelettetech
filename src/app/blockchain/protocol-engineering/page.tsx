@@ -166,7 +166,7 @@ export default function ProtocolEngineeringPage() {
               An existing general-purpose chain. Then an existing chain with a different design
               profile. Then an application-specific rollup, which inherits settlement, tooling and
               much of the ecosystem. Then a permissioned network, where the participants are known
-              and the trust model is different. Only then a sovereign Layer 1.
+              and the security model is different. Only then a sovereign Layer 1.
             </p>
             <p className="body" style={{ marginTop: 16 }}>
               Each rung is materially cheaper to build and to operate than the one above it. The

@@ -236,7 +236,7 @@ export default function SmartContractsDappsPage() {
       </Section>
 
       <ClosingCta title="Have a mechanism you want on-chain?" ctaLabel="Scope blockchain">
-        Bring us the rules you want enforced and who has to trust them. We will tell you what belongs
+        Bring us the rules you want enforced and who has to rely on them. We will tell you what belongs
         in a contract, what belongs off-chain, and what should not be built at all.
       </ClosingCta>
     </div>

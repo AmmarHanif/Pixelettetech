@@ -189,7 +189,7 @@ export default function ModernisationIntegrationPage() {
             <p className="body" style={{ marginTop: 20 }}>
               Stalled builds, inherited codebases and projects where confidence in the current
               supplier has gone all share a problem: the next decision has to be made without
-              trustworthy information. An independent assessment produces that information, and it is
+              reliable information. An independent assessment produces that information, and it is
               deliberately available as its own engagement so you are not buying a recovery
               programme in order to find out whether you need one.
             </p>

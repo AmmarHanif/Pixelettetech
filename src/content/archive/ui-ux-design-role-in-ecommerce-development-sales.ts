@@ -12,7 +12,7 @@ const blocks: ArchiveBlock[] = [
   ["h2", "How does UX directly affect sales and revenue?"],
   ["p", "Let’s break down the question: how does UX affect sales and revenue?"],
   ["p", "The short answer: significantly."],
-  ["p", "The longer answer lies in understanding how users interact with your store. A well-designed user experience makes it easier for people to explore, trust, and buy. Faster page loads, smoother navigation, and a more intuitive checkout all increase the likelihood of conversion. Just a one-second delay in load time can cause a 7% drop in conversions."],
+  ["p", "The longer answer lies in understanding how users interact with your store. A well-designed user experience makes it easier for people to explore, compare, and buy. Faster page loads, smoother navigation, and a more intuitive checkout all increase the likelihood of conversion. Just a one-second delay in load time can cause a 7% drop in conversions."],
   ["p", "UX also directly supports strategies like upselling and cross-selling. When product recommendations are relevant and well-placed, users are more likely to discover additional items they didn’t initially intend to buy. This increases average order value and boosts overall revenue."],
   ["p", "So, how does UX impact revenue? By removing obstacles. Confusing layouts, hidden costs, and clunky checkout experiences all lead to abandoned carts and missed opportunities. But with thoughtful design, supported by professional web development services, these issues can be addressed early on."],
   ["p", "In short, UX design is about more than aesthetics. It’s a direct driver of revenue. When a site is built with the end user in mind, it doesn’t just function – it performs."],
