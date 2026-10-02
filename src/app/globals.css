@@ -8664,3 +8664,57 @@ button.btn[disabled] {
 .asst-panel [hidden] {
   display: none;
 }
+
+/* The dock's name-and-email box, shown when a question is asked before the
+   visitor has introduced themselves. */
+.asst-details {
+  width: 100%;
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid rgba(102, 26, 142, 0.25);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(39, 3, 59, 0.16);
+  font-size: 13px;
+  color: var(--body);
+}
+
+.asst-details__lead {
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.asst-details input {
+  font: inherit;
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1px solid var(--line-4);
+  border-radius: 8px;
+  color: var(--ink);
+}
+
+.asst-details input:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+}
+
+.asst-details .asst-send {
+  margin-top: 6px;
+}
+
+.asst-details__error {
+  font-size: 12.5px;
+  color: #8f4208;
+}
+
+.asst-details__notice {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.asst-details__notice a {
+  text-decoration: underline;
+}

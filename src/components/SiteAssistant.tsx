@@ -174,6 +174,9 @@ export function SiteAssistant({ context }: { context: PixContext }) {
      their name and email is kept, and answered once they have. */
   const [expanded, setExpanded] = useState(false);
   const pendingQuestion = useRef<string | null>(null);
+  /* The name-and-email box shown in the dock after a question; null when not
+     shown. */
+  const [details, setDetails] = useState<{ name: string; email: string; problem: string } | null>(null);
   const held = useRef<Omit<Turn, 'id'>[]>([]);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const thinking = useRef(false);
@@ -386,6 +389,32 @@ export function SiteAssistant({ context }: { context: PixContext }) {
     [identify, pendingName, say],
   );
 
+  /* The dock's name-and-email box. Both are checked by Pix T's own rules; on
+     success the visitor is recorded exactly as the chat's own steps record
+     them, and the conversation opens on the question that was asked. */
+  const submitDetails = useCallback(() => {
+    if (!details) return;
+    const name = checkName(details.name.trim());
+    if (!name.ok) return setDetails({ ...details, problem: name.problem });
+    const email = checkEmail(details.email.trim());
+    if (!email.ok) return setDetails({ ...details, problem: email.problem });
+    setVisitor({ name: name.value, email: email.value, ref: null });
+    setIdentify(null);
+    setDetails(null);
+    setTurns([]);
+    setExpanded(true);
+    const data = new FormData();
+    data.set('name', name.value);
+    data.set('email', email.value);
+    data.set('website', honeypotRef.current?.value ?? '');
+    startAssistantChat(data).then(
+      result => {
+        if (result.ref) setVisitor(v => (v ? { ...v, ref: result.ref } : v));
+      },
+      () => undefined,
+    );
+  }, [details]);
+
   /* One answer to the current discovery question. An empty answer is a skip. */
   const answer = useCallback(
     (raw: string) => {
@@ -421,17 +450,16 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       const text = raw.trim();
       if (!expanded) {
         if (!text) return;
-        setExpanded(true);
         setDraft('');
         if (identify) {
-          /* Name and email still come first, as the founder asked; the
-             question waits for them. */
+          /* Name and email still come first, as the founder asked: a small
+             box in the dock asks for both, and the question is answered once
+             they are given (founder, 2026-10-02). */
           pendingQuestion.current = text;
-          setTurns([{ id: nextId.current++, role: 'visitor', text }]);
-          say({ role: 'assistant', text: `Happy to help with that. ${ASK_NAME}` });
-          focusInput();
+          setDetails({ name: '', email: '', problem: '' });
           return;
         }
+        setExpanded(true);
       }
       if (identify) {
         identifyStep(text);
@@ -598,7 +626,54 @@ export function SiteAssistant({ context }: { context: PixContext }) {
                   <path d="M6 6l12 12M18 6L6 18" />
                 </svg>
               </button>
-              <div className="asst-dock__questions">
+              {details ? (
+                <form
+                  className="asst-details"
+                  noValidate
+                  onSubmit={e => {
+                    e.preventDefault();
+                    submitDetails();
+                  }}
+                >
+                  <p className="asst-details__lead">Happy to help. Before I answer, may I take your name and work email?</p>
+                  <label htmlFor="asst-details-name">Your name</label>
+                  <input
+                    autoComplete="name"
+                    autoFocus
+                    id="asst-details-name"
+                    maxLength={ENQUIRY_MAX.name}
+                    onChange={e => setDetails({ ...details, name: e.target.value, problem: '' })}
+                    value={details.name}
+                  />
+                  <label htmlFor="asst-details-email">Work email</label>
+                  <input
+                    autoComplete="email"
+                    id="asst-details-email"
+                    maxLength={ENQUIRY_MAX.email}
+                    onChange={e => setDetails({ ...details, email: e.target.value, problem: '' })}
+                    type="email"
+                    value={details.email}
+                  />
+                  {details.problem ? (
+                    <p className="asst-details__error" role="alert">
+                      {details.problem}
+                    </p>
+                  ) : null}
+                  <button className="asst-send" type="submit">
+                    Continue
+                  </button>
+                  {/* The notice at the point of collection, as in the chat. */}
+                  <p className="asst-details__notice">
+                    We record your name and email as soon as you give them, so the team can reply even if you leave
+                    before finishing. See our{' '}
+                    <Link href="/privacy" onClick={() => setOpen(false)}>
+                      Privacy Notice
+                    </Link>
+                    .
+                  </p>
+                </form>
+              ) : null}
+              <div className="asst-dock__questions" hidden={details !== null}>
                 {STARTERS.slice(0, 3).map(q => (
                   <button className="asst-dock__q" key={q} onClick={() => send(q)} type="button">
                     {q}
@@ -685,7 +760,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
             </div>
           ) : null}
 
-          {flow?.reviewing ? null : (
+          {flow?.reviewing || details ? null : (
             <form
               className="asst-form"
               /* Pix T's own checks answer a malformed email in the chat. Without
