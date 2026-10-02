@@ -8727,7 +8727,7 @@ button.btn[disabled] {
   padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.4);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
   backdrop-filter: blur(16px) saturate(1.4);
   box-shadow: 0 16px 40px rgba(39, 3, 59, 0.14);
@@ -8735,7 +8735,7 @@ button.btn[disabled] {
 
 .asst-dock__q,
 .asst-dock__close {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.58);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
@@ -8745,7 +8745,7 @@ button.btn[disabled] {
 }
 
 .asst-panel--dock .asst-form {
-  background: linear-gradient(90deg, rgba(102, 26, 142, 0.92), rgba(138, 74, 176, 0.92));
+  background: linear-gradient(90deg, rgba(102, 26, 142, 0.85), rgba(138, 74, 176, 0.85));
 }
 
 /* No frosting where the browser cannot draw it: a near-solid sheet instead. */
