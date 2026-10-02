@@ -119,6 +119,54 @@ export function isEmail(value: string): boolean {
   return EMAIL_PATTERN.test(value);
 }
 
+/*
+ * WHETHER AN ANSWER SAYS ANYTHING AT ALL (founder, 2026-10-02: "even the
+ * meaningless answer give you give another step and that shouldn't be
+ * happen"). "dd" moved the enquiry on and was sent to the team as the answer
+ * to "What exists today?".
+ *
+ * The test is deliberately generous, because a short answer is often a real
+ * one: "none", "SAP", "6 weeks", "Q1" and "no" all pass. A word counts when it
+ * is not one character typed repeatedly AND one of:
+ *   - it contains a digit         ("2026", "6 weeks", "v2")
+ *   - it is written in capitals    (an acronym: SAP, CRM, ERP)
+ *   - it is a short word people really answer with (SHORT_ANSWERS)
+ *   - it is three or more letters, has a vowel, and is not a keyboard run
+ * One such word in the answer is enough.
+ */
+const SHORT_ANSWERS = new Set([
+  'no', 'none', 'nil', 'n/a', 'na', 'not', 'yes', 'ok', 'tbc', 'tbd', 'asap', 'now', 'new', 'old', 'web', 'app', 'api',
+]);
+
+/* Left-to-right runs on a QWERTY keyboard, which is what a filler answer is. */
+const KEYBOARD_RUNS = /^(?:qwer\w*|wert\w*|asdf\w*|sdfg\w*|zxcv\w*|xcvb\w*|hjkl\w*|jkl\w*|wasd|qaz\w*|wsx\w*|poiu\w*|lkjh\w*)$/i;
+
+export function saysSomething(raw: string): boolean {
+  return String(raw ?? '')
+    .split(/[\s,;/|]+/)
+    .filter(Boolean)
+    .some(word => {
+      const w = word.replace(/[^\p{L}\p{N}/]/gu, '');
+      if (!w) return false;
+      /* "dd", "aaa", "......" - one key held down is not an answer. */
+      if (new Set(w.toLowerCase()).size === 1) return false;
+      if (/\p{N}/u.test(w)) return true;
+      if (w.length >= 2 && w === w.toUpperCase() && /\p{L}/u.test(w)) return true;
+      if (SHORT_ANSWERS.has(w.toLowerCase())) return true;
+      return w.length >= 3 && /[aeiouy]/i.test(w) && !KEYBOARD_RUNS.test(w);
+    });
+}
+
+/** The fields this applies to: the team reads these, so they must say something.
+    A name and an email have their own checks and are not run through it. */
+const MUST_SAY_SOMETHING: ReadonlySet<EnquiryField> = new Set([
+  'objective',
+  'existing',
+  'deadline',
+  'success',
+  'company',
+]);
+
 export type AnswerCheck = { ok: true; value: string } | { ok: false; problem: string };
 
 export function checkAnswer(step: EnquiryStep, raw: string): AnswerCheck {
@@ -134,6 +182,15 @@ export function checkAnswer(step: EnquiryStep, raw: string): AnswerCheck {
   }
   if (step.field === 'email' && !isEmail(value)) {
     return { ok: false, problem: 'That does not appear to be a valid email address. ' + step.ask };
+  }
+  if (MUST_SAY_SOMETHING.has(step.field) && !saysSomething(value)) {
+    return {
+      ok: false,
+      problem:
+        'I could not make much of that, I am afraid. ' +
+        step.ask +
+        (step.optional ? ' Or skip it, if it does not apply.' : ''),
+    };
   }
   return { ok: true, value };
 }

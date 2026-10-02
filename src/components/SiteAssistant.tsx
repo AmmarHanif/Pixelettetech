@@ -463,7 +463,10 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       }
       const check = checkAnswer(step, raw);
       if (!check.ok) {
-        say({ role: 'assistant', text: check.problem });
+        /* The answer is shown before the objection, so the visitor can see what
+           Pix T could not make anything of. */
+        say(...(text ? [{ role: 'visitor' as const, text }] : []), { role: 'assistant', text: check.problem });
+        setDraft('');
         return;
       }
       const nextDraft = { ...flow.draft, [step.field]: check.value };
