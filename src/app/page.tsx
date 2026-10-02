@@ -7,7 +7,7 @@ import Link from 'next/link';
  * The copy comes from the same services.ts the WebGL version used, so there is
  * one place to change it and the two cannot drift.
  */
-import { HeroArtwork } from '@/components/HeroVisual/HeroArtwork';
+import { HeroFilm } from '@/components/HeroVisual/HeroFilm';
 import { LiveDiagram } from '@/components/LiveDiagram';
 import {
   CertifiedHandoff,
@@ -418,12 +418,13 @@ export default function HomePage() {
             founder settles on one; if the 3D version stands, it should be
             deleted rather than left orphaned.
           */}
-          {/* THE FOUNDER'S SUPPLIED ARTWORK, 2026-09-28. HeroVisual is left in
-              the repo rather than deleted: it renders a BLANK scene with every
-              word as live markup, which is the only version whose wording stays
-              legible as the column narrows. Swapping back is this one line. */}
+          {/* THE FOUNDER'S SUPPLIED CONCEPT FILM, 2026-10-02, replacing the
+              still artwork of 2026-09-28. HeroArtwork (the still) and HeroVisual
+              (a BLANK scene with every word as live markup, the only version
+              whose wording stays legible as the column narrows) are both left
+              in the repo. Swapping back to either is this one line. */}
           <div className="hero-split__viz">
-            <HeroArtwork />
+            <HeroFilm />
           </div>
         </div>
       </div>
