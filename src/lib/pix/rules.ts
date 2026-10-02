@@ -83,9 +83,13 @@ export function rules(ctx: PixContext): Rule[] {
     },
     {
       id: 'off-topic',
-      test: /\b(weather|joke|poem|limerick|recipe|football|horoscope|president|prime minister|sing|song|homework|essay|translate (this|that|the following|into)|write (me )?(an? )?(story|essay|poem|song|cover letter)|cover letter|who won|latest news|news today|headlines|summari[sz]e (this|that|the following|my)|crossword|lottery|stock tips?)\b/i,
+      /* Widened 2026-10-02 on founder instruction: anything outside Pixelette
+         gets "I am not trained for that" rather than an attempt. */
+      /* ...unless it is about building something: "a hotel booking app" or
+         "a music streaming platform" is a project, not small talk. */
+      test: /^(?![\s\S]*\b(apps?|application|platforms?|software|systems?|websites?|build\w*|develop\w*|products?|solutions?|tools?|integrat\w*|automat\w*|blockchain|ai|roi|saas|portal|dashboard|marketplace|pixelette)\b)[\s\S]*\b(weather|joke|poem|limerick|recipe|cook(ing)?|football|soccer|cricket|basketball|sports?|match score|horoscope|astrology|president|prime minister|election|politic(s|al)|religio(n|us)|sing|song|music|movies?|films?|tv show|netflix|celebrit(y|ies)|actor|actress|homework|essay|translate (this|that|the following|into)|write (me )?(an? )?(story|essay|poem|song|cover letter)|cover letter|who won|latest news|news today|headlines|summari[sz]e (this|that|the following|my)|crossword|lottery|stock tips?|crypto price|bitcoin price|dating|relationship advice|diet|symptoms?|medicine|medical advice|doctor|travel|flights?|hotels?|holiday|capital of|what time is it|what day is it|how old is|solve (this|the equation)|calculate)\b/i,
       reply:
-        'I am here to help with Pixelette Technologies and technology projects. Please tell me what you are looking to build, automate or improve.',
+        'I am not trained for that. I can only help with Pixelette Technologies and the work we do: software engineering, AI and automation, and blockchain. What would you like to know?',
     },
     {
       id: 'identity',
@@ -136,6 +140,19 @@ export function rules(ctx: PixContext): Rule[] {
       reply:
         `I am not able to share individual contact details, though nothing is lost by that: everything reaches the right person through ${ctx.contactEmail} or the contact page.`,
       path: CONTACT,
+    },
+    {
+      /*
+       * THE TECHNOLOGIES THE SITE ITSELF NAMES (founder, 2026-10-02: "mention
+       * the tech we talk about on our website"). Every name below appears on a
+       * published page or in a published case study's stack; nothing is added
+       * that the site does not already say.
+       */
+      id: 'technologies',
+      test: /\b(tech(nology|nologies)? stack|tech stack|stack do you|what tech(nolog(y|ies))?|which (languages?|frameworks?|technolog(y|ies)|tools?|blockchains?)|programming languages?|frameworks? (do|does) you|technologies (do|does) you|do you (use|work with|know|support|build (with|on)) (react|next(\.js)?|node(\.js)?|python|typescript|php|laravel|solidity|aws|azure|google cloud|gcp|kubernetes|ethereum|polygon|solana|hyperledger|polkadot|ipfs|openai|anthropic|llms?|salesforce|sap|mongodb|stripe))\b/i,
+      reply:
+        'The technologies named across our site and case studies include: for software and web, React, Next.js, TypeScript, Node.js, Python, PHP and Laravel, with MongoDB; for cloud, AWS, Azure and Google Cloud, with Kubernetes; for AI, large language models and retrieval (RAG) using providers such as OpenAI and Anthropic; for blockchain, Solidity on Ethereum, Polygon and Solana, plus Hyperledger, Polkadot, Layer 2 rollups, IPFS, Hardhat, Truffle, Web3.js and Ethers.js; and integrations with systems such as Salesforce, SAP and Stripe. We choose the stack per project, so tell me what you are building and I can point you to the relevant work.',
+      path: '/engineering',
     },
     {
       // True by construction: there is no careers route on this site.

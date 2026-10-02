@@ -117,12 +117,20 @@ type CancelKind = 'unsent' | 'refused' | 'unconfirmed';
  * feel slower than it is. Under prefers-reduced-motion there is no animation to
  * wait for, so there is no beat either: turns appear at once, as before.
  */
-const THINK_MS = 650;
+/* 2s, with a visible "Pix T is thinking" bubble (founder, 2026-10-02). */
+const THINK_MS = 2000;
 const RESPOND_MS = 900;
 const FINISH_MS = 650;
 
-/** How close, in px from the launcher's centre, counts as "approaching". */
+/** How long the ball is shown alone before "Ask Pix T" opens out beside it. */
+const LABEL_DELAY_MS = 2500;
+
+/** How close, in px from the ball's centre, counts as "approaching", and
+    how far it must go again to count as having left. The gap is hysteresis: a
+    pointer resting near one radius would otherwise restart the trace on every
+    wobble across it. */
 const NEAR_PX = 170;
+const LEAVE_PX = 200;
 
 const replyTurn = (reply: PixReply): Omit<Turn, 'id'> => ({
   role: 'assistant',
@@ -158,6 +166,18 @@ export function SiteAssistant({ context }: { context: PixContext }) {
   const [phase, setPhase] = useState<PixPhase>('idle');
   const [busy, setBusy] = useState(false);
   const [near, setNear] = useState(false);
+  /* The launcher opens out into the "Ask Pix T" pill once, LABEL_DELAY_MS
+     after the page loads (founder, 2026-10-02): the ball first, then the words. */
+  const [labelled, setLabelled] = useState(false);
+  /* Opened, Pix T first shows a compact dock - three suggested questions over
+     a message bar (founder, 2026-10-02) - and becomes the full conversation on
+     the first question asked. A question asked before the visitor has given
+     their name and email is kept, and answered once they have. */
+  const [expanded, setExpanded] = useState(false);
+  const pendingQuestion = useRef<string | null>(null);
+  /* The name-and-email box shown in the dock after a question; null when not
+     shown. */
+  const [details, setDetails] = useState<{ name: string; email: string; problem: string } | null>(null);
   const held = useRef<Omit<Turn, 'id'>[]>([]);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const thinking = useRef(false);
@@ -190,6 +210,13 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       setTimeout(() => setPhase('finished'), RESPOND_MS),
       setTimeout(() => setPhase('idle'), RESPOND_MS + FINISH_MS),
     );
+    /* The input was read-only for the beat; hand the caret back, unless the
+       visitor has since gone somewhere else on the page. */
+    const active = document.activeElement;
+    const panel = document.getElementById('site-assistant-panel');
+    if (!active || active === document.body || panel?.contains(active)) {
+      setTimeout(() => inputRef.current?.focus(), 0);
+    }
   }, [append, clearTimers]);
 
   /* The visitor's own turns appear at once. Pix T's are held for the thinking
@@ -204,6 +231,8 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       append(mine);
       if (!theirs.length) return;
       if (reducedMotion.current) {
+        /* Anything still held from before the preference changed goes first. */
+        if (held.current.length) release();
         append(theirs);
         return;
       }
@@ -220,42 +249,55 @@ export function SiteAssistant({ context }: { context: PixContext }) {
   useEffect(() => {
     const m = window.matchMedia('(prefers-reduced-motion: reduce)');
     reducedMotion.current = m.matches;
-    const onChange = () => (reducedMotion.current = m.matches);
+    const onChange = () => {
+      reducedMotion.current = m.matches;
+      if (m.matches && held.current.length) release();
+    };
     m.addEventListener('change', onChange);
     return () => {
       m.removeEventListener('change', onChange);
       clearTimers();
     };
-  }, [clearTimers]);
+  }, [clearTimers, release]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLabelled(true), LABEL_DELAY_MS);
+    return () => clearTimeout(t);
+  }, []);
 
   /* "User approaches": the pointer comes within NEAR_PX of the closed
-     launcher. Only for a mouse or trackpad - a finger has no approach - and
-     sampled once per frame, so it costs one rect read per frame at most. */
+     launcher, and has left once it is beyond LEAVE_PX. Only for a mouse or
+     trackpad - a finger has no approach. The launcher is position: fixed, so
+     its centre is measured once and again on resize, not on every move; each
+     move is a subtraction, and React re-renders only when the answer flips. */
   useEffect(() => {
     if (open) {
       setNear(false);
       return;
     }
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    let frame = 0;
-    let x = 0;
-    let y = 0;
-    const measure = () => {
-      frame = 0;
-      const el = launchRef.current;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      setNear(Math.hypot(x - (r.left + r.width / 2), y - (r.top + r.height / 2)) < NEAR_PX);
+    let cx = 0;
+    let cy = 0;
+    /* The ball is always the right-hand end of the launcher, whether it is
+       a lone circle or the opened-out pill, so its centre is measured from
+       the right edge. Re-measured when the pill opens, as well as on resize. */
+    const place = () => {
+      const r = launchRef.current?.getBoundingClientRect();
+      if (r) {
+        cx = r.right - r.height / 2;
+        cy = r.top + r.height / 2;
+      }
     };
+    place();
     const onMove = (e: PointerEvent) => {
-      x = e.clientX;
-      y = e.clientY;
-      if (!frame) frame = requestAnimationFrame(measure);
+      const d = Math.hypot(e.clientX - cx, e.clientY - cy);
+      setNear(prev => (prev ? d < LEAVE_PX : d < NEAR_PX));
     };
     window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('resize', place);
     return () => {
       window.removeEventListener('pointermove', onMove);
-      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener('resize', place);
     };
   }, [open]);
 
@@ -348,6 +390,32 @@ export function SiteAssistant({ context }: { context: PixContext }) {
     [identify, pendingName, say],
   );
 
+  /* The dock's name-and-email box. Both are checked by Pix T's own rules; on
+     success the visitor is recorded exactly as the chat's own steps record
+     them, and the conversation opens on the question that was asked. */
+  const submitDetails = useCallback(() => {
+    if (!details) return;
+    const name = checkName(details.name.trim());
+    if (!name.ok) return setDetails({ ...details, problem: name.problem });
+    const email = checkEmail(details.email.trim());
+    if (!email.ok) return setDetails({ ...details, problem: email.problem });
+    setVisitor({ name: name.value, email: email.value, ref: null });
+    setIdentify(null);
+    setDetails(null);
+    setTurns([]);
+    setExpanded(true);
+    const data = new FormData();
+    data.set('name', name.value);
+    data.set('email', email.value);
+    data.set('website', honeypotRef.current?.value ?? '');
+    startAssistantChat(data).then(
+      result => {
+        if (result.ref) setVisitor(v => (v ? { ...v, ref: result.ref } : v));
+      },
+      () => undefined,
+    );
+  }, [details]);
+
   /* One answer to the current discovery question. An empty answer is a skip. */
   const answer = useCallback(
     (raw: string) => {
@@ -381,6 +449,19 @@ export function SiteAssistant({ context }: { context: PixContext }) {
          thinking would land between the question and its answer. */
       if (thinking.current) return;
       const text = raw.trim();
+      if (!expanded) {
+        if (!text) return;
+        setDraft('');
+        if (identify) {
+          /* Name and email still come first, as the founder asked: a small
+             box in the dock asks for both, and the question is answered once
+             they are given (founder, 2026-10-02). */
+          pendingQuestion.current = text;
+          setDetails({ name: '', email: '', problem: '' });
+          return;
+        }
+        setExpanded(true);
+      }
       if (identify) {
         identifyStep(text);
         setDraft('');
@@ -416,8 +497,17 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       setDraft('');
       focusInput();
     },
-    [answer, chatted, context, flow, focusInput, identify, identifyStep, leadSent, say, startDiscovery],
+    [answer, chatted, context, expanded, flow, focusInput, identify, identifyStep, leadSent, say, startDiscovery],
   );
+
+  /* The question asked from the dock, answered once the greeting has landed. */
+  useEffect(() => {
+    if (visitor && phase === 'idle' && !thinking.current && pendingQuestion.current) {
+      const q = pendingQuestion.current;
+      pendingQuestion.current = null;
+      send(q);
+    }
+  }, [phase, send, visitor]);
 
   /* A delivered enquiry ends the flow, confirmed in the server's own words. */
   const finishEnquiry = useCallback(
@@ -439,13 +529,19 @@ export function SiteAssistant({ context }: { context: PixContext }) {
 
   useEffect(() => {
     if (open) inputRef.current?.focus();
-  }, [open]);
+  }, [open, labelled]);
 
-  /* Escape closes, as a dialog should. The conversation is kept until reload. */
+  /* Escape closes, as a dialog should. The conversation is kept until reload.
+     Focus goes back to the launcher when it was inside the panel: the panel
+     is hidden, and focus left on a hidden input falls to <body>, which loses
+     a keyboard user's place on the page. */
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key !== 'Escape') return;
+      const inPanel = document.getElementById('site-assistant-panel')?.contains(document.activeElement);
+      setOpen(false);
+      if (inPanel) launchRef.current?.focus();
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
@@ -454,7 +550,9 @@ export function SiteAssistant({ context }: { context: PixContext }) {
   const asking = flow && !flow.reviewing ? DISCOVERY_STEPS[flow.step] : null;
   /* What the one input is for right now, which decides its label, its hints and
      its limit. */
-  const input = identify === 'name'
+  const input = !expanded
+    ? { label: `Ask ${PIX_T_NAME} a question`, placeholder: 'Hello! How can I help you?', autoComplete: 'off', type: 'text', max: MESSAGE_MAX }
+    : identify === 'name'
     ? { label: 'Your name', placeholder: 'Your name', autoComplete: 'name', type: 'text', max: ENQUIRY_MAX.name }
     : identify === 'email'
       ? { label: 'Your work email', placeholder: 'you@company.com', autoComplete: 'email', type: 'email', max: ENQUIRY_MAX.email }
@@ -468,26 +566,31 @@ export function SiteAssistant({ context }: { context: PixContext }) {
           }
         : { label: `Ask ${PIX_T_NAME} a question`, placeholder: 'Type your message', autoComplete: 'off', type: 'text', max: MESSAGE_MAX };
   const stepping = identify !== null || asking !== null;
-  const canOffer = visitor !== null && !flow && !leadSent;
+  /* While a reply is held, nothing that belongs to the NEXT step is on screen:
+     no starters, offers or Skip/Stop for a question not yet asked, and no
+     enquiry send before Pix T has said it is sending. They arrive with the
+     turn they follow. */
+  const holding = phase === 'thinking';
+  const canOffer = visitor !== null && !flow && !leadSent && !holding;
 
   return (
     <>
-      {/* THE LAUNCHER IS THE PIXELETTE MARK, not the words "Ask Pix T".
-          Because the visible label is gone, the button carries an `aria-label`:
-          a control whose only content is an image has NO accessible name
-          otherwise, and a screen reader would announce it as "button". The mark
-          itself is `alt=""` and aria-hidden, so it is not announced twice.
-          The mark is the WHITE tree — the colour one is drawn in the same
-          var(--brand) as this button and would be invisible on it. */}
-      {/* SINCE 2026-10-02 THE MARK SITS IN THE SIGNAL BALL (PixSignal), with
-          the founder's interaction states. The button still carries the
-          accessible name; the ball is aria-hidden. Open, the tree gives way to
-          the close glyph and the ball stays, so the control does not jump. */}
+      {/* THE LAUNCHER IS THE SIGNAL BALL (PixSignal, founder's direction of
+          2026-10-02), not the words "Ask Pix T": a light purple sphere of
+          flowing white and dark-purple pixels, with the interaction states.
+          It replaced the Pixelette tree, which the founder had removed from the
+          ball the same day. Because there is no visible label, the button
+          carries an `aria-label`: a control with no text has NO accessible
+          name otherwise. The ball is aria-hidden, so nothing is announced
+          twice. Open, the close glyph sits over the ball, so the control does
+          not jump.
+          aria-controls is set only once the panel exists: before the first
+          open there is nothing for it to point at. */}
       <button
         aria-expanded={open}
-        aria-controls="site-assistant-panel"
+        aria-controls={opened ? 'site-assistant-panel' : undefined}
         aria-label={open ? `Close ${PIX_T_NAME}` : `Ask ${PIX_T_NAME}, ${PIX_T_DESCRIPTOR}`}
-        className={`asst-launch asst-launch--signal${open ? ' asst-launch--open' : ''}`}
+        className={`asst-launch asst-launch--signal${labelled ? ' is-labelled' : ''}${open ? ' asst-launch--open' : ''}`}
         onClick={() => {
           setOpened(true);
           setOpen(v => !v);
@@ -495,6 +598,12 @@ export function SiteAssistant({ context }: { context: PixContext }) {
         ref={launchRef}
         type="button"
       >
+        {/* The visible words. The button's aria-label already begins with
+            them, so they are hidden from the accessibility tree rather than
+            read twice. */}
+        <span aria-hidden className="asst-launch__label">
+          Ask {PIX_T_NAME}
+        </span>
         <PixSignal near={near && !open} phase={busy ? 'thinking' : phase} />
         {open ? (
           <svg aria-hidden className="asst-launch__x" viewBox="0 0 24 24">
@@ -506,12 +615,76 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       {opened ? (
         <div
           aria-label={`${PIX_T_NAME}, ${PIX_T_DESCRIPTOR}`}
-          className="asst-panel"
+          className={`asst-panel${expanded ? '' : ' asst-panel--dock'}${details ? ' asst-panel--details' : ''}`}
           hidden={!open}
           id="site-assistant-panel"
           role="dialog"
         >
-          <div className="asst-head">
+          {!expanded ? (
+            <div className="asst-dock">
+              <button aria-label={`Close ${PIX_T_NAME}`} className="asst-dock__close" onClick={() => setOpen(false)} type="button">
+                <svg aria-hidden viewBox="0 0 24 24">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              </button>
+              {details ? (
+                <form
+                  className="asst-details"
+                  noValidate
+                  onSubmit={e => {
+                    e.preventDefault();
+                    submitDetails();
+                  }}
+                >
+                  <p className="asst-details__lead">Happy to help. Before I answer, may I take your name and work email?</p>
+                  <label htmlFor="asst-details-name">Your name</label>
+                  <input
+                    autoComplete="name"
+                    autoFocus
+                    id="asst-details-name"
+                    maxLength={ENQUIRY_MAX.name}
+                    onChange={e => setDetails({ ...details, name: e.target.value, problem: '' })}
+                    value={details.name}
+                  />
+                  <label htmlFor="asst-details-email">Work email</label>
+                  <input
+                    autoComplete="email"
+                    id="asst-details-email"
+                    maxLength={ENQUIRY_MAX.email}
+                    onChange={e => setDetails({ ...details, email: e.target.value, problem: '' })}
+                    type="email"
+                    value={details.email}
+                  />
+                  {details.problem ? (
+                    <p className="asst-details__error" role="alert">
+                      {details.problem}
+                    </p>
+                  ) : null}
+                  <button className="asst-send" type="submit">
+                    Continue
+                  </button>
+                  {/* The notice at the point of collection, as in the chat. */}
+                  <p className="asst-details__notice">
+                    We record your name and email as soon as you give them, so the team can reply even if you leave
+                    before finishing. See our{' '}
+                    <Link href="/privacy" onClick={() => setOpen(false)}>
+                      Privacy Notice
+                    </Link>
+                    .
+                  </p>
+                </form>
+              ) : null}
+              <div className="asst-dock__questions" hidden={details !== null}>
+                {STARTERS.slice(0, 3).map(q => (
+                  <button className="asst-dock__q" key={q} onClick={() => send(q)} type="button">
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          <div className="asst-head" hidden={!expanded}>
             {/* The same core, small: this is where thinking, responding and
                 finished are seen while the panel is open. */}
             <PixSignal phase={busy ? 'thinking' : phase} size="sm" />
@@ -523,8 +696,10 @@ export function SiteAssistant({ context }: { context: PixContext }) {
           </div>
 
           {/* aria-busy while a reply is held, so a screen reader announces the
-              reply when it lands rather than the wait. */}
-          <div aria-busy={phase === 'thinking' || busy} aria-live="polite" className="asst-log" ref={logRef}>
+              reply when it lands rather than the wait. Not during an enquiry
+              send: that can take seconds, a busy live region announces nothing
+              meanwhile, and the review form reports its own outcome. */}
+          <div aria-busy={holding} aria-live="polite" className="asst-log" hidden={!expanded} ref={logRef}>
             {turns.map(t => (
               <div className={`asst-turn asst-turn--${t.role}`} key={t.id}>
                 <p className="asst-bubble">{t.text}</p>
@@ -544,7 +719,20 @@ export function SiteAssistant({ context }: { context: PixContext }) {
               </div>
             ))}
 
-            {flow?.reviewing && visitor ? (
+            {/* Pix T is thinking: three dots in a reply bubble while the
+                answer is held. Decorative; the log is aria-busy meanwhile. */}
+            {holding ? (
+              <div aria-hidden className="asst-turn asst-turn--assistant">
+                <p className="asst-bubble asst-typing">
+                  <span className="asst-typing__label">{PIX_T_NAME} is thinking</span>
+                  <i />
+                  <i />
+                  <i />
+                </p>
+              </div>
+            ) : null}
+
+            {flow?.reviewing && visitor && !holding ? (
               <EnquiryReview
                 autoSubmit
                 contactEmail={context.contactEmail}
@@ -558,7 +746,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
             ) : null}
           </div>
 
-          {visitor && !chatted && !flow ? (
+          {expanded && visitor && !chatted && !flow && !holding ? (
             <div className="asst-starters">
               {STARTERS.map(s => (
                 <button className="asst-chip" key={s} onClick={() => send(s)} type="button">
@@ -568,7 +756,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
             </div>
           ) : null}
 
-          {asking ? (
+          {asking && !holding ? (
             <div className="asst-flowbar">
               <span>
                 Question {flow!.step + 1} of {DISCOVERY_STEPS.length}
@@ -586,7 +774,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
             </div>
           ) : null}
 
-          {flow?.reviewing ? null : (
+          {flow?.reviewing || details ? null : (
             <form
               className="asst-form"
               /* Pix T's own checks answer a malformed email in the chat. Without
@@ -607,14 +795,25 @@ export function SiteAssistant({ context }: { context: PixContext }) {
                 id="asst-input"
                 maxLength={input.max}
                 onChange={e => setDraft(e.target.value)}
-                placeholder={input.placeholder}
+                placeholder={holding ? `${PIX_T_NAME} is thinking…` : input.placeholder}
+                /* Read-only for the beat, so nothing can be typed against a
+                   question that is about to change underneath it. */
+                readOnly={holding}
                 ref={inputRef}
                 type={input.type}
                 value={draft}
               />
-              <button className="asst-send" disabled={phase === 'thinking' || (!stepping && !draft.trim())} type="submit">
-                {stepping ? 'Next' : 'Ask'}
-              </button>
+              {expanded ? (
+                <button className="asst-send" disabled={holding || (!stepping && !draft.trim())} type="submit">
+                  {stepping ? 'Next' : 'Ask'}
+                </button>
+              ) : (
+                <button aria-label="Send" className="asst-send asst-send--icon" disabled={!draft.trim()} type="submit">
+                  <svg aria-hidden viewBox="0 0 24 24">
+                    <path d="M4 12l16-8-6 16-2.5-6.5L4 12z" />
+                  </svg>
+                </button>
+              )}
             </form>
           )}
 
@@ -627,7 +826,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
             </label>
           </div>
 
-          <p className="asst-foot">
+          <p className="asst-foot" hidden={!expanded}>
             {identify ? (
               /* The notice at the point of collection. It began as the contact
                  form's (founder wording, 2026-09-17), which says only that the

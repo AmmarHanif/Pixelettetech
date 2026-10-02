@@ -3750,16 +3750,6 @@ button.btn[disabled] {
   box-shadow: 0 6px 20px rgba(38, 3, 59, 0.22);
 }
 
-.asst-launch__mark {
-  display: block;
-  /* The mark is 36.4 x 50 - taller than it is wide, because the trunk and its
-     base bar are part of it. Forced into a square it letterboxes to about 20px
-     and reads as a scatter of squares rather than a tree, so the height leads
-     and the width follows. */
-  width: auto;
-  height: 30px;
-}
-
 /* The close glyph is drawn rather than typed, so it needs its own stroke - it
    inherits none from the button's font. */
 .asst-launch__x {
@@ -3788,37 +3778,159 @@ button.btn[disabled] {
 }
 
 /* Round focus ring: the sitewide rule gives buttons a 2px radius, which would
-   draw a square round a ball. */
+   draw a square round a ball. TWO-TONE, because the launcher is the last stop
+   in the tab order and is usually reached with the dark footer behind it, where
+   the brand outline alone measured 1.65:1: a white band inside the purple ring
+   reads on both the white pages and the dark band. */
 .asst-launch--signal:focus-visible {
-  border-radius: 50%;
+  /* 999px rather than 50%, so the ring is round on the lone ball and follows
+     the ends of the pill once it has opened out. */
+  border-radius: 999px;
   outline-offset: 4px;
+  box-shadow: 0 0 0 4px #ffffff;
 }
 
-/* HOVER: the symbol gently shifts and awakens - it lifts, turns a little
-   towards the visitor and brightens, and the pixels round it come up. Keyboard
-   focus gets the same, since it is the same intent. */
-.asst-launch--signal:hover .sig__mark,
-.asst-launch--signal:focus-visible .sig__mark {
-  transform: translateY(-1.5px) scale(1.07) rotate(-4deg);
-  filter: drop-shadow(0 0 7px rgba(234, 220, 242, 0.85));
+/* THE "ASK PIX T" PILL (founder, 2026-10-02, after the "Ask Pix T [->]"
+   launcher on the visual-directions board, with the Signal ball where that
+   design has its arrow button). The ball shows alone first; LABEL_DELAY_MS
+   later the button gains .is-labelled and the words open out to its left on
+   a dark pill, anchored at the ball, so the ball does not move and the panel
+   still expands from it. Open, the pill folds back to the ball and its close
+   glyph. The pill's edge is an inset shadow, not a border, so the button stays
+   exactly 56px tall and the panel offsets still hold. */
+.asst-launch--signal {
+  width: auto;
+  min-width: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  transition:
+    background-color 0.45s ease,
+    box-shadow 0.45s ease,
+    padding 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.asst-launch--signal:hover .sig__body,
+.asst-launch__label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  color: var(--brand);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition:
+    max-width 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+    margin 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.35s ease 0.15s;
+}
+
+.asst-launch--signal.is-labelled:not(.asst-launch--open) {
+  padding-left: 20px;
+  /* Light, on the founder's review (2026-10-02): the brand tint, so the
+     #661A8E ball stands out against the pill instead of sinking into it. */
+  background: var(--brand-tint);
+  box-shadow:
+    inset 0 0 0 1px rgba(102, 26, 142, 0.18),
+    0 8px 24px rgba(39, 3, 59, 0.16);
+}
+
+.asst-launch--signal.is-labelled:not(.asst-launch--open) .asst-launch__label {
+  max-width: 120px;
+  margin-right: 12px;
+  opacity: 1;
+}
+
+.asst-launch--signal.is-labelled:not(.asst-launch--open):focus-visible {
+  box-shadow:
+    inset 0 0 0 1px rgba(102, 26, 142, 0.18),
+    0 0 0 4px #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asst-launch--signal,
+  .asst-launch__label {
+    transition: none;
+  }
+}
+
+/* HOVER: the core gently shifts and awakens - a light comes up at the centre
+   of the current and the ball lifts a little toward the visitor. Only where
+   hover is real: on touch screens :hover sticks after a tap and would leave
+   it lit. Keyboard focus gets the same, since it is the same intent, on every
+   device. */
+.asst-launch--signal .sig {
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (hover: hover) {
+  .asst-launch--signal:hover .sig {
+    transform: translateY(-1.5px) scale(1.05);
+  }
+
+  .asst-launch--signal:hover .sig__core {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+
+  .asst-launch--signal:hover .sig__body {
+    filter: brightness(1.08);
+  }
+}
+
+.asst-launch--signal:focus-visible .sig {
+  transform: translateY(-1.5px) scale(1.05);
+}
+
+.asst-launch--signal:focus-visible .sig__core {
+  opacity: 0.85;
+  transform: scale(1);
+}
+
 .asst-launch--signal:focus-visible .sig__body {
-  filter: brightness(1.12) saturate(1.08);
+  filter: brightness(1.08);
 }
 
-/* Open, the close glyph takes the tree's place over the same ball. */
+/* Windows High Contrast: keep the ball's own colours (see pixsignal.css) and
+   draw the focus ring in the system's highlight colour. */
+@media (forced-colors: active) {
+  .asst-launch--signal {
+    forced-color-adjust: none;
+  }
+
+  .asst-launch--signal:focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+/* AssistantBoundary's fallback: the words "Contact us" in a pill. On the 56px
+   disc they ran past its edge, white on the white page, and the sitewide
+   a:hover colour turned them purple on purple. */
+.asst-launch--text {
+  width: auto;
+  min-width: 56px;
+  padding: 0 18px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.asst-launch--text:hover,
+.asst-launch--text:focus-visible {
+  color: #ffffff;
+}
+
+.asst-launch--text:focus-visible {
+  border-radius: 999px;
+}
+
+/* Open, the close glyph sits over the same ball, with the current dimmed
+   beneath it so the X reads. */
 .asst-launch--signal .asst-launch__x {
   position: absolute;
   inset: 0;
   z-index: 5;
   margin: auto;
   color: #fff;
-}
-
-.asst-launch--open .sig__mark {
-  opacity: 0;
 }
 
 .asst-launch--open .sig__flow {
@@ -4009,6 +4121,12 @@ button.btn[disabled] {
   font-size: 12px;
   color: var(--muted);
   line-height: 1.5;
+}
+
+/* Underlined, because the brand purple against this grey text is 1.83:1:
+   colour alone does not mark these as links (WCAG 1.4.1). */
+.asst-foot a {
+  text-decoration: underline;
 }
 
 /* The offer to take an enquiry sits under the reply that prompted it: an
@@ -8423,5 +8541,313 @@ button.btn[disabled] {
 
   .sp-hero-native {
     display: block;
+  }
+}
+
+/* ---- Pix T dock: what a click on "Ask Pix T" opens first -------------------
+   Founder, 2026-10-02, after the reference he supplied: a close button, three
+   suggested questions stacked on the right, and a message bar - in the site's
+   colours. The first question asked opens the full conversation (.asst-panel
+   without --dock). The panel element is reused so the dialog role, the id the
+   launcher controls and the expand-from-the-ball animation all carry over. */
+.asst-panel--dock {
+  width: min(380px, calc(100vw - 32px));
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
+  gap: 10px;
+}
+
+.asst-dock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.asst-dock__close {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #e9e6ee;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.asst-dock__close svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.asst-dock__questions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.asst-dock__q {
+  font: inherit;
+  font-size: 13px;
+  padding: 8px 13px;
+  border: 1px solid rgba(102, 26, 142, 0.35);
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--brand);
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(39, 3, 59, 0.06);
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.asst-dock__q:hover {
+  border-color: var(--brand);
+  background: var(--brand-tint);
+}
+
+/* The message bar: a purple band holding a white field with the send arrow
+   inside it. */
+.asst-panel--dock .asst-form {
+  padding: 6px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #661a8e, #8a4ab0);
+  box-shadow: 0 12px 30px rgba(39, 3, 59, 0.22);
+  position: relative;
+}
+
+.asst-panel--dock .asst-input {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 42px 10px 14px;
+  font-size: 14px;
+}
+
+.asst-send--icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand);
+}
+
+.asst-send--icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.asst-send--icon:disabled {
+  opacity: 0.4;
+}
+
+/* Parts of the full panel hidden while it is the dock. Their own display
+   rules (the header is flex) would otherwise beat the hidden attribute. */
+.asst-panel [hidden] {
+  display: none;
+}
+
+/* The dock's name-and-email box, shown when a question is asked before the
+   visitor has introduced themselves. */
+.asst-details {
+  width: 100%;
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid rgba(102, 26, 142, 0.25);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(39, 3, 59, 0.16);
+  font-size: 13px;
+  color: var(--body);
+}
+
+.asst-details__lead {
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.asst-details input {
+  font: inherit;
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1px solid var(--line-4);
+  border-radius: 8px;
+  color: var(--ink);
+}
+
+.asst-details input:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+}
+
+.asst-details .asst-send {
+  margin-top: 6px;
+}
+
+.asst-details__error {
+  font-size: 12.5px;
+  color: #8f4208;
+}
+
+.asst-details__notice {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.asst-details__notice a {
+  text-decoration: underline;
+}
+
+/* GLASS (founder, 2026-10-02): the dock is frosted so the page behind it
+   blurs out and the questions stay readable over any section. One frosted
+   sheet behind the whole dock, so the gaps between the chips are blurred too,
+   and lighter frosted chips on it. */
+.asst-panel--dock {
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: 0 16px 40px rgba(39, 3, 59, 0.14);
+}
+
+.asst-dock__q,
+.asst-dock__close {
+  background: rgba(255, 255, 255, 0.58);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.asst-dock__q:hover {
+  background: rgba(234, 220, 242, 0.85);
+}
+
+.asst-panel--dock .asst-form {
+  background: linear-gradient(90deg, rgba(102, 26, 142, 0.85), rgba(138, 74, 176, 0.85));
+}
+
+/* No frosting where the browser cannot draw it: a near-solid sheet instead. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .asst-panel--dock {
+    background: rgba(255, 255, 255, 0.94);
+  }
+}
+
+/* With the name-and-email box up, the box IS the dock: drop the glass sheet
+   behind it so there is one card, not a card inside a card, and frost the
+   box itself instead. */
+.asst-panel--dock.asst-panel--details {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.asst-panel--details .asst-details {
+  background: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+}
+
+/* Tighter text in the dock and the name-and-email box (founder: too much
+   space): closer lines, closer letters, smaller gaps between the parts. */
+.asst-panel--dock {
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+}
+
+.asst-details {
+  gap: 4px;
+  padding: 14px;
+}
+
+.asst-details__lead {
+  margin-bottom: 2px;
+  line-height: 1.35;
+}
+
+.asst-details__notice {
+  line-height: 1.4;
+}
+
+.asst-details .asst-send {
+  margin-top: 4px;
+}
+
+.asst-dock__q {
+  line-height: 1.3;
+}
+
+/* "Pix T is thinking" with three dots, shown while a reply is held. */
+.asst-typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.asst-typing__label {
+  margin-right: 4px;
+}
+
+.asst-typing i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand);
+  opacity: 0.3;
+  animation: asst-dot 1.2s ease-in-out infinite;
+}
+
+.asst-typing i:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+
+.asst-typing i:nth-of-type(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes asst-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asst-typing i {
+    animation: none;
+    opacity: 0.6;
   }
 }

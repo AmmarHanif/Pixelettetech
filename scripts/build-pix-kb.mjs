@@ -103,6 +103,7 @@ function parse(file) {
 
   const route = routeOf(file);
   const faqs = [];
+  const sections = [];
   let meta = null;
 
   const visit = node => {
@@ -141,6 +142,31 @@ function parse(file) {
       }
     }
 
+    /*
+     * SECTIONS, added 2026-10-02 (founder: "train Pix T on the website"). Two
+     * shapes carry most of a page's substance besides its FAQs:
+     *   <SectionHead title="..." lead="..." />   a section and what it says
+     *   { title|t|label: '...', body|b|line: '...' }   a card, step or route
+     * Only exact string literals are taken, as for FAQs, so nothing is guessed.
+     */
+    if ((ts.isJsxSelfClosingElement(node) || ts.isJsxOpeningElement(node)) && node.tagName.getText() === 'SectionHead') {
+      const attr = name => {
+        const a = node.attributes.properties.find(p => ts.isJsxAttribute(p) && p.name.getText() === name);
+        if (!a || !a.initializer) return null;
+        if (ts.isStringLiteral(a.initializer)) return a.initializer.text;
+        if (ts.isJsxExpression(a.initializer) && a.initializer.expression) return literal(a.initializer.expression);
+        return null;
+      };
+      const title = attr('title');
+      const lead = attr('lead');
+      if (title && lead) sections.push({ title, text: lead });
+    }
+    if (ts.isObjectLiteralExpression(node)) {
+      const title = literal(propOf(node, 'title')) || literal(propOf(node, 't')) || literal(propOf(node, 'label'));
+      const body = literal(propOf(node, 'body')) || literal(propOf(node, 'b')) || literal(propOf(node, 'line'));
+      if (title && body && body.length >= 40 && !propOf(node, 'q')) sections.push({ title, text: body });
+    }
+
     // pageMetadata({ title, description, path })
     if (
       ts.isCallExpression(node) &&
@@ -161,14 +187,14 @@ function parse(file) {
   };
   visit(src);
 
-  return { route, faqs, meta };
+  return { route, faqs, sections, meta };
 }
 
 const docs = [];
 const files = pageFiles(APP).sort();
 
 for (const file of files) {
-  const { route, faqs, meta } = parse(file);
+  const { route, faqs, sections, meta } = parse(file);
   const pageTitle = meta?.title || labelOf(route);
   const pagePath = meta?.path || route;
 
@@ -181,6 +207,16 @@ for (const file of files) {
       title: meta.title,
       text: meta.description,
       path: pagePath,
+    });
+  }
+
+  for (const sct of sections) {
+    docs.push({
+      kind: 'section',
+      title: sct.title,
+      text: sct.text,
+      path: linkable ? pagePath : null,
+      page: pageTitle,
     });
   }
 
@@ -198,6 +234,40 @@ for (const file of files) {
   }
 }
 
+/*
+ * THE QUESTION DATASET (src/content/pix-questions.json, founder 2026-10-02).
+ * Each phrasing becomes an FAQ whose answer is COPIED from the page or FAQ it
+ * points at, so the dataset adds ways of asking, never new things to say. A
+ * pointer to an answer that does not exist stops the build.
+ */
+const DATASET = path.join(ROOT, 'src', 'content', 'pix-questions.json');
+if (fs.existsSync(DATASET)) {
+  const { entries } = JSON.parse(fs.readFileSync(DATASET, 'utf8'));
+  const missing = [];
+  for (const e of entries) {
+    const target = docs.find(
+      d => (d.kind === 'faq' || d.kind === 'page') && d.path === e.answer.path && d.title === e.answer.title && d.text,
+    );
+    if (!target) {
+      missing.push(`${e.answer.path} | ${e.answer.title}`);
+      continue;
+    }
+    for (const ask of e.ask) {
+      docs.push({
+        kind: 'faq',
+        title: ask,
+        text: target.text,
+        path: target.path,
+        page: target.kind === 'faq' ? target.page : target.title,
+      });
+    }
+  }
+  if (missing.length) {
+    process.stderr.write(`pix-questions.json points at answers that do not exist:\n${missing.map(m => '  - ' + m).join('\n')}\n`);
+    process.exit(1);
+  }
+}
+
 const kb = {
   /*
    * Generated. `builtFrom` records the shape of the source so a reader of the
@@ -211,6 +281,7 @@ const kb = {
     pages: docs.filter(d => d.kind === 'page').length,
     faqs: docs.filter(d => d.kind === 'faq').length,
     pointers: docs.filter(d => d.kind === 'pointer').length,
+    sections: docs.filter(d => d.kind === 'section').length,
   },
   docs,
 };
