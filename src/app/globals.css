@@ -2,6 +2,7 @@
 @import '../components/HeroVisual/heroartwork.css';
 @import '../components/scrollreveal.css';
 @import '../components/SpatialDemo/spatial.css';
+@import '../components/pixsignal.css';
 
 /* ---- AR/VR hero film ------------------------------------------------------
    The video replaces the illustration that stood in this slot. It keeps the
@@ -3775,7 +3776,61 @@ button.btn[disabled] {
   border-color: var(--brand-hover);
 }
 
+/* THE SIGNAL LAUNCHER, 2026-10-02. The ball (PixSignal) draws its own sphere,
+   glow and shadow, so the button underneath is only the hit area and the focus
+   ring. The plain `.asst-launch` above is kept for AssistantBoundary's
+   "Contact us" fallback, which has no ball and still needs the purple disc. */
+.asst-launch--signal,
+.asst-launch--signal:hover {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Round focus ring: the sitewide rule gives buttons a 2px radius, which would
+   draw a square round a ball. */
+.asst-launch--signal:focus-visible {
+  border-radius: 50%;
+  outline-offset: 4px;
+}
+
+/* HOVER: the symbol gently shifts and awakens - it lifts, turns a little
+   towards the visitor and brightens, and the pixels round it come up. Keyboard
+   focus gets the same, since it is the same intent. */
+.asst-launch--signal:hover .sig__mark,
+.asst-launch--signal:focus-visible .sig__mark {
+  transform: translateY(-1.5px) scale(1.07) rotate(-4deg);
+  filter: drop-shadow(0 0 7px rgba(234, 220, 242, 0.85));
+}
+
+.asst-launch--signal:hover .sig__body,
+.asst-launch--signal:focus-visible .sig__body {
+  filter: brightness(1.12) saturate(1.08);
+}
+
+/* Open, the close glyph takes the tree's place over the same ball. */
+.asst-launch--signal .asst-launch__x {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  margin: auto;
+  color: #fff;
+}
+
+.asst-launch--open .sig__mark {
+  opacity: 0;
+}
+
+.asst-launch--open .sig__flow {
+  opacity: 0.45;
+}
+
 .asst-panel {
+  /* Where the launcher's centre sits relative to this panel: 28px in from its
+     right edge and 28px below its bottom edge (launcher 56px at bottom 20px,
+     panel at bottom 76px). The opening expands from there. */
+  --asst-core-x: calc(100% - 28px);
+  --asst-core-y: calc(100% + 28px);
   position: fixed;
   right: 20px;
   bottom: 76px;
@@ -3797,7 +3852,36 @@ button.btn[disabled] {
   display: none;
 }
 
+/* CLICK: THE CORE EXPANDS INTO THE CHAT (2026-10-02). The panel is revealed by
+   a circle that starts as the launcher ball - same centre, same 28px radius -
+   and grows until it covers the panel, so the conversation reads as opening
+   out of the core rather than appearing beside it. It runs each time the panel
+   is shown, because a CSS animation restarts when `display: none` is lifted. */
+.asst-panel:not([hidden]) {
+  animation: asst-expand 0.46s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes asst-expand {
+  from {
+    clip-path: circle(28px at var(--asst-core-x) var(--asst-core-y));
+    opacity: 0.4;
+  }
+  to {
+    clip-path: circle(150% at var(--asst-core-x) var(--asst-core-y));
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asst-panel:not([hidden]) {
+    animation: none;
+  }
+}
+
 .asst-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 16px 18px 12px;
   border-bottom: 1px solid var(--line);
 }
@@ -4046,6 +4130,8 @@ button.btn[disabled] {
     width: auto;
     bottom: 70px;
     max-height: min(70vh, 520px);
+    /* Launcher at bottom 12px: its centre is 28px in and 30px below. */
+    --asst-core-y: calc(100% + 30px);
   }
   .asst-launch {
     right: 12px;
