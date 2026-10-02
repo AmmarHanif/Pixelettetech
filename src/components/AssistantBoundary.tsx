@@ -27,7 +27,7 @@ export class AssistantBoundary extends Component<{ children: ReactNode }, { fail
   render() {
     if (this.state.failed) {
       return (
-        <a className="asst-launch" href="/contact">
+        <a className="asst-launch asst-launch--text" href="/contact">
           Contact us
         </a>
       );

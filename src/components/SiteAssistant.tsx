@@ -121,8 +121,12 @@ const THINK_MS = 650;
 const RESPOND_MS = 900;
 const FINISH_MS = 650;
 
-/** How close, in px from the launcher's centre, counts as "approaching". */
+/** How close, in px from the launcher's centre, counts as "approaching", and
+    how far it must go again to count as having left. The gap is hysteresis: a
+    pointer resting near one radius would otherwise restart the trace on every
+    wobble across it. */
 const NEAR_PX = 170;
+const LEAVE_PX = 200;
 
 const replyTurn = (reply: PixReply): Omit<Turn, 'id'> => ({
   role: 'assistant',
@@ -190,6 +194,13 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       setTimeout(() => setPhase('finished'), RESPOND_MS),
       setTimeout(() => setPhase('idle'), RESPOND_MS + FINISH_MS),
     );
+    /* The input was read-only for the beat; hand the caret back, unless the
+       visitor has since gone somewhere else on the page. */
+    const active = document.activeElement;
+    const panel = document.getElementById('site-assistant-panel');
+    if (!active || active === document.body || panel?.contains(active)) {
+      setTimeout(() => inputRef.current?.focus(), 0);
+    }
   }, [append, clearTimers]);
 
   /* The visitor's own turns appear at once. Pix T's are held for the thinking
@@ -204,6 +215,8 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       append(mine);
       if (!theirs.length) return;
       if (reducedMotion.current) {
+        /* Anything still held from before the preference changed goes first. */
+        if (held.current.length) release();
         append(theirs);
         return;
       }
@@ -220,42 +233,47 @@ export function SiteAssistant({ context }: { context: PixContext }) {
   useEffect(() => {
     const m = window.matchMedia('(prefers-reduced-motion: reduce)');
     reducedMotion.current = m.matches;
-    const onChange = () => (reducedMotion.current = m.matches);
+    const onChange = () => {
+      reducedMotion.current = m.matches;
+      if (m.matches && held.current.length) release();
+    };
     m.addEventListener('change', onChange);
     return () => {
       m.removeEventListener('change', onChange);
       clearTimers();
     };
-  }, [clearTimers]);
+  }, [clearTimers, release]);
 
   /* "User approaches": the pointer comes within NEAR_PX of the closed
-     launcher. Only for a mouse or trackpad - a finger has no approach - and
-     sampled once per frame, so it costs one rect read per frame at most. */
+     launcher, and has left once it is beyond LEAVE_PX. Only for a mouse or
+     trackpad - a finger has no approach. The launcher is position: fixed, so
+     its centre is measured once and again on resize, not on every move; each
+     move is a subtraction, and React re-renders only when the answer flips. */
   useEffect(() => {
     if (open) {
       setNear(false);
       return;
     }
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    let frame = 0;
-    let x = 0;
-    let y = 0;
-    const measure = () => {
-      frame = 0;
-      const el = launchRef.current;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      setNear(Math.hypot(x - (r.left + r.width / 2), y - (r.top + r.height / 2)) < NEAR_PX);
+    let cx = 0;
+    let cy = 0;
+    const place = () => {
+      const r = launchRef.current?.getBoundingClientRect();
+      if (r) {
+        cx = r.left + r.width / 2;
+        cy = r.top + r.height / 2;
+      }
     };
+    place();
     const onMove = (e: PointerEvent) => {
-      x = e.clientX;
-      y = e.clientY;
-      if (!frame) frame = requestAnimationFrame(measure);
+      const d = Math.hypot(e.clientX - cx, e.clientY - cy);
+      setNear(prev => (prev ? d < LEAVE_PX : d < NEAR_PX));
     };
     window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('resize', place);
     return () => {
       window.removeEventListener('pointermove', onMove);
-      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener('resize', place);
     };
   }, [open]);
 
@@ -441,11 +459,17 @@ export function SiteAssistant({ context }: { context: PixContext }) {
     if (open) inputRef.current?.focus();
   }, [open]);
 
-  /* Escape closes, as a dialog should. The conversation is kept until reload. */
+  /* Escape closes, as a dialog should. The conversation is kept until reload.
+     Focus goes back to the launcher when it was inside the panel: the panel
+     is hidden, and focus left on a hidden input falls to <body>, which loses
+     a keyboard user's place on the page. */
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key !== 'Escape') return;
+      const inPanel = document.getElementById('site-assistant-panel')?.contains(document.activeElement);
+      setOpen(false);
+      if (inPanel) launchRef.current?.focus();
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
@@ -468,24 +492,28 @@ export function SiteAssistant({ context }: { context: PixContext }) {
           }
         : { label: `Ask ${PIX_T_NAME} a question`, placeholder: 'Type your message', autoComplete: 'off', type: 'text', max: MESSAGE_MAX };
   const stepping = identify !== null || asking !== null;
-  const canOffer = visitor !== null && !flow && !leadSent;
+  /* While a reply is held, nothing that belongs to the NEXT step is on screen:
+     no starters, offers or Skip/Stop for a question not yet asked, and no
+     enquiry send before Pix T has said it is sending. They arrive with the
+     turn they follow. */
+  const holding = phase === 'thinking';
+  const canOffer = visitor !== null && !flow && !leadSent && !holding;
 
   return (
     <>
-      {/* THE LAUNCHER IS THE PIXELETTE MARK, not the words "Ask Pix T".
-          Because the visible label is gone, the button carries an `aria-label`:
-          a control whose only content is an image has NO accessible name
-          otherwise, and a screen reader would announce it as "button". The mark
-          itself is `alt=""` and aria-hidden, so it is not announced twice.
-          The mark is the WHITE tree — the colour one is drawn in the same
-          var(--brand) as this button and would be invisible on it. */}
-      {/* SINCE 2026-10-02 THE MARK SITS IN THE SIGNAL BALL (PixSignal), with
-          the founder's interaction states. The button still carries the
-          accessible name; the ball is aria-hidden. Open, the tree gives way to
-          the close glyph and the ball stays, so the control does not jump. */}
+      {/* THE LAUNCHER IS THE PIXELETTE MARK, not the words "Ask Pix T", and
+          since 2026-10-02 the mark sits in the Signal ball (PixSignal) with the
+          founder's interaction states. Because there is no visible label, the
+          button carries an `aria-label`: a control whose only content is an
+          image has NO accessible name otherwise. The ball is aria-hidden, so
+          nothing is announced twice. The tree is the WHITE one, because it sits
+          on the dark sphere. Open, it gives way to the close glyph and the ball
+          stays, so the control does not jump.
+          aria-controls is set only once the panel exists: before the first
+          open there is nothing for it to point at. */}
       <button
         aria-expanded={open}
-        aria-controls="site-assistant-panel"
+        aria-controls={opened ? 'site-assistant-panel' : undefined}
         aria-label={open ? `Close ${PIX_T_NAME}` : `Ask ${PIX_T_NAME}, ${PIX_T_DESCRIPTOR}`}
         className={`asst-launch asst-launch--signal${open ? ' asst-launch--open' : ''}`}
         onClick={() => {
@@ -523,8 +551,10 @@ export function SiteAssistant({ context }: { context: PixContext }) {
           </div>
 
           {/* aria-busy while a reply is held, so a screen reader announces the
-              reply when it lands rather than the wait. */}
-          <div aria-busy={phase === 'thinking' || busy} aria-live="polite" className="asst-log" ref={logRef}>
+              reply when it lands rather than the wait. Not during an enquiry
+              send: that can take seconds, a busy live region announces nothing
+              meanwhile, and the review form reports its own outcome. */}
+          <div aria-busy={holding} aria-live="polite" className="asst-log" ref={logRef}>
             {turns.map(t => (
               <div className={`asst-turn asst-turn--${t.role}`} key={t.id}>
                 <p className="asst-bubble">{t.text}</p>
@@ -544,7 +574,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
               </div>
             ))}
 
-            {flow?.reviewing && visitor ? (
+            {flow?.reviewing && visitor && !holding ? (
               <EnquiryReview
                 autoSubmit
                 contactEmail={context.contactEmail}
@@ -558,7 +588,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
             ) : null}
           </div>
 
-          {visitor && !chatted && !flow ? (
+          {visitor && !chatted && !flow && !holding ? (
             <div className="asst-starters">
               {STARTERS.map(s => (
                 <button className="asst-chip" key={s} onClick={() => send(s)} type="button">
@@ -568,7 +598,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
             </div>
           ) : null}
 
-          {asking ? (
+          {asking && !holding ? (
             <div className="asst-flowbar">
               <span>
                 Question {flow!.step + 1} of {DISCOVERY_STEPS.length}
@@ -607,12 +637,15 @@ export function SiteAssistant({ context }: { context: PixContext }) {
                 id="asst-input"
                 maxLength={input.max}
                 onChange={e => setDraft(e.target.value)}
-                placeholder={input.placeholder}
+                placeholder={holding ? `${PIX_T_NAME} is thinking…` : input.placeholder}
+                /* Read-only for the beat, so nothing can be typed against a
+                   question that is about to change underneath it. */
+                readOnly={holding}
                 ref={inputRef}
                 type={input.type}
                 value={draft}
               />
-              <button className="asst-send" disabled={phase === 'thinking' || (!stepping && !draft.trim())} type="submit">
+              <button className="asst-send" disabled={holding || (!stepping && !draft.trim())} type="submit">
                 {stepping ? 'Next' : 'Ask'}
               </button>
             </form>
