@@ -501,14 +501,15 @@ export function SiteAssistant({ context }: { context: PixContext }) {
 
   return (
     <>
-      {/* THE LAUNCHER IS THE PIXELETTE MARK, not the words "Ask Pix T", and
-          since 2026-10-02 the mark sits in the Signal ball (PixSignal) with the
-          founder's interaction states. Because there is no visible label, the
-          button carries an `aria-label`: a control whose only content is an
-          image has NO accessible name otherwise. The ball is aria-hidden, so
-          nothing is announced twice. The tree is the WHITE one, because it sits
-          on the dark sphere. Open, it gives way to the close glyph and the ball
-          stays, so the control does not jump.
+      {/* THE LAUNCHER IS THE SIGNAL BALL (PixSignal, founder's direction of
+          2026-10-02), not the words "Ask Pix T": a light purple sphere of
+          flowing white and dark-purple pixels, with the interaction states.
+          It replaced the Pixelette tree, which the founder had removed from the
+          ball the same day. Because there is no visible label, the button
+          carries an `aria-label`: a control with no text has NO accessible
+          name otherwise. The ball is aria-hidden, so nothing is announced
+          twice. Open, the close glyph sits over the ball, so the control does
+          not jump.
           aria-controls is set only once the panel exists: before the first
           open there is nothing for it to point at. */}
       <button

@@ -3788,29 +3788,41 @@ button.btn[disabled] {
   box-shadow: 0 0 0 4px #ffffff;
 }
 
-/* HOVER: the symbol gently shifts and awakens - it lifts, turns a little
-   towards the visitor and brightens, and the pixels round it come up. Only
-   where hover is real: on touch screens :hover sticks after a tap and would
-   leave the tree lifted. Keyboard focus gets the same, since it is the same
-   intent, on every device. */
+/* HOVER: the core gently shifts and awakens - a light comes up at the centre
+   of the current and the ball lifts a little toward the visitor. Only where
+   hover is real: on touch screens :hover sticks after a tap and would leave
+   it lit. Keyboard focus gets the same, since it is the same intent, on every
+   device. */
+.asst-launch--signal .sig {
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
 @media (hover: hover) {
-  .asst-launch--signal:hover .sig__mark {
-    transform: translateY(-1.5px) scale(1.07) rotate(-4deg);
-    filter: drop-shadow(0 0 1.5px rgba(38, 3, 59, 0.55)) drop-shadow(0 0 7px rgba(234, 220, 242, 0.85));
+  .asst-launch--signal:hover .sig {
+    transform: translateY(-1.5px) scale(1.05);
+  }
+
+  .asst-launch--signal:hover .sig__core {
+    opacity: 0.85;
+    transform: scale(1);
   }
 
   .asst-launch--signal:hover .sig__body {
-    filter: brightness(1.12) saturate(1.08);
+    filter: brightness(1.08);
   }
 }
 
-.asst-launch--signal:focus-visible .sig__mark {
-  transform: translateY(-1.5px) scale(1.07) rotate(-4deg);
-  filter: drop-shadow(0 0 1.5px rgba(38, 3, 59, 0.55)) drop-shadow(0 0 7px rgba(234, 220, 242, 0.85));
+.asst-launch--signal:focus-visible .sig {
+  transform: translateY(-1.5px) scale(1.05);
+}
+
+.asst-launch--signal:focus-visible .sig__core {
+  opacity: 0.85;
+  transform: scale(1);
 }
 
 .asst-launch--signal:focus-visible .sig__body {
-  filter: brightness(1.12) saturate(1.08);
+  filter: brightness(1.08);
 }
 
 /* Windows High Contrast: keep the ball's own colours (see pixsignal.css) and
@@ -3845,17 +3857,14 @@ button.btn[disabled] {
   border-radius: 999px;
 }
 
-/* Open, the close glyph takes the tree's place over the same ball. */
+/* Open, the close glyph sits over the same ball, with the current dimmed
+   beneath it so the X reads. */
 .asst-launch--signal .asst-launch__x {
   position: absolute;
   inset: 0;
   z-index: 5;
   margin: auto;
   color: #fff;
-}
-
-.asst-launch--open .sig__mark {
-  opacity: 0;
 }
 
 .asst-launch--open .sig__flow {

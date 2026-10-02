@@ -4,8 +4,8 @@
    WHAT RUNS CONTINUOUSLY IS TRANSFORM AND OPACITY ONLY: the breathing glow,
    the flowing pixels and the thinking orbit, so the idle ball costs no
    repaints (the glow used to animate box-shadow, which repainted every page
-   at 60fps - fixed 2026-10-02). The one-shot states (the responding pulse,
-   the hover lift) also animate a drop-shadow filter for under a second. Script
+   at 60fps - fixed 2026-10-02). The one-shot states are transform and opacity
+   too, apart from a brightness filter on hover. Script
    runs only when a state changes; the approach test is one subtraction per
    pointer move, against a centre measured on resize. */
 
@@ -63,15 +63,15 @@
 .sig__body {
   border-radius: 50%;
   overflow: hidden;
-  /* Lit from the upper left, like the board: brand mixed with --mint for the
-     highlight (#9459b6), the brand itself, then the dark band to the rim. */
-  /* The highlight sits up and left, clear of the tree's canopy, so the white
-     crown keeps its contrast. */
-  background: radial-gradient(circle at 28% 18%, #9459b6 0%, var(--brand) 36%, var(--dark-2) 70%, var(--dark) 100%);
+  /* #661A8E, the founder's value, over most of the ball: a lighter lift at
+     the upper left (#8a4ab0, the same hue toward white) and only a little
+     darker at the rim (#55137a), so the ground stays a light purple that
+     both the white and the dark pixels stand out against. */
+  background: radial-gradient(circle at 30% 22%, #8a4ab0 0%, #661a8e 42%, #661a8e 78%, #55137a 100%);
   box-shadow:
-    inset 0 0 0 1px rgba(234, 220, 242, 0.32),
-    inset 0 -6px 14px rgba(10, 0, 20, 0.5),
-    inset 0 3px 8px rgba(255, 255, 255, 0.14);
+    inset 0 0 0 1px rgba(234, 220, 242, 0.4),
+    inset 0 -4px 10px rgba(39, 3, 59, 0.28),
+    inset 0 3px 8px rgba(255, 255, 255, 0.16);
   transition: filter 0.35s ease;
 }
 
@@ -82,7 +82,7 @@
   inset: 0;
   border-radius: 50%;
   background:
-    radial-gradient(ellipse 40% 24% at 32% 14%, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse 40% 24% at 32% 14%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%),
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 58%, rgba(234, 220, 242, 0.16) 72%, rgba(255, 255, 255, 0) 100%);
   pointer-events: none;
 }
@@ -95,7 +95,7 @@
 }
 
 /* Each pixel orbits the centre and drifts inward and back over its loop, so
-   twelve of them on different radii, speeds and offsets read as a current
+   fourteen of them on different radii, speeds and offsets read as a current
    rather than a ring. The resting transform is the loop's first frame, so with
    motion removed they stay spread through the ball instead of piling up in the
    middle. */
@@ -113,13 +113,6 @@
   opacity: 0.92;
   transform: rotate(var(--a)) translateX(calc(var(--sig-size) * var(--r)));
   animation: sig-flow var(--d) linear var(--o) infinite;
-}
-
-/* The brand-purple pixels, outlined so they show on the brand-purple sphere. */
-.sig__flow i[data-edge] {
-  box-shadow:
-    0 0 0 1px rgba(234, 220, 242, 0.75),
-    0 0 4px var(--mint);
 }
 
 @keyframes sig-flow {
@@ -142,22 +135,20 @@
   }
 }
 
-/* ---- the central symbol -------------------------------------------------- */
-.sig__mark {
-  z-index: 2;
-  display: block;
-  /* The tree is taller than it is wide (36.4 x 50), so height leads; inset 0
-     with auto margins centres a replaced element once its size is known. */
-  width: auto;
-  height: calc(var(--sig-size) * 0.5);
-  margin: auto;
-  /* A faint dark edge first, so the crown still reads where it crosses the
-     sphere's highlight; then the soft light glow. */
-  filter: drop-shadow(0 0 1.5px rgba(38, 3, 59, 0.55)) drop-shadow(0 0 3px rgba(234, 220, 242, 0.35));
+/* ---- the core: what hover awakens and the reply pulses through ----------- */
+/* There is no symbol in the ball (founder, 2026-10-02), so the states the
+   table gives to "the Pix T symbol" act on a soft light at the centre of the
+   current. It is drawn once and only its opacity and scale change. */
+.sig__core {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(234, 220, 242, 0.32) 42%, rgba(255, 255, 255, 0) 70%);
+  opacity: 0;
+  transform: scale(0.7);
   transition:
-    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
-    filter 0.4s ease,
-    opacity 0.25s ease;
+    opacity 0.4s ease,
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* ---- approach: one light trace round the edge ---------------------------- */
@@ -216,7 +207,7 @@
   margin-left: calc(var(--dot) / -2);
   border-radius: 1px;
   background: #ffffff;
-  box-shadow: 0 0 6px var(--mint);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
   /* Pivot on the ball's centre, so rotating a dot moves it along the rim. */
   transform-origin: 50% calc(var(--sig-size) / 2);
 }
@@ -247,27 +238,27 @@
   }
 }
 
-/* ---- responding: a soft pulse through the central symbol ----------------- */
-.sig[data-phase='responding'] .sig__mark {
+/* ---- responding: a soft pulse through the centre ------------------------- */
+.sig[data-phase='responding'] .sig__core {
   animation: sig-pulse 0.9s ease-in-out 1;
 }
 
 @keyframes sig-pulse {
   0%,
   100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 1.5px rgba(38, 3, 59, 0.55)) drop-shadow(0 0 3px rgba(234, 220, 242, 0.35));
+    opacity: 0;
+    transform: scale(0.7);
   }
   45% {
-    transform: scale(1.12);
-    filter: drop-shadow(0 0 1.5px rgba(38, 3, 59, 0.55)) drop-shadow(0 0 9px rgba(234, 220, 242, 0.95));
+    opacity: 1;
+    transform: scale(1.15);
   }
 }
 
 /* ---- finished: one tiny flash, then it settles --------------------------- */
 /* Pixelette-style: eight small squares burst from the centre - white on the
-   axes, mint on the diagonals - and fade, so the flash is made of the same
-   pixels as the mark. One 2px square draws all eight through box-shadow, and
+   axes, dark purple on the diagonals - and fade, so the flash is made of the
+   same two pixels as the current. One 2px square draws all eight through box-shadow, and
    only its transform and opacity animate. */
 .sig__flash {
   z-index: 4;
@@ -290,10 +281,10 @@
     0 var(--u) 0 0.5px #ffffff,
     calc(-1 * var(--u)) 0 0 0.5px #ffffff,
     var(--u) 0 0 0.5px #ffffff,
-    calc(-1 * var(--v)) calc(-1 * var(--v)) 0 0.5px var(--mint),
-    var(--v) calc(-1 * var(--v)) 0 0.5px var(--mint),
-    calc(-1 * var(--v)) var(--v) 0 0.5px var(--mint),
-    var(--v) var(--v) 0 0.5px var(--mint);
+    calc(-1 * var(--v)) calc(-1 * var(--v)) 0 0.5px var(--dark),
+    var(--v) calc(-1 * var(--v)) 0 0.5px var(--dark),
+    calc(-1 * var(--v)) var(--v) 0 0.5px var(--dark),
+    var(--v) var(--v) 0 0.5px var(--dark);
 }
 
 .sig[data-phase='finished'] .sig__flash {
