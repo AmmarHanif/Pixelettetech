@@ -8772,3 +8772,32 @@ button.btn[disabled] {
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
   backdrop-filter: blur(16px) saturate(1.4);
 }
+
+/* Tighter text in the dock and the name-and-email box (founder: too much
+   space): closer lines, closer letters, smaller gaps between the parts. */
+.asst-panel--dock {
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+}
+
+.asst-details {
+  gap: 4px;
+  padding: 14px;
+}
+
+.asst-details__lead {
+  margin-bottom: 2px;
+  line-height: 1.35;
+}
+
+.asst-details__notice {
+  line-height: 1.4;
+}
+
+.asst-details .asst-send {
+  margin-top: 4px;
+}
+
+.asst-dock__q {
+  line-height: 1.3;
+}
