@@ -171,7 +171,11 @@ export function respond(messageRaw: string, ctx: PixContext): PixReply {
      * matched - the question for an FAQ, the page name for a page - which is
      * where "what this is about" actually lives.
      */
-    if (best && best.coverage >= MIN_COVERAGE && best.titleHits > 0) {
+    /* A page SECTION is body copy, so a topic route written for the question
+       (step 6) beats it: "what is your process" means the method page, not
+       the "Process mapping" card on the workflow page. */
+    const sectionYields = best?.doc.kind === 'section' && TOPIC_ROUTES.some(r => r.test.test(message));
+    if (best && !sectionYields && best.coverage >= MIN_COVERAGE && best.titleHits > 0) {
       if (best.doc.kind === 'pointer') {
         return {
           via: 'pointer',
@@ -185,7 +189,7 @@ export function respond(messageRaw: string, ctx: PixContext): PixReply {
           via: 'kb',
           text: best.doc.text,
           path: best.doc.path ?? undefined,
-          sourceLabel: best.doc.kind === 'faq' ? best.doc.page : best.doc.title,
+          sourceLabel: best.doc.kind === 'faq' || best.doc.kind === 'section' ? best.doc.page : best.doc.title,
         });
       }
     }

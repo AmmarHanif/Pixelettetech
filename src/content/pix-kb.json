@@ -3,7 +3,8 @@
  "counts": {
   "pages": 41,
   "faqs": 94,
-  "pointers": 3
+  "pointers": 3,
+  "sections": 290
  },
  "docs": [
   {
@@ -11,6 +12,34 @@
    "title": "About the firm",
    "text": "Since 2018, Pixelette Technologies has designed and built production software, digital platforms and increasingly sophisticated AI systems for organisations that need technology to work beyond the demo.",
    "path": "/about-us"
+  },
+  {
+   "kind": "section",
+   "title": "Build",
+   "text": "Web platforms, mobile products and custom systems",
+   "path": "/about-us",
+   "page": "About the firm"
+  },
+  {
+   "kind": "section",
+   "title": "Now",
+   "text": "Client engineering alongside proprietary AI R&D",
+   "path": "/about-us",
+   "page": "About the firm"
+  },
+  {
+   "kind": "section",
+   "title": "Build deliberately",
+   "text": "Architecture before unnecessary complexity.",
+   "path": "/about-us",
+   "page": "About the firm"
+  },
+  {
+   "kind": "section",
+   "title": "Built for production, not presentation",
+   "text": "We approach software and AI as engineering disciplines: define the problem, build for the real environment, measure what works and remain accountable for what goes into service.",
+   "path": "/about-us",
+   "page": "About the firm"
   },
   {
    "kind": "page",
@@ -23,6 +52,90 @@
    "title": "Agentic AI & Multi Agent Systems",
    "text": "Single- and multi-agent systems that plan, call tools, coordinate steps and operate within defined controls, with autonomy introduced as an engineered decision.",
    "path": "/ai-automation/agentic-ai-multi-agent"
+  },
+  {
+   "kind": "section",
+   "title": "Planning and task decomposition",
+   "text": "Turning an instruction into an ordered set of steps the system can actually carry out, with the plan visible and inspectable rather than implied by whatever the model felt like doing.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi Agent Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Tool use and system access",
+   "text": "The functions, queries and APIs an agent may call, what arguments it may pass, and the explicit list of things it may not touch. The boundary is the design.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi Agent Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Multi-agent coordination",
+   "text": "Where a task genuinely splits into research, drafting, checking and execution, agents with distinct responsibilities and a defined protocol between them, rather than one prompt pretending to be a team.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi Agent Systems"
+  },
+  {
+   "kind": "section",
+   "title": "State, memory and recovery",
+   "text": "What the system remembers within a task and across tasks, and what it does when a step fails halfway through. Recovery design is most of the engineering.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi Agent Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Human approval points",
+   "text": "The moments where the run stops and a person decides. Placed where the consequence is material, not where they are least inconvenient.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi Agent Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Traceability",
+   "text": "Every step, tool call, input and decision recorded, so an outcome can be explained afterwards to a customer, an auditor or a court.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi Agent Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Suggest",
+   "text": "The system proposes; a person does the work. Nothing changes without a human action. The right place to start with almost anything.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi Agent Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Draft for approval",
+   "text": "The system produces the output and a person approves or edits it before it leaves the building. Most production value sits here.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi Agent Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Act within bounds",
+   "text": "The system executes inside a narrow, reversible envelope, escalating anything outside it. Requires evaluation evidence before it is granted.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi Agent Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Act and report",
+   "text": "The system runs and a person reviews after the fact. Justified only by measured performance over time on a task where a mistake is recoverable.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi Agent Systems"
+  },
+  {
+   "kind": "section",
+   "title": "What an agentic build actually consists of",
+   "text": "Very little of it is prompt writing. The engineering lives in what the system may reach, what it does when a step fails, and how the run is reconstructed afterwards.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi Agent Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Four steps, and you have to earn each one",
+   "text": "A system moves up only on evidence from its own evaluation results. Nothing here is granted because a demonstration went well.",
+   "path": "/ai-automation/agentic-ai-multi-agent",
+   "page": "Agentic AI & Multi Agent Systems"
   },
   {
    "kind": "faq",
@@ -52,6 +165,48 @@
    "path": "/ai-automation/data-and-integration"
   },
   {
+   "kind": "section",
+   "title": "Entitlement-aware retrieval",
+   "text": "The hard part of enterprise AI is not retrieval, it is retrieval that respects who is allowed to see what. We model permissions first and index second.",
+   "path": "/ai-automation/data-and-integration",
+   "page": "Data & Integration for AI"
+  },
+  {
+   "kind": "section",
+   "title": "Context and semantic layers",
+   "text": "A stable vocabulary between your systems and the model, so the answer does not change because someone renamed a column.",
+   "path": "/ai-automation/data-and-integration",
+   "page": "Data & Integration for AI"
+  },
+  {
+   "kind": "section",
+   "title": "MCP integration to systems of record",
+   "text": "CRM, ERP, case management, document stores and internal APIs. MCP has won as a connector standard; the unsolved parts are identity, audit and gateway policy, which is where the work is.",
+   "path": "/ai-automation/data-and-integration",
+   "page": "Data & Integration for AI"
+  },
+  {
+   "kind": "section",
+   "title": "Evaluation and observability",
+   "text": "Instrumented from day one on open standards, so you are never locked into whoever is monitoring you. This is also what makes the run contract possible.",
+   "path": "/ai-automation/data-and-integration",
+   "page": "Data & Integration for AI"
+  },
+  {
+   "kind": "section",
+   "title": "Lineage and provenance",
+   "text": "Where an answer came from, which documents, which version, at what time. Your auditor will ask, and so will your customer.",
+   "path": "/ai-automation/data-and-integration",
+   "page": "Data & Integration for AI"
+  },
+  {
+   "kind": "section",
+   "title": "Legacy enablement",
+   "text": "Long-lived systems that resist change. AI coding gains are large on greenfield and close to nothing on complex legacy, which is precisely why this stays human work.",
+   "path": "/ai-automation/data-and-integration",
+   "page": "Data & Integration for AI"
+  },
+  {
    "kind": "faq",
    "title": "What is the biggest barrier to getting value from enterprise AI?",
    "text": "Data readiness and access, not model capability. 58% name data readiness and access as their number one barrier (KPMG 2026), 72% cite data quality as the top obstacle (Deloitte Private 2026), and three in four UK professional services firms are unready on data, orchestration and monitoring (GOV.UK 2026).",
@@ -77,6 +232,55 @@
    "title": "AI Evaluation & Observability",
    "text": "Golden datasets graded pass or fail, judges calibrated against human labels, regression checks, and drift detection including judge drift.",
    "path": "/ai-automation/evaluation-and-observability"
+  },
+  {
+   "kind": "section",
+   "title": "Golden datasets",
+   "text": "A maintained set of at least 100 labelled examples per system, built from real cases rather than invented ones, and versioned alongside the code that is graded against it.",
+   "path": "/ai-automation/evaluation-and-observability",
+   "page": "AI Evaluation & Observability"
+  },
+  {
+   "kind": "section",
+   "title": "Pass or fail, not one to five",
+   "text": "Binary grading against an agreed definition of correct. A five-point scale hides disagreement inside the middle three points and makes a regression impossible to detect.",
+   "path": "/ai-automation/evaluation-and-observability",
+   "page": "AI Evaluation & Observability"
+  },
+  {
+   "kind": "section",
+   "title": "Judge calibration",
+   "text": "Where a model does the grading, it is calibrated against human labels before it is relied on, and re-calibrated on a schedule. An uncalibrated judge is an opinion with a number attached.",
+   "path": "/ai-automation/evaluation-and-observability",
+   "page": "AI Evaluation & Observability"
+  },
+  {
+   "kind": "section",
+   "title": "Regression checks on every release",
+   "text": "The suite runs before a change ships. Below the acceptance threshold means it does not ship, and that threshold is agreed before the build rather than negotiated after it.",
+   "path": "/ai-automation/evaluation-and-observability",
+   "page": "AI Evaluation & Observability"
+  },
+  {
+   "kind": "section",
+   "title": "Drift detection, including judge drift",
+   "text": "Input distribution drift, silent model version changes by a supplier, and movement in the evaluator’s own behaviour. The third is the one most teams never watch.",
+   "path": "/ai-automation/evaluation-and-observability",
+   "page": "AI Evaluation & Observability"
+  },
+  {
+   "kind": "section",
+   "title": "Open standards throughout",
+   "text": "Instrumented on open standards from day one, so you are never locked into whoever happens to be monitoring you, and can take the measurement with you.",
+   "path": "/ai-automation/evaluation-and-observability",
+   "page": "AI Evaluation & Observability"
+  },
+  {
+   "kind": "section",
+   "title": "How we measure an AI system",
+   "text": "The same approach on every engagement, published so you can check it before you buy anything.",
+   "path": "/ai-automation/evaluation-and-observability",
+   "page": "AI Evaluation & Observability"
   },
   {
    "kind": "faq",
@@ -106,6 +310,76 @@
    "path": "/ai-automation/language-speech-vision"
   },
   {
+   "kind": "section",
+   "title": "Document extraction",
+   "text": "Pulling structured fields out of invoices, forms, contracts, statements and correspondence, including the scanned, rotated and photographed versions that arrive in real post rooms.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
+   "kind": "section",
+   "title": "Classification and routing",
+   "text": "Deciding what a message, case or document is and where it should go. Usually the highest-value language task in a business, and the least glamorous.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
+   "kind": "section",
+   "title": "Sentiment and theme analysis",
+   "text": "What customers are actually saying across reviews, tickets and calls, aggregated into themes a team can act on rather than a single number nobody acts on.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
+   "kind": "section",
+   "title": "Speech to text and voice interfaces",
+   "text": "Transcription, diarisation, call summarisation and voice-driven interaction, with accent and audio-quality performance measured on your recordings rather than a vendor benchmark.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
+   "kind": "section",
+   "title": "Image and video intelligence",
+   "text": "Detection, classification, condition assessment and quality checking, where the visual task is defined tightly enough for a consistent answer to exist.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
+   "kind": "section",
+   "title": "Multilingual handling",
+   "text": "Detection, translation and language-specific behaviour, with the accuracy stated per language instead of averaged into a flattering headline.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
+   "kind": "section",
+   "title": "Define correct first",
+   "text": "Two people labelling the same hundred documents will disagree. Where they disagree, no system can be graded, so the definition is settled before the build.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
+   "kind": "section",
+   "title": "Confidence drives routing",
+   "text": "High-confidence output flows through; low-confidence output goes to a person. That threshold is the main control you have, and it is yours to set.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
+   "kind": "section",
+   "title": "Measured on your material",
+   "text": "Performance on a public benchmark tells you very little about performance on your forms, your accents and your photographs.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
+   "kind": "section",
+   "title": "Accuracy stated per class",
+   "text": "An overall figure hides the category that matters. We report per class, including the rare ones, because that is where the cost of an error usually lives.",
+   "path": "/ai-automation/language-speech-vision",
+   "page": "NLP, Speech & Vision"
+  },
+  {
    "kind": "faq",
    "title": "What language, speech and vision work do you take on?",
    "text": "Document extraction, classification and routing, sentiment and theme analysis, speech to text with diarisation and summarisation, image and video intelligence, and multilingual handling. The qualifier that matters is whether the use case supports it: the task has to be defined tightly enough that a consistent correct answer exists.",
@@ -131,6 +405,90 @@
    "title": "LLM Integration & RAG",
    "text": "Add model intelligence to existing products and knowledge environments with retrieval, permissions and grounded context, rather than a chat box bolted to the side.",
    "path": "/ai-automation/llm-integration-rag"
+  },
+  {
+   "kind": "section",
+   "title": "Retrieval over your own content",
+   "text": "Documents, records, tickets, policies and the knowledge that currently lives in three systems and one person’s head. Chunking, indexing and ranking designed around how the content is actually written.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "section",
+   "title": "Permissions and entitlements",
+   "text": "Retrieval that respects who is allowed to see what. Permissions are modelled first and the index is built second, because a model that can reach everything is a data-protection incident waiting for a prompt.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "section",
+   "title": "Grounded answers with citations",
+   "text": "Output tied to the source passages it came from, so a reader can check it. Ungrounded fluency is the single most expensive failure mode in this category.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "section",
+   "title": "Context and prompt engineering",
+   "text": "What goes into the window, in what order, at what cost, with the assembly written as code that can be tested rather than a string somebody edits in production.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "section",
+   "title": "Model selection, routing and fallback",
+   "text": "Which model handles which class of request, what happens when a provider degrades, and how you move between them without rewriting the product.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "section",
+   "title": "Cost and latency budgets",
+   "text": "Tokens per unit of work, caching, batching and an agreed response-time target, so the feature is affordable at the volume you actually expect.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "section",
+   "title": "It answers confidently from nothing",
+   "text": "No grounding, no citation, no refusal path. The fix is retrieval design and an explicit “I do not know”, not a sterner prompt.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "section",
+   "title": "It answers from documents the user may not see",
+   "text": "Entitlements were applied to the application and not to the index. This is the failure that stops enterprise rollouts.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "section",
+   "title": "It was right in the demonstration",
+   "text": "A handful of questions is not a test set. Without a graded golden set you have an anecdote with a launch date.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "section",
+   "title": "It cost four times the estimate",
+   "text": "Context assembled without a budget, no caching, and a model chosen for the hardest request and used for all of them.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "section",
+   "title": "What the integration involves",
+   "text": "The model is the smallest decision in this list. Everything else is what determines whether the feature is reliable, affordable and defensible.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
+  },
+  {
+   "kind": "section",
+   "title": "All of them are design problems, not model problems",
+   "text": "Every one of these is recoverable, and every one is considerably cheaper to prevent than to discover in front of a customer.",
+   "path": "/ai-automation/llm-integration-rag",
+   "page": "LLM Integration & RAG"
   },
   {
    "kind": "faq",
@@ -167,6 +525,167 @@
    "path": "/ai-automation"
   },
   {
+   "kind": "section",
+   "title": "Assist",
+   "text": "Help with what you are already doing, from guiding a customer to the right product to taking an engineer through a diagnosis.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Understand",
+   "text": "Make sense of complex information and context: text, speech, images and data that are difficult to process by hand.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Act",
+   "text": "Connect intelligence to products, systems and real-world workflows, and take permitted action where appropriate.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Discover",
+   "text": "Reveal patterns, anticipate change and point to potential opportunities that were hard to see. People decide which are worth pursuing.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "AI systems",
+   "text": "AI systems that can read, see and hear, understand information and context, identify patterns, predict outcomes and recommend actions.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "AI agents & automation",
+   "text": "Automation follows a process. An AI agent pursues an objective: it plans the work, uses approved tools and systems, takes permitted actions and involves people at defined control points.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Evaluation & observability",
+   "text": "Testing against defined acceptance criteria, regression checks when anything changes, and monitoring of production behaviour, with the system re-verified after each improvement.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Fragmented knowledge",
+   "text": "Information spread across people, documents and systems.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Complex verification",
+   "text": "Checking work is slow, manual, and easy to get wrong.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Automation that stops too early",
+   "text": "Existing automation handles the routine steps but not context, judgement or exceptions.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "New AI opportunities",
+   "text": "Products or capabilities that cannot simply be bought off the shelf.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Use the simplest system that works",
+   "text": "Rules before models; models before agents where appropriate.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Connect AI to the real environment",
+   "text": "Data, systems, permissions and tools matter as much as the model.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Set the goal",
+   "text": "What are you trying to achieve, and what problem or opportunity stands in the way?",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Choose the simplest tool",
+   "text": "Would conventional software or rules solve it, or does AI add useful capability?",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Decide how far it goes",
+   "text": "Does the system need to act, and where do people stay in control?",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Define success",
+   "text": "What would success look like, where is the baseline today, and how will we measure it?",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Assist, understand, act, discover",
+   "text": "AI is not only for email, meetings and documents. It can sit inside a product, a customer experience, an operation or a forecast, and what it does there tends to take one of four forms.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Three ways AI is built into a business",
+   "text": "AI systems are how a product understands. Agents and automation are how it acts. Evaluation and observability is how you know it works. They overlap in practice, and a programme often needs two of them.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Where AI earns its place",
+   "text": "Not by industry or company size, but by whether better context, reasoning, coordination or automation would materially change the outcome.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "How production AI works",
+   "text": "A model answers questions. A production system has to reach the right information, act inside its permissions, and still be right in six months.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "How do we know it actually works?",
+   "text": "Building it is only part of the job. You also need to know whether it works.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Start with the problem, not the model",
+   "text": "We start with what you are trying to achieve, then work out whether AI is the right tool and how its success will be measured. Sometimes the answer is that it is not.",
+   "path": "/ai-automation",
+   "page": "AI & Automation"
+  },
+  {
    "kind": "faq",
    "title": "What could AI do for my organisation?",
    "text": "More than office administration. AI can assist with work already being done, understand text, speech, images and data that are slow to process by hand, act inside products and systems within defined permissions, and surface patterns, forecasts and anomalies that were hard to see. That applies to software products, customer and retail experiences, personal and wellbeing apps, operations and industrial settings as much as to back-office work. Whether AI is the right tool for a particular problem is the first thing a Value Discovery establishes.",
@@ -192,6 +711,83 @@
    "title": "Predictive Intelligence",
    "text": "Forecasting, scoring, recommendation and decision-support systems built around business data, with thresholds, monitoring and a decision they actually change.",
    "path": "/ai-automation/predictive-intelligence"
+  },
+  {
+   "kind": "section",
+   "title": "Forecasting",
+   "text": "Demand, revenue, capacity, cash and workload, at the horizon and granularity a decision is actually taken at rather than the one that produces the prettiest chart.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "section",
+   "title": "Scoring and propensity",
+   "text": "Risk, churn, conversion likelihood, credit and priority, expressed as a score with a defined meaning and a defined action at each band.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "section",
+   "title": "Recommendation and personalisation",
+   "text": "Next best action, product and content ranking, and the guardrails that stop a recommender optimising itself into a corner.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "section",
+   "title": "Anomaly detection",
+   "text": "Finding the transaction, reading or record that does not belong, tuned to the alert volume a human team can genuinely investigate.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "section",
+   "title": "Decision support",
+   "text": "The prediction placed inside the workflow where the decision happens, with the reasoning shown and the person still making the call.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "section",
+   "title": "Monitoring for decay",
+   "text": "Models age as the world moves. Input drift, changing distributions and falling accuracy are watched continuously rather than noticed in a quarterly review.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "section",
+   "title": "A decision that would change",
+   "text": "If the same action follows every prediction, the prediction is decoration. We ask this question first and it disqualifies a fair number of ideas.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "section",
+   "title": "History with the outcome in it",
+   "text": "You cannot learn to predict something your records never recorded. What is missing is often the outcome, not the inputs.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "section",
+   "title": "A threshold somebody owns",
+   "text": "A score becomes useful at the point where a person agrees what happens above and below a line, and accepts the cost of being wrong in each direction.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "section",
+   "title": "An honest accuracy target",
+   "text": "Set against the current human baseline, not against zero. Beating nothing is not a result worth funding.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
+  },
+  {
+   "kind": "section",
+   "title": "Four conditions, checked in that order",
+   "text": "They take an afternoon to establish and they are the difference between a model in production and a notebook nobody opens.",
+   "path": "/ai-automation/predictive-intelligence",
+   "page": "Predictive Intelligence"
   },
   {
    "kind": "faq",
@@ -221,6 +817,76 @@
    "path": "/ai-automation/production-ai-systems"
   },
   {
+   "kind": "section",
+   "title": "Claims and case handling",
+   "text": "Intake, triage, evidence gathering and a drafted decision with the reasoning attached. Human sign-off retained.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Client reporting",
+   "text": "Recurring reports assembled from systems of record, in house voice, with every figure traceable to its source.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Document production",
+   "text": "Regulated correspondence and structured documents where the template is known and the content is not.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Back-office exceptions",
+   "text": "The exception queue: mismatches, missing data, things that fell out of the happy path.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Underwriting support",
+   "text": "Assembling the pack, flagging the anomalies, and never making the decision.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Knowledge and internal copilots",
+   "text": "Useful, and honestly the hardest to attach a number to. We will say so before you fund it.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Evaluation suite",
+   "text": "100+ example golden set, binary pass or fail, judge calibrated against human labels.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Acceptance thresholds",
+   "text": "Agreed before build, not negotiated after. Below threshold means it does not ship.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Escalation design",
+   "text": "What the system refuses to do alone, and who picks it up when it does.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
+   "kind": "section",
+   "title": "Runbook",
+   "text": "So your team can operate it, whether or not you keep us on to do it.",
+   "path": "/ai-automation/production-ai-systems",
+   "page": "Production AI Systems"
+  },
+  {
    "kind": "faq",
    "title": "When should a workflow use an AI agent, and when should it not?",
    "text": "Use an agent when the path genuinely varies per case, the system must choose among tools, and a wrong step is recoverable and reviewable. Do not use one when the process is stable, the steps are known, the output is regulated, or nobody can articulate what \"correct\" looks like well enough to grade it.",
@@ -248,10 +914,115 @@
    "path": "/ai-automation/services"
   },
   {
+   "kind": "section",
+   "title": "Support & Run",
+   "text": "Continuous evaluation against acceptance thresholds, drift and regression detection, incident response with defined severities, model and prompt version control, inference cost management, and a quarterly improvement cycle.",
+   "path": "/ai-automation/services",
+   "page": "AI engineering services"
+  },
+  {
+   "kind": "section",
+   "title": "Value Discovery",
+   "text": "The entry point. Four weeks. Instrument the process, measure it, write the case.",
+   "path": "/ai-automation/services",
+   "page": "AI engineering services"
+  },
+  {
+   "kind": "section",
+   "title": "Data & Integration",
+   "text": "The enabling layer named as the top barrier by KPMG, Deloitte and the UK government alike. Access, entitlements, context, observability.",
+   "path": "/ai-automation/services",
+   "page": "AI engineering services"
+  },
+  {
+   "kind": "section",
+   "title": "Production AI Systems",
+   "text": "The build, with the workflow redesigned around it. Agentic patterns only where the task genuinely needs planning and tool use.",
+   "path": "/ai-automation/services",
+   "page": "AI engineering services"
+  },
+  {
+   "kind": "section",
+   "title": "Evaluation & Observability",
+   "text": "Test sets, regression checks and monitoring, so output quality moving is something you detect rather than something your users report.",
+   "path": "/ai-automation/services",
+   "page": "AI engineering services"
+  },
+  {
+   "kind": "section",
+   "title": "Distributed",
+   "text": "Cryptographic and high-assurance systems since 2018",
+   "path": "/ai-automation/services",
+   "page": "AI engineering services"
+  },
+  {
    "kind": "page",
    "title": "AI Support & Run",
    "text": "A monthly contract that owns whether your AI is still accurate, safe and affordable. Evaluation, drift detection, cost control and defined severities.",
    "path": "/ai-automation/support-and-run"
+  },
+  {
+   "kind": "section",
+   "title": "Continuous evaluation",
+   "text": "Every release and a sampled share of live traffic scored against agreed acceptance thresholds, with the judge itself calibrated against human labels.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
+  },
+  {
+   "kind": "section",
+   "title": "Drift, including judge drift",
+   "text": "Input distribution drift, silent model version changes by your supplier, and movement in the evaluator’s own behaviour. The third is the one most people never watch.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
+  },
+  {
+   "kind": "section",
+   "title": "Cost control",
+   "text": "Token spend per unit of work, budget alerts, caching and batching, and a recommendation each quarter on whether a cheaper model would hold quality.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
+  },
+  {
+   "kind": "section",
+   "title": "Incident response",
+   "text": "Defined severities, a named responder, rollback procedure, and a written post-incident note that goes in your audit trail.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
+  },
+  {
+   "kind": "section",
+   "title": "Quarterly improvement",
+   "text": "One release a quarter aimed at the metric in your baseline, with the change in that metric reported rather than the work delivered.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
+  },
+  {
+   "kind": "section",
+   "title": "What the report tells you before you have to ask",
+   "text": "A mock of our own reporting format, filled with sample data, for one AI system over one month. Pass rate is the share of sampled cases that met the agreed definition of correct. Cost per case is inference spend divided by the work done. The dip is a supplier changing model version without saying so, which is the kind of event this contract exists to catch.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
+  },
+  {
+   "kind": "section",
+   "title": "Somebody has to own whether it still works",
+   "text": "That is what the contract is. No vague retainer: a severity model, response times, and a metric we report against whether it flatters us or not.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
+  },
+  {
+   "kind": "section",
+   "title": "Service levels",
+   "text": "Scoped by the number of production systems under contract and the severity cover they need.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
+  },
+  {
+   "kind": "section",
+   "title": "It does not have to be something we built",
+   "text": "We will take on systems we did not build, once a baseline tells us what we are inheriting.",
+   "path": "/ai-automation/support-and-run",
+   "page": "AI Support & Run"
   },
   {
    "kind": "faq",
@@ -322,6 +1093,48 @@
    "path": "/ai-automation/workflow-automation"
   },
   {
+   "kind": "section",
+   "title": "Process mapping and baseline",
+   "text": "What the process actually is, as opposed to what the procedure document says, and what it currently costs in time, money, cycle time and rework.",
+   "path": "/ai-automation/workflow-automation",
+   "page": "AI Agents & Workflow Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Cross-system orchestration",
+   "text": "Steps that span several systems, each of which was designed as though it were the only one. Most of the friction in a business process lives in these gaps.",
+   "path": "/ai-automation/workflow-automation",
+   "page": "AI Agents & Workflow Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Document and data handling",
+   "text": "Receiving, reading, extracting, validating and filing the material a process runs on, including the awkward formats nobody wants to admit are still in use.",
+   "path": "/ai-automation/workflow-automation",
+   "page": "AI Agents & Workflow Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Human approval steps",
+   "text": "Approvals designed as part of the flow, with the right context put in front of the right person, rather than an email asking someone to go and look at something.",
+   "path": "/ai-automation/workflow-automation",
+   "page": "AI Agents & Workflow Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Exception handling",
+   "text": "The cases that fall out of the happy path. An automation that handles eighty per cent and silently drops the rest has moved the work, not removed it.",
+   "path": "/ai-automation/workflow-automation",
+   "page": "AI Agents & Workflow Automation"
+  },
+  {
+   "kind": "section",
+   "title": "Reporting on what changed",
+   "text": "Volume processed, time saved, exceptions raised, and the same measurements taken before the automation existed, so the comparison is real.",
+   "path": "/ai-automation/workflow-automation",
+   "page": "AI Agents & Workflow Automation"
+  },
+  {
    "kind": "faq",
    "title": "What kinds of process are worth automating?",
    "text": "Repetitive or high-friction processes that cross several systems, involve documents or structured data, and have a measurable current cost in time, cycle time or error rate. Processes that run rarely, change constantly, or carry a decision nobody can define well enough to grade are usually poor candidates, and we will say so.",
@@ -347,6 +1160,76 @@
    "title": "AR / VR & Immersive Applications",
    "text": "AR, VR and immersive application engineering for training, simulation, visualisation, interactive products and spatial experiences.",
    "path": "/ar-vr-development-services"
+  },
+  {
+   "kind": "section",
+   "title": "See",
+   "text": "Explore something before it physically exists.",
+   "path": "/ar-vr-development-services",
+   "page": "AR / VR & Immersive Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Practise",
+   "text": "Learn or rehearse without recreating the real situation.",
+   "path": "/ar-vr-development-services",
+   "page": "AR / VR & Immersive Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Interact",
+   "text": "Work with products, information and environments spatially.",
+   "path": "/ar-vr-development-services",
+   "page": "AR / VR & Immersive Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Understand",
+   "text": "Make complex things easier to explore from different perspectives.",
+   "path": "/ar-vr-development-services",
+   "page": "AR / VR & Immersive Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Gaming & interactive worlds",
+   "text": "Immersive games, interactive environments and virtual experiences.",
+   "path": "/ar-vr-development-services",
+   "page": "AR / VR & Immersive Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Training & simulation",
+   "text": "Practise scenarios, processes and skills safely and repeatedly.",
+   "path": "/ar-vr-development-services",
+   "page": "AR / VR & Immersive Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Products & commerce",
+   "text": "Let people explore, configure and experience products in context.",
+   "path": "/ar-vr-development-services",
+   "page": "AR / VR & Immersive Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Property & spaces",
+   "text": "Walk through spaces, layouts and environments before physical delivery.",
+   "path": "/ar-vr-development-services",
+   "page": "AR / VR & Immersive Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Learning & culture",
+   "text": "Use immersive environments for education, exhibitions, heritage and interactive storytelling.",
+   "path": "/ar-vr-development-services",
+   "page": "AR / VR & Immersive Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Industry & healthcare",
+   "text": "Use immersive visualisation and simulation to understand, practise and communicate complex tasks.",
+   "path": "/ar-vr-development-services",
+   "page": "AR / VR & Immersive Applications"
   },
   {
    "kind": "faq",
@@ -390,6 +1273,20 @@
    "path": "/assurance"
   },
   {
+   "kind": "section",
+   "title": "A builder cannot assure its own build",
+   "text": "If the same team writes the system and then signs off that the system is safe, you have bought a marketing document rather than an assurance opinion. Splitting the work across two practices is the point, not an inconvenience.",
+   "path": "/assurance",
+   "page": "Assurance and AI governance"
+  },
+  {
+   "kind": "section",
+   "title": "Two practices, two different questions",
+   "text": "Most suppliers blur these together because it sells a bigger number. We keep them apart because a build team grading its own homework is not assurance, and every serious reviewer knows it.",
+   "path": "/assurance",
+   "page": "Assurance and AI governance"
+  },
+  {
    "kind": "pointer",
    "title": "Does Pixelette Technologies issue ISO certificates?",
    "text": null,
@@ -415,6 +1312,83 @@
    "title": "Blockchain Integration",
    "text": "Connect blockchain components to existing applications, data and off-chain systems, including indexing, identity mapping, settlement and reconciliation.",
    "path": "/blockchain/integration"
+  },
+  {
+   "kind": "section",
+   "title": "On-chain and off-chain boundary",
+   "text": "Deciding what genuinely belongs on a chain and what belongs in a database. Almost every workable design puts far less on-chain than the first proposal did.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Indexing and read models",
+   "text": "Chain data is expensive and slow to query directly. An indexing layer turns it into something an application can read at product speed and a report can be built on.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Identity and access mapping",
+   "text": "Connecting an address to a customer record, a permission set and an audit trail, so on-chain activity is attributable inside your own systems.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Payments and settlement",
+   "text": "Where value moves between chain and conventional rails, with the states, retries, timeouts and failure paths designed rather than assumed.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Reconciliation and reporting",
+   "text": "Making chain state, application state and finance records agree, and producing the evidence when they do not. Nobody enjoys this and everybody eventually needs it.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Operational monitoring",
+   "text": "Node and provider health, confirmation depth, fee conditions, stuck transactions and reorganisations, alerting to people who can act on them.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Finality is not instant",
+   "text": "A transaction that looks confirmed is a probability, not a fact. Applications that treat it as a fact eventually reverse a customer’s balance.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Fees are a runtime condition",
+   "text": "Cost and confirmation time move with network conditions. A design that ignores this works beautifully until the week it does not.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Bridges concentrate risk",
+   "text": "Cross-chain movement has been one of the most heavily exploited areas in the field. We treat a bridging requirement as a reason to re-examine the design.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Providers are a dependency",
+   "text": "Node providers, indexers and price feeds are third parties with outages. They belong in your resilience plan alongside every other supplier.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
+  },
+  {
+   "kind": "section",
+   "title": "What the work covers",
+   "text": "Integration is where a blockchain project stops being a proof of concept and starts being something a business can operate.",
+   "path": "/blockchain/integration",
+   "page": "Blockchain Integration"
   },
   {
    "kind": "faq",
@@ -444,6 +1418,34 @@
    "path": "/blockchain"
   },
   {
+   "kind": "section",
+   "title": "Tokenisation & digital assets",
+   "text": "Design and engineer digital-asset systems around the rights, ownership, issuance, custody and user experience they actually require.",
+   "path": "/blockchain",
+   "page": "Blockchain development"
+  },
+  {
+   "kind": "section",
+   "title": "Smart contracts & applications",
+   "text": "Programmable rules and applications engineered for the places where on-chain execution, ownership or verification materially matters.",
+   "path": "/blockchain",
+   "page": "Blockchain development"
+  },
+  {
+   "kind": "section",
+   "title": "Integration & protocol engineering",
+   "text": "Connect blockchain infrastructure to existing systems, or engineer specialist network infrastructure where an existing chain genuinely cannot meet the requirement.",
+   "path": "/blockchain",
+   "page": "Blockchain development"
+  },
+  {
+   "kind": "section",
+   "title": "When does blockchain earn its place?",
+   "text": "When one of these properties materially improves the system.",
+   "path": "/blockchain",
+   "page": "Blockchain development"
+  },
+  {
    "kind": "pointer",
    "title": "Which chains and protocols does Pixelette Technologies work with?",
    "text": null,
@@ -469,6 +1471,90 @@
    "title": "Protocol engineering, L1 and L2",
    "text": "Specialist network and protocol engineering where a bespoke chain or scaling layer is genuinely justified, including consensus, execution and node operations.",
    "path": "/blockchain/protocol-engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Justification and requirement analysis",
+   "text": "Establishing what a general-purpose chain fails to provide for your case: throughput, cost, privacy, governance, finality or control. Without a specific failure, this work should not start.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "section",
+   "title": "Consensus and validator design",
+   "text": "Who validates, how they are selected, what they are paid, what happens when they misbehave, and how the set changes over time.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "section",
+   "title": "Execution and state",
+   "text": "The execution environment, state model, fee mechanism and the compatibility decisions that determine whether existing tooling works or has to be rebuilt.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "section",
+   "title": "Scaling layers and rollups",
+   "text": "Where a Layer 2 answers the requirement without the burden of a sovereign network, including data availability, settlement and exit design.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "section",
+   "title": "Node operations and upgrades",
+   "text": "Running a network is an operational commitment: releases, coordinated upgrades, observability, incident response and the governance to agree a change.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "section",
+   "title": "Economic and incentive design",
+   "text": "Fees, rewards, issuance and the behaviour those incentives will actually produce, including the behaviour you did not intend.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "section",
+   "title": "Name the failure",
+   "text": "Which specific requirement does an existing chain not meet? A general dissatisfaction is not a specification.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "section",
+   "title": "Cost the operation",
+   "text": "A network needs validators, upgrades, monitoring and a team, indefinitely. That standing cost usually decides the question.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "section",
+   "title": "Count the ecosystem",
+   "text": "A new network starts with no wallets, no explorers, no tooling and no integrations. Everything you assumed exists must be built.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "section",
+   "title": "Exhaust the alternatives",
+   "text": "An app-specific chain, a rollup, a permissioned network or an existing chain with a different design frequently meet the same requirement for far less.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "section",
+   "title": "Four tests before this work is worth starting",
+   "text": "Most enquiries that reach this page do not pass all four, and saying so is considerably more useful than taking the engagement.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
+  },
+  {
+   "kind": "section",
+   "title": "What the work covers",
+   "text": "Where the tests are passed, the engineering spans consensus, execution, operations and the incentives that hold the whole thing together.",
+   "path": "/blockchain/protocol-engineering",
+   "page": "Protocol engineering, L1 and L2"
   },
   {
    "kind": "faq",
@@ -498,6 +1584,83 @@
    "path": "/blockchain/smart-contracts-dapps"
   },
   {
+   "kind": "section",
+   "title": "Contract design and specification",
+   "text": "What the contract must do, what it must refuse to do, and what it must never allow, written down before anything is deployed. On-chain, ambiguity becomes permanent.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "section",
+   "title": "Testing and invariant checking",
+   "text": "Unit and integration tests, property and invariant testing, and adversarial cases written by someone trying to break it. Testing is the deliverable, not the overhead.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "section",
+   "title": "Access control and role design",
+   "text": "Who may call what, which roles exist, how they are granted and revoked, and what any single compromised key can actually do.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "section",
+   "title": "Upgrade and ownership decisions",
+   "text": "Whether the contract can be changed after deployment, by whom, under what delay, and what the holder can do about it. A choice with real governance consequences, made explicitly.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "section",
+   "title": "dApp front end and indexing",
+   "text": "The interface people use, the indexing layer that makes chain state readable at speed, and the transaction states that a wallet leaves you to explain.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "section",
+   "title": "Preparation for independent review",
+   "text": "Documentation, specification, test evidence and code structured so an independent security firm can review it efficiently rather than starting from archaeology.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "section",
+   "title": "What we do",
+   "text": "Design, write, test and document contracts, including adversarial testing and invariant checks, and structure the work so that independent review is efficient.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "section",
+   "title": "What we do not claim",
+   "text": "We do not describe our own testing as an audit. An audit is a separate, independent engagement with its own competence, scope and liability.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "section",
+   "title": "Who reviews it",
+   "text": "An independent security firm, engaged by you. A supplier reviewing its own contracts is not assurance, whatever the report is called.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "section",
+   "title": "What you get from us",
+   "text": "The specification, the test suite and its results, the deployment and ownership plan, and remediation of findings the reviewer raises.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
+   "kind": "section",
+   "title": "We do not call our own testing an audit",
+   "text": "The word carries a specific meaning in this market and it is routinely misused. Here is exactly where the boundary sits on our engagements.",
+   "path": "/blockchain/smart-contracts-dapps",
+   "page": "Smart Contracts & dApps"
+  },
+  {
    "kind": "faq",
    "title": "Do you audit smart contracts?",
    "text": "No, and we are careful with the word. We design, write, test and document contracts, including adversarial testing and invariant checks, and we structure the work so an independent security review can be carried out efficiently. An audit is a separate engagement by an independent firm with its own competence and scope, and a supplier reviewing its own contracts is not assurance.",
@@ -525,6 +1688,90 @@
    "path": "/blockchain/tokenisation"
   },
   {
+   "kind": "section",
+   "title": "Asset and rights modelling",
+   "text": "What the token actually represents: ownership, a claim, a right to a distribution, access, or a unit of account. Everything downstream is determined by this and it is a commercial and legal question before it is a technical one.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "section",
+   "title": "Token standard and chain selection",
+   "text": "Fungible or non-fungible, transferable or restricted, and on which network. Chosen against the operating requirement rather than against whichever ecosystem is currently loudest.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "section",
+   "title": "Issuance and lifecycle",
+   "text": "Minting, allocation, vesting, transfer restrictions, redemption and retirement. The end of a token’s life is designed at the beginning or it is not designed at all.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "section",
+   "title": "Custody and key management",
+   "text": "Who holds the keys, under what controls, and what happens when a key is lost or a person leaves. The most common single point of failure in this category.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "section",
+   "title": "Holder and investor interfaces",
+   "text": "The dashboards, statements, transaction views and administrative tooling through which people actually experience the thing. Usually the larger part of the build.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "section",
+   "title": "Treasury and reporting visibility",
+   "text": "What the operator, the holder and the auditor can each see, and how an on-chain position reconciles to the off-chain records it is meant to correspond to.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "section",
+   "title": "Who is the counterparty?",
+   "text": "A token represents a relationship with someone. If nobody is obliged to honour what it represents, the chain does not create the obligation.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "section",
+   "title": "What is the legal wrapper?",
+   "text": "The commercial and legal structure comes first. Architecture built ahead of it usually has to be rebuilt around it.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "section",
+   "title": "Who may hold it?",
+   "text": "Transfer restrictions, identity checks and jurisdiction shape the token design directly, and retrofitting them is expensive.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "section",
+   "title": "Would a database do?",
+   "text": "If there is no shared record between separate parties, no independent verification requirement and no genuine need for programmable ownership, the honest answer is often yes.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "section",
+   "title": "What the work covers",
+   "text": "From the rights model through to the interfaces holders and operators actually use, and the reporting that reconciles the two.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
+   "kind": "section",
+   "title": "Four questions we ask before quoting",
+   "text": "They are cheap to answer at the start and extremely expensive to answer after a token has been issued to real holders.",
+   "path": "/blockchain/tokenisation",
+   "page": "Tokenisation"
+  },
+  {
    "kind": "faq",
    "title": "What does Pixelette Technologies mean by tokenisation?",
    "text": "Architecture and implementation for representing and managing real-world or digital assets on-chain, where the commercial and legal model supports it. That covers rights modelling, token standard and chain selection, issuance and lifecycle, custody, holder interfaces, and the reconciliation between on-chain positions and off-chain records.",
@@ -550,6 +1797,76 @@
    "title": "Wallets & Digital-Asset Products",
    "text": "User-facing wallet, portfolio and transaction experiences across mobile and web, designed around key management, recovery and irreversible actions.",
    "path": "/blockchain/wallets-digital-assets"
+  },
+  {
+   "kind": "section",
+   "title": "Custody model",
+   "text": "Custodial, non-custodial or multi-party. The choice determines your regulatory position, your support burden and what happens on the worst day, so it is decided first and deliberately.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
+  },
+  {
+   "kind": "section",
+   "title": "Key management and recovery",
+   "text": "Generation, storage, backup, rotation and the recovery route for a user who has lost a device. Recovery design is the difference between a product and a trap.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
+  },
+  {
+   "kind": "section",
+   "title": "Portfolio and transaction views",
+   "text": "Balances, history, valuations and statements that reconcile, presented so a person can understand their own position without a block explorer open beside it.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
+  },
+  {
+   "kind": "section",
+   "title": "Transaction safety",
+   "text": "Confirmation design, simulation, address verification, spending limits and approval flows. Most user losses are authorised by the user, which makes this an interface problem.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
+  },
+  {
+   "kind": "section",
+   "title": "Integration points",
+   "text": "On and off ramps, exchanges, price sources, identity checks and the accounting systems that eventually have to agree with what the wallet says.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
+  },
+  {
+   "kind": "section",
+   "title": "Mobile and web delivery",
+   "text": "Native iOS and Android and web interfaces, with secure local storage, biometrics and the device-level behaviour these products depend on.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
+  },
+  {
+   "kind": "section",
+   "title": "Irreversible actions need friction",
+   "text": "A transfer cannot be recalled. The interface should be hardest at exactly the moment a mistake becomes permanent.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
+  },
+  {
+   "kind": "section",
+   "title": "Recovery is a product feature",
+   "text": "Not a support process. Design it before launch, and design it for the least technical person who will hold the app.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
+  },
+  {
+   "kind": "section",
+   "title": "Show what will happen",
+   "text": "Simulate and state the outcome before signing, in ordinary language. Approval screens that nobody can read are consent in name only.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
+  },
+  {
+   "kind": "section",
+   "title": "The books have to agree",
+   "text": "Whatever the wallet shows must reconcile with the chain and with your finance records. Three versions of a balance is an incident waiting for an auditor.",
+   "path": "/blockchain/wallets-digital-assets",
+   "page": "Wallets & Digital-Asset Products"
   },
   {
    "kind": "faq",
@@ -604,6 +1921,104 @@
    "path": "/engineering/cloud-data-engineering"
   },
   {
+   "kind": "section",
+   "title": "Cloud architecture",
+   "text": "Networking, compute, storage, identity and the boundaries between environments, designed around the product rather than around whichever managed service was in the last conference talk.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Environments and infrastructure as code",
+   "text": "Development, staging and production defined in code and reproducible. If an environment can only be recreated by the person who built it, you have a single point of failure with a payroll number.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Deployment and release",
+   "text": "Automated pipelines, staged rollout and a rollback that has actually been exercised. The point of a release process is that it is boring.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Observability and alerting",
+   "text": "Logs, metrics, traces and alerts on the paths that carry revenue, instrumented on open standards so you are never locked into whoever is monitoring you.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Resilience and recovery",
+   "text": "Backups that have been restored from, failure modes that have been rehearsed, and a written recovery expectation rather than an assumed one.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Cost engineering",
+   "text": "What the estate costs, which components drive it, and where an architectural change is worth more than another round of instance resizing.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Pipelines and ingestion",
+   "text": "Moving data from the systems that create it into the places that use it, with schedules, retries, schema handling and a way to tell when a load silently did nothing.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Warehousing and modelling",
+   "text": "A structure the business can query without three caveats per number, and definitions that survive somebody renaming a column.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "APIs and service interfaces",
+   "text": "Documented, versioned access to data for the applications, partners and teams that need it, with authentication and entitlements designed first.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Integration into systems of record",
+   "text": "CRM, ERP, finance, case management and document stores. Most data problems are integration problems wearing a reporting costume.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Quality, lineage and provenance",
+   "text": "Where a figure came from, which source, which version, at what time. Your auditor will ask, and so will the first person who disagrees with the number.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Model-serving layers",
+   "text": "Where AI is part of the product, the serving, caching and evaluation hooks it needs, built as infrastructure rather than bolted to the application.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Infrastructure that holds under production load",
+   "text": "AWS, Azure and Google Cloud, with Kubernetes where the workload justifies it and without it where it does not.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
+   "kind": "section",
+   "title": "Pipelines, models and the integrations underneath them",
+   "text": "The layer underneath that decides whether reporting, automation and any AI you later buy are possible at all.",
+   "path": "/engineering/cloud-data-engineering",
+   "page": "Cloud & Data Engineering"
+  },
+  {
    "kind": "faq",
    "title": "Which cloud platforms do you work in?",
    "text": "AWS, Azure and Google Cloud, with Kubernetes where the workload justifies it. The platform is usually a constraint set by the client rather than a preference we impose, and the architecture is designed around the product and its operating requirements either way.",
@@ -629,6 +2044,111 @@
    "title": "Custom Software & SaaS",
    "text": "Multi-tenant SaaS, internal platforms and customer-facing products, designed and engineered from specification through to production rather than to a prototype.",
    "path": "/engineering/custom-software-saas"
+  },
+  {
+   "kind": "section",
+   "title": "Multi-tenant SaaS products",
+   "text": "Tenancy model, entitlements, plan logic, onboarding and the administration surface behind them. The parts that are cheap to decide early and expensive to change once you have customers.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "Internal platforms",
+   "text": "The operational system a business runs on and cannot buy: scheduling, case handling, pricing, inventory, approvals, and whatever else currently lives in a spreadsheet nobody is allowed to touch.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "Customer-facing products",
+   "text": "Portals, applications and self-service journeys where the interface is the product and a support call is a defect.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "APIs and service layers",
+   "text": "Versioned, documented interfaces that other teams and other companies can build against, with the authentication, rate limiting and error contracts written down rather than discovered.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "Integration into systems of record",
+   "text": "CRM, ERP, finance, document stores and the third-party services your product depends on. Most of the risk in a new product lives at these seams.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "Cloud architecture and environments",
+   "text": "Environments, deployment, configuration and the operational shape of the thing, decided as part of the build rather than improvised the week before launch.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "Architecture you can question",
+   "text": "The decisions written down with their reasons, so a future team can tell what was deliberate.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "A test suite",
+   "text": "Automated coverage of the paths that matter, running before a change ships rather than after it breaks.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "A deployment path",
+   "text": "Repeatable releases with a way back. Deploying should be dull.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "A runbook and handover",
+   "text": "So your own team can operate it, whether or not you keep us on to do it.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "Fixed-scope build",
+   "text": "A defined outcome, a fixed price and a date. Best when you know what you want built.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "Product team",
+   "text": "A standing team against a roadmap and a quarterly outcome, not a headcount you manage. Best when the destination will move.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "Support & run",
+   "text": "If you want us to remain involved after delivery, we can provide ongoing support, maintenance and improvement under an agreed support arrangement. One arrangement covers the conventional software and any AI we built into it.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "What makes the product work?",
+   "text": "We do not start from a template. We start from how the business needs to operate, and engineer the product around it. The stages below are an illustration, not a client system - yours would be your own.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
+  },
+  {
+   "kind": "section",
+   "title": "What we build",
+   "text": "Product engineering, and the structural work underneath it that decides whether the product survives its second year.",
+   "path": "/engineering/custom-software-saas",
+   "page": "Custom Software & SaaS"
   },
   {
    "kind": "faq",
@@ -658,6 +2178,69 @@
    "path": "/engineering/mobile-applications"
   },
   {
+   "kind": "section",
+   "title": "Native iOS and Android",
+   "text": "Where the product depends on platform behaviour, background work, hardware access or interface conventions that a shared codebase will fight rather than use.",
+   "path": "/engineering/mobile-applications",
+   "page": "Mobile Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Cross-platform builds",
+   "text": "One codebase across both stores where the product is mostly screens, data and forms, and the saving is real rather than theoretical.",
+   "path": "/engineering/mobile-applications",
+   "page": "Mobile Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Offline behaviour and sync",
+   "text": "What the app does on a train, in a basement or on a bad connection, and what happens to the data when the signal comes back.",
+   "path": "/engineering/mobile-applications",
+   "page": "Mobile Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Device capability",
+   "text": "Camera, location, biometrics, notifications, background processing and secure local storage, with the permission prompts designed rather than defaulted.",
+   "path": "/engineering/mobile-applications",
+   "page": "Mobile Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Store submission and release management",
+   "text": "Review requirements, privacy declarations, staged rollout, versioning and the discipline of shipping to an audience that cannot be forced to update.",
+   "path": "/engineering/mobile-applications",
+   "page": "Mobile Applications"
+  },
+  {
+   "kind": "section",
+   "title": "The back end behind the app",
+   "text": "APIs, authentication, push infrastructure and integrations. A mobile app is a client; most of the engineering is usually behind it.",
+   "path": "/engineering/mobile-applications",
+   "page": "Mobile Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Choose native when",
+   "text": "The product leans on platform behaviour, hardware, background execution or performance, or the interface has to feel genuinely at home on each platform.",
+   "path": "/engineering/mobile-applications",
+   "page": "Mobile Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Choose cross-platform when",
+   "text": "The app is largely screens, data and forms, both platforms need parity, and one team maintaining one codebase is worth more than the last few per cent of native feel.",
+   "path": "/engineering/mobile-applications",
+   "page": "Mobile Applications"
+  },
+  {
+   "kind": "section",
+   "title": "Choose neither when",
+   "text": "A responsive web experience would do the job. An app that gets installed once and opened twice is an expensive way to have a website.",
+   "path": "/engineering/mobile-applications",
+   "page": "Mobile Applications"
+  },
+  {
    "kind": "faq",
    "title": "Do you build native or cross-platform mobile applications?",
    "text": "Both, and the choice is made per product rather than by house preference. Native suits products that depend on platform behaviour, hardware, background execution or performance. Cross-platform suits products that are largely screens, data and forms where parity across both stores matters more than the last few per cent of native feel.",
@@ -683,6 +2266,83 @@
    "title": "Modernisation & Integration",
    "text": "Architecture and code review, incremental legacy replacement, API and integration layers, data migration and independent assessment of stalled builds.",
    "path": "/engineering/modernisation-integration"
+  },
+  {
+   "kind": "section",
+   "title": "Independent technical assessment",
+   "text": "A written view of what you have: architecture, code health, security posture, dependency age, delivery risk and what it would cost to continue. Bought on its own, before anyone commits to a direction.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Architecture and code review",
+   "text": "Where the system is actually failing, as distinct from where it is merely unfashionable. Those are different lists and only one of them is worth funding.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Incremental replacement",
+   "text": "Route by route and capability by capability, with the old system live throughout. Slower on paper than a rewrite, and considerably more likely to arrive.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "section",
+   "title": "API and integration layers",
+   "text": "A deliberate seam between the systems you keep and the ones you replace, so the next change does not require the same excavation.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Data migration",
+   "text": "Mapping, cleansing, reconciliation and the cutover plan, including how you prove afterwards that nothing was lost.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Cloud migration and re-platforming",
+   "text": "Moving the estate without treating the move as a rewrite, then addressing the parts that genuinely need rebuilding once it is stable.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "section",
+   "title": "The rewrite is the risky option",
+   "text": "A full rewrite spends its first year rebuilding functionality you already have, against a moving target, with no route back.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Legacy is where AI helps least",
+   "text": "Published evidence puts coding-assistant gains far lower on complex existing code than on greenfield work, which is precisely why this stays careful human engineering.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "section",
+   "title": "The seams carry the risk",
+   "text": "Most modernisation failures happen at the boundary between old and new, not inside either one.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "section",
+   "title": "Reversibility is the feature",
+   "text": "Every step should be one you can stop at without leaving the business half-migrated.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
+  },
+  {
+   "kind": "section",
+   "title": "What we do",
+   "text": "From an assessment you can buy on its own, through to a replacement programme that keeps the business running while it happens.",
+   "path": "/engineering/modernisation-integration",
+   "page": "Modernisation & Integration"
   },
   {
    "kind": "faq",
@@ -712,6 +2372,90 @@
    "path": "/engineering"
   },
   {
+   "kind": "section",
+   "title": "Web platforms",
+   "text": "Customer portals, marketplaces, booking and workflow systems, internal tools, and the APIs and infrastructure behind them.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "section",
+   "title": "Mobile applications",
+   "text": "Native iOS and Android and cross-platform builds, taken through store submission, with ongoing maintenance available where required.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "section",
+   "title": "Custom software",
+   "text": "The system that does not come off the shelf, and the integration work that connects it to the systems that do.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "section",
+   "title": "Product design",
+   "text": "Interface and experience design as part of a build rather than sold as a separate line. Research, prototypes, design system, handover.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "section",
+   "title": "Distributed & cryptographic systems",
+   "text": "High-assurance distributed systems and cryptographic engineering. Tokenisation, smart contracts and chain work have their own practice.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "section",
+   "title": "Cloud & modernisation",
+   "text": "Migration, re-platforming and the unglamorous legacy work that most of the market quietly avoids.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "section",
+   "title": "AR / VR & immersive applications",
+   "text": "Immersive software for training, visualisation, interactive products and spatial experiences, engineered around the use case.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "section",
+   "title": "Fixed-scope build",
+   "text": "A defined outcome, a fixed price and a date. Best when you know what you want built.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "section",
+   "title": "Product team",
+   "text": "A standing team against a roadmap and a quarterly outcome, not a headcount you manage. Best when the destination will move.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "section",
+   "title": "Support & run",
+   "text": "If you want us to remain involved after delivery, we can provide ongoing support, maintenance and improvement under an agreed support arrangement. One arrangement covers the conventional software and any AI we built into it.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "section",
+   "title": "What AI actually does to the cost of a build",
+   "text": "Every agency is now claiming AI makes them dramatically faster. The published evidence is more specific than that, and more useful to you.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
+   "kind": "section",
+   "title": "Build is one of our four services",
+   "text": "Automate, Decentralise and Run are the other three.",
+   "path": "/engineering",
+   "page": "Web, mobile and custom software"
+  },
+  {
    "kind": "faq",
    "title": "Does AI really make a software build cheaper?",
    "text": "It depends entirely on the codebase. Published evidence puts gains at roughly 35 to 40% on straightforward greenfield work and 10% or less on complex legacy code. Pixelette quotes on which of those a project actually is: a new product gets the greenfield price, an estate built twelve years ago does not.",
@@ -737,6 +2481,90 @@
    "title": "Web Platforms",
    "text": "Customer portals, marketplaces, booking and workflow systems, internal tools, and the APIs and infrastructure behind them, built to carry a business.",
    "path": "/engineering/web-platforms"
+  },
+  {
+   "kind": "section",
+   "title": "Customer portals",
+   "text": "Accounts, documents, requests, statements and self-service. The measure of a good one is the support calls it removes, not the screens it contains.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "section",
+   "title": "Marketplaces and multi-sided platforms",
+   "text": "Supply, demand, matching, transactions and the reputation and safety mechanics between them, including the moderation and dispute paths nobody demonstrates.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "section",
+   "title": "Booking and scheduling systems",
+   "text": "Availability, capacity, conflicts, cancellations and time zones. Deceptively hard, and unforgiving when it is wrong.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "section",
+   "title": "Workflow and case management",
+   "text": "Queues, states, ownership, SLAs and audit history for the processes a business actually runs on.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "section",
+   "title": "Internal tools",
+   "text": "The admin, operations and reporting surfaces that decide whether your own team can run the platform without calling an engineer.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "section",
+   "title": "The APIs and infrastructure behind them",
+   "text": "Service interfaces, background processing, storage, search, caching and environments. The front end is the visible tenth of a platform.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "section",
+   "title": "Accessibility as a build requirement",
+   "text": "Keyboard operation, focus order, contrast and semantics designed in and tested, rather than remediated after a complaint.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "section",
+   "title": "Performance budgets",
+   "text": "Agreed page and interaction targets that a release is measured against, so speed is a specification rather than an opinion.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "section",
+   "title": "Authentication and permissions",
+   "text": "Roles, entitlements and session handling modelled before the features that depend on them, not retrofitted around them.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "section",
+   "title": "Observability from day one",
+   "text": "Logs, traces and alerts on the paths that carry revenue, so a failure is something you detect rather than something a customer reports.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "section",
+   "title": "How does the platform connect?",
+   "text": "A platform is not a set of pages. Someone does one thing on it, and several systems have to agree before they get an answer. These are illustrative capabilities - not every platform needs all of them.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
+  },
+  {
+   "kind": "section",
+   "title": "Four things that are not features",
+   "text": "They never appear on a requirements list and they decide whether the platform is usable, defensible and operable a year after launch.",
+   "path": "/engineering/web-platforms",
+   "page": "Web Platforms"
   },
   {
    "kind": "faq",
@@ -766,6 +2594,62 @@
    "path": "/industries/insurance-financial-services"
   },
   {
+   "kind": "section",
+   "title": "Claims intake and triage",
+   "text": "Intake, triage, evidence gathering and a drafted decision with the reasoning attached. Human sign-off retained, every time.",
+   "path": "/industries/insurance-financial-services",
+   "page": "AI for insurance and finance"
+  },
+  {
+   "kind": "section",
+   "title": "Underwriting support",
+   "text": "Assembling the pack and flagging the anomalies. The system never makes the decision, and the boundary is designed rather than assumed.",
+   "path": "/industries/insurance-financial-services",
+   "page": "AI for insurance and finance"
+  },
+  {
+   "kind": "section",
+   "title": "Back-office exceptions",
+   "text": "Mismatches, missing data and anything that fell out of the happy path: the queue that quietly consumes an operations team.",
+   "path": "/industries/insurance-financial-services",
+   "page": "AI for insurance and finance"
+  },
+  {
+   "kind": "section",
+   "title": "Regulated correspondence",
+   "text": "Structured documents where the template is known and the content is not, with every figure traceable to its source.",
+   "path": "/industries/insurance-financial-services",
+   "page": "AI for insurance and finance"
+  },
+  {
+   "kind": "section",
+   "title": "Explainable",
+   "text": "Lineage and provenance on every answer: which documents, which version, at what time. Your supervisor will ask, and so will your customer.",
+   "path": "/industries/insurance-financial-services",
+   "page": "AI for insurance and finance"
+  },
+  {
+   "kind": "section",
+   "title": "Monitored",
+   "text": "Continuous evaluation against agreed acceptance thresholds, with drift detection covering input drift, silent supplier model changes and judge drift.",
+   "path": "/industries/insurance-financial-services",
+   "page": "AI for insurance and finance"
+  },
+  {
+   "kind": "section",
+   "title": "Defensible",
+   "text": "Defined incident severities, a named responder, a rollback procedure and a written post-incident note that goes into your audit trail.",
+   "path": "/industries/insurance-financial-services",
+   "page": "AI for insurance and finance"
+  },
+  {
+   "kind": "section",
+   "title": "Explainable, monitored, defensible",
+   "text": "Three properties a supervisor actually tests for, and the engineering that produces each one.",
+   "path": "/industries/insurance-financial-services",
+   "page": "AI for insurance and finance"
+  },
+  {
    "kind": "faq",
    "title": "How well do regulated firms understand the AI they already run?",
    "text": "Nearly half of regulated firms report only partial understanding of the AI systems already in use across their business, according to the Bank of England and FCA AI survey. The exposure is rarely the model itself. It is the absence of lineage, monitoring and a defined escalation boundary around it.",
@@ -793,10 +2677,52 @@
    "path": "/industries"
   },
   {
+   "kind": "section",
+   "title": "Professional and business services",
+   "text": "78% of UK corporate clients call AI-enabled quality improvement essential. 7% say providers deliver it. We close that gap and give you the evidence.",
+   "path": "/industries",
+   "page": "Industries"
+  },
+  {
+   "kind": "section",
+   "title": "Insurance and specialist financial services",
+   "text": "Nearly half of regulated firms only partly understand the AI they already run. We make it explainable, monitored and defensible for a supervisor.",
+   "path": "/industries",
+   "page": "Industries"
+  },
+  {
    "kind": "page",
    "title": "AI for professional services",
    "text": "78% of UK corporate clients call AI-enabled quality improvement essential. 7% say providers deliver it. We close that gap and give you the evidence.",
    "path": "/industries/professional-services"
+  },
+  {
+   "kind": "section",
+   "title": "Client reporting and deliverable production",
+   "text": "Where the hours go, and the easiest place to show a client a measured improvement.",
+   "path": "/industries/professional-services",
+   "page": "AI for professional services"
+  },
+  {
+   "kind": "section",
+   "title": "Bid and proposal cycle",
+   "text": "Repetitive assembly against a deadline, with a win-rate already attached to it, which makes the before and after unusually easy to measure.",
+   "path": "/industries/professional-services",
+   "page": "AI for professional services"
+  },
+  {
+   "kind": "section",
+   "title": "Knowledge and precedent retrieval",
+   "text": "With entitlements respected, which is the part that stops most firms rolling it out.",
+   "path": "/industries/professional-services",
+   "page": "AI for professional services"
+  },
+  {
+   "kind": "section",
+   "title": "Client-facing AI evidence pack",
+   "text": "The technical evidence a client asks for when they want to know how AI touched their matter. Where that has to become a formal assurance position, Pixelette Certified can scope the route to independent assessment.",
+   "path": "/industries/professional-services",
+   "page": "AI for professional services"
   },
   {
    "kind": "faq",
@@ -825,6 +2751,34 @@
    "path": "/insights"
   },
   {
+   "kind": "section",
+   "title": "Engineering",
+   "text": "How software survives contact with the real world.",
+   "path": "/insights",
+   "page": "Insights"
+  },
+  {
+   "kind": "section",
+   "title": "AI & Automation",
+   "text": "Where AI earns its place, and where it doesn’t.",
+   "path": "/insights",
+   "page": "Insights"
+  },
+  {
+   "kind": "section",
+   "title": "Security & Regulation",
+   "text": "What technology teams need to prepare for next.",
+   "path": "/insights",
+   "page": "Insights"
+  },
+  {
+   "kind": "section",
+   "title": "Emerging Technology",
+   "text": "What’s becoming possible, and what’s still hype.",
+   "path": "/insights",
+   "page": "Insights"
+  },
+  {
    "kind": "page",
    "title": "LIVE, our AI delivery method",
    "text": "How we take AI from a pilot deck to an operation you can leave running. Four stages, each with a defined deliverable and a defined commercial model.",
@@ -849,6 +2803,13 @@
    "title": "Modern slavery statement",
    "text": "Pixelette Technologies’ voluntary statement on modern slavery and human trafficking in its business and supply chain.",
    "path": "/modern-slavery"
+  },
+  {
+   "kind": "section",
+   "title": "The work behind those claims",
+   "text": "Challenge &rarr; build &rarr; result",
+   "path": "/",
+   "page": "Home"
   },
   {
    "kind": "faq",
@@ -896,6 +2857,76 @@
    "title": "Support & Continuous Improvement",
    "text": "Monitoring, maintenance and continuous improvement for live software products, whether we built them or inherited them from another team.",
    "path": "/support-continuous-improvement"
+  },
+  {
+   "kind": "section",
+   "title": "Real users",
+   "text": "New usage patterns and unexpected behaviour appear.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "section",
+   "title": "Change",
+   "text": "Dependencies, APIs and operating environments move.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "section",
+   "title": "New opportunities",
+   "text": "Ideas, requirements and improvements emerge.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "section",
+   "title": "A better product",
+   "text": "Improvement keeps it relevant rather than legacy.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "section",
+   "title": "Coverage",
+   "text": "Which systems, environments and responsibilities are in scope.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "section",
+   "title": "Response",
+   "text": "How incidents, defects and urgent production issues are handled.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "section",
+   "title": "Improvement",
+   "text": "How planned engineering work enters the service.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "section",
+   "title": "Review",
+   "text": "How priorities, performance and future work are reviewed.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "section",
+   "title": "What changes after launch?",
+   "text": "A product in production meets real users, moving environments and new opportunities. Support is how it stays a product rather than becoming a legacy system.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
+  },
+  {
+   "kind": "section",
+   "title": "How support is scoped",
+   "text": "Support is scoped around the product and the level of responsibility you need us to take.",
+   "path": "/support-continuous-improvement",
+   "page": "Support & Continuous Improvement"
   },
   {
    "kind": "faq",

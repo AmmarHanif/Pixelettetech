@@ -27,7 +27,7 @@ import kb from '@/content/pix-kb.json';
  */
 
 export type KbDoc = {
-  kind: 'page' | 'faq' | 'pointer';
+  kind: 'page' | 'faq' | 'pointer' | 'section';
   title: string;
   /** Null on a pointer: the question is known, the answer text is not. */
   text: string | null;
@@ -158,10 +158,18 @@ const INDEX: Indexed[] = DOCS.map(doc => {
   return { doc, titleTokens, bodyTokens, len: titleTokens.length + bodyTokens.length };
 });
 
-const AVG_LEN = INDEX.reduce((n, d) => n + d.len, 0) / Math.max(1, INDEX.length);
+/*
+ * THE STATISTICS COME FROM PAGES AND FAQS ONLY. Page sections (added
+ * 2026-10-02) are searched too, but counting their words would shift every
+ * word's weight and every tuned threshold below; kept out of the statistics,
+ * they add answers without moving the ones that already worked.
+ */
+const BASE = INDEX.filter(d => d.doc.kind !== 'section');
+
+const AVG_LEN = BASE.reduce((n, d) => n + d.len, 0) / Math.max(1, BASE.length);
 
 const DF = new Map<string, number>();
-for (const d of INDEX) {
+for (const d of BASE) {
   for (const t of new Set([...d.titleTokens, ...d.bodyTokens])) {
     DF.set(t, (DF.get(t) ?? 0) + 1);
   }
@@ -169,7 +177,7 @@ for (const d of INDEX) {
 
 const idf = (t: string) => {
   const df = DF.get(t) ?? 0;
-  return Math.log(1 + (INDEX.length - df + 0.5) / (df + 0.5));
+  return Math.log(1 + (BASE.length - df + 0.5) / (df + 0.5));
 };
 
 /* BM25 constants. k1 damps term repetition, b damps document length. */
@@ -198,6 +206,7 @@ export type Match = {
  * nothing else matches.
  */
 const POINTER_PENALTY = 0.8;
+const SECTION_PENALTY = 0.7;
 
 export function search(query: string, limit = 3): Match[] {
   const qTokens = tokenise(query);
@@ -249,6 +258,9 @@ export function search(query: string, limit = 3): Match[] {
     if (containment >= 0.75) score *= 1 + containment;
 
     if (d.doc.kind === 'pointer') score *= POINTER_PENALTY;
+    /* Sections are page body copy: real, but an FAQ or page summary written
+       to answer the question should win a tie. */
+    if (d.doc.kind === 'section') score *= SECTION_PENALTY;
 
     return { doc: d.doc, score, coverage: matchedIdf / totalIdf, titleHits: titleHit };
   });
@@ -318,7 +330,7 @@ const SINGLE_TOKEN_MAX_DF = 0.1;
 
 export function isDistinctive(token: string): boolean {
   const df = DF.get(token) ?? 0;
-  return df > 0 && df <= INDEX.length * SINGLE_TOKEN_MAX_DF;
+  return df > 0 && df <= BASE.length * SINGLE_TOKEN_MAX_DF;
 }
 
 export function hasEnoughSignal(query: string): boolean {

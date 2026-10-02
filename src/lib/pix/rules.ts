@@ -142,6 +142,19 @@ export function rules(ctx: PixContext): Rule[] {
       path: CONTACT,
     },
     {
+      /*
+       * THE TECHNOLOGIES THE SITE ITSELF NAMES (founder, 2026-10-02: "mention
+       * the tech we talk about on our website"). Every name below appears on a
+       * published page or in a published case study's stack; nothing is added
+       * that the site does not already say.
+       */
+      id: 'technologies',
+      test: /\b(tech(nology|nologies)? stack|tech stack|stack do you|what tech(nolog(y|ies))?|which (languages?|frameworks?|technolog(y|ies)|tools?|blockchains?)|programming languages?|frameworks? (do|does) you|technologies (do|does) you|do you (use|work with|know|support|build (with|on)) (react|next(\.js)?|node(\.js)?|python|typescript|php|laravel|solidity|aws|azure|google cloud|gcp|kubernetes|ethereum|polygon|solana|hyperledger|polkadot|ipfs|openai|anthropic|llms?|salesforce|sap|mongodb|stripe))\b/i,
+      reply:
+        'The technologies named across our site and case studies include: for software and web, React, Next.js, TypeScript, Node.js, Python, PHP and Laravel, with MongoDB; for cloud, AWS, Azure and Google Cloud, with Kubernetes; for AI, large language models and retrieval (RAG) using providers such as OpenAI and Anthropic; for blockchain, Solidity on Ethereum, Polygon and Solana, plus Hyperledger, Polkadot, Layer 2 rollups, IPFS, Hardhat, Truffle, Web3.js and Ethers.js; and integrations with systems such as Salesforce, SAP and Stripe. We choose the stack per project, so tell me what you are building and I can point you to the relevant work.',
+      path: '/engineering',
+    },
+    {
       // True by construction: there is no careers route on this site.
       id: 'careers',
       test: /\b((are you|is pixelette) (currently )?(hiring|recruiting)|careers?|job (openings?|vacanc(y|ies)|opportunit(y|ies))|vacanc(y|ies)|work (for|at) (you|pixelette)|join (your|the) team|internships?|graduate (roles?|scheme))\b/i,
