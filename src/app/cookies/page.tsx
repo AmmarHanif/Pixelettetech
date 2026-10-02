@@ -91,7 +91,18 @@ export default function CookiesPage() {
             heading: 'What is stored on your device',
             body: (
               <>
-                <div className="table-scroll" style={{ marginTop: 12 }}>
+                {/* FOCUSABLE AND NAMED, 2026-10-02. Below about 369px this table
+                    is wider than its column and scrolls inside this box rather
+                    than moving the page, so a keyboard user has to be able to
+                    reach the box to scroll it: tabIndex makes it focusable in
+                    every browser, and role plus aria-label give the stop a name. */}
+                <div
+                  aria-label="What is stored on your device"
+                  className="table-scroll"
+                  role="region"
+                  style={{ marginTop: 12 }}
+                  tabIndex={0}
+                >
                   <table>
                     <thead>
                       <tr>
@@ -109,7 +120,7 @@ export default function CookiesPage() {
                         </td>
                         <td>
                           Remembers whether you have switched website analytics off, so your choice
-                          is respected on later visits. It holds one of two values and nothing else
+                          is respected on later visits. It holds one of two values and nothing else.
                           There is no identifier, no date and nothing derived from you.
                         </td>
                         <td>
