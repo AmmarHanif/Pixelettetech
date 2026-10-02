@@ -562,6 +562,17 @@ expectEnquiry('a malformed email is caught before the form', checkAnswer(step('e
 expectEnquiry('a real email passes', checkAnswer(step('email'), address).ok === true);
 expectEnquiry('the server limits apply early', checkAnswer(step('deadline'), 'x'.repeat(201)).ok === false);
 
+/* A MEANINGLESS ANSWER DOES NOT MOVE THE ENQUIRY ON (founder, 2026-10-02).
+   The team reads these, so "dd" must be asked again rather than sent. Short
+   REAL answers must still pass, which is the half of this that can break. */
+for (const junk of ['dd', 'd', 'aaa', 'asdf', 'zxcv', ';;;', 'sd']) {
+  expectEnquiry(`"${junk}" is not accepted as an answer`, checkAnswer(step('existing'), junk).ok === false);
+}
+for (const real of ['none', 'No', 'SAP', 'a CRM', '6 weeks', 'Q1 2027', 'nothing yet', 'we have a website']) {
+  expectEnquiry(`"${real}" is accepted`, checkAnswer(step('existing'), real).ok === true, 'short real answers must pass');
+}
+expectEnquiry('a name is not substance-checked', checkAnswer(step('name'), 'Li').ok === true);
+
 /* ---------------------------------------------------------------- report */
 
 const line = (label, got, want) =>
