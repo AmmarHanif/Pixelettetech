@@ -168,6 +168,12 @@ export function SiteAssistant({ context }: { context: PixContext }) {
   /* The launcher opens out into the "Ask Pix T" pill once, LABEL_DELAY_MS
      after the page loads (founder, 2026-10-02): the ball first, then the words. */
   const [labelled, setLabelled] = useState(false);
+  /* Opened, Pix T first shows a compact dock - three suggested questions over
+     a message bar (founder, 2026-10-02) - and becomes the full conversation on
+     the first question asked. A question asked before the visitor has given
+     their name and email is kept, and answered once they have. */
+  const [expanded, setExpanded] = useState(false);
+  const pendingQuestion = useRef<string | null>(null);
   const held = useRef<Omit<Turn, 'id'>[]>([]);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const thinking = useRef(false);
@@ -413,6 +419,20 @@ export function SiteAssistant({ context }: { context: PixContext }) {
          thinking would land between the question and its answer. */
       if (thinking.current) return;
       const text = raw.trim();
+      if (!expanded) {
+        if (!text) return;
+        setExpanded(true);
+        setDraft('');
+        if (identify) {
+          /* Name and email still come first, as the founder asked; the
+             question waits for them. */
+          pendingQuestion.current = text;
+          setTurns([{ id: nextId.current++, role: 'visitor', text }]);
+          say({ role: 'assistant', text: `Happy to help with that. ${ASK_NAME}` });
+          focusInput();
+          return;
+        }
+      }
       if (identify) {
         identifyStep(text);
         setDraft('');
@@ -448,8 +468,17 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       setDraft('');
       focusInput();
     },
-    [answer, chatted, context, flow, focusInput, identify, identifyStep, leadSent, say, startDiscovery],
+    [answer, chatted, context, expanded, flow, focusInput, identify, identifyStep, leadSent, say, startDiscovery],
   );
+
+  /* The question asked from the dock, answered once the greeting has landed. */
+  useEffect(() => {
+    if (visitor && phase === 'idle' && !thinking.current && pendingQuestion.current) {
+      const q = pendingQuestion.current;
+      pendingQuestion.current = null;
+      send(q);
+    }
+  }, [phase, send, visitor]);
 
   /* A delivered enquiry ends the flow, confirmed in the server's own words. */
   const finishEnquiry = useCallback(
@@ -492,7 +521,9 @@ export function SiteAssistant({ context }: { context: PixContext }) {
   const asking = flow && !flow.reviewing ? DISCOVERY_STEPS[flow.step] : null;
   /* What the one input is for right now, which decides its label, its hints and
      its limit. */
-  const input = identify === 'name'
+  const input = !expanded
+    ? { label: `Ask ${PIX_T_NAME} a question`, placeholder: 'Hello! How can I help you?', autoComplete: 'off', type: 'text', max: MESSAGE_MAX }
+    : identify === 'name'
     ? { label: 'Your name', placeholder: 'Your name', autoComplete: 'name', type: 'text', max: ENQUIRY_MAX.name }
     : identify === 'email'
       ? { label: 'Your work email', placeholder: 'you@company.com', autoComplete: 'email', type: 'email', max: ENQUIRY_MAX.email }
@@ -555,12 +586,29 @@ export function SiteAssistant({ context }: { context: PixContext }) {
       {opened ? (
         <div
           aria-label={`${PIX_T_NAME}, ${PIX_T_DESCRIPTOR}`}
-          className="asst-panel"
+          className={`asst-panel${expanded ? '' : ' asst-panel--dock'}`}
           hidden={!open}
           id="site-assistant-panel"
           role="dialog"
         >
-          <div className="asst-head">
+          {!expanded ? (
+            <div className="asst-dock">
+              <button aria-label={`Close ${PIX_T_NAME}`} className="asst-dock__close" onClick={() => setOpen(false)} type="button">
+                <svg aria-hidden viewBox="0 0 24 24">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              </button>
+              <div className="asst-dock__questions">
+                {STARTERS.slice(0, 3).map(q => (
+                  <button className="asst-dock__q" key={q} onClick={() => send(q)} type="button">
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          <div className="asst-head" hidden={!expanded}>
             {/* The same core, small: this is where thinking, responding and
                 finished are seen while the panel is open. */}
             <PixSignal phase={busy ? 'thinking' : phase} size="sm" />
@@ -575,7 +623,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
               reply when it lands rather than the wait. Not during an enquiry
               send: that can take seconds, a busy live region announces nothing
               meanwhile, and the review form reports its own outcome. */}
-          <div aria-busy={holding} aria-live="polite" className="asst-log" ref={logRef}>
+          <div aria-busy={holding} aria-live="polite" className="asst-log" hidden={!expanded} ref={logRef}>
             {turns.map(t => (
               <div className={`asst-turn asst-turn--${t.role}`} key={t.id}>
                 <p className="asst-bubble">{t.text}</p>
@@ -609,7 +657,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
             ) : null}
           </div>
 
-          {visitor && !chatted && !flow && !holding ? (
+          {expanded && visitor && !chatted && !flow && !holding ? (
             <div className="asst-starters">
               {STARTERS.map(s => (
                 <button className="asst-chip" key={s} onClick={() => send(s)} type="button">
@@ -666,9 +714,17 @@ export function SiteAssistant({ context }: { context: PixContext }) {
                 type={input.type}
                 value={draft}
               />
-              <button className="asst-send" disabled={holding || (!stepping && !draft.trim())} type="submit">
-                {stepping ? 'Next' : 'Ask'}
-              </button>
+              {expanded ? (
+                <button className="asst-send" disabled={holding || (!stepping && !draft.trim())} type="submit">
+                  {stepping ? 'Next' : 'Ask'}
+                </button>
+              ) : (
+                <button aria-label="Send" className="asst-send asst-send--icon" disabled={!draft.trim()} type="submit">
+                  <svg aria-hidden viewBox="0 0 24 24">
+                    <path d="M4 12l16-8-6 16-2.5-6.5L4 12z" />
+                  </svg>
+                </button>
+              )}
             </form>
           )}
 
@@ -681,7 +737,7 @@ export function SiteAssistant({ context }: { context: PixContext }) {
             </label>
           </div>
 
-          <p className="asst-foot">
+          <p className="asst-foot" hidden={!expanded}>
             {identify ? (
               /* The notice at the point of collection. It began as the contact
                  form's (founder wording, 2026-09-17), which says only that the

@@ -8543,3 +8543,124 @@ button.btn[disabled] {
     display: block;
   }
 }
+
+/* ---- Pix T dock: what a click on "Ask Pix T" opens first -------------------
+   Founder, 2026-10-02, after the reference he supplied: a close button, three
+   suggested questions stacked on the right, and a message bar - in the site's
+   colours. The first question asked opens the full conversation (.asst-panel
+   without --dock). The panel element is reused so the dialog role, the id the
+   launcher controls and the expand-from-the-ball animation all carry over. */
+.asst-panel--dock {
+  width: min(460px, calc(100vw - 32px));
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
+  gap: 10px;
+}
+
+.asst-dock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.asst-dock__close {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #e9e6ee;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.asst-dock__close svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.asst-dock__questions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.asst-dock__q {
+  font: inherit;
+  font-size: 14px;
+  padding: 10px 16px;
+  border: 1px solid rgba(102, 26, 142, 0.35);
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--brand);
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(39, 3, 59, 0.06);
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.asst-dock__q:hover {
+  border-color: var(--brand);
+  background: var(--brand-tint);
+}
+
+/* The message bar: a purple band holding a white field with the send arrow
+   inside it. */
+.asst-panel--dock .asst-form {
+  padding: 8px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #661a8e, #8a4ab0);
+  box-shadow: 0 12px 30px rgba(39, 3, 59, 0.22);
+  position: relative;
+}
+
+.asst-panel--dock .asst-input {
+  border: 0;
+  border-radius: 10px;
+  padding: 13px 48px 13px 16px;
+  font-size: 15px;
+}
+
+.asst-send--icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand);
+}
+
+.asst-send--icon svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.asst-send--icon:disabled {
+  opacity: 0.4;
+}
+
+/* Parts of the full panel hidden while it is the dock. Their own display
+   rules (the header is flex) would otherwise beat the hidden attribute. */
+.asst-panel [hidden] {
+  display: none;
+}
