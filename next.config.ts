@@ -100,6 +100,32 @@ const nextConfig: NextConfig = {
   // Trailing slashes off keeps one canonical URL shape per page, which matters
   // for both classic crawlers and answer engines resolving citations.
   trailingSlash: false,
+  /*
+   * NEXT'S OWN TRAILING-SLASH REDIRECT IS OFF, AND THIS BLOCK DOES IT INSTEAD,
+   * so a legacy URL that carries a slash lands in ONE hop (2026-10-05).
+   *
+   * What it fixed: every slash variant took two. `/about/` 308'd to `/about`,
+   * which 308'd to `/about-us`. Inbound links from directories, old sitemaps
+   * and email signatures very often carry the slash, and a redirect chain
+   * leaks link equity and costs a round trip.
+   *
+   * Why it has to be this switch. The normalisation runs BEFORE custom
+   * redirects and before middleware, so neither can pre-empt it: measured
+   * 2026-10-05 on `next dev`, a redirect whose source was `/about/` never
+   * matched, nor did `/about/{/}?` or `(/)?` forms, and a middleware with a
+   * catch-all matcher was never entered for `/about/` while it ran normally
+   * for `/contact`. Turning the normalisation off is the only way the slash
+   * reaches this block at all.
+   *
+   * WHAT THIS BLOCK NOW OWES. With the switch on, nothing else normalises a
+   * trailing slash, so `/contact/` would serve a 200 page beside `/contact` -
+   * two URLs for one page, which is the duplicate-content problem
+   * `trailingSlash: false` exists to avoid. The last entry in `redirects()`
+   * replaces it: `/:path+/` -> `/:path+`, a 308 exactly like the one Next was
+   * issuing. `:path+` rather than `:path*` because the star form also matches
+   * `/`, whose destination is `/` - a redirect to itself.
+   */
+  skipTrailingSlashRedirect: true,
   images: {
     formats: ['image/avif', 'image/webp'],
   },
@@ -303,12 +329,21 @@ const nextConfig: NextConfig = {
        */
       { from: '/pixelette-research', to: '/insights' },
     ];
+    /* Each legacy source twice: bare, and with a trailing slash, so both
+       spellings reach the destination in one hop. See skipTrailingSlashRedirect
+       above for why the slash variant has to be spelled out here. */
+    const bothSpellings = <T extends { source: string }>(rule: T): T[] => [
+      rule,
+      { ...rule, source: `${rule.source}/` },
+    ];
     return [
-      ...moved.map(({ from, to }) => ({
-        source: from,
-        destination: to,
-        permanent: true,
-      })),
+      ...moved.flatMap(({ from, to }) =>
+        bothSpellings({
+          source: from,
+          destination: to,
+          permanent: true,
+        }),
+      ),
       /*
        * THE FOUR OLD CATEGORY ARCHIVES -> THE NEW ARCHIVE INDEX.
        *
@@ -338,11 +373,13 @@ const nextConfig: NextConfig = {
         'blockchain-web3',
         'mobile-web-design',
         'software-development',
-      ].map(c => ({
-        source: `/blog/category/${c}`,
-        destination: '/insights/archive',
-        permanent: true,
-      })),
+      ].flatMap(c =>
+        bothSpellings({
+          source: `/blog/category/${c}`,
+          destination: '/insights/archive',
+          permanent: true,
+        }),
+      ),
       /*
        * /method had no index and returned 404, so trimming the last segment off
        * /method/live dead-ended. A redirect rather than an index page: an index
@@ -351,7 +388,7 @@ const nextConfig: NextConfig = {
        * /method becomes a real hub, and a 308 already cached by browsers would
        * be in the way of it.
        */
-      { source: '/method', destination: '/method/live', permanent: false },
+      ...bothSpellings({ source: '/method', destination: '/method/live', permanent: false }),
       /*
        * /ai-engineering became /ai-automation on founder instruction,
        * 2026-09-22, aligning the slug with the name the nav has always used.
@@ -368,16 +405,24 @@ const nextConfig: NextConfig = {
        * The parent needs its own line because `:path*` does not match the empty
        * remainder for a source with a trailing segment.
        */
-      {
+      ...bothSpellings({
         source: '/ai-engineering',
         destination: '/ai-automation',
         permanent: true,
-      },
-      {
+      }),
+      ...bothSpellings({
         source: '/ai-engineering/:path*',
         destination: '/ai-automation/:path*',
         permanent: true,
-      },
+      }),
+      /*
+       * THE NORMALISATION NEXT IS NO LONGER DOING, AND IT MUST STAY LAST: it
+       * matches every path, so anything above it that wants its own slash
+       * variant has to be declared before it. `:path+` and not `:path*`,
+       * because the star form matches `/` as well and would redirect the home
+       * page to itself.
+       */
+      { source: '/:path+/', destination: '/:path+', permanent: true },
     ];
   },
 
