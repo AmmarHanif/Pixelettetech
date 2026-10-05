@@ -22,8 +22,15 @@
  * Deployment Protection (runbook step 2) is the safer primary control, because
  * a forgotten password wall fails loudly and a forgotten noindex does not. Use
  * both: this flag protects the content, that setting protects the URL.
+ *
+ * FLIPPED TO `false` ON 2026-10-05, on the founder's instruction, and the site
+ * had already been serving on www.pixelettetech.com for some time before it
+ * was. That is the failure this comment predicts, observed: the domain was
+ * live, every page carried `noindex, nofollow`, and `robots.txt` disallowed
+ * every crawler from every path, with nothing anywhere reporting a problem.
+ * It was found by reading the live site rather than by any alarm.
  */
-export const SITE_IN_DEVELOPMENT = true;
+export const SITE_IN_DEVELOPMENT = false;
 
 /**
  * ============================================================================
