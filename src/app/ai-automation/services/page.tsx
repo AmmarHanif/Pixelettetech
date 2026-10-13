@@ -30,7 +30,13 @@ const secondary = [
     n: '01',
     title: 'Value Discovery',
     href: '/ai-automation/value-discovery',
-    body: 'The entry point. Four weeks. Instrument the process, measure it, write the case.',
+    /*
+     * REWORDED 2026-10-13 on the founder's discovery-positioning brief. It
+     * used to read "The entry point. Four weeks." — presenting the paid
+     * programme as the compulsory first step. It is the specialist,
+     * measurement-led option for complex programmes.
+     */
+    body: 'The specialist, measurement-led option for complex programmes. Typically four weeks, instrumenting the process, measuring it and writing the case.',
     meta: 'Quoted before we start',
   },
   {
@@ -294,8 +300,8 @@ export default function AiServicesPage() {
       </Section>
 
       <ClosingCta title="Not sure which of the five you need?">
-        Most clients start with Value Discovery, because it tells you which of the other four is
-        worth paying for.
+        Start with a conversation and we will recommend only the work your requirements justify —
+        which may be Value Discovery, and may not be.
       </ClosingCta>
     </>
   );

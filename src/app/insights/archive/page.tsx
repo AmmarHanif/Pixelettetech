@@ -30,7 +30,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Archive',
   description:
-    'Articles published on the previous Pixelette Technologies site between March and July 2025, retained for reference. This material is historical and is not current guidance.',
+    'Articles published on the previous Pixelette site between March and July 2025, retained for reference. This material is historical, not current guidance.',
   path: '/insights/archive',
   /* NO PAGE-LEVEL noIndex, deliberately. SITE_IN_DEVELOPMENT in content/launch.ts
      already forces noindex on every page that goes through pageMetadata, so one

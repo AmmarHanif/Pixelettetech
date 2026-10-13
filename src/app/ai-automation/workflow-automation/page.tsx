@@ -137,7 +137,14 @@ export default function WorkflowAutomationPage() {
               genuinely cannot do.
             </p>
             <p style={{ marginTop: 26 }}>
-              <FLink href="/ai-automation/value-discovery">Start with Value Discovery</FLink>
+              {/*
+                REWORDED AND RE-ROUTED 2026-10-13 on the founder's
+                discovery-positioning brief. The link used to read "Start with
+                Value Discovery" and point at the paid programme, presenting it
+                as the compulsory first step. It now routes to the contact
+                route, as the brief specifies.
+              */}
+              <FLink href="/contact">Discuss your workflow</FLink>
             </p>
           </div>
 
@@ -205,9 +212,17 @@ export default function WorkflowAutomationPage() {
         <Faqs items={faqs} />
       </Section>
 
+      {/*
+        REWORDED 2026-10-13 on the founder's discovery-positioning brief. The
+        close used to say we "will baseline it before quoting to build
+        anything", which implied a separate instrumented assessment before
+        every pricing. The baseline is established proportionately — often
+        within the agreed engineering scope.
+      */}
       <ClosingCta title="Have a process that eats the week?">
-        Bring us the one with the queue and the spreadsheet. We will baseline it before quoting to
-        build anything, and tell you if the answer is an integration rather than an automation.
+        Bring us the one with the queue and the spreadsheet. The baseline can be established
+        proportionately — often within the agreed engineering scope — and we will tell you if the
+        answer is an integration rather than an automation.
       </ClosingCta>
     </>
   );

@@ -29,6 +29,13 @@
  * live, every page carried `noindex, nofollow`, and `robots.txt` disallowed
  * every crawler from every path, with nothing anywhere reporting a problem.
  * It was found by reading the live site rather than by any alarm.
+ *
+ * THE SAME FLIP LANDED TWICE. The RanaKhangit repo's main (which the 2026-10-13
+ * session was pushing to) repeated it as commit 160e0bc on 2026-10-13, on
+ * founder instruction ("Make Indexable"), alongside the SEO audit fixes in
+ * 4ae6e9e — because the two repos had diverged and nobody pushing to
+ * RanaKhangit knew the live domain was served from this one. The value is the
+ * same (`false`); only the history differs. Merged 2026-10-13.
  */
 export const SITE_IN_DEVELOPMENT = false;
 

@@ -107,9 +107,14 @@ MAX_DESCRIPTION = 165
 #
 # Keys are crawl paths. Values are the approved title as DECODED text, which
 # is what the check compares against.
-TITLE_EXCEPTIONS = {
-    "/": "Pixelette Technologies | Software Engineering, AI & Automation, Blockchain",
-}
+# The homepage title was approved long-form at handoff and later shortened to
+# "Engineering, AI and blockchain | Pixelette Technologies" (55 chars) in the
+# 2026-09-14 external homepage audit, which passes the length check on its own.
+# The exception below RECORDED THE OLD TITLE and no longer matched anything —
+# the audit's NOTES section flagged it as protecting nothing. Deleted rather
+# than re-approved: there is no route today whose title needs an exception.
+# An empty dict is not dead code; if a future page needs one, add it here.
+TITLE_EXCEPTIONS = {}
 
 
 def fetch(base, path, timeout=20):

@@ -52,7 +52,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'About the firm',
   description:
-    'Since 2018, Pixelette Technologies has designed and built production software, digital platforms and increasingly sophisticated AI systems for organisations that need technology to work beyond the demo.',
+    'Production software, digital platforms and AI systems, designed and built since 2018 for organisations that need technology to work beyond the demo.',
   path: '/about-us',
 });
 

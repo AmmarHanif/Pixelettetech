@@ -6,7 +6,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Mobile Applications',
   description:
-    'Native iOS and Android and cross-platform builds, taken through store submission, with ongoing maintenance available where required, as a product or part of a wider platform.',
+    'Native iOS and Android and cross-platform builds taken through store submission, with maintenance available as a product or part of a wider platform.',
   path: '/engineering/mobile-applications',
 });
 

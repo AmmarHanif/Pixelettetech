@@ -224,6 +224,11 @@ async function storeEnquiry(enquiry: Enquiry): Promise<LegStatus> {
    * The two codes are PostgREST's "column not found" and PostgreSQL's
    * undefined_column. Neither could be checked against a primary source from
    * this environment, which is why both are accepted.
+   *
+   * '42703' IS A DATABASE ERROR CODE, NOT A CASE-STUDY SLUG — recorded because
+   * the external SEO audit's slug sweep (2026-10-13) matched this string and
+   * reported it as a stale content reference. It is compared against
+   * PostgREST's error response only. Do not "fix" it as a slug.
    */
   if (enquiry.lead && typeof status === 'object' && ['PGRST204', '42703'].includes(status.code)) {
     logFailure('supabase insert', enquiry.id, 'lead columns missing - apply the lead-capture migration');

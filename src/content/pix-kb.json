@@ -2,15 +2,15 @@
  "builtFrom": "src/app/**/page.tsx",
  "counts": {
   "pages": 41,
-  "faqs": 247,
+  "faqs": 250,
   "pointers": 3,
-  "sections": 290
+  "sections": 285
  },
  "docs": [
   {
    "kind": "page",
    "title": "About the firm",
-   "text": "Since 2018, Pixelette Technologies has designed and built production software, digital platforms and increasingly sophisticated AI systems for organisations that need technology to work beyond the demo.",
+   "text": "Production software, digital platforms and AI systems, designed and built since 2018 for organisations that need technology to work beyond the demo.",
    "path": "/about-us"
   },
   {
@@ -521,55 +521,27 @@
   {
    "kind": "page",
    "title": "AI & Automation",
-   "text": "What could AI make possible for you? AI systems, AI agents and automation, engineered around real problems, real systems and outcomes that can be measured.",
+   "text": "AI systems, AI agents and automation, and the evaluation and observability that shows whether they still work. Engineered into the systems you already run.",
    "path": "/ai-automation"
   },
   {
    "kind": "section",
-   "title": "Assist",
-   "text": "Help with what you are already doing, from guiding a customer to the right product to taking an engineer through a diagnosis.",
-   "path": "/ai-automation",
-   "page": "AI & Automation"
-  },
-  {
-   "kind": "section",
-   "title": "Understand",
-   "text": "Make sense of complex information and context: text, speech, images and data that are difficult to process by hand.",
-   "path": "/ai-automation",
-   "page": "AI & Automation"
-  },
-  {
-   "kind": "section",
-   "title": "Act",
-   "text": "Connect intelligence to products, systems and real-world workflows, and take permitted action where appropriate.",
-   "path": "/ai-automation",
-   "page": "AI & Automation"
-  },
-  {
-   "kind": "section",
-   "title": "Discover",
-   "text": "Reveal patterns, anticipate change and point to potential opportunities that were hard to see. People decide which are worth pursuing.",
-   "path": "/ai-automation",
-   "page": "AI & Automation"
-  },
-  {
-   "kind": "section",
    "title": "AI systems",
-   "text": "AI systems that can read, see and hear, understand information and context, identify patterns, predict outcomes and recommend actions.",
+   "text": "AI systems that can understand information, identify patterns, predict outcomes, recommend actions and support decisions.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
   {
    "kind": "section",
    "title": "AI agents & automation",
-   "text": "Automation follows a process. An AI agent pursues an objective: it plans the work, uses approved tools and systems, takes permitted actions and involves people at defined control points.",
+   "text": "Automation and AI systems that can carry out controlled work across workflows, tools and connected systems. That ranges from deterministic automation, through AI-assisted workflows, to controlled agentic operation.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
   {
    "kind": "section",
    "title": "Evaluation & observability",
-   "text": "Testing against defined acceptance criteria, regression checks when anything changes, and monitoring of production behaviour, with the system re-verified after each improvement.",
+   "text": "Testing and monitoring that shows whether an AI system performs as intended, continues to do so after release, and changes when its inputs, models or environment change.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
@@ -617,43 +589,36 @@
   },
   {
    "kind": "section",
-   "title": "Set the goal",
-   "text": "What are you trying to achieve, and what problem or opportunity stands in the way?",
+   "title": "Initial conversation",
+   "text": "A free, no-obligation discussion to understand the requirement, establish fit and identify the most appropriate next step. Normally 30–60 minutes.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
   {
    "kind": "section",
-   "title": "Choose the simplest tool",
-   "text": "Would conventional software or rules solve it, or does AI add useful capability?",
+   "title": "Focused discovery workshop",
+   "text": "Where useful, a prepared working session of roughly two to three hours, with proportionate preparation, technical input and concise agreed outputs. Scope and any fee are agreed beforehand.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
   {
    "kind": "section",
-   "title": "Decide how far it goes",
-   "text": "Does the system need to act, and where do people stay in control?",
+   "title": "Technical scoping and feasibility",
+   "text": "Where technical complexity, architecture, existing systems, data, security or delivery risk needs more investigation. Duration, deliverables and price are agreed to the work required.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
   {
    "kind": "section",
-   "title": "Define success",
-   "text": "What would success look like, where is the baseline today, and how will we measure it?",
-   "path": "/ai-automation",
-   "page": "AI & Automation"
-  },
-  {
-   "kind": "section",
-   "title": "Assist, understand, act, discover",
-   "text": "AI is not only for email, meetings and documents. It can sit inside a product, a customer experience, an operation or a forecast, and what it does there tends to take one of four forms.",
+   "title": "Instrumented Value Discovery",
+   "text": "A substantial, optional engagement for programmes that need a measured baseline, process instrumentation, an opportunity assessment and a costed roadmap. Typically around four weeks of elapsed time.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
   {
    "kind": "section",
    "title": "Three ways AI is built into a business",
-   "text": "AI systems are how a product understands. Agents and automation are how it acts. Evaluation and observability is how you know it works. They overlap in practice, and a programme often needs two of them.",
+   "text": "They overlap in practice, and a programme often needs two of them.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
@@ -673,29 +638,22 @@
   },
   {
    "kind": "section",
-   "title": "How do we know it actually works?",
-   "text": "Building it is only part of the job. You also need to know whether it works.",
-   "path": "/ai-automation",
-   "page": "AI & Automation"
-  },
-  {
-   "kind": "section",
    "title": "Start with the problem, not the model",
-   "text": "We start with what you are trying to achieve, then work out whether AI is the right tool and how its success will be measured. Sometimes the answer is that it is not.",
+   "text": "Most engagements begin with a conversation. Where the requirement is sufficiently defined we can move directly to a scoped proposal; where more investigation is needed, we recommend the level of discovery the project justifies. A paid discovery engagement is never mandatory.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
   {
    "kind": "faq",
-   "title": "What could AI do for my organisation?",
-   "text": "More than office administration. AI can assist with work already being done, understand text, speech, images and data that are slow to process by hand, act inside products and systems within defined permissions, and surface patterns, forecasts and anomalies that were hard to see. That applies to software products, customer and retail experiences, personal and wellbeing apps, operations and industrial settings as much as to back-office work. Whether AI is the right tool for a particular problem is the first thing a Value Discovery establishes.",
+   "title": "Why can so few organisations show a return on AI?",
+   "text": "Because the work around the model was never redesigned, the data it needs was never made reachable, and nobody owns whether it still works next quarter. In McKinsey’s 2026 survey 80% of respondents said AI had improved their individual productivity, while 37% reported it contributing to their organisation’s EBIT (McKinsey State of AI, August 2026, n=1,719).",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
   {
    "kind": "faq",
-   "title": "What is a Value Discovery?",
-   "text": "A four-week engagement. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.",
+   "title": "Do I need a four-week Value Discovery before starting an AI project?",
+   "text": "No. We begin by understanding your requirement. Some projects can proceed directly to technical scoping and a proposal. Others benefit from a focused workshop or feasibility assessment. Where an AI programme requires detailed current-state measurement, our instrumented Value Discovery provides a more substantial assessment, typically over several weeks. Its scope, duration, deliverables and price are agreed before work begins.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
@@ -923,7 +881,7 @@
   {
    "kind": "section",
    "title": "Value Discovery",
-   "text": "The entry point. Four weeks. Instrument the process, measure it, write the case.",
+   "text": "The specialist, measurement-led option for complex programmes. Typically four weeks, instrumenting the process, measuring it and writing the case.",
    "path": "/ai-automation/services",
    "page": "AI engineering services"
   },
@@ -1055,27 +1013,55 @@
   {
    "kind": "page",
    "title": "Value Discovery",
-   "text": "Four weeks. We instrument two or three of your processes, measure what they cost today, and hand you a costed roadmap and the business case for your exec team.",
+   "text": "A separately scoped, measurement-led engagement for substantial AI programmes: instrumented current-state measurement, an opportunity assessment and costed roadmap.",
    "path": "/ai-automation/value-discovery"
   },
   {
-   "kind": "faq",
-   "title": "How is Value Discovery priced?",
-   "text": "It is scoped to how many processes are in scope and how messy the data is, and quoted before the work starts. The price is quoted before the work starts, not after.",
+   "kind": "section",
+   "title": "An example delivery structure",
+   "text": "The comprehensive programme typically spans about four weeks of elapsed time, in four moves — scope, instrument, analyse, report.",
    "path": "/ai-automation/value-discovery",
    "page": "Value Discovery"
   },
   {
    "kind": "faq",
-   "title": "How long does a Value Discovery take?",
-   "text": "Four weeks from start to readout, covering two to three instrumented processes. No procurement cycle is required.",
+   "title": "Is Value Discovery compulsory?",
+   "text": "No. Many engagements begin with a conversation and move directly to technical scoping and a proposal. Value Discovery is the right route where a substantial programme needs detailed current-state measurement before an investment decision.",
+   "path": "/ai-automation/value-discovery",
+   "page": "Value Discovery"
+  },
+  {
+   "kind": "faq",
+   "title": "How is it different from a focused discovery workshop?",
+   "text": "A focused workshop is a short, prepared working session — roughly two to three hours — that resolves a defined question and produces concise agreed outputs. Value Discovery is a substantial measurement-led engagement: processes are instrumented, performance is measured over time, and the output is an opportunity assessment and a costed roadmap.",
+   "path": "/ai-automation/value-discovery",
+   "page": "Value Discovery"
+  },
+  {
+   "kind": "faq",
+   "title": "When is a four-week programme appropriate?",
+   "text": "For complex AI or automation programmes where the existing evidence is not sufficient to support the investment decision. Four weeks describes the programme’s typical elapsed duration — it is not four weeks of automatically billable full-time consultancy, nor a fixed number of billable days.",
+   "path": "/ai-automation/value-discovery",
+   "page": "Value Discovery"
+  },
+  {
+   "kind": "faq",
+   "title": "How is the fee calculated?",
+   "text": "From the agreed scope, effort and deliverables, and quoted before work begins. The scope is agreed beforehand, so the fee reflects the actual work required.",
+   "path": "/ai-automation/value-discovery",
+   "page": "Value Discovery"
+  },
+  {
+   "kind": "faq",
+   "title": "Can we proceed directly to a build proposal?",
+   "text": "Yes, where the requirement and the technical information are sufficiently defined. We will tell you if they are, and what — if anything — is still missing.",
    "path": "/ai-automation/value-discovery",
    "page": "Value Discovery"
   },
   {
    "kind": "faq",
    "title": "What do I get at the end of a Value Discovery?",
-   "text": "Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included.",
+   "text": "Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included. All subject to the agreed scope.",
    "path": "/ai-automation/value-discovery",
    "page": "Value Discovery"
   },
@@ -1414,7 +1400,7 @@
   {
    "kind": "page",
    "title": "Blockchain development",
-   "text": "Tokenisation and digital assets, smart contracts and applications, and integration and protocol engineering. A specialist blockchain practice, engineering since 2018.",
+   "text": "Tokenisation and digital assets, smart contracts and applications, and integration and protocol engineering. A specialist blockchain practice since 2018.",
    "path": "/blockchain"
   },
   {
@@ -1892,13 +1878,13 @@
   {
    "kind": "page",
    "title": "Work and case studies",
-   "text": "A selection of products and systems engineered by Pixelette Technologies across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
+   "text": "Products and systems engineered across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
    "path": "/case-studies"
   },
   {
    "kind": "page",
    "title": "Contact",
-   "text": "Tell us what you are trying to build or change. One of us replies, not a sequence. If Value Discovery is not the right next step we will say so on the call.",
+   "text": "Tell us what you are trying to build or change. One of us replies, not a sequence. We will recommend only the level of work your requirements justify.",
    "path": "/contact"
   },
   {
@@ -2174,7 +2160,7 @@
   {
    "kind": "page",
    "title": "Mobile Applications",
-   "text": "Native iOS and Android and cross-platform builds, taken through store submission, with ongoing maintenance available where required, as a product or part of a wider platform.",
+   "text": "Native iOS and Android and cross-platform builds taken through store submission, with maintenance available as a product or part of a wider platform.",
    "path": "/engineering/mobile-applications"
   },
   {
@@ -2741,7 +2727,7 @@
   {
    "kind": "page",
    "title": "Archive",
-   "text": "Articles published on the previous Pixelette Technologies site between March and July 2025, retained for reference. This material is historical and is not current guidance.",
+   "text": "Articles published on the previous Pixelette site between March and July 2025, retained for reference. This material is historical, not current guidance.",
    "path": "/insights/archive"
   },
   {
@@ -2793,8 +2779,8 @@
   },
   {
    "kind": "faq",
-   "title": "Why does every engagement have to start with a measured baseline?",
-   "text": "Because you cannot price an outcome nobody has counted. Of 979 generative and agentic use cases analysed in 2026, generic productivity cases ran 54% in proof of concept against 19% in production, while narrow process-performance cases ran 8% in proof of concept against 27% in production, the healthiest ratio in the dataset (HFS Research, May 2026). Engagements that start vaguely do not finish.",
+   "title": "Why does LIVE establish a baseline before building?",
+   "text": "Because for outcome-linked work you cannot price an outcome nobody has counted: measurable performance must be established before outcome commitments are made. Of 979 generative and agentic use cases analysed in 2026, generic productivity cases ran 54% in proof of concept against 19% in production, while narrow process-performance cases ran 8% in proof of concept against 27% in production, the healthiest ratio in the dataset (HFS Research, May 2026). The level of investigation is proportionate: LAND can draw on your existing requirements, a baseline agreed within the project, focused technical scoping, or a separately commissioned instrumented Value Discovery where justified. Engagements that start vaguely do not finish.",
    "path": "/method/live",
    "page": "LIVE, our AI delivery method"
   },
@@ -3007,35 +2993,35 @@
   {
    "kind": "faq",
    "title": "who are you",
-   "text": "Since 2018, Pixelette Technologies has designed and built production software, digital platforms and increasingly sophisticated AI systems for organisations that need technology to work beyond the demo.",
+   "text": "Production software, digital platforms and AI systems, designed and built since 2018 for organisations that need technology to work beyond the demo.",
    "path": "/about-us",
    "page": "About the firm"
   },
   {
    "kind": "faq",
    "title": "tell me about pixelette technologies",
-   "text": "Since 2018, Pixelette Technologies has designed and built production software, digital platforms and increasingly sophisticated AI systems for organisations that need technology to work beyond the demo.",
+   "text": "Production software, digital platforms and AI systems, designed and built since 2018 for organisations that need technology to work beyond the demo.",
    "path": "/about-us",
    "page": "About the firm"
   },
   {
    "kind": "faq",
    "title": "where is pixelette based",
-   "text": "Since 2018, Pixelette Technologies has designed and built production software, digital platforms and increasingly sophisticated AI systems for organisations that need technology to work beyond the demo.",
+   "text": "Production software, digital platforms and AI systems, designed and built since 2018 for organisations that need technology to work beyond the demo.",
    "path": "/about-us",
    "page": "About the firm"
   },
   {
    "kind": "faq",
    "title": "how long have you been in business",
-   "text": "Since 2018, Pixelette Technologies has designed and built production software, digital platforms and increasingly sophisticated AI systems for organisations that need technology to work beyond the demo.",
+   "text": "Production software, digital platforms and AI systems, designed and built since 2018 for organisations that need technology to work beyond the demo.",
    "path": "/about-us",
    "page": "About the firm"
   },
   {
    "kind": "faq",
    "title": "about the company",
-   "text": "Since 2018, Pixelette Technologies has designed and built production software, digital platforms and increasingly sophisticated AI systems for organisations that need technology to work beyond the demo.",
+   "text": "Production software, digital platforms and AI systems, designed and built since 2018 for organisations that need technology to work beyond the demo.",
    "path": "/about-us",
    "page": "About the firm"
   },
@@ -3406,49 +3392,49 @@
   {
    "kind": "faq",
    "title": "what is value discovery",
-   "text": "A four-week engagement. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.",
+   "text": "No. We begin by understanding your requirement. Some projects can proceed directly to technical scoping and a proposal. Others benefit from a focused workshop or feasibility assessment. Where an AI programme requires detailed current-state measurement, our instrumented Value Discovery provides a more substantial assessment, typically over several weeks. Its scope, duration, deliverables and price are agreed before work begins.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
   {
    "kind": "faq",
    "title": "how do we start with ai",
-   "text": "A four-week engagement. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.",
+   "text": "No. We begin by understanding your requirement. Some projects can proceed directly to technical scoping and a proposal. Others benefit from a focused workshop or feasibility assessment. Where an AI programme requires detailed current-state measurement, our instrumented Value Discovery provides a more substantial assessment, typically over several weeks. Its scope, duration, deliverables and price are agreed before work begins.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
   {
    "kind": "faq",
    "title": "first step for an ai project",
-   "text": "A four-week engagement. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.",
+   "text": "No. We begin by understanding your requirement. Some projects can proceed directly to technical scoping and a proposal. Others benefit from a focused workshop or feasibility assessment. Where an AI programme requires detailed current-state measurement, our instrumented Value Discovery provides a more substantial assessment, typically over several weeks. Its scope, duration, deliverables and price are agreed before work begins.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
   {
    "kind": "faq",
    "title": "ai discovery workshop",
-   "text": "A four-week engagement. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.",
+   "text": "No. We begin by understanding your requirement. Some projects can proceed directly to technical scoping and a proposal. Others benefit from a focused workshop or feasibility assessment. Where an AI programme requires detailed current-state measurement, our instrumented Value Discovery provides a more substantial assessment, typically over several weeks. Its scope, duration, deliverables and price are agreed before work begins.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
   {
    "kind": "faq",
    "title": "what do we receive after value discovery",
-   "text": "Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included.",
+   "text": "Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included. All subject to the agreed scope.",
    "path": "/ai-automation/value-discovery",
    "page": "Value Discovery"
   },
   {
    "kind": "faq",
    "title": "value discovery deliverables",
-   "text": "Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included.",
+   "text": "Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included. All subject to the agreed scope.",
    "path": "/ai-automation/value-discovery",
    "page": "Value Discovery"
   },
   {
    "kind": "faq",
    "title": "output of the discovery",
-   "text": "Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included.",
+   "text": "Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included. All subject to the agreed scope.",
    "path": "/ai-automation/value-discovery",
    "page": "Value Discovery"
   },
@@ -4008,28 +3994,28 @@
   {
    "kind": "faq",
    "title": "show me your work",
-   "text": "A selection of products and systems engineered by Pixelette Technologies across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
+   "text": "Products and systems engineered across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
    "path": "/case-studies",
    "page": "Work and case studies"
   },
   {
    "kind": "faq",
    "title": "portfolio",
-   "text": "A selection of products and systems engineered by Pixelette Technologies across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
+   "text": "Products and systems engineered across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
    "path": "/case-studies",
    "page": "Work and case studies"
   },
   {
    "kind": "faq",
    "title": "examples of projects",
-   "text": "A selection of products and systems engineered by Pixelette Technologies across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
+   "text": "Products and systems engineered across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
    "path": "/case-studies",
    "page": "Work and case studies"
   },
   {
    "kind": "faq",
    "title": "past clients work",
-   "text": "A selection of products and systems engineered by Pixelette Technologies across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
+   "text": "Products and systems engineered across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
    "path": "/case-studies",
    "page": "Work and case studies"
   }

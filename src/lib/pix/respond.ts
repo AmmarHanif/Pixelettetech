@@ -74,8 +74,9 @@ function labelForPath(p: string): string {
  * the passage about to be offered contains a duration, the passage is not
  * offered: a published fact about something else, placed under a question about
  * someone's delivery date, reads as a promise. Both halves are narrow on
- * purpose - "What is a Value Discovery?" still gets its published four weeks,
- * because nobody asked when.
+ * purpose - "Do I need a four-week Value Discovery before starting an AI
+ * project?" still gets its published answer, because nobody asked when their
+ * own project would be ready.
  */
 const TIMING_ASKED =
   /\b(when|how (long|soon|quickly|fast)|deadline|ready|timeline|time ?frame|turnaround|go live|asap|urgent(ly)?|in (\d+|a|one|two|three|four|five|six|a few|several) (days?|weeks?|months?))\b/i;

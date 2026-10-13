@@ -18,7 +18,7 @@ import { ContactForm } from './ContactForm';
 export const metadata = pageMetadata({
   title: 'Contact',
   description:
-    'Tell us what you are trying to build or change. One of us replies, not a sequence. If Value Discovery is not the right next step we will say so on the call.',
+    'Tell us what you are trying to build or change. One of us replies, not a sequence. We will recommend only the level of work your requirements justify.',
   path: '/contact',
 });
 
@@ -96,11 +96,20 @@ export default function ContactPage() {
             Tell us what you are trying to build or change
           </h1>
           <p className="lead" style={{ marginTop: 24 }}>
+            {/*
+              LAST THREE SENTENCES REPLACED 2026-10-13 on the founder's
+              discovery-positioning brief. The old wording ("If Value Discovery
+              is not the right next step we will say so on the call") framed
+              Value Discovery as the default next step. The replacement is the
+              brief's own wording, quoted rather than paraphrased.
+            */}
             Some people arrive knowing exactly what is broken. Others only know that something is.
             Both are worth the same conversation: what the problem really is, which route resolves
             it, and what has to happen first. Tell us what you know and leave the rest blank. One
-            of us replies, not a sequence. If Value Discovery is not the right next step we will say
-            so on the call.
+            of us replies, not a sequence. We will help you determine whether your project is ready
+            for a proposal, would benefit from a focused discovery workshop, or requires a more
+            detailed technical assessment. We will recommend only the level of work your
+            requirements justify.
           </p>
         </div>
       </div>

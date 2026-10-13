@@ -184,8 +184,13 @@ export default function LanguageSpeechVisionPage() {
               than asserted.
             </p>
             <div className="btn-row" style={{ marginTop: 28 }}>
-              <Cta href="/ai-automation/value-discovery" variant="secondary">
-                Start with Value Discovery
+              {/*
+                RE-ROUTED 2026-10-13 on the founder's discovery-positioning
+                brief. The button used to read "Start with Value Discovery",
+                presenting the paid programme as the default first step.
+              */}
+              <Cta href="/contact" variant="secondary">
+                Discuss your project
               </Cta>
             </div>
             <p style={{ marginTop: 26 }}>

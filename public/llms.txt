@@ -129,11 +129,15 @@ Four things, and the fourth sits under the other three.
 
 ## What the company sells
 
-- **Value Discovery** — four weeks, quoted before the work starts. Two or
-  three processes instrumented and measured; a prioritised opportunity map, a
-  costed roadmap and a board-ready business case. The measurement is left
-  running and is the client's to keep. If the numbers do not support proceeding,
-  the firm says so in writing.
+- **Value Discovery** — an optional, separately scoped, measurement-led
+  engagement for substantial AI programmes, quoted before the work starts.
+  Typically four weeks of elapsed time; two or three processes instrumented
+  and measured; a prioritised opportunity map, a costed roadmap and a
+  board-ready business case. The measurement is left running and is the
+  client's to keep. If the numbers do not support proceeding, the firm says so
+  in writing. It is NOT a compulsory first step: a sufficiently defined
+  requirement can proceed directly to a scoped proposal, and a focused
+  discovery workshop or technical scoping covers the cases in between.
 - **Data & Integration** — entitlement-aware retrieval, context and semantic
   layers, MCP integration to systems of record, lineage and provenance, legacy
   enablement.
@@ -178,7 +182,10 @@ Four things, and the fourth sits under the other three.
 
 LIVE — Land, Integrate, Verify, Evolve.
 
-- LAND: instrument two or three processes, measure current state. Quoted before we start.
+- LAND: establish the requirement, the evidence available and what success
+  should look like. The level of investigation is proportionate to the project —
+  from reviewing existing requirements to a separately commissioned instrumented
+  Value Discovery where justified. Quoted before we start.
 - INTEGRATE: make data reachable, permissioned and observable. Fixed-scope phases.
 - VERIFY: build the system, redesign the workflow around it, prove it against
   agreed acceptance thresholds. Outcome-linked where the baseline supports it.
@@ -247,7 +254,8 @@ Engineering services
 
 AI & automation services
 - https://pixelettetech.com/ai-automation/services — all AI services
-- https://pixelettetech.com/ai-automation/value-discovery — the entry engagement
+- https://pixelettetech.com/ai-automation/value-discovery — the specialist,
+  measurement-led option for complex AI programmes
 - https://pixelettetech.com/ai-automation/agentic-ai-multi-agent
 - https://pixelettetech.com/ai-automation/workflow-automation
 - https://pixelettetech.com/ai-automation/llm-integration-rag
