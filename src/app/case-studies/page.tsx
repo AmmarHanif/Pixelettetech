@@ -25,7 +25,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Work and case studies',
   description:
-    'A selection of products and systems engineered by Pixelette Technologies across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.',
+    'Products and systems engineered across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.',
   path: '/case-studies',
 });
 

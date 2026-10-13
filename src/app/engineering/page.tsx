@@ -192,11 +192,20 @@ const faqs = [
 
 export default function EngineeringPage() {
   const featured = caseStudies.filter(c =>
-    // The board features a platform build and a marketplace build. BlockGuard
-    // is the platform, exactly as designed. Stay Sane fills the marketplace
-    // slot the board labelled Butter Smiles — those figures are Stay Sane's
-    // (ADR-0006). LawLedger fills the board's third, empty card with real work.
-    ['blockguard', 'chysler', 'law-ledger'].includes(
+    /*
+     * The board features a platform build and a marketplace build. BlockGuard
+     * is the platform, exactly as designed. Stay Sane fills the marketplace
+     * slot the board labelled Butter Smiles — those figures are Stay Sane's
+     * (ADR-0006); its slug is the legacy 'chysler', kept for URL continuity.
+     *
+     * 'law-ledger' REMOVED 2026-10-13: the LawLedger study was one of the 19
+     * the founder removed name by name on 2026-09-21 (commit fc9c369), and
+     * the slug matched nothing — the third card rendered empty. Flagged by
+     * the external SEO audit (finding C). The third card stays empty until a
+     * real, approved study fills it; resurrecting LawLedger here would undo
+     * a founder decision.
+     */
+    ['blockguard', 'chysler'].includes(
       c.slug,
     ),
   );

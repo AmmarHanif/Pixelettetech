@@ -46,7 +46,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'AI & Automation',
   description:
-    'AI systems, AI agents and automation, and the evaluation and observability that shows whether they still work. Engineered into the systems an organisation already runs.',
+    'AI systems, AI agents and automation, and the evaluation and observability that shows whether they still work. Engineered into the systems you already run.',
   path: '/ai-automation',
 });
 

@@ -50,7 +50,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Blockchain development',
   description:
-    'Tokenisation and digital assets, smart contracts and applications, and integration and protocol engineering. A specialist blockchain practice, engineering since 2018.',
+    'Tokenisation and digital assets, smart contracts and applications, and integration and protocol engineering. A specialist blockchain practice since 2018.',
   path: '/blockchain',
 });
 

@@ -9,7 +9,7 @@
   {
    "kind": "page",
    "title": "About the firm",
-   "text": "Since 2018, Pixelette Technologies has designed and built production software, digital platforms and increasingly sophisticated AI systems for organisations that need technology to work beyond the demo.",
+   "text": "Production software, digital platforms and AI systems, designed and built since 2018 for organisations that need technology to work beyond the demo.",
    "path": "/about-us"
   },
   {
@@ -163,7 +163,7 @@
   {
    "kind": "page",
    "title": "AI & Automation",
-   "text": "AI systems, AI agents and automation, and the evaluation and observability that shows whether they still work. Engineered into the systems an organisation already runs.",
+   "text": "AI systems, AI agents and automation, and the evaluation and observability that shows whether they still work. Engineered into the systems you already run.",
    "path": "/ai-automation"
   },
   {
@@ -461,7 +461,7 @@
   {
    "kind": "page",
    "title": "Blockchain development",
-   "text": "Tokenisation and digital assets, smart contracts and applications, and integration and protocol engineering. A specialist blockchain practice, engineering since 2018.",
+   "text": "Tokenisation and digital assets, smart contracts and applications, and integration and protocol engineering. A specialist blockchain practice since 2018.",
    "path": "/blockchain"
   },
   {
@@ -596,7 +596,7 @@
   {
    "kind": "page",
    "title": "Work and case studies",
-   "text": "A selection of products and systems engineered by Pixelette Technologies across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
+   "text": "Products and systems engineered across software, AI and blockchain. Each case study covers the problem, the engineering and what was delivered.",
    "path": "/case-studies"
   },
   {
@@ -675,7 +675,7 @@
   {
    "kind": "page",
    "title": "Mobile Applications",
-   "text": "Native iOS and Android and cross-platform builds, taken through store submission, with ongoing maintenance available where required, as a product or part of a wider platform.",
+   "text": "Native iOS and Android and cross-platform builds taken through store submission, with maintenance available as a product or part of a wider platform.",
    "path": "/engineering/mobile-applications"
   },
   {
@@ -836,7 +836,7 @@
   {
    "kind": "page",
    "title": "Archive",
-   "text": "Articles published on the previous Pixelette Technologies site between March and July 2025, retained for reference. This material is historical and is not current guidance.",
+   "text": "Articles published on the previous Pixelette site between March and July 2025, retained for reference. This material is historical, not current guidance.",
    "path": "/insights/archive"
   },
   {
