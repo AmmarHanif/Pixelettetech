@@ -62,6 +62,9 @@ type Resolved = {
   authorName: string;
   reviewer?: string;
   historical: boolean;
+  /** Migrated 2025 article: the <title> is the article's own headline, with no
+      " · Pixelette Technologies" brand suffix. See generateMetadata. */
+  archive?: boolean;
   body: React.ReactNode;
   /** `href` is optional: a citation we can name but not link is still a citation. */
   sources: { label: string; href?: string }[];
@@ -168,6 +171,7 @@ function resolve(slug: string): Resolved | null {
     readingMinutes: arc.readingMinutes,
     authorName: arc.author,
     historical: true,
+    archive: true,
     body: <ArchiveBody blocks={blocks} />,
     sources: [],
     related,
@@ -208,6 +212,15 @@ export async function generateMetadata({ params }: { params: Promise<Params> }) 
     /* The tab and search-result label, which may be shorter than the headline
        the page displays. The H1 below is always the full title. */
     title: item.seoTitle ?? item.title,
+    /* ARCHIVE ARTICLES CARRY THE BRAND SUFFIX OFF, deliberately, fixed
+       2026-10-13 under SEO finding B. The root layout template appends
+       " · Pixelette Technologies" (27 characters) to every non-absolute
+       title, which pushed 34 of the 36 migrated archive titles past the
+       65-character search-display limit (measured range 66–94). These are
+       historical articles whose own headlines are complete titles; the
+       suffix bought the brand nothing there and cost every result its
+       truncated tail. Current insights keep the suffix. */
+    absoluteTitle: item.archive ? true : undefined,
     /* The standfirst is what the page shows; this is what a search result gets. */
     description: item.seoDescription ?? item.summary,
     path: `/blog/${item.slug}`,
