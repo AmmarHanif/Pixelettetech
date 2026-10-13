@@ -844,22 +844,38 @@ export default function HomePage() {
           we tell you that" - is now its own paragraph rather than the tail of a
           sentence, which is the weight he clearly attaches to it.
         */}
+        {/*
+          ENGAGEMENT-MODEL CORRECTION, 2026-10-13, on the founder's urgent brief
+          ("Urgent website correction — discovery and Value Discovery"). The copy
+          above presented the four-week Value Discovery as the compulsory first
+          step of every AI engagement ("it always starts in the same place.
+          Value Discovery is that first stage."). That is no longer the
+          commercial position: a sufficiently defined requirement can move
+          directly to a scoped proposal, and the level of discovery is
+          proportionate to the project. The replacement wording is the brief's
+          own, quoted rather than paraphrased. Value Discovery survives here as
+          the optional specialist engagement, and the stage card describes the
+          LAND stage rather than the paid programme — the programme's
+          deliverables now sit inside the card under a "where deeper measurement
+          is justified" clause, which is the distinction the brief asks for.
+        */}
         <SectionHead
           eyebrow="How we work"
           id="process-heading"
-          title="First we find out where you are, then we agree what is worth doing"
+          title="First understand the problem, then agree the right next step"
         />
         <div className="grid grid-2" style={{ marginTop: 34, gap: 40, alignItems: 'start' }}>
           <div>
             <p className="body">
-              Our AI work runs the same four stages every time: land, integrate, verify, evolve. We
-              call it LIVE, and it always starts in the same place.
+              We begin with a conversation to understand what you want to build, change or improve.
+              Where the requirement is sufficiently defined, we can move directly to a scoped
+              proposal. Where more investigation is needed, we may recommend a focused discovery
+              workshop or technical assessment.
             </p>
             <p className="body" style={{ marginTop: 20 }}>
-              Value Discovery is that first stage. We review the processes you already run,
-              instrument two or three of them, and measure what they actually cost you today. You
-              get a clear picture of where you are, a costed roadmap of what the next steps would
-              be, and a readout to your exec team with the deck included.
+              For complex AI programmes that require new performance data, our instrumented Value
+              Discovery can establish a measurable baseline and costed roadmap before substantial
+              implementation.
             </p>
             <p className="body" style={{ marginTop: 20 }}>
               If the numbers do not support going further, we tell you that.
@@ -870,13 +886,21 @@ export default function HomePage() {
           </div>
           <div className="card" style={{ padding: 28 }}>
             <span className="mono" style={{ fontSize: 12.5, letterSpacing: '0.1em', color: 'var(--ink)' }}>
-              STAGE ONE
+              STAGE ONE · LAND
             </span>
             <h3 className="h4" style={{ marginTop: 10, fontSize: 22 }}>
-              Value Discovery
+              Understand and measure
             </h3>
-            <p className="small" style={{ marginTop: 4 }}>Four weeks, start to readout.</p>
-            <ul className="small" style={{ marginTop: 18, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8 }}>
+            <p className="small" style={{ marginTop: 4 }}>
+              Establish the requirement, the evidence available and what success should look like.
+              The level of investigation is proportionate to the project.
+            </p>
+            <hr className="rule" style={{ margin: '20px 0' }} />
+            <p className="small" style={{ marginTop: 0 }}>
+              Where a complex programme needs new performance data, this stage is delivered as the
+              instrumented Value Discovery — typically four weeks, start to readout:
+            </p>
+            <ul className="small" style={{ marginTop: 12, paddingLeft: 0, listStyle: 'none', display: 'grid', gap: 8 }}>
               <li>Two to three processes instrumented and measured</li>
               <li>Measurement left running, and yours to keep</li>
               <li>Prioritised opportunity map with a costed roadmap</li>

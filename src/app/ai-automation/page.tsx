@@ -32,6 +32,10 @@ import { pageMetadata } from '@/lib/seo';
  *     is still linked; it was standing as the page's proof mechanism, which the
  *     brief is explicit this page cannot yet support.
  *   - Value Discovery stopped being a service and became the entry methodology.
+ *     SUPERSEDED 2026-10-13 on the founder's discovery-positioning brief: it is
+ *     no longer presented as the entry point either. The "How an engagement
+ *     starts" section now describes four proportionate starting routes, with
+ *     the instrumented Value Discovery as the substantial optional one.
  *   - Private AI development is a short paragraph, not a section with a register.
  *
  * NO SUB-PAGE WAS TOUCHED, no route created, no redirect written and no
@@ -142,24 +146,49 @@ const PRINCIPLES = [
   { n: '06', label: 'Test what runs in production', line: 'Evaluation continues after release.' },
 ];
 
-/** §13. Value Discovery as the entry methodology, not a fifth service. */
+/**
+ * §13. How an engagement starts, CORRECTED 2026-10-13 on the founder's
+ * discovery-positioning brief. The four steps used to describe Value Discovery
+ * as the entry methodology — every engagement was presented as beginning with
+ * it. The commercial position now is that a sufficiently defined requirement
+ * can move directly to a scoped proposal, and discovery is proportionate.
+ * These four steps are the brief's own four starting routes (initial
+ * conversation, focused discovery workshop, technical scoping and
+ * feasibility, instrumented Value Discovery), quoted rather than paraphrased.
+ */
 const DISCOVERY = [
-  { n: '01', t: 'Understand the workflow', b: 'What happens now?' },
-  { n: '02', t: 'Establish the baseline', b: 'What does current performance look like?' },
+  {
+    n: '01',
+    t: 'Initial conversation',
+    b: 'A free, no-obligation discussion to understand the requirement, establish fit and identify the most appropriate next step. Normally 30–60 minutes.',
+  },
+  {
+    n: '02',
+    t: 'Focused discovery workshop',
+    b: 'Where useful, a prepared working session of roughly two to three hours, with proportionate preparation, technical input and concise agreed outputs. Scope and any fee are agreed beforehand.',
+  },
   {
     n: '03',
-    t: 'Decide whether AI earns a role',
-    b: 'Would rules, automation or AI materially improve it?',
+    t: 'Technical scoping and feasibility',
+    b: 'Where technical complexity, architecture, existing systems, data, security or delivery risk needs more investigation. Duration, deliverables and price are agreed to the work required.',
   },
-  { n: '04', t: 'Define success', b: 'How will we know whether the change worked?' },
+  {
+    n: '04',
+    t: 'Instrumented Value Discovery',
+    b: 'A substantial, optional engagement for programmes that need a measured baseline, process instrumentation, an opportunity assessment and a costed roadmap. Typically around four weeks of elapsed time.',
+  },
 ];
 
 /**
  * §20. Three questions, each answering something the page above does not.
  *
- * "What is a Value Discovery?" was CUT: the methodology section now explains it
- * in full, and an FAQ restating the section above it is the duplication this
- * phase exists to remove.
+ * The middle question was REPLACED 2026-10-13 on the founder's
+ * discovery-positioning brief. It used to be "What is a Value Discovery?",
+ * which defined the programme exclusively as a four-week engagement. The brief
+ * asks for the opposite statement: that a four-week Value Discovery is NOT a
+ * compulsory first step. The replacement question carries the duration answer
+ * the 2026-09-30 restoration was protecting ("typically over several weeks"),
+ * so the property that fix bought — a timeline answer in the corpus — survives.
  *
  * The certification question is NOT cuttable. It is the machine-readable home of
  * an accreditation boundary - the firm that builds a system is not the firm that
@@ -172,20 +201,11 @@ const faqs = [
   },
   {
     /*
-     * RESTORED, TIGHTENED, 2026-09-30. Cutting this FAQ outright took the only
-     * statement of the engagement's LENGTH out of the corpus, and `pix:test`
-     * failed on it: "when is a value discovery ready" went from a timeline-
-     * guarded reply to no answer at all. The methodology section above explains
-     * the four steps but deliberately gives no duration, so this is not the
-     * repetition the phase removes - it is the part the section does not carry.
-     *
-     * It also REPLACED an added question, "Which AI models do you use?", which
-     * read well and quietly broke routing: it intercepted that query on this
-     * page instead of letting it reach the LLM and RAG page that answers it
-     * properly. Model-agnosticism is stated in principle 03 either way.
+     * 2026-10-13, on the founder's discovery-positioning brief. The wording is
+     * the brief's own, quoted rather than paraphrased.
      */
-    q: 'What is a Value Discovery?',
-    a: 'A four-week engagement. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.',
+    q: 'Do I need a four-week Value Discovery before starting an AI project?',
+    a: 'No. We begin by understanding your requirement. Some projects can proceed directly to technical scoping and a proposal. Others benefit from a focused workshop or feasibility assessment. Where an AI programme requires detailed current-state measurement, our instrumented Value Discovery provides a more substantial assessment, typically over several weeks. Its scope, duration, deliverables and price are agreed before work begins.',
   },
   {
     /*
@@ -419,7 +439,7 @@ export default function AiAutomationPage() {
           eyebrow="How an engagement starts"
           id="discovery-heading"
           title="Start with the problem, not the model"
-          lead="We establish what the work costs today and whether AI would improve it. Sometimes the answer is that it would not."
+          lead="Most engagements begin with a conversation. Where the requirement is sufficiently defined we can move directly to a scoped proposal; where more investigation is needed, we recommend the level of discovery the project justifies. A paid discovery engagement is never mandatory."
         />
         <div className="ai-steps">
           {DISCOVERY.map(s => (
@@ -431,7 +451,9 @@ export default function AiAutomationPage() {
           ))}
         </div>
         <p style={{ marginTop: 34 }}>
-          <FLink href="/ai-automation/value-discovery">What a Value Discovery covers</FLink>
+          <FLink href="/ai-automation/value-discovery">
+            When the instrumented Value Discovery is the right route
+          </FLink>
         </p>
       </Section>
 

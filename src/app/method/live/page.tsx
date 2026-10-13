@@ -13,9 +13,20 @@ export const metadata = pageMetadata({
 
 const stages = [
   {
+    /*
+     * CLARIFIED 2026-10-13 on the founder's discovery-positioning brief. LAND
+     * used to read as the instrumented Value Discovery programme itself
+     * ("Instrument two or three processes..."), implying every client buys a
+     * discovery project before engineering can begin. LAND is the
+     * understand-and-measure stage: it may draw on existing requirements, a
+     * baseline agreed within the project, focused technical scoping, or a
+     * separately commissioned instrumented Value Discovery where justified.
+     */
     stage: 'Land',
-    doing: 'Instrument two or three processes and measure the real current-state numbers',
-    getting: 'Baseline, opportunity map, costed roadmap, CFO-grade business case',
+    doing:
+      'Establish the requirement, the evidence available and what success should look like — proportionate to the project',
+    getting:
+      'An agreed baseline and definition of success; where justified, a measured current state, opportunity map, costed roadmap and business case',
     commercial: 'Quoted before we start',
   },
   {
@@ -50,8 +61,16 @@ const faqs = [
     a: 'Land, integrate, verify, evolve. Land measures the current state and produces the business case. Integrate makes the data reachable, permissioned and observable. Verify builds the system and proves it against agreed thresholds. Evolve runs it, watches it, costs it and improves it, optionally, if you want us to stay involved after delivery.',
   },
   {
-    q: 'Why does every engagement have to start with a measured baseline?',
-    a: 'Because you cannot price an outcome nobody has counted. Of 979 generative and agentic use cases analysed in 2026, generic productivity cases ran 54% in proof of concept against 19% in production, while narrow process-performance cases ran 8% in proof of concept against 27% in production, the healthiest ratio in the dataset (HFS Research, May 2026). Engagements that start vaguely do not finish.',
+    /*
+     * REWORDED 2026-10-13 on the founder's discovery-positioning brief. The
+     * question used to read "Why does every engagement have to start with a
+     * measured baseline?", which presumes a compulsory discovery purchase.
+     * The retained principle — measurable performance before outcome
+     * commitments — is stated for outcome-linked work, and the answer names
+     * the proportionate forms LAND can take.
+     */
+    q: 'Why does LIVE establish a baseline before building?',
+    a: 'Because for outcome-linked work you cannot price an outcome nobody has counted: measurable performance must be established before outcome commitments are made. Of 979 generative and agentic use cases analysed in 2026, generic productivity cases ran 54% in proof of concept against 19% in production, while narrow process-performance cases ran 8% in proof of concept against 27% in production, the healthiest ratio in the dataset (HFS Research, May 2026). The level of investigation is proportionate: LAND can draw on your existing requirements, a baseline agreed within the project, focused technical scoping, or a separately commissioned instrumented Value Discovery where justified. Engagements that start vaguely do not finish.',
   },
 ];
 
@@ -160,9 +179,18 @@ export default function LivePage() {
         <Faqs items={faqs} />
       </Section>
 
-      <ClosingCta title="Start at LAND">
-        Every LIVE engagement begins with a measured baseline, because you cannot price an outcome you
-        have never counted.
+      {/*
+        REPLACED 2026-10-13 on the founder's discovery-positioning brief. The
+        old close ("Start at LAND / Every LIVE engagement begins with a
+        measured baseline...") implied a discovery purchase before any
+        engineering. LIVE is an engineering method, not a sales process: every
+        engagement establishes what success looks like before building, and a
+        measured baseline is compulsory only where work is outcome-linked.
+      */}
+      <ClosingCta title="Start with a conversation">
+        Every LIVE engagement establishes what success should look like before anything is built.
+        Where work is outcome-linked, a measured baseline comes first, because you cannot price an
+        outcome you have never counted.
       </ClosingCta>
     </>
   );

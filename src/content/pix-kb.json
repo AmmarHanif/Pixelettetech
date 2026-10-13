@@ -2,7 +2,7 @@
  "builtFrom": "src/app/**/page.tsx",
  "counts": {
   "pages": 41,
-  "faqs": 94,
+  "faqs": 97,
   "pointers": 3
  },
  "docs": [
@@ -175,8 +175,8 @@
   },
   {
    "kind": "faq",
-   "title": "What is a Value Discovery?",
-   "text": "A four-week engagement. Two or three processes are instrumented and measured, the measurement is left running and is yours to keep, and you receive a prioritised opportunity map, a costed roadmap and a board-ready business case naming the budget line it displaces. If the numbers do not support going further, Pixelette says so in writing.",
+   "title": "Do I need a four-week Value Discovery before starting an AI project?",
+   "text": "No. We begin by understanding your requirement. Some projects can proceed directly to technical scoping and a proposal. Others benefit from a focused workshop or feasibility assessment. Where an AI programme requires detailed current-state measurement, our instrumented Value Discovery provides a more substantial assessment, typically over several weeks. Its scope, duration, deliverables and price are agreed before work begins.",
    "path": "/ai-automation",
    "page": "AI & Automation"
   },
@@ -284,27 +284,48 @@
   {
    "kind": "page",
    "title": "Value Discovery",
-   "text": "Four weeks. We instrument two or three of your processes, measure what they cost today, and hand you a costed roadmap and the business case for your exec team.",
+   "text": "A separately scoped, measurement-led engagement for substantial AI programmes: instrumented current-state measurement, an opportunity assessment and costed roadmap.",
    "path": "/ai-automation/value-discovery"
   },
   {
    "kind": "faq",
-   "title": "How is Value Discovery priced?",
-   "text": "It is scoped to how many processes are in scope and how messy the data is, and quoted before the work starts. The price is quoted before the work starts, not after.",
+   "title": "Is Value Discovery compulsory?",
+   "text": "No. Many engagements begin with a conversation and move directly to technical scoping and a proposal. Value Discovery is the right route where a substantial programme needs detailed current-state measurement before an investment decision.",
    "path": "/ai-automation/value-discovery",
    "page": "Value Discovery"
   },
   {
    "kind": "faq",
-   "title": "How long does a Value Discovery take?",
-   "text": "Four weeks from start to readout, covering two to three instrumented processes. No procurement cycle is required.",
+   "title": "How is it different from a focused discovery workshop?",
+   "text": "A focused workshop is a short, prepared working session — roughly two to three hours — that resolves a defined question and produces concise agreed outputs. Value Discovery is a substantial measurement-led engagement: processes are instrumented, performance is measured over time, and the output is an opportunity assessment and a costed roadmap.",
+   "path": "/ai-automation/value-discovery",
+   "page": "Value Discovery"
+  },
+  {
+   "kind": "faq",
+   "title": "When is a four-week programme appropriate?",
+   "text": "For complex AI or automation programmes where the existing evidence is not sufficient to support the investment decision. Four weeks describes the programme’s typical elapsed duration — it is not four weeks of automatically billable full-time consultancy, nor a fixed number of billable days.",
+   "path": "/ai-automation/value-discovery",
+   "page": "Value Discovery"
+  },
+  {
+   "kind": "faq",
+   "title": "How is the fee calculated?",
+   "text": "From the agreed scope, effort and deliverables, and quoted before work begins. The scope is agreed beforehand, so the fee reflects the actual work required.",
+   "path": "/ai-automation/value-discovery",
+   "page": "Value Discovery"
+  },
+  {
+   "kind": "faq",
+   "title": "Can we proceed directly to a build proposal?",
+   "text": "Yes, where the requirement and the technical information are sufficiently defined. We will tell you if they are, and what — if anything — is still missing.",
    "path": "/ai-automation/value-discovery",
    "page": "Value Discovery"
   },
   {
    "kind": "faq",
    "title": "What do I get at the end of a Value Discovery?",
-   "text": "Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included.",
+   "text": "Process mapping and current-state measurement; instrumentation deployed and left running, which is yours to keep; an opportunity map scored on production-conversion evidence; a business case naming the budget line it displaces; and a readout to your executive team with the deck included. All subject to the agreed scope.",
    "path": "/ai-automation/value-discovery",
    "page": "Value Discovery"
   },
@@ -581,7 +602,7 @@
   {
    "kind": "page",
    "title": "Contact",
-   "text": "Tell us what you are trying to build or change. One of us replies, not a sequence. If Value Discovery is not the right next step we will say so on the call.",
+   "text": "Tell us what you are trying to build or change. One of us replies, not a sequence. We will recommend only the level of work your requirements justify.",
    "path": "/contact"
   },
   {
@@ -839,8 +860,8 @@
   },
   {
    "kind": "faq",
-   "title": "Why does every engagement have to start with a measured baseline?",
-   "text": "Because you cannot price an outcome nobody has counted. Of 979 generative and agentic use cases analysed in 2026, generic productivity cases ran 54% in proof of concept against 19% in production, while narrow process-performance cases ran 8% in proof of concept against 27% in production, the healthiest ratio in the dataset (HFS Research, May 2026). Engagements that start vaguely do not finish.",
+   "title": "Why does LIVE establish a baseline before building?",
+   "text": "Because for outcome-linked work you cannot price an outcome nobody has counted: measurable performance must be established before outcome commitments are made. Of 979 generative and agentic use cases analysed in 2026, generic productivity cases ran 54% in proof of concept against 19% in production, while narrow process-performance cases ran 8% in proof of concept against 27% in production, the healthiest ratio in the dataset (HFS Research, May 2026). The level of investigation is proportionate: LAND can draw on your existing requirements, a baseline agreed within the project, focused technical scoping, or a separately commissioned instrumented Value Discovery where justified. Engagements that start vaguely do not finish.",
    "path": "/method/live",
    "page": "LIVE, our AI delivery method"
   },

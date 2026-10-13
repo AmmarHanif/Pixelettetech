@@ -34,10 +34,24 @@ const stages: Stage[] = [
     n: '01',
     letter: 'L',
     name: 'Land',
-    service: 'Value Discovery',
-    line: 'Instrument two or three processes and measure the real current-state numbers.',
+    /*
+     * REWORDED 2026-10-13 on the founder's discovery-positioning brief. The
+     * stage used to read as the four-week Value Discovery programme itself —
+     * the service slot named it unconditionally, which on the homepage and
+     * /method/live presented the paid programme as the compulsory first step.
+     * LAND is the understand-and-measure stage of the method; the instrumented
+     * Value Discovery is one way — the substantial one — of delivering it,
+     * commissioned only where the project justifies it.
+     */
+    service: 'Value Discovery where justified',
+    line: 'Establish the requirement, the evidence available and what success should look like.',
     commercial: 'Quoted before we start',
-    items: ['CRM / ERP', 'Case management', 'Documents'],
+    items: [
+      'Existing requirements reviewed',
+      'Baseline agreed within the project',
+      'Focused technical scoping',
+      'Instrumented Value Discovery where justified',
+    ],
   },
   {
     n: '02',
@@ -172,7 +186,7 @@ export function LiveDiagram({ variant = 'full' }: { variant?: 'compact' | 'full'
             </span>
             <p className="live__name">
               {stage.name}
-              {i === 0 ? <span className="live__qualifier"> · measured first</span> : null}
+              {i === 0 ? <span className="live__qualifier"> · understand and measure</span> : null}
             </p>
             <ul className="live__items">
               {stage.items.map(item => (

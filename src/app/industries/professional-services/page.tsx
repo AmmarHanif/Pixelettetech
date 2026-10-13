@@ -307,7 +307,7 @@ export default function ProfessionalServicesPage() {
       </Section>
 
       <ClosingCta title="Being asked by clients what AI has done for them?">
-        The baseline gives you the answer in four weeks, with the measurement to back it.
+        The baseline gives you the answer, with the measurement to back it.
       </ClosingCta>
     </>
   );
