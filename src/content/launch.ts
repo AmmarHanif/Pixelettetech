@@ -22,8 +22,15 @@
  * Deployment Protection (runbook step 2) is the safer primary control, because
  * a forgotten password wall fails loudly and a forgotten noindex does not. Use
  * both: this flag protects the content, that setting protects the URL.
+ *
+ * FLIPPED TO false ON 2026-10-13, on founder instruction ("Make Indexable"),
+ * with the SEO audit's launch checklist items A, C and F already fixed in
+ * commit 4ae6e9e. The remaining audit noise is the 34 archive blog titles the
+ * founder has chosen to leave. Search Console / Bing verification (audit item
+ * 2) is still outstanding at the time of the flip — index coverage and query
+ * data will not be visible until it is done.
  */
-export const SITE_IN_DEVELOPMENT = true;
+export const SITE_IN_DEVELOPMENT = false;
 
 /**
  * ============================================================================
